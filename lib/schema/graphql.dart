@@ -40,10 +40,10 @@ class GraphQLType {
   final String name;
   final String description;
   final List<GraphQLField> fields;
-  final List<dynamic> inputFields;
-  final List<dynamic> interfaces;
+  final List<GraphQLField> inputFields;
+  final List<GraphQLFieldType> interfaces;
   final List<GraphQLEnumValue> enumValues;
-  final List<dynamic> possibleTypes;
+  final List<GraphQLFieldType> possibleTypes;
 
   GraphQLType({
     this.kind,
@@ -86,7 +86,7 @@ class GraphQLEnumValue {
 class GraphQLField {
   final String name;
   final String description;
-  final List<dynamic> args;
+  final List<GraphQLArg> args;
   final GraphQLFieldType type;
   final bool isDeprecated;
   final String deprecatedReason;
@@ -122,4 +122,24 @@ class GraphQLFieldType {
       _$GraphQLFieldTypeFromJson(json);
 
   Map<String, dynamic> toJson() => _$GraphQLFieldTypeToJson(this);
+}
+
+@JsonSerializable()
+class GraphQLArg {
+  final String name;
+  final String description;
+  final GraphQLFieldType type;
+  final String defaultValue;
+
+  GraphQLArg({
+    this.name,
+    this.description,
+    this.type,
+    this.defaultValue,
+  });
+
+  factory GraphQLArg.fromJson(Map<String, dynamic> json) =>
+      _$GraphQLArgFromJson(json);
+
+  Map<String, dynamic> toJson() => _$GraphQLArgToJson(this);
 }

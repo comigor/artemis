@@ -50,14 +50,26 @@ GraphQLType _$GraphQLTypeFromJson(Map<String, dynamic> json) {
               ? null
               : GraphQLField.fromJson(e as Map<String, dynamic>))
           ?.toList(),
-      inputFields: json['inputFields'] as List,
-      interfaces: json['interfaces'] as List,
+      inputFields: (json['inputFields'] as List)
+          ?.map((e) => e == null
+              ? null
+              : GraphQLField.fromJson(e as Map<String, dynamic>))
+          ?.toList(),
+      interfaces: (json['interfaces'] as List)
+          ?.map((e) => e == null
+              ? null
+              : GraphQLFieldType.fromJson(e as Map<String, dynamic>))
+          ?.toList(),
       enumValues: (json['enumValues'] as List)
           ?.map((e) => e == null
               ? null
               : GraphQLEnumValue.fromJson(e as Map<String, dynamic>))
           ?.toList(),
-      possibleTypes: json['possibleTypes'] as List);
+      possibleTypes: (json['possibleTypes'] as List)
+          ?.map((e) => e == null
+              ? null
+              : GraphQLFieldType.fromJson(e as Map<String, dynamic>))
+          ?.toList());
 }
 
 Map<String, dynamic> _$GraphQLTypeToJson(GraphQLType instance) =>
@@ -92,7 +104,10 @@ GraphQLField _$GraphQLFieldFromJson(Map<String, dynamic> json) {
   return GraphQLField(
       name: json['name'] as String,
       description: json['description'] as String,
-      args: json['args'] as List,
+      args: (json['args'] as List)
+          ?.map((e) =>
+              e == null ? null : GraphQLArg.fromJson(e as Map<String, dynamic>))
+          ?.toList(),
       type: json['type'] == null
           ? null
           : GraphQLFieldType.fromJson(json['type'] as Map<String, dynamic>),
@@ -124,4 +139,22 @@ Map<String, dynamic> _$GraphQLFieldTypeToJson(GraphQLFieldType instance) =>
       'kind': instance.kind,
       'name': instance.name,
       'ofType': instance.ofType
+    };
+
+GraphQLArg _$GraphQLArgFromJson(Map<String, dynamic> json) {
+  return GraphQLArg(
+      name: json['name'] as String,
+      description: json['description'] as String,
+      type: json['type'] == null
+          ? null
+          : GraphQLFieldType.fromJson(json['type'] as Map<String, dynamic>),
+      defaultValue: json['defaultValue'] as String);
+}
+
+Map<String, dynamic> _$GraphQLArgToJson(GraphQLArg instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'description': instance.description,
+      'type': instance.type,
+      'defaultValue': instance.defaultValue
     };
