@@ -10,14 +10,15 @@ GraphQLSchema _$GraphQLSchemaFromJson(Map<String, dynamic> json) {
   return GraphQLSchema(
       queryType: json['queryType'] == null
           ? null
-          : GraphQLType.fromJson(json['queryType'] as Map<String, dynamic>),
+          : GraphQLFullType.fromJson(json['queryType'] as Map<String, dynamic>),
       mutationType: json['mutationType'] == null
           ? null
-          : GraphQLType.fromJson(json['mutationType'] as Map<String, dynamic>),
+          : GraphQLFullType.fromJson(
+              json['mutationType'] as Map<String, dynamic>),
       types: (json['types'] as List)
           ?.map((e) => e == null
               ? null
-              : GraphQLType.fromJson(e as Map<String, dynamic>))
+              : GraphQLFullType.fromJson(e as Map<String, dynamic>))
           ?.toList(),
       directives: (json['directives'] as List)
           ?.map((e) => e == null
@@ -34,8 +35,8 @@ Map<String, dynamic> _$GraphQLSchemaToJson(GraphQLSchema instance) =>
       'directives': instance.directives
     };
 
-GraphQLType _$GraphQLTypeFromJson(Map<String, dynamic> json) {
-  return GraphQLType(
+GraphQLFullType _$GraphQLFullTypeFromJson(Map<String, dynamic> json) {
+  return GraphQLFullType(
       kind: json['kind'] as String,
       name: json['name'] as String,
       description: json['description'] as String,
@@ -52,7 +53,7 @@ GraphQLType _$GraphQLTypeFromJson(Map<String, dynamic> json) {
       interfaces: (json['interfaces'] as List)
           ?.map((e) => e == null
               ? null
-              : GraphQLFieldType.fromJson(e as Map<String, dynamic>))
+              : GraphQLTypeRef.fromJson(e as Map<String, dynamic>))
           ?.toList(),
       enumValues: (json['enumValues'] as List)
           ?.map((e) => e == null
@@ -62,11 +63,11 @@ GraphQLType _$GraphQLTypeFromJson(Map<String, dynamic> json) {
       possibleTypes: (json['possibleTypes'] as List)
           ?.map((e) => e == null
               ? null
-              : GraphQLFieldType.fromJson(e as Map<String, dynamic>))
+              : GraphQLTypeRef.fromJson(e as Map<String, dynamic>))
           ?.toList());
 }
 
-Map<String, dynamic> _$GraphQLTypeToJson(GraphQLType instance) =>
+Map<String, dynamic> _$GraphQLFullTypeToJson(GraphQLFullType instance) =>
     <String, dynamic>{
       'kind': instance.kind,
       'name': instance.name,
@@ -99,12 +100,13 @@ GraphQLField _$GraphQLFieldFromJson(Map<String, dynamic> json) {
       name: json['name'] as String,
       description: json['description'] as String,
       args: (json['args'] as List)
-          ?.map((e) =>
-              e == null ? null : GraphQLArg.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => e == null
+              ? null
+              : GraphQLInputValue.fromJson(e as Map<String, dynamic>))
           ?.toList(),
       type: json['type'] == null
           ? null
-          : GraphQLFieldType.fromJson(json['type'] as Map<String, dynamic>),
+          : GraphQLTypeRef.fromJson(json['type'] as Map<String, dynamic>),
       isDeprecated: json['isDeprecated'] as bool,
       deprecatedReason: json['deprecatedReason'] as String);
 }
@@ -119,33 +121,33 @@ Map<String, dynamic> _$GraphQLFieldToJson(GraphQLField instance) =>
       'deprecatedReason': instance.deprecatedReason
     };
 
-GraphQLFieldType _$GraphQLFieldTypeFromJson(Map<String, dynamic> json) {
-  return GraphQLFieldType(
+GraphQLTypeRef _$GraphQLTypeRefFromJson(Map<String, dynamic> json) {
+  return GraphQLTypeRef(
       kind: json['kind'] as String,
       name: json['name'] as String,
       ofType: json['ofType'] == null
           ? null
-          : GraphQLFieldType.fromJson(json['ofType'] as Map<String, dynamic>));
+          : GraphQLTypeRef.fromJson(json['ofType'] as Map<String, dynamic>));
 }
 
-Map<String, dynamic> _$GraphQLFieldTypeToJson(GraphQLFieldType instance) =>
+Map<String, dynamic> _$GraphQLTypeRefToJson(GraphQLTypeRef instance) =>
     <String, dynamic>{
       'kind': instance.kind,
       'name': instance.name,
       'ofType': instance.ofType
     };
 
-GraphQLArg _$GraphQLArgFromJson(Map<String, dynamic> json) {
-  return GraphQLArg(
+GraphQLInputValue _$GraphQLInputValueFromJson(Map<String, dynamic> json) {
+  return GraphQLInputValue(
       name: json['name'] as String,
       description: json['description'] as String,
       type: json['type'] == null
           ? null
-          : GraphQLFieldType.fromJson(json['type'] as Map<String, dynamic>),
+          : GraphQLTypeRef.fromJson(json['type'] as Map<String, dynamic>),
       defaultValue: json['defaultValue'] as String);
 }
 
-Map<String, dynamic> _$GraphQLArgToJson(GraphQLArg instance) =>
+Map<String, dynamic> _$GraphQLInputValueToJson(GraphQLInputValue instance) =>
     <String, dynamic>{
       'name': instance.name,
       'description': instance.description,
@@ -158,8 +160,9 @@ GraphQLDirective _$GraphQLDirectiveFromJson(Map<String, dynamic> json) {
       name: json['name'] as String,
       description: json['description'] as String,
       args: (json['args'] as List)
-          ?.map((e) =>
-              e == null ? null : GraphQLArg.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => e == null
+              ? null
+              : GraphQLInputValue.fromJson(e as Map<String, dynamic>))
           ?.toList(),
       onOperation: json['onOperation'] as String,
       onFragment: json['onFragment'] as String,

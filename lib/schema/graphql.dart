@@ -2,19 +2,21 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'graphql.g.dart';
 
+// https://gist.github.com/craigbeck/b90915d49fda19d5b2b17ead14dcd6da
+
 @JsonSerializable()
 class GraphQLSchema {
-  final GraphQLType queryType;
-  final GraphQLType mutationType;
-  final List<GraphQLType> types;
+  final GraphQLFullType queryType;
+  final GraphQLFullType mutationType;
+  final List<GraphQLFullType> types;
   final List<GraphQLDirective> directives;
 
   GraphQLSchema({
     this.queryType,
     this.mutationType,
-    List<GraphQLType> types,
+    List<GraphQLFullType> types,
     List<GraphQLDirective> directives,
-  })  : types = types ?? <GraphQLType>[],
+  })  : types = types ?? <GraphQLFullType>[],
         directives = directives ?? <GraphQLDirective>[];
 
   factory GraphQLSchema.fromJson(Map<String, dynamic> json) =>
@@ -24,35 +26,35 @@ class GraphQLSchema {
 }
 
 @JsonSerializable()
-class GraphQLType {
+class GraphQLFullType {
   final String kind;
   final String name;
   final String description;
   final List<GraphQLField> fields;
   final List<GraphQLField> inputFields;
-  final List<GraphQLFieldType> interfaces;
+  final List<GraphQLTypeRef> interfaces;
   final List<GraphQLEnumValue> enumValues;
-  final List<GraphQLFieldType> possibleTypes;
+  final List<GraphQLTypeRef> possibleTypes;
 
-  GraphQLType({
+  GraphQLFullType({
     this.kind,
     this.name,
     this.description,
     List<GraphQLField> fields,
     List<GraphQLField> inputFields,
-    List<GraphQLFieldType> interfaces,
+    List<GraphQLTypeRef> interfaces,
     List<GraphQLEnumValue> enumValues,
-    List<GraphQLFieldType> possibleTypes,
+    List<GraphQLTypeRef> possibleTypes,
   })  : fields = fields ?? <GraphQLField>[],
         inputFields = inputFields ?? <GraphQLField>[],
-        interfaces = interfaces ?? <GraphQLFieldType>[],
+        interfaces = interfaces ?? <GraphQLTypeRef>[],
         enumValues = enumValues ?? <GraphQLEnumValue>[],
-        possibleTypes = possibleTypes ?? <GraphQLFieldType>[];
+        possibleTypes = possibleTypes ?? <GraphQLTypeRef>[];
 
-  factory GraphQLType.fromJson(Map<String, dynamic> json) =>
-      _$GraphQLTypeFromJson(json);
+  factory GraphQLFullType.fromJson(Map<String, dynamic> json) =>
+      _$GraphQLFullTypeFromJson(json);
 
-  Map<String, dynamic> toJson() => _$GraphQLTypeToJson(this);
+  Map<String, dynamic> toJson() => _$GraphQLFullTypeToJson(this);
 }
 
 @JsonSerializable()
@@ -79,19 +81,19 @@ class GraphQLEnumValue {
 class GraphQLField {
   final String name;
   final String description;
-  final List<GraphQLArg> args;
-  final GraphQLFieldType type;
+  final List<GraphQLInputValue> args;
+  final GraphQLTypeRef type;
   final bool isDeprecated;
   final String deprecatedReason;
 
   GraphQLField({
     this.name,
     this.description,
-    List<GraphQLArg> args,
+    List<GraphQLInputValue> args,
     this.type,
     this.isDeprecated,
     this.deprecatedReason,
-  }) : args = args ?? <GraphQLArg>[];
+  }) : args = args ?? <GraphQLInputValue>[];
 
   factory GraphQLField.fromJson(Map<String, dynamic> json) =>
       _$GraphQLFieldFromJson(json);
@@ -100,48 +102,48 @@ class GraphQLField {
 }
 
 @JsonSerializable()
-class GraphQLFieldType {
+class GraphQLTypeRef {
   final String kind;
   final String name;
-  final GraphQLFieldType ofType;
+  final GraphQLTypeRef ofType;
 
-  GraphQLFieldType({
+  GraphQLTypeRef({
     this.kind,
     this.name,
     this.ofType,
   });
 
-  factory GraphQLFieldType.fromJson(Map<String, dynamic> json) =>
-      _$GraphQLFieldTypeFromJson(json);
+  factory GraphQLTypeRef.fromJson(Map<String, dynamic> json) =>
+      _$GraphQLTypeRefFromJson(json);
 
-  Map<String, dynamic> toJson() => _$GraphQLFieldTypeToJson(this);
+  Map<String, dynamic> toJson() => _$GraphQLTypeRefToJson(this);
 }
 
 @JsonSerializable()
-class GraphQLArg {
+class GraphQLInputValue {
   final String name;
   final String description;
-  final GraphQLFieldType type;
+  final GraphQLTypeRef type;
   final String defaultValue;
 
-  GraphQLArg({
+  GraphQLInputValue({
     this.name,
     this.description,
     this.type,
     this.defaultValue,
   });
 
-  factory GraphQLArg.fromJson(Map<String, dynamic> json) =>
-      _$GraphQLArgFromJson(json);
+  factory GraphQLInputValue.fromJson(Map<String, dynamic> json) =>
+      _$GraphQLInputValueFromJson(json);
 
-  Map<String, dynamic> toJson() => _$GraphQLArgToJson(this);
+  Map<String, dynamic> toJson() => _$GraphQLInputValueToJson(this);
 }
 
 @JsonSerializable()
 class GraphQLDirective {
   final String name;
   final String description;
-  List<GraphQLArg> args;
+  List<GraphQLInputValue> args;
   final String onOperation;
   final String onFragment;
   final String onField;
@@ -149,11 +151,11 @@ class GraphQLDirective {
   GraphQLDirective({
     this.name,
     this.description,
-    List<GraphQLArg> args,
+    List<GraphQLInputValue> args,
     this.onOperation,
     this.onFragment,
     this.onField,
-  }) : args = args ?? <GraphQLArg>[];
+  }) : args = args ?? <GraphQLInputValue>[];
 
   factory GraphQLDirective.fromJson(Map<String, dynamic> json) =>
       _$GraphQLDirectiveFromJson(json);
