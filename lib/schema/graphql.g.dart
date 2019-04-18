@@ -6,16 +6,6 @@ part of 'graphql.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-GraphQL _$GraphQLFromJson(Map<String, dynamic> json) {
-  return GraphQL(
-      data: json['data'] == null
-          ? null
-          : GraphQLSchema.fromJson(json['data'] as Map<String, dynamic>));
-}
-
-Map<String, dynamic> _$GraphQLToJson(GraphQL instance) =>
-    <String, dynamic>{'data': instance.data};
-
 GraphQLSchema _$GraphQLSchemaFromJson(Map<String, dynamic> json) {
   return GraphQLSchema(
       queryType: json['queryType'] == null

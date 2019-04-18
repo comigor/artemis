@@ -3,18 +3,6 @@ import 'package:json_annotation/json_annotation.dart';
 part 'graphql.g.dart';
 
 @JsonSerializable()
-class GraphQL {
-  final GraphQLSchema data;
-
-  GraphQL({this.data});
-
-  factory GraphQL.fromJson(Map<String, dynamic> json) =>
-      _$GraphQLFromJson(json);
-
-  Map<String, dynamic> toJson() => _$GraphQLToJson(this);
-}
-
-@JsonSerializable()
 class GraphQLSchema {
   final GraphQLType queryType;
   final GraphQLType mutationType;
@@ -24,12 +12,13 @@ class GraphQLSchema {
   GraphQLSchema({
     this.queryType,
     this.mutationType,
-    this.types,
-    this.directives,
-  });
+    List<GraphQLType> types,
+    List<dynamic> directives,
+  })  : types = types ?? <GraphQLType>[],
+        directives = directives ?? <dynamic>[];
 
   factory GraphQLSchema.fromJson(Map<String, dynamic> json) =>
-      _$GraphQLSchemaFromJson(json);
+      _$GraphQLSchemaFromJson(json['data']['__schema']);
 
   Map<String, dynamic> toJson() => _$GraphQLSchemaToJson(this);
 }
@@ -49,12 +38,16 @@ class GraphQLType {
     this.kind,
     this.name,
     this.description,
-    this.fields,
-    this.inputFields,
-    this.interfaces,
-    this.enumValues,
-    this.possibleTypes,
-  });
+    List<GraphQLField> fields,
+    List<GraphQLField> inputFields,
+    List<GraphQLFieldType> interfaces,
+    List<GraphQLEnumValue> enumValues,
+    List<GraphQLFieldType> possibleTypes,
+  })  : fields = fields ?? <GraphQLField>[],
+        inputFields = inputFields ?? <GraphQLField>[],
+        interfaces = interfaces ?? <GraphQLFieldType>[],
+        enumValues = enumValues ?? <GraphQLEnumValue>[],
+        possibleTypes = possibleTypes ?? <GraphQLFieldType>[];
 
   factory GraphQLType.fromJson(Map<String, dynamic> json) =>
       _$GraphQLTypeFromJson(json);
@@ -94,11 +87,11 @@ class GraphQLField {
   GraphQLField({
     this.name,
     this.description,
-    this.args,
+    List<GraphQLArg> args,
     this.type,
     this.isDeprecated,
     this.deprecatedReason,
-  });
+  }) : args = args ?? <GraphQLArg>[];
 
   factory GraphQLField.fromJson(Map<String, dynamic> json) =>
       _$GraphQLFieldFromJson(json);
