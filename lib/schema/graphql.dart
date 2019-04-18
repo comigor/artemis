@@ -7,15 +7,15 @@ class GraphQLSchema {
   final GraphQLType queryType;
   final GraphQLType mutationType;
   final List<GraphQLType> types;
-  final List<dynamic> directives;
+  final List<GraphQLDirective> directives;
 
   GraphQLSchema({
     this.queryType,
     this.mutationType,
     List<GraphQLType> types,
-    List<dynamic> directives,
+    List<GraphQLDirective> directives,
   })  : types = types ?? <GraphQLType>[],
-        directives = directives ?? <dynamic>[];
+        directives = directives ?? <GraphQLDirective>[];
 
   factory GraphQLSchema.fromJson(Map<String, dynamic> json) =>
       _$GraphQLSchemaFromJson(json['data']['__schema']);
@@ -135,4 +135,28 @@ class GraphQLArg {
       _$GraphQLArgFromJson(json);
 
   Map<String, dynamic> toJson() => _$GraphQLArgToJson(this);
+}
+
+@JsonSerializable()
+class GraphQLDirective {
+  final String name;
+  final String description;
+  List<GraphQLArg> args;
+  final String onOperation;
+  final String onFragment;
+  final String onField;
+
+  GraphQLDirective({
+    this.name,
+    this.description,
+    List<GraphQLArg> args,
+    this.onOperation,
+    this.onFragment,
+    this.onField,
+  }) : args = args ?? <GraphQLArg>[];
+
+  factory GraphQLDirective.fromJson(Map<String, dynamic> json) =>
+      _$GraphQLDirectiveFromJson(json);
+
+  Map<String, dynamic> toJson() => _$GraphQLDirectiveToJson(this);
 }

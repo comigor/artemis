@@ -19,7 +19,11 @@ GraphQLSchema _$GraphQLSchemaFromJson(Map<String, dynamic> json) {
               ? null
               : GraphQLType.fromJson(e as Map<String, dynamic>))
           ?.toList(),
-      directives: json['directives'] as List);
+      directives: (json['directives'] as List)
+          ?.map((e) => e == null
+              ? null
+              : GraphQLDirective.fromJson(e as Map<String, dynamic>))
+          ?.toList());
 }
 
 Map<String, dynamic> _$GraphQLSchemaToJson(GraphQLSchema instance) =>
@@ -147,4 +151,27 @@ Map<String, dynamic> _$GraphQLArgToJson(GraphQLArg instance) =>
       'description': instance.description,
       'type': instance.type,
       'defaultValue': instance.defaultValue
+    };
+
+GraphQLDirective _$GraphQLDirectiveFromJson(Map<String, dynamic> json) {
+  return GraphQLDirective(
+      name: json['name'] as String,
+      description: json['description'] as String,
+      args: (json['args'] as List)
+          ?.map((e) =>
+              e == null ? null : GraphQLArg.fromJson(e as Map<String, dynamic>))
+          ?.toList(),
+      onOperation: json['onOperation'] as String,
+      onFragment: json['onFragment'] as String,
+      onField: json['onField'] as String);
+}
+
+Map<String, dynamic> _$GraphQLDirectiveToJson(GraphQLDirective instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'description': instance.description,
+      'args': instance.args,
+      'onOperation': instance.onOperation,
+      'onFragment': instance.onFragment,
+      'onField': instance.onField
     };
