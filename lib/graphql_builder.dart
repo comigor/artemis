@@ -84,7 +84,6 @@ void generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
     ScalarMapping scalarMap,
     {String prefix = ''}) {
   final className = '$prefix${type.name}';
-
   switch (type.kind) {
     case GraphQLTypeKind.ENUM:
       buffer.writeln('enum $className {');
@@ -101,7 +100,14 @@ void generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
           generateClassProperty(buffer, schema, subField, scalarMap);
         }
       }
-      break;
+      buffer.writeln('''
+  
+  $className();
+
+  factory $className.fromJson(Map<String, dynamic> json) => _\$${className}FromJson(json);
+  Map<String, dynamic> toJson() => _\$${className}ToJson(this);''');
+      buffer.writeln('}');
+      return;
     case GraphQLTypeKind.INTERFACE:
     // TODO(igor): Consider inherited classes
     case GraphQLTypeKind.OBJECT:
@@ -110,17 +116,16 @@ void generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
       for (final subField in type.fields) {
         generateClassProperty(buffer, schema, subField, scalarMap);
       }
-      break;
-    default:
-  }
-
-  buffer.writeln('''
+      buffer.writeln('''
   
   $className();
 
   factory $className.fromJson(Map<String, dynamic> json) => _\$${className}FromJson(json);
   Map<String, dynamic> toJson() => _\$${className}ToJson(this);''');
-  buffer.writeln('}');
+      buffer.writeln('}');
+      return;
+    default:
+  }
 }
 
 class ScalarMap {
