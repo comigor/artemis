@@ -17,6 +17,7 @@ dev_dependencies:
   json_serializable: ^2.0.0
   intl: ^0.15.8
   path: ^1.6.2
+  http: ^0.12.0+2
   flutter_test:
     sdk: flutter
 
