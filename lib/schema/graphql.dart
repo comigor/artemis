@@ -2,8 +2,9 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'graphql.g.dart';
 
-// https://gist.github.com/craigbeck/b90915d49fda19d5b2b17ead14dcd6da
+// https://github.com/graphql/graphql-js/blob/master/src/utilities/introspectionQuery.js
 // https://github.com/graphql/graphql-js/blob/master/src/type/introspection.js
+// https://gist.github.com/Igor1201/8bf5b3ca05d853fe93e685c53f2f726d
 
 @JsonSerializable()
 class GraphQLSchema {
@@ -38,7 +39,7 @@ class GraphQLDirective {
   GraphQLDirective({
     this.name,
     this.description,
-    List<GraphQLInputValue> locations,
+    List<GraphQLDirectiveLocation> locations,
     List<GraphQLInputValue> args,
   })  : args = args ?? <GraphQLInputValue>[],
         locations = locations ?? <GraphQLDirectiveLocation>[];

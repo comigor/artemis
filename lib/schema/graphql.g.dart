@@ -44,9 +44,8 @@ GraphQLDirective _$GraphQLDirectiveFromJson(Map<String, dynamic> json) {
       name: json['name'] as String,
       description: json['description'] as String,
       locations: (json['locations'] as List)
-          ?.map((e) => e == null
-              ? null
-              : GraphQLInputValue.fromJson(e as Map<String, dynamic>))
+          ?.map(
+              (e) => _$enumDecodeNullable(_$GraphQLDirectiveLocationEnumMap, e))
           ?.toList(),
       args: (json['args'] as List)
           ?.map((e) => e == null
@@ -64,6 +63,26 @@ Map<String, dynamic> _$GraphQLDirectiveToJson(GraphQLDirective instance) =>
           ?.toList(),
       'args': instance.args
     };
+
+T _$enumDecode<T>(Map<T, dynamic> enumValues, dynamic source) {
+  if (source == null) {
+    throw ArgumentError('A value must be provided. Supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+  return enumValues.entries
+      .singleWhere((e) => e.value == source,
+          orElse: () => throw ArgumentError(
+              '`$source` is not one of the supported values: '
+              '${enumValues.values.join(', ')}'))
+      .key;
+}
+
+T _$enumDecodeNullable<T>(Map<T, dynamic> enumValues, dynamic source) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<T>(enumValues, source);
+}
 
 const _$GraphQLDirectiveLocationEnumMap = <GraphQLDirectiveLocation, dynamic>{
   GraphQLDirectiveLocation.QUERY: 'QUERY',
@@ -134,26 +153,6 @@ Map<String, dynamic> _$GraphQLTypeToJson(GraphQLType instance) =>
       'inputFields': instance.inputFields,
       'ofType': instance.ofType
     };
-
-T _$enumDecode<T>(Map<T, dynamic> enumValues, dynamic source) {
-  if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return enumValues.entries
-      .singleWhere((e) => e.value == source,
-          orElse: () => throw ArgumentError(
-              '`$source` is not one of the supported values: '
-              '${enumValues.values.join(', ')}'))
-      .key;
-}
-
-T _$enumDecodeNullable<T>(Map<T, dynamic> enumValues, dynamic source) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<T>(enumValues, source);
-}
 
 const _$GraphQLTypeKindEnumMap = <GraphQLTypeKind, dynamic>{
   GraphQLTypeKind.SCALAR: 'SCALAR',
