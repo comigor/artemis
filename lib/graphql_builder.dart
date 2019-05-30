@@ -55,7 +55,7 @@ GraphQLType getTypeFromField(GraphQLSchema schema, GraphQLField field) {
 
 typedef ScalarMap ScalarMapping(GraphQLType type);
 
-void writeSingleFieldAsProperty(StringBuffer buffer, GraphQLSchema schema,
+void generateClassProperty(StringBuffer buffer, GraphQLSchema schema,
     GraphQLField field, ScalarMapping scalarMap) {
   final subType = getTypeFromField(schema, field);
   final isList = isEventuallyList(field.type);
@@ -97,7 +97,7 @@ void generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
       buffer.writeln('class $className {');
       for (final unionType in type.possibleTypes) {
         for (final subField in unionType.fields) {
-          writeSingleFieldAsProperty(buffer, schema, subField, scalarMap);
+          generateClassProperty(buffer, schema, subField, scalarMap);
         }
       }
       buffer.writeln('''
@@ -114,7 +114,7 @@ void generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
       buffer.writeln('@JsonSerializable()');
       buffer.writeln('class $className {');
       for (final subField in type.fields) {
-        writeSingleFieldAsProperty(buffer, schema, subField, scalarMap);
+        generateClassProperty(buffer, schema, subField, scalarMap);
       }
       buffer.writeln('''
   
