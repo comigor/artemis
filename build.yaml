@@ -1,0 +1,9 @@
+builders:
+  graphql_builder:
+    import: 'package:graphql_builder/generator.dart'
+    builder_factories:
+      - graphQLTypesBuilder
+    build_extensions: {'.schema.json': ['.api.dart']}
+    auto_apply: dependents
+    build_to: source
+    runs_before: ["json_serializable"]

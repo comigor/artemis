@@ -134,7 +134,7 @@ class ScalarMap {
   });
 }
 
-const String INTROSPECRION_QUERY = '''
+const String INTROSPECTION_QUERY = '''
   query IntrospectionQuery {
     __schema {
       queryType { name }
@@ -234,7 +234,7 @@ Future<GraphQLSchema> fetchGraphQLSchemaFromURL(String graphqlEndpoint,
 
   final response = await httpClient.post(graphqlEndpoint, body: {
     'operationName': 'IntrospectionQuery',
-    'query': INTROSPECRION_QUERY
+    'query': INTROSPECTION_QUERY
   });
 
   return schemaFromJsonString(response.body);
@@ -243,18 +243,16 @@ Future<GraphQLSchema> fetchGraphQLSchemaFromURL(String graphqlEndpoint,
 GraphQLSchema schemaFromJsonString(String jsonS) =>
     GraphQLSchema.fromJson(json.decode(jsonS));
 
-Future<void> generate(GraphQLSchema schema, File generatedFile,
+Future<String> generate(GraphQLSchema schema, String path,
     {String typeCoercingFile,
     ScalarMapping scalarMap = defaultScalarMapping,
     String prefix = ''}) async {
-  final StringBuffer buffer = StringBuffer();
-
-  final basename = p.basenameWithoutExtension(generatedFile.path);
-
-  buffer.writeln('''import 'package:json_annotation/json_annotation.dart';
+  final basename = p.basenameWithoutExtension(path);
+  final StringBuffer buffer = StringBuffer()
+    ..writeln('''import 'package:json_annotation/json_annotation.dart';
 ${typeCoercingFile != null ? '  import \'$typeCoercingFile\';' : ''}
 
-part '$basename.g.dart';
+part '$basename.api.g.dart';
 ''');
 
   for (final t in schema.types) {
@@ -262,5 +260,5 @@ part '$basename.g.dart';
     buffer.writeln('');
   }
 
-  await generatedFile.writeAsString(buffer.toString());
+  return buffer.toString();
 }
