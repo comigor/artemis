@@ -13,3 +13,8 @@ String fromDartDateTimeToGraphQLTime(DateTime date) =>
 DateTime fromGraphQLDateTimeToDartDateTime(String date) => DateTime.parse(date);
 String fromDartDateTimeToGraphQLDateTime(DateTime date) =>
     date.toIso8601String();
+
+List<DateTime> fromGraphQLDateListToDartDateTimeList(List<String> date) =>
+    date.map(fromGraphQLDateToDartDateTime).toList();
+List<String> fromDartDateTimeListToGraphQLDateList(List<DateTime> date) =>
+    date.map(fromDartDateTimeToGraphQLDate).toList();

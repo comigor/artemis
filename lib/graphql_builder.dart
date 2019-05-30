@@ -66,6 +66,44 @@ void generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
       }
       buffer.writeln('}');
       return;
+    case GraphQLTypeKind.UNION:
+      buffer.writeln('@JsonSerializable()');
+      buffer.writeln('class $className {');
+      for (final unionType in type.possibleTypes) {
+        for (final subField in unionType.fields) {
+          final subType = getTypeFromField(schema, subField);
+          final isList = isEventuallyList(subField.type);
+
+          final typeStr = subType.kind == GraphQLTypeKind.SCALAR
+              ? scalarMap(subType).dartType
+              : subType.name;
+
+          if (subType.kind == GraphQLTypeKind.SCALAR &&
+              scalarMap(subType).useCustomParsers) {
+            final graphqlType = scalarMap(subType).graphqlType;
+            final appendList = isList ? 'List' : '';
+            buffer.writeln(
+                '  @JsonKey(fromJson: fromGraphQL$graphqlType${appendList}ToDart$typeStr$appendList, toJson: fromDart$typeStr${appendList}ToGraphQL$graphqlType$appendList)');
+          }
+
+          final addListIfNecessary = () {
+            if (isList) return '  List<$typeStr> ${subField.name};';
+            return '  $typeStr ${subField.name};';
+          };
+
+          buffer.writeln(addListIfNecessary());
+        }
+      }
+      buffer.writeln('''
+  
+  $className();
+
+  factory $className.fromJson(Map<String, dynamic> json) => _\$${className}FromJson(json);
+  Map<String, dynamic> toJson() => _\$${className}ToJson(this);''');
+      buffer.writeln('}');
+      return;
+    case GraphQLTypeKind.INTERFACE:
+    // TODO(igor): Consider inherited classes
     case GraphQLTypeKind.OBJECT:
       buffer.writeln('@JsonSerializable()');
       buffer.writeln('class $className {');
@@ -80,8 +118,9 @@ void generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
         if (subType.kind == GraphQLTypeKind.SCALAR &&
             scalarMap(subType).useCustomParsers) {
           final graphqlType = scalarMap(subType).graphqlType;
+          final appendList = isList ? 'List' : '';
           buffer.writeln(
-              '  @JsonKey(fromJson: fromGraphQL${graphqlType}ToDart$typeStr, toJson: fromDart${typeStr}ToGraphQL$graphqlType)');
+              '  @JsonKey(fromJson: fromGraphQL$graphqlType${appendList}ToDart$typeStr$appendList, toJson: fromDart$typeStr${appendList}ToGraphQL$graphqlType$appendList)');
         }
 
         final addListIfNecessary = () {
