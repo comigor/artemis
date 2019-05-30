@@ -55,8 +55,34 @@ GraphQLType getTypeFromField(GraphQLSchema schema, GraphQLField field) {
 
 typedef ScalarMap ScalarMapping(GraphQLType type);
 
+void writeSingleFieldAsProperty(StringBuffer buffer, GraphQLSchema schema,
+    GraphQLField field, ScalarMapping scalarMap) {
+  final subType = getTypeFromField(schema, field);
+  final isList = isEventuallyList(field.type);
+
+  final typeStr = subType.kind == GraphQLTypeKind.SCALAR
+      ? scalarMap(subType).dartType
+      : subType.name;
+
+  if (subType.kind == GraphQLTypeKind.SCALAR &&
+      scalarMap(subType).useCustomParsers) {
+    final graphqlType = scalarMap(subType).graphqlType;
+    final appendList = isList ? 'List' : '';
+    buffer.writeln(
+        '  @JsonKey(fromJson: fromGraphQL$graphqlType${appendList}ToDart$typeStr$appendList, toJson: fromDart$typeStr${appendList}ToGraphQL$graphqlType$appendList)');
+  }
+
+  final addListIfNecessary = () {
+    if (isList) return '  List<$typeStr> ${field.name};';
+    return '  $typeStr ${field.name};';
+  };
+
+  buffer.writeln(addListIfNecessary());
+}
+
 void generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
-    {String prefix = '', ScalarMapping scalarMap}) {
+    ScalarMapping scalarMap,
+    {String prefix = ''}) {
   final className = '$prefix${type.name}';
   switch (type.kind) {
     case GraphQLTypeKind.ENUM:
@@ -71,27 +97,7 @@ void generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
       buffer.writeln('class $className {');
       for (final unionType in type.possibleTypes) {
         for (final subField in unionType.fields) {
-          final subType = getTypeFromField(schema, subField);
-          final isList = isEventuallyList(subField.type);
-
-          final typeStr = subType.kind == GraphQLTypeKind.SCALAR
-              ? scalarMap(subType).dartType
-              : subType.name;
-
-          if (subType.kind == GraphQLTypeKind.SCALAR &&
-              scalarMap(subType).useCustomParsers) {
-            final graphqlType = scalarMap(subType).graphqlType;
-            final appendList = isList ? 'List' : '';
-            buffer.writeln(
-                '  @JsonKey(fromJson: fromGraphQL$graphqlType${appendList}ToDart$typeStr$appendList, toJson: fromDart$typeStr${appendList}ToGraphQL$graphqlType$appendList)');
-          }
-
-          final addListIfNecessary = () {
-            if (isList) return '  List<$typeStr> ${subField.name};';
-            return '  $typeStr ${subField.name};';
-          };
-
-          buffer.writeln(addListIfNecessary());
+          writeSingleFieldAsProperty(buffer, schema, subField, scalarMap);
         }
       }
       buffer.writeln('''
@@ -108,27 +114,7 @@ void generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
       buffer.writeln('@JsonSerializable()');
       buffer.writeln('class $className {');
       for (final subField in type.fields) {
-        final subType = getTypeFromField(schema, subField);
-        final isList = isEventuallyList(subField.type);
-
-        final typeStr = subType.kind == GraphQLTypeKind.SCALAR
-            ? scalarMap(subType).dartType
-            : subType.name;
-
-        if (subType.kind == GraphQLTypeKind.SCALAR &&
-            scalarMap(subType).useCustomParsers) {
-          final graphqlType = scalarMap(subType).graphqlType;
-          final appendList = isList ? 'List' : '';
-          buffer.writeln(
-              '  @JsonKey(fromJson: fromGraphQL$graphqlType${appendList}ToDart$typeStr$appendList, toJson: fromDart$typeStr${appendList}ToGraphQL$graphqlType$appendList)');
-        }
-
-        final addListIfNecessary = () {
-          if (isList) return '  List<$typeStr> ${subField.name};';
-          return '  $typeStr ${subField.name};';
-        };
-
-        buffer.writeln(addListIfNecessary());
+        writeSingleFieldAsProperty(buffer, schema, subField, scalarMap);
       }
       buffer.writeln('''
   
@@ -178,7 +164,7 @@ part 'graphql_api.g.dart';
 ''');
 
   for (final t in schema.types) {
-    generateClass(buffer, schema, t, scalarMap: (GraphQLType type) {
+    generateClass(buffer, schema, t, (GraphQLType type) {
       final mappings = [
         ScalarMap('Boolean', 'bool'),
         ScalarMap('Date', 'DateTime', useCustomParsers: true),
