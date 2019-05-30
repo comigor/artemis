@@ -8,17 +8,21 @@ part of 'graphql.dart';
 
 GraphQLSchema _$GraphQLSchemaFromJson(Map<String, dynamic> json) {
   return GraphQLSchema(
+      types: (json['types'] as List)
+          ?.map((e) => e == null
+              ? null
+              : GraphQLType.fromJson(e as Map<String, dynamic>))
+          ?.toList(),
       queryType: json['queryType'] == null
           ? null
           : GraphQLType.fromJson(json['queryType'] as Map<String, dynamic>),
       mutationType: json['mutationType'] == null
           ? null
           : GraphQLType.fromJson(json['mutationType'] as Map<String, dynamic>),
-      types: (json['types'] as List)
-          ?.map((e) => e == null
-              ? null
-              : GraphQLType.fromJson(e as Map<String, dynamic>))
-          ?.toList(),
+      subscriptionType: json['subscriptionType'] == null
+          ? null
+          : GraphQLType.fromJson(
+              json['subscriptionType'] as Map<String, dynamic>),
       directives: (json['directives'] as List)
           ?.map((e) => e == null
               ? null
@@ -28,11 +32,60 @@ GraphQLSchema _$GraphQLSchemaFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$GraphQLSchemaToJson(GraphQLSchema instance) =>
     <String, dynamic>{
+      'types': instance.types,
       'queryType': instance.queryType,
       'mutationType': instance.mutationType,
-      'types': instance.types,
+      'subscriptionType': instance.subscriptionType,
       'directives': instance.directives
     };
+
+GraphQLDirective _$GraphQLDirectiveFromJson(Map<String, dynamic> json) {
+  return GraphQLDirective(
+      name: json['name'] as String,
+      description: json['description'] as String,
+      locations: (json['locations'] as List)
+          ?.map((e) => e == null
+              ? null
+              : GraphQLInputValue.fromJson(e as Map<String, dynamic>))
+          ?.toList(),
+      args: (json['args'] as List)
+          ?.map((e) => e == null
+              ? null
+              : GraphQLInputValue.fromJson(e as Map<String, dynamic>))
+          ?.toList());
+}
+
+Map<String, dynamic> _$GraphQLDirectiveToJson(GraphQLDirective instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'description': instance.description,
+      'locations': instance.locations
+          ?.map((e) => _$GraphQLDirectiveLocationEnumMap[e])
+          ?.toList(),
+      'args': instance.args
+    };
+
+const _$GraphQLDirectiveLocationEnumMap = <GraphQLDirectiveLocation, dynamic>{
+  GraphQLDirectiveLocation.QUERY: 'QUERY',
+  GraphQLDirectiveLocation.MUTATION: 'MUTATION',
+  GraphQLDirectiveLocation.SUBSCRIPTION: 'SUBSCRIPTION',
+  GraphQLDirectiveLocation.FIELD: 'FIELD',
+  GraphQLDirectiveLocation.FRAGMENT_DEFINITION: 'FRAGMENT_DEFINITION',
+  GraphQLDirectiveLocation.FRAGMENT_SPREAD: 'FRAGMENT_SPREAD',
+  GraphQLDirectiveLocation.INLINE_FRAGMENT: 'INLINE_FRAGMENT',
+  GraphQLDirectiveLocation.VARIABLE_DEFINITION: 'VARIABLE_DEFINITION',
+  GraphQLDirectiveLocation.SCHEMA: 'SCHEMA',
+  GraphQLDirectiveLocation.SCALAR: 'SCALAR',
+  GraphQLDirectiveLocation.OBJECT: 'OBJECT',
+  GraphQLDirectiveLocation.FIELD_DEFINITION: 'FIELD_DEFINITION',
+  GraphQLDirectiveLocation.ARGUMENT_DEFINITION: 'ARGUMENT_DEFINITION',
+  GraphQLDirectiveLocation.INTERFACE: 'INTERFACE',
+  GraphQLDirectiveLocation.UNION: 'UNION',
+  GraphQLDirectiveLocation.ENUM: 'ENUM',
+  GraphQLDirectiveLocation.ENUM_VALUE: 'ENUM_VALUE',
+  GraphQLDirectiveLocation.INPUT_OBJECT: 'INPUT_OBJECT',
+  GraphQLDirectiveLocation.INPUT_FIELD_DEFINITION: 'INPUT_FIELD_DEFINITION'
+};
 
 GraphQLType _$GraphQLTypeFromJson(Map<String, dynamic> json) {
   return GraphQLType(
@@ -44,12 +97,12 @@ GraphQLType _$GraphQLTypeFromJson(Map<String, dynamic> json) {
               ? null
               : GraphQLField.fromJson(e as Map<String, dynamic>))
           ?.toList(),
-      inputFields: (json['inputFields'] as List)
+      interfaces: (json['interfaces'] as List)
           ?.map((e) => e == null
               ? null
-              : GraphQLInputValue.fromJson(e as Map<String, dynamic>))
+              : GraphQLType.fromJson(e as Map<String, dynamic>))
           ?.toList(),
-      interfaces: (json['interfaces'] as List)
+      possibleTypes: (json['possibleTypes'] as List)
           ?.map((e) => e == null
               ? null
               : GraphQLType.fromJson(e as Map<String, dynamic>))
@@ -59,11 +112,14 @@ GraphQLType _$GraphQLTypeFromJson(Map<String, dynamic> json) {
               ? null
               : GraphQLEnumValue.fromJson(e as Map<String, dynamic>))
           ?.toList(),
-      possibleTypes: (json['possibleTypes'] as List)
+      inputFields: (json['inputFields'] as List)
           ?.map((e) => e == null
               ? null
-              : GraphQLType.fromJson(e as Map<String, dynamic>))
-          ?.toList());
+              : GraphQLInputValue.fromJson(e as Map<String, dynamic>))
+          ?.toList(),
+      ofType: json['ofType'] == null
+          ? null
+          : GraphQLType.fromJson(json['ofType'] as Map<String, dynamic>));
 }
 
 Map<String, dynamic> _$GraphQLTypeToJson(GraphQLType instance) =>
@@ -72,10 +128,11 @@ Map<String, dynamic> _$GraphQLTypeToJson(GraphQLType instance) =>
       'name': instance.name,
       'description': instance.description,
       'fields': instance.fields,
-      'inputFields': instance.inputFields,
       'interfaces': instance.interfaces,
+      'possibleTypes': instance.possibleTypes,
       'enumValues': instance.enumValues,
-      'possibleTypes': instance.possibleTypes
+      'inputFields': instance.inputFields,
+      'ofType': instance.ofType
     };
 
 T _$enumDecode<T>(Map<T, dynamic> enumValues, dynamic source) {
@@ -108,22 +165,6 @@ const _$GraphQLTypeKindEnumMap = <GraphQLTypeKind, dynamic>{
   GraphQLTypeKind.LIST: 'LIST',
   GraphQLTypeKind.NON_NULL: 'NON_NULL'
 };
-
-GraphQLEnumValue _$GraphQLEnumValueFromJson(Map<String, dynamic> json) {
-  return GraphQLEnumValue(
-      name: json['name'] as String,
-      description: json['description'] as String,
-      isDeprecated: json['isDeprecated'] as bool,
-      deprecatedReason: json['deprecatedReason'] as String);
-}
-
-Map<String, dynamic> _$GraphQLEnumValueToJson(GraphQLEnumValue instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-      'description': instance.description,
-      'isDeprecated': instance.isDeprecated,
-      'deprecatedReason': instance.deprecatedReason
-    };
 
 GraphQLField _$GraphQLFieldFromJson(Map<String, dynamic> json) {
   return GraphQLField(
@@ -169,50 +210,18 @@ Map<String, dynamic> _$GraphQLInputValueToJson(GraphQLInputValue instance) =>
       'defaultValue': instance.defaultValue
     };
 
-GraphQLDirective _$GraphQLDirectiveFromJson(Map<String, dynamic> json) {
-  return GraphQLDirective(
+GraphQLEnumValue _$GraphQLEnumValueFromJson(Map<String, dynamic> json) {
+  return GraphQLEnumValue(
       name: json['name'] as String,
       description: json['description'] as String,
-      args: (json['args'] as List)
-          ?.map((e) => e == null
-              ? null
-              : GraphQLInputValue.fromJson(e as Map<String, dynamic>))
-          ?.toList(),
-      locations: (json['locations'] as List)
-          ?.map((e) => e == null
-              ? null
-              : GraphQLInputValue.fromJson(e as Map<String, dynamic>))
-          ?.toList());
+      isDeprecated: json['isDeprecated'] as bool,
+      deprecatedReason: json['deprecatedReason'] as String);
 }
 
-Map<String, dynamic> _$GraphQLDirectiveToJson(GraphQLDirective instance) =>
+Map<String, dynamic> _$GraphQLEnumValueToJson(GraphQLEnumValue instance) =>
     <String, dynamic>{
       'name': instance.name,
       'description': instance.description,
-      'args': instance.args,
-      'locations': instance.locations
-          ?.map((e) => _$GraphQLDirectiveLocationEnumMap[e])
-          ?.toList()
+      'isDeprecated': instance.isDeprecated,
+      'deprecatedReason': instance.deprecatedReason
     };
-
-const _$GraphQLDirectiveLocationEnumMap = <GraphQLDirectiveLocation, dynamic>{
-  GraphQLDirectiveLocation.QUERY: 'QUERY',
-  GraphQLDirectiveLocation.MUTATION: 'MUTATION',
-  GraphQLDirectiveLocation.SUBSCRIPTION: 'SUBSCRIPTION',
-  GraphQLDirectiveLocation.FIELD: 'FIELD',
-  GraphQLDirectiveLocation.FRAGMENT_DEFINITION: 'FRAGMENT_DEFINITION',
-  GraphQLDirectiveLocation.FRAGMENT_SPREAD: 'FRAGMENT_SPREAD',
-  GraphQLDirectiveLocation.INLINE_FRAGMENT: 'INLINE_FRAGMENT',
-  GraphQLDirectiveLocation.VARIABLE_DEFINITION: 'VARIABLE_DEFINITION',
-  GraphQLDirectiveLocation.SCHEMA: 'SCHEMA',
-  GraphQLDirectiveLocation.SCALAR: 'SCALAR',
-  GraphQLDirectiveLocation.OBJECT: 'OBJECT',
-  GraphQLDirectiveLocation.FIELD_DEFINITION: 'FIELD_DEFINITION',
-  GraphQLDirectiveLocation.ARGUMENT_DEFINITION: 'ARGUMENT_DEFINITION',
-  GraphQLDirectiveLocation.INTERFACE: 'INTERFACE',
-  GraphQLDirectiveLocation.UNION: 'UNION',
-  GraphQLDirectiveLocation.ENUM: 'ENUM',
-  GraphQLDirectiveLocation.ENUM_VALUE: 'ENUM_VALUE',
-  GraphQLDirectiveLocation.INPUT_OBJECT: 'INPUT_OBJECT',
-  GraphQLDirectiveLocation.INPUT_FIELD_DEFINITION: 'INPUT_FIELD_DEFINITION'
-};

@@ -81,6 +81,7 @@ class GraphQLType {
   final List<GraphQLType> possibleTypes;
   final List<GraphQLEnumValue> enumValues;
   final List<GraphQLInputValue> inputFields;
+  final GraphQLType ofType;
 
   GraphQLType({
     this.kind,
@@ -91,6 +92,7 @@ class GraphQLType {
     List<GraphQLType> possibleTypes,
     List<GraphQLEnumValue> enumValues,
     List<GraphQLInputValue> inputFields,
+    this.ofType,
   })  : fields = fields ?? <GraphQLField>[],
         inputFields = inputFields ?? <GraphQLInputValue>[],
         interfaces = interfaces ?? <GraphQLType>[],
