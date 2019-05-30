@@ -5,7 +5,6 @@ import 'dart:convert';
 import 'package:path/path.dart' as p;
 import 'package:http/http.dart' as http;
 import 'schema/graphql.dart';
-import 'dart:developer';
 import 'pokemon_graphql_api.dart';
 
 GraphQLType getTypeByName(GraphQLSchema schema, String name) =>
@@ -36,39 +35,30 @@ GraphQLType getTypeFromField(GraphQLSchema schema, GraphQLField field) {
   return getTypeByName(schema, finalType.name);
 }
 
-// void printFields(GraphQLSchema schema, GraphQLField field, {int depth = 0}) {
-//   if (depth >= 5) return;
-
-//   final type = getTypeFromField(schema, field);
-//   final padding = List.filled(2 * depth, ' ').join();
-//   final argsStr = field.args.map((iv) => iv.name).join(', ');
-//   final hasChildren = type.fields.isNotEmpty;
-//   print(padding +
-//       field.name +
-//       (argsStr.isEmpty ? '' : '($argsStr)') +
-//       (hasChildren ? ' {' : ''));
-
-//   for (final subField in type.fields) {
-//     printFields(schema, subField, depth: depth + 1);
-//   }
-
-//   if (hasChildren) print(padding + '}');
-// }
-
 typedef ScalarMap ScalarMapping(GraphQLType type);
 
-void generateClassProperty(StringBuffer buffer, GraphQLSchema schema,
-    GraphQLField field, ScalarMapping scalarMap) {
+ScalarMap defaultScalarMapping(GraphQLType type) {
+  return [
+    ScalarMap('Boolean', 'bool'),
+    ScalarMap('Float', 'double'),
+    ScalarMap('ID', 'String'),
+    ScalarMap('Int', 'int'),
+    ScalarMap('String', 'String'),
+  ].firstWhere((m) => m.graphqlType == type.name, orElse: () => null);
+}
+
+void generateClassProperty(
+    StringBuffer buffer, GraphQLSchema schema, GraphQLField field,
+    {ScalarMapping scalarMap = defaultScalarMapping}) {
   final subType = getTypeFromField(schema, field);
   final isList = isEventuallyList(field.type);
+  final scalar = scalarMap(subType) ?? defaultScalarMapping(subType);
 
-  final typeStr = subType.kind == GraphQLTypeKind.SCALAR
-      ? scalarMap(subType).dartType
-      : subType.name;
+  final typeStr =
+      subType.kind == GraphQLTypeKind.SCALAR ? scalar.dartType : subType.name;
 
-  if (subType.kind == GraphQLTypeKind.SCALAR &&
-      scalarMap(subType).useCustomParsers) {
-    final graphqlType = scalarMap(subType).graphqlType;
+  if (subType.kind == GraphQLTypeKind.SCALAR && scalar.useCustomParsers) {
+    final graphqlType = scalar.graphqlType;
     final appendList = isList ? 'List' : '';
     buffer.writeln(
         '  @JsonKey(fromJson: fromGraphQL$graphqlType${appendList}ToDart$typeStr$appendList, toJson: fromDart$typeStr${appendList}ToGraphQL$graphqlType$appendList)');
@@ -83,8 +73,7 @@ void generateClassProperty(StringBuffer buffer, GraphQLSchema schema,
 }
 
 void generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
-    ScalarMapping scalarMap,
-    {String prefix = ''}) {
+    {ScalarMapping scalarMap = defaultScalarMapping, String prefix = ''}) {
   final className = '$prefix${type.name}';
   switch (type.kind) {
     case GraphQLTypeKind.ENUM:
@@ -99,7 +88,7 @@ void generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
       buffer.writeln('class $className {');
       for (final unionType in type.possibleTypes) {
         for (final subField in unionType.fields) {
-          generateClassProperty(buffer, schema, subField, scalarMap);
+          generateClassProperty(buffer, schema, subField, scalarMap: scalarMap);
         }
       }
       buffer.writeln('''
@@ -116,7 +105,7 @@ void generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
       buffer.writeln('@JsonSerializable()');
       buffer.writeln('class $className {');
       for (final subField in type.fields) {
-        generateClassProperty(buffer, schema, subField, scalarMap);
+        generateClassProperty(buffer, schema, subField, scalarMap: scalarMap);
       }
       buffer.writeln('''
   
@@ -145,16 +134,10 @@ class ScalarMap {
 GraphQLSchema schemaFromJson(String jsonS) =>
     GraphQLSchema.fromJson(json.decode(jsonS));
 
-void generate(
-    GraphQLSchema schema, File generatedFile, String typeCoercingFile) async {
+void generate(GraphQLSchema schema, File generatedFile, String typeCoercingFile,
+    {ScalarMapping scalarMap = defaultScalarMapping,
+    String prefix = ''}) async {
   final StringBuffer buffer = StringBuffer();
-
-  // final queryRoot = getTypeByName(schema, schema.queryType.name);
-
-  // printFields(schema, queryRoot);
-  // final nubankInfo = queryRoot.fields.firstWhere((f) => f.name == 'nubankInfo');
-
-  // printFields(schema, nubankInfo);
 
   final basename = p.basenameWithoutExtension(generatedFile.path);
 
@@ -165,8 +148,8 @@ part '$basename.g.dart';
 ''');
 
   for (final t in schema.types) {
-    generateClass(buffer, schema, t, (GraphQLType type) {
-      final mappings = [
+    generateClass(buffer, schema, t, scalarMap: (GraphQLType type) {
+      return [
         ScalarMap('Boolean', 'bool'),
         ScalarMap('Date', 'DateTime', useCustomParsers: true),
         ScalarMap('DateTime', 'DateTime', useCustomParsers: true),
@@ -176,15 +159,12 @@ part '$basename.g.dart';
         ScalarMap('Map', 'Map'),
         ScalarMap('String', 'String'),
         ScalarMap('Time', 'DateTime', useCustomParsers: true),
-      ];
-      return mappings.firstWhere((m) => m.graphqlType == type.name);
+      ].firstWhere((m) => m.graphqlType == type.name, orElse: () => null);
     });
     buffer.writeln('');
   }
 
   await generatedFile.writeAsString(buffer.toString());
-
-  // debugger(message: 'aaaaaaaaaaaaaaaaa', when: true);
 }
 
 void main() async {
