@@ -1,0 +1,6 @@
+builders:
+  graphql_builder:
+    import: 'package:graphql_builder/generator.dart'
+    builder_factories: ['graphqlBuilder']
+    build_extensions: {'.dart': ['.showcased.dart']}
+    auto_apply: dependents

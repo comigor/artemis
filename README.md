@@ -1,14 +1,27 @@
-# graphql_builder
+<p align="center">
+  <!-- img src="" width="300" -->
+  <h1><b>GraphQL Builder</b></h1>
+</p>
 
-A new Flutter package project.
+<!-- Badges -->
 
-## Getting Started
+[![Pub Package](https://img.shields.io/pub/v/graphql_builder.svg)](https://pub.dartlang.org/packages/graphql_builder)
 
-This project is a starting point for a Dart
-[package](https://flutter.io/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
+**Build dart types based on a GraphQL schema.**
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.io/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+---
+
+## **Installation**
+Add the following to your `pubspec.yaml` file:
+```yaml
+dev_dependencies:
+  graphql_builder: <1.0.0
+```
+then run:
+```shell
+pub packages get
+```
+or
+```shell
+flutter packages get
+```
