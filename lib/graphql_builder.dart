@@ -52,7 +52,7 @@ void printFields(GraphQLSchema schema, GraphQLField field, {int depth = 0}) {
   if (hasChildren) print(padding + '}');
 }
 
-typedef String ScalarMapping(GraphQLType type);
+typedef ScalarMap ScalarMapping(GraphQLType type);
 
 void generateClass(GraphQLSchema schema, GraphQLType type,
     {String prefix = '', ScalarMapping scalarMap}) {
@@ -72,14 +72,23 @@ void generateClass(GraphQLSchema schema, GraphQLType type,
         final subType = getTypeFromField(schema, subField);
         final isList = isEventuallyList(subField.type);
 
-        final addListIfNecessary = (String typeStr) {
+        final typeStr = subType.kind == GraphQLTypeKind.SCALAR
+            ? scalarMap(subType).dartType
+            : subType.name;
+
+        if (subType.kind == GraphQLTypeKind.SCALAR &&
+            scalarMap(subType).useCustomParsers) {
+          final graphqlType = scalarMap(subType).graphqlType;
+          print(
+              '  @JsonKey(fromJson: fromGraphQL${graphqlType}ToDart$typeStr, toJson: fromDart${typeStr}ToGraphQL$graphqlType)');
+        }
+
+        final addListIfNecessary = () {
           if (isList) return '  List<$typeStr> ${subField.name};';
           return '  $typeStr ${subField.name};';
         };
 
-        print(addListIfNecessary(subType.kind == GraphQLTypeKind.SCALAR
-            ? scalarMap(subType)
-            : subType.name));
+        print(addListIfNecessary());
       }
       print(
           '''\n  factory $className.fromJson(Map<String, dynamic> json) => _\$${className}FromJson(json);
@@ -89,6 +98,25 @@ void generateClass(GraphQLSchema schema, GraphQLType type,
     default:
   }
 }
+
+class ScalarMap {
+  final String graphqlType;
+  final String dartType;
+  final bool useCustomParsers;
+
+  ScalarMap(
+    this.graphqlType,
+    this.dartType, {
+    this.useCustomParsers = false,
+  });
+}
+
+DateTime fromGraphQLDateToDartDateTime() => DateTime.now();
+String fromDartDateTimeToGraphQLDate() => DateTime.now().toIso8601String();
+DateTime fromGraphQLTimeToDartDateTime() => DateTime.now();
+String fromDartDateTimeToGraphQLTime() => DateTime.now().toIso8601String();
+DateTime fromGraphQLDateTimeToDartDateTime() => DateTime.now();
+String fromDartDateTimeToGraphQLDateTime() => DateTime.now().toIso8601String();
 
 void main() async {
   final file = File(
@@ -105,33 +133,21 @@ void main() async {
 
   for (final t in schema.types) {
     generateClass(schema, t, scalarMap: (GraphQLType type) {
-      final map = {
-        'Boolean': 'bool',
-        'Date': 'DateTime',
-        'DateTime': 'DateTime',
-        'Float': 'double',
-        'ID': 'String',
-        'Int': 'int',
-        'Map': 'Map',
-        'String': 'String',
-        'Time': 'DateTime',
-      };
-      return map[type.name];
+      final mappings = [
+        ScalarMap('Boolean', 'bool'),
+        ScalarMap('Date', 'DateTime', useCustomParsers: true),
+        ScalarMap('DateTime', 'DateTime', useCustomParsers: true),
+        ScalarMap('Float', 'double'),
+        ScalarMap('ID', 'String'),
+        ScalarMap('Int', 'int'),
+        ScalarMap('Map', 'Map'),
+        ScalarMap('String', 'String'),
+        ScalarMap('Time', 'DateTime', useCustomParsers: true),
+      ];
+      return mappings.firstWhere((m) => m.graphqlType == type.name);
     });
     print('');
   }
 
-  debugger(message: 'aaaaaaaaaaaaaaaaa', when: true);
-
-  // print(schema);
-
-  // final queryRootObject =
-  //     schema.types.firstWhere((t) => t.name == schema.queryType.name);
-  // final List<String> queries =
-  //     queryRootObject.fields.map((f) => f.name).toList();
-
-  // print(queries);
-  // print(displayQuery(
-  //     schema, queryRootObject, getFieldByName(queryRootObject, 'nubankInfo')));
-  // print(displayQuery(schema, getFieldByName(queryRootObject, 'viewer')));
+  // debugger(message: 'aaaaaaaaaaaaaaaaa', when: true);
 }
