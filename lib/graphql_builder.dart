@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:path/path.dart' as p;
 import 'package:http/http.dart' as http;
 import 'schema/graphql.dart';
-import 'pokemon_graphql_api.dart';
+// import 'pokemon_graphql_api.dart';
 
 GraphQLType getTypeByName(GraphQLSchema schema, String name) =>
     schema.types.firstWhere((t) => t.name == name);
@@ -49,13 +49,14 @@ ScalarMap defaultScalarMapping(GraphQLType type) {
 
 void generateClassProperty(
     StringBuffer buffer, GraphQLSchema schema, GraphQLField field,
-    {ScalarMapping scalarMap = defaultScalarMapping}) {
+    {ScalarMapping scalarMap = defaultScalarMapping, String prefix = ''}) {
   final subType = getTypeFromField(schema, field);
   final isList = isEventuallyList(field.type);
   final scalar = scalarMap(subType) ?? defaultScalarMapping(subType);
 
-  final typeStr =
-      subType.kind == GraphQLTypeKind.SCALAR ? scalar.dartType : subType.name;
+  final typeStr = subType.kind == GraphQLTypeKind.SCALAR
+      ? scalar.dartType
+      : prefix + subType.name;
 
   if (subType.kind == GraphQLTypeKind.SCALAR && scalar.useCustomParsers) {
     final graphqlType = scalar.graphqlType;
@@ -74,7 +75,9 @@ void generateClassProperty(
 
 void generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
     {ScalarMapping scalarMap = defaultScalarMapping, String prefix = ''}) {
+  if (type.name.startsWith('__')) return;
   final className = '$prefix${type.name}';
+
   switch (type.kind) {
     case GraphQLTypeKind.ENUM:
       buffer.writeln('enum $className {');
@@ -88,7 +91,8 @@ void generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
       buffer.writeln('class $className {');
       for (final unionType in type.possibleTypes) {
         for (final subField in unionType.fields) {
-          generateClassProperty(buffer, schema, subField, scalarMap: scalarMap);
+          generateClassProperty(buffer, schema, subField,
+              scalarMap: scalarMap, prefix: prefix);
         }
       }
       buffer.writeln('''
@@ -105,7 +109,8 @@ void generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
       buffer.writeln('@JsonSerializable()');
       buffer.writeln('class $className {');
       for (final subField in type.fields) {
-        generateClassProperty(buffer, schema, subField, scalarMap: scalarMap);
+        generateClassProperty(buffer, schema, subField,
+            scalarMap: scalarMap, prefix: prefix);
       }
       buffer.writeln('''
   
@@ -134,33 +139,22 @@ class ScalarMap {
 GraphQLSchema schemaFromJson(String jsonS) =>
     GraphQLSchema.fromJson(json.decode(jsonS));
 
-void generate(GraphQLSchema schema, File generatedFile, String typeCoercingFile,
-    {ScalarMapping scalarMap = defaultScalarMapping,
+void generate(GraphQLSchema schema, File generatedFile,
+    {String typeCoercingFile,
+    ScalarMapping scalarMap = defaultScalarMapping,
     String prefix = ''}) async {
   final StringBuffer buffer = StringBuffer();
 
   final basename = p.basenameWithoutExtension(generatedFile.path);
 
   buffer.writeln('''import 'package:json_annotation/json_annotation.dart';
-import '$typeCoercingFile';
-  
+${typeCoercingFile != null ? '  import \'$typeCoercingFile\';' : ''}
+
 part '$basename.g.dart';
 ''');
 
   for (final t in schema.types) {
-    generateClass(buffer, schema, t, scalarMap: (GraphQLType type) {
-      return [
-        ScalarMap('Boolean', 'bool'),
-        ScalarMap('Date', 'DateTime', useCustomParsers: true),
-        ScalarMap('DateTime', 'DateTime', useCustomParsers: true),
-        ScalarMap('Float', 'double'),
-        ScalarMap('ID', 'String'),
-        ScalarMap('Int', 'int'),
-        ScalarMap('Map', 'Map'),
-        ScalarMap('String', 'String'),
-        ScalarMap('Time', 'DateTime', useCustomParsers: true),
-      ].firstWhere((m) => m.graphqlType == type.name, orElse: () => null);
-    });
+    generateClass(buffer, schema, t, scalarMap: scalarMap, prefix: prefix);
     buffer.writeln('');
   }
 
@@ -180,8 +174,7 @@ void main() async {
     });
 
     final schema = schemaFromJson(response.body);
-    generate(schema, File('lib/pokemon_graphql_api.dart'),
-        'package:graphql_builder/coercers.dart');
+    generate(schema, File('lib/pokemon_graphql_api.dart'), prefix: 'GQL_');
 
     final dataResponse = await client.post(graphqlEndpoint, body: {
       'operationName': 'SomePokemons',
