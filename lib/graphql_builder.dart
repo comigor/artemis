@@ -3,8 +3,10 @@ library graphql_builder;
 import 'dart:io';
 import 'dart:convert';
 import 'package:path/path.dart' as p;
+import 'package:http/http.dart' as http;
 import 'schema/graphql.dart';
 import 'dart:developer';
+import 'pokemon_graphql_api.dart';
 
 GraphQLType getTypeByName(GraphQLSchema schema, String name) =>
     schema.types.firstWhere((t) => t.name == name);
@@ -140,15 +142,12 @@ class ScalarMap {
   });
 }
 
-void main() async {
-  final file = File('lib/schema.json');
-  final typeCoercingFile = 'package:graphql_builder/coercers.dart';
+GraphQLSchema schemaFromJson(String jsonS) =>
+    GraphQLSchema.fromJson(json.decode(jsonS));
 
-  final generatedFile = File(p.join(file.parent.path, 'graphql_api.dart'));
+void generate(
+    GraphQLSchema schema, File generatedFile, String typeCoercingFile) async {
   final StringBuffer buffer = StringBuffer();
-
-  final schema = GraphQLSchema.fromJson(
-      await file.readAsString().then((s) => json.decode(s)));
 
   // final queryRoot = getTypeByName(schema, schema.queryType.name);
 
@@ -157,10 +156,12 @@ void main() async {
 
   // printFields(schema, nubankInfo);
 
+  final basename = p.basenameWithoutExtension(generatedFile.path);
+
   buffer.writeln('''import 'package:json_annotation/json_annotation.dart';
 import '$typeCoercingFile';
   
-part 'graphql_api.g.dart';
+part '$basename.g.dart';
 ''');
 
   for (final t in schema.types) {
@@ -184,4 +185,53 @@ part 'graphql_api.g.dart';
   await generatedFile.writeAsString(buffer.toString());
 
   // debugger(message: 'aaaaaaaaaaaaaaaaa', when: true);
+}
+
+void main() async {
+  final graphqlEndpoint = 'https://graphql-pokemon.now.sh/graphql';
+  final introspectionQueryFile = File('lib/introspection_query.graphql');
+  final introspectionQuery = await introspectionQueryFile.readAsString();
+
+  final client = http.Client();
+  try {
+    final response = await client.post(graphqlEndpoint, body: {
+      'operationName': 'IntrospectionQuery',
+      'query': introspectionQuery
+    });
+
+    final schema = schemaFromJson(response.body);
+    generate(schema, File('lib/pokemon_graphql_api.dart'),
+        'package:graphql_builder/coercers.dart');
+
+    final dataResponse = await client.post(graphqlEndpoint, body: {
+      'operationName': 'SomePokemons',
+      'query': '''
+query SomePokemons {
+  pokemons(first: 3) {
+    id
+    number
+    name
+    types
+    attacks {
+      fast {
+        name
+        type
+        damage
+      }
+    }
+    evolutions {
+      id
+    }
+    image
+  }
+}'''
+    });
+
+    final typedResponse =
+        Query.fromJson(json.decode(dataResponse.body)['data']);
+    print(typedResponse.pokemons[0].name);
+    print(typedResponse.pokemons[0].attacks.fast[0].name);
+  } finally {
+    client.close();
+  }
 }
