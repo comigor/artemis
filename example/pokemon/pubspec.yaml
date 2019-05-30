@@ -1,0 +1,18 @@
+name: pokemon_example
+version: 0.0.1
+
+authors:
+  - Igor Borges <igor@borges.me>
+
+environment:
+  sdk: '>=2.0.0 <3.0.0'
+
+dependencies:
+  build_runner: ^1.2.8
+  json_serializable: ^2.0.0
+  http: ^0.12.0+2
+  graphql_builder:
+    path: ../../.
+
+dev_dependencies:
+  test: ^1.0.0
