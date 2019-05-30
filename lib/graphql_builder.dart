@@ -2,6 +2,7 @@ library graphql_builder;
 
 import 'dart:io';
 import 'dart:convert';
+import 'package:intl/intl.dart';
 import 'schema/graphql.dart';
 import 'dart:developer';
 
@@ -111,12 +112,19 @@ class ScalarMap {
   });
 }
 
-DateTime fromGraphQLDateToDartDateTime() => DateTime.now();
-String fromDartDateTimeToGraphQLDate() => DateTime.now().toIso8601String();
-DateTime fromGraphQLTimeToDartDateTime() => DateTime.now();
-String fromDartDateTimeToGraphQLTime() => DateTime.now().toIso8601String();
-DateTime fromGraphQLDateTimeToDartDateTime() => DateTime.now();
-String fromDartDateTimeToGraphQLDateTime() => DateTime.now().toIso8601String();
+final dateFormatter = DateFormat('yyyy-MM-dd');
+final timeFormatter = DateFormat('HH:mm:ss');
+
+DateTime fromGraphQLDateToDartDateTime(String date) => DateTime.parse(date);
+String fromDartDateTimeToGraphQLDate(DateTime date) =>
+    dateFormatter.format(date);
+DateTime fromGraphQLTimeToDartDateTime(String time) =>
+    DateTime.parse('1970-01-01T${time}Z');
+String fromDartDateTimeToGraphQLTime(DateTime date) =>
+    timeFormatter.format(date);
+DateTime fromGraphQLDateTimeToDartDateTime(String date) => DateTime.parse(date);
+String fromDartDateTimeToGraphQLDateTime(DateTime date) =>
+    date.toIso8601String();
 
 void main() async {
   final file = File(
@@ -130,6 +138,11 @@ void main() async {
   final nubankInfo = queryRoot.fields.firstWhere((f) => f.name == 'nubankInfo');
 
   // printFields(schema, nubankInfo);
+
+  print('''import 'package:json_annotation/json_annotation.dart';
+  
+part 'graphql_api.g.dart';
+''');
 
   for (final t in schema.types) {
     generateClass(schema, t, scalarMap: (GraphQLType type) {
