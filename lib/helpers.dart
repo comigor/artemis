@@ -57,7 +57,7 @@ void _generateClassProperty(
     {ScalarMapping scalarMap = defaultScalarMapping, String prefix = ''}) {
   final subType = _getTypeFromField(schema, field);
   final isList = _isEventuallyList(field.type);
-  final scalar = scalarMap(subType) ?? defaultScalarMapping(subType);
+  final scalar = scalarMap(subType) ?? ScalarMap(subType.name, subType.name);
 
   final typeStr = subType.kind == GraphQLTypeKind.SCALAR
       ? scalar.dartType
