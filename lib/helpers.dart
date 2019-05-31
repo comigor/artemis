@@ -254,7 +254,9 @@ Future<String> generate(GraphQLSchema schema, String path,
     String prefix = ''}) async {
   final basename = p.basenameWithoutExtension(path);
   final StringBuffer buffer = StringBuffer()
-    ..writeln('''import 'package:json_annotation/json_annotation.dart';
+    ..writeln('''// GENERATED CODE - DO NOT MODIFY BY HAND
+
+import 'package:json_annotation/json_annotation.dart';
 ${typeCoercingFile != null ? '  import \'$typeCoercingFile\';' : ''}
 
 part '$basename.api.g.dart';
