@@ -18,7 +18,10 @@ GraphQLType _followType(GraphQLType type) {
 }
 
 bool _isEventuallyList(GraphQLType type) {
-  if (type == null) return false;
+  if (type == null) {
+    return false;
+  }
+
   switch (type.kind) {
     case GraphQLTypeKind.LIST:
       return true;
@@ -32,16 +35,21 @@ GraphQLType _getTypeFromField(GraphQLSchema schema, GraphQLField field) {
   return _getTypeByName(schema, finalType.name);
 }
 
-typedef ScalarMap ScalarMapping(GraphQLType type);
+typedef ScalarMapping = ScalarMap Function(GraphQLType type);
 
-ScalarMap defaultScalarMapping(GraphQLType type) {
-  return [
-    ScalarMap('Boolean', 'bool'),
-    ScalarMap('Float', 'double'),
-    ScalarMap('ID', 'String'),
-    ScalarMap('Int', 'int'),
-    ScalarMap('String', 'String'),
-  ].firstWhere((m) => m.graphqlType == type.name, orElse: () => null);
+ScalarMap defaultScalarMapping(GraphQLType type) => [
+      ScalarMap('Boolean', 'bool'),
+      ScalarMap('Float', 'double'),
+      ScalarMap('ID', 'String'),
+      ScalarMap('Int', 'int'),
+      ScalarMap('String', 'String'),
+    ].firstWhere((m) => m.graphqlType == type.name, orElse: () => null);
+
+String _addListIfNecessary(bool isList, String typeStr, GraphQLField field) {
+  if (isList) {
+    return '  List<$typeStr> ${field.name};';
+  }
+  return '  $typeStr ${field.name};';
 }
 
 void _generateClassProperty(
@@ -62,17 +70,15 @@ void _generateClassProperty(
         '  @JsonKey(fromJson: fromGraphQL$graphqlType${appendList}ToDart$typeStr$appendList, toJson: fromDart$typeStr${appendList}ToGraphQL$graphqlType$appendList)');
   }
 
-  final addListIfNecessary = () {
-    if (isList) return '  List<$typeStr> ${field.name};';
-    return '  $typeStr ${field.name};';
-  };
-
-  buffer.writeln(addListIfNecessary());
+  buffer.writeln(_addListIfNecessary(isList, typeStr, field));
 }
 
 void _generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
     {ScalarMapping scalarMap = defaultScalarMapping, String prefix = ''}) {
-  if (type.name.startsWith('__')) return;
+  // Ignore reserved GraphQL types
+  if (type.name.startsWith('__')) {
+    return;
+  }
   final className = '$prefix${type.name}';
 
   switch (type.kind) {
@@ -133,7 +139,7 @@ class ScalarMap {
   });
 }
 
-const String INTROSPECTION_QUERY = '''
+const String introspectionQuery = '''
   query IntrospectionQuery {
     __schema {
       queryType { name }
@@ -233,7 +239,7 @@ Future<GraphQLSchema> fetchGraphQLSchemaFromURL(String graphqlEndpoint,
 
   final response = await httpClient.post(graphqlEndpoint, body: {
     'operationName': 'IntrospectionQuery',
-    'query': INTROSPECTION_QUERY
+    'query': introspectionQuery,
   });
 
   return schemaFromJsonString(response.body);
