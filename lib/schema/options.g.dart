@@ -8,12 +8,22 @@ part of 'options.dart';
 
 GeneratorOptions _$GeneratorOptionsFromJson(Map<String, dynamic> json) {
   return GeneratorOptions(
-      import: json['import'] as String,
-      scalarMapping: json['scalar_mapping'] as String);
+      scalarMapping: (json['scalar_mapping'] as List)
+          ?.map((e) =>
+              e == null ? null : ScalarMap.fromJson(e as Map<String, dynamic>))
+          ?.toList());
 }
 
 Map<String, dynamic> _$GeneratorOptionsToJson(GeneratorOptions instance) =>
-    <String, dynamic>{
-      'import': instance.import,
-      'scalar_mapping': instance.scalarMapping
+    <String, dynamic>{'scalar_mapping': instance.scalarMapping};
+
+ScalarMap _$ScalarMapFromJson(Map<String, dynamic> json) {
+  return ScalarMap(json['graphql_type'] as String, json['dart_type'] as String,
+      json['use_custom_parsers'] as bool ?? false);
+}
+
+Map<String, dynamic> _$ScalarMapToJson(ScalarMap instance) => <String, dynamic>{
+      'graphql_type': instance.graphQLType,
+      'dart_type': instance.dartType,
+      'use_custom_parsers': instance.useCustomParsers
     };
