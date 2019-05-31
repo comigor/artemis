@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:build/build.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:graphql_builder/helpers.dart';
+import 'package:graphql_builder/schema/options.dart';
 
 final DartFormatter _dartFormatter = DartFormatter();
 
@@ -9,9 +10,16 @@ final DartFormatter _dartFormatter = DartFormatter();
 /// `graphql_builder`.
 ///
 /// Not meant to be invoked by hand-authored code.
-Builder graphQLTypesBuilder(BuilderOptions options) => GraphQLTypesBuilder();
+Builder graphQLTypesBuilder(BuilderOptions options) =>
+    GraphQLTypesBuilder(options);
 
 class GraphQLTypesBuilder implements Builder {
+  GraphQLTypesBuilder(this._builderOptions)
+      : options = GeneratorOptions.fromJson(_builderOptions.config);
+
+  final BuilderOptions _builderOptions;
+  final GeneratorOptions options;
+
   @override
   Map<String, List<String>> get buildExtensions => const {
         '.schema.json': ['.api.dart']

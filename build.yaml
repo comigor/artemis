@@ -1,3 +1,10 @@
+targets:
+  $default:
+    builders:
+      json_serializable:
+        generate_for:
+        - lib/schema/*
+
 builders:
   graphql_builder:
     import: 'package:graphql_builder/generator.dart'
