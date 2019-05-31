@@ -3,5 +3,26 @@ targets:
     builders:
       graphql_builder:
         options:
-          import: "package:graphbrainz_example/main.dart"
-          scalar_mapping: "brainzScalarMapping"
+          scalar_mapping:
+          Date:
+            dart_type: DateTime
+            use_custom_parser: true
+          # - graphql_type: Time
+          #   dart_type: DateTime
+          #   use_custom_parser: true
+          # - graphql_type: DiscID
+          #   dart_type: String
+          # - graphql_type: MBID
+          #   dart_type: String
+          # - graphql_type: ASIN
+          #   dart_type: String
+          # - graphql_type: IPI
+          #   dart_type: String
+          # - graphql_type: ISNI
+          #   dart_type: String
+          # - graphql_type: URLString
+          #   dart_type: String
+          # - graphql_type: Degrees
+          #   dart_type: double
+          # - graphql_type: Locale
+          #   dart_type: String
