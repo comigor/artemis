@@ -1,0 +1,7 @@
+targets:
+  $default:
+    builders:
+      graphql_builder:
+        options:
+          import: "package:graphbrainz_example/main.dart"
+          scalar_mapping: "brainzScalarMapping"
