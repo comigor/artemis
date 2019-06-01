@@ -369,15 +369,22 @@ Map<String, dynamic> _$ArtistToJson(Artist instance) => <String, dynamic>{
 
 LifeSpan _$LifeSpanFromJson(Map<String, dynamic> json) {
   return LifeSpan()
-    ..begin =
-        json['begin'] == null ? null : DateTime.parse(json['begin'] as String)
-    ..end = json['end'] == null ? null : DateTime.parse(json['end'] as String)
+    ..begin = json['begin'] == null
+        ? null
+        : fromGraphQLDateToDartDateTime(json['begin'] as String)
+    ..end = json['end'] == null
+        ? null
+        : fromGraphQLDateToDartDateTime(json['end'] as String)
     ..ended = json['ended'] as bool;
 }
 
 Map<String, dynamic> _$LifeSpanToJson(LifeSpan instance) => <String, dynamic>{
-      'begin': instance.begin?.toIso8601String(),
-      'end': instance.end?.toIso8601String(),
+      'begin': instance.begin == null
+          ? null
+          : fromDartDateTimeToGraphQLDate(instance.begin),
+      'end': instance.end == null
+          ? null
+          : fromDartDateTimeToGraphQLDate(instance.end),
       'ended': instance.ended
     };
 
@@ -576,8 +583,9 @@ Release _$ReleaseFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : ReleaseEvent.fromJson(e as Map<String, dynamic>))
         ?.toList()
-    ..date =
-        json['date'] == null ? null : DateTime.parse(json['date'] as String)
+    ..date = json['date'] == null
+        ? null
+        : fromGraphQLDateToDartDateTime(json['date'] as String)
     ..country = json['country'] as String
     ..asin = json['asin'] as String
     ..barcode = json['barcode'] as String
@@ -638,7 +646,9 @@ Map<String, dynamic> _$ReleaseToJson(Release instance) => <String, dynamic>{
       'artistCredit': instance.artistCredit,
       'artistCredits': instance.artistCredits,
       'releaseEvents': instance.releaseEvents,
-      'date': instance.date?.toIso8601String(),
+      'date': instance.date == null
+          ? null
+          : fromDartDateTimeToGraphQLDate(instance.date),
       'country': instance.country,
       'asin': instance.asin,
       'barcode': instance.barcode,
@@ -693,14 +703,17 @@ ReleaseEvent _$ReleaseEventFromJson(Map<String, dynamic> json) {
     ..area = json['area'] == null
         ? null
         : Area.fromJson(json['area'] as Map<String, dynamic>)
-    ..date =
-        json['date'] == null ? null : DateTime.parse(json['date'] as String);
+    ..date = json['date'] == null
+        ? null
+        : fromGraphQLDateToDartDateTime(json['date'] as String);
 }
 
 Map<String, dynamic> _$ReleaseEventToJson(ReleaseEvent instance) =>
     <String, dynamic>{
       'area': instance.area,
-      'date': instance.date?.toIso8601String()
+      'date': instance.date == null
+          ? null
+          : fromDartDateTimeToGraphQLDate(instance.date)
     };
 
 Medium _$MediumFromJson(Map<String, dynamic> json) {
@@ -1006,9 +1019,12 @@ Relationship _$RelationshipFromJson(Map<String, dynamic> json) {
     ..targetType = json['targetType'] as String
     ..sourceCredit = json['sourceCredit'] as String
     ..targetCredit = json['targetCredit'] as String
-    ..begin =
-        json['begin'] == null ? null : DateTime.parse(json['begin'] as String)
-    ..end = json['end'] == null ? null : DateTime.parse(json['end'] as String)
+    ..begin = json['begin'] == null
+        ? null
+        : fromGraphQLDateToDartDateTime(json['begin'] as String)
+    ..end = json['end'] == null
+        ? null
+        : fromGraphQLDateToDartDateTime(json['end'] as String)
     ..ended = json['ended'] as bool
     ..attributes =
         (json['attributes'] as List)?.map((e) => e as String)?.toList()
@@ -1023,8 +1039,12 @@ Map<String, dynamic> _$RelationshipToJson(Relationship instance) =>
       'targetType': instance.targetType,
       'sourceCredit': instance.sourceCredit,
       'targetCredit': instance.targetCredit,
-      'begin': instance.begin?.toIso8601String(),
-      'end': instance.end?.toIso8601String(),
+      'begin': instance.begin == null
+          ? null
+          : fromDartDateTimeToGraphQLDate(instance.begin),
+      'end': instance.end == null
+          ? null
+          : fromDartDateTimeToGraphQLDate(instance.end),
       'ended': instance.ended,
       'attributes': instance.attributes,
       'type': instance.type,
@@ -1233,8 +1253,9 @@ Event _$EventFromJson(Map<String, dynamic> json) {
     ..lifeSpan = json['lifeSpan'] == null
         ? null
         : LifeSpan.fromJson(json['lifeSpan'] as Map<String, dynamic>)
-    ..time =
-        json['time'] == null ? null : DateTime.parse(json['time'] as String)
+    ..time = json['time'] == null
+        ? null
+        : fromGraphQLTimeToDartDateTime(json['time'] as String)
     ..cancelled = json['cancelled'] as bool
     ..setlist = json['setlist'] as String
     ..type = json['type'] as String
@@ -1261,7 +1282,9 @@ Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
       'disambiguation': instance.disambiguation,
       'aliases': instance.aliases,
       'lifeSpan': instance.lifeSpan,
-      'time': instance.time?.toIso8601String(),
+      'time': instance.time == null
+          ? null
+          : fromDartDateTimeToGraphQLTime(instance.time),
       'cancelled': instance.cancelled,
       'setlist': instance.setlist,
       'type': instance.type,
@@ -1652,7 +1675,7 @@ ReleaseGroup _$ReleaseGroupFromJson(Map<String, dynamic> json) {
         ?.toList()
     ..firstReleaseDate = json['firstReleaseDate'] == null
         ? null
-        : DateTime.parse(json['firstReleaseDate'] as String)
+        : fromGraphQLDateToDartDateTime(json['firstReleaseDate'] as String)
     ..primaryType =
         _$enumDecodeNullable(_$ReleaseGroupTypeEnumMap, json['primaryType'])
     ..primaryTypeID = json['primaryTypeID'] as String
@@ -1704,7 +1727,9 @@ Map<String, dynamic> _$ReleaseGroupToJson(ReleaseGroup instance) =>
       'aliases': instance.aliases,
       'artistCredit': instance.artistCredit,
       'artistCredits': instance.artistCredits,
-      'firstReleaseDate': instance.firstReleaseDate?.toIso8601String(),
+      'firstReleaseDate': instance.firstReleaseDate == null
+          ? null
+          : fromDartDateTimeToGraphQLDate(instance.firstReleaseDate),
       'primaryType': _$ReleaseGroupTypeEnumMap[instance.primaryType],
       'primaryTypeID': instance.primaryTypeID,
       'secondaryTypes': instance.secondaryTypes
@@ -2439,10 +2464,10 @@ LastFMWikiContent _$LastFMWikiContentFromJson(Map<String, dynamic> json) {
     ..contentHTML = json['contentHTML'] as String
     ..publishDate = json['publishDate'] == null
         ? null
-        : DateTime.parse(json['publishDate'] as String)
+        : fromGraphQLDateToDartDateTime(json['publishDate'] as String)
     ..publishTime = json['publishTime'] == null
         ? null
-        : DateTime.parse(json['publishTime'] as String)
+        : fromGraphQLTimeToDartDateTime(json['publishTime'] as String)
     ..url = json['url'] as String;
 }
 
@@ -2450,8 +2475,12 @@ Map<String, dynamic> _$LastFMWikiContentToJson(LastFMWikiContent instance) =>
     <String, dynamic>{
       'summaryHTML': instance.summaryHTML,
       'contentHTML': instance.contentHTML,
-      'publishDate': instance.publishDate?.toIso8601String(),
-      'publishTime': instance.publishTime?.toIso8601String(),
+      'publishDate': instance.publishDate == null
+          ? null
+          : fromDartDateTimeToGraphQLDate(instance.publishDate),
+      'publishTime': instance.publishTime == null
+          ? null
+          : fromDartDateTimeToGraphQLTime(instance.publishTime),
       'url': instance.url
     };
 
@@ -2756,7 +2785,7 @@ SpotifyAlbum _$SpotifyAlbumFromJson(Map<String, dynamic> json) {
     ..popularity = json['popularity'] as int
     ..releaseDate = json['releaseDate'] == null
         ? null
-        : DateTime.parse(json['releaseDate'] as String);
+        : fromGraphQLDateToDartDateTime(json['releaseDate'] as String);
 }
 
 Map<String, dynamic> _$SpotifyAlbumToJson(SpotifyAlbum instance) =>
@@ -2775,7 +2804,9 @@ Map<String, dynamic> _$SpotifyAlbumToJson(SpotifyAlbum instance) =>
       'images': instance.images,
       'label': instance.label,
       'popularity': instance.popularity,
-      'releaseDate': instance.releaseDate?.toIso8601String()
+      'releaseDate': instance.releaseDate == null
+          ? null
+          : fromDartDateTimeToGraphQLDate(instance.releaseDate)
     };
 
 SpotifyArtist _$SpotifyArtistFromJson(Map<String, dynamic> json) {

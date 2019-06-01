@@ -1,6 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:graphbrainz_example/coercers.dart';
 
 part 'graphbrainz.api.g.dart';
 
@@ -188,7 +189,13 @@ class Artist {
 
 @JsonSerializable()
 class LifeSpan {
+  @JsonKey(
+      fromJson: fromGraphQLDateToDartDateTime,
+      toJson: fromDartDateTimeToGraphQLDate)
   DateTime begin;
+  @JsonKey(
+      fromJson: fromGraphQLDateToDartDateTime,
+      toJson: fromDartDateTimeToGraphQLDate)
   DateTime end;
   bool ended;
 
@@ -331,6 +338,9 @@ class Release {
   List<ArtistCredit> artistCredit;
   List<ArtistCredit> artistCredits;
   List<ReleaseEvent> releaseEvents;
+  @JsonKey(
+      fromJson: fromGraphQLDateToDartDateTime,
+      toJson: fromDartDateTimeToGraphQLDate)
   DateTime date;
   String country;
   String asin;
@@ -363,6 +373,9 @@ class Release {
 @JsonSerializable()
 class ReleaseEvent {
   Area area;
+  @JsonKey(
+      fromJson: fromGraphQLDateToDartDateTime,
+      toJson: fromDartDateTimeToGraphQLDate)
   DateTime date;
 
   ReleaseEvent();
@@ -531,7 +544,13 @@ class Relationship {
   String targetType;
   String sourceCredit;
   String targetCredit;
+  @JsonKey(
+      fromJson: fromGraphQLDateToDartDateTime,
+      toJson: fromDartDateTimeToGraphQLDate)
   DateTime begin;
+  @JsonKey(
+      fromJson: fromGraphQLDateToDartDateTime,
+      toJson: fromDartDateTimeToGraphQLDate)
   DateTime end;
   bool ended;
   List<String> attributes;
@@ -662,6 +681,9 @@ class Event {
   String disambiguation;
   List<Alias> aliases;
   LifeSpan lifeSpan;
+  @JsonKey(
+      fromJson: fromGraphQLTimeToDartDateTime,
+      toJson: fromDartDateTimeToGraphQLTime)
   DateTime time;
   bool cancelled;
   String setlist;
@@ -915,6 +937,9 @@ class ReleaseGroup {
   List<Alias> aliases;
   List<ArtistCredit> artistCredit;
   List<ArtistCredit> artistCredits;
+  @JsonKey(
+      fromJson: fromGraphQLDateToDartDateTime,
+      toJson: fromDartDateTimeToGraphQLDate)
   DateTime firstReleaseDate;
   ReleaseGroupType primaryType;
   String primaryTypeID;
@@ -1412,7 +1437,13 @@ enum LastFMImageSize {
 class LastFMWikiContent {
   String summaryHTML;
   String contentHTML;
+  @JsonKey(
+      fromJson: fromGraphQLDateToDartDateTime,
+      toJson: fromDartDateTimeToGraphQLDate)
   DateTime publishDate;
+  @JsonKey(
+      fromJson: fromGraphQLTimeToDartDateTime,
+      toJson: fromDartDateTimeToGraphQLTime)
   DateTime publishTime;
   String url;
 
@@ -1605,6 +1636,9 @@ class SpotifyAlbum {
   List<SpotifyImage> images;
   String label;
   int popularity;
+  @JsonKey(
+      fromJson: fromGraphQLDateToDartDateTime,
+      toJson: fromDartDateTimeToGraphQLDate)
   DateTime releaseDate;
 
   SpotifyAlbum();

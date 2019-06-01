@@ -67,7 +67,7 @@ void _generateClassProperty(StringBuffer buffer, GraphQLSchema schema,
       ? scalar.dartType
       : prefix + subType.name;
 
-  if (subType.kind == GraphQLTypeKind.SCALAR && scalar.useCustomParsers) {
+  if (subType.kind == GraphQLTypeKind.SCALAR && scalar.useCustomParser) {
     final graphqlType = scalar.graphQLType;
     final appendList = isList ? 'List' : '';
     buffer.writeln(
@@ -242,20 +242,22 @@ GraphQLSchema schemaFromJsonString(String jsonS) =>
     GraphQLSchema.fromJson(json.decode(jsonS));
 
 Future<String> generate(
-    GraphQLSchema schema, String path, GeneratorOptions options,
-    {String typeCoercingFile, String prefix = ''}) async {
+    GraphQLSchema schema, String path, GeneratorOptions options) async {
   final basename = p.basenameWithoutExtension(path);
+  final customParserImport = options.customParserImport != null
+      ? '  import \'${options.customParserImport}\';'
+      : '';
   final StringBuffer buffer = StringBuffer()
     ..writeln('''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
-${typeCoercingFile != null ? '  import \'$typeCoercingFile\';' : ''}
+$customParserImport
 
 part '$basename.api.g.dart';
 ''');
 
   for (final t in schema.types) {
-    _generateClass(buffer, schema, t, options, prefix: prefix);
+    _generateClass(buffer, schema, t, options, prefix: options.prefix);
     buffer.writeln('');
   }
 

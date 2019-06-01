@@ -4,6 +4,8 @@ part 'options.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, anyMap: true)
 class GeneratorOptions {
+  @JsonKey(defaultValue: '')
+  final String prefix;
   final String customParserImport;
   @JsonKey(
     defaultValue: [],
@@ -11,6 +13,7 @@ class GeneratorOptions {
   final List<ScalarMap> scalarMapping;
 
   GeneratorOptions({
+    this.prefix,
     this.customParserImport,
     this.scalarMapping,
   });
@@ -27,12 +30,12 @@ class ScalarMap {
   final String graphQLType;
   final String dartType;
   @JsonKey(defaultValue: false)
-  final bool useCustomParsers;
+  final bool useCustomParser;
 
   ScalarMap({
     this.graphQLType,
     this.dartType,
-    this.useCustomParsers = false,
+    this.useCustomParser = false,
   });
 
   factory ScalarMap.fromJson(Map<String, dynamic> json) =>

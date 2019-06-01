@@ -1,13 +1,13 @@
 <p align="center">
   <!-- img src="" width="300" -->
-  <h1><b>GraphQL Builder</b></h1>
+  <h1><b>Artemis</b></h1>
 </p>
 
 <!-- Badges -->
 
 [![Pub Package](https://img.shields.io/pub/v/artemis.svg)](https://pub.dartlang.org/packages/artemis)
 
-**Build dart types based on a GraphQL schema.**
+**Build dart types from a GraphQL schema.**
 
 ---
 
