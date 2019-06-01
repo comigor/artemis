@@ -6,20 +6,30 @@ part of 'options.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-GeneratorOptions _$GeneratorOptionsFromJson(Map<String, dynamic> json) {
+GeneratorOptions _$GeneratorOptionsFromJson(Map json) {
   return GeneratorOptions(
+      customParserImport: json['custom_parser_import'] as String,
       scalarMapping: (json['scalar_mapping'] as List)
-          ?.map((e) =>
-              e == null ? null : ScalarMap.fromJson(e as Map<String, dynamic>))
-          ?.toList());
+              ?.map((e) => e == null
+                  ? null
+                  : ScalarMap.fromJson((e as Map)?.map(
+                      (k, e) => MapEntry(k as String, e),
+                    )))
+              ?.toList() ??
+          []);
 }
 
 Map<String, dynamic> _$GeneratorOptionsToJson(GeneratorOptions instance) =>
-    <String, dynamic>{'scalar_mapping': instance.scalarMapping};
+    <String, dynamic>{
+      'custom_parser_import': instance.customParserImport,
+      'scalar_mapping': instance.scalarMapping
+    };
 
 ScalarMap _$ScalarMapFromJson(Map<String, dynamic> json) {
-  return ScalarMap(json['graphql_type'] as String, json['dart_type'] as String,
-      json['use_custom_parsers'] as bool ?? false);
+  return ScalarMap(
+      graphQLType: json['graphql_type'] as String,
+      dartType: json['dart_type'] as String,
+      useCustomParsers: json['use_custom_parsers'] as bool ?? false);
 }
 
 Map<String, dynamic> _$ScalarMapToJson(ScalarMap instance) => <String, dynamic>{

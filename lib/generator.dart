@@ -35,7 +35,7 @@ class GraphQLTypesBuilder implements Builder {
     final outputAssetId =
         AssetId(buildStep.inputId.package, path).addExtension('.api.dart');
 
-    await buildStep.writeAsString(
-        outputAssetId, _dartFormatter.format(await generate(schema, path)));
+    await buildStep.writeAsString(outputAssetId,
+        _dartFormatter.format(await generate(schema, path, options)));
   }
 }

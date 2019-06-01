@@ -2,7 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:path/path.dart' as p;
 import 'package:http/http.dart' as http;
-import 'schema/graphql.dart';
+import 'package:graphql_builder/schema/options.dart';
+import 'package:graphql_builder/schema/graphql.dart';
 
 GraphQLType _getTypeByName(GraphQLSchema schema, String name) =>
     schema.types.firstWhere((t) => t.name == name);
@@ -35,15 +36,18 @@ GraphQLType _getTypeFromField(GraphQLSchema schema, GraphQLField field) {
   return _getTypeByName(schema, finalType.name);
 }
 
-typedef ScalarMapping = ScalarMap Function(GraphQLType type);
+List<ScalarMap> _defaultScalarMapping = [
+  ScalarMap(graphQLType: 'Boolean', dartType: 'bool'),
+  ScalarMap(graphQLType: 'Float', dartType: 'double'),
+  ScalarMap(graphQLType: 'ID', dartType: 'String'),
+  ScalarMap(graphQLType: 'Int', dartType: 'int'),
+  ScalarMap(graphQLType: 'String', dartType: 'String'),
+];
 
-ScalarMap defaultScalarMapping(GraphQLType type) => [
-      ScalarMap('Boolean', 'bool'),
-      ScalarMap('Float', 'double'),
-      ScalarMap('ID', 'String'),
-      ScalarMap('Int', 'int'),
-      ScalarMap('String', 'String'),
-    ].firstWhere((m) => m.graphqlType == type.name, orElse: () => null);
+ScalarMap getSingleScalarMap(GeneratorOptions options, GraphQLType type) =>
+    options.scalarMapping.followedBy(_defaultScalarMapping).firstWhere(
+        (m) => m.graphQLType == type.name,
+        orElse: () => ScalarMap(graphQLType: type.name, dartType: type.name));
 
 String _addListIfNecessary(bool isList, String typeStr, GraphQLField field) {
   if (isList) {
@@ -52,19 +56,19 @@ String _addListIfNecessary(bool isList, String typeStr, GraphQLField field) {
   return '  $typeStr ${field.name};';
 }
 
-void _generateClassProperty(
-    StringBuffer buffer, GraphQLSchema schema, GraphQLField field,
-    {ScalarMapping scalarMap = defaultScalarMapping, String prefix = ''}) {
+void _generateClassProperty(StringBuffer buffer, GraphQLSchema schema,
+    GraphQLField field, GeneratorOptions options,
+    {String prefix = ''}) {
   final subType = _getTypeFromField(schema, field);
   final isList = _isEventuallyList(field.type);
-  final scalar = scalarMap(subType) ?? ScalarMap(subType.name, subType.name);
+  final scalar = getSingleScalarMap(options, subType);
 
   final typeStr = subType.kind == GraphQLTypeKind.SCALAR
       ? scalar.dartType
       : prefix + subType.name;
 
   if (subType.kind == GraphQLTypeKind.SCALAR && scalar.useCustomParsers) {
-    final graphqlType = scalar.graphqlType;
+    final graphqlType = scalar.graphQLType;
     final appendList = isList ? 'List' : '';
     buffer.writeln(
         '  @JsonKey(fromJson: fromGraphQL$graphqlType${appendList}ToDart$typeStr$appendList, toJson: fromDart$typeStr${appendList}ToGraphQL$graphqlType$appendList)');
@@ -74,7 +78,8 @@ void _generateClassProperty(
 }
 
 void _generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
-    {ScalarMapping scalarMap = defaultScalarMapping, String prefix = ''}) {
+    GeneratorOptions options,
+    {String prefix = ''}) {
   // Ignore reserved GraphQL types
   if (type.name.startsWith('__')) {
     return;
@@ -94,8 +99,8 @@ void _generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
       buffer.writeln('class $className {');
       for (final unionType in type.possibleTypes) {
         for (final subField in unionType.fields) {
-          _generateClassProperty(buffer, schema, subField,
-              scalarMap: scalarMap, prefix: prefix);
+          _generateClassProperty(buffer, schema, subField, options,
+              prefix: prefix);
         }
       }
       buffer.writeln('''
@@ -112,8 +117,8 @@ void _generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
       buffer.writeln('@JsonSerializable()');
       buffer.writeln('class $className {');
       for (final subField in type.fields) {
-        _generateClassProperty(buffer, schema, subField,
-            scalarMap: scalarMap, prefix: prefix);
+        _generateClassProperty(buffer, schema, subField, options,
+            prefix: prefix);
       }
       buffer.writeln('''
   
@@ -125,18 +130,6 @@ void _generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
       return;
     default:
   }
-}
-
-class ScalarMap {
-  final String graphqlType;
-  final String dartType;
-  final bool useCustomParsers;
-
-  ScalarMap(
-    this.graphqlType,
-    this.dartType, {
-    this.useCustomParsers = false,
-  });
 }
 
 const String introspectionQuery = '''
@@ -248,10 +241,9 @@ Future<GraphQLSchema> fetchGraphQLSchemaFromURL(String graphqlEndpoint,
 GraphQLSchema schemaFromJsonString(String jsonS) =>
     GraphQLSchema.fromJson(json.decode(jsonS));
 
-Future<String> generate(GraphQLSchema schema, String path,
-    {String typeCoercingFile,
-    ScalarMapping scalarMap = defaultScalarMapping,
-    String prefix = ''}) async {
+Future<String> generate(
+    GraphQLSchema schema, String path, GeneratorOptions options,
+    {String typeCoercingFile, String prefix = ''}) async {
   final basename = p.basenameWithoutExtension(path);
   final StringBuffer buffer = StringBuffer()
     ..writeln('''// GENERATED CODE - DO NOT MODIFY BY HAND
@@ -263,7 +255,7 @@ part '$basename.api.g.dart';
 ''');
 
   for (final t in schema.types) {
-    _generateClass(buffer, schema, t, scalarMap: scalarMap, prefix: prefix);
+    _generateClass(buffer, schema, t, options, prefix: prefix);
     buffer.writeln('');
   }
 
