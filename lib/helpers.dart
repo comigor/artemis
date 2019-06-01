@@ -90,10 +90,6 @@ void _generateTypenameProperty(StringBuffer buffer, {bool override = false}) {
   buffer.writeln('  String typename;');
 }
 
-final _typenameField = GraphQLField(
-    name: '__typename',
-    type: GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR));
-
 void _generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
     GeneratorOptions options,
     {String prefix = ''}) {
