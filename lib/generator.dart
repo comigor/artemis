@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'package:build/build.dart';
 import 'package:dart_style/dart_style.dart';
-import 'package:graphql_builder/helpers.dart';
-import 'package:graphql_builder/schema/options.dart';
+import 'package:artemis/helpers.dart';
+import 'package:artemis/schema/options.dart';
 
 final DartFormatter _dartFormatter = DartFormatter();
 
 /// Supports `package:build_runner` creation and configuration of
-/// `graphql_builder`.
+/// `artemis`.
 ///
 /// Not meant to be invoked by hand-authored code.
 Builder graphQLTypesBuilder(BuilderOptions options) =>

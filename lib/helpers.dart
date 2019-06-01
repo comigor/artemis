@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:path/path.dart' as p;
 import 'package:http/http.dart' as http;
-import 'package:graphql_builder/schema/options.dart';
-import 'package:graphql_builder/schema/graphql.dart';
+import 'package:artemis/schema/options.dart';
+import 'package:artemis/schema/graphql.dart';
 
 GraphQLType _getTypeByName(GraphQLSchema schema, String name) =>
     schema.types.firstWhere((t) => t.name == name);

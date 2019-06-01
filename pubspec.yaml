@@ -1,11 +1,11 @@
-name: graphql_builder
+name: artemis
 version: 0.0.1
 
 authors:
   - Igor Borges <igor@borges.me>
 
 description: Build dart types based on a GraphQL schema (from Introspection Query).
-homepage: https://github.com/Igor1201/graphql_builder
+homepage: https://github.com/Igor1201/artemis
 
 environment:
   sdk: '>=2.0.0 <3.0.0'

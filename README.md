@@ -5,7 +5,7 @@
 
 <!-- Badges -->
 
-[![Pub Package](https://img.shields.io/pub/v/graphql_builder.svg)](https://pub.dartlang.org/packages/graphql_builder)
+[![Pub Package](https://img.shields.io/pub/v/artemis.svg)](https://pub.dartlang.org/packages/artemis)
 
 **Build dart types based on a GraphQL schema.**
 
@@ -15,7 +15,7 @@
 Add the following to your `pubspec.yaml` file:
 ```yaml
 dev_dependencies:
-  graphql_builder: <1.0.0
+  artemis: <1.0.0
 ```
 then run:
 ```shell

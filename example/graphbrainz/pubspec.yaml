@@ -14,5 +14,5 @@ dev_dependencies:
   test: ^1.0.0
   build_runner: ^1.2.8
   json_serializable: ^2.0.0
-  graphql_builder:
+  artemis:
     path: ../../.
