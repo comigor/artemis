@@ -86,8 +86,8 @@ void _generateTypenameProperty(StringBuffer buffer, {bool override = false}) {
     buffer.writeln('  @override');
   }
 
-  buffer.writeln('  @JsonKey(name: \'__typename\')');
-  buffer.writeln('  String typename;');
+  buffer.writeln('''  @JsonKey(name: '__typename')
+  String typename;''');
 }
 
 void _generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
