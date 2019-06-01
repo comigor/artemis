@@ -58,7 +58,7 @@ String _addListIfNecessary(bool isList, String typeStr, GraphQLField field) {
 
 void _generateClassProperty(StringBuffer buffer, GraphQLSchema schema,
     GraphQLField field, GeneratorOptions options,
-    {String prefix = ''}) {
+    {String prefix = '', bool override = false}) {
   final subType = _getTypeFromField(schema, field);
   final isList = _isEventuallyList(field.type);
   final scalar = getSingleScalarMap(options, subType);
@@ -72,6 +72,10 @@ void _generateClassProperty(StringBuffer buffer, GraphQLSchema schema,
     final appendList = isList ? 'List' : '';
     buffer.writeln(
         '  @JsonKey(fromJson: fromGraphQL$graphqlType${appendList}ToDart$typeStr$appendList, toJson: fromDart$typeStr${appendList}ToGraphQL$graphqlType$appendList)');
+  }
+
+  if (override) {
+    buffer.writeln('  @override');
   }
 
   buffer.writeln(_addListIfNecessary(isList, typeStr, field));
@@ -112,13 +116,24 @@ void _generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
       buffer.writeln('}');
       return;
     case GraphQLTypeKind.INTERFACE:
-    // TODO(igor): Consider inherited classes
     case GraphQLTypeKind.OBJECT:
+      final mixins = type.interfaces.isNotEmpty
+          ? ('implements ' + type.interfaces.map((i) => i.name).join(', '))
+          : '';
+
       buffer.writeln('@JsonSerializable()');
-      buffer.writeln('class $className {');
+      buffer.writeln('class $className $mixins {');
+
+      final interfaceFields = type.interfaces
+          .map((t) => _getTypeByName(schema, t.name))
+          .map((t) => t.fields)
+          .expand((t) => t)
+          .toList();
+
       for (final subField in type.fields) {
+        final override = interfaceFields.any((f) => f.name == subField.name);
         _generateClassProperty(buffer, schema, subField, options,
-            prefix: prefix);
+            prefix: prefix, override: override);
       }
       buffer.writeln('''
   

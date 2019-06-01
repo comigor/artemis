@@ -45,8 +45,10 @@ class LookupQuery {
 }
 
 @JsonSerializable()
-class Area {
+class Area implements Node, Entity {
+  @override
   String id;
+  @override
   String mbid;
   String name;
   String sortName;
@@ -148,8 +150,10 @@ class ArtistEdge {
 }
 
 @JsonSerializable()
-class Artist {
+class Artist implements Node, Entity {
+  @override
   String id;
+  @override
   String mbid;
   String name;
   String sortName;
@@ -234,8 +238,10 @@ class RecordingEdge {
 }
 
 @JsonSerializable()
-class Recording {
+class Recording implements Node, Entity {
+  @override
   String id;
+  @override
   String mbid;
   String title;
   String disambiguation;
@@ -329,8 +335,10 @@ class ReleaseEdge {
 }
 
 @JsonSerializable()
-class Release {
+class Release implements Node, Entity {
+  @override
   String id;
+  @override
   String mbid;
   String title;
   String disambiguation;
@@ -402,7 +410,8 @@ class Medium {
 }
 
 @JsonSerializable()
-class Disc {
+class Disc implements Node {
+  @override
   String id;
   String discID;
   int offsetCount;
@@ -417,7 +426,8 @@ class Disc {
 }
 
 @JsonSerializable()
-class Track {
+class Track implements Entity {
+  @override
   String mbid;
   String title;
   int position;
@@ -459,8 +469,10 @@ class LabelEdge {
 }
 
 @JsonSerializable()
-class Label {
+class Label implements Node, Entity {
+  @override
   String id;
+  @override
   String mbid;
   String name;
   String sortName;
@@ -592,8 +604,10 @@ class CollectionEdge {
 }
 
 @JsonSerializable()
-class Collection {
+class Collection implements Node, Entity {
+  @override
   String id;
+  @override
   String mbid;
   String name;
   String editor;
@@ -674,8 +688,10 @@ class EventEdge {
 }
 
 @JsonSerializable()
-class Event {
+class Event implements Node, Entity {
+  @override
   String id;
+  @override
   String mbid;
   String name;
   String disambiguation;
@@ -777,8 +793,10 @@ class InstrumentEdge {
 }
 
 @JsonSerializable()
-class Instrument {
+class Instrument implements Node, Entity {
+  @override
   String id;
+  @override
   String mbid;
   String name;
   String disambiguation;
@@ -865,8 +883,10 @@ class PlaceEdge {
 }
 
 @JsonSerializable()
-class Place {
+class Place implements Node, Entity {
+  @override
   String id;
+  @override
   String mbid;
   String name;
   String disambiguation;
@@ -929,8 +949,10 @@ class ReleaseGroupEdge {
 }
 
 @JsonSerializable()
-class ReleaseGroup {
+class ReleaseGroup implements Node, Entity {
+  @override
   String id;
+  @override
   String mbid;
   String title;
   String disambiguation;
@@ -1295,8 +1317,10 @@ class SeriesEdge {
 }
 
 @JsonSerializable()
-class Series {
+class Series implements Node, Entity {
+  @override
   String id;
+  @override
   String mbid;
   String name;
   String disambiguation;
@@ -1340,8 +1364,10 @@ class WorkEdge {
 }
 
 @JsonSerializable()
-class Work {
+class Work implements Node, Entity {
+  @override
   String id;
+  @override
   String mbid;
   String title;
   String disambiguation;
@@ -1867,8 +1893,10 @@ class LastFMCountry {
 }
 
 @JsonSerializable()
-class URL {
+class URL implements Node, Entity {
+  @override
   String id;
+  @override
   String mbid;
   String resource;
   Relationships relationships;
