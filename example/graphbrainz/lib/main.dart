@@ -31,6 +31,6 @@ query EdSheeran {
   final typedResponse = Query.fromJson(json.decode(dataResponse.body)['data']);
 
   print(typedResponse.node.id);
-  // print(typedResponse.node.__typename);
+  print(typedResponse.node.typename);
   // print((typedResponse.node as Artist).spotify.href);
 }

@@ -81,6 +81,19 @@ void _generateClassProperty(StringBuffer buffer, GraphQLSchema schema,
   buffer.writeln(_addListIfNecessary(isList, typeStr, field));
 }
 
+void _generateTypenameProperty(StringBuffer buffer, {bool override = false}) {
+  if (override) {
+    buffer.writeln('  @override');
+  }
+
+  buffer.writeln('  @JsonKey(name: \'__typename\')');
+  buffer.writeln('  String typename;');
+}
+
+final _typenameField = GraphQLField(
+    name: '__typename',
+    type: GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR));
+
 void _generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
     GeneratorOptions options,
     {String prefix = ''}) {
@@ -129,6 +142,10 @@ void _generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
           .map((t) => t.fields)
           .expand((t) => t)
           .toList();
+
+      // Always generate __typename property
+      _generateTypenameProperty(buffer,
+          override: type.kind == GraphQLTypeKind.OBJECT);
 
       for (final subField in type.fields) {
         final override = interfaceFields.any((f) => f.name == subField.name);

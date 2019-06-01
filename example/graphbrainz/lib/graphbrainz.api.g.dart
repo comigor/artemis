@@ -8,6 +8,7 @@ part of 'graphbrainz.api.dart';
 
 Query _$QueryFromJson(Map<String, dynamic> json) {
   return Query()
+    ..typename = json['__typename'] as String
     ..lookup = json['lookup'] == null
         ? null
         : LookupQuery.fromJson(json['lookup'] as Map<String, dynamic>)
@@ -29,6 +30,7 @@ Query _$QueryFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$QueryToJson(Query instance) => <String, dynamic>{
+      '__typename': instance.typename,
       'lookup': instance.lookup,
       'browse': instance.browse,
       'search': instance.search,
@@ -39,6 +41,7 @@ Map<String, dynamic> _$QueryToJson(Query instance) => <String, dynamic>{
 
 LookupQuery _$LookupQueryFromJson(Map<String, dynamic> json) {
   return LookupQuery()
+    ..typename = json['__typename'] as String
     ..area = json['area'] == null
         ? null
         : Area.fromJson(json['area'] as Map<String, dynamic>)
@@ -85,6 +88,7 @@ LookupQuery _$LookupQueryFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$LookupQueryToJson(LookupQuery instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'area': instance.area,
       'artist': instance.artist,
       'collection': instance.collection,
@@ -103,6 +107,7 @@ Map<String, dynamic> _$LookupQueryToJson(LookupQuery instance) =>
 
 Area _$AreaFromJson(Map<String, dynamic> json) {
   return Area()
+    ..typename = json['__typename'] as String
     ..id = json['id'] as String
     ..mbid = json['mbid'] as String
     ..name = json['name'] as String
@@ -146,6 +151,7 @@ Area _$AreaFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$AreaToJson(Area instance) => <String, dynamic>{
+      '__typename': instance.typename,
       'id': instance.id,
       'mbid': instance.mbid,
       'name': instance.name,
@@ -167,21 +173,26 @@ Map<String, dynamic> _$AreaToJson(Area instance) => <String, dynamic>{
     };
 
 Node _$NodeFromJson(Map<String, dynamic> json) {
-  return Node()..id = json['id'] as String;
+  return Node()
+    ..typename = json['__typename'] as String
+    ..id = json['id'] as String;
 }
 
 Map<String, dynamic> _$NodeToJson(Node instance) =>
-    <String, dynamic>{'id': instance.id};
+    <String, dynamic>{'__typename': instance.typename, 'id': instance.id};
 
 Entity _$EntityFromJson(Map<String, dynamic> json) {
-  return Entity()..mbid = json['mbid'] as String;
+  return Entity()
+    ..typename = json['__typename'] as String
+    ..mbid = json['mbid'] as String;
 }
 
 Map<String, dynamic> _$EntityToJson(Entity instance) =>
-    <String, dynamic>{'mbid': instance.mbid};
+    <String, dynamic>{'__typename': instance.typename, 'mbid': instance.mbid};
 
 Alias _$AliasFromJson(Map<String, dynamic> json) {
   return Alias()
+    ..typename = json['__typename'] as String
     ..name = json['name'] as String
     ..sortName = json['sortName'] as String
     ..locale = json['locale'] as String
@@ -191,6 +202,7 @@ Alias _$AliasFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$AliasToJson(Alias instance) => <String, dynamic>{
+      '__typename': instance.typename,
       'name': instance.name,
       'sortName': instance.sortName,
       'locale': instance.locale,
@@ -201,6 +213,7 @@ Map<String, dynamic> _$AliasToJson(Alias instance) => <String, dynamic>{
 
 ArtistConnection _$ArtistConnectionFromJson(Map<String, dynamic> json) {
   return ArtistConnection()
+    ..typename = json['__typename'] as String
     ..pageInfo = json['pageInfo'] == null
         ? null
         : PageInfo.fromJson(json['pageInfo'] as Map<String, dynamic>)
@@ -217,6 +230,7 @@ ArtistConnection _$ArtistConnectionFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$ArtistConnectionToJson(ArtistConnection instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'pageInfo': instance.pageInfo,
       'edges': instance.edges,
       'nodes': instance.nodes,
@@ -225,6 +239,7 @@ Map<String, dynamic> _$ArtistConnectionToJson(ArtistConnection instance) =>
 
 PageInfo _$PageInfoFromJson(Map<String, dynamic> json) {
   return PageInfo()
+    ..typename = json['__typename'] as String
     ..hasNextPage = json['hasNextPage'] as bool
     ..hasPreviousPage = json['hasPreviousPage'] as bool
     ..startCursor = json['startCursor'] as String
@@ -232,6 +247,7 @@ PageInfo _$PageInfoFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$PageInfoToJson(PageInfo instance) => <String, dynamic>{
+      '__typename': instance.typename,
       'hasNextPage': instance.hasNextPage,
       'hasPreviousPage': instance.hasPreviousPage,
       'startCursor': instance.startCursor,
@@ -240,6 +256,7 @@ Map<String, dynamic> _$PageInfoToJson(PageInfo instance) => <String, dynamic>{
 
 ArtistEdge _$ArtistEdgeFromJson(Map<String, dynamic> json) {
   return ArtistEdge()
+    ..typename = json['__typename'] as String
     ..node = json['node'] == null
         ? null
         : Artist.fromJson(json['node'] as Map<String, dynamic>)
@@ -249,6 +266,7 @@ ArtistEdge _$ArtistEdgeFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$ArtistEdgeToJson(ArtistEdge instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'node': instance.node,
       'cursor': instance.cursor,
       'score': instance.score
@@ -256,6 +274,7 @@ Map<String, dynamic> _$ArtistEdgeToJson(ArtistEdge instance) =>
 
 Artist _$ArtistFromJson(Map<String, dynamic> json) {
   return Artist()
+    ..typename = json['__typename'] as String
     ..id = json['id'] as String
     ..mbid = json['mbid'] as String
     ..name = json['name'] as String
@@ -334,6 +353,7 @@ Artist _$ArtistFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$ArtistToJson(Artist instance) => <String, dynamic>{
+      '__typename': instance.typename,
       'id': instance.id,
       'mbid': instance.mbid,
       'name': instance.name,
@@ -369,6 +389,7 @@ Map<String, dynamic> _$ArtistToJson(Artist instance) => <String, dynamic>{
 
 LifeSpan _$LifeSpanFromJson(Map<String, dynamic> json) {
   return LifeSpan()
+    ..typename = json['__typename'] as String
     ..begin = json['begin'] == null
         ? null
         : fromGraphQLDateToDartDateTime(json['begin'] as String)
@@ -379,6 +400,7 @@ LifeSpan _$LifeSpanFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$LifeSpanToJson(LifeSpan instance) => <String, dynamic>{
+      '__typename': instance.typename,
       'begin': instance.begin == null
           ? null
           : fromDartDateTimeToGraphQLDate(instance.begin),
@@ -390,6 +412,7 @@ Map<String, dynamic> _$LifeSpanToJson(LifeSpan instance) => <String, dynamic>{
 
 RecordingConnection _$RecordingConnectionFromJson(Map<String, dynamic> json) {
   return RecordingConnection()
+    ..typename = json['__typename'] as String
     ..pageInfo = json['pageInfo'] == null
         ? null
         : PageInfo.fromJson(json['pageInfo'] as Map<String, dynamic>)
@@ -408,6 +431,7 @@ RecordingConnection _$RecordingConnectionFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$RecordingConnectionToJson(
         RecordingConnection instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'pageInfo': instance.pageInfo,
       'edges': instance.edges,
       'nodes': instance.nodes,
@@ -416,6 +440,7 @@ Map<String, dynamic> _$RecordingConnectionToJson(
 
 RecordingEdge _$RecordingEdgeFromJson(Map<String, dynamic> json) {
   return RecordingEdge()
+    ..typename = json['__typename'] as String
     ..node = json['node'] == null
         ? null
         : Recording.fromJson(json['node'] as Map<String, dynamic>)
@@ -425,6 +450,7 @@ RecordingEdge _$RecordingEdgeFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$RecordingEdgeToJson(RecordingEdge instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'node': instance.node,
       'cursor': instance.cursor,
       'score': instance.score
@@ -432,6 +458,7 @@ Map<String, dynamic> _$RecordingEdgeToJson(RecordingEdge instance) =>
 
 Recording _$RecordingFromJson(Map<String, dynamic> json) {
   return Recording()
+    ..typename = json['__typename'] as String
     ..id = json['id'] as String
     ..mbid = json['mbid'] as String
     ..title = json['title'] as String
@@ -484,6 +511,7 @@ Recording _$RecordingFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$RecordingToJson(Recording instance) => <String, dynamic>{
+      '__typename': instance.typename,
       'id': instance.id,
       'mbid': instance.mbid,
       'title': instance.title,
@@ -507,6 +535,7 @@ Map<String, dynamic> _$RecordingToJson(Recording instance) => <String, dynamic>{
 
 ArtistCredit _$ArtistCreditFromJson(Map<String, dynamic> json) {
   return ArtistCredit()
+    ..typename = json['__typename'] as String
     ..artist = json['artist'] == null
         ? null
         : Artist.fromJson(json['artist'] as Map<String, dynamic>)
@@ -516,6 +545,7 @@ ArtistCredit _$ArtistCreditFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$ArtistCreditToJson(ArtistCredit instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'artist': instance.artist,
       'name': instance.name,
       'joinPhrase': instance.joinPhrase
@@ -523,6 +553,7 @@ Map<String, dynamic> _$ArtistCreditToJson(ArtistCredit instance) =>
 
 ReleaseConnection _$ReleaseConnectionFromJson(Map<String, dynamic> json) {
   return ReleaseConnection()
+    ..typename = json['__typename'] as String
     ..pageInfo = json['pageInfo'] == null
         ? null
         : PageInfo.fromJson(json['pageInfo'] as Map<String, dynamic>)
@@ -539,6 +570,7 @@ ReleaseConnection _$ReleaseConnectionFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$ReleaseConnectionToJson(ReleaseConnection instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'pageInfo': instance.pageInfo,
       'edges': instance.edges,
       'nodes': instance.nodes,
@@ -547,6 +579,7 @@ Map<String, dynamic> _$ReleaseConnectionToJson(ReleaseConnection instance) =>
 
 ReleaseEdge _$ReleaseEdgeFromJson(Map<String, dynamic> json) {
   return ReleaseEdge()
+    ..typename = json['__typename'] as String
     ..node = json['node'] == null
         ? null
         : Release.fromJson(json['node'] as Map<String, dynamic>)
@@ -556,6 +589,7 @@ ReleaseEdge _$ReleaseEdgeFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$ReleaseEdgeToJson(ReleaseEdge instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'node': instance.node,
       'cursor': instance.cursor,
       'score': instance.score
@@ -563,6 +597,7 @@ Map<String, dynamic> _$ReleaseEdgeToJson(ReleaseEdge instance) =>
 
 Release _$ReleaseFromJson(Map<String, dynamic> json) {
   return Release()
+    ..typename = json['__typename'] as String
     ..id = json['id'] as String
     ..mbid = json['mbid'] as String
     ..title = json['title'] as String
@@ -638,6 +673,7 @@ Release _$ReleaseFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$ReleaseToJson(Release instance) => <String, dynamic>{
+      '__typename': instance.typename,
       'id': instance.id,
       'mbid': instance.mbid,
       'title': instance.title,
@@ -700,6 +736,7 @@ const _$ReleaseStatusEnumMap = <ReleaseStatus, dynamic>{
 
 ReleaseEvent _$ReleaseEventFromJson(Map<String, dynamic> json) {
   return ReleaseEvent()
+    ..typename = json['__typename'] as String
     ..area = json['area'] == null
         ? null
         : Area.fromJson(json['area'] as Map<String, dynamic>)
@@ -710,6 +747,7 @@ ReleaseEvent _$ReleaseEventFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$ReleaseEventToJson(ReleaseEvent instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'area': instance.area,
       'date': instance.date == null
           ? null
@@ -718,6 +756,7 @@ Map<String, dynamic> _$ReleaseEventToJson(ReleaseEvent instance) =>
 
 Medium _$MediumFromJson(Map<String, dynamic> json) {
   return Medium()
+    ..typename = json['__typename'] as String
     ..title = json['title'] as String
     ..format = json['format'] as String
     ..formatID = json['formatID'] as String
@@ -734,6 +773,7 @@ Medium _$MediumFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$MediumToJson(Medium instance) => <String, dynamic>{
+      '__typename': instance.typename,
       'title': instance.title,
       'format': instance.format,
       'formatID': instance.formatID,
@@ -745,6 +785,7 @@ Map<String, dynamic> _$MediumToJson(Medium instance) => <String, dynamic>{
 
 Disc _$DiscFromJson(Map<String, dynamic> json) {
   return Disc()
+    ..typename = json['__typename'] as String
     ..id = json['id'] as String
     ..discID = json['discID'] as String
     ..offsetCount = json['offsetCount'] as int
@@ -756,6 +797,7 @@ Disc _$DiscFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$DiscToJson(Disc instance) => <String, dynamic>{
+      '__typename': instance.typename,
       'id': instance.id,
       'discID': instance.discID,
       'offsetCount': instance.offsetCount,
@@ -766,6 +808,7 @@ Map<String, dynamic> _$DiscToJson(Disc instance) => <String, dynamic>{
 
 Track _$TrackFromJson(Map<String, dynamic> json) {
   return Track()
+    ..typename = json['__typename'] as String
     ..mbid = json['mbid'] as String
     ..title = json['title'] as String
     ..position = json['position'] as int
@@ -779,6 +822,7 @@ Track _$TrackFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$TrackToJson(Track instance) => <String, dynamic>{
+      '__typename': instance.typename,
       'mbid': instance.mbid,
       'title': instance.title,
       'position': instance.position,
@@ -789,6 +833,7 @@ Map<String, dynamic> _$TrackToJson(Track instance) => <String, dynamic>{
 
 LabelConnection _$LabelConnectionFromJson(Map<String, dynamic> json) {
   return LabelConnection()
+    ..typename = json['__typename'] as String
     ..pageInfo = json['pageInfo'] == null
         ? null
         : PageInfo.fromJson(json['pageInfo'] as Map<String, dynamic>)
@@ -805,6 +850,7 @@ LabelConnection _$LabelConnectionFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$LabelConnectionToJson(LabelConnection instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'pageInfo': instance.pageInfo,
       'edges': instance.edges,
       'nodes': instance.nodes,
@@ -813,6 +859,7 @@ Map<String, dynamic> _$LabelConnectionToJson(LabelConnection instance) =>
 
 LabelEdge _$LabelEdgeFromJson(Map<String, dynamic> json) {
   return LabelEdge()
+    ..typename = json['__typename'] as String
     ..node = json['node'] == null
         ? null
         : Label.fromJson(json['node'] as Map<String, dynamic>)
@@ -821,6 +868,7 @@ LabelEdge _$LabelEdgeFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$LabelEdgeToJson(LabelEdge instance) => <String, dynamic>{
+      '__typename': instance.typename,
       'node': instance.node,
       'cursor': instance.cursor,
       'score': instance.score
@@ -828,6 +876,7 @@ Map<String, dynamic> _$LabelEdgeToJson(LabelEdge instance) => <String, dynamic>{
 
 Label _$LabelFromJson(Map<String, dynamic> json) {
   return Label()
+    ..typename = json['__typename'] as String
     ..id = json['id'] as String
     ..mbid = json['mbid'] as String
     ..name = json['name'] as String
@@ -878,6 +927,7 @@ Label _$LabelFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$LabelToJson(Label instance) => <String, dynamic>{
+      '__typename': instance.typename,
       'id': instance.id,
       'mbid': instance.mbid,
       'name': instance.name,
@@ -903,6 +953,7 @@ Map<String, dynamic> _$LabelToJson(Label instance) => <String, dynamic>{
 
 Relationships _$RelationshipsFromJson(Map<String, dynamic> json) {
   return Relationships()
+    ..typename = json['__typename'] as String
     ..areas = json['areas'] == null
         ? null
         : RelationshipConnection.fromJson(json['areas'] as Map<String, dynamic>)
@@ -953,6 +1004,7 @@ Relationships _$RelationshipsFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$RelationshipsToJson(Relationships instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'areas': instance.areas,
       'artists': instance.artists,
       'events': instance.events,
@@ -970,6 +1022,7 @@ Map<String, dynamic> _$RelationshipsToJson(Relationships instance) =>
 RelationshipConnection _$RelationshipConnectionFromJson(
     Map<String, dynamic> json) {
   return RelationshipConnection()
+    ..typename = json['__typename'] as String
     ..pageInfo = json['pageInfo'] == null
         ? null
         : PageInfo.fromJson(json['pageInfo'] as Map<String, dynamic>)
@@ -988,6 +1041,7 @@ RelationshipConnection _$RelationshipConnectionFromJson(
 Map<String, dynamic> _$RelationshipConnectionToJson(
         RelationshipConnection instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'pageInfo': instance.pageInfo,
       'edges': instance.edges,
       'nodes': instance.nodes,
@@ -996,6 +1050,7 @@ Map<String, dynamic> _$RelationshipConnectionToJson(
 
 RelationshipEdge _$RelationshipEdgeFromJson(Map<String, dynamic> json) {
   return RelationshipEdge()
+    ..typename = json['__typename'] as String
     ..node = json['node'] == null
         ? null
         : Relationship.fromJson(json['node'] as Map<String, dynamic>)
@@ -1005,6 +1060,7 @@ RelationshipEdge _$RelationshipEdgeFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$RelationshipEdgeToJson(RelationshipEdge instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'node': instance.node,
       'cursor': instance.cursor,
       'score': instance.score
@@ -1012,6 +1068,7 @@ Map<String, dynamic> _$RelationshipEdgeToJson(RelationshipEdge instance) =>
 
 Relationship _$RelationshipFromJson(Map<String, dynamic> json) {
   return Relationship()
+    ..typename = json['__typename'] as String
     ..target = json['target'] == null
         ? null
         : Entity.fromJson(json['target'] as Map<String, dynamic>)
@@ -1034,6 +1091,7 @@ Relationship _$RelationshipFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$RelationshipToJson(Relationship instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'target': instance.target,
       'direction': instance.direction,
       'targetType': instance.targetType,
@@ -1053,6 +1111,7 @@ Map<String, dynamic> _$RelationshipToJson(Relationship instance) =>
 
 CollectionConnection _$CollectionConnectionFromJson(Map<String, dynamic> json) {
   return CollectionConnection()
+    ..typename = json['__typename'] as String
     ..pageInfo = json['pageInfo'] == null
         ? null
         : PageInfo.fromJson(json['pageInfo'] as Map<String, dynamic>)
@@ -1071,6 +1130,7 @@ CollectionConnection _$CollectionConnectionFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$CollectionConnectionToJson(
         CollectionConnection instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'pageInfo': instance.pageInfo,
       'edges': instance.edges,
       'nodes': instance.nodes,
@@ -1079,6 +1139,7 @@ Map<String, dynamic> _$CollectionConnectionToJson(
 
 CollectionEdge _$CollectionEdgeFromJson(Map<String, dynamic> json) {
   return CollectionEdge()
+    ..typename = json['__typename'] as String
     ..node = json['node'] == null
         ? null
         : Collection.fromJson(json['node'] as Map<String, dynamic>)
@@ -1088,6 +1149,7 @@ CollectionEdge _$CollectionEdgeFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$CollectionEdgeToJson(CollectionEdge instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'node': instance.node,
       'cursor': instance.cursor,
       'score': instance.score
@@ -1095,6 +1157,7 @@ Map<String, dynamic> _$CollectionEdgeToJson(CollectionEdge instance) =>
 
 Collection _$CollectionFromJson(Map<String, dynamic> json) {
   return Collection()
+    ..typename = json['__typename'] as String
     ..id = json['id'] as String
     ..mbid = json['mbid'] as String
     ..name = json['name'] as String
@@ -1142,6 +1205,7 @@ Collection _$CollectionFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$CollectionToJson(Collection instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'id': instance.id,
       'mbid': instance.mbid,
       'name': instance.name,
@@ -1164,6 +1228,7 @@ Map<String, dynamic> _$CollectionToJson(Collection instance) =>
 
 AreaConnection _$AreaConnectionFromJson(Map<String, dynamic> json) {
   return AreaConnection()
+    ..typename = json['__typename'] as String
     ..pageInfo = json['pageInfo'] == null
         ? null
         : PageInfo.fromJson(json['pageInfo'] as Map<String, dynamic>)
@@ -1180,6 +1245,7 @@ AreaConnection _$AreaConnectionFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$AreaConnectionToJson(AreaConnection instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'pageInfo': instance.pageInfo,
       'edges': instance.edges,
       'nodes': instance.nodes,
@@ -1188,6 +1254,7 @@ Map<String, dynamic> _$AreaConnectionToJson(AreaConnection instance) =>
 
 AreaEdge _$AreaEdgeFromJson(Map<String, dynamic> json) {
   return AreaEdge()
+    ..typename = json['__typename'] as String
     ..node = json['node'] == null
         ? null
         : Area.fromJson(json['node'] as Map<String, dynamic>)
@@ -1196,6 +1263,7 @@ AreaEdge _$AreaEdgeFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$AreaEdgeToJson(AreaEdge instance) => <String, dynamic>{
+      '__typename': instance.typename,
       'node': instance.node,
       'cursor': instance.cursor,
       'score': instance.score
@@ -1203,6 +1271,7 @@ Map<String, dynamic> _$AreaEdgeToJson(AreaEdge instance) => <String, dynamic>{
 
 EventConnection _$EventConnectionFromJson(Map<String, dynamic> json) {
   return EventConnection()
+    ..typename = json['__typename'] as String
     ..pageInfo = json['pageInfo'] == null
         ? null
         : PageInfo.fromJson(json['pageInfo'] as Map<String, dynamic>)
@@ -1219,6 +1288,7 @@ EventConnection _$EventConnectionFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$EventConnectionToJson(EventConnection instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'pageInfo': instance.pageInfo,
       'edges': instance.edges,
       'nodes': instance.nodes,
@@ -1227,6 +1297,7 @@ Map<String, dynamic> _$EventConnectionToJson(EventConnection instance) =>
 
 EventEdge _$EventEdgeFromJson(Map<String, dynamic> json) {
   return EventEdge()
+    ..typename = json['__typename'] as String
     ..node = json['node'] == null
         ? null
         : Event.fromJson(json['node'] as Map<String, dynamic>)
@@ -1235,6 +1306,7 @@ EventEdge _$EventEdgeFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$EventEdgeToJson(EventEdge instance) => <String, dynamic>{
+      '__typename': instance.typename,
       'node': instance.node,
       'cursor': instance.cursor,
       'score': instance.score
@@ -1242,6 +1314,7 @@ Map<String, dynamic> _$EventEdgeToJson(EventEdge instance) => <String, dynamic>{
 
 Event _$EventFromJson(Map<String, dynamic> json) {
   return Event()
+    ..typename = json['__typename'] as String
     ..id = json['id'] as String
     ..mbid = json['mbid'] as String
     ..name = json['name'] as String
@@ -1276,6 +1349,7 @@ Event _$EventFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
+      '__typename': instance.typename,
       'id': instance.id,
       'mbid': instance.mbid,
       'name': instance.name,
@@ -1297,15 +1371,20 @@ Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
 
 Rating _$RatingFromJson(Map<String, dynamic> json) {
   return Rating()
+    ..typename = json['__typename'] as String
     ..voteCount = json['voteCount'] as int
     ..value = (json['value'] as num)?.toDouble();
 }
 
-Map<String, dynamic> _$RatingToJson(Rating instance) =>
-    <String, dynamic>{'voteCount': instance.voteCount, 'value': instance.value};
+Map<String, dynamic> _$RatingToJson(Rating instance) => <String, dynamic>{
+      '__typename': instance.typename,
+      'voteCount': instance.voteCount,
+      'value': instance.value
+    };
 
 TagConnection _$TagConnectionFromJson(Map<String, dynamic> json) {
   return TagConnection()
+    ..typename = json['__typename'] as String
     ..pageInfo = json['pageInfo'] == null
         ? null
         : PageInfo.fromJson(json['pageInfo'] as Map<String, dynamic>)
@@ -1321,6 +1400,7 @@ TagConnection _$TagConnectionFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$TagConnectionToJson(TagConnection instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'pageInfo': instance.pageInfo,
       'edges': instance.edges,
       'nodes': instance.nodes,
@@ -1329,6 +1409,7 @@ Map<String, dynamic> _$TagConnectionToJson(TagConnection instance) =>
 
 TagEdge _$TagEdgeFromJson(Map<String, dynamic> json) {
   return TagEdge()
+    ..typename = json['__typename'] as String
     ..node = json['node'] == null
         ? null
         : Tag.fromJson(json['node'] as Map<String, dynamic>)
@@ -1337,6 +1418,7 @@ TagEdge _$TagEdgeFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$TagEdgeToJson(TagEdge instance) => <String, dynamic>{
+      '__typename': instance.typename,
       'node': instance.node,
       'cursor': instance.cursor,
       'score': instance.score
@@ -1344,15 +1426,20 @@ Map<String, dynamic> _$TagEdgeToJson(TagEdge instance) => <String, dynamic>{
 
 Tag _$TagFromJson(Map<String, dynamic> json) {
   return Tag()
+    ..typename = json['__typename'] as String
     ..name = json['name'] as String
     ..count = json['count'] as int;
 }
 
-Map<String, dynamic> _$TagToJson(Tag instance) =>
-    <String, dynamic>{'name': instance.name, 'count': instance.count};
+Map<String, dynamic> _$TagToJson(Tag instance) => <String, dynamic>{
+      '__typename': instance.typename,
+      'name': instance.name,
+      'count': instance.count
+    };
 
 InstrumentConnection _$InstrumentConnectionFromJson(Map<String, dynamic> json) {
   return InstrumentConnection()
+    ..typename = json['__typename'] as String
     ..pageInfo = json['pageInfo'] == null
         ? null
         : PageInfo.fromJson(json['pageInfo'] as Map<String, dynamic>)
@@ -1371,6 +1458,7 @@ InstrumentConnection _$InstrumentConnectionFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$InstrumentConnectionToJson(
         InstrumentConnection instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'pageInfo': instance.pageInfo,
       'edges': instance.edges,
       'nodes': instance.nodes,
@@ -1379,6 +1467,7 @@ Map<String, dynamic> _$InstrumentConnectionToJson(
 
 InstrumentEdge _$InstrumentEdgeFromJson(Map<String, dynamic> json) {
   return InstrumentEdge()
+    ..typename = json['__typename'] as String
     ..node = json['node'] == null
         ? null
         : Instrument.fromJson(json['node'] as Map<String, dynamic>)
@@ -1388,6 +1477,7 @@ InstrumentEdge _$InstrumentEdgeFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$InstrumentEdgeToJson(InstrumentEdge instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'node': instance.node,
       'cursor': instance.cursor,
       'score': instance.score
@@ -1395,6 +1485,7 @@ Map<String, dynamic> _$InstrumentEdgeToJson(InstrumentEdge instance) =>
 
 Instrument _$InstrumentFromJson(Map<String, dynamic> json) {
   return Instrument()
+    ..typename = json['__typename'] as String
     ..id = json['id'] as String
     ..mbid = json['mbid'] as String
     ..name = json['name'] as String
@@ -1425,6 +1516,7 @@ Instrument _$InstrumentFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$InstrumentToJson(Instrument instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'id': instance.id,
       'mbid': instance.mbid,
       'name': instance.name,
@@ -1441,6 +1533,7 @@ Map<String, dynamic> _$InstrumentToJson(Instrument instance) =>
 
 MediaWikiImage _$MediaWikiImageFromJson(Map<String, dynamic> json) {
   return MediaWikiImage()
+    ..typename = json['__typename'] as String
     ..url = json['url'] as String
     ..descriptionURL = json['descriptionURL'] as String
     ..user = json['user'] as String
@@ -1466,6 +1559,7 @@ MediaWikiImage _$MediaWikiImageFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$MediaWikiImageToJson(MediaWikiImage instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'url': instance.url,
       'descriptionURL': instance.descriptionURL,
       'user': instance.user,
@@ -1487,6 +1581,7 @@ Map<String, dynamic> _$MediaWikiImageToJson(MediaWikiImage instance) =>
 MediaWikiImageMetadata _$MediaWikiImageMetadataFromJson(
     Map<String, dynamic> json) {
   return MediaWikiImageMetadata()
+    ..typename = json['__typename'] as String
     ..name = json['name'] as String
     ..value = json['value'] as String
     ..source = json['source'] as String;
@@ -1495,6 +1590,7 @@ MediaWikiImageMetadata _$MediaWikiImageMetadataFromJson(
 Map<String, dynamic> _$MediaWikiImageMetadataToJson(
         MediaWikiImageMetadata instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'name': instance.name,
       'value': instance.value,
       'source': instance.source
@@ -1502,6 +1598,7 @@ Map<String, dynamic> _$MediaWikiImageMetadataToJson(
 
 PlaceConnection _$PlaceConnectionFromJson(Map<String, dynamic> json) {
   return PlaceConnection()
+    ..typename = json['__typename'] as String
     ..pageInfo = json['pageInfo'] == null
         ? null
         : PageInfo.fromJson(json['pageInfo'] as Map<String, dynamic>)
@@ -1518,6 +1615,7 @@ PlaceConnection _$PlaceConnectionFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$PlaceConnectionToJson(PlaceConnection instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'pageInfo': instance.pageInfo,
       'edges': instance.edges,
       'nodes': instance.nodes,
@@ -1526,6 +1624,7 @@ Map<String, dynamic> _$PlaceConnectionToJson(PlaceConnection instance) =>
 
 PlaceEdge _$PlaceEdgeFromJson(Map<String, dynamic> json) {
   return PlaceEdge()
+    ..typename = json['__typename'] as String
     ..node = json['node'] == null
         ? null
         : Place.fromJson(json['node'] as Map<String, dynamic>)
@@ -1534,6 +1633,7 @@ PlaceEdge _$PlaceEdgeFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$PlaceEdgeToJson(PlaceEdge instance) => <String, dynamic>{
+      '__typename': instance.typename,
       'node': instance.node,
       'cursor': instance.cursor,
       'score': instance.score
@@ -1541,6 +1641,7 @@ Map<String, dynamic> _$PlaceEdgeToJson(PlaceEdge instance) => <String, dynamic>{
 
 Place _$PlaceFromJson(Map<String, dynamic> json) {
   return Place()
+    ..typename = json['__typename'] as String
     ..id = json['id'] as String
     ..mbid = json['mbid'] as String
     ..name = json['name'] as String
@@ -1582,6 +1683,7 @@ Place _$PlaceFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$PlaceToJson(Place instance) => <String, dynamic>{
+      '__typename': instance.typename,
       'id': instance.id,
       'mbid': instance.mbid,
       'name': instance.name,
@@ -1602,12 +1704,14 @@ Map<String, dynamic> _$PlaceToJson(Place instance) => <String, dynamic>{
 
 Coordinates _$CoordinatesFromJson(Map<String, dynamic> json) {
   return Coordinates()
+    ..typename = json['__typename'] as String
     ..latitude = (json['latitude'] as num)?.toDouble()
     ..longitude = (json['longitude'] as num)?.toDouble();
 }
 
 Map<String, dynamic> _$CoordinatesToJson(Coordinates instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'latitude': instance.latitude,
       'longitude': instance.longitude
     };
@@ -1615,6 +1719,7 @@ Map<String, dynamic> _$CoordinatesToJson(Coordinates instance) =>
 ReleaseGroupConnection _$ReleaseGroupConnectionFromJson(
     Map<String, dynamic> json) {
   return ReleaseGroupConnection()
+    ..typename = json['__typename'] as String
     ..pageInfo = json['pageInfo'] == null
         ? null
         : PageInfo.fromJson(json['pageInfo'] as Map<String, dynamic>)
@@ -1633,6 +1738,7 @@ ReleaseGroupConnection _$ReleaseGroupConnectionFromJson(
 Map<String, dynamic> _$ReleaseGroupConnectionToJson(
         ReleaseGroupConnection instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'pageInfo': instance.pageInfo,
       'edges': instance.edges,
       'nodes': instance.nodes,
@@ -1641,6 +1747,7 @@ Map<String, dynamic> _$ReleaseGroupConnectionToJson(
 
 ReleaseGroupEdge _$ReleaseGroupEdgeFromJson(Map<String, dynamic> json) {
   return ReleaseGroupEdge()
+    ..typename = json['__typename'] as String
     ..node = json['node'] == null
         ? null
         : ReleaseGroup.fromJson(json['node'] as Map<String, dynamic>)
@@ -1650,6 +1757,7 @@ ReleaseGroupEdge _$ReleaseGroupEdgeFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$ReleaseGroupEdgeToJson(ReleaseGroupEdge instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'node': instance.node,
       'cursor': instance.cursor,
       'score': instance.score
@@ -1657,6 +1765,7 @@ Map<String, dynamic> _$ReleaseGroupEdgeToJson(ReleaseGroupEdge instance) =>
 
 ReleaseGroup _$ReleaseGroupFromJson(Map<String, dynamic> json) {
   return ReleaseGroup()
+    ..typename = json['__typename'] as String
     ..id = json['id'] as String
     ..mbid = json['mbid'] as String
     ..title = json['title'] as String
@@ -1720,6 +1829,7 @@ ReleaseGroup _$ReleaseGroupFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$ReleaseGroupToJson(ReleaseGroup instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'id': instance.id,
       'mbid': instance.mbid,
       'title': instance.title,
@@ -1770,6 +1880,7 @@ const _$ReleaseGroupTypeEnumMap = <ReleaseGroupType, dynamic>{
 CoverArtArchiveRelease _$CoverArtArchiveReleaseFromJson(
     Map<String, dynamic> json) {
   return CoverArtArchiveRelease()
+    ..typename = json['__typename'] as String
     ..front = json['front'] as String
     ..back = json['back'] as String
     ..images = (json['images'] as List)
@@ -1787,6 +1898,7 @@ CoverArtArchiveRelease _$CoverArtArchiveReleaseFromJson(
 Map<String, dynamic> _$CoverArtArchiveReleaseToJson(
         CoverArtArchiveRelease instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'front': instance.front,
       'back': instance.back,
       'images': instance.images,
@@ -1797,6 +1909,7 @@ Map<String, dynamic> _$CoverArtArchiveReleaseToJson(
 
 CoverArtArchiveImage _$CoverArtArchiveImageFromJson(Map<String, dynamic> json) {
   return CoverArtArchiveImage()
+    ..typename = json['__typename'] as String
     ..fileID = json['fileID'] as String
     ..image = json['image'] as String
     ..thumbnails = json['thumbnails'] == null
@@ -1814,6 +1927,7 @@ CoverArtArchiveImage _$CoverArtArchiveImageFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$CoverArtArchiveImageToJson(
         CoverArtArchiveImage instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'fileID': instance.fileID,
       'image': instance.image,
       'thumbnails': instance.thumbnails,
@@ -1828,16 +1942,22 @@ Map<String, dynamic> _$CoverArtArchiveImageToJson(
 CoverArtArchiveImageThumbnails _$CoverArtArchiveImageThumbnailsFromJson(
     Map<String, dynamic> json) {
   return CoverArtArchiveImageThumbnails()
+    ..typename = json['__typename'] as String
     ..small = json['small'] as String
     ..large = json['large'] as String;
 }
 
 Map<String, dynamic> _$CoverArtArchiveImageThumbnailsToJson(
         CoverArtArchiveImageThumbnails instance) =>
-    <String, dynamic>{'small': instance.small, 'large': instance.large};
+    <String, dynamic>{
+      '__typename': instance.typename,
+      'small': instance.small,
+      'large': instance.large
+    };
 
 FanArtAlbum _$FanArtAlbumFromJson(Map<String, dynamic> json) {
   return FanArtAlbum()
+    ..typename = json['__typename'] as String
     ..albumCovers = (json['albumCovers'] as List)
         ?.map((e) =>
             e == null ? null : FanArtImage.fromJson(e as Map<String, dynamic>))
@@ -1851,12 +1971,14 @@ FanArtAlbum _$FanArtAlbumFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$FanArtAlbumToJson(FanArtAlbum instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'albumCovers': instance.albumCovers,
       'discImages': instance.discImages
     };
 
 FanArtImage _$FanArtImageFromJson(Map<String, dynamic> json) {
   return FanArtImage()
+    ..typename = json['__typename'] as String
     ..imageID = json['imageID'] as String
     ..url = json['url'] as String
     ..likeCount = json['likeCount'] as int;
@@ -1864,6 +1986,7 @@ FanArtImage _$FanArtImageFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$FanArtImageToJson(FanArtImage instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'imageID': instance.imageID,
       'url': instance.url,
       'likeCount': instance.likeCount
@@ -1871,6 +1994,7 @@ Map<String, dynamic> _$FanArtImageToJson(FanArtImage instance) =>
 
 FanArtDiscImage _$FanArtDiscImageFromJson(Map<String, dynamic> json) {
   return FanArtDiscImage()
+    ..typename = json['__typename'] as String
     ..imageID = json['imageID'] as String
     ..url = json['url'] as String
     ..likeCount = json['likeCount'] as int
@@ -1880,6 +2004,7 @@ FanArtDiscImage _$FanArtDiscImageFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$FanArtDiscImageToJson(FanArtDiscImage instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'imageID': instance.imageID,
       'url': instance.url,
       'likeCount': instance.likeCount,
@@ -1889,6 +2014,7 @@ Map<String, dynamic> _$FanArtDiscImageToJson(FanArtDiscImage instance) =>
 
 TheAudioDBAlbum _$TheAudioDBAlbumFromJson(Map<String, dynamic> json) {
   return TheAudioDBAlbum()
+    ..typename = json['__typename'] as String
     ..albumID = json['albumID'] as String
     ..artistID = json['artistID'] as String
     ..description = json['description'] as String
@@ -1909,6 +2035,7 @@ TheAudioDBAlbum _$TheAudioDBAlbumFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$TheAudioDBAlbumToJson(TheAudioDBAlbum instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'albumID': instance.albumID,
       'artistID': instance.artistID,
       'description': instance.description,
@@ -1929,6 +2056,7 @@ Map<String, dynamic> _$TheAudioDBAlbumToJson(TheAudioDBAlbum instance) =>
 
 DiscogsMaster _$DiscogsMasterFromJson(Map<String, dynamic> json) {
   return DiscogsMaster()
+    ..typename = json['__typename'] as String
     ..masterID = json['masterID'] as String
     ..title = json['title'] as String
     ..url = json['url'] as String
@@ -1958,6 +2086,7 @@ DiscogsMaster _$DiscogsMasterFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$DiscogsMasterToJson(DiscogsMaster instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'masterID': instance.masterID,
       'title': instance.title,
       'url': instance.url,
@@ -1975,6 +2104,7 @@ Map<String, dynamic> _$DiscogsMasterToJson(DiscogsMaster instance) =>
 
 DiscogsArtistCredit _$DiscogsArtistCreditFromJson(Map<String, dynamic> json) {
   return DiscogsArtistCredit()
+    ..typename = json['__typename'] as String
     ..name = json['name'] as String
     ..nameVariation = json['nameVariation'] as String
     ..joinPhrase = json['joinPhrase'] as String
@@ -1988,6 +2118,7 @@ DiscogsArtistCredit _$DiscogsArtistCreditFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$DiscogsArtistCreditToJson(
         DiscogsArtistCredit instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'name': instance.name,
       'nameVariation': instance.nameVariation,
       'joinPhrase': instance.joinPhrase,
@@ -1998,6 +2129,7 @@ Map<String, dynamic> _$DiscogsArtistCreditToJson(
 
 DiscogsArtist _$DiscogsArtistFromJson(Map<String, dynamic> json) {
   return DiscogsArtist()
+    ..typename = json['__typename'] as String
     ..artistID = json['artistID'] as String
     ..name = json['name'] as String
     ..nameVariations =
@@ -2025,6 +2157,7 @@ DiscogsArtist _$DiscogsArtistFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$DiscogsArtistToJson(DiscogsArtist instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'artistID': instance.artistID,
       'name': instance.name,
       'nameVariations': instance.nameVariations,
@@ -2040,6 +2173,7 @@ Map<String, dynamic> _$DiscogsArtistToJson(DiscogsArtist instance) =>
 
 DiscogsImage _$DiscogsImageFromJson(Map<String, dynamic> json) {
   return DiscogsImage()
+    ..typename = json['__typename'] as String
     ..url = json['url'] as String
     ..type = _$enumDecodeNullable(_$DiscogsImageTypeEnumMap, json['type'])
     ..width = json['width'] as int
@@ -2049,6 +2183,7 @@ DiscogsImage _$DiscogsImageFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$DiscogsImageToJson(DiscogsImage instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'url': instance.url,
       'type': _$DiscogsImageTypeEnumMap[instance.type],
       'width': instance.width,
@@ -2063,6 +2198,7 @@ const _$DiscogsImageTypeEnumMap = <DiscogsImageType, dynamic>{
 
 DiscogsArtistMember _$DiscogsArtistMemberFromJson(Map<String, dynamic> json) {
   return DiscogsArtistMember()
+    ..typename = json['__typename'] as String
     ..active = json['active'] as bool
     ..name = json['name'] as String
     ..artist = json['artist'] == null
@@ -2073,6 +2209,7 @@ DiscogsArtistMember _$DiscogsArtistMemberFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$DiscogsArtistMemberToJson(
         DiscogsArtistMember instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'active': instance.active,
       'name': instance.name,
       'artist': instance.artist
@@ -2080,6 +2217,7 @@ Map<String, dynamic> _$DiscogsArtistMemberToJson(
 
 DiscogsRelease _$DiscogsReleaseFromJson(Map<String, dynamic> json) {
   return DiscogsRelease()
+    ..typename = json['__typename'] as String
     ..releaseID = json['releaseID'] as String
     ..title = json['title'] as String
     ..url = json['url'] as String
@@ -2120,6 +2258,7 @@ DiscogsRelease _$DiscogsReleaseFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$DiscogsReleaseToJson(DiscogsRelease instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'releaseID': instance.releaseID,
       'title': instance.title,
       'url': instance.url,
@@ -2142,6 +2281,7 @@ Map<String, dynamic> _$DiscogsReleaseToJson(DiscogsRelease instance) =>
 
 DiscogsVideo _$DiscogsVideoFromJson(Map<String, dynamic> json) {
   return DiscogsVideo()
+    ..typename = json['__typename'] as String
     ..url = json['url'] as String
     ..title = json['title'] as String
     ..description = json['description'] as String
@@ -2153,6 +2293,7 @@ DiscogsVideo _$DiscogsVideoFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$DiscogsVideoToJson(DiscogsVideo instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'url': instance.url,
       'title': instance.title,
       'description': instance.description,
@@ -2162,6 +2303,7 @@ Map<String, dynamic> _$DiscogsVideoToJson(DiscogsVideo instance) =>
 
 DiscogsCommunity _$DiscogsCommunityFromJson(Map<String, dynamic> json) {
   return DiscogsCommunity()
+    ..typename = json['__typename'] as String
     ..status = json['status'] as String
     ..rating = json['rating'] == null
         ? null
@@ -2179,6 +2321,7 @@ DiscogsCommunity _$DiscogsCommunityFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$DiscogsCommunityToJson(DiscogsCommunity instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'status': instance.status,
       'rating': instance.rating,
       'haveCount': instance.haveCount,
@@ -2189,22 +2332,33 @@ Map<String, dynamic> _$DiscogsCommunityToJson(DiscogsCommunity instance) =>
 
 DiscogsRating _$DiscogsRatingFromJson(Map<String, dynamic> json) {
   return DiscogsRating()
+    ..typename = json['__typename'] as String
     ..voteCount = json['voteCount'] as int
     ..value = (json['value'] as num)?.toDouble();
 }
 
 Map<String, dynamic> _$DiscogsRatingToJson(DiscogsRating instance) =>
-    <String, dynamic>{'voteCount': instance.voteCount, 'value': instance.value};
+    <String, dynamic>{
+      '__typename': instance.typename,
+      'voteCount': instance.voteCount,
+      'value': instance.value
+    };
 
 DiscogsUser _$DiscogsUserFromJson(Map<String, dynamic> json) {
-  return DiscogsUser()..username = json['username'] as String;
+  return DiscogsUser()
+    ..typename = json['__typename'] as String
+    ..username = json['username'] as String;
 }
 
 Map<String, dynamic> _$DiscogsUserToJson(DiscogsUser instance) =>
-    <String, dynamic>{'username': instance.username};
+    <String, dynamic>{
+      '__typename': instance.typename,
+      'username': instance.username
+    };
 
 SeriesConnection _$SeriesConnectionFromJson(Map<String, dynamic> json) {
   return SeriesConnection()
+    ..typename = json['__typename'] as String
     ..pageInfo = json['pageInfo'] == null
         ? null
         : PageInfo.fromJson(json['pageInfo'] as Map<String, dynamic>)
@@ -2221,6 +2375,7 @@ SeriesConnection _$SeriesConnectionFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$SeriesConnectionToJson(SeriesConnection instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'pageInfo': instance.pageInfo,
       'edges': instance.edges,
       'nodes': instance.nodes,
@@ -2229,6 +2384,7 @@ Map<String, dynamic> _$SeriesConnectionToJson(SeriesConnection instance) =>
 
 SeriesEdge _$SeriesEdgeFromJson(Map<String, dynamic> json) {
   return SeriesEdge()
+    ..typename = json['__typename'] as String
     ..node = json['node'] == null
         ? null
         : Series.fromJson(json['node'] as Map<String, dynamic>)
@@ -2238,6 +2394,7 @@ SeriesEdge _$SeriesEdgeFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$SeriesEdgeToJson(SeriesEdge instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'node': instance.node,
       'cursor': instance.cursor,
       'score': instance.score
@@ -2245,6 +2402,7 @@ Map<String, dynamic> _$SeriesEdgeToJson(SeriesEdge instance) =>
 
 Series _$SeriesFromJson(Map<String, dynamic> json) {
   return Series()
+    ..typename = json['__typename'] as String
     ..id = json['id'] as String
     ..mbid = json['mbid'] as String
     ..name = json['name'] as String
@@ -2264,6 +2422,7 @@ Series _$SeriesFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$SeriesToJson(Series instance) => <String, dynamic>{
+      '__typename': instance.typename,
       'id': instance.id,
       'mbid': instance.mbid,
       'name': instance.name,
@@ -2277,6 +2436,7 @@ Map<String, dynamic> _$SeriesToJson(Series instance) => <String, dynamic>{
 
 WorkConnection _$WorkConnectionFromJson(Map<String, dynamic> json) {
   return WorkConnection()
+    ..typename = json['__typename'] as String
     ..pageInfo = json['pageInfo'] == null
         ? null
         : PageInfo.fromJson(json['pageInfo'] as Map<String, dynamic>)
@@ -2293,6 +2453,7 @@ WorkConnection _$WorkConnectionFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$WorkConnectionToJson(WorkConnection instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'pageInfo': instance.pageInfo,
       'edges': instance.edges,
       'nodes': instance.nodes,
@@ -2301,6 +2462,7 @@ Map<String, dynamic> _$WorkConnectionToJson(WorkConnection instance) =>
 
 WorkEdge _$WorkEdgeFromJson(Map<String, dynamic> json) {
   return WorkEdge()
+    ..typename = json['__typename'] as String
     ..node = json['node'] == null
         ? null
         : Work.fromJson(json['node'] as Map<String, dynamic>)
@@ -2309,6 +2471,7 @@ WorkEdge _$WorkEdgeFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$WorkEdgeToJson(WorkEdge instance) => <String, dynamic>{
+      '__typename': instance.typename,
       'node': instance.node,
       'cursor': instance.cursor,
       'score': instance.score
@@ -2316,6 +2479,7 @@ Map<String, dynamic> _$WorkEdgeToJson(WorkEdge instance) => <String, dynamic>{
 
 Work _$WorkFromJson(Map<String, dynamic> json) {
   return Work()
+    ..typename = json['__typename'] as String
     ..id = json['id'] as String
     ..mbid = json['mbid'] as String
     ..title = json['title'] as String
@@ -2347,6 +2511,7 @@ Work _$WorkFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$WorkToJson(Work instance) => <String, dynamic>{
+      '__typename': instance.typename,
       'id': instance.id,
       'mbid': instance.mbid,
       'title': instance.title,
@@ -2365,6 +2530,7 @@ Map<String, dynamic> _$WorkToJson(Work instance) => <String, dynamic>{
 
 FanArtLabel _$FanArtLabelFromJson(Map<String, dynamic> json) {
   return FanArtLabel()
+    ..typename = json['__typename'] as String
     ..logos = (json['logos'] as List)
         ?.map((e) => e == null
             ? null
@@ -2373,10 +2539,11 @@ FanArtLabel _$FanArtLabelFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$FanArtLabelToJson(FanArtLabel instance) =>
-    <String, dynamic>{'logos': instance.logos};
+    <String, dynamic>{'__typename': instance.typename, 'logos': instance.logos};
 
 FanArtLabelImage _$FanArtLabelImageFromJson(Map<String, dynamic> json) {
   return FanArtLabelImage()
+    ..typename = json['__typename'] as String
     ..imageID = json['imageID'] as String
     ..url = json['url'] as String
     ..likeCount = json['likeCount'] as int
@@ -2385,6 +2552,7 @@ FanArtLabelImage _$FanArtLabelImageFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$FanArtLabelImageToJson(FanArtLabelImage instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'imageID': instance.imageID,
       'url': instance.url,
       'likeCount': instance.likeCount,
@@ -2393,6 +2561,7 @@ Map<String, dynamic> _$FanArtLabelImageToJson(FanArtLabelImage instance) =>
 
 DiscogsLabel _$DiscogsLabelFromJson(Map<String, dynamic> json) {
   return DiscogsLabel()
+    ..typename = json['__typename'] as String
     ..labelID = json['labelID'] as String
     ..name = json['name'] as String
     ..url = json['url'] as String
@@ -2414,6 +2583,7 @@ DiscogsLabel _$DiscogsLabelFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$DiscogsLabelToJson(DiscogsLabel instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'labelID': instance.labelID,
       'name': instance.name,
       'url': instance.url,
@@ -2427,6 +2597,7 @@ Map<String, dynamic> _$DiscogsLabelToJson(DiscogsLabel instance) =>
 
 LastFMAlbum _$LastFMAlbumFromJson(Map<String, dynamic> json) {
   return LastFMAlbum()
+    ..typename = json['__typename'] as String
     ..mbid = json['mbid'] as String
     ..title = json['title'] as String
     ..url = json['url'] as String
@@ -2447,6 +2618,7 @@ LastFMAlbum _$LastFMAlbumFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$LastFMAlbumToJson(LastFMAlbum instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'mbid': instance.mbid,
       'title': instance.title,
       'url': instance.url,
@@ -2460,6 +2632,7 @@ Map<String, dynamic> _$LastFMAlbumToJson(LastFMAlbum instance) =>
 
 LastFMWikiContent _$LastFMWikiContentFromJson(Map<String, dynamic> json) {
   return LastFMWikiContent()
+    ..typename = json['__typename'] as String
     ..summaryHTML = json['summaryHTML'] as String
     ..contentHTML = json['contentHTML'] as String
     ..publishDate = json['publishDate'] == null
@@ -2473,6 +2646,7 @@ LastFMWikiContent _$LastFMWikiContentFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$LastFMWikiContentToJson(LastFMWikiContent instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'summaryHTML': instance.summaryHTML,
       'contentHTML': instance.contentHTML,
       'publishDate': instance.publishDate == null
@@ -2486,6 +2660,7 @@ Map<String, dynamic> _$LastFMWikiContentToJson(LastFMWikiContent instance) =>
 
 LastFMArtist _$LastFMArtistFromJson(Map<String, dynamic> json) {
   return LastFMArtist()
+    ..typename = json['__typename'] as String
     ..mbid = json['mbid'] as String
     ..name = json['name'] as String
     ..url = json['url'] as String
@@ -2514,6 +2689,7 @@ LastFMArtist _$LastFMArtistFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$LastFMArtistToJson(LastFMArtist instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'mbid': instance.mbid,
       'name': instance.name,
       'url': instance.url,
@@ -2530,6 +2706,7 @@ Map<String, dynamic> _$LastFMArtistToJson(LastFMArtist instance) =>
 LastFMArtistConnection _$LastFMArtistConnectionFromJson(
     Map<String, dynamic> json) {
   return LastFMArtistConnection()
+    ..typename = json['__typename'] as String
     ..pageInfo = json['pageInfo'] == null
         ? null
         : PageInfo.fromJson(json['pageInfo'] as Map<String, dynamic>)
@@ -2548,6 +2725,7 @@ LastFMArtistConnection _$LastFMArtistConnectionFromJson(
 Map<String, dynamic> _$LastFMArtistConnectionToJson(
         LastFMArtistConnection instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'pageInfo': instance.pageInfo,
       'edges': instance.edges,
       'nodes': instance.nodes,
@@ -2556,6 +2734,7 @@ Map<String, dynamic> _$LastFMArtistConnectionToJson(
 
 LastFMArtistEdge _$LastFMArtistEdgeFromJson(Map<String, dynamic> json) {
   return LastFMArtistEdge()
+    ..typename = json['__typename'] as String
     ..node = json['node'] == null
         ? null
         : LastFMArtist.fromJson(json['node'] as Map<String, dynamic>)
@@ -2565,6 +2744,7 @@ LastFMArtistEdge _$LastFMArtistEdgeFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$LastFMArtistEdgeToJson(LastFMArtistEdge instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'node': instance.node,
       'cursor': instance.cursor,
       'matchScore': instance.matchScore
@@ -2573,6 +2753,7 @@ Map<String, dynamic> _$LastFMArtistEdgeToJson(LastFMArtistEdge instance) =>
 LastFMAlbumConnection _$LastFMAlbumConnectionFromJson(
     Map<String, dynamic> json) {
   return LastFMAlbumConnection()
+    ..typename = json['__typename'] as String
     ..pageInfo = json['pageInfo'] == null
         ? null
         : PageInfo.fromJson(json['pageInfo'] as Map<String, dynamic>)
@@ -2591,6 +2772,7 @@ LastFMAlbumConnection _$LastFMAlbumConnectionFromJson(
 Map<String, dynamic> _$LastFMAlbumConnectionToJson(
         LastFMAlbumConnection instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'pageInfo': instance.pageInfo,
       'edges': instance.edges,
       'nodes': instance.nodes,
@@ -2599,6 +2781,7 @@ Map<String, dynamic> _$LastFMAlbumConnectionToJson(
 
 LastFMAlbumEdge _$LastFMAlbumEdgeFromJson(Map<String, dynamic> json) {
   return LastFMAlbumEdge()
+    ..typename = json['__typename'] as String
     ..node = json['node'] == null
         ? null
         : LastFMAlbum.fromJson(json['node'] as Map<String, dynamic>)
@@ -2606,10 +2789,15 @@ LastFMAlbumEdge _$LastFMAlbumEdgeFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$LastFMAlbumEdgeToJson(LastFMAlbumEdge instance) =>
-    <String, dynamic>{'node': instance.node, 'cursor': instance.cursor};
+    <String, dynamic>{
+      '__typename': instance.typename,
+      'node': instance.node,
+      'cursor': instance.cursor
+    };
 
 LastFMTagConnection _$LastFMTagConnectionFromJson(Map<String, dynamic> json) {
   return LastFMTagConnection()
+    ..typename = json['__typename'] as String
     ..pageInfo = json['pageInfo'] == null
         ? null
         : PageInfo.fromJson(json['pageInfo'] as Map<String, dynamic>)
@@ -2628,6 +2816,7 @@ LastFMTagConnection _$LastFMTagConnectionFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$LastFMTagConnectionToJson(
         LastFMTagConnection instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'pageInfo': instance.pageInfo,
       'edges': instance.edges,
       'nodes': instance.nodes,
@@ -2636,6 +2825,7 @@ Map<String, dynamic> _$LastFMTagConnectionToJson(
 
 LastFMTagEdge _$LastFMTagEdgeFromJson(Map<String, dynamic> json) {
   return LastFMTagEdge()
+    ..typename = json['__typename'] as String
     ..node = json['node'] == null
         ? null
         : LastFMTag.fromJson(json['node'] as Map<String, dynamic>)
@@ -2645,6 +2835,7 @@ LastFMTagEdge _$LastFMTagEdgeFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$LastFMTagEdgeToJson(LastFMTagEdge instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'node': instance.node,
       'cursor': instance.cursor,
       'tagCount': instance.tagCount
@@ -2652,16 +2843,21 @@ Map<String, dynamic> _$LastFMTagEdgeToJson(LastFMTagEdge instance) =>
 
 LastFMTag _$LastFMTagFromJson(Map<String, dynamic> json) {
   return LastFMTag()
+    ..typename = json['__typename'] as String
     ..name = json['name'] as String
     ..url = json['url'] as String;
 }
 
-Map<String, dynamic> _$LastFMTagToJson(LastFMTag instance) =>
-    <String, dynamic>{'name': instance.name, 'url': instance.url};
+Map<String, dynamic> _$LastFMTagToJson(LastFMTag instance) => <String, dynamic>{
+      '__typename': instance.typename,
+      'name': instance.name,
+      'url': instance.url
+    };
 
 LastFMTrackConnection _$LastFMTrackConnectionFromJson(
     Map<String, dynamic> json) {
   return LastFMTrackConnection()
+    ..typename = json['__typename'] as String
     ..pageInfo = json['pageInfo'] == null
         ? null
         : PageInfo.fromJson(json['pageInfo'] as Map<String, dynamic>)
@@ -2680,6 +2876,7 @@ LastFMTrackConnection _$LastFMTrackConnectionFromJson(
 Map<String, dynamic> _$LastFMTrackConnectionToJson(
         LastFMTrackConnection instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'pageInfo': instance.pageInfo,
       'edges': instance.edges,
       'nodes': instance.nodes,
@@ -2688,6 +2885,7 @@ Map<String, dynamic> _$LastFMTrackConnectionToJson(
 
 LastFMTrackEdge _$LastFMTrackEdgeFromJson(Map<String, dynamic> json) {
   return LastFMTrackEdge()
+    ..typename = json['__typename'] as String
     ..node = json['node'] == null
         ? null
         : LastFMTrack.fromJson(json['node'] as Map<String, dynamic>)
@@ -2697,6 +2895,7 @@ LastFMTrackEdge _$LastFMTrackEdgeFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$LastFMTrackEdgeToJson(LastFMTrackEdge instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'node': instance.node,
       'cursor': instance.cursor,
       'matchScore': instance.matchScore
@@ -2704,6 +2903,7 @@ Map<String, dynamic> _$LastFMTrackEdgeToJson(LastFMTrackEdge instance) =>
 
 LastFMTrack _$LastFMTrackFromJson(Map<String, dynamic> json) {
   return LastFMTrack()
+    ..typename = json['__typename'] as String
     ..mbid = json['mbid'] as String
     ..title = json['title'] as String
     ..url = json['url'] as String
@@ -2733,6 +2933,7 @@ LastFMTrack _$LastFMTrackFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$LastFMTrackToJson(LastFMTrack instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'mbid': instance.mbid,
       'title': instance.title,
       'url': instance.url,
@@ -2748,6 +2949,7 @@ Map<String, dynamic> _$LastFMTrackToJson(LastFMTrack instance) =>
 
 SpotifyAlbum _$SpotifyAlbumFromJson(Map<String, dynamic> json) {
   return SpotifyAlbum()
+    ..typename = json['__typename'] as String
     ..albumID = json['albumID'] as String
     ..uri = json['uri'] as String
     ..href = json['href'] as String
@@ -2790,6 +2992,7 @@ SpotifyAlbum _$SpotifyAlbumFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$SpotifyAlbumToJson(SpotifyAlbum instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'albumID': instance.albumID,
       'uri': instance.uri,
       'href': instance.href,
@@ -2811,6 +3014,7 @@ Map<String, dynamic> _$SpotifyAlbumToJson(SpotifyAlbum instance) =>
 
 SpotifyArtist _$SpotifyArtistFromJson(Map<String, dynamic> json) {
   return SpotifyArtist()
+    ..typename = json['__typename'] as String
     ..artistID = json['artistID'] as String
     ..uri = json['uri'] as String
     ..href = json['href'] as String
@@ -2839,6 +3043,7 @@ SpotifyArtist _$SpotifyArtistFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$SpotifyArtistToJson(SpotifyArtist instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'artistID': instance.artistID,
       'uri': instance.uri,
       'href': instance.href,
@@ -2853,15 +3058,21 @@ Map<String, dynamic> _$SpotifyArtistToJson(SpotifyArtist instance) =>
 
 SpotifyExternalURL _$SpotifyExternalURLFromJson(Map<String, dynamic> json) {
   return SpotifyExternalURL()
+    ..typename = json['__typename'] as String
     ..type = json['type'] as String
     ..url = json['url'] as String;
 }
 
 Map<String, dynamic> _$SpotifyExternalURLToJson(SpotifyExternalURL instance) =>
-    <String, dynamic>{'type': instance.type, 'url': instance.url};
+    <String, dynamic>{
+      '__typename': instance.typename,
+      'type': instance.type,
+      'url': instance.url
+    };
 
 SpotifyImage _$SpotifyImageFromJson(Map<String, dynamic> json) {
   return SpotifyImage()
+    ..typename = json['__typename'] as String
     ..url = json['url'] as String
     ..width = json['width'] as int
     ..height = json['height'] as int;
@@ -2869,6 +3080,7 @@ SpotifyImage _$SpotifyImageFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$SpotifyImageToJson(SpotifyImage instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'url': instance.url,
       'width': instance.width,
       'height': instance.height
@@ -2876,6 +3088,7 @@ Map<String, dynamic> _$SpotifyImageToJson(SpotifyImage instance) =>
 
 SpotifyTrack _$SpotifyTrackFromJson(Map<String, dynamic> json) {
   return SpotifyTrack()
+    ..typename = json['__typename'] as String
     ..trackID = json['trackID'] as String
     ..uri = json['uri'] as String
     ..href = json['href'] as String
@@ -2919,6 +3132,7 @@ SpotifyTrack _$SpotifyTrackFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$SpotifyTrackToJson(SpotifyTrack instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'trackID': instance.trackID,
       'uri': instance.uri,
       'href': instance.href,
@@ -2940,6 +3154,7 @@ Map<String, dynamic> _$SpotifyTrackToJson(SpotifyTrack instance) =>
 
 SpotifyAudioFeatures _$SpotifyAudioFeaturesFromJson(Map<String, dynamic> json) {
   return SpotifyAudioFeatures()
+    ..typename = json['__typename'] as String
     ..acousticness = (json['acousticness'] as num)?.toDouble()
     ..danceability = (json['danceability'] as num)?.toDouble()
     ..duration = json['duration'] == null
@@ -2961,6 +3176,7 @@ SpotifyAudioFeatures _$SpotifyAudioFeaturesFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$SpotifyAudioFeaturesToJson(
         SpotifyAudioFeatures instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'acousticness': instance.acousticness,
       'danceability': instance.danceability,
       'duration': instance.duration?.inMicroseconds,
@@ -2984,21 +3200,28 @@ const _$SpotifyTrackModeEnumMap = <SpotifyTrackMode, dynamic>{
 
 SpotifyExternalID _$SpotifyExternalIDFromJson(Map<String, dynamic> json) {
   return SpotifyExternalID()
+    ..typename = json['__typename'] as String
     ..type = json['type'] as String
     ..id = json['id'] as String;
 }
 
 Map<String, dynamic> _$SpotifyExternalIDToJson(SpotifyExternalID instance) =>
-    <String, dynamic>{'type': instance.type, 'id': instance.id};
+    <String, dynamic>{
+      '__typename': instance.typename,
+      'type': instance.type,
+      'id': instance.id
+    };
 
 SpotifyCopyright _$SpotifyCopyrightFromJson(Map<String, dynamic> json) {
   return SpotifyCopyright()
+    ..typename = json['__typename'] as String
     ..text = json['text'] as String
     ..type = _$enumDecodeNullable(_$SpotifyCopyrightTypeEnumMap, json['type']);
 }
 
 Map<String, dynamic> _$SpotifyCopyrightToJson(SpotifyCopyright instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'text': instance.text,
       'type': _$SpotifyCopyrightTypeEnumMap[instance.type]
     };
@@ -3010,6 +3233,7 @@ const _$SpotifyCopyrightTypeEnumMap = <SpotifyCopyrightType, dynamic>{
 
 TheAudioDBTrack _$TheAudioDBTrackFromJson(Map<String, dynamic> json) {
   return TheAudioDBTrack()
+    ..typename = json['__typename'] as String
     ..trackID = json['trackID'] as String
     ..albumID = json['albumID'] as String
     ..artistID = json['artistID'] as String
@@ -3030,6 +3254,7 @@ TheAudioDBTrack _$TheAudioDBTrackFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$TheAudioDBTrackToJson(TheAudioDBTrack instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'trackID': instance.trackID,
       'albumID': instance.albumID,
       'artistID': instance.artistID,
@@ -3047,6 +3272,7 @@ Map<String, dynamic> _$TheAudioDBTrackToJson(TheAudioDBTrack instance) =>
 
 TheAudioDBMusicVideo _$TheAudioDBMusicVideoFromJson(Map<String, dynamic> json) {
   return TheAudioDBMusicVideo()
+    ..typename = json['__typename'] as String
     ..url = json['url'] as String
     ..companyName = json['companyName'] as String
     ..directorName = json['directorName'] as String
@@ -3061,6 +3287,7 @@ TheAudioDBMusicVideo _$TheAudioDBMusicVideoFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$TheAudioDBMusicVideoToJson(
         TheAudioDBMusicVideo instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'url': instance.url,
       'companyName': instance.companyName,
       'directorName': instance.directorName,
@@ -3073,6 +3300,7 @@ Map<String, dynamic> _$TheAudioDBMusicVideoToJson(
 
 FanArtArtist _$FanArtArtistFromJson(Map<String, dynamic> json) {
   return FanArtArtist()
+    ..typename = json['__typename'] as String
     ..backgrounds = (json['backgrounds'] as List)
         ?.map((e) =>
             e == null ? null : FanArtImage.fromJson(e as Map<String, dynamic>))
@@ -3097,6 +3325,7 @@ FanArtArtist _$FanArtArtistFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$FanArtArtistToJson(FanArtArtist instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'backgrounds': instance.backgrounds,
       'banners': instance.banners,
       'logos': instance.logos,
@@ -3106,6 +3335,7 @@ Map<String, dynamic> _$FanArtArtistToJson(FanArtArtist instance) =>
 
 TheAudioDBArtist _$TheAudioDBArtistFromJson(Map<String, dynamic> json) {
   return TheAudioDBArtist()
+    ..typename = json['__typename'] as String
     ..artistID = json['artistID'] as String
     ..biography = json['biography'] as String
     ..memberCount = json['memberCount'] as int
@@ -3120,6 +3350,7 @@ TheAudioDBArtist _$TheAudioDBArtistFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$TheAudioDBArtistToJson(TheAudioDBArtist instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'artistID': instance.artistID,
       'biography': instance.biography,
       'memberCount': instance.memberCount,
@@ -3134,6 +3365,7 @@ Map<String, dynamic> _$TheAudioDBArtistToJson(TheAudioDBArtist instance) =>
 
 LastFMCountry _$LastFMCountryFromJson(Map<String, dynamic> json) {
   return LastFMCountry()
+    ..typename = json['__typename'] as String
     ..topArtists = json['topArtists'] == null
         ? null
         : LastFMArtistConnection.fromJson(
@@ -3146,12 +3378,14 @@ LastFMCountry _$LastFMCountryFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$LastFMCountryToJson(LastFMCountry instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'topArtists': instance.topArtists,
       'topTracks': instance.topTracks
     };
 
 URL _$URLFromJson(Map<String, dynamic> json) {
   return URL()
+    ..typename = json['__typename'] as String
     ..id = json['id'] as String
     ..mbid = json['mbid'] as String
     ..resource = json['resource'] as String
@@ -3161,6 +3395,7 @@ URL _$URLFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$URLToJson(URL instance) => <String, dynamic>{
+      '__typename': instance.typename,
       'id': instance.id,
       'mbid': instance.mbid,
       'resource': instance.resource,
@@ -3169,6 +3404,7 @@ Map<String, dynamic> _$URLToJson(URL instance) => <String, dynamic>{
 
 BrowseQuery _$BrowseQueryFromJson(Map<String, dynamic> json) {
   return BrowseQuery()
+    ..typename = json['__typename'] as String
     ..areas = json['areas'] == null
         ? null
         : AreaConnection.fromJson(json['areas'] as Map<String, dynamic>)
@@ -3206,6 +3442,7 @@ BrowseQuery _$BrowseQueryFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$BrowseQueryToJson(BrowseQuery instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'areas': instance.areas,
       'artists': instance.artists,
       'collections': instance.collections,
@@ -3220,6 +3457,7 @@ Map<String, dynamic> _$BrowseQueryToJson(BrowseQuery instance) =>
 
 SearchQuery _$SearchQueryFromJson(Map<String, dynamic> json) {
   return SearchQuery()
+    ..typename = json['__typename'] as String
     ..areas = json['areas'] == null
         ? null
         : AreaConnection.fromJson(json['areas'] as Map<String, dynamic>)
@@ -3260,6 +3498,7 @@ SearchQuery _$SearchQueryFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$SearchQueryToJson(SearchQuery instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'areas': instance.areas,
       'artists': instance.artists,
       'events': instance.events,
@@ -3275,16 +3514,18 @@ Map<String, dynamic> _$SearchQueryToJson(SearchQuery instance) =>
 
 LastFMQuery _$LastFMQueryFromJson(Map<String, dynamic> json) {
   return LastFMQuery()
+    ..typename = json['__typename'] as String
     ..chart = json['chart'] == null
         ? null
         : LastFMChartQuery.fromJson(json['chart'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$LastFMQueryToJson(LastFMQuery instance) =>
-    <String, dynamic>{'chart': instance.chart};
+    <String, dynamic>{'__typename': instance.typename, 'chart': instance.chart};
 
 LastFMChartQuery _$LastFMChartQueryFromJson(Map<String, dynamic> json) {
   return LastFMChartQuery()
+    ..typename = json['__typename'] as String
     ..topArtists = json['topArtists'] == null
         ? null
         : LastFMArtistConnection.fromJson(
@@ -3300,6 +3541,7 @@ LastFMChartQuery _$LastFMChartQueryFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$LastFMChartQueryToJson(LastFMChartQuery instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'topArtists': instance.topArtists,
       'topTags': instance.topTags,
       'topTracks': instance.topTracks
@@ -3307,6 +3549,7 @@ Map<String, dynamic> _$LastFMChartQueryToJson(LastFMChartQuery instance) =>
 
 SpotifyQuery _$SpotifyQueryFromJson(Map<String, dynamic> json) {
   return SpotifyQuery()
+    ..typename = json['__typename'] as String
     ..recommendations = json['recommendations'] == null
         ? null
         : SpotifyRecommendations.fromJson(
@@ -3314,11 +3557,15 @@ SpotifyQuery _$SpotifyQueryFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$SpotifyQueryToJson(SpotifyQuery instance) =>
-    <String, dynamic>{'recommendations': instance.recommendations};
+    <String, dynamic>{
+      '__typename': instance.typename,
+      'recommendations': instance.recommendations
+    };
 
 SpotifyRecommendations _$SpotifyRecommendationsFromJson(
     Map<String, dynamic> json) {
   return SpotifyRecommendations()
+    ..typename = json['__typename'] as String
     ..tracks = (json['tracks'] as List)
         ?.map((e) =>
             e == null ? null : SpotifyTrack.fromJson(e as Map<String, dynamic>))
@@ -3327,11 +3574,15 @@ SpotifyRecommendations _$SpotifyRecommendationsFromJson(
 
 Map<String, dynamic> _$SpotifyRecommendationsToJson(
         SpotifyRecommendations instance) =>
-    <String, dynamic>{'tracks': instance.tracks};
+    <String, dynamic>{
+      '__typename': instance.typename,
+      'tracks': instance.tracks
+    };
 
 DiscogsReleaseConnection _$DiscogsReleaseConnectionFromJson(
     Map<String, dynamic> json) {
   return DiscogsReleaseConnection()
+    ..typename = json['__typename'] as String
     ..pageInfo = json['pageInfo'] == null
         ? null
         : PageInfo.fromJson(json['pageInfo'] as Map<String, dynamic>)
@@ -3351,6 +3602,7 @@ DiscogsReleaseConnection _$DiscogsReleaseConnectionFromJson(
 Map<String, dynamic> _$DiscogsReleaseConnectionToJson(
         DiscogsReleaseConnection instance) =>
     <String, dynamic>{
+      '__typename': instance.typename,
       'pageInfo': instance.pageInfo,
       'edges': instance.edges,
       'nodes': instance.nodes,
@@ -3359,10 +3611,11 @@ Map<String, dynamic> _$DiscogsReleaseConnectionToJson(
 
 DiscogsReleaseEdge _$DiscogsReleaseEdgeFromJson(Map<String, dynamic> json) {
   return DiscogsReleaseEdge()
+    ..typename = json['__typename'] as String
     ..node = json['node'] == null
         ? null
         : DiscogsRelease.fromJson(json['node'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$DiscogsReleaseEdgeToJson(DiscogsReleaseEdge instance) =>
-    <String, dynamic>{'node': instance.node};
+    <String, dynamic>{'__typename': instance.typename, 'node': instance.node};
