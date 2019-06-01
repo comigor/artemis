@@ -3,7 +3,7 @@ targets:
     builders:
       graphql_builder:
         generate_for:
-        - bin/*.schema.json
+        - lib/*.schema.json
         options:
           custom_parser_import: 'package:graphbrainz_example/coercers.dart'
           scalar_mapping:
