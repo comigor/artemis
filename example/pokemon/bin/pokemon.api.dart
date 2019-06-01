@@ -1,3 +1,5 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'pokemon.api.g.dart';
