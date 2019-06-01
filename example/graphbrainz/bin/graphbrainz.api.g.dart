@@ -104,7 +104,7 @@ Map<String, dynamic> _$LookupQueryToJson(LookupQuery instance) =>
 Area _$AreaFromJson(Map<String, dynamic> json) {
   return Area()
     ..id = json['id'] as String
-    ..mbid = json['mbid']
+    ..mbid = json['mbid'] as String
     ..name = json['name'] as String
     ..sortName = json['sortName'] as String
     ..disambiguation = json['disambiguation'] as String
@@ -114,7 +114,7 @@ Area _$AreaFromJson(Map<String, dynamic> json) {
         ?.toList()
     ..isoCodes = (json['isoCodes'] as List)?.map((e) => e as String)?.toList()
     ..type = json['type'] as String
-    ..typeID = json['typeID']
+    ..typeID = json['typeID'] as String
     ..artists = json['artists'] == null
         ? null
         : ArtistConnection.fromJson(json['artists'] as Map<String, dynamic>)
@@ -174,7 +174,7 @@ Map<String, dynamic> _$NodeToJson(Node instance) =>
     <String, dynamic>{'id': instance.id};
 
 Entity _$EntityFromJson(Map<String, dynamic> json) {
-  return Entity()..mbid = json['mbid'];
+  return Entity()..mbid = json['mbid'] as String;
 }
 
 Map<String, dynamic> _$EntityToJson(Entity instance) =>
@@ -184,10 +184,10 @@ Alias _$AliasFromJson(Map<String, dynamic> json) {
   return Alias()
     ..name = json['name'] as String
     ..sortName = json['sortName'] as String
-    ..locale = json['locale']
+    ..locale = json['locale'] as String
     ..primary = json['primary'] as bool
     ..type = json['type'] as String
-    ..typeID = json['typeID'];
+    ..typeID = json['typeID'] as String;
 }
 
 Map<String, dynamic> _$AliasToJson(Alias instance) => <String, dynamic>{
@@ -257,7 +257,7 @@ Map<String, dynamic> _$ArtistEdgeToJson(ArtistEdge instance) =>
 Artist _$ArtistFromJson(Map<String, dynamic> json) {
   return Artist()
     ..id = json['id'] as String
-    ..mbid = json['mbid']
+    ..mbid = json['mbid'] as String
     ..name = json['name'] as String
     ..sortName = json['sortName'] as String
     ..disambiguation = json['disambiguation'] as String
@@ -279,11 +279,11 @@ Artist _$ArtistFromJson(Map<String, dynamic> json) {
         ? null
         : LifeSpan.fromJson(json['lifeSpan'] as Map<String, dynamic>)
     ..gender = json['gender'] as String
-    ..genderID = json['genderID']
+    ..genderID = json['genderID'] as String
     ..type = json['type'] as String
-    ..typeID = json['typeID']
-    ..ipis = json['ipis'] as List
-    ..isnis = json['isnis'] as List
+    ..typeID = json['typeID'] as String
+    ..ipis = (json['ipis'] as List)?.map((e) => e as String)?.toList()
+    ..isnis = (json['isnis'] as List)?.map((e) => e as String)?.toList()
     ..recordings = json['recordings'] == null
         ? null
         : RecordingConnection.fromJson(
@@ -369,14 +369,15 @@ Map<String, dynamic> _$ArtistToJson(Artist instance) => <String, dynamic>{
 
 LifeSpan _$LifeSpanFromJson(Map<String, dynamic> json) {
   return LifeSpan()
-    ..begin = json['begin']
-    ..end = json['end']
+    ..begin =
+        json['begin'] == null ? null : DateTime.parse(json['begin'] as String)
+    ..end = json['end'] == null ? null : DateTime.parse(json['end'] as String)
     ..ended = json['ended'] as bool;
 }
 
 Map<String, dynamic> _$LifeSpanToJson(LifeSpan instance) => <String, dynamic>{
-      'begin': instance.begin,
-      'end': instance.end,
+      'begin': instance.begin?.toIso8601String(),
+      'end': instance.end?.toIso8601String(),
       'ended': instance.ended
     };
 
@@ -425,7 +426,7 @@ Map<String, dynamic> _$RecordingEdgeToJson(RecordingEdge instance) =>
 Recording _$RecordingFromJson(Map<String, dynamic> json) {
   return Recording()
     ..id = json['id'] as String
-    ..mbid = json['mbid']
+    ..mbid = json['mbid'] as String
     ..title = json['title'] as String
     ..disambiguation = json['disambiguation'] as String
     ..aliases = (json['aliases'] as List)
@@ -440,7 +441,7 @@ Recording _$RecordingFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : ArtistCredit.fromJson(e as Map<String, dynamic>))
         ?.toList()
-    ..isrcs = json['isrcs'] as List
+    ..isrcs = (json['isrcs'] as List)?.map((e) => e as String)?.toList()
     ..length = json['length'] == null
         ? null
         : Duration(microseconds: json['length'] as int)
@@ -556,7 +557,7 @@ Map<String, dynamic> _$ReleaseEdgeToJson(ReleaseEdge instance) =>
 Release _$ReleaseFromJson(Map<String, dynamic> json) {
   return Release()
     ..id = json['id'] as String
-    ..mbid = json['mbid']
+    ..mbid = json['mbid'] as String
     ..title = json['title'] as String
     ..disambiguation = json['disambiguation'] as String
     ..aliases = (json['aliases'] as List)
@@ -575,14 +576,15 @@ Release _$ReleaseFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : ReleaseEvent.fromJson(e as Map<String, dynamic>))
         ?.toList()
-    ..date = json['date']
+    ..date =
+        json['date'] == null ? null : DateTime.parse(json['date'] as String)
     ..country = json['country'] as String
-    ..asin = json['asin']
+    ..asin = json['asin'] as String
     ..barcode = json['barcode'] as String
     ..status = _$enumDecodeNullable(_$ReleaseStatusEnumMap, json['status'])
-    ..statusID = json['statusID']
+    ..statusID = json['statusID'] as String
     ..packaging = json['packaging'] as String
-    ..packagingID = json['packagingID']
+    ..packagingID = json['packagingID'] as String
     ..quality = json['quality'] as String
     ..media = (json['media'] as List)
         ?.map((e) =>
@@ -636,7 +638,7 @@ Map<String, dynamic> _$ReleaseToJson(Release instance) => <String, dynamic>{
       'artistCredit': instance.artistCredit,
       'artistCredits': instance.artistCredits,
       'releaseEvents': instance.releaseEvents,
-      'date': instance.date,
+      'date': instance.date?.toIso8601String(),
       'country': instance.country,
       'asin': instance.asin,
       'barcode': instance.barcode,
@@ -691,17 +693,21 @@ ReleaseEvent _$ReleaseEventFromJson(Map<String, dynamic> json) {
     ..area = json['area'] == null
         ? null
         : Area.fromJson(json['area'] as Map<String, dynamic>)
-    ..date = json['date'];
+    ..date =
+        json['date'] == null ? null : DateTime.parse(json['date'] as String);
 }
 
 Map<String, dynamic> _$ReleaseEventToJson(ReleaseEvent instance) =>
-    <String, dynamic>{'area': instance.area, 'date': instance.date};
+    <String, dynamic>{
+      'area': instance.area,
+      'date': instance.date?.toIso8601String()
+    };
 
 Medium _$MediumFromJson(Map<String, dynamic> json) {
   return Medium()
     ..title = json['title'] as String
     ..format = json['format'] as String
-    ..formatID = json['formatID']
+    ..formatID = json['formatID'] as String
     ..position = json['position'] as int
     ..trackCount = json['trackCount'] as int
     ..discs = (json['discs'] as List)
@@ -727,7 +733,7 @@ Map<String, dynamic> _$MediumToJson(Medium instance) => <String, dynamic>{
 Disc _$DiscFromJson(Map<String, dynamic> json) {
   return Disc()
     ..id = json['id'] as String
-    ..discID = json['discID']
+    ..discID = json['discID'] as String
     ..offsetCount = json['offsetCount'] as int
     ..offsets = (json['offsets'] as List)?.map((e) => e as int)?.toList()
     ..sectors = json['sectors'] as int
@@ -747,7 +753,7 @@ Map<String, dynamic> _$DiscToJson(Disc instance) => <String, dynamic>{
 
 Track _$TrackFromJson(Map<String, dynamic> json) {
   return Track()
-    ..mbid = json['mbid']
+    ..mbid = json['mbid'] as String
     ..title = json['title'] as String
     ..position = json['position'] as int
     ..number = json['number'] as String
@@ -810,7 +816,7 @@ Map<String, dynamic> _$LabelEdgeToJson(LabelEdge instance) => <String, dynamic>{
 Label _$LabelFromJson(Map<String, dynamic> json) {
   return Label()
     ..id = json['id'] as String
-    ..mbid = json['mbid']
+    ..mbid = json['mbid'] as String
     ..name = json['name'] as String
     ..sortName = json['sortName'] as String
     ..disambiguation = json['disambiguation'] as String
@@ -826,9 +832,9 @@ Label _$LabelFromJson(Map<String, dynamic> json) {
         ? null
         : LifeSpan.fromJson(json['lifeSpan'] as Map<String, dynamic>)
     ..labelCode = json['labelCode'] as int
-    ..ipis = json['ipis'] as List
+    ..ipis = (json['ipis'] as List)?.map((e) => e as String)?.toList()
     ..type = json['type'] as String
-    ..typeID = json['typeID']
+    ..typeID = json['typeID'] as String
     ..releases = json['releases'] == null
         ? null
         : ReleaseConnection.fromJson(json['releases'] as Map<String, dynamic>)
@@ -1000,13 +1006,14 @@ Relationship _$RelationshipFromJson(Map<String, dynamic> json) {
     ..targetType = json['targetType'] as String
     ..sourceCredit = json['sourceCredit'] as String
     ..targetCredit = json['targetCredit'] as String
-    ..begin = json['begin']
-    ..end = json['end']
+    ..begin =
+        json['begin'] == null ? null : DateTime.parse(json['begin'] as String)
+    ..end = json['end'] == null ? null : DateTime.parse(json['end'] as String)
     ..ended = json['ended'] as bool
     ..attributes =
         (json['attributes'] as List)?.map((e) => e as String)?.toList()
     ..type = json['type'] as String
-    ..typeID = json['typeID'];
+    ..typeID = json['typeID'] as String;
 }
 
 Map<String, dynamic> _$RelationshipToJson(Relationship instance) =>
@@ -1016,8 +1023,8 @@ Map<String, dynamic> _$RelationshipToJson(Relationship instance) =>
       'targetType': instance.targetType,
       'sourceCredit': instance.sourceCredit,
       'targetCredit': instance.targetCredit,
-      'begin': instance.begin,
-      'end': instance.end,
+      'begin': instance.begin?.toIso8601String(),
+      'end': instance.end?.toIso8601String(),
       'ended': instance.ended,
       'attributes': instance.attributes,
       'type': instance.type,
@@ -1069,12 +1076,12 @@ Map<String, dynamic> _$CollectionEdgeToJson(CollectionEdge instance) =>
 Collection _$CollectionFromJson(Map<String, dynamic> json) {
   return Collection()
     ..id = json['id'] as String
-    ..mbid = json['mbid']
+    ..mbid = json['mbid'] as String
     ..name = json['name'] as String
     ..editor = json['editor'] as String
     ..entityType = json['entityType'] as String
     ..type = json['type'] as String
-    ..typeID = json['typeID']
+    ..typeID = json['typeID'] as String
     ..areas = json['areas'] == null
         ? null
         : AreaConnection.fromJson(json['areas'] as Map<String, dynamic>)
@@ -1216,7 +1223,7 @@ Map<String, dynamic> _$EventEdgeToJson(EventEdge instance) => <String, dynamic>{
 Event _$EventFromJson(Map<String, dynamic> json) {
   return Event()
     ..id = json['id'] as String
-    ..mbid = json['mbid']
+    ..mbid = json['mbid'] as String
     ..name = json['name'] as String
     ..disambiguation = json['disambiguation'] as String
     ..aliases = (json['aliases'] as List)
@@ -1226,11 +1233,12 @@ Event _$EventFromJson(Map<String, dynamic> json) {
     ..lifeSpan = json['lifeSpan'] == null
         ? null
         : LifeSpan.fromJson(json['lifeSpan'] as Map<String, dynamic>)
-    ..time = json['time']
+    ..time =
+        json['time'] == null ? null : DateTime.parse(json['time'] as String)
     ..cancelled = json['cancelled'] as bool
     ..setlist = json['setlist'] as String
     ..type = json['type'] as String
-    ..typeID = json['typeID']
+    ..typeID = json['typeID'] as String
     ..relationships = json['relationships'] == null
         ? null
         : Relationships.fromJson(json['relationships'] as Map<String, dynamic>)
@@ -1253,7 +1261,7 @@ Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
       'disambiguation': instance.disambiguation,
       'aliases': instance.aliases,
       'lifeSpan': instance.lifeSpan,
-      'time': instance.time,
+      'time': instance.time?.toIso8601String(),
       'cancelled': instance.cancelled,
       'setlist': instance.setlist,
       'type': instance.type,
@@ -1365,7 +1373,7 @@ Map<String, dynamic> _$InstrumentEdgeToJson(InstrumentEdge instance) =>
 Instrument _$InstrumentFromJson(Map<String, dynamic> json) {
   return Instrument()
     ..id = json['id'] as String
-    ..mbid = json['mbid']
+    ..mbid = json['mbid'] as String
     ..name = json['name'] as String
     ..disambiguation = json['disambiguation'] as String
     ..aliases = (json['aliases'] as List)
@@ -1374,7 +1382,7 @@ Instrument _$InstrumentFromJson(Map<String, dynamic> json) {
         ?.toList()
     ..description = json['description'] as String
     ..type = json['type'] as String
-    ..typeID = json['typeID']
+    ..typeID = json['typeID'] as String
     ..relationships = json['relationships'] == null
         ? null
         : Relationships.fromJson(json['relationships'] as Map<String, dynamic>)
@@ -1410,8 +1418,8 @@ Map<String, dynamic> _$InstrumentToJson(Instrument instance) =>
 
 MediaWikiImage _$MediaWikiImageFromJson(Map<String, dynamic> json) {
   return MediaWikiImage()
-    ..url = json['url']
-    ..descriptionURL = json['descriptionURL']
+    ..url = json['url'] as String
+    ..descriptionURL = json['descriptionURL'] as String
     ..user = json['user'] as String
     ..size = json['size'] as int
     ..width = json['width'] as int
@@ -1425,7 +1433,7 @@ MediaWikiImage _$MediaWikiImageFromJson(Map<String, dynamic> json) {
     ..artistHTML = json['artistHTML'] as String
     ..creditHTML = json['creditHTML'] as String
     ..licenseShortName = json['licenseShortName'] as String
-    ..licenseURL = json['licenseURL']
+    ..licenseURL = json['licenseURL'] as String
     ..metadata = (json['metadata'] as List)
         ?.map((e) => e == null
             ? null
@@ -1511,7 +1519,7 @@ Map<String, dynamic> _$PlaceEdgeToJson(PlaceEdge instance) => <String, dynamic>{
 Place _$PlaceFromJson(Map<String, dynamic> json) {
   return Place()
     ..id = json['id'] as String
-    ..mbid = json['mbid']
+    ..mbid = json['mbid'] as String
     ..name = json['name'] as String
     ..disambiguation = json['disambiguation'] as String
     ..aliases = (json['aliases'] as List)
@@ -1529,7 +1537,7 @@ Place _$PlaceFromJson(Map<String, dynamic> json) {
         ? null
         : LifeSpan.fromJson(json['lifeSpan'] as Map<String, dynamic>)
     ..type = json['type'] as String
-    ..typeID = json['typeID']
+    ..typeID = json['typeID'] as String
     ..events = json['events'] == null
         ? null
         : EventConnection.fromJson(json['events'] as Map<String, dynamic>)
@@ -1571,8 +1579,8 @@ Map<String, dynamic> _$PlaceToJson(Place instance) => <String, dynamic>{
 
 Coordinates _$CoordinatesFromJson(Map<String, dynamic> json) {
   return Coordinates()
-    ..latitude = json['latitude']
-    ..longitude = json['longitude'];
+    ..latitude = (json['latitude'] as num)?.toDouble()
+    ..longitude = (json['longitude'] as num)?.toDouble();
 }
 
 Map<String, dynamic> _$CoordinatesToJson(Coordinates instance) =>
@@ -1627,7 +1635,7 @@ Map<String, dynamic> _$ReleaseGroupEdgeToJson(ReleaseGroupEdge instance) =>
 ReleaseGroup _$ReleaseGroupFromJson(Map<String, dynamic> json) {
   return ReleaseGroup()
     ..id = json['id'] as String
-    ..mbid = json['mbid']
+    ..mbid = json['mbid'] as String
     ..title = json['title'] as String
     ..disambiguation = json['disambiguation'] as String
     ..aliases = (json['aliases'] as List)
@@ -1642,14 +1650,17 @@ ReleaseGroup _$ReleaseGroupFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : ArtistCredit.fromJson(e as Map<String, dynamic>))
         ?.toList()
-    ..firstReleaseDate = json['firstReleaseDate']
+    ..firstReleaseDate = json['firstReleaseDate'] == null
+        ? null
+        : DateTime.parse(json['firstReleaseDate'] as String)
     ..primaryType =
         _$enumDecodeNullable(_$ReleaseGroupTypeEnumMap, json['primaryType'])
-    ..primaryTypeID = json['primaryTypeID']
+    ..primaryTypeID = json['primaryTypeID'] as String
     ..secondaryTypes = (json['secondaryTypes'] as List)
         ?.map((e) => _$enumDecodeNullable(_$ReleaseGroupTypeEnumMap, e))
         ?.toList()
-    ..secondaryTypeIDs = json['secondaryTypeIDs'] as List
+    ..secondaryTypeIDs =
+        (json['secondaryTypeIDs'] as List)?.map((e) => e as String)?.toList()
     ..artists = json['artists'] == null
         ? null
         : ArtistConnection.fromJson(json['artists'] as Map<String, dynamic>)
@@ -1693,7 +1704,7 @@ Map<String, dynamic> _$ReleaseGroupToJson(ReleaseGroup instance) =>
       'aliases': instance.aliases,
       'artistCredit': instance.artistCredit,
       'artistCredits': instance.artistCredits,
-      'firstReleaseDate': instance.firstReleaseDate,
+      'firstReleaseDate': instance.firstReleaseDate?.toIso8601String(),
       'primaryType': _$ReleaseGroupTypeEnumMap[instance.primaryType],
       'primaryTypeID': instance.primaryTypeID,
       'secondaryTypes': instance.secondaryTypes
@@ -1734,8 +1745,8 @@ const _$ReleaseGroupTypeEnumMap = <ReleaseGroupType, dynamic>{
 CoverArtArchiveRelease _$CoverArtArchiveReleaseFromJson(
     Map<String, dynamic> json) {
   return CoverArtArchiveRelease()
-    ..front = json['front']
-    ..back = json['back']
+    ..front = json['front'] as String
+    ..back = json['back'] as String
     ..images = (json['images'] as List)
         ?.map((e) => e == null
             ? null
@@ -1762,7 +1773,7 @@ Map<String, dynamic> _$CoverArtArchiveReleaseToJson(
 CoverArtArchiveImage _$CoverArtArchiveImageFromJson(Map<String, dynamic> json) {
   return CoverArtArchiveImage()
     ..fileID = json['fileID'] as String
-    ..image = json['image']
+    ..image = json['image'] as String
     ..thumbnails = json['thumbnails'] == null
         ? null
         : CoverArtArchiveImageThumbnails.fromJson(
@@ -1792,8 +1803,8 @@ Map<String, dynamic> _$CoverArtArchiveImageToJson(
 CoverArtArchiveImageThumbnails _$CoverArtArchiveImageThumbnailsFromJson(
     Map<String, dynamic> json) {
   return CoverArtArchiveImageThumbnails()
-    ..small = json['small']
-    ..large = json['large'];
+    ..small = json['small'] as String
+    ..large = json['large'] as String;
 }
 
 Map<String, dynamic> _$CoverArtArchiveImageThumbnailsToJson(
@@ -1822,7 +1833,7 @@ Map<String, dynamic> _$FanArtAlbumToJson(FanArtAlbum instance) =>
 FanArtImage _$FanArtImageFromJson(Map<String, dynamic> json) {
   return FanArtImage()
     ..imageID = json['imageID'] as String
-    ..url = json['url']
+    ..url = json['url'] as String
     ..likeCount = json['likeCount'] as int;
 }
 
@@ -1836,7 +1847,7 @@ Map<String, dynamic> _$FanArtImageToJson(FanArtImage instance) =>
 FanArtDiscImage _$FanArtDiscImageFromJson(Map<String, dynamic> json) {
   return FanArtDiscImage()
     ..imageID = json['imageID'] as String
-    ..url = json['url']
+    ..url = json['url'] as String
     ..likeCount = json['likeCount'] as int
     ..discNumber = json['discNumber'] as int
     ..size = json['size'] as int;
@@ -1860,10 +1871,10 @@ TheAudioDBAlbum _$TheAudioDBAlbumFromJson(Map<String, dynamic> json) {
     ..salesCount = (json['salesCount'] as num)?.toDouble()
     ..score = (json['score'] as num)?.toDouble()
     ..scoreVotes = (json['scoreVotes'] as num)?.toDouble()
-    ..discImage = json['discImage']
-    ..spineImage = json['spineImage']
-    ..frontImage = json['frontImage']
-    ..backImage = json['backImage']
+    ..discImage = json['discImage'] as String
+    ..spineImage = json['spineImage'] as String
+    ..frontImage = json['frontImage'] as String
+    ..backImage = json['backImage'] as String
     ..genre = json['genre'] as String
     ..mood = json['mood'] as String
     ..style = json['style'] as String
@@ -1895,7 +1906,7 @@ DiscogsMaster _$DiscogsMasterFromJson(Map<String, dynamic> json) {
   return DiscogsMaster()
     ..masterID = json['masterID'] as String
     ..title = json['title'] as String
-    ..url = json['url']
+    ..url = json['url'] as String
     ..artistCredits = (json['artistCredits'] as List)
         ?.map((e) => e == null
             ? null
@@ -1972,8 +1983,8 @@ DiscogsArtist _$DiscogsArtistFromJson(Map<String, dynamic> json) {
             ? null
             : DiscogsArtist.fromJson(e as Map<String, dynamic>))
         ?.toList()
-    ..url = json['url']
-    ..urls = json['urls'] as List
+    ..url = json['url'] as String
+    ..urls = (json['urls'] as List)?.map((e) => e as String)?.toList()
     ..profile = json['profile'] as String
     ..images = (json['images'] as List)
         ?.map((e) =>
@@ -2004,11 +2015,11 @@ Map<String, dynamic> _$DiscogsArtistToJson(DiscogsArtist instance) =>
 
 DiscogsImage _$DiscogsImageFromJson(Map<String, dynamic> json) {
   return DiscogsImage()
-    ..url = json['url']
+    ..url = json['url'] as String
     ..type = _$enumDecodeNullable(_$DiscogsImageTypeEnumMap, json['type'])
     ..width = json['width'] as int
     ..height = json['height'] as int
-    ..thumbnail = json['thumbnail'];
+    ..thumbnail = json['thumbnail'] as String;
 }
 
 Map<String, dynamic> _$DiscogsImageToJson(DiscogsImage instance) =>
@@ -2046,7 +2057,7 @@ DiscogsRelease _$DiscogsReleaseFromJson(Map<String, dynamic> json) {
   return DiscogsRelease()
     ..releaseID = json['releaseID'] as String
     ..title = json['title'] as String
-    ..url = json['url']
+    ..url = json['url'] as String
     ..artistCredits = (json['artistCredits'] as List)
         ?.map((e) => e == null
             ? null
@@ -2067,7 +2078,7 @@ DiscogsRelease _$DiscogsReleaseFromJson(Map<String, dynamic> json) {
     ..master = json['master'] == null
         ? null
         : DiscogsMaster.fromJson(json['master'] as Map<String, dynamic>)
-    ..thumbnail = json['thumbnail']
+    ..thumbnail = json['thumbnail'] as String
     ..images = (json['images'] as List)
         ?.map((e) =>
             e == null ? null : DiscogsImage.fromJson(e as Map<String, dynamic>))
@@ -2106,7 +2117,7 @@ Map<String, dynamic> _$DiscogsReleaseToJson(DiscogsRelease instance) =>
 
 DiscogsVideo _$DiscogsVideoFromJson(Map<String, dynamic> json) {
   return DiscogsVideo()
-    ..url = json['url']
+    ..url = json['url'] as String
     ..title = json['title'] as String
     ..description = json['description'] as String
     ..duration = json['duration'] == null
@@ -2210,11 +2221,11 @@ Map<String, dynamic> _$SeriesEdgeToJson(SeriesEdge instance) =>
 Series _$SeriesFromJson(Map<String, dynamic> json) {
   return Series()
     ..id = json['id'] as String
-    ..mbid = json['mbid']
+    ..mbid = json['mbid'] as String
     ..name = json['name'] as String
     ..disambiguation = json['disambiguation'] as String
     ..type = json['type'] as String
-    ..typeID = json['typeID']
+    ..typeID = json['typeID'] as String
     ..relationships = json['relationships'] == null
         ? null
         : Relationships.fromJson(json['relationships'] as Map<String, dynamic>)
@@ -2281,7 +2292,7 @@ Map<String, dynamic> _$WorkEdgeToJson(WorkEdge instance) => <String, dynamic>{
 Work _$WorkFromJson(Map<String, dynamic> json) {
   return Work()
     ..id = json['id'] as String
-    ..mbid = json['mbid']
+    ..mbid = json['mbid'] as String
     ..title = json['title'] as String
     ..disambiguation = json['disambiguation'] as String
     ..aliases = (json['aliases'] as List)
@@ -2291,7 +2302,7 @@ Work _$WorkFromJson(Map<String, dynamic> json) {
     ..iswcs = (json['iswcs'] as List)?.map((e) => e as String)?.toList()
     ..language = json['language'] as String
     ..type = json['type'] as String
-    ..typeID = json['typeID']
+    ..typeID = json['typeID'] as String
     ..artists = json['artists'] == null
         ? null
         : ArtistConnection.fromJson(json['artists'] as Map<String, dynamic>)
@@ -2342,7 +2353,7 @@ Map<String, dynamic> _$FanArtLabelToJson(FanArtLabel instance) =>
 FanArtLabelImage _$FanArtLabelImageFromJson(Map<String, dynamic> json) {
   return FanArtLabelImage()
     ..imageID = json['imageID'] as String
-    ..url = json['url']
+    ..url = json['url'] as String
     ..likeCount = json['likeCount'] as int
     ..color = json['color'] as String;
 }
@@ -2359,7 +2370,7 @@ DiscogsLabel _$DiscogsLabelFromJson(Map<String, dynamic> json) {
   return DiscogsLabel()
     ..labelID = json['labelID'] as String
     ..name = json['name'] as String
-    ..url = json['url']
+    ..url = json['url'] as String
     ..profile = json['profile'] as String
     ..contactInfo = json['contactInfo'] as String
     ..parentLabel = json['parentLabel'] == null
@@ -2391,10 +2402,10 @@ Map<String, dynamic> _$DiscogsLabelToJson(DiscogsLabel instance) =>
 
 LastFMAlbum _$LastFMAlbumFromJson(Map<String, dynamic> json) {
   return LastFMAlbum()
-    ..mbid = json['mbid']
+    ..mbid = json['mbid'] as String
     ..title = json['title'] as String
-    ..url = json['url']
-    ..image = json['image']
+    ..url = json['url'] as String
+    ..image = json['image'] as String
     ..listenerCount = (json['listenerCount'] as num)?.toDouble()
     ..playCount = (json['playCount'] as num)?.toDouble()
     ..description = json['description'] == null
@@ -2426,26 +2437,30 @@ LastFMWikiContent _$LastFMWikiContentFromJson(Map<String, dynamic> json) {
   return LastFMWikiContent()
     ..summaryHTML = json['summaryHTML'] as String
     ..contentHTML = json['contentHTML'] as String
-    ..publishDate = json['publishDate']
-    ..publishTime = json['publishTime']
-    ..url = json['url'];
+    ..publishDate = json['publishDate'] == null
+        ? null
+        : DateTime.parse(json['publishDate'] as String)
+    ..publishTime = json['publishTime'] == null
+        ? null
+        : DateTime.parse(json['publishTime'] as String)
+    ..url = json['url'] as String;
 }
 
 Map<String, dynamic> _$LastFMWikiContentToJson(LastFMWikiContent instance) =>
     <String, dynamic>{
       'summaryHTML': instance.summaryHTML,
       'contentHTML': instance.contentHTML,
-      'publishDate': instance.publishDate,
-      'publishTime': instance.publishTime,
+      'publishDate': instance.publishDate?.toIso8601String(),
+      'publishTime': instance.publishTime?.toIso8601String(),
       'url': instance.url
     };
 
 LastFMArtist _$LastFMArtistFromJson(Map<String, dynamic> json) {
   return LastFMArtist()
-    ..mbid = json['mbid']
+    ..mbid = json['mbid'] as String
     ..name = json['name'] as String
-    ..url = json['url']
-    ..image = json['image']
+    ..url = json['url'] as String
+    ..image = json['image'] as String
     ..listenerCount = (json['listenerCount'] as num)?.toDouble()
     ..playCount = (json['playCount'] as num)?.toDouble()
     ..similarArtists = json['similarArtists'] == null
@@ -2609,7 +2624,7 @@ Map<String, dynamic> _$LastFMTagEdgeToJson(LastFMTagEdge instance) =>
 LastFMTag _$LastFMTagFromJson(Map<String, dynamic> json) {
   return LastFMTag()
     ..name = json['name'] as String
-    ..url = json['url'];
+    ..url = json['url'] as String;
 }
 
 Map<String, dynamic> _$LastFMTagToJson(LastFMTag instance) =>
@@ -2660,9 +2675,9 @@ Map<String, dynamic> _$LastFMTrackEdgeToJson(LastFMTrackEdge instance) =>
 
 LastFMTrack _$LastFMTrackFromJson(Map<String, dynamic> json) {
   return LastFMTrack()
-    ..mbid = json['mbid']
+    ..mbid = json['mbid'] as String
     ..title = json['title'] as String
-    ..url = json['url']
+    ..url = json['url'] as String
     ..duration = json['duration'] == null
         ? null
         : Duration(microseconds: json['duration'] as int)
@@ -2706,7 +2721,7 @@ SpotifyAlbum _$SpotifyAlbumFromJson(Map<String, dynamic> json) {
   return SpotifyAlbum()
     ..albumID = json['albumID'] as String
     ..uri = json['uri'] as String
-    ..href = json['href']
+    ..href = json['href'] as String
     ..title = json['title'] as String
     ..albumType =
         _$enumDecodeNullable(_$ReleaseGroupTypeEnumMap, json['albumType'])
@@ -2739,7 +2754,9 @@ SpotifyAlbum _$SpotifyAlbumFromJson(Map<String, dynamic> json) {
         ?.toList()
     ..label = json['label'] as String
     ..popularity = json['popularity'] as int
-    ..releaseDate = json['releaseDate'];
+    ..releaseDate = json['releaseDate'] == null
+        ? null
+        : DateTime.parse(json['releaseDate'] as String);
 }
 
 Map<String, dynamic> _$SpotifyAlbumToJson(SpotifyAlbum instance) =>
@@ -2758,14 +2775,14 @@ Map<String, dynamic> _$SpotifyAlbumToJson(SpotifyAlbum instance) =>
       'images': instance.images,
       'label': instance.label,
       'popularity': instance.popularity,
-      'releaseDate': instance.releaseDate
+      'releaseDate': instance.releaseDate?.toIso8601String()
     };
 
 SpotifyArtist _$SpotifyArtistFromJson(Map<String, dynamic> json) {
   return SpotifyArtist()
     ..artistID = json['artistID'] as String
     ..uri = json['uri'] as String
-    ..href = json['href']
+    ..href = json['href'] as String
     ..name = json['name'] as String
     ..externalURLs = (json['externalURLs'] as List)
         ?.map((e) => e == null
@@ -2806,7 +2823,7 @@ Map<String, dynamic> _$SpotifyArtistToJson(SpotifyArtist instance) =>
 SpotifyExternalURL _$SpotifyExternalURLFromJson(Map<String, dynamic> json) {
   return SpotifyExternalURL()
     ..type = json['type'] as String
-    ..url = json['url'];
+    ..url = json['url'] as String;
 }
 
 Map<String, dynamic> _$SpotifyExternalURLToJson(SpotifyExternalURL instance) =>
@@ -2814,7 +2831,7 @@ Map<String, dynamic> _$SpotifyExternalURLToJson(SpotifyExternalURL instance) =>
 
 SpotifyImage _$SpotifyImageFromJson(Map<String, dynamic> json) {
   return SpotifyImage()
-    ..url = json['url']
+    ..url = json['url'] as String
     ..width = json['width'] as int
     ..height = json['height'] as int;
 }
@@ -2830,7 +2847,7 @@ SpotifyTrack _$SpotifyTrackFromJson(Map<String, dynamic> json) {
   return SpotifyTrack()
     ..trackID = json['trackID'] as String
     ..uri = json['uri'] as String
-    ..href = json['href']
+    ..href = json['href'] as String
     ..title = json['title'] as String
     ..audioFeatures = json['audioFeatures'] == null
         ? null
@@ -2862,7 +2879,7 @@ SpotifyTrack _$SpotifyTrackFromJson(Map<String, dynamic> json) {
             : SpotifyExternalURL.fromJson(e as Map<String, dynamic>))
         ?.toList()
     ..popularity = json['popularity'] as int
-    ..previewURL = json['previewURL']
+    ..previewURL = json['previewURL'] as String
     ..trackNumber = json['trackNumber'] as int
     ..musicBrainz = json['musicBrainz'] == null
         ? null
@@ -2966,7 +2983,7 @@ TheAudioDBTrack _$TheAudioDBTrackFromJson(Map<String, dynamic> json) {
     ..albumID = json['albumID'] as String
     ..artistID = json['artistID'] as String
     ..description = json['description'] as String
-    ..thumbnail = json['thumbnail']
+    ..thumbnail = json['thumbnail'] as String
     ..score = (json['score'] as num)?.toDouble()
     ..scoreVotes = (json['scoreVotes'] as num)?.toDouble()
     ..trackNumber = json['trackNumber'] as int
@@ -2999,10 +3016,11 @@ Map<String, dynamic> _$TheAudioDBTrackToJson(TheAudioDBTrack instance) =>
 
 TheAudioDBMusicVideo _$TheAudioDBMusicVideoFromJson(Map<String, dynamic> json) {
   return TheAudioDBMusicVideo()
-    ..url = json['url']
+    ..url = json['url'] as String
     ..companyName = json['companyName'] as String
     ..directorName = json['directorName'] as String
-    ..screenshots = json['screenshots'] as List
+    ..screenshots =
+        (json['screenshots'] as List)?.map((e) => e as String)?.toList()
     ..viewCount = (json['viewCount'] as num)?.toDouble()
     ..likeCount = (json['likeCount'] as num)?.toDouble()
     ..dislikeCount = (json['dislikeCount'] as num)?.toDouble()
@@ -3060,10 +3078,10 @@ TheAudioDBArtist _$TheAudioDBArtistFromJson(Map<String, dynamic> json) {
     ..artistID = json['artistID'] as String
     ..biography = json['biography'] as String
     ..memberCount = json['memberCount'] as int
-    ..banner = json['banner']
-    ..fanArt = json['fanArt'] as List
-    ..logo = json['logo']
-    ..thumbnail = json['thumbnail']
+    ..banner = json['banner'] as String
+    ..fanArt = (json['fanArt'] as List)?.map((e) => e as String)?.toList()
+    ..logo = json['logo'] as String
+    ..thumbnail = json['thumbnail'] as String
     ..genre = json['genre'] as String
     ..mood = json['mood'] as String
     ..style = json['style'] as String;
@@ -3104,8 +3122,8 @@ Map<String, dynamic> _$LastFMCountryToJson(LastFMCountry instance) =>
 URL _$URLFromJson(Map<String, dynamic> json) {
   return URL()
     ..id = json['id'] as String
-    ..mbid = json['mbid']
-    ..resource = json['resource']
+    ..mbid = json['mbid'] as String
+    ..resource = json['resource'] as String
     ..relationships = json['relationships'] == null
         ? null
         : Relationships.fromJson(json['relationships'] as Map<String, dynamic>);

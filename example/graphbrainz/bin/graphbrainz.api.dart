@@ -46,14 +46,14 @@ class LookupQuery {
 @JsonSerializable()
 class Area {
   String id;
-  MBID mbid;
+  String mbid;
   String name;
   String sortName;
   String disambiguation;
   List<Alias> aliases;
   List<String> isoCodes;
   String type;
-  MBID typeID;
+  String typeID;
   ArtistConnection artists;
   EventConnection events;
   LabelConnection labels;
@@ -82,7 +82,7 @@ class Node {
 
 @JsonSerializable()
 class Entity {
-  MBID mbid;
+  String mbid;
 
   Entity();
 
@@ -94,10 +94,10 @@ class Entity {
 class Alias {
   String name;
   String sortName;
-  Locale locale;
+  String locale;
   bool primary;
   String type;
-  MBID typeID;
+  String typeID;
 
   Alias();
 
@@ -149,7 +149,7 @@ class ArtistEdge {
 @JsonSerializable()
 class Artist {
   String id;
-  MBID mbid;
+  String mbid;
   String name;
   String sortName;
   String disambiguation;
@@ -160,11 +160,11 @@ class Artist {
   Area endArea;
   LifeSpan lifeSpan;
   String gender;
-  MBID genderID;
+  String genderID;
   String type;
-  MBID typeID;
-  List<IPI> ipis;
-  List<ISNI> isnis;
+  String typeID;
+  List<String> ipis;
+  List<String> isnis;
   RecordingConnection recordings;
   ReleaseConnection releases;
   ReleaseGroupConnection releaseGroups;
@@ -188,8 +188,8 @@ class Artist {
 
 @JsonSerializable()
 class LifeSpan {
-  Date begin;
-  Date end;
+  DateTime begin;
+  DateTime end;
   bool ended;
 
   LifeSpan();
@@ -229,13 +229,13 @@ class RecordingEdge {
 @JsonSerializable()
 class Recording {
   String id;
-  MBID mbid;
+  String mbid;
   String title;
   String disambiguation;
   List<Alias> aliases;
   List<ArtistCredit> artistCredit;
   List<ArtistCredit> artistCredits;
-  List<ISRC> isrcs;
+  List<String> isrcs;
   Duration length;
   bool video;
   ArtistConnection artists;
@@ -324,21 +324,21 @@ class ReleaseEdge {
 @JsonSerializable()
 class Release {
   String id;
-  MBID mbid;
+  String mbid;
   String title;
   String disambiguation;
   List<Alias> aliases;
   List<ArtistCredit> artistCredit;
   List<ArtistCredit> artistCredits;
   List<ReleaseEvent> releaseEvents;
-  Date date;
+  DateTime date;
   String country;
-  ASIN asin;
+  String asin;
   String barcode;
   ReleaseStatus status;
-  MBID statusID;
+  String statusID;
   String packaging;
-  MBID packagingID;
+  String packagingID;
   String quality;
   List<Medium> media;
   ArtistConnection artists;
@@ -363,7 +363,7 @@ class Release {
 @JsonSerializable()
 class ReleaseEvent {
   Area area;
-  Date date;
+  DateTime date;
 
   ReleaseEvent();
 
@@ -376,7 +376,7 @@ class ReleaseEvent {
 class Medium {
   String title;
   String format;
-  MBID formatID;
+  String formatID;
   int position;
   int trackCount;
   List<Disc> discs;
@@ -391,7 +391,7 @@ class Medium {
 @JsonSerializable()
 class Disc {
   String id;
-  DiscID discID;
+  String discID;
   int offsetCount;
   List<int> offsets;
   int sectors;
@@ -405,7 +405,7 @@ class Disc {
 
 @JsonSerializable()
 class Track {
-  MBID mbid;
+  String mbid;
   String title;
   int position;
   String number;
@@ -448,7 +448,7 @@ class LabelEdge {
 @JsonSerializable()
 class Label {
   String id;
-  MBID mbid;
+  String mbid;
   String name;
   String sortName;
   String disambiguation;
@@ -457,9 +457,9 @@ class Label {
   Area area;
   LifeSpan lifeSpan;
   int labelCode;
-  List<IPI> ipis;
+  List<String> ipis;
   String type;
-  MBID typeID;
+  String typeID;
   ReleaseConnection releases;
   Relationships relationships;
   CollectionConnection collections;
@@ -531,12 +531,12 @@ class Relationship {
   String targetType;
   String sourceCredit;
   String targetCredit;
-  Date begin;
-  Date end;
+  DateTime begin;
+  DateTime end;
   bool ended;
   List<String> attributes;
   String type;
-  MBID typeID;
+  String typeID;
 
   Relationship();
 
@@ -575,12 +575,12 @@ class CollectionEdge {
 @JsonSerializable()
 class Collection {
   String id;
-  MBID mbid;
+  String mbid;
   String name;
   String editor;
   String entityType;
   String type;
-  MBID typeID;
+  String typeID;
   AreaConnection areas;
   ArtistConnection artists;
   EventConnection events;
@@ -657,16 +657,16 @@ class EventEdge {
 @JsonSerializable()
 class Event {
   String id;
-  MBID mbid;
+  String mbid;
   String name;
   String disambiguation;
   List<Alias> aliases;
   LifeSpan lifeSpan;
-  Time time;
+  DateTime time;
   bool cancelled;
   String setlist;
   String type;
-  MBID typeID;
+  String typeID;
   Relationships relationships;
   CollectionConnection collections;
   Rating rating;
@@ -757,13 +757,13 @@ class InstrumentEdge {
 @JsonSerializable()
 class Instrument {
   String id;
-  MBID mbid;
+  String mbid;
   String name;
   String disambiguation;
   List<Alias> aliases;
   String description;
   String type;
-  MBID typeID;
+  String typeID;
   Relationships relationships;
   CollectionConnection collections;
   TagConnection tags;
@@ -778,8 +778,8 @@ class Instrument {
 
 @JsonSerializable()
 class MediaWikiImage {
-  URLString url;
-  URLString descriptionURL;
+  String url;
+  String descriptionURL;
   String user;
   int size;
   int width;
@@ -792,7 +792,7 @@ class MediaWikiImage {
   String artistHTML;
   String creditHTML;
   String licenseShortName;
-  URLString licenseURL;
+  String licenseURL;
   List<MediaWikiImageMetadata> metadata;
 
   MediaWikiImage();
@@ -845,7 +845,7 @@ class PlaceEdge {
 @JsonSerializable()
 class Place {
   String id;
-  MBID mbid;
+  String mbid;
   String name;
   String disambiguation;
   List<Alias> aliases;
@@ -854,7 +854,7 @@ class Place {
   Coordinates coordinates;
   LifeSpan lifeSpan;
   String type;
-  MBID typeID;
+  String typeID;
   EventConnection events;
   Relationships relationships;
   CollectionConnection collections;
@@ -869,8 +869,8 @@ class Place {
 
 @JsonSerializable()
 class Coordinates {
-  Degrees latitude;
-  Degrees longitude;
+  double latitude;
+  double longitude;
 
   Coordinates();
 
@@ -909,17 +909,17 @@ class ReleaseGroupEdge {
 @JsonSerializable()
 class ReleaseGroup {
   String id;
-  MBID mbid;
+  String mbid;
   String title;
   String disambiguation;
   List<Alias> aliases;
   List<ArtistCredit> artistCredit;
   List<ArtistCredit> artistCredits;
-  Date firstReleaseDate;
+  DateTime firstReleaseDate;
   ReleaseGroupType primaryType;
-  MBID primaryTypeID;
+  String primaryTypeID;
   List<ReleaseGroupType> secondaryTypes;
-  List<MBID> secondaryTypeIDs;
+  List<String> secondaryTypeIDs;
   ArtistConnection artists;
   ReleaseConnection releases;
   Relationships relationships;
@@ -940,8 +940,8 @@ class ReleaseGroup {
 
 @JsonSerializable()
 class CoverArtArchiveRelease {
-  URLString front;
-  URLString back;
+  String front;
+  String back;
   List<CoverArtArchiveImage> images;
   bool artwork;
   int count;
@@ -963,7 +963,7 @@ enum CoverArtArchiveImageSize {
 @JsonSerializable()
 class CoverArtArchiveImage {
   String fileID;
-  URLString image;
+  String image;
   CoverArtArchiveImageThumbnails thumbnails;
   bool front;
   bool back;
@@ -981,8 +981,8 @@ class CoverArtArchiveImage {
 
 @JsonSerializable()
 class CoverArtArchiveImageThumbnails {
-  URLString small;
-  URLString large;
+  String small;
+  String large;
 
   CoverArtArchiveImageThumbnails();
 
@@ -1006,7 +1006,7 @@ class FanArtAlbum {
 @JsonSerializable()
 class FanArtImage {
   String imageID;
-  URLString url;
+  String url;
   int likeCount;
 
   FanArtImage();
@@ -1024,7 +1024,7 @@ enum FanArtImageSize {
 @JsonSerializable()
 class FanArtDiscImage {
   String imageID;
-  URLString url;
+  String url;
   int likeCount;
   int discNumber;
   int size;
@@ -1045,10 +1045,10 @@ class TheAudioDBAlbum {
   double salesCount;
   double score;
   double scoreVotes;
-  URLString discImage;
-  URLString spineImage;
-  URLString frontImage;
-  URLString backImage;
+  String discImage;
+  String spineImage;
+  String frontImage;
+  String backImage;
   String genre;
   String mood;
   String style;
@@ -1071,7 +1071,7 @@ enum TheAudioDBImageSize {
 class DiscogsMaster {
   String masterID;
   String title;
-  URLString url;
+  String url;
   List<DiscogsArtistCredit> artistCredits;
   List<String> genres;
   List<String> styles;
@@ -1113,8 +1113,8 @@ class DiscogsArtist {
   List<String> nameVariations;
   String realName;
   List<DiscogsArtist> aliases;
-  URLString url;
-  List<URLString> urls;
+  String url;
+  List<String> urls;
   String profile;
   List<DiscogsImage> images;
   List<DiscogsArtistMember> members;
@@ -1129,11 +1129,11 @@ class DiscogsArtist {
 
 @JsonSerializable()
 class DiscogsImage {
-  URLString url;
+  String url;
   DiscogsImageType type;
   int width;
   int height;
-  URLString thumbnail;
+  String thumbnail;
 
   DiscogsImage();
 
@@ -1164,7 +1164,7 @@ class DiscogsArtistMember {
 class DiscogsRelease {
   String releaseID;
   String title;
-  URLString url;
+  String url;
   List<DiscogsArtistCredit> artistCredits;
   List<DiscogsArtistCredit> extraArtistCredits;
   List<String> genres;
@@ -1175,7 +1175,7 @@ class DiscogsRelease {
   String notes;
   String country;
   DiscogsMaster master;
-  URLString thumbnail;
+  String thumbnail;
   List<DiscogsImage> images;
   List<DiscogsVideo> videos;
   DiscogsCommunity community;
@@ -1190,7 +1190,7 @@ class DiscogsRelease {
 
 @JsonSerializable()
 class DiscogsVideo {
-  URLString url;
+  String url;
   String title;
   String description;
   Duration duration;
@@ -1272,11 +1272,11 @@ class SeriesEdge {
 @JsonSerializable()
 class Series {
   String id;
-  MBID mbid;
+  String mbid;
   String name;
   String disambiguation;
   String type;
-  MBID typeID;
+  String typeID;
   Relationships relationships;
   CollectionConnection collections;
   TagConnection tags;
@@ -1317,14 +1317,14 @@ class WorkEdge {
 @JsonSerializable()
 class Work {
   String id;
-  MBID mbid;
+  String mbid;
   String title;
   String disambiguation;
   List<Alias> aliases;
   List<String> iswcs;
   String language;
   String type;
-  MBID typeID;
+  String typeID;
   ArtistConnection artists;
   Relationships relationships;
   CollectionConnection collections;
@@ -1351,7 +1351,7 @@ class FanArtLabel {
 @JsonSerializable()
 class FanArtLabelImage {
   String imageID;
-  URLString url;
+  String url;
   int likeCount;
   String color;
 
@@ -1366,7 +1366,7 @@ class FanArtLabelImage {
 class DiscogsLabel {
   String labelID;
   String name;
-  URLString url;
+  String url;
   String profile;
   String contactInfo;
   DiscogsLabel parentLabel;
@@ -1383,10 +1383,10 @@ class DiscogsLabel {
 
 @JsonSerializable()
 class LastFMAlbum {
-  MBID mbid;
+  String mbid;
   String title;
-  URLString url;
-  URLString image;
+  String url;
+  String image;
   double listenerCount;
   double playCount;
   LastFMWikiContent description;
@@ -1412,9 +1412,9 @@ enum LastFMImageSize {
 class LastFMWikiContent {
   String summaryHTML;
   String contentHTML;
-  Date publishDate;
-  Time publishTime;
-  URLString url;
+  DateTime publishDate;
+  DateTime publishTime;
+  String url;
 
   LastFMWikiContent();
 
@@ -1425,10 +1425,10 @@ class LastFMWikiContent {
 
 @JsonSerializable()
 class LastFMArtist {
-  MBID mbid;
+  String mbid;
   String name;
-  URLString url;
-  URLString image;
+  String url;
+  String image;
   double listenerCount;
   double playCount;
   LastFMArtistConnection similarArtists;
@@ -1527,7 +1527,7 @@ class LastFMTagEdge {
 @JsonSerializable()
 class LastFMTag {
   String name;
-  URLString url;
+  String url;
 
   LastFMTag();
 
@@ -1565,9 +1565,9 @@ class LastFMTrackEdge {
 
 @JsonSerializable()
 class LastFMTrack {
-  MBID mbid;
+  String mbid;
   String title;
-  URLString url;
+  String url;
   Duration duration;
   double listenerCount;
   double playCount;
@@ -1593,7 +1593,7 @@ enum SpotifyMatchStrategy {
 class SpotifyAlbum {
   String albumID;
   String uri;
-  URLString href;
+  String href;
   String title;
   ReleaseGroupType albumType;
   List<SpotifyArtist> artists;
@@ -1605,7 +1605,7 @@ class SpotifyAlbum {
   List<SpotifyImage> images;
   String label;
   int popularity;
-  Date releaseDate;
+  DateTime releaseDate;
 
   SpotifyAlbum();
 
@@ -1618,7 +1618,7 @@ class SpotifyAlbum {
 class SpotifyArtist {
   String artistID;
   String uri;
-  URLString href;
+  String href;
   String name;
   List<SpotifyExternalURL> externalURLs;
   List<String> genres;
@@ -1637,7 +1637,7 @@ class SpotifyArtist {
 @JsonSerializable()
 class SpotifyExternalURL {
   String type;
-  URLString url;
+  String url;
 
   SpotifyExternalURL();
 
@@ -1648,7 +1648,7 @@ class SpotifyExternalURL {
 
 @JsonSerializable()
 class SpotifyImage {
-  URLString url;
+  String url;
   int width;
   int height;
 
@@ -1663,7 +1663,7 @@ class SpotifyImage {
 class SpotifyTrack {
   String trackID;
   String uri;
-  URLString href;
+  String href;
   String title;
   SpotifyAudioFeatures audioFeatures;
   SpotifyAlbum album;
@@ -1675,7 +1675,7 @@ class SpotifyTrack {
   List<SpotifyExternalID> externalIDs;
   List<SpotifyExternalURL> externalURLs;
   int popularity;
-  URLString previewURL;
+  String previewURL;
   int trackNumber;
   Recording musicBrainz;
 
@@ -1750,7 +1750,7 @@ class TheAudioDBTrack {
   String albumID;
   String artistID;
   String description;
-  URLString thumbnail;
+  String thumbnail;
   double score;
   double scoreVotes;
   int trackNumber;
@@ -1769,10 +1769,10 @@ class TheAudioDBTrack {
 
 @JsonSerializable()
 class TheAudioDBMusicVideo {
-  URLString url;
+  String url;
   String companyName;
   String directorName;
-  List<URLString> screenshots;
+  List<String> screenshots;
   double viewCount;
   double likeCount;
   double dislikeCount;
@@ -1805,10 +1805,10 @@ class TheAudioDBArtist {
   String artistID;
   String biography;
   int memberCount;
-  URLString banner;
-  List<URLString> fanArt;
-  URLString logo;
-  URLString thumbnail;
+  String banner;
+  List<String> fanArt;
+  String logo;
+  String thumbnail;
   String genre;
   String mood;
   String style;
@@ -1835,8 +1835,8 @@ class LastFMCountry {
 @JsonSerializable()
 class URL {
   String id;
-  MBID mbid;
-  URLString resource;
+  String mbid;
+  String resource;
   Relationships relationships;
 
   URL();
