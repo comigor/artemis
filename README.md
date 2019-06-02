@@ -27,3 +27,25 @@ or
 ```shell
 flutter packages get
 ```
+
+Now `artemis` will generate the API file for you by running:
+```shell
+pub run build_runner build
+```
+
+## **Custom Scalars**
+If your schema uses custom scalars, they must be defined on `build.yaml` file on the root the project. If it needs a custom parser (to decode from/to json), the `custom_parser_import` path must be set and the file must implement both `fromGraphQL___ToDart___` and `fromDart___toGraphQL___` constant functions.
+
+```yaml
+targets:
+  $default:
+    builders:
+      artemis:
+        options:
+          custom_parser_import: 'package:graphbrainz_example/coercers.dart'
+          scalar_mapping:
+          - graphql_type: Date
+            dart_type: DateTime
+```
+
+See [examples](./example) for more information and configuration options.
