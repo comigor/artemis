@@ -4,21 +4,20 @@ version: 0.0.1
 authors:
   - Igor Borges <igor@borges.me>
 
-description: Build dart types based on a GraphQL schema (from Introspection Query).
+description: Build dart types from a GraphQL schema (from Introspection Query).
 homepage: https://github.com/Igor1201/artemis
 
 environment:
   sdk: '>=2.0.0 <3.0.0'
 
 dependencies:
-  build: ^1.1.2
-  source_gen: ^0.9.4+1
-  analyzer: ^0.35.0
-  build_runner: ^1.0.0
-  json_serializable: ^2.0.0
-  intl: ^0.15.8
+  analyzer: ^0.36.3
+  build: ^1.1.4
+  source_gen: ^0.9.4+2
   path: ^1.6.2
-  http: ^0.12.0+2
 
 dev_dependencies:
-  test: ^1.0.0
+  http: ^0.12.0+2
+  build_runner: ^1.5.0
+  json_serializable: ^3.0.0
+  test: ^1.6.3
