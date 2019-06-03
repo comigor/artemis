@@ -11,8 +11,8 @@ action "tag-filter" {
 action "test" {
   uses = "Igor1201/actions/dart-test@master"
   env = {
-    DTA_DISABLE_ANALYZER = NO
-    DTA_DISABLE_TESTS = NO
+    DTA_DISABLE_ANALYZER = "NO"
+    DTA_DISABLE_TESTS = "NO"
   }
   needs = ["tag-filter"]
 }
