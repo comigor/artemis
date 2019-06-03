@@ -18,8 +18,13 @@ Add the following to your `pubspec.yaml` file:
 ```yaml
 dev_dependencies:
   artemis: <1.0.0
+  build_runner: ^1.5.0
+  json_serializable: ^3.0.0
 ```
-then run:
+
+>ℹ️ Note that `build_runner` and `json_serializable` are required!
+
+Then run:
 ```shell
 pub packages get
 ```
@@ -31,6 +36,10 @@ flutter packages get
 Now `artemis` will generate the API file for you by running:
 ```shell
 pub run build_runner build
+```
+or
+```shell
+flutter pub run build_runner build
 ```
 
 ## **Custom Scalars**
