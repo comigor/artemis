@@ -6,6 +6,9 @@ part 'pokemon.api.g.dart';
 
 @JsonSerializable()
 class Query {
+  @override
+  @JsonKey(name: '__typename')
+  String typename;
   Query query;
   List<Pokemon> pokemons;
   Pokemon pokemon;
@@ -18,6 +21,9 @@ class Query {
 
 @JsonSerializable()
 class Pokemon {
+  @override
+  @JsonKey(name: '__typename')
+  String typename;
   String id;
   String number;
   String name;
@@ -44,6 +50,9 @@ class Pokemon {
 
 @JsonSerializable()
 class PokemonDimension {
+  @override
+  @JsonKey(name: '__typename')
+  String typename;
   String minimum;
   String maximum;
 
@@ -56,6 +65,9 @@ class PokemonDimension {
 
 @JsonSerializable()
 class PokemonAttack {
+  @override
+  @JsonKey(name: '__typename')
+  String typename;
   List<Attack> fast;
   List<Attack> special;
 
@@ -68,6 +80,9 @@ class PokemonAttack {
 
 @JsonSerializable()
 class Attack {
+  @override
+  @JsonKey(name: '__typename')
+  String typename;
   String name;
   String type;
   int damage;
@@ -80,6 +95,9 @@ class Attack {
 
 @JsonSerializable()
 class PokemonEvolutionRequirement {
+  @override
+  @JsonKey(name: '__typename')
+  String typename;
   int amount;
   String name;
 
