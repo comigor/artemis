@@ -44,7 +44,7 @@ List<ScalarMap> _defaultScalarMapping = [
   ScalarMap(graphQLType: 'String', dartType: 'String'),
 ];
 
-ScalarMap getSingleScalarMap(GeneratorOptions options, GraphQLType type) =>
+ScalarMap _getSingleScalarMap(GeneratorOptions options, GraphQLType type) =>
     options.scalarMapping.followedBy(_defaultScalarMapping).firstWhere(
         (m) => m.graphQLType == type.name,
         orElse: () => ScalarMap(graphQLType: type.name, dartType: type.name));
@@ -61,7 +61,7 @@ void _generateClassProperty(StringBuffer buffer, GraphQLSchema schema,
     {String prefix = '', bool override = false}) {
   final subType = _getTypeFromField(schema, field);
   final isList = _isEventuallyList(field.type);
-  final scalar = getSingleScalarMap(options, subType);
+  final scalar = _getSingleScalarMap(options, subType);
 
   final typeStr = subType.kind == GraphQLTypeKind.SCALAR
       ? scalar.dartType
