@@ -63,15 +63,10 @@ part 'api.api.g.dart';
 class SomeObject {
   @JsonKey(name: \'__typename\')
   String typename;
-
   bool b;
-
   double f;
-
   String id;
-
   int i;
-
   String s;
 
   SomeObject();
@@ -122,12 +117,10 @@ part 'api.api.g.dart';
 class SomeObject {
   @JsonKey(name: \'__typename\')
   String typename;
-
   @JsonKey(
       fromJson: fromGraphQLDateToDartDateTime,
       toJson: fromDartDateTimeToGraphQLDate)
   DateTime d;
-
   double n;
 
   SomeObject();
