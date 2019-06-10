@@ -12,8 +12,38 @@ String jsonFromSchema(GraphQLSchema schema) => json.encode({
     });
 
 void main() {
-  group('On scalars', () {
+  group('On objects', () {
     final builder = graphQLTypesBuilder(BuilderOptions({}));
+
+    test('Even without properties, a object has __typename', () async {
+      final GraphQLSchema schema = GraphQLSchema(types: [
+        GraphQLType(
+            name: 'SomeObject', kind: GraphQLTypeKind.OBJECT, fields: []),
+      ]);
+
+      await testBuilder(builder, {
+        'a|api.schema.json': jsonFromSchema(schema),
+      }, outputs: {
+        'a|api.api.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
+
+import 'package:json_annotation/json_annotation.dart';
+
+part 'api.api.g.dart';
+
+@JsonSerializable()
+class SomeObject {
+  @JsonKey(name: \'__typename\')
+  String typename;
+
+  SomeObject();
+
+  factory SomeObject.fromJson(Map<String, dynamic> json) =>
+      _\$SomeObjectFromJson(json);
+  Map<String, dynamic> toJson() => _\$SomeObjectToJson(this);
+}
+''',
+      });
+    });
 
     test('Every object yield its own class', () async {
       final GraphQLSchema schema = GraphQLSchema(types: [
@@ -38,7 +68,6 @@ part 'api.api.g.dart';
 class SomeObject {
   @JsonKey(name: \'__typename\')
   String typename;
-
   String id;
 
   SomeObject();

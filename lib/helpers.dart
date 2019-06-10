@@ -140,8 +140,7 @@ void _generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
           .toList();
 
       // Always generate __typename property
-      _generateTypenameProperty(buffer,
-          override: type.kind == GraphQLTypeKind.OBJECT);
+      _generateTypenameProperty(buffer, override: type.interfaces.isNotEmpty);
 
       for (final subField in type.fields) {
         final override = interfaceFields.any((f) => f.name == subField.name);
