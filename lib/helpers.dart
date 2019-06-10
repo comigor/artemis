@@ -90,6 +90,11 @@ void _generateTypenameProperty(StringBuffer buffer, {bool override = false}) {
   String typename;''');
 }
 
+void _generateResolveTypeProperty(StringBuffer buffer) {
+  buffer.writeln('''  @JsonKey(name: '__resolveType')
+  String resolveType;''');
+}
+
 void _generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
     GeneratorOptions options,
     {String prefix = ''}) {
@@ -110,12 +115,9 @@ void _generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
     case GraphQLTypeKind.UNION:
       buffer.writeln('@JsonSerializable()');
       buffer.writeln('class $className {');
-      for (final unionType in type.possibleTypes) {
-        for (final subField in unionType.fields) {
-          _generateClassProperty(buffer, schema, subField, options,
-              prefix: prefix);
-        }
-      }
+
+      _generateResolveTypeProperty(buffer);
+
       buffer.writeln('''
   
   $className();
@@ -124,11 +126,23 @@ void _generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
   Map<String, dynamic> toJson() => _\$${className}ToJson(this);''');
       buffer.writeln('}');
       return;
-    case GraphQLTypeKind.INTERFACE:
+    // case GraphQLTypeKind.INTERFACE:
     case GraphQLTypeKind.OBJECT:
-      final mixins = type.interfaces.isNotEmpty
-          ? ('implements ' + type.interfaces.map((i) => i.name).join(', '))
-          : '';
+      String mixins = '';
+
+      // Part of a union type
+      final unionOf = schema.types.firstWhere(
+          (t) => t.possibleTypes.any((pt) => pt.name == type.name),
+          orElse: () => null);
+      if (unionOf != null) {
+        mixins = 'extends ${unionOf.name}';
+      }
+
+      // Implements some interface
+      if (type.interfaces.isNotEmpty) {
+        mixins = '$mixins implements ' +
+            type.interfaces.map((i) => i.name).join(', ');
+      }
 
       buffer.writeln('@JsonSerializable()');
       buffer.writeln('class $className $mixins {');
@@ -140,7 +154,7 @@ void _generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
           .toList();
 
       // Always generate __typename property
-      _generateTypenameProperty(buffer, override: type.interfaces.isNotEmpty);
+      // _generateTypenameProperty(buffer, override: type.interfaces.isNotEmpty);
 
       for (final subField in type.fields) {
         final override = interfaceFields.any((f) => f.name == subField.name);

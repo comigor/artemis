@@ -50,8 +50,7 @@ class Book extends Result {
 
   Book();
 
-  factory Book.fromJson(Map<String, dynamic> json) =>
-      _\$BookFromJson(json);
+  factory Book.fromJson(Map<String, dynamic> json) => _\$BookFromJson(json);
   Map<String, dynamic> toJson() => _\$BookToJson(this);
 }
 
@@ -61,8 +60,7 @@ class Author extends Result {
 
   Author();
 
-  factory Author.fromJson(Map<String, dynamic> json) =>
-      _\$AuthorFromJson(json);
+  factory Author.fromJson(Map<String, dynamic> json) => _\$AuthorFromJson(json);
   Map<String, dynamic> toJson() => _\$AuthorToJson(this);
 }
 
@@ -73,8 +71,7 @@ class Result {
 
   Result();
 
-  factory Result.fromJson(Map<String, dynamic> json) =>
-      _\$ResultFromJson(json);
+  factory Result.fromJson(Map<String, dynamic> json) => _\$ResultFromJson(json);
   Map<String, dynamic> toJson() => _\$ResultToJson(this);
 }
 ''',
