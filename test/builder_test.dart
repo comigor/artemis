@@ -50,6 +50,20 @@ void main() {
       });
     });
 
+    test('Weird .schema.json file names', () async {
+      await testBuilder(builder, {
+        'a|..schema.json': _emptyIntrospectionSchema,
+        'a|-.schema.json': _emptyIntrospectionSchema,
+        'a|_.schema.json': _emptyIntrospectionSchema,
+        'a|_a_.schema.json': _emptyIntrospectionSchema,
+      }, outputs: {
+        'a|..api.dart': emptyGeneratorResponse('.'),
+        'a|-.api.dart': emptyGeneratorResponse('-'),
+        'a|_.api.dart': emptyGeneratorResponse('_'),
+        'a|_a_.api.dart': emptyGeneratorResponse('_a_'),
+      });
+    });
+
     test(
         'A .schema.json file must be an Introspection Query response, or generator will throw',
         () async {
