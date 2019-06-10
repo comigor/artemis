@@ -271,6 +271,9 @@ GraphQLSchema schemaFromJsonString(String jsonS) =>
 
 Future<String> generate(
     GraphQLSchema schema, String path, GeneratorOptions options) async {
+  assert(schema != null, 'Schema can\'t be null.');
+  assert(path != null, 'Input file can\'t be null.');
+
   final basename = p.basenameWithoutExtension(path);
   final customParserImport = options.customParserImport != null
       ? '  import \'${options.customParserImport}\';'
