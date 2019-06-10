@@ -78,59 +78,5 @@ class SomeObject {
 ''',
       });
     });
-
-    test('Custom scalars can have custom parsers', () async {
-      final anotherBuilder = graphQLTypesBuilder(BuilderOptions({
-        'custom_parser_import': 'package:a/coercers.dart',
-        'scalar_mapping': [
-          {
-            'graphql_type': 'Date',
-            'dart_type': 'DateTime',
-            'use_custom_parser': true,
-          },
-          {
-            'graphql_type': 'CustomNumber',
-            'dart_type': 'double',
-          }
-        ]
-      }));
-      final GraphQLSchema schema = GraphQLSchema(types: [
-        GraphQLType(name: 'Date', kind: GraphQLTypeKind.SCALAR),
-        GraphQLType(name: 'CustomNumber', kind: GraphQLTypeKind.SCALAR),
-        GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT, fields: [
-          GraphQLField(name: 'd', type: GraphQLType(name: 'Date')),
-          GraphQLField(name: 'n', type: GraphQLType(name: 'CustomNumber')),
-        ]),
-      ]);
-
-      await testBuilder(anotherBuilder, {
-        'a|api.schema.json': jsonFromSchema(schema),
-      }, outputs: {
-        'a|api.api.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
-
-import 'package:json_annotation/json_annotation.dart';
-import 'package:a/coercers.dart';
-
-part 'api.api.g.dart';
-
-@JsonSerializable()
-class SomeObject {
-  @JsonKey(name: \'__typename\')
-  String typename;
-  @JsonKey(
-      fromJson: fromGraphQLDateToDartDateTime,
-      toJson: fromDartDateTimeToGraphQLDate)
-  DateTime d;
-  double n;
-
-  SomeObject();
-
-  factory SomeObject.fromJson(Map<String, dynamic> json) =>
-      _\$SomeObjectFromJson(json);
-  Map<String, dynamic> toJson() => _\$SomeObjectToJson(this);
-}
-''',
-      });
-    });
   });
 }
