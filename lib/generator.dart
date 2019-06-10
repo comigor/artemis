@@ -14,10 +14,9 @@ Builder graphQLTypesBuilder(BuilderOptions options) =>
     GraphQLTypesBuilder(options);
 
 class GraphQLTypesBuilder implements Builder {
-  GraphQLTypesBuilder(this._builderOptions)
-      : options = GeneratorOptions.fromJson(_builderOptions.config);
+  GraphQLTypesBuilder(BuilderOptions builderOptions)
+      : options = GeneratorOptions.fromJson(builderOptions.config);
 
-  final BuilderOptions _builderOptions;
   final GeneratorOptions options;
 
   @override
