@@ -1,6 +1,7 @@
 import 'package:build/build.dart';
 import 'package:build_test/build_test.dart';
 import 'package:test/test.dart';
+
 import 'package:artemis/generator.dart';
 
 const _emptyIntrospectionSchema = '''{
