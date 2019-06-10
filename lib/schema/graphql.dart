@@ -1,6 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'graphql.g.dart';
+// I can't use the default json_serializable flow because the artemis generator
+// would crash when importing graphql.dart file.
+part 'graphql.g2.dart';
 
 // https://github.com/graphql/graphql-js/blob/master/src/utilities/introspectionQuery.js
 // https://github.com/graphql/graphql-js/blob/master/src/type/introspection.js
@@ -23,8 +25,14 @@ class GraphQLSchema {
   })  : types = types ?? <GraphQLType>[],
         directives = directives ?? <GraphQLDirective>[];
 
-  factory GraphQLSchema.fromJson(Map<String, dynamic> json) =>
-      _$GraphQLSchemaFromJson(json['data']['__schema']);
+  factory GraphQLSchema.fromJson(Map<String, dynamic> json) {
+    assert(
+        json != null &&
+            json['data'] != null &&
+            json['data']['__schema'] != null,
+        'JSON schema file must be the output of a Introspection Query.');
+    return _$GraphQLSchemaFromJson(json['data']['__schema']);
+  }
 
   Map<String, dynamic> toJson() => _$GraphQLSchemaToJson(this);
 }

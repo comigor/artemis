@@ -1,6 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'options.g.dart';
+// I can't use the default json_serializable flow because the artemis generator
+// would crash when importing options.dart file.
+part 'options.g2.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, anyMap: true)
 class GeneratorOptions {

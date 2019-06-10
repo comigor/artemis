@@ -12,4 +12,5 @@ builders:
     build_extensions: {'.schema.json': ['.api.dart']}
     auto_apply: dependents
     build_to: source
+    applies_builders: ['json_serializable']
     runs_before: ['json_serializable']
