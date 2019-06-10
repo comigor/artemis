@@ -30,7 +30,7 @@ class GraphQLSchema {
         json != null &&
             json['data'] != null &&
             json['data']['__schema'] != null,
-        'JSON schema file must be the output of a Introspection Query.');
+        'JSON schema file must be the output of an Introspection Query.');
     return _$GraphQLSchemaFromJson(json['data']['__schema']);
   }
 

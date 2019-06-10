@@ -49,5 +49,20 @@ void main() {
         'a|lib/schemas/project5.api.dart': emptyGeneratorResponse('project5'),
       });
     });
+
+    test(
+        'A .schema.json file must be an Introspection Query response, or generator will throw',
+        () async {
+      expect(testBuilder(builder, {'a|lib/api.schema.json': '{}'}),
+          throwsA(TypeMatcher<AssertionError>()));
+
+      expect(testBuilder(builder, {'a|lib/api.schema.json': '{"data": {}}'}),
+          throwsA(TypeMatcher<AssertionError>()));
+
+      expect(
+          testBuilder(
+              builder, {'a|lib/api.schema.json': 'not even a json file'}),
+          throwsA(TypeMatcher<FormatException>()));
+    });
   });
 }
