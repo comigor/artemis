@@ -38,7 +38,7 @@ void main() {
         GraphQLType(name: 'Song', kind: GraphQLTypeKind.OBJECT, fields: [
           GraphQLField(name: 'id', type: GraphQLType(name: 'String')),
           GraphQLField(name: 'title', type: GraphQLType(name: 'String')),
-          GraphQLField(name: 'duration', type: GraphQLType(name: 'int'))
+          GraphQLField(name: 'duration', type: GraphQLType(name: 'Int'))
         ], interfaces: [
           GraphQLType(name: 'IDable'),
           GraphQLType(name: 'Titleable'),
@@ -60,21 +60,18 @@ class IDable {
 
   IDable();
 
-  factory IDable.fromJson(Map<String, dynamic> json) =>
-      _\$IDableFromJson(json);
-
+  factory IDable.fromJson(Map<String, dynamic> json) => _\$IDableFromJson(json);
   Map<String, dynamic> toJson() => _\$IDableToJson(this);
 }
 
 @JsonSerializable()
 class Titleable {
-  String id;
+  String title;
 
   Titleable();
 
   factory Titleable.fromJson(Map<String, dynamic> json) =>
       _\$TitleableFromJson(json);
-
   Map<String, dynamic> toJson() => _\$TitleableToJson(this);
 }
 
@@ -90,8 +87,7 @@ class Song implements IDable, Titleable {
 
   Song();
 
-  factory Song.fromJson(Map<String, dynamic> json) =>
-      _\$SongFromJson(json);
+  factory Song.fromJson(Map<String, dynamic> json) => _\$SongFromJson(json);
   Map<String, dynamic> toJson() => _\$SongToJson(this);
 }
 ''',

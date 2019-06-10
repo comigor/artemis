@@ -81,15 +81,6 @@ void _generateClassProperty(StringBuffer buffer, GraphQLSchema schema,
   buffer.writeln(_addListIfNecessary(isList, typeStr, field));
 }
 
-void _generateTypenameProperty(StringBuffer buffer, {bool override = false}) {
-  if (override) {
-    buffer.writeln('  @override');
-  }
-
-  buffer.writeln('''  @JsonKey(name: '__typename')
-  String typename;''');
-}
-
 void _generateResolveTypeProperty(StringBuffer buffer) {
   buffer.writeln('''  @JsonKey(name: '__resolveType')
   String resolveType;''');
@@ -126,13 +117,15 @@ void _generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
   Map<String, dynamic> toJson() => _\$${className}ToJson(this);''');
       buffer.writeln('}');
       return;
-    // case GraphQLTypeKind.INTERFACE:
+    case GraphQLTypeKind.INTERFACE:
     case GraphQLTypeKind.OBJECT:
       String mixins = '';
 
       // Part of a union type
       final unionOf = schema.types.firstWhere(
-          (t) => t.possibleTypes.any((pt) => pt.name == type.name),
+          (t) =>
+              t.kind == GraphQLTypeKind.UNION &&
+              t.possibleTypes.any((pt) => pt.name == type.name),
           orElse: () => null);
       if (unionOf != null) {
         mixins = 'extends ${unionOf.name}';
@@ -147,14 +140,15 @@ void _generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
       buffer.writeln('@JsonSerializable()');
       buffer.writeln('class $className $mixins {');
 
+      if (type.interfaces.isNotEmpty) {
+        _generateResolveTypeProperty(buffer);
+      }
+
       final interfaceFields = type.interfaces
           .map((t) => _getTypeByName(schema, t.name))
           .map((t) => t.fields)
           .expand((t) => t)
           .toList();
-
-      // Always generate __typename property
-      // _generateTypenameProperty(buffer, override: type.interfaces.isNotEmpty);
 
       for (final subField in type.fields) {
         final override = interfaceFields.any((f) => f.name == subField.name);
