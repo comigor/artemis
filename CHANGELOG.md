@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 0.1.1
+- Enable tests on pipeline
+
 ## 0.1.0
 - "Fix" json_serializable dependency
 - Add tests
