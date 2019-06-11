@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 0.1.3
+- Make objects that implement interfaces override resolveType
+
 ## 0.1.2
 - Improve package score
 
