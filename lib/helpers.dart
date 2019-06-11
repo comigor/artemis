@@ -22,9 +22,9 @@ String _buildType(GraphQLType type, GeneratorOptions options, String prefix,
     {bool dartType = true}) {
   switch (type.kind) {
     case GraphQLTypeKind.LIST:
-      return 'List<${_buildType(type.ofType, options, prefix)}>';
+      return 'List<${_buildType(type.ofType, options, prefix, dartType: dartType)}>';
     case GraphQLTypeKind.NON_NULL:
-      return _buildType(type.ofType, options, prefix);
+      return _buildType(type.ofType, options, prefix, dartType: dartType);
     case GraphQLTypeKind.SCALAR:
       final scalar = _getSingleScalarMap(options, type);
       return dartType ? scalar.dartType : scalar.graphQLType;

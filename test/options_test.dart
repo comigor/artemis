@@ -70,6 +70,76 @@ class SomeObject {
       });
     });
 
+    test('Custom scalars can be lists', () async {
+      final anotherBuilder = graphQLTypesBuilder(BuilderOptions({
+        'custom_parser_import': 'package:a/coercers.dart',
+        'scalar_mapping': [
+          {
+            'graphql_type': 'MyNumber',
+            'dart_type': 'double',
+            'use_custom_parser': true,
+          }
+        ]
+      }));
+      final GraphQLSchema schema = GraphQLSchema(types: [
+        GraphQLType(name: 'MyNumber', kind: GraphQLTypeKind.SCALAR),
+        GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT, fields: [
+          GraphQLField(
+              name: 'number',
+              type:
+                  GraphQLType(name: 'MyNumber', kind: GraphQLTypeKind.SCALAR)),
+          GraphQLField(
+              name: 'numbers',
+              type: GraphQLType(
+                  kind: GraphQLTypeKind.LIST,
+                  ofType: GraphQLType(
+                      name: 'MyNumber', kind: GraphQLTypeKind.SCALAR))),
+          GraphQLField(
+              name: 'matrix',
+              type: GraphQLType(
+                  kind: GraphQLTypeKind.LIST,
+                  ofType: GraphQLType(
+                      kind: GraphQLTypeKind.LIST,
+                      ofType: GraphQLType(
+                          name: 'MyNumber', kind: GraphQLTypeKind.SCALAR)))),
+        ]),
+      ]);
+
+      await testBuilder(anotherBuilder, {
+        'a|api.schema.json': jsonFromSchema(schema),
+      }, outputs: {
+        'a|api.api.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
+
+import 'package:json_annotation/json_annotation.dart';
+import 'package:a/coercers.dart';
+
+part 'api.api.g.dart';
+
+@JsonSerializable()
+class SomeObject {
+  @JsonKey(
+      fromJson: fromGraphQLMyNumberToDartdouble,
+      toJson: fromDartdoubleToGraphQLMyNumber)
+  double number;
+  @JsonKey(
+      fromJson: fromGraphQLListMyNumberToDartListdouble,
+      toJson: fromDartListdoubleToGraphQLListMyNumber)
+  List<double> numbers;
+  @JsonKey(
+      fromJson: fromGraphQLListListMyNumberToDartListListdouble,
+      toJson: fromDartListListdoubleToGraphQLListListMyNumber)
+  List<List<double>> matrix;
+
+  SomeObject();
+
+  factory SomeObject.fromJson(Map<String, dynamic> json) =>
+      _\$SomeObjectFromJson(json);
+  Map<String, dynamic> toJson() => _\$SomeObjectToJson(this);
+}
+''',
+      });
+    });
+
     test('Custom prefix prefixes all classes and enums', () async {
       final anotherBuilder =
           graphQLTypesBuilder(BuilderOptions({'prefix': 'PRE_'}));
