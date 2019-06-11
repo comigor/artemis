@@ -3,7 +3,8 @@ targets:
     builders:
       json_serializable:
         generate_for:
-        - lib/schema/*
+          - lib/schema/*
+          - test/samples/*
 
 builders:
   artemis:
