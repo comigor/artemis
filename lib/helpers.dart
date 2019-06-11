@@ -86,6 +86,39 @@ void _generateResolveTypeProperty(StringBuffer buffer) {
   String resolveType;''');
 }
 
+void _generateFromToJsonOfPossibleTypes(StringBuffer buffer, GraphQLType type,
+    {String prefix = ''}) {
+  final className = '$prefix${type.name}';
+  buffer.writeln('''
+
+  factory $className.fromJson(Map<String, dynamic> json) {
+    switch (resolveType) {''');
+
+  for (final t in type.possibleTypes) {
+    final tClassName = '$prefix${t.name}';
+    buffer.writeln('''case '$tClassName':
+        return _\$${tClassName}FromJson(json);''');
+  }
+
+  buffer.writeln('''default:
+    }
+    return _\$${className}FromJson(json);
+  }
+  Map<String, dynamic> toJson() {
+    switch (resolveType) {''');
+
+  for (final t in type.possibleTypes) {
+    final tClassName = '$prefix${t.name}';
+    buffer.writeln('''case '$tClassName':
+        return _\$${tClassName}ToJson(this as $tClassName);''');
+  }
+
+  buffer.writeln('''default:
+    }
+    return _\$${className}ToJson(this);
+  }''');
+}
+
 void _generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
     GeneratorOptions options,
     {String prefix = ''}) {
@@ -111,10 +144,10 @@ void _generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
 
       buffer.writeln('''
   
-  $className();
+  $className();''');
 
-  factory $className.fromJson(Map<String, dynamic> json) => _\$${className}FromJson(json);
-  Map<String, dynamic> toJson() => _\$${className}ToJson(this);''');
+      _generateFromToJsonOfPossibleTypes(buffer, type, prefix: prefix);
+
       buffer.writeln('}');
       return;
     case GraphQLTypeKind.INTERFACE:
@@ -140,7 +173,7 @@ void _generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
       buffer.writeln('@JsonSerializable()');
       buffer.writeln('class $className $mixins {');
 
-      if (type.interfaces.isNotEmpty) {
+      if (type.kind == GraphQLTypeKind.INTERFACE) {
         _generateResolveTypeProperty(buffer);
       }
 
@@ -157,10 +190,16 @@ void _generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
       }
       buffer.writeln('''
   
-  $className();
+  $className();''');
 
+      if (type.kind == GraphQLTypeKind.INTERFACE) {
+        _generateFromToJsonOfPossibleTypes(buffer, type, prefix: prefix);
+      } else {
+        buffer.writeln('''
+  
   factory $className.fromJson(Map<String, dynamic> json) => _\$${className}FromJson(json);
   Map<String, dynamic> toJson() => _\$${className}ToJson(this);''');
+      }
       buffer.writeln('}');
       return;
     default:

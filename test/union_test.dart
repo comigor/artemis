@@ -71,8 +71,26 @@ class Result {
 
   Result();
 
-  factory Result.fromJson(Map<String, dynamic> json) => _\$ResultFromJson(json);
-  Map<String, dynamic> toJson() => _\$ResultToJson(this);
+  factory Result.fromJson(Map<String, dynamic> json) {
+    switch (resolveType) {
+      case 'Book':
+        return _\$BookFromJson(json);
+      case 'Author':
+        return _\$AuthorFromJson(json);
+      default:
+    }
+    return _\$ResultFromJson(json);
+  }
+  Map<String, dynamic> toJson() {
+    switch (resolveType) {
+      case 'Book':
+        return _\$BookToJson(this as Book);
+      case 'Author':
+        return _\$AuthorToJson(this as Author);
+      default:
+    }
+    return _\$ResultToJson(this);
+  }
 }
 ''',
       });

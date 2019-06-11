@@ -56,29 +56,58 @@ part 'api.api.g.dart';
 
 @JsonSerializable()
 class IDable {
+  @JsonKey(name: \'__resolveType\')
+  String resolveType;
   String id;
 
   IDable();
 
-  factory IDable.fromJson(Map<String, dynamic> json) => _\$IDableFromJson(json);
-  Map<String, dynamic> toJson() => _\$IDableToJson(this);
+  factory IDable.fromJson(Map<String, dynamic> json) {
+    switch (resolveType) {
+      case 'Song':
+        return _\$SongFromJson(json);
+      default:
+    }
+    return _\$IDableFromJson(json);
+  }
+  Map<String, dynamic> toJson() {
+    switch (resolveType) {
+      case 'Song':
+        return _\$SongToJson(this as Song);
+      default:
+    }
+    return _\$IDableToJson(this);
+  }
 }
 
 @JsonSerializable()
 class Titleable {
+  @JsonKey(name: \'__resolveType\')
+  String resolveType;
   String title;
 
   Titleable();
 
-  factory Titleable.fromJson(Map<String, dynamic> json) =>
-      _\$TitleableFromJson(json);
-  Map<String, dynamic> toJson() => _\$TitleableToJson(this);
+  factory Titleable.fromJson(Map<String, dynamic> json) {
+    switch (resolveType) {
+      case 'Song':
+        return _\$SongFromJson(json);
+      default:
+    }
+    return _\$TitleableFromJson(json);
+  }
+  Map<String, dynamic> toJson() {
+    switch (resolveType) {
+      case 'Song':
+        return _\$SongToJson(this as Song);
+      default:
+    }
+    return _\$TitleableToJson(this);
+  }
 }
 
 @JsonSerializable()
 class Song implements IDable, Titleable {
-  @JsonKey(name: \'__resolveType\')
-  String resolveType;
   @override
   String id;
   @override

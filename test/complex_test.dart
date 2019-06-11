@@ -25,6 +25,7 @@ void main() {
           GraphQLField(name: 'id', type: GraphQLType(name: 'String'))
         ], possibleTypes: [
           GraphQLType(name: 'Song'),
+          GraphQLType(name: 'Book'),
         ]),
         GraphQLType(
             name: 'Titleable',
@@ -34,6 +35,7 @@ void main() {
             ],
             possibleTypes: [
               GraphQLType(name: 'Song'),
+              GraphQLType(name: 'Book'),
             ]),
         GraphQLType(name: 'Song', kind: GraphQLTypeKind.OBJECT, fields: [
           GraphQLField(name: 'id', type: GraphQLType(name: 'String')),
@@ -71,29 +73,66 @@ part 'api.api.g.dart';
 
 @JsonSerializable()
 class IDable {
+  @JsonKey(name: \'__resolveType\')
+  String resolveType;
   String id;
 
   IDable();
 
-  factory IDable.fromJson(Map<String, dynamic> json) => _\$IDableFromJson(json);
-  Map<String, dynamic> toJson() => _\$IDableToJson(this);
+  factory IDable.fromJson(Map<String, dynamic> json) {
+    switch (resolveType) {
+      case 'Song':
+        return _\$SongFromJson(json);
+      case 'Book':
+        return _\$BookFromJson(json);
+      default:
+    }
+    return _\$IDableFromJson(json);
+  }
+  Map<String, dynamic> toJson() {
+    switch (resolveType) {
+      case 'Song':
+        return _\$SongToJson(this as Song);
+      case 'Book':
+        return _\$BookToJson(this as Book);
+      default:
+    }
+    return _\$IDableToJson(this);
+  }
 }
 
 @JsonSerializable()
 class Titleable {
+  @JsonKey(name: \'__resolveType\')
+  String resolveType;
   String title;
 
   Titleable();
 
-  factory Titleable.fromJson(Map<String, dynamic> json) =>
-      _\$TitleableFromJson(json);
-  Map<String, dynamic> toJson() => _\$TitleableToJson(this);
+  factory Titleable.fromJson(Map<String, dynamic> json) {
+    switch (resolveType) {
+      case 'Song':
+        return _\$SongFromJson(json);
+      case 'Book':
+        return _\$BookFromJson(json);
+      default:
+    }
+    return _\$TitleableFromJson(json);
+  }
+  Map<String, dynamic> toJson() {
+    switch (resolveType) {
+      case 'Song':
+        return _\$SongToJson(this as Song);
+      case 'Book':
+        return _\$BookToJson(this as Book);
+      default:
+    }
+    return _\$TitleableToJson(this);
+  }
 }
 
 @JsonSerializable()
 class Song extends Result implements IDable, Titleable {
-  @JsonKey(name: \'__resolveType\')
-  String resolveType;
   @override
   String id;
   @override
@@ -108,8 +147,6 @@ class Song extends Result implements IDable, Titleable {
 
 @JsonSerializable()
 class Book extends Result implements IDable, Titleable {
-  @JsonKey(name: \'__resolveType\')
-  String resolveType;
   @override
   String id;
   @override
@@ -129,8 +166,26 @@ class Result {
 
   Result();
 
-  factory Result.fromJson(Map<String, dynamic> json) => _\$ResultFromJson(json);
-  Map<String, dynamic> toJson() => _\$ResultToJson(this);
+  factory Result.fromJson(Map<String, dynamic> json) {
+    switch (resolveType) {
+      case 'Song':
+        return _\$SongFromJson(json);
+      case 'Book':
+        return _\$BookFromJson(json);
+      default:
+    }
+    return _\$ResultFromJson(json);
+  }
+  Map<String, dynamic> toJson() {
+    switch (resolveType) {
+      case 'Song':
+        return _\$SongToJson(this as Song);
+      case 'Book':
+        return _\$BookToJson(this as Book);
+      default:
+    }
+    return _\$ResultToJson(this);
+  }
 }
 ''',
       });
