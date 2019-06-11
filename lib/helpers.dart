@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:path/path.dart' as p;
-import 'package:http/http.dart' as http;
 import 'package:artemis/schema/options.dart';
 import 'package:artemis/schema/graphql.dart';
 
@@ -197,112 +196,6 @@ void _generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
       return;
     default:
   }
-}
-
-const String introspectionQuery = '''
-  query IntrospectionQuery {
-    __schema {
-      queryType { name }
-      mutationType { name }
-      subscriptionType { name }
-      types {
-        ...FullType
-      }
-      directives {
-        name
-        description
-        locations
-        args {
-          ...InputValue
-        }
-      }
-    }
-  }
-
-  fragment FullType on __Type {
-    kind
-    name
-    description
-    fields(includeDeprecated: true) {
-      name
-      description
-      args {
-        ...InputValue
-      }
-      type {
-        ...TypeRef
-      }
-      isDeprecated
-      deprecationReason
-    }
-    inputFields {
-      ...InputValue
-    }
-    interfaces {
-      ...TypeRef
-    }
-    enumValues(includeDeprecated: true) {
-      name
-      description
-      isDeprecated
-      deprecationReason
-    }
-    possibleTypes {
-      ...TypeRef
-    }
-  }
-
-  fragment InputValue on __InputValue {
-    name
-    description
-    type { ...TypeRef }
-    defaultValue
-  }
-
-  fragment TypeRef on __Type {
-    kind
-    name
-    ofType {
-      kind
-      name
-      ofType {
-        kind
-        name
-        ofType {
-          kind
-          name
-          ofType {
-            kind
-            name
-            ofType {
-              kind
-              name
-              ofType {
-                kind
-                name
-                ofType {
-                  kind
-                  name
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-''';
-
-Future<GraphQLSchema> fetchGraphQLSchemaFromURL(String graphqlEndpoint,
-    {http.Client client}) async {
-  final httpClient = client ?? http.Client();
-
-  final response = await httpClient.post(graphqlEndpoint, body: {
-    'operationName': 'IntrospectionQuery',
-    'query': introspectionQuery,
-  });
-
-  return schemaFromJsonString(response.body);
 }
 
 GraphQLSchema schemaFromJsonString(String jsonS) =>
