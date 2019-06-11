@@ -61,8 +61,6 @@ part 'api.api.g.dart';
 
 @JsonSerializable()
 class SomeObject {
-  @JsonKey(name: \'__typename\')
-  String typename;
   bool b;
   double f;
   String id;

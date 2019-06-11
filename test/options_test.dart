@@ -49,8 +49,6 @@ part 'api.api.g.dart';
 
 @JsonSerializable()
 class SomeObject {
-  @JsonKey(name: \'__typename\')
-  String typename;
   @JsonKey(
       fromJson: fromGraphQLDateToDartDateTime,
       toJson: fromDartDateTimeToGraphQLDate)
@@ -94,8 +92,6 @@ part 'api.api.g.dart';
 
 @JsonSerializable()
 class PRE_SomeObject {
-  @JsonKey(name: \'__typename\')
-  String typename;
   String a;
   PRE_AnotherObject b;
 
@@ -108,9 +104,6 @@ class PRE_SomeObject {
 
 @JsonSerializable()
 class PRE_AnotherObject {
-  @JsonKey(name: \'__typename\')
-  String typename;
-
   PRE_AnotherObject();
 
   factory PRE_AnotherObject.fromJson(Map<String, dynamic> json) =>

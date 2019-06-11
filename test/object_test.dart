@@ -15,7 +15,7 @@ void main() {
   group('On objects', () {
     final builder = graphQLTypesBuilder(BuilderOptions({}));
 
-    test('Even without properties, a object has __typename', () async {
+    test('O object can have no properties', () async {
       final GraphQLSchema schema = GraphQLSchema(types: [
         GraphQLType(
             name: 'SomeObject', kind: GraphQLTypeKind.OBJECT, fields: []),
@@ -32,9 +32,6 @@ part 'api.api.g.dart';
 
 @JsonSerializable()
 class SomeObject {
-  @JsonKey(name: \'__typename\')
-  String typename;
-
   SomeObject();
 
   factory SomeObject.fromJson(Map<String, dynamic> json) =>
@@ -66,8 +63,6 @@ part 'api.api.g.dart';
 
 @JsonSerializable()
 class SomeObject {
-  @JsonKey(name: \'__typename\')
-  String typename;
   String id;
 
   SomeObject();
@@ -79,9 +74,6 @@ class SomeObject {
 
 @JsonSerializable()
 class AnotherObject {
-  @JsonKey(name: \'__typename\')
-  String typename;
-
   AnotherObject();
 
   factory AnotherObject.fromJson(Map<String, dynamic> json) =>
