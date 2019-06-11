@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 0.1.2
+- Improve package score
+
 ## 0.1.1
 - Enable tests on pipeline
 
