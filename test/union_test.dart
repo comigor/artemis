@@ -21,17 +21,21 @@ void main() {
       final GraphQLSchema schema = GraphQLSchema(types: [
         GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR),
         GraphQLType(name: 'Book', kind: GraphQLTypeKind.OBJECT, fields: [
-          GraphQLField(name: 'title', type: GraphQLType(name: 'String'))
+          GraphQLField(
+              name: 'title',
+              type: GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR))
         ]),
         GraphQLType(name: 'Author', kind: GraphQLTypeKind.OBJECT, fields: [
-          GraphQLField(name: 'name', type: GraphQLType(name: 'String'))
+          GraphQLField(
+              name: 'name',
+              type: GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR))
         ]),
         GraphQLType(
             name: 'Result',
             kind: GraphQLTypeKind.UNION,
             possibleTypes: [
-              GraphQLType(name: 'Book'),
-              GraphQLType(name: 'Author'),
+              GraphQLType(name: 'Book', kind: GraphQLTypeKind.OBJECT),
+              GraphQLType(name: 'Author', kind: GraphQLTypeKind.OBJECT),
             ]),
       ]);
 

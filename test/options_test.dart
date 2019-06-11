@@ -32,8 +32,13 @@ void main() {
         GraphQLType(name: 'Date', kind: GraphQLTypeKind.SCALAR),
         GraphQLType(name: 'CustomNumber', kind: GraphQLTypeKind.SCALAR),
         GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT, fields: [
-          GraphQLField(name: 'd', type: GraphQLType(name: 'Date')),
-          GraphQLField(name: 'n', type: GraphQLType(name: 'CustomNumber')),
+          GraphQLField(
+              name: 'd',
+              type: GraphQLType(name: 'Date', kind: GraphQLTypeKind.SCALAR)),
+          GraphQLField(
+              name: 'n',
+              type: GraphQLType(
+                  name: 'CustomNumber', kind: GraphQLTypeKind.SCALAR)),
         ]),
       ]);
 
@@ -71,8 +76,13 @@ class SomeObject {
       final GraphQLSchema schema = GraphQLSchema(types: [
         GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR),
         GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT, fields: [
-          GraphQLField(name: 'a', type: GraphQLType(name: 'String')),
-          GraphQLField(name: 'b', type: GraphQLType(name: 'AnotherObject')),
+          GraphQLField(
+              name: 'a',
+              type: GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR)),
+          GraphQLField(
+              name: 'b',
+              type: GraphQLType(
+                  name: 'AnotherObject', kind: GraphQLTypeKind.OBJECT)),
         ]),
         GraphQLType(name: 'AnotherObject', kind: GraphQLTypeKind.OBJECT),
         GraphQLType(name: 'AEnum', kind: GraphQLTypeKind.ENUM, enumValues: [

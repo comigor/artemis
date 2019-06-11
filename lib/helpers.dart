@@ -18,16 +18,18 @@ GraphQLType _followType(GraphQLType type) {
   }
 }
 
-bool _isEventuallyList(GraphQLType type) {
-  if (type == null) {
-    return false;
-  }
-
+String _buildType(GraphQLType type, GeneratorOptions options, String prefix,
+    {bool dartType = true}) {
   switch (type.kind) {
     case GraphQLTypeKind.LIST:
-      return true;
+      return 'List<${_buildType(type.ofType, options, prefix)}>';
+    case GraphQLTypeKind.NON_NULL:
+      return _buildType(type.ofType, options, prefix);
+    case GraphQLTypeKind.SCALAR:
+      final scalar = _getSingleScalarMap(options, type);
+      return dartType ? scalar.dartType : scalar.graphQLType;
     default:
-      return _isEventuallyList(type.ofType);
+      return '$prefix${type.name}';
   }
 }
 
@@ -49,36 +51,27 @@ ScalarMap _getSingleScalarMap(GeneratorOptions options, GraphQLType type) =>
         (m) => m.graphQLType == type.name,
         orElse: () => ScalarMap(graphQLType: type.name, dartType: type.name));
 
-String _addListIfNecessary(bool isList, String typeStr, GraphQLField field) {
-  if (isList) {
-    return '  List<$typeStr> ${field.name};';
-  }
-  return '  $typeStr ${field.name};';
-}
-
 void _generateClassProperty(StringBuffer buffer, GraphQLSchema schema,
     GraphQLField field, GeneratorOptions options,
     {String prefix = '', bool override = false}) {
-  final subType = _getTypeFromField(schema, field);
-  final isList = _isEventuallyList(field.type);
-  final scalar = _getSingleScalarMap(options, subType);
+  final dartTypeStr = _buildType(field.type, options, prefix, dartType: true);
+  final leafType = _getTypeFromField(schema, field);
+  final scalar = _getSingleScalarMap(options, leafType);
 
-  final typeStr = subType.kind == GraphQLTypeKind.SCALAR
-      ? scalar.dartType
-      : prefix + subType.name;
-
-  if (subType.kind == GraphQLTypeKind.SCALAR && scalar.useCustomParser) {
-    final graphqlType = scalar.graphQLType;
-    final appendList = isList ? 'List' : '';
+  if (leafType.kind == GraphQLTypeKind.SCALAR && scalar.useCustomParser) {
+    final graphqlTypeSafeStr =
+        _buildType(field.type, options, prefix, dartType: false)
+            .replaceAll(RegExp(r'[<>]'), '');
+    final dartTypeSafeStr = dartTypeStr.replaceAll(RegExp(r'[<>]'), '');
     buffer.writeln(
-        '  @JsonKey(fromJson: fromGraphQL$graphqlType${appendList}ToDart$typeStr$appendList, toJson: fromDart$typeStr${appendList}ToGraphQL$graphqlType$appendList)');
+        '  @JsonKey(fromJson: fromGraphQL${graphqlTypeSafeStr}ToDart$dartTypeSafeStr, toJson: fromDart${dartTypeSafeStr}ToGraphQL$graphqlTypeSafeStr)');
   }
 
   if (override) {
     buffer.writeln('  @override');
   }
 
-  buffer.writeln(_addListIfNecessary(isList, typeStr, field));
+  buffer.writeln('  $dartTypeStr ${field.name};');
 }
 
 void _generateResolveTypeProperty(StringBuffer buffer) {

@@ -42,11 +42,21 @@ part 'api.api.g.dart';
         GraphQLType(name: 'Int', kind: GraphQLTypeKind.SCALAR),
         GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR),
         GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT, fields: [
-          GraphQLField(name: 'b', type: GraphQLType(name: 'Boolean')),
-          GraphQLField(name: 'f', type: GraphQLType(name: 'Float')),
-          GraphQLField(name: 'id', type: GraphQLType(name: 'ID')),
-          GraphQLField(name: 'i', type: GraphQLType(name: 'Int')),
-          GraphQLField(name: 's', type: GraphQLType(name: 'String')),
+          GraphQLField(
+              name: 'b',
+              type: GraphQLType(name: 'Boolean', kind: GraphQLTypeKind.SCALAR)),
+          GraphQLField(
+              name: 'f',
+              type: GraphQLType(name: 'Float', kind: GraphQLTypeKind.SCALAR)),
+          GraphQLField(
+              name: 'id',
+              type: GraphQLType(name: 'ID', kind: GraphQLTypeKind.SCALAR)),
+          GraphQLField(
+              name: 'i',
+              type: GraphQLType(name: 'Int', kind: GraphQLTypeKind.SCALAR)),
+          GraphQLField(
+              name: 's',
+              type: GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR)),
         ]),
       ]);
 

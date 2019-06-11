@@ -22,26 +22,37 @@ void main() {
         GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR),
         GraphQLType(name: 'Int', kind: GraphQLTypeKind.SCALAR),
         GraphQLType(name: 'IDable', kind: GraphQLTypeKind.INTERFACE, fields: [
-          GraphQLField(name: 'id', type: GraphQLType(name: 'String'))
+          GraphQLField(
+              name: 'id',
+              type: GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR))
         ], possibleTypes: [
-          GraphQLType(name: 'Song'),
+          GraphQLType(name: 'Song', kind: GraphQLTypeKind.OBJECT),
         ]),
         GraphQLType(
             name: 'Titleable',
             kind: GraphQLTypeKind.INTERFACE,
             fields: [
-              GraphQLField(name: 'title', type: GraphQLType(name: 'String'))
+              GraphQLField(
+                  name: 'title',
+                  type:
+                      GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR))
             ],
             possibleTypes: [
-              GraphQLType(name: 'Song'),
+              GraphQLType(name: 'Song', kind: GraphQLTypeKind.OBJECT),
             ]),
         GraphQLType(name: 'Song', kind: GraphQLTypeKind.OBJECT, fields: [
-          GraphQLField(name: 'id', type: GraphQLType(name: 'String')),
-          GraphQLField(name: 'title', type: GraphQLType(name: 'String')),
-          GraphQLField(name: 'duration', type: GraphQLType(name: 'Int'))
+          GraphQLField(
+              name: 'id',
+              type: GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR)),
+          GraphQLField(
+              name: 'title',
+              type: GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR)),
+          GraphQLField(
+              name: 'duration',
+              type: GraphQLType(name: 'Int', kind: GraphQLTypeKind.SCALAR))
         ], interfaces: [
-          GraphQLType(name: 'IDable'),
-          GraphQLType(name: 'Titleable'),
+          GraphQLType(name: 'IDable', kind: GraphQLTypeKind.INTERFACE),
+          GraphQLType(name: 'Titleable', kind: GraphQLTypeKind.INTERFACE),
         ]),
       ]);
 
