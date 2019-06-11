@@ -7,9 +7,6 @@ part 'graphbrainz.api.g.dart';
 
 @JsonSerializable()
 class Query {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   LookupQuery lookup;
   BrowseQuery browse;
   SearchQuery search;
@@ -25,9 +22,6 @@ class Query {
 
 @JsonSerializable()
 class LookupQuery {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   Area area;
   Artist artist;
   Collection collection;
@@ -52,9 +46,6 @@ class LookupQuery {
 
 @JsonSerializable()
 class Area implements Node, Entity {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   @override
   String id;
   @override
@@ -84,33 +75,162 @@ class Area implements Node, Entity {
 
 @JsonSerializable()
 class Node {
-  @JsonKey(name: '__typename')
-  String typename;
+  @JsonKey(name: '__resolveType')
+  String resolveType;
   String id;
 
   Node();
 
-  factory Node.fromJson(Map<String, dynamic> json) => _$NodeFromJson(json);
-  Map<String, dynamic> toJson() => _$NodeToJson(this);
+  factory Node.fromJson(Map<String, dynamic> json) {
+    switch (json['__resolveType']) {
+      case 'Area':
+        return _$AreaFromJson(json);
+      case 'Artist':
+        return _$ArtistFromJson(json);
+      case 'Recording':
+        return _$RecordingFromJson(json);
+      case 'Release':
+        return _$ReleaseFromJson(json);
+      case 'Disc':
+        return _$DiscFromJson(json);
+      case 'Label':
+        return _$LabelFromJson(json);
+      case 'Collection':
+        return _$CollectionFromJson(json);
+      case 'Event':
+        return _$EventFromJson(json);
+      case 'Instrument':
+        return _$InstrumentFromJson(json);
+      case 'Place':
+        return _$PlaceFromJson(json);
+      case 'ReleaseGroup':
+        return _$ReleaseGroupFromJson(json);
+      case 'Series':
+        return _$SeriesFromJson(json);
+      case 'Work':
+        return _$WorkFromJson(json);
+      case 'URL':
+        return _$URLFromJson(json);
+      default:
+    }
+    return _$NodeFromJson(json);
+  }
+  Map<String, dynamic> toJson() {
+    switch (resolveType) {
+      case 'Area':
+        return _$AreaToJson(this as Area);
+      case 'Artist':
+        return _$ArtistToJson(this as Artist);
+      case 'Recording':
+        return _$RecordingToJson(this as Recording);
+      case 'Release':
+        return _$ReleaseToJson(this as Release);
+      case 'Disc':
+        return _$DiscToJson(this as Disc);
+      case 'Label':
+        return _$LabelToJson(this as Label);
+      case 'Collection':
+        return _$CollectionToJson(this as Collection);
+      case 'Event':
+        return _$EventToJson(this as Event);
+      case 'Instrument':
+        return _$InstrumentToJson(this as Instrument);
+      case 'Place':
+        return _$PlaceToJson(this as Place);
+      case 'ReleaseGroup':
+        return _$ReleaseGroupToJson(this as ReleaseGroup);
+      case 'Series':
+        return _$SeriesToJson(this as Series);
+      case 'Work':
+        return _$WorkToJson(this as Work);
+      case 'URL':
+        return _$URLToJson(this as URL);
+      default:
+    }
+    return _$NodeToJson(this);
+  }
 }
 
 @JsonSerializable()
 class Entity {
-  @JsonKey(name: '__typename')
-  String typename;
+  @JsonKey(name: '__resolveType')
+  String resolveType;
   String mbid;
 
   Entity();
 
-  factory Entity.fromJson(Map<String, dynamic> json) => _$EntityFromJson(json);
-  Map<String, dynamic> toJson() => _$EntityToJson(this);
+  factory Entity.fromJson(Map<String, dynamic> json) {
+    switch (json['__resolveType']) {
+      case 'Area':
+        return _$AreaFromJson(json);
+      case 'Artist':
+        return _$ArtistFromJson(json);
+      case 'Recording':
+        return _$RecordingFromJson(json);
+      case 'Release':
+        return _$ReleaseFromJson(json);
+      case 'Track':
+        return _$TrackFromJson(json);
+      case 'Label':
+        return _$LabelFromJson(json);
+      case 'Collection':
+        return _$CollectionFromJson(json);
+      case 'Event':
+        return _$EventFromJson(json);
+      case 'Instrument':
+        return _$InstrumentFromJson(json);
+      case 'Place':
+        return _$PlaceFromJson(json);
+      case 'ReleaseGroup':
+        return _$ReleaseGroupFromJson(json);
+      case 'Series':
+        return _$SeriesFromJson(json);
+      case 'Work':
+        return _$WorkFromJson(json);
+      case 'URL':
+        return _$URLFromJson(json);
+      default:
+    }
+    return _$EntityFromJson(json);
+  }
+  Map<String, dynamic> toJson() {
+    switch (resolveType) {
+      case 'Area':
+        return _$AreaToJson(this as Area);
+      case 'Artist':
+        return _$ArtistToJson(this as Artist);
+      case 'Recording':
+        return _$RecordingToJson(this as Recording);
+      case 'Release':
+        return _$ReleaseToJson(this as Release);
+      case 'Track':
+        return _$TrackToJson(this as Track);
+      case 'Label':
+        return _$LabelToJson(this as Label);
+      case 'Collection':
+        return _$CollectionToJson(this as Collection);
+      case 'Event':
+        return _$EventToJson(this as Event);
+      case 'Instrument':
+        return _$InstrumentToJson(this as Instrument);
+      case 'Place':
+        return _$PlaceToJson(this as Place);
+      case 'ReleaseGroup':
+        return _$ReleaseGroupToJson(this as ReleaseGroup);
+      case 'Series':
+        return _$SeriesToJson(this as Series);
+      case 'Work':
+        return _$WorkToJson(this as Work);
+      case 'URL':
+        return _$URLToJson(this as URL);
+      default:
+    }
+    return _$EntityToJson(this);
+  }
 }
 
 @JsonSerializable()
 class Alias {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   String name;
   String sortName;
   String locale;
@@ -126,9 +246,6 @@ class Alias {
 
 @JsonSerializable()
 class ArtistConnection {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   PageInfo pageInfo;
   List<ArtistEdge> edges;
   List<Artist> nodes;
@@ -143,9 +260,6 @@ class ArtistConnection {
 
 @JsonSerializable()
 class PageInfo {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   bool hasNextPage;
   bool hasPreviousPage;
   String startCursor;
@@ -160,9 +274,6 @@ class PageInfo {
 
 @JsonSerializable()
 class ArtistEdge {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   Artist node;
   String cursor;
   int score;
@@ -176,9 +287,6 @@ class ArtistEdge {
 
 @JsonSerializable()
 class Artist implements Node, Entity {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   @override
   String id;
   @override
@@ -221,9 +329,6 @@ class Artist implements Node, Entity {
 
 @JsonSerializable()
 class LifeSpan {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   @JsonKey(
       fromJson: fromGraphQLDateToDartDateTime,
       toJson: fromDartDateTimeToGraphQLDate)
@@ -243,9 +348,6 @@ class LifeSpan {
 
 @JsonSerializable()
 class RecordingConnection {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   PageInfo pageInfo;
   List<RecordingEdge> edges;
   List<Recording> nodes;
@@ -260,9 +362,6 @@ class RecordingConnection {
 
 @JsonSerializable()
 class RecordingEdge {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   Recording node;
   String cursor;
   int score;
@@ -276,9 +375,6 @@ class RecordingEdge {
 
 @JsonSerializable()
 class Recording implements Node, Entity {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   @override
   String id;
   @override
@@ -310,9 +406,6 @@ class Recording implements Node, Entity {
 
 @JsonSerializable()
 class ArtistCredit {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   Artist artist;
   String name;
   String joinPhrase;
@@ -352,9 +445,6 @@ enum ReleaseStatus {
 
 @JsonSerializable()
 class ReleaseConnection {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   PageInfo pageInfo;
   List<ReleaseEdge> edges;
   List<Release> nodes;
@@ -369,9 +459,6 @@ class ReleaseConnection {
 
 @JsonSerializable()
 class ReleaseEdge {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   Release node;
   String cursor;
   int score;
@@ -385,9 +472,6 @@ class ReleaseEdge {
 
 @JsonSerializable()
 class Release implements Node, Entity {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   @override
   String id;
   @override
@@ -432,9 +516,6 @@ class Release implements Node, Entity {
 
 @JsonSerializable()
 class ReleaseEvent {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   Area area;
   @JsonKey(
       fromJson: fromGraphQLDateToDartDateTime,
@@ -450,9 +531,6 @@ class ReleaseEvent {
 
 @JsonSerializable()
 class Medium {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   String title;
   String format;
   String formatID;
@@ -470,9 +548,6 @@ class Medium {
 @JsonSerializable()
 class Disc implements Node {
   @override
-  @JsonKey(name: '__typename')
-  String typename;
-  @override
   String id;
   String discID;
   int offsetCount;
@@ -489,9 +564,6 @@ class Disc implements Node {
 @JsonSerializable()
 class Track implements Entity {
   @override
-  @JsonKey(name: '__typename')
-  String typename;
-  @override
   String mbid;
   String title;
   int position;
@@ -507,9 +579,6 @@ class Track implements Entity {
 
 @JsonSerializable()
 class LabelConnection {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   PageInfo pageInfo;
   List<LabelEdge> edges;
   List<Label> nodes;
@@ -524,9 +593,6 @@ class LabelConnection {
 
 @JsonSerializable()
 class LabelEdge {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   Label node;
   String cursor;
   int score;
@@ -540,9 +606,6 @@ class LabelEdge {
 
 @JsonSerializable()
 class Label implements Node, Entity {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   @override
   String id;
   @override
@@ -575,9 +638,6 @@ class Label implements Node, Entity {
 
 @JsonSerializable()
 class Relationships {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   RelationshipConnection areas;
   RelationshipConnection artists;
   RelationshipConnection events;
@@ -600,9 +660,6 @@ class Relationships {
 
 @JsonSerializable()
 class RelationshipConnection {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   PageInfo pageInfo;
   List<RelationshipEdge> edges;
   List<Relationship> nodes;
@@ -617,9 +674,6 @@ class RelationshipConnection {
 
 @JsonSerializable()
 class RelationshipEdge {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   Relationship node;
   String cursor;
   int score;
@@ -633,9 +687,6 @@ class RelationshipEdge {
 
 @JsonSerializable()
 class Relationship {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   Entity target;
   String direction;
   String targetType;
@@ -663,9 +714,6 @@ class Relationship {
 
 @JsonSerializable()
 class CollectionConnection {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   PageInfo pageInfo;
   List<CollectionEdge> edges;
   List<Collection> nodes;
@@ -680,9 +728,6 @@ class CollectionConnection {
 
 @JsonSerializable()
 class CollectionEdge {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   Collection node;
   String cursor;
   int score;
@@ -696,9 +741,6 @@ class CollectionEdge {
 
 @JsonSerializable()
 class Collection implements Node, Entity {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   @override
   String id;
   @override
@@ -729,9 +771,6 @@ class Collection implements Node, Entity {
 
 @JsonSerializable()
 class AreaConnection {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   PageInfo pageInfo;
   List<AreaEdge> edges;
   List<Area> nodes;
@@ -746,9 +785,6 @@ class AreaConnection {
 
 @JsonSerializable()
 class AreaEdge {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   Area node;
   String cursor;
   int score;
@@ -762,9 +798,6 @@ class AreaEdge {
 
 @JsonSerializable()
 class EventConnection {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   PageInfo pageInfo;
   List<EventEdge> edges;
   List<Event> nodes;
@@ -779,9 +812,6 @@ class EventConnection {
 
 @JsonSerializable()
 class EventEdge {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   Event node;
   String cursor;
   int score;
@@ -795,9 +825,6 @@ class EventEdge {
 
 @JsonSerializable()
 class Event implements Node, Entity {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   @override
   String id;
   @override
@@ -827,9 +854,6 @@ class Event implements Node, Entity {
 
 @JsonSerializable()
 class Rating {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   int voteCount;
   double value;
 
@@ -841,9 +865,6 @@ class Rating {
 
 @JsonSerializable()
 class TagConnection {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   PageInfo pageInfo;
   List<TagEdge> edges;
   List<Tag> nodes;
@@ -858,9 +879,6 @@ class TagConnection {
 
 @JsonSerializable()
 class TagEdge {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   Tag node;
   String cursor;
   int score;
@@ -874,9 +892,6 @@ class TagEdge {
 
 @JsonSerializable()
 class Tag {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   String name;
   int count;
 
@@ -888,9 +903,6 @@ class Tag {
 
 @JsonSerializable()
 class InstrumentConnection {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   PageInfo pageInfo;
   List<InstrumentEdge> edges;
   List<Instrument> nodes;
@@ -905,9 +917,6 @@ class InstrumentConnection {
 
 @JsonSerializable()
 class InstrumentEdge {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   Instrument node;
   String cursor;
   int score;
@@ -921,9 +930,6 @@ class InstrumentEdge {
 
 @JsonSerializable()
 class Instrument implements Node, Entity {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   @override
   String id;
   @override
@@ -948,9 +954,6 @@ class Instrument implements Node, Entity {
 
 @JsonSerializable()
 class MediaWikiImage {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   String url;
   String descriptionURL;
   String user;
@@ -977,9 +980,6 @@ class MediaWikiImage {
 
 @JsonSerializable()
 class MediaWikiImageMetadata {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   String name;
   String value;
   String source;
@@ -993,9 +993,6 @@ class MediaWikiImageMetadata {
 
 @JsonSerializable()
 class PlaceConnection {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   PageInfo pageInfo;
   List<PlaceEdge> edges;
   List<Place> nodes;
@@ -1010,9 +1007,6 @@ class PlaceConnection {
 
 @JsonSerializable()
 class PlaceEdge {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   Place node;
   String cursor;
   int score;
@@ -1026,9 +1020,6 @@ class PlaceEdge {
 
 @JsonSerializable()
 class Place implements Node, Entity {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   @override
   String id;
   @override
@@ -1056,9 +1047,6 @@ class Place implements Node, Entity {
 
 @JsonSerializable()
 class Coordinates {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   double latitude;
   double longitude;
 
@@ -1071,9 +1059,6 @@ class Coordinates {
 
 @JsonSerializable()
 class ReleaseGroupConnection {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   PageInfo pageInfo;
   List<ReleaseGroupEdge> edges;
   List<ReleaseGroup> nodes;
@@ -1088,9 +1073,6 @@ class ReleaseGroupConnection {
 
 @JsonSerializable()
 class ReleaseGroupEdge {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   ReleaseGroup node;
   String cursor;
   int score;
@@ -1104,9 +1086,6 @@ class ReleaseGroupEdge {
 
 @JsonSerializable()
 class ReleaseGroup implements Node, Entity {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   @override
   String id;
   @override
@@ -1144,9 +1123,6 @@ class ReleaseGroup implements Node, Entity {
 
 @JsonSerializable()
 class CoverArtArchiveRelease {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   String front;
   String back;
   List<CoverArtArchiveImage> images;
@@ -1169,9 +1145,6 @@ enum CoverArtArchiveImageSize {
 
 @JsonSerializable()
 class CoverArtArchiveImage {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   String fileID;
   String image;
   CoverArtArchiveImageThumbnails thumbnails;
@@ -1191,9 +1164,6 @@ class CoverArtArchiveImage {
 
 @JsonSerializable()
 class CoverArtArchiveImageThumbnails {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   String small;
   String large;
 
@@ -1206,9 +1176,6 @@ class CoverArtArchiveImageThumbnails {
 
 @JsonSerializable()
 class FanArtAlbum {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   List<FanArtImage> albumCovers;
   List<FanArtDiscImage> discImages;
 
@@ -1221,9 +1188,6 @@ class FanArtAlbum {
 
 @JsonSerializable()
 class FanArtImage {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   String imageID;
   String url;
   int likeCount;
@@ -1242,9 +1206,6 @@ enum FanArtImageSize {
 
 @JsonSerializable()
 class FanArtDiscImage {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   String imageID;
   String url;
   int likeCount;
@@ -1260,9 +1221,6 @@ class FanArtDiscImage {
 
 @JsonSerializable()
 class TheAudioDBAlbum {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   String albumID;
   String artistID;
   String description;
@@ -1294,9 +1252,6 @@ enum TheAudioDBImageSize {
 
 @JsonSerializable()
 class DiscogsMaster {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   String masterID;
   String title;
   String url;
@@ -1320,9 +1275,6 @@ class DiscogsMaster {
 
 @JsonSerializable()
 class DiscogsArtistCredit {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   String name;
   String nameVariation;
   String joinPhrase;
@@ -1339,9 +1291,6 @@ class DiscogsArtistCredit {
 
 @JsonSerializable()
 class DiscogsArtist {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   String artistID;
   String name;
   List<String> nameVariations;
@@ -1363,9 +1312,6 @@ class DiscogsArtist {
 
 @JsonSerializable()
 class DiscogsImage {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   String url;
   DiscogsImageType type;
   int width;
@@ -1386,9 +1332,6 @@ enum DiscogsImageType {
 
 @JsonSerializable()
 class DiscogsArtistMember {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   bool active;
   String name;
   DiscogsArtist artist;
@@ -1402,9 +1345,6 @@ class DiscogsArtistMember {
 
 @JsonSerializable()
 class DiscogsRelease {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   String releaseID;
   String title;
   String url;
@@ -1433,9 +1373,6 @@ class DiscogsRelease {
 
 @JsonSerializable()
 class DiscogsVideo {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   String url;
   String title;
   String description;
@@ -1451,9 +1388,6 @@ class DiscogsVideo {
 
 @JsonSerializable()
 class DiscogsCommunity {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   String status;
   DiscogsRating rating;
   int haveCount;
@@ -1470,9 +1404,6 @@ class DiscogsCommunity {
 
 @JsonSerializable()
 class DiscogsRating {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   int voteCount;
   double value;
 
@@ -1485,9 +1416,6 @@ class DiscogsRating {
 
 @JsonSerializable()
 class DiscogsUser {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   String username;
 
   DiscogsUser();
@@ -1499,9 +1427,6 @@ class DiscogsUser {
 
 @JsonSerializable()
 class SeriesConnection {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   PageInfo pageInfo;
   List<SeriesEdge> edges;
   List<Series> nodes;
@@ -1516,9 +1441,6 @@ class SeriesConnection {
 
 @JsonSerializable()
 class SeriesEdge {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   Series node;
   String cursor;
   int score;
@@ -1532,9 +1454,6 @@ class SeriesEdge {
 
 @JsonSerializable()
 class Series implements Node, Entity {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   @override
   String id;
   @override
@@ -1555,9 +1474,6 @@ class Series implements Node, Entity {
 
 @JsonSerializable()
 class WorkConnection {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   PageInfo pageInfo;
   List<WorkEdge> edges;
   List<Work> nodes;
@@ -1572,9 +1488,6 @@ class WorkConnection {
 
 @JsonSerializable()
 class WorkEdge {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   Work node;
   String cursor;
   int score;
@@ -1588,9 +1501,6 @@ class WorkEdge {
 
 @JsonSerializable()
 class Work implements Node, Entity {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   @override
   String id;
   @override
@@ -1616,9 +1526,6 @@ class Work implements Node, Entity {
 
 @JsonSerializable()
 class FanArtLabel {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   List<FanArtLabelImage> logos;
 
   FanArtLabel();
@@ -1630,9 +1537,6 @@ class FanArtLabel {
 
 @JsonSerializable()
 class FanArtLabelImage {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   String imageID;
   String url;
   int likeCount;
@@ -1647,9 +1551,6 @@ class FanArtLabelImage {
 
 @JsonSerializable()
 class DiscogsLabel {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   String labelID;
   String name;
   String url;
@@ -1669,9 +1570,6 @@ class DiscogsLabel {
 
 @JsonSerializable()
 class LastFMAlbum {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   String mbid;
   String title;
   String url;
@@ -1699,9 +1597,6 @@ enum LastFMImageSize {
 
 @JsonSerializable()
 class LastFMWikiContent {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   String summaryHTML;
   String contentHTML;
   @JsonKey(
@@ -1723,9 +1618,6 @@ class LastFMWikiContent {
 
 @JsonSerializable()
 class LastFMArtist {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   String mbid;
   String name;
   String url;
@@ -1747,9 +1639,6 @@ class LastFMArtist {
 
 @JsonSerializable()
 class LastFMArtistConnection {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   PageInfo pageInfo;
   List<LastFMArtistEdge> edges;
   List<LastFMArtist> nodes;
@@ -1764,9 +1653,6 @@ class LastFMArtistConnection {
 
 @JsonSerializable()
 class LastFMArtistEdge {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   LastFMArtist node;
   String cursor;
   double matchScore;
@@ -1780,9 +1666,6 @@ class LastFMArtistEdge {
 
 @JsonSerializable()
 class LastFMAlbumConnection {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   PageInfo pageInfo;
   List<LastFMAlbumEdge> edges;
   List<LastFMAlbum> nodes;
@@ -1797,9 +1680,6 @@ class LastFMAlbumConnection {
 
 @JsonSerializable()
 class LastFMAlbumEdge {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   LastFMAlbum node;
   String cursor;
 
@@ -1812,9 +1692,6 @@ class LastFMAlbumEdge {
 
 @JsonSerializable()
 class LastFMTagConnection {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   PageInfo pageInfo;
   List<LastFMTagEdge> edges;
   List<LastFMTag> nodes;
@@ -1829,9 +1706,6 @@ class LastFMTagConnection {
 
 @JsonSerializable()
 class LastFMTagEdge {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   LastFMTag node;
   String cursor;
   int tagCount;
@@ -1845,9 +1719,6 @@ class LastFMTagEdge {
 
 @JsonSerializable()
 class LastFMTag {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   String name;
   String url;
 
@@ -1860,9 +1731,6 @@ class LastFMTag {
 
 @JsonSerializable()
 class LastFMTrackConnection {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   PageInfo pageInfo;
   List<LastFMTrackEdge> edges;
   List<LastFMTrack> nodes;
@@ -1877,9 +1745,6 @@ class LastFMTrackConnection {
 
 @JsonSerializable()
 class LastFMTrackEdge {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   LastFMTrack node;
   String cursor;
   double matchScore;
@@ -1893,9 +1758,6 @@ class LastFMTrackEdge {
 
 @JsonSerializable()
 class LastFMTrack {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   String mbid;
   String title;
   String url;
@@ -1922,9 +1784,6 @@ enum SpotifyMatchStrategy {
 
 @JsonSerializable()
 class SpotifyAlbum {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   String albumID;
   String uri;
   String href;
@@ -1953,9 +1812,6 @@ class SpotifyAlbum {
 
 @JsonSerializable()
 class SpotifyArtist {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   String artistID;
   String uri;
   String href;
@@ -1976,9 +1832,6 @@ class SpotifyArtist {
 
 @JsonSerializable()
 class SpotifyExternalURL {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   String type;
   String url;
 
@@ -1991,9 +1844,6 @@ class SpotifyExternalURL {
 
 @JsonSerializable()
 class SpotifyImage {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   String url;
   int width;
   int height;
@@ -2007,9 +1857,6 @@ class SpotifyImage {
 
 @JsonSerializable()
 class SpotifyTrack {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   String trackID;
   String uri;
   String href;
@@ -2037,9 +1884,6 @@ class SpotifyTrack {
 
 @JsonSerializable()
 class SpotifyAudioFeatures {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   double acousticness;
   double danceability;
   Duration duration;
@@ -2069,9 +1913,6 @@ enum SpotifyTrackMode {
 
 @JsonSerializable()
 class SpotifyExternalID {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   String type;
   String id;
 
@@ -2084,9 +1925,6 @@ class SpotifyExternalID {
 
 @JsonSerializable()
 class SpotifyCopyright {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   String text;
   SpotifyCopyrightType type;
 
@@ -2104,9 +1942,6 @@ enum SpotifyCopyrightType {
 
 @JsonSerializable()
 class TheAudioDBTrack {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   String trackID;
   String albumID;
   String artistID;
@@ -2130,9 +1965,6 @@ class TheAudioDBTrack {
 
 @JsonSerializable()
 class TheAudioDBMusicVideo {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   String url;
   String companyName;
   String directorName;
@@ -2151,9 +1983,6 @@ class TheAudioDBMusicVideo {
 
 @JsonSerializable()
 class FanArtArtist {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   List<FanArtImage> backgrounds;
   List<FanArtImage> banners;
   List<FanArtImage> logos;
@@ -2169,9 +1998,6 @@ class FanArtArtist {
 
 @JsonSerializable()
 class TheAudioDBArtist {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   String artistID;
   String biography;
   int memberCount;
@@ -2192,9 +2018,6 @@ class TheAudioDBArtist {
 
 @JsonSerializable()
 class LastFMCountry {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   LastFMArtistConnection topArtists;
   LastFMTrackConnection topTracks;
 
@@ -2207,9 +2030,6 @@ class LastFMCountry {
 
 @JsonSerializable()
 class URL implements Node, Entity {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   @override
   String id;
   @override
@@ -2225,9 +2045,6 @@ class URL implements Node, Entity {
 
 @JsonSerializable()
 class BrowseQuery {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   AreaConnection areas;
   ArtistConnection artists;
   CollectionConnection collections;
@@ -2248,9 +2065,6 @@ class BrowseQuery {
 
 @JsonSerializable()
 class SearchQuery {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   AreaConnection areas;
   ArtistConnection artists;
   EventConnection events;
@@ -2272,9 +2086,6 @@ class SearchQuery {
 
 @JsonSerializable()
 class LastFMQuery {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   LastFMChartQuery chart;
 
   LastFMQuery();
@@ -2286,9 +2097,6 @@ class LastFMQuery {
 
 @JsonSerializable()
 class LastFMChartQuery {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   LastFMArtistConnection topArtists;
   LastFMTagConnection topTags;
   LastFMTrackConnection topTracks;
@@ -2302,9 +2110,6 @@ class LastFMChartQuery {
 
 @JsonSerializable()
 class SpotifyQuery {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   SpotifyRecommendations recommendations;
 
   SpotifyQuery();
@@ -2316,9 +2121,6 @@ class SpotifyQuery {
 
 @JsonSerializable()
 class SpotifyRecommendations {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   List<SpotifyTrack> tracks;
 
   SpotifyRecommendations();
@@ -2330,9 +2132,6 @@ class SpotifyRecommendations {
 
 @JsonSerializable()
 class DiscogsReleaseConnection {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   PageInfo pageInfo;
   List<DiscogsReleaseEdge> edges;
   List<DiscogsRelease> nodes;
@@ -2347,9 +2146,6 @@ class DiscogsReleaseConnection {
 
 @JsonSerializable()
 class DiscogsReleaseEdge {
-  @override
-  @JsonKey(name: '__typename')
-  String typename;
   DiscogsRelease node;
 
   DiscogsReleaseEdge();

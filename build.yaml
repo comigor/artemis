@@ -1,11 +1,3 @@
-targets:
-  $default:
-    builders:
-      json_serializable:
-        generate_for:
-          - lib/schema/*
-          - test/samples/*
-
 builders:
   artemis:
     import: 'package:artemis/generator.dart'
