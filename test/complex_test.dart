@@ -151,6 +151,9 @@ class Titleable {
 @JsonSerializable()
 class Song extends Result implements IDable, Titleable {
   @override
+  @JsonKey(name: \'__resolveType\')
+  String resolveType;
+  @override
   String id;
   @override
   String title;
@@ -164,6 +167,9 @@ class Song extends Result implements IDable, Titleable {
 
 @JsonSerializable()
 class Book extends Result implements IDable, Titleable {
+  @override
+  @JsonKey(name: \'__resolveType\')
+  String resolveType;
   @override
   String id;
   @override

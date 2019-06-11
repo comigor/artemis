@@ -120,6 +120,9 @@ class Titleable {
 @JsonSerializable()
 class Song implements IDable, Titleable {
   @override
+  @JsonKey(name: \'__resolveType\')
+  String resolveType;
+  @override
   String id;
   @override
   String title;
