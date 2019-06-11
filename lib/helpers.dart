@@ -73,7 +73,11 @@ void _generateClassProperty(StringBuffer buffer, GraphQLSchema schema,
   buffer.writeln('  $dartTypeStr ${field.name};');
 }
 
-void _generateResolveTypeProperty(StringBuffer buffer) {
+void _generateResolveTypeProperty(StringBuffer buffer,
+    {bool override = false}) {
+  if (override) {
+    buffer.writeln('  @override');
+  }
   buffer.writeln('''  @JsonKey(name: '__resolveType')
   String resolveType;''');
 }
@@ -165,8 +169,10 @@ void _generateClass(StringBuffer buffer, GraphQLSchema schema, GraphQLType type,
       buffer.writeln('@JsonSerializable()');
       buffer.writeln('class $className $mixins {');
 
-      if (type.kind == GraphQLTypeKind.INTERFACE) {
-        _generateResolveTypeProperty(buffer);
+      if (type.kind == GraphQLTypeKind.INTERFACE ||
+          (type.kind == GraphQLTypeKind.OBJECT && type.interfaces.isNotEmpty)) {
+        _generateResolveTypeProperty(buffer,
+            override: type.kind == GraphQLTypeKind.OBJECT);
       }
 
       final interfaceFields = type.interfaces
