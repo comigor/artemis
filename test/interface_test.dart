@@ -63,7 +63,7 @@ class IDable {
   IDable();
 
   factory IDable.fromJson(Map<String, dynamic> json) {
-    switch (resolveType) {
+    switch (json['__resolveType']) {
       case 'Song':
         return _\$SongFromJson(json);
       default:
@@ -89,7 +89,7 @@ class Titleable {
   Titleable();
 
   factory Titleable.fromJson(Map<String, dynamic> json) {
-    switch (resolveType) {
+    switch (json['__resolveType']) {
       case 'Song':
         return _\$SongFromJson(json);
       default:

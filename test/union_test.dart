@@ -72,7 +72,7 @@ class Result {
   Result();
 
   factory Result.fromJson(Map<String, dynamic> json) {
-    switch (resolveType) {
+    switch (json['__resolveType']) {
       case 'Book':
         return _\$BookFromJson(json);
       case 'Author':

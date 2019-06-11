@@ -92,7 +92,7 @@ void _generateFromToJsonOfPossibleTypes(StringBuffer buffer, GraphQLType type,
   buffer.writeln('''
 
   factory $className.fromJson(Map<String, dynamic> json) {
-    switch (resolveType) {''');
+    switch (json['__resolveType']) {''');
 
   for (final t in type.possibleTypes) {
     final tClassName = '$prefix${t.name}';

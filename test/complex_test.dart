@@ -80,7 +80,7 @@ class IDable {
   IDable();
 
   factory IDable.fromJson(Map<String, dynamic> json) {
-    switch (resolveType) {
+    switch (json['__resolveType']) {
       case 'Song':
         return _\$SongFromJson(json);
       case 'Book':
@@ -110,7 +110,7 @@ class Titleable {
   Titleable();
 
   factory Titleable.fromJson(Map<String, dynamic> json) {
-    switch (resolveType) {
+    switch (json['__resolveType']) {
       case 'Song':
         return _\$SongFromJson(json);
       case 'Book':
@@ -167,7 +167,7 @@ class Result {
   Result();
 
   factory Result.fromJson(Map<String, dynamic> json) {
-    switch (resolveType) {
+    switch (json['__resolveType']) {
       case 'Song':
         return _\$SongFromJson(json);
       case 'Book':
