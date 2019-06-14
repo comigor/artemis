@@ -1,0 +1,15 @@
+query big_query {
+  charmander: pokemon(name: "Charmander") {
+    number
+    types
+  }
+  pokemons(first: 150) {
+    number
+    name
+    types
+    evolutions: evolutions {
+      number
+      name
+    }
+  }
+}

@@ -255,19 +255,41 @@ Future<String> generateQuery(GraphQLSchema schema, String path, String queryStr,
   final customParserImport = options.customParserImport != null
       ? '  import \'${options.customParserImport}\';'
       : '';
-  final StringBuffer buffer = StringBuffer()
-    ..writeln('''// GENERATED CODE - DO NOT MODIFY BY HAND
-
-import 'package:json_annotation/json_annotation.dart';
-$customParserImport
-
-part '$basename.query.g.dart';
-''');
-
   final parentType = _getTypeByName(schema, schema.queryType.name);
   final className = ReCase(operation.name ?? basename).pascalCase;
+
+  final StringBuffer buffer = StringBuffer()
+    ..writeln('// GENERATED CODE - DO NOT MODIFY BY HAND\n');
+  if (options.generateHelpers) {
+    buffer.writeln('''import 'dart:async';
+import 'package:http/http.dart' as http;''');
+  }
+
+  buffer.writeln('''import 'package:json_annotation/json_annotation.dart';
+$customParserImport''');
+
+  buffer.writeln('part \'$basename.query.g.dart\';');
+
   _generateQueryClass(buffer, operation.selectionSet, schema, className,
       parentType, Set.from([className]), options);
+
+  if (options.generateHelpers) {
+    final sanitizedQueryStr = queryStr
+        .replaceAll(RegExp(r'\n'), '')
+        .replaceAll(RegExp(r' +'), ' ')
+        .trim();
+    buffer.writeln('''
+Future<$className> execute${className}Query(String graphQLEndpoint, [http.Client client = http.Client()]) async {
+  final dataResponse = await client.post(graphQLEndpoint, body: {
+    'operationName': '$className',
+    'query': '$sanitizedQueryStr',
+  });
+  client.close();
+
+  final typedResponse = $className.fromJson(json.decode(dataResponse.body)['data']);
+}
+''');
+  }
 
   return buffer.toString();
 }

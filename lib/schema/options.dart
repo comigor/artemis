@@ -9,6 +9,8 @@ class GeneratorOptions {
   @JsonKey(defaultValue: '')
   final String prefix;
   final String customParserImport;
+  @JsonKey(defaultValue: true)
+  final bool generateHelpers;
   @JsonKey(defaultValue: [])
   final List<ScalarMap> scalarMapping;
   @JsonKey(defaultValue: [])
@@ -17,6 +19,7 @@ class GeneratorOptions {
   GeneratorOptions({
     this.prefix,
     this.customParserImport,
+    this.generateHelpers,
     this.scalarMapping,
     this.schemaMapping,
   });

@@ -1,4 +1,4 @@
-query some_query {
+query simple_query {
   pokemon(name: "Charmander") {
     number
     types
