@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:path/path.dart' as p;
+import 'package:graphql_parser/graphql_parser.dart';
 import 'package:artemis/schema/options.dart';
 import 'package:artemis/schema/graphql.dart';
+import 'package:recase/recase.dart';
+import 'package:graphql_parser/graphql_parser.dart';
 
 GraphQLType _getTypeByName(GraphQLSchema schema, String name) =>
     schema.types.firstWhere((t) => t.name == name);
@@ -226,6 +229,49 @@ part '$basename.api.g.dart';
     _generateClass(buffer, schema, t, options, prefix: options.prefix);
     buffer.writeln('');
   }
+
+  return buffer.toString();
+}
+
+OperationDefinitionContext getOperationFromQuery(String queryStr) {
+  final tokens = scan(queryStr);
+  final parser = Parser(tokens);
+
+  if (parser.errors.isNotEmpty) {
+    print(parser.errors);
+  }
+
+  final doc = parser.parseDocument();
+
+  return doc.definitions.first;
+}
+
+Future<String> generateQuery(GraphQLSchema schema, String path, String queryStr,
+    GeneratorOptions options) async {
+  final operation = getOperationFromQuery(queryStr);
+
+  final basename = p.basenameWithoutExtension(path);
+  final customParserImport = options.customParserImport != null
+      ? '  import \'${options.customParserImport}\';'
+      : '';
+  final className = ReCase(operation.name ?? basename).pascalCase;
+  final StringBuffer buffer = StringBuffer()
+    ..writeln('''// GENERATED CODE - DO NOT MODIFY BY HAND
+
+import 'package:json_annotation/json_annotation.dart';
+$customParserImport
+
+part '$basename.query.g.dart';
+
+@JsonSerializable()
+class $className {''');
+  buffer.writeln('''
+
+  $className();
+  
+  factory $className.fromJson(Map<String, dynamic> json) => _\$${className}FromJson(json);
+  Map<String, dynamic> toJson() => _\$${className}ToJson(this);
+  }''');
 
   return buffer.toString();
 }

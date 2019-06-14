@@ -9,15 +9,16 @@ class GeneratorOptions {
   @JsonKey(defaultValue: '')
   final String prefix;
   final String customParserImport;
-  @JsonKey(
-    defaultValue: [],
-  )
+  @JsonKey(defaultValue: [])
   final List<ScalarMap> scalarMapping;
+  @JsonKey(defaultValue: [])
+  final List<SchemaMap> schemaMapping;
 
   GeneratorOptions({
     this.prefix,
     this.customParserImport,
     this.scalarMapping,
+    this.schemaMapping,
   });
 
   factory GeneratorOptions.fromJson(Map<String, dynamic> json) =>
@@ -44,4 +45,20 @@ class ScalarMap {
       _$ScalarMapFromJson(json);
 
   Map<String, dynamic> toJson() => _$ScalarMapToJson(this);
+}
+
+@JsonSerializable(fieldRename: FieldRename.snake)
+class SchemaMap {
+  final String schema;
+  final String queriesGlob;
+
+  SchemaMap({
+    this.schema,
+    this.queriesGlob,
+  });
+
+  factory SchemaMap.fromJson(Map<String, dynamic> json) =>
+      _$SchemaMapFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SchemaMapToJson(this);
 }
