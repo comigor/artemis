@@ -10,7 +10,7 @@ BigQuery _$BigQueryFromJson(Map<String, dynamic> json) {
   return BigQuery()
     ..charmander = json['charmander'] == null
         ? null
-        : Pokemon.fromJson(json['charmander'] as Map<String, dynamic>)
+        : Charmander.fromJson(json['charmander'] as Map<String, dynamic>)
     ..pokemons = (json['pokemons'] as List)
         ?.map((e) =>
             e == null ? null : Pokemon.fromJson(e as Map<String, dynamic>))
