@@ -5,7 +5,6 @@ import 'package:graphql_parser/graphql_parser.dart';
 import 'package:artemis/schema/options.dart';
 import 'package:artemis/schema/graphql.dart';
 import 'package:recase/recase.dart';
-import 'package:graphql_parser/graphql_parser.dart';
 
 GraphQLType _getTypeByName(GraphQLSchema schema, String name) =>
     schema.types.firstWhere((t) => t.name == name);
@@ -21,16 +20,18 @@ GraphQLType _followType(GraphQLType type) {
 }
 
 String _buildType(GraphQLType type, GeneratorOptions options, String prefix,
-    {bool dartType = true}) {
+    {bool dartType = true, String replaceLeafWith}) {
   switch (type.kind) {
     case GraphQLTypeKind.LIST:
-      return 'List<${_buildType(type.ofType, options, prefix, dartType: dartType)}>';
+      return 'List<${_buildType(type.ofType, options, prefix, dartType: dartType, replaceLeafWith: replaceLeafWith)}>';
     case GraphQLTypeKind.NON_NULL:
-      return _buildType(type.ofType, options, prefix, dartType: dartType);
+      return _buildType(type.ofType, options, prefix,
+          dartType: dartType, replaceLeafWith: replaceLeafWith);
     case GraphQLTypeKind.SCALAR:
       final scalar = _getSingleScalarMap(options, type);
       return dartType ? scalar.dartType : scalar.graphQLType;
     default:
+      if (replaceLeafWith != null) return '$prefix$replaceLeafWith';
       return '$prefix${type.name}';
   }
 }
@@ -264,8 +265,9 @@ part '$basename.query.g.dart';
 ''');
 
   final parentType = _getTypeByName(schema, schema.queryType.name);
-  _generateQueryClass(buffer, operation.selectionSet, schema,
-      ReCase(operation.name ?? basename).pascalCase, parentType, options);
+  final className = ReCase(operation.name ?? basename).pascalCase;
+  _generateQueryClass(buffer, operation.selectionSet, schema, className,
+      parentType, Set.from([className]), options);
 
   return buffer.toString();
 }
@@ -276,6 +278,7 @@ void _generateQueryClass(
     GraphQLSchema schema,
     String className,
     GraphQLType parentType,
+    Set<String> takenNames,
     GeneratorOptions options) async {
   buffer.writeln('''
 
@@ -287,27 +290,44 @@ class $className {''');
     for (final selection in selectionSet.selections) {
       String fieldName = selection.field.fieldName.name;
       String alias = fieldName;
-      if (selection.field.fieldName.alias != null) {
+      bool hasAlias = selection.field.fieldName.alias != null;
+      if (hasAlias) {
         fieldName = selection.field.fieldName.alias.name;
         alias = selection.field.fieldName.alias.alias;
       }
 
       final graphQLField =
           parentType.fields.firstWhere((f) => f.name == fieldName);
-      final dartTypeStr = _buildType(graphQLField.type, options, options.prefix,
-          dartType: true);
       final leafType =
           _getTypeByName(schema, _followType(graphQLField.type).name);
+
+      String wantedClassName = ReCase(leafType.name).pascalCase;
+      if (takenNames.contains(wantedClassName) &&
+          hasAlias &&
+          leafType.kind != GraphQLTypeKind.SCALAR) {
+        wantedClassName = ReCase(alias).pascalCase;
+      }
+      takenNames.add(wantedClassName);
+
+      final dartTypeStr = _buildType(graphQLField.type, options, options.prefix,
+          dartType: true, replaceLeafWith: wantedClassName);
 
       buffer.writeln('  $dartTypeStr $alias;');
 
       if (leafType.kind != GraphQLTypeKind.SCALAR) {
+        String wantedClassName = ReCase(leafType.name).pascalCase;
+        if (takenNames.contains(wantedClassName) && hasAlias) {
+          wantedClassName = ReCase(alias).pascalCase;
+        }
+        takenNames.add(wantedClassName);
+
         queue.add(() => _generateQueryClass(
             buffer,
             selection.field.selectionSet,
             schema,
-            ReCase(leafType.name).pascalCase,
+            wantedClassName,
             leafType,
+            takenNames,
             options));
       }
     }
