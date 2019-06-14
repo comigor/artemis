@@ -314,6 +314,7 @@ void _generateQueryClass(
 @JsonSerializable()
 class $className {''');
 
+  final List<Function> queue = [];
   if (selection.field.selectionSet != null) {
     for (final selection in selection.field.selectionSet.selections) {
       String fieldName = selection.field.fieldName.name ??
@@ -323,8 +324,15 @@ class $className {''');
       final graphQLField = parentType.fields.firstWhere((f) => f.name == alias);
       final dartTypeStr = _buildType(graphQLField.type, options, options.prefix,
           dartType: true);
+      final leafType =
+          _getTypeByName(schema, _followType(graphQLField.type).name);
 
       buffer.writeln('  $dartTypeStr $alias;');
+
+      if (leafType.kind != GraphQLTypeKind.SCALAR) {
+        queue.add(() =>
+            _generateQueryClass(buffer, selection, schema, leafType, options));
+      }
     }
   }
 
@@ -335,4 +343,6 @@ class $className {''');
   factory $className.fromJson(Map<String, dynamic> json) => _\$${className}FromJson(json);
   Map<String, dynamic> toJson() => _\$${className}ToJson(this);
   }''');
+
+  queue.forEach((f) => f());
 }
