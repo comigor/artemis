@@ -1,0 +1,10 @@
+targets:
+  $default:
+    sources:
+      - lib/**
+    builders:
+      artemis|query_generator:
+        options:
+          schema_mapping:
+            - schema: lib/pokemon.schema.json
+              queries_glob: lib/**.query.graphql
