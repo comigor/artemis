@@ -175,5 +175,56 @@ class AnotherObject {
 ''',
       });
     });
+
+    test('Query selections can be aliased', () async {
+      final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
+        'schema_mapping': [
+          {
+            'schema': 'api.schema.json',
+            'queries_glob': '**.query.graphql',
+          }
+        ]
+      }));
+      final GraphQLSchema schema = GraphQLSchema(
+          queryType: GraphQLType(name: 'Query', kind: GraphQLTypeKind.OBJECT),
+          types: [
+            GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR),
+            GraphQLType(name: 'Query', kind: GraphQLTypeKind.OBJECT, fields: [
+              GraphQLField(
+                  name: 's',
+                  type: GraphQLType(
+                      name: 'String', kind: GraphQLTypeKind.SCALAR)),
+              GraphQLField(
+                  name: 'st',
+                  type: GraphQLType(
+                      name: 'String', kind: GraphQLTypeKind.SCALAR)),
+            ]),
+          ]);
+
+      await testBuilder(anotherBuilder, {
+        'a|api.schema.json': jsonFromSchema(schema),
+        'a|some_query.query.graphql':
+            'query some_query { firstName: s, lastName: st }',
+      }, outputs: {
+        'a|some_query.query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
+
+import 'package:json_annotation/json_annotation.dart';
+
+part 'some_query.query.g.dart';
+
+@JsonSerializable()
+class SomeQuery {
+  String firstName;
+  String lastName;
+
+  SomeQuery();
+
+  factory SomeQuery.fromJson(Map<String, dynamic> json) =>
+      _\$SomeQueryFromJson(json);
+  Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
+}
+''',
+      });
+    });
   });
 }

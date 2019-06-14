@@ -271,11 +271,15 @@ class $className {''');
   final List<Function> queue = [];
   if (operation.selectionSet != null) {
     for (final selection in operation.selectionSet.selections) {
-      String fieldName = selection.field.fieldName.name ??
-          selection.field.fieldName.alias.name;
-      String alias = fieldName ?? selection.field.fieldName.alias.alias;
+      String fieldName = selection.field.fieldName.name;
+      String alias = fieldName;
+      if (selection.field.fieldName.alias != null) {
+        fieldName = selection.field.fieldName.alias.name;
+        alias = selection.field.fieldName.alias.alias;
+      }
 
-      final graphQLField = parentType.fields.firstWhere((f) => f.name == alias);
+      final graphQLField =
+          parentType.fields.firstWhere((f) => f.name == fieldName);
       final leafType =
           _getTypeByName(schema, _followType(graphQLField.type).name);
       final dartTypeStr =
@@ -317,11 +321,15 @@ class $className {''');
   final List<Function> queue = [];
   if (selection.field.selectionSet != null) {
     for (final selection in selection.field.selectionSet.selections) {
-      String fieldName = selection.field.fieldName.name ??
-          selection.field.fieldName.alias.name;
-      String alias = fieldName ?? selection.field.fieldName.alias.alias;
+      String fieldName = selection.field.fieldName.name;
+      String alias = fieldName;
+      if (selection.field.fieldName.alias != null) {
+        fieldName = selection.field.fieldName.alias.name;
+        alias = selection.field.fieldName.alias.alias;
+      }
 
-      final graphQLField = parentType.fields.firstWhere((f) => f.name == alias);
+      final graphQLField =
+          parentType.fields.firstWhere((f) => f.name == fieldName);
       final dartTypeStr = _buildType(graphQLField.type, options, options.prefix,
           dartType: true);
       final leafType =
