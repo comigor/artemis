@@ -254,7 +254,6 @@ Future<String> generateQuery(GraphQLSchema schema, String path, String queryStr,
   final customParserImport = options.customParserImport != null
       ? '  import \'${options.customParserImport}\';'
       : '';
-  final className = ReCase(operation.name ?? basename).pascalCase;
   final StringBuffer buffer = StringBuffer()
     ..writeln('''// GENERATED CODE - DO NOT MODIFY BY HAND
 
@@ -262,65 +261,30 @@ import 'package:json_annotation/json_annotation.dart';
 $customParserImport
 
 part '$basename.query.g.dart';
-
-@JsonSerializable()
-class $className {''');
+''');
 
   final parentType = _getTypeByName(schema, schema.queryType.name);
-
-  final List<Function> queue = [];
-  if (operation.selectionSet != null) {
-    for (final selection in operation.selectionSet.selections) {
-      String fieldName = selection.field.fieldName.name;
-      String alias = fieldName;
-      if (selection.field.fieldName.alias != null) {
-        fieldName = selection.field.fieldName.alias.name;
-        alias = selection.field.fieldName.alias.alias;
-      }
-
-      final graphQLField =
-          parentType.fields.firstWhere((f) => f.name == fieldName);
-      final leafType =
-          _getTypeByName(schema, _followType(graphQLField.type).name);
-      final dartTypeStr =
-          _buildType(leafType, options, options.prefix, dartType: true);
-
-      buffer.writeln('  $dartTypeStr $alias;');
-
-      if (leafType.kind != GraphQLTypeKind.SCALAR) {
-        queue.add(() =>
-            _generateQueryClass(buffer, selection, schema, leafType, options));
-      }
-    }
-  }
-  buffer.writeln('''
-
-  $className();
-  
-  factory $className.fromJson(Map<String, dynamic> json) => _\$${className}FromJson(json);
-  Map<String, dynamic> toJson() => _\$${className}ToJson(this);
-  }''');
-
-  queue.forEach((f) => f());
+  _generateQueryClass(buffer, operation.selectionSet, schema,
+      ReCase(operation.name ?? basename).pascalCase, parentType, options);
 
   return buffer.toString();
 }
 
 void _generateQueryClass(
     StringBuffer buffer,
-    SelectionContext selection,
+    SelectionSetContext selectionSet,
     GraphQLSchema schema,
+    String className,
     GraphQLType parentType,
     GeneratorOptions options) async {
-  final className = ReCase(parentType.name).pascalCase;
   buffer.writeln('''
 
 @JsonSerializable()
 class $className {''');
 
   final List<Function> queue = [];
-  if (selection.field.selectionSet != null) {
-    for (final selection in selection.field.selectionSet.selections) {
+  if (selectionSet != null) {
+    for (final selection in selectionSet.selections) {
       String fieldName = selection.field.fieldName.name;
       String alias = fieldName;
       if (selection.field.fieldName.alias != null) {
@@ -338,8 +302,13 @@ class $className {''');
       buffer.writeln('  $dartTypeStr $alias;');
 
       if (leafType.kind != GraphQLTypeKind.SCALAR) {
-        queue.add(() =>
-            _generateQueryClass(buffer, selection, schema, leafType, options));
+        queue.add(() => _generateQueryClass(
+            buffer,
+            selection.field.selectionSet,
+            schema,
+            ReCase(leafType.name).pascalCase,
+            leafType,
+            options));
       }
     }
   }
