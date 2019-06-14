@@ -271,19 +271,16 @@ $customParserImport''');
 
   buffer.writeln('part \'$basename.query.g.dart\';');
 
-  _generateQueryClass(buffer, operation.selectionSet, schema, className,
-      parentType, Set.from([className]), options);
+  _generateQueryClass(
+      buffer, operation.selectionSet, schema, className, parentType, options);
 
   if (options.generateHelpers) {
-    final sanitizedQueryStr = queryStr
-        .replaceAll(RegExp(r'\n'), '')
-        .replaceAll(RegExp(r' +'), ' ')
-        .trim();
+    final sanitizedQueryStr = queryStr.replaceAll(RegExp(r'\s+'), ' ').trim();
     buffer.writeln('''
 Future<$className> execute${className}Query(String graphQLEndpoint, {http.Client client}) async {
   final httpClient = client ?? http.Client();
   final dataResponse = await httpClient.post(graphQLEndpoint, body: {
-    'operationName': '$className',
+    'operationName': '${ReCase(className).snakeCase}',
     'query': '$sanitizedQueryStr',
   });
   httpClient.close();
@@ -302,7 +299,6 @@ void _generateQueryClass(
     GraphQLSchema schema,
     String className,
     GraphQLType parentType,
-    Set<String> takenNames,
     GeneratorOptions options) async {
   buffer.writeln('''
 
@@ -314,10 +310,13 @@ class $className {''');
     for (final selection in selectionSet.selections) {
       String fieldName = selection.field.fieldName.name;
       String alias = fieldName;
+      String aliasClassName;
       bool hasAlias = selection.field.fieldName.alias != null;
       if (hasAlias) {
         fieldName = selection.field.fieldName.alias.name;
         alias = selection.field.fieldName.alias.alias;
+        aliasClassName =
+            ReCase(selection.field.fieldName.alias.alias).pascalCase;
       }
 
       final graphQLField =
@@ -325,33 +324,18 @@ class $className {''');
       final leafType =
           _getTypeByName(schema, _followType(graphQLField.type).name);
 
-      String wantedClassName = ReCase(leafType.name).pascalCase;
-      if (takenNames.contains(wantedClassName) &&
-          hasAlias &&
-          leafType.kind != GraphQLTypeKind.SCALAR) {
-        wantedClassName = ReCase(alias).pascalCase;
-      }
-      takenNames.add(wantedClassName);
-
       final dartTypeStr = _buildType(graphQLField.type, options, options.prefix,
-          dartType: true, replaceLeafWith: wantedClassName);
+          dartType: true, replaceLeafWith: aliasClassName);
 
       buffer.writeln('  $dartTypeStr $alias;');
 
       if (leafType.kind != GraphQLTypeKind.SCALAR) {
-        String wantedClassName = ReCase(leafType.name).pascalCase;
-        if (takenNames.contains(wantedClassName) && hasAlias) {
-          wantedClassName = ReCase(alias).pascalCase;
-        }
-        takenNames.add(wantedClassName);
-
         queue.add(() => _generateQueryClass(
             buffer,
             selection.field.selectionSet,
             schema,
-            wantedClassName,
+            aliasClassName ?? leafType.name,
             leafType,
-            takenNames,
             options));
       }
     }

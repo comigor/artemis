@@ -441,7 +441,7 @@ Future<SomeQuery> executeSomeQueryQuery(String graphQLEndpoint,
     {http.Client client}) async {
   final httpClient = client ?? http.Client();
   final dataResponse = await httpClient.post(graphQLEndpoint, body: {
-    'operationName': 'SomeQuery',
+    'operationName': 'some_query',
     'query': 'query some_query { s o { st } anotherObject: ob { str } }',
   });
   httpClient.close();
