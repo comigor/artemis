@@ -47,6 +47,9 @@ class LookupQuery {
 @JsonSerializable()
 class Area implements Node, Entity {
   @override
+  @JsonKey(name: '__resolveType')
+  String resolveType;
+  @override
   String id;
   @override
   String mbid;
@@ -288,6 +291,9 @@ class ArtistEdge {
 @JsonSerializable()
 class Artist implements Node, Entity {
   @override
+  @JsonKey(name: '__resolveType')
+  String resolveType;
+  @override
   String id;
   @override
   String mbid;
@@ -375,6 +381,9 @@ class RecordingEdge {
 
 @JsonSerializable()
 class Recording implements Node, Entity {
+  @override
+  @JsonKey(name: '__resolveType')
+  String resolveType;
   @override
   String id;
   @override
@@ -473,6 +482,9 @@ class ReleaseEdge {
 @JsonSerializable()
 class Release implements Node, Entity {
   @override
+  @JsonKey(name: '__resolveType')
+  String resolveType;
+  @override
   String id;
   @override
   String mbid;
@@ -548,6 +560,9 @@ class Medium {
 @JsonSerializable()
 class Disc implements Node {
   @override
+  @JsonKey(name: '__resolveType')
+  String resolveType;
+  @override
   String id;
   String discID;
   int offsetCount;
@@ -563,6 +578,9 @@ class Disc implements Node {
 
 @JsonSerializable()
 class Track implements Entity {
+  @override
+  @JsonKey(name: '__resolveType')
+  String resolveType;
   @override
   String mbid;
   String title;
@@ -606,6 +624,9 @@ class LabelEdge {
 
 @JsonSerializable()
 class Label implements Node, Entity {
+  @override
+  @JsonKey(name: '__resolveType')
+  String resolveType;
   @override
   String id;
   @override
@@ -742,6 +763,9 @@ class CollectionEdge {
 @JsonSerializable()
 class Collection implements Node, Entity {
   @override
+  @JsonKey(name: '__resolveType')
+  String resolveType;
+  @override
   String id;
   @override
   String mbid;
@@ -825,6 +849,9 @@ class EventEdge {
 
 @JsonSerializable()
 class Event implements Node, Entity {
+  @override
+  @JsonKey(name: '__resolveType')
+  String resolveType;
   @override
   String id;
   @override
@@ -931,6 +958,9 @@ class InstrumentEdge {
 @JsonSerializable()
 class Instrument implements Node, Entity {
   @override
+  @JsonKey(name: '__resolveType')
+  String resolveType;
+  @override
   String id;
   @override
   String mbid;
@@ -1021,6 +1051,9 @@ class PlaceEdge {
 @JsonSerializable()
 class Place implements Node, Entity {
   @override
+  @JsonKey(name: '__resolveType')
+  String resolveType;
+  @override
   String id;
   @override
   String mbid;
@@ -1086,6 +1119,9 @@ class ReleaseGroupEdge {
 
 @JsonSerializable()
 class ReleaseGroup implements Node, Entity {
+  @override
+  @JsonKey(name: '__resolveType')
+  String resolveType;
   @override
   String id;
   @override
@@ -1455,6 +1491,9 @@ class SeriesEdge {
 @JsonSerializable()
 class Series implements Node, Entity {
   @override
+  @JsonKey(name: '__resolveType')
+  String resolveType;
+  @override
   String id;
   @override
   String mbid;
@@ -1501,6 +1540,9 @@ class WorkEdge {
 
 @JsonSerializable()
 class Work implements Node, Entity {
+  @override
+  @JsonKey(name: '__resolveType')
+  String resolveType;
   @override
   String id;
   @override
@@ -2030,6 +2072,9 @@ class LastFMCountry {
 
 @JsonSerializable()
 class URL implements Node, Entity {
+  @override
+  @JsonKey(name: '__resolveType')
+  String resolveType;
   @override
   String id;
   @override

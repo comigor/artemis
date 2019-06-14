@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:pokemon_example/queries/simple_query.query.dart';
-import 'package:pokemon_example/queries/big_query.query.dart';
+import 'queries/big_query.query.dart';
+import 'queries/simple_query.query.dart';
 
 Future<void> main() async {
   const graphQLEndpoint = 'https://graphql-pokemon.now.sh/graphql';
