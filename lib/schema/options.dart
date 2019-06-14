@@ -17,11 +17,11 @@ class GeneratorOptions {
   final List<SchemaMap> schemaMapping;
 
   GeneratorOptions({
-    this.prefix,
+    this.prefix = '',
     this.customParserImport,
-    this.generateHelpers,
-    this.scalarMapping,
-    this.schemaMapping,
+    this.generateHelpers = true,
+    this.scalarMapping = const [],
+    this.schemaMapping = const [],
   });
 
   factory GeneratorOptions.fromJson(Map<String, dynamic> json) =>
