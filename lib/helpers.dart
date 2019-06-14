@@ -265,6 +265,30 @@ part '$basename.query.g.dart';
 
 @JsonSerializable()
 class $className {''');
+
+  final parentType = _getTypeByName(schema, schema.queryType.name);
+
+  final List<Function> queue = [];
+  if (operation.selectionSet != null) {
+    for (final selection in operation.selectionSet.selections) {
+      String fieldName = selection.field.fieldName.name ??
+          selection.field.fieldName.alias.name;
+      String alias = fieldName ?? selection.field.fieldName.alias.alias;
+
+      final graphQLField = parentType.fields.firstWhere((f) => f.name == alias);
+      final leafType =
+          _getTypeByName(schema, _followType(graphQLField.type).name);
+      final dartTypeStr =
+          _buildType(leafType, options, options.prefix, dartType: true);
+
+      buffer.writeln('  $dartTypeStr $alias;');
+
+      if (leafType.kind != GraphQLTypeKind.SCALAR) {
+        queue.add(() =>
+            _generateQueryClass(buffer, selection, schema, leafType, options));
+      }
+    }
+  }
   buffer.writeln('''
 
   $className();
@@ -273,5 +297,42 @@ class $className {''');
   Map<String, dynamic> toJson() => _\$${className}ToJson(this);
   }''');
 
+  queue.forEach((f) => f());
+
   return buffer.toString();
+}
+
+void _generateQueryClass(
+    StringBuffer buffer,
+    SelectionContext selection,
+    GraphQLSchema schema,
+    GraphQLType parentType,
+    GeneratorOptions options) async {
+  final className = ReCase(parentType.name).pascalCase;
+  buffer.writeln('''
+
+@JsonSerializable()
+class $className {''');
+
+  if (selection.field.selectionSet != null) {
+    for (final selection in selection.field.selectionSet.selections) {
+      String fieldName = selection.field.fieldName.name ??
+          selection.field.fieldName.alias.name;
+      String alias = fieldName ?? selection.field.fieldName.alias.alias;
+
+      final graphQLField = parentType.fields.firstWhere((f) => f.name == alias);
+      final dartTypeStr = _buildType(graphQLField.type, options, options.prefix,
+          dartType: true);
+
+      buffer.writeln('  $dartTypeStr $alias;');
+    }
+  }
+
+  buffer.writeln('''
+
+  $className();
+  
+  factory $className.fromJson(Map<String, dynamic> json) => _\$${className}FromJson(json);
+  Map<String, dynamic> toJson() => _\$${className}ToJson(this);
+  }''');
 }

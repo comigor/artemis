@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:build/build.dart';
 import 'package:dart_style/dart_style.dart';
+import 'package:glob/glob.dart';
 import 'package:artemis/helpers.dart';
 import 'package:artemis/schema/options.dart';
 
@@ -36,5 +38,41 @@ class GraphQLTypesBuilder implements Builder {
 
     await buildStep.writeAsString(outputAssetId,
         _dartFormatter.format(await generate(schema, path, options)));
+  }
+}
+
+Builder graphQLQueryBuilder(BuilderOptions options) =>
+    GraphQLQueryBuilder(options);
+
+class GraphQLQueryBuilder implements Builder {
+  GraphQLQueryBuilder(BuilderOptions builderOptions)
+      : options = GeneratorOptions.fromJson(builderOptions.config);
+
+  final GeneratorOptions options;
+
+  @override
+  Map<String, List<String>> get buildExtensions => const {
+        '.query.graphql': ['.query.dart']
+      };
+
+  @override
+  Future<void> build(BuildStep buildStep) async {
+    final src = await buildStep.readAsString(buildStep.inputId);
+
+    final schemaMap = options.schemaMapping.firstWhere(
+        (sm) => Glob(sm.queriesGlob).matches(buildStep.inputId.path));
+    final assetStream = buildStep.findAssets(Glob(schemaMap.schema));
+    final schemaFile = await assetStream.first;
+    final schema =
+        schemaFromJsonString(await buildStep.readAsString(schemaFile));
+
+    final path =
+        buildStep.inputId.path.replaceAll(RegExp(r'\.query\.graphql$'), '');
+
+    final outputAssetId =
+        AssetId(buildStep.inputId.package, path).addExtension('.query.dart');
+
+    await buildStep.writeAsString(outputAssetId,
+        _dartFormatter.format(await generateQuery(schema, path, src, options)));
   }
 }

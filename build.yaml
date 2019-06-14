@@ -7,3 +7,11 @@ builders:
     build_to: source
     applies_builders: ['json_serializable']
     runs_before: ['json_serializable']
+  query_generator:
+    import: 'package:artemis/generator.dart'
+    builder_factories: ['graphQLQueryBuilder']
+    build_extensions: {'.query.graphql': ['.query.dart']}
+    auto_apply: dependents
+    build_to: source
+    applies_builders: ['json_serializable']
+    runs_before: ['json_serializable']
