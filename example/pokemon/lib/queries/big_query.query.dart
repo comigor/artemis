@@ -1,6 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'dart:async';
+import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
 
@@ -8,7 +9,7 @@ part 'big_query.query.g.dart';
 
 @JsonSerializable()
 class BigQuery {
-  Pokemon charmander;
+  Charmander charmander;
   List<Pokemon> pokemons;
 
   BigQuery();
@@ -57,14 +58,14 @@ class Evolutions {
 }
 
 Future<BigQuery> executeBigQueryQuery(String graphQLEndpoint,
-    [http.Client client = http.Client()]) async {
-  final dataResponse = await client.post(graphQLEndpoint, body: {
-    'operationName': 'BigQuery',
+    {http.Client client}) async {
+  final httpClient = client ?? http.Client();
+  final dataResponse = await httpClient.post(graphQLEndpoint, body: {
+    'operationName': 'big_query',
     'query':
-        'query big_query { charmander: pokemon(name: "Charmander") { number types } pokemons(first: 150) { number name types evolutions: evolutions { number name } }}',
+        'query big_query { charmander: pokemon(name: "Charmander") { number types } pokemons(first: 150) { number name types evolutions: evolutions { number name } } }',
   });
-  client.close();
+  httpClient.close();
 
-  final typedResponse =
-      BigQuery.fromJson(json.decode(dataResponse.body)['data']);
+  return BigQuery.fromJson(json.decode(dataResponse.body)['data']);
 }
