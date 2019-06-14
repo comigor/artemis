@@ -12,8 +12,8 @@ String jsonFromSchema(GraphQLSchema schema) => json.encode({
     });
 
 void main() {
-  group('On builder options', () {
-    test('Custom scalars can have custom parsers', () async {
+  group('On query generation', () {
+    test('A simple query yields simple classes', () async {
       final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
         'schema_mapping': [
           {
