@@ -118,11 +118,9 @@ class SomeQuery {
                 ]),
           ]);
 
-      await testBuilder(
-          anotherBuilder,
-          {
-            'a|api.schema.json': jsonFromSchema(schema),
-            'a|some_query.query.graphql': '''
+      await testBuilder(anotherBuilder, {
+        'a|api.schema.json': jsonFromSchema(schema),
+        'a|some_query.query.graphql': '''
         query some_query {
           s
           o {
@@ -133,11 +131,8 @@ class SomeQuery {
           }
         }
         ''',
-          },
-          onLog: print,
-          outputs: {
-            'a|some_query.query.dart':
-                '''// GENERATED CODE - DO NOT MODIFY BY HAND
+      }, outputs: {
+        'a|some_query.query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
 
@@ -178,7 +173,7 @@ class AnotherObject {
   Map<String, dynamic> toJson() => _\$AnotherObjectToJson(this);
 }
 ''',
-          });
+      });
     });
   });
 }
