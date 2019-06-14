@@ -396,6 +396,7 @@ class AnotherObject {
         'a|some_query.query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'dart:async';
+import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
 
@@ -437,15 +438,15 @@ class AnotherObject {
 }
 
 Future<SomeQuery> executeSomeQueryQuery(String graphQLEndpoint,
-    [http.Client client = http.Client()]) async {
-  final dataResponse = await client.post(graphQLEndpoint, body: {
+    {http.Client client}) async {
+  final httpClient = client ?? http.Client();
+  final dataResponse = await httpClient.post(graphQLEndpoint, body: {
     'operationName': 'SomeQuery',
     'query': 'query some_query { s o { st } anotherObject: ob { str } }',
   });
-  client.close();
+  httpClient.close();
 
-  final typedResponse =
-      SomeQuery.fromJson(json.decode(dataResponse.body)['data']);
+  return SomeQuery.fromJson(json.decode(dataResponse.body)['data']);
 }
 ''',
       });

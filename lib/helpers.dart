@@ -262,6 +262,7 @@ Future<String> generateQuery(GraphQLSchema schema, String path, String queryStr,
     ..writeln('// GENERATED CODE - DO NOT MODIFY BY HAND\n');
   if (options.generateHelpers) {
     buffer.writeln('''import 'dart:async';
+import 'dart:convert';
 import 'package:http/http.dart' as http;''');
   }
 
@@ -279,14 +280,15 @@ $customParserImport''');
         .replaceAll(RegExp(r' +'), ' ')
         .trim();
     buffer.writeln('''
-Future<$className> execute${className}Query(String graphQLEndpoint, [http.Client client = http.Client()]) async {
-  final dataResponse = await client.post(graphQLEndpoint, body: {
+Future<$className> execute${className}Query(String graphQLEndpoint, {http.Client client}) async {
+  final httpClient = client ?? http.Client();
+  final dataResponse = await httpClient.post(graphQLEndpoint, body: {
     'operationName': '$className',
     'query': '$sanitizedQueryStr',
   });
-  client.close();
+  httpClient.close();
 
-  final typedResponse = $className.fromJson(json.decode(dataResponse.body)['data']);
+  return $className.fromJson(json.decode(dataResponse.body)['data']);
 }
 ''');
   }
