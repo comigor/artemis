@@ -17,6 +17,14 @@ GeneratorOptions _$GeneratorOptionsFromJson(Map json) {
                       (k, e) => MapEntry(k as String, e),
                     )))
               ?.toList() ??
+          [],
+      schemaMapping: (json['schema_mapping'] as List)
+              ?.map((e) => e == null
+                  ? null
+                  : SchemaMap.fromJson((e as Map)?.map(
+                      (k, e) => MapEntry(k as String, e),
+                    )))
+              ?.toList() ??
           []);
 }
 
@@ -24,7 +32,8 @@ Map<String, dynamic> _$GeneratorOptionsToJson(GeneratorOptions instance) =>
     <String, dynamic>{
       'prefix': instance.prefix,
       'custom_parser_import': instance.customParserImport,
-      'scalar_mapping': instance.scalarMapping
+      'scalar_mapping': instance.scalarMapping,
+      'schema_mapping': instance.schemaMapping
     };
 
 ScalarMap _$ScalarMapFromJson(Map<String, dynamic> json) {
@@ -38,4 +47,15 @@ Map<String, dynamic> _$ScalarMapToJson(ScalarMap instance) => <String, dynamic>{
       'graphql_type': instance.graphQLType,
       'dart_type': instance.dartType,
       'use_custom_parser': instance.useCustomParser
+    };
+
+SchemaMap _$SchemaMapFromJson(Map<String, dynamic> json) {
+  return SchemaMap(
+      schema: json['schema'] as String,
+      queriesGlob: json['queries_glob'] as String);
+}
+
+Map<String, dynamic> _$SchemaMapToJson(SchemaMap instance) => <String, dynamic>{
+      'schema': instance.schema,
+      'queries_glob': instance.queriesGlob
     };
