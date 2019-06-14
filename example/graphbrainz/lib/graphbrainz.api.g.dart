@@ -103,6 +103,7 @@ Map<String, dynamic> _$LookupQueryToJson(LookupQuery instance) =>
 
 Area _$AreaFromJson(Map<String, dynamic> json) {
   return Area()
+    ..resolveType = json['__resolveType'] as String
     ..id = json['id'] as String
     ..mbid = json['mbid'] as String
     ..name = json['name'] as String
@@ -146,6 +147,7 @@ Area _$AreaFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$AreaToJson(Area instance) => <String, dynamic>{
+      '__resolveType': instance.resolveType,
       'id': instance.id,
       'mbid': instance.mbid,
       'name': instance.name,
@@ -262,6 +264,7 @@ Map<String, dynamic> _$ArtistEdgeToJson(ArtistEdge instance) =>
 
 Artist _$ArtistFromJson(Map<String, dynamic> json) {
   return Artist()
+    ..resolveType = json['__resolveType'] as String
     ..id = json['id'] as String
     ..mbid = json['mbid'] as String
     ..name = json['name'] as String
@@ -340,6 +343,7 @@ Artist _$ArtistFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$ArtistToJson(Artist instance) => <String, dynamic>{
+      '__resolveType': instance.resolveType,
       'id': instance.id,
       'mbid': instance.mbid,
       'name': instance.name,
@@ -430,6 +434,7 @@ Map<String, dynamic> _$RecordingEdgeToJson(RecordingEdge instance) =>
 
 Recording _$RecordingFromJson(Map<String, dynamic> json) {
   return Recording()
+    ..resolveType = json['__resolveType'] as String
     ..id = json['id'] as String
     ..mbid = json['mbid'] as String
     ..title = json['title'] as String
@@ -482,6 +487,7 @@ Recording _$RecordingFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$RecordingToJson(Recording instance) => <String, dynamic>{
+      '__resolveType': instance.resolveType,
       'id': instance.id,
       'mbid': instance.mbid,
       'title': instance.title,
@@ -561,6 +567,7 @@ Map<String, dynamic> _$ReleaseEdgeToJson(ReleaseEdge instance) =>
 
 Release _$ReleaseFromJson(Map<String, dynamic> json) {
   return Release()
+    ..resolveType = json['__resolveType'] as String
     ..id = json['id'] as String
     ..mbid = json['mbid'] as String
     ..title = json['title'] as String
@@ -634,6 +641,7 @@ Release _$ReleaseFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$ReleaseToJson(Release instance) => <String, dynamic>{
+      '__resolveType': instance.resolveType,
       'id': instance.id,
       'mbid': instance.mbid,
       'title': instance.title,
@@ -735,6 +743,7 @@ Map<String, dynamic> _$MediumToJson(Medium instance) => <String, dynamic>{
 
 Disc _$DiscFromJson(Map<String, dynamic> json) {
   return Disc()
+    ..resolveType = json['__resolveType'] as String
     ..id = json['id'] as String
     ..discID = json['discID'] as String
     ..offsetCount = json['offsetCount'] as int
@@ -746,6 +755,7 @@ Disc _$DiscFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$DiscToJson(Disc instance) => <String, dynamic>{
+      '__resolveType': instance.resolveType,
       'id': instance.id,
       'discID': instance.discID,
       'offsetCount': instance.offsetCount,
@@ -756,6 +766,7 @@ Map<String, dynamic> _$DiscToJson(Disc instance) => <String, dynamic>{
 
 Track _$TrackFromJson(Map<String, dynamic> json) {
   return Track()
+    ..resolveType = json['__resolveType'] as String
     ..mbid = json['mbid'] as String
     ..title = json['title'] as String
     ..position = json['position'] as int
@@ -769,6 +780,7 @@ Track _$TrackFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$TrackToJson(Track instance) => <String, dynamic>{
+      '__resolveType': instance.resolveType,
       'mbid': instance.mbid,
       'title': instance.title,
       'position': instance.position,
@@ -818,6 +830,7 @@ Map<String, dynamic> _$LabelEdgeToJson(LabelEdge instance) => <String, dynamic>{
 
 Label _$LabelFromJson(Map<String, dynamic> json) {
   return Label()
+    ..resolveType = json['__resolveType'] as String
     ..id = json['id'] as String
     ..mbid = json['mbid'] as String
     ..name = json['name'] as String
@@ -868,6 +881,7 @@ Label _$LabelFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$LabelToJson(Label instance) => <String, dynamic>{
+      '__resolveType': instance.resolveType,
       'id': instance.id,
       'mbid': instance.mbid,
       'name': instance.name,
@@ -1077,6 +1091,7 @@ Map<String, dynamic> _$CollectionEdgeToJson(CollectionEdge instance) =>
 
 Collection _$CollectionFromJson(Map<String, dynamic> json) {
   return Collection()
+    ..resolveType = json['__resolveType'] as String
     ..id = json['id'] as String
     ..mbid = json['mbid'] as String
     ..name = json['name'] as String
@@ -1124,6 +1139,7 @@ Collection _$CollectionFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$CollectionToJson(Collection instance) =>
     <String, dynamic>{
+      '__resolveType': instance.resolveType,
       'id': instance.id,
       'mbid': instance.mbid,
       'name': instance.name,
@@ -1224,6 +1240,7 @@ Map<String, dynamic> _$EventEdgeToJson(EventEdge instance) => <String, dynamic>{
 
 Event _$EventFromJson(Map<String, dynamic> json) {
   return Event()
+    ..resolveType = json['__resolveType'] as String
     ..id = json['id'] as String
     ..mbid = json['mbid'] as String
     ..name = json['name'] as String
@@ -1256,6 +1273,7 @@ Event _$EventFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
+      '__resolveType': instance.resolveType,
       'id': instance.id,
       'mbid': instance.mbid,
       'name': instance.name,
@@ -1373,6 +1391,7 @@ Map<String, dynamic> _$InstrumentEdgeToJson(InstrumentEdge instance) =>
 
 Instrument _$InstrumentFromJson(Map<String, dynamic> json) {
   return Instrument()
+    ..resolveType = json['__resolveType'] as String
     ..id = json['id'] as String
     ..mbid = json['mbid'] as String
     ..name = json['name'] as String
@@ -1403,6 +1422,7 @@ Instrument _$InstrumentFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$InstrumentToJson(Instrument instance) =>
     <String, dynamic>{
+      '__resolveType': instance.resolveType,
       'id': instance.id,
       'mbid': instance.mbid,
       'name': instance.name,
@@ -1519,6 +1539,7 @@ Map<String, dynamic> _$PlaceEdgeToJson(PlaceEdge instance) => <String, dynamic>{
 
 Place _$PlaceFromJson(Map<String, dynamic> json) {
   return Place()
+    ..resolveType = json['__resolveType'] as String
     ..id = json['id'] as String
     ..mbid = json['mbid'] as String
     ..name = json['name'] as String
@@ -1560,6 +1581,7 @@ Place _$PlaceFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$PlaceToJson(Place instance) => <String, dynamic>{
+      '__resolveType': instance.resolveType,
       'id': instance.id,
       'mbid': instance.mbid,
       'name': instance.name,
@@ -1635,6 +1657,7 @@ Map<String, dynamic> _$ReleaseGroupEdgeToJson(ReleaseGroupEdge instance) =>
 
 ReleaseGroup _$ReleaseGroupFromJson(Map<String, dynamic> json) {
   return ReleaseGroup()
+    ..resolveType = json['__resolveType'] as String
     ..id = json['id'] as String
     ..mbid = json['mbid'] as String
     ..title = json['title'] as String
@@ -1697,6 +1720,7 @@ ReleaseGroup _$ReleaseGroupFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$ReleaseGroupToJson(ReleaseGroup instance) =>
     <String, dynamic>{
+      '__resolveType': instance.resolveType,
       'id': instance.id,
       'mbid': instance.mbid,
       'title': instance.title,
@@ -2221,6 +2245,7 @@ Map<String, dynamic> _$SeriesEdgeToJson(SeriesEdge instance) =>
 
 Series _$SeriesFromJson(Map<String, dynamic> json) {
   return Series()
+    ..resolveType = json['__resolveType'] as String
     ..id = json['id'] as String
     ..mbid = json['mbid'] as String
     ..name = json['name'] as String
@@ -2240,6 +2265,7 @@ Series _$SeriesFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$SeriesToJson(Series instance) => <String, dynamic>{
+      '__resolveType': instance.resolveType,
       'id': instance.id,
       'mbid': instance.mbid,
       'name': instance.name,
@@ -2292,6 +2318,7 @@ Map<String, dynamic> _$WorkEdgeToJson(WorkEdge instance) => <String, dynamic>{
 
 Work _$WorkFromJson(Map<String, dynamic> json) {
   return Work()
+    ..resolveType = json['__resolveType'] as String
     ..id = json['id'] as String
     ..mbid = json['mbid'] as String
     ..title = json['title'] as String
@@ -2323,6 +2350,7 @@ Work _$WorkFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$WorkToJson(Work instance) => <String, dynamic>{
+      '__resolveType': instance.resolveType,
       'id': instance.id,
       'mbid': instance.mbid,
       'title': instance.title,
@@ -3117,6 +3145,7 @@ Map<String, dynamic> _$LastFMCountryToJson(LastFMCountry instance) =>
 
 URL _$URLFromJson(Map<String, dynamic> json) {
   return URL()
+    ..resolveType = json['__resolveType'] as String
     ..id = json['id'] as String
     ..mbid = json['mbid'] as String
     ..resource = json['resource'] as String
@@ -3126,6 +3155,7 @@ URL _$URLFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$URLToJson(URL instance) => <String, dynamic>{
+      '__resolveType': instance.resolveType,
       'id': instance.id,
       'mbid': instance.mbid,
       'resource': instance.resource,
