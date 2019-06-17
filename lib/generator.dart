@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:build/build.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:glob/glob.dart';
