@@ -321,12 +321,11 @@ List<Function> _generateQueryClassProperties(
       }
 
       if (selection.field != null) {
-        String fieldName = selection.field.fieldName.name;
+        final String fieldName = selection.field.fieldName.name;
         String alias = fieldName;
         String aliasClassName;
         bool hasAlias = selection.field.fieldName.alias != null;
         if (hasAlias) {
-          fieldName = selection.field.fieldName.alias.name;
           alias = selection.field.fieldName.alias.alias;
           aliasClassName =
               ReCase(selection.field.fieldName.alias.alias).pascalCase;
@@ -365,21 +364,157 @@ void _generateQueryClass(
     String className,
     GraphQLType parentType,
     GeneratorOptions options) async {
+  if (selectionSet != null) {
+    final classProperties = <ClassProperty>[];
+    final factoryPossibilities = <String>[];
+    final queue = <Function>[];
+    String mixins = '';
+
+    // Look at field selections and add it as class properties
+    selectionSet.selections.where((s) => s.field != null).forEach((selection) {
+      final String fieldName = selection.field.fieldName.name;
+      String alias = fieldName;
+      String aliasClassName;
+      bool hasAlias = selection.field.fieldName.alias != null;
+      if (hasAlias) {
+        alias = selection.field.fieldName.alias.alias;
+        aliasClassName =
+            ReCase(selection.field.fieldName.alias.alias).pascalCase;
+      }
+
+      final graphQLField =
+          parentType.fields.firstWhere((f) => f.name == fieldName);
+      final dartTypeStr = _buildType(graphQLField.type, options, options.prefix,
+          dartType: true, replaceLeafWith: aliasClassName);
+
+      final leafType =
+          _getTypeByName(schema, _followType(graphQLField.type).name);
+      if (leafType.kind != GraphQLTypeKind.SCALAR) {
+        queue.add(() => _generateQueryClass(
+            buffer,
+            selection.field.selectionSet,
+            schema,
+            aliasClassName ?? leafType.name,
+            leafType,
+            options));
+      }
+
+      classProperties.add(ClassProperty(dartTypeStr, alias));
+    });
+
+    // Look at inline fragment spreads to consider factory overrides
+    selectionSet.selections
+        .where((s) => s.inlineFragment != null)
+        .forEach((selection) {
+      final spreadClassName =
+          selection.inlineFragment.typeCondition.typeName.name;
+      final spreadType = _getTypeByName(schema, spreadClassName);
+      queue.add(() => _generateQueryClass(
+          buffer,
+          selection.inlineFragment.selectionSet,
+          schema,
+          spreadClassName,
+          spreadType,
+          options));
+
+      factoryPossibilities.add(spreadClassName);
+
+      // Get spread properties to override
+      selection.inlineFragment.selectionSet.selections
+          .where((s) => s.field != null)
+          .forEach((selection) {
+        final String fieldName = selection.field.fieldName.name;
+        String alias = fieldName;
+        String aliasClassName;
+        bool hasAlias = selection.field.fieldName.alias != null;
+        if (hasAlias) {
+          alias = selection.field.fieldName.alias.alias;
+          aliasClassName =
+              ReCase(selection.field.fieldName.alias.alias).pascalCase;
+        }
+
+        final graphQLField =
+            spreadType.fields.firstWhere((f) => f.name == fieldName);
+        final dartTypeStr = _buildType(
+            graphQLField.type, options, options.prefix,
+            dartType: true, replaceLeafWith: aliasClassName);
+
+        classProperties.add(ClassProperty(dartTypeStr, alias, override: true));
+      });
+    });
+
+    // If this is a interface type, we must add mixins and resolveType
+    if (parentType.kind == GraphQLTypeKind.INTERFACE) {
+      classProperties.add(ClassProperty('String', 'resolveType',
+          annotation: '@JsonKey(name: \'__resolveType\')'));
+      mixins = 'implements ' + factoryPossibilities.join(', ');
+    }
+
+    _printCustomClass(buffer, className, classProperties,
+        mixins: mixins, factoryPossibilities: factoryPossibilities);
+    queue.forEach((f) => f());
+  }
+}
+
+class ClassProperty {
+  final String type;
+  final String name;
+  final bool override;
+  final String annotation;
+
+  ClassProperty(this.type, this.name,
+      {this.override = false, this.annotation = ''});
+}
+
+void _printCustomClass(
+    StringBuffer buffer, String className, List<ClassProperty> classProperties,
+    {String mixins = '', List<String> factoryPossibilities = const []}) async {
   buffer.writeln('''
 
 @JsonSerializable()
-class $className {''');
+class $className $mixins {''');
 
-  final queue = _generateQueryClassProperties(
-      buffer, selectionSet, schema, className, parentType, options);
+  for (final prop in classProperties) {
+    if (prop.override) buffer.writeln('  @override');
+    buffer.writeln('  ${prop.type} ${prop.name};');
+  }
 
   buffer.writeln('''
 
-  $className();
-  
-  factory $className.fromJson(Map<String, dynamic> json) => _\$${className}FromJson(json);
-  Map<String, dynamic> toJson() => _\$${className}ToJson(this);
-  }''');
+  $className();''');
 
-  queue.forEach((f) => f());
+  if (factoryPossibilities.isNotEmpty) {
+    buffer.writeln('''
+
+  factory $className.fromJson(Map<String, dynamic> json) {
+    switch (json['__resolveType']) {''');
+
+    for (final p in factoryPossibilities) {
+      buffer.writeln('''case '$p':
+        return _\$${p}FromJson(json);''');
+    }
+
+    buffer.writeln('''default:
+    }
+    return _\$${className}FromJson(json);
+  }
+  Map<String, dynamic> toJson() {
+    switch (resolveType) {''');
+
+    for (final p in factoryPossibilities) {
+      buffer.writeln('''case '$p':
+        return _\$${p}ToJson(this as $p);''');
+    }
+
+    buffer.writeln('''default:
+    }
+    return _\$${className}ToJson(this);
+  }''');
+  } else {
+    buffer.writeln(
+        '''factory $className.fromJson(Map<String, dynamic> json) => _\$${className}FromJson(json);
+  Map<String, dynamic> toJson() => _\$${className}ToJson(this);''');
+  }
+
+  buffer.writeln('}');
 }
