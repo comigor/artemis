@@ -357,6 +357,38 @@ List<Function> _generateQueryClassProperties(
   return queue;
 }
 
+typedef void ClassLikeCall(
+    SelectionSetContext selectionSet,
+    GraphQLSchema schema,
+    String className,
+    GraphQLType parentType,
+    GeneratorOptions options);
+
+ClassProperty selectionToClassProperty(SelectionContext selection,
+    GraphQLSchema schema, GraphQLType type, GeneratorOptions options,
+    {ClassLikeCall customCall}) {
+  final String fieldName = selection.field.fieldName.name;
+  String alias = fieldName;
+  String aliasClassName;
+  bool hasAlias = selection.field.fieldName.alias != null;
+  if (hasAlias) {
+    alias = selection.field.fieldName.alias.alias;
+    aliasClassName = ReCase(selection.field.fieldName.alias.alias).pascalCase;
+  }
+
+  final graphQLField = type.fields.firstWhere((f) => f.name == fieldName);
+  final dartTypeStr = _buildType(graphQLField.type, options, options.prefix,
+      dartType: true, replaceLeafWith: aliasClassName);
+
+  final leafType = _getTypeByName(schema, _followType(graphQLField.type).name);
+  if (leafType.kind != GraphQLTypeKind.SCALAR && customCall != null) {
+    customCall(selection.field.selectionSet, schema,
+        aliasClassName ?? leafType.name, leafType, options);
+  }
+
+  return ClassProperty(dartTypeStr, alias);
+}
+
 void _generateQueryClass(
     StringBuffer buffer,
     SelectionSetContext selectionSet,
@@ -372,34 +404,14 @@ void _generateQueryClass(
 
     // Look at field selections and add it as class properties
     selectionSet.selections.where((s) => s.field != null).forEach((selection) {
-      final String fieldName = selection.field.fieldName.name;
-      String alias = fieldName;
-      String aliasClassName;
-      bool hasAlias = selection.field.fieldName.alias != null;
-      if (hasAlias) {
-        alias = selection.field.fieldName.alias.alias;
-        aliasClassName =
-            ReCase(selection.field.fieldName.alias.alias).pascalCase;
-      }
+      final cp =
+          selectionToClassProperty(selection, schema, parentType, options,
+              customCall: (selectionSet, _, className, type, _2) {
+        queue.add(() => _generateQueryClass(buffer,
+            selection.field.selectionSet, schema, className, type, options));
+      });
 
-      final graphQLField =
-          parentType.fields.firstWhere((f) => f.name == fieldName);
-      final dartTypeStr = _buildType(graphQLField.type, options, options.prefix,
-          dartType: true, replaceLeafWith: aliasClassName);
-
-      final leafType =
-          _getTypeByName(schema, _followType(graphQLField.type).name);
-      if (leafType.kind != GraphQLTypeKind.SCALAR) {
-        queue.add(() => _generateQueryClass(
-            buffer,
-            selection.field.selectionSet,
-            schema,
-            aliasClassName ?? leafType.name,
-            leafType,
-            options));
-      }
-
-      classProperties.add(ClassProperty(dartTypeStr, alias));
+      classProperties.add(cp);
     });
 
     // Look at inline fragment spreads to consider factory overrides
@@ -423,23 +435,9 @@ void _generateQueryClass(
       selection.inlineFragment.selectionSet.selections
           .where((s) => s.field != null)
           .forEach((selection) {
-        final String fieldName = selection.field.fieldName.name;
-        String alias = fieldName;
-        String aliasClassName;
-        bool hasAlias = selection.field.fieldName.alias != null;
-        if (hasAlias) {
-          alias = selection.field.fieldName.alias.alias;
-          aliasClassName =
-              ReCase(selection.field.fieldName.alias.alias).pascalCase;
-        }
-
-        final graphQLField =
-            spreadType.fields.firstWhere((f) => f.name == fieldName);
-        final dartTypeStr = _buildType(
-            graphQLField.type, options, options.prefix,
-            dartType: true, replaceLeafWith: aliasClassName);
-
-        classProperties.add(ClassProperty(dartTypeStr, alias, override: true));
+        final cp =
+            selectionToClassProperty(selection, schema, spreadType, options);
+        classProperties.add(cp.copyWith(override: true));
       });
     });
 
@@ -464,6 +462,11 @@ class ClassProperty {
 
   ClassProperty(this.type, this.name,
       {this.override = false, this.annotation = ''});
+
+  ClassProperty copyWith({type, name, override, annotation}) =>
+      ClassProperty(type ?? this.type, name ?? this.name,
+          override: override ?? this.override,
+          annotation: annotation ?? this.annotation);
 }
 
 void _printCustomClass(
@@ -476,7 +479,7 @@ class $className $mixins {''');
 
   for (final prop in classProperties) {
     if (prop.override) buffer.writeln('  @override');
-    buffer.writeln('  ${prop.type} ${prop.name};');
+    buffer.writeln('  ${prop.annotation}\n  ${prop.type} ${prop.name};');
   }
 
   buffer.writeln('''
@@ -503,7 +506,7 @@ class $className $mixins {''');
 
     for (final p in factoryPossibilities) {
       buffer.writeln('''case '$p':
-        return _\$${p}ToJson(this as $p);''');
+        return _\$${p}ToJson(this);''');
     }
 
     buffer.writeln('''default:
