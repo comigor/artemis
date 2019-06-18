@@ -414,7 +414,7 @@ void _generateQueryClass(
     {SelectionSetContext parentSelectionSet}) async {
   if (selectionSet != null) {
     final classProperties = <ClassProperty>[];
-    final factoryPossibilities = <String>[];
+    final factoryPossibilities = Set<String>();
     final queue = <Function>[];
     String mixins = '';
 
@@ -444,6 +444,19 @@ void _generateQueryClass(
       final spreadClassName =
           selection.inlineFragment.typeCondition.typeName.name;
       final spreadType = _getTypeByName(schema, spreadClassName);
+
+      if (spreadType.possibleTypes.isNotEmpty) {
+        // If it's, say, a union type, add to factory possibilities all possibleTypes that the query selects
+        factoryPossibilities.addAll(spreadType.possibleTypes
+            .where((t) => selection.inlineFragment.selectionSet.selections.any(
+                (s) =>
+                    s.inlineFragment != null &&
+                    s.inlineFragment.typeCondition.typeName.name == t.name))
+            .map((t) => t.name));
+      } else {
+        factoryPossibilities.add(spreadClassName);
+      }
+
       queue.add(() => _generateQueryClass(
           buffer,
           selection.inlineFragment.selectionSet,
@@ -453,8 +466,6 @@ void _generateQueryClass(
           options,
           schemaMap,
           parentSelectionSet: selectionSet));
-
-      factoryPossibilities.add(spreadClassName);
     });
 
     // Part of a union type
@@ -532,7 +543,7 @@ class ClassProperty {
 void _printCustomClass(
     StringBuffer buffer, String className, List<ClassProperty> classProperties,
     {String mixins = '',
-    List<String> factoryPossibilities = const [],
+    Set<String> factoryPossibilities = const {},
     String resolveTypeField}) async {
   if (factoryPossibilities.isNotEmpty) {
     assert(resolveTypeField != null,
@@ -561,7 +572,7 @@ class $className $mixins {''');
 
     for (final p in factoryPossibilities) {
       buffer.writeln('''case '$p':
-        return _\$${p}FromJson(json);''');
+        return ${p}.fromJson(json);''');
     }
 
     buffer.writeln('''default:
@@ -573,7 +584,7 @@ class $className $mixins {''');
 
     for (final p in factoryPossibilities) {
       buffer.writeln('''case '$p':
-        return _\$${p}ToJson(this);''');
+        return (this as ${p}).toJson();''');
     }
 
     buffer.writeln('''default:
