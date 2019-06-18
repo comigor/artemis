@@ -370,10 +370,11 @@ typedef void ClassLikeCall(
 ClassProperty selectionToClassProperty(SelectionContext selection,
     GraphQLSchema schema, GraphQLType type, GeneratorOptions options,
     {ClassLikeCall customCall}) {
+  String annotation;
   final String fieldName = selection.field.fieldName.name;
   String alias = fieldName;
   String aliasClassName;
-  bool hasAlias = selection.field.fieldName.alias != null;
+  final bool hasAlias = selection.field.fieldName.alias != null;
   if (hasAlias) {
     alias = selection.field.fieldName.alias.alias;
     aliasClassName = ReCase(selection.field.fieldName.alias.alias).pascalCase;
@@ -389,7 +390,17 @@ ClassProperty selectionToClassProperty(SelectionContext selection,
         aliasClassName ?? leafType.name, leafType, options);
   }
 
-  return ClassProperty(dartTypeStr, alias);
+  final scalar = _getSingleScalarMap(options, leafType);
+  if (leafType.kind == GraphQLTypeKind.SCALAR && scalar.useCustomParser) {
+    final graphqlTypeSafeStr =
+        _buildType(graphQLField.type, options, options.prefix, dartType: false)
+            .replaceAll(RegExp(r'[<>]'), '');
+    final dartTypeSafeStr = dartTypeStr.replaceAll(RegExp(r'[<>]'), '');
+    annotation =
+        '@JsonKey(fromJson: fromGraphQL${graphqlTypeSafeStr}ToDart$dartTypeSafeStr, toJson: fromDart${dartTypeSafeStr}ToGraphQL$graphqlTypeSafeStr)';
+  }
+
+  return ClassProperty(dartTypeStr, alias, annotation: annotation);
 }
 
 void _generateQueryClass(
@@ -510,7 +521,8 @@ class $className $mixins {''');
 
   for (final prop in classProperties) {
     if (prop.override) buffer.writeln('  @override');
-    buffer.writeln('  ${prop.annotation}\n  ${prop.type} ${prop.name};');
+    if (prop.annotation != null) buffer.writeln('  ${prop.annotation}');
+    buffer.writeln('  ${prop.type} ${prop.name};');
   }
 
   buffer.writeln('''
