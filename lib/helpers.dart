@@ -248,7 +248,7 @@ OperationDefinitionContext getOperationFromQuery(String queryStr) {
 }
 
 Future<String> generateQuery(GraphQLSchema schema, String path, String queryStr,
-    GeneratorOptions options) async {
+    GeneratorOptions options, SchemaMap schemaMap) async {
   final operation = getOperationFromQuery(queryStr);
 
   final basename = p.basenameWithoutExtension(path);
@@ -271,8 +271,8 @@ $customParserImport''');
 
   buffer.writeln('part \'$basename.query.g.dart\';');
 
-  _generateQueryClass(
-      buffer, operation.selectionSet, schema, className, parentType, options);
+  _generateQueryClass(buffer, operation.selectionSet, schema, className,
+      parentType, options, schemaMap);
 
   if (options.generateHelpers) {
     final sanitizedQueryStr = queryStr.replaceAll(RegExp(r'\s+'), ' ').trim();
@@ -299,7 +299,8 @@ List<Function> _generateQueryClassProperties(
     GraphQLSchema schema,
     String className,
     GraphQLType parentType,
-    GeneratorOptions options) {
+    GeneratorOptions options,
+    SchemaMap schemaMap) {
   final List<Function> queue = [];
   if (selectionSet != null) {
     for (final selection in selectionSet.selections) {
@@ -316,7 +317,8 @@ List<Function> _generateQueryClassProperties(
             schema,
             className,
             spreadType,
-            options);
+            options,
+            schemaMap);
         queue.addAll(subQueue);
       }
 
@@ -349,7 +351,8 @@ List<Function> _generateQueryClassProperties(
               schema,
               aliasClassName ?? leafType.name,
               leafType,
-              options));
+              options,
+              schemaMap));
         }
       }
     }
@@ -396,6 +399,7 @@ void _generateQueryClass(
     String className,
     GraphQLType parentType,
     GeneratorOptions options,
+    SchemaMap schemaMap,
     {SelectionSetContext parentSelectionSet}) async {
   if (selectionSet != null) {
     final classProperties = <ClassProperty>[];
@@ -408,8 +412,14 @@ void _generateQueryClass(
       final cp =
           selectionToClassProperty(selection, schema, parentType, options,
               customCall: (selectionSet, _, className, type, _2) {
-        queue.add(() => _generateQueryClass(buffer,
-            selection.field.selectionSet, schema, className, type, options,
+        queue.add(() => _generateQueryClass(
+            buffer,
+            selection.field.selectionSet,
+            schema,
+            className,
+            type,
+            options,
+            schemaMap,
             parentSelectionSet: selectionSet));
       });
 
@@ -430,6 +440,7 @@ void _generateQueryClass(
           spreadClassName,
           spreadType,
           options,
+          schemaMap,
           parentSelectionSet: selectionSet));
 
       factoryPossibilities.add(spreadClassName);
@@ -438,7 +449,7 @@ void _generateQueryClass(
     // If this is an interface typem we must add resolveType
     if (parentType.kind == GraphQLTypeKind.INTERFACE) {
       classProperties.add(ClassProperty('String', 'resolveType',
-          annotation: '@JsonKey(name: \'__resolveType\')'));
+          annotation: '@JsonKey(name: \'${schemaMap.resolveTypeField}\')'));
     }
     // If this is an interface child, we must add mixins and resolveType
     else if (parentType.interfaces.isNotEmpty) {
@@ -446,7 +457,8 @@ void _generateQueryClass(
           'implements ' + parentType.interfaces.map((t) => t.name).join(', ');
 
       classProperties.add(ClassProperty('String', 'resolveType',
-          annotation: '@JsonKey(name: \'__resolveType\')', override: true));
+          annotation: '@JsonKey(name: \'${schemaMap.resolveTypeField}\')',
+          override: true));
 
       parentType.interfaces.forEach((interfaceTypeName) {
         parentSelectionSet.selections
@@ -460,7 +472,9 @@ void _generateQueryClass(
     }
 
     _printCustomClass(buffer, className, classProperties,
-        mixins: mixins, factoryPossibilities: factoryPossibilities);
+        mixins: mixins,
+        factoryPossibilities: factoryPossibilities,
+        resolveTypeField: schemaMap.resolveTypeField);
     queue.forEach((f) => f());
   }
 }
@@ -482,7 +496,13 @@ class ClassProperty {
 
 void _printCustomClass(
     StringBuffer buffer, String className, List<ClassProperty> classProperties,
-    {String mixins = '', List<String> factoryPossibilities = const []}) async {
+    {String mixins = '',
+    List<String> factoryPossibilities = const [],
+    String resolveTypeField}) async {
+  if (factoryPossibilities.isNotEmpty) {
+    assert(resolveTypeField != null,
+        'To use a custom factory, include resolveType.');
+  }
   buffer.writeln('''
 
 @JsonSerializable()
@@ -501,7 +521,7 @@ class $className $mixins {''');
     buffer.writeln('''
 
   factory $className.fromJson(Map<String, dynamic> json) {
-    switch (json['__resolveType']) {''');
+    switch (json['$resolveTypeField']) {''');
 
     for (final p in factoryPossibilities) {
       buffer.writeln('''case '$p':
