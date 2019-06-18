@@ -408,7 +408,7 @@ void _generateQueryClass(
     SelectionSetContext selectionSet,
     GraphQLSchema schema,
     String className,
-    GraphQLType parentType,
+    GraphQLType currentType,
     GeneratorOptions options,
     SchemaMap schemaMap,
     {SelectionSetContext parentSelectionSet}) async {
@@ -421,7 +421,7 @@ void _generateQueryClass(
     // Look at field selections and add it as class properties
     selectionSet.selections.where((s) => s.field != null).forEach((selection) {
       final cp =
-          selectionToClassProperty(selection, schema, parentType, options,
+          selectionToClassProperty(selection, schema, currentType, options,
               customCall: (selectionSet, _, className, type, _2) {
         queue.add(() => _generateQueryClass(
             buffer,
@@ -457,26 +457,50 @@ void _generateQueryClass(
       factoryPossibilities.add(spreadClassName);
     });
 
-    // If this is an interface typem we must add resolveType
-    if (parentType.kind == GraphQLTypeKind.INTERFACE) {
+    // Part of a union type
+    final unionOf = schema.types.firstWhere(
+        (t) =>
+            t.kind == GraphQLTypeKind.UNION &&
+            t.possibleTypes.any((pt) => pt.name == currentType.name),
+        orElse: () => null);
+    if (unionOf != null) {
+      mixins = 'extends ${unionOf.name}';
+    }
+
+    // If this is an interface or union type, we must add resolveType
+    if (currentType.kind == GraphQLTypeKind.INTERFACE) {
       classProperties.add(ClassProperty('String', 'resolveType',
           annotation: '@JsonKey(name: \'${schemaMap.resolveTypeField}\')'));
     }
+
     // If this is an interface child, we must add mixins and resolveType
-    else if (parentType.interfaces.isNotEmpty) {
+    if (currentType.interfaces.isNotEmpty ||
+        currentType.kind == GraphQLTypeKind.UNION) {
+      final interfacesOfUnion = currentType.kind == GraphQLTypeKind.UNION
+          ? currentType.possibleTypes
+              .map((t) => _getTypeByName(schema, t.name)
+                  .interfaces
+                  .map((t) => _getTypeByName(schema, t.name)))
+              .expand<GraphQLType>((i) => i)
+          : <GraphQLType>[];
+      final implementations = currentType.interfaces
+          .map((t) => _getTypeByName(schema, t.name))
+          .toSet()
+            ..addAll(interfacesOfUnion);
+
       mixins =
-          'implements ' + parentType.interfaces.map((t) => t.name).join(', ');
+          '$mixins implements ' + implementations.map((t) => t.name).join(', ');
 
       classProperties.add(ClassProperty('String', 'resolveType',
           annotation: '@JsonKey(name: \'${schemaMap.resolveTypeField}\')',
           override: true));
 
-      parentType.interfaces.forEach((interfaceTypeName) {
+      implementations.forEach((interfaceType) {
         parentSelectionSet.selections
             .where((s) => s.field != null)
             .forEach((selection) {
-          final cp =
-              selectionToClassProperty(selection, schema, parentType, options);
+          final cp = selectionToClassProperty(
+              selection, schema, interfaceType, options);
           classProperties.add(cp.copyWith(override: true));
         });
       });
