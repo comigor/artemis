@@ -75,8 +75,8 @@ class GraphQLQueryBuilder implements Builder {
 
       await buildStep.writeAsString(
           outputAssetId,
-          _dartFormatter
-              .format(await generateQuery(schema, path, src, options)));
+          _dartFormatter.format(
+              await generateQuery(schema, path, src, options, schemaMap)));
     }
   }
 }

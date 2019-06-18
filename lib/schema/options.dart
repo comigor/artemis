@@ -54,10 +54,13 @@ class ScalarMap {
 class SchemaMap {
   final String schema;
   final String queriesGlob;
+  @JsonKey(defaultValue: '__resolveType')
+  final String resolveTypeField;
 
   SchemaMap({
     this.schema,
     this.queriesGlob,
+    this.resolveTypeField = '__resolveType',
   });
 
   factory SchemaMap.fromJson(Map<String, dynamic> json) =>
