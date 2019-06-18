@@ -395,7 +395,8 @@ void _generateQueryClass(
     GraphQLSchema schema,
     String className,
     GraphQLType parentType,
-    GeneratorOptions options) async {
+    GeneratorOptions options,
+    {SelectionSetContext parentSelectionSet}) async {
   if (selectionSet != null) {
     final classProperties = <ClassProperty>[];
     final factoryPossibilities = <String>[];
@@ -408,7 +409,8 @@ void _generateQueryClass(
           selectionToClassProperty(selection, schema, parentType, options,
               customCall: (selectionSet, _, className, type, _2) {
         queue.add(() => _generateQueryClass(buffer,
-            selection.field.selectionSet, schema, className, type, options));
+            selection.field.selectionSet, schema, className, type, options,
+            parentSelectionSet: selectionSet));
       });
 
       classProperties.add(cp);
@@ -427,25 +429,34 @@ void _generateQueryClass(
           schema,
           spreadClassName,
           spreadType,
-          options));
+          options,
+          parentSelectionSet: selectionSet));
 
       factoryPossibilities.add(spreadClassName);
-
-      // Get spread properties to override
-      selection.inlineFragment.selectionSet.selections
-          .where((s) => s.field != null)
-          .forEach((selection) {
-        final cp =
-            selectionToClassProperty(selection, schema, spreadType, options);
-        classProperties.add(cp.copyWith(override: true));
-      });
     });
 
-    // If this is a interface type, we must add mixins and resolveType
+    // If this is an interface typem we must add resolveType
     if (parentType.kind == GraphQLTypeKind.INTERFACE) {
       classProperties.add(ClassProperty('String', 'resolveType',
           annotation: '@JsonKey(name: \'__resolveType\')'));
-      mixins = 'implements ' + factoryPossibilities.join(', ');
+    }
+    // If this is an interface child, we must add mixins and resolveType
+    else if (parentType.interfaces.isNotEmpty) {
+      mixins =
+          'implements ' + parentType.interfaces.map((t) => t.name).join(', ');
+
+      classProperties.add(ClassProperty('String', 'resolveType',
+          annotation: '@JsonKey(name: \'__resolveType\')', override: true));
+
+      parentType.interfaces.forEach((interfaceTypeName) {
+        parentSelectionSet.selections
+            .where((s) => s.field != null)
+            .forEach((selection) {
+          final cp =
+              selectionToClassProperty(selection, schema, parentType, options);
+          classProperties.add(cp.copyWith(override: true));
+        });
+      });
     }
 
     _printCustomClass(buffer, className, classProperties,
