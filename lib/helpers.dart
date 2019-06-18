@@ -412,6 +412,11 @@ void _generateQueryClass(
     GeneratorOptions options,
     SchemaMap schemaMap,
     {SelectionSetContext parentSelectionSet}) async {
+  if (currentType.kind == GraphQLTypeKind.ENUM) {
+    _printCustomEnum(
+        buffer, currentType.name, currentType.enumValues.map((eV) => eV.name));
+    return;
+  }
   if (selectionSet != null) {
     final classProperties = <ClassProperty>[];
     final factoryPossibilities = Set<String>();
@@ -538,6 +543,15 @@ class ClassProperty {
       ClassProperty(type ?? this.type, name ?? this.name,
           override: override ?? this.override,
           annotation: annotation ?? this.annotation);
+}
+
+void _printCustomEnum(
+    StringBuffer buffer, String enumName, List<String> enumValues) {
+  buffer.writeln('enum $enumName {');
+  for (final enumValue in enumValues) {
+    buffer.writeln('  $enumValue,');
+  }
+  buffer.writeln('}');
 }
 
 void _printCustomClass(
