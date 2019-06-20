@@ -18,12 +18,15 @@ OperationDefinitionContext getOperationFromQuery(String queryStr) {
   final parser = Parser(tokens);
 
   if (parser.errors.isNotEmpty) {
-    print(parser.errors);
+    throw Exception('''
+There's (at least) an error while parsing a query. Please fix it and run me again:
+${parser.errors.map((e) => e.message).join('\n')}
+''');
   }
 
   final doc = parser.parseDocument();
 
-  return doc.definitions.first;
+  return doc.definitions.whereType<OperationDefinitionContext>().first;
 }
 
 List<FragmentDefinitionContext> getFragmentsFromQuery(String queryStr) {
@@ -31,7 +34,10 @@ List<FragmentDefinitionContext> getFragmentsFromQuery(String queryStr) {
   final parser = Parser(tokens);
 
   if (parser.errors.isNotEmpty) {
-    print(parser.errors);
+    throw Exception('''
+There's (at least) an error while parsing a query. Please fix it and run me again:
+${parser.errors.map((e) => e.message).join('\n')}
+''');
   }
 
   final doc = parser.parseDocument();
@@ -60,7 +66,7 @@ Future<String> generateQuery(GraphQLSchema schema, String path, String queryStr,
     }));
   }
 
-  final classes = _generateQueryClass(buffer, operation.selectionSet, fragments,
+  final classes = _extractClasses(buffer, operation.selectionSet, fragments,
       schema, queryName, parentType, options, schemaMap);
 
   printCustomQuery(
@@ -78,7 +84,7 @@ Future<String> generateQuery(GraphQLSchema schema, String path, String queryStr,
   return buffer.toString();
 }
 
-ClassProperty selectionToClassProperty(SelectionContext selection,
+ClassProperty _selectionToClassProperty(SelectionContext selection,
     GraphQLSchema schema, GraphQLType type, GeneratorOptions options,
     {OnNewClassFoundCallback onNewClassFound}) {
   String annotation;
@@ -116,7 +122,7 @@ ClassProperty selectionToClassProperty(SelectionContext selection,
   return ClassProperty(dartTypeStr, alias, annotation: annotation);
 }
 
-List<ClassDefinition> _generateQueryClass(
+List<ClassDefinition> _extractClasses(
     StringBuffer buffer,
     SelectionSetContext selectionSet,
     List<FragmentDefinitionContext> fragments,
@@ -144,9 +150,9 @@ List<ClassDefinition> _generateQueryClass(
     // Look at field selections and add it as class properties
     selectionSet.selections.where((s) => s.field != null).forEach((selection) {
       final cp =
-          selectionToClassProperty(selection, schema, currentType, options,
+          _selectionToClassProperty(selection, schema, currentType, options,
               onNewClassFound: (selectionSet, className, type) {
-        queue.addAll(_generateQueryClass(buffer, selection.field.selectionSet,
+        queue.addAll(_extractClasses(buffer, selection.field.selectionSet,
             fragments, schema, className, type, options, schemaMap,
             parentSelectionSet: selectionSet));
       });
@@ -165,10 +171,10 @@ List<ClassDefinition> _generateQueryClass(
           .where((s) => s.field != null)
           .forEach((selection) {
         final cp =
-            selectionToClassProperty(selection, schema, currentType, options,
+            _selectionToClassProperty(selection, schema, currentType, options,
                 onNewClassFound: (selectionSet, className, type) {
-          queue.addAll(_generateQueryClass(buffer, fragment.selectionSet,
-              fragments, schema, className, type, options, schemaMap,
+          queue.addAll(_extractClasses(buffer, fragment.selectionSet, fragments,
+              schema, className, type, options, schemaMap,
               parentSelectionSet: selectionSet));
         });
 
@@ -196,7 +202,7 @@ List<ClassDefinition> _generateQueryClass(
         factoryPossibilities.add(spreadClassName);
       }
 
-      queue.addAll(_generateQueryClass(
+      queue.addAll(_extractClasses(
           buffer,
           selection.inlineFragment.selectionSet,
           fragments,
@@ -248,7 +254,7 @@ List<ClassDefinition> _generateQueryClass(
         parentSelectionSet.selections
             .where((s) => s.field != null)
             .forEach((selection) {
-          final cp = selectionToClassProperty(
+          final cp = _selectionToClassProperty(
               selection, schema, interfaceType, options);
           classProperties.add(cp.copyWith(override: true));
         });
