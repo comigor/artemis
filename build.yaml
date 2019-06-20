@@ -1,6 +1,6 @@
 builders:
   artemis:
-    import: 'package:artemis/generator.dart'
+    import: 'package:artemis/builder.dart'
     builder_factories: ['graphQLQueryBuilder']
     build_extensions: {'.query.graphql': ['.query.dart']}
     auto_apply: dependents
@@ -10,7 +10,7 @@ builders:
   full_type_generator:
     is_optional: true
     auto_apply: none
-    import: 'package:artemis/generator.dart'
+    import: 'package:artemis/builder.dart'
     builder_factories: ['graphQLTypesBuilder']
     build_extensions: {'.schema.json': ['.api.dart']}
     build_to: source
