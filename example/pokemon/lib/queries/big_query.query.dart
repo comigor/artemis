@@ -13,7 +13,6 @@ class BigQuery {
   List<Pokemon> pokemons;
 
   BigQuery();
-
   factory BigQuery.fromJson(Map<String, dynamic> json) =>
       _$BigQueryFromJson(json);
   Map<String, dynamic> toJson() => _$BigQueryToJson(this);
@@ -25,7 +24,6 @@ class Charmander {
   List<String> types;
 
   Charmander();
-
   factory Charmander.fromJson(Map<String, dynamic> json) =>
       _$CharmanderFromJson(json);
   Map<String, dynamic> toJson() => _$CharmanderToJson(this);
@@ -39,7 +37,6 @@ class Pokemon {
   List<Evolutions> evolutions;
 
   Pokemon();
-
   factory Pokemon.fromJson(Map<String, dynamic> json) =>
       _$PokemonFromJson(json);
   Map<String, dynamic> toJson() => _$PokemonToJson(this);
@@ -51,7 +48,6 @@ class Evolutions {
   String name;
 
   Evolutions();
-
   factory Evolutions.fromJson(Map<String, dynamic> json) =>
       _$EvolutionsFromJson(json);
   Map<String, dynamic> toJson() => _$EvolutionsToJson(this);
