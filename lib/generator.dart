@@ -41,28 +41,14 @@ List<FragmentDefinitionContext> getFragmentsFromQuery(String queryStr) {
 
 Future<String> generateQuery(GraphQLSchema schema, String path, String queryStr,
     GeneratorOptions options, SchemaMap schemaMap) async {
+  final StringBuffer buffer = StringBuffer();
+
   final operation = getOperationFromQuery(queryStr);
   final fragments = getFragmentsFromQuery(queryStr);
 
   final basename = p.basenameWithoutExtension(path);
-  final customParserImport = options.customParserImport != null
-      ? '  import \'${options.customParserImport}\';'
-      : '';
+  final queryName = ReCase(operation.name ?? basename).pascalCase;
   final parentType = gql.getTypeByName(schema, schema.queryType.name);
-  final className = ReCase(operation.name ?? basename).pascalCase;
-
-  final StringBuffer buffer = StringBuffer()
-    ..writeln('// GENERATED CODE - DO NOT MODIFY BY HAND\n');
-  if (options.generateHelpers) {
-    buffer.writeln('''import 'dart:async';
-import 'dart:convert';
-import 'package:http/http.dart' as http;''');
-  }
-
-  buffer.writeln('''import 'package:json_annotation/json_annotation.dart';
-$customParserImport''');
-
-  buffer.writeln('part \'$basename.query.g.dart\';');
 
   final List<QueryInput> inputs = [];
   if (operation.variableDefinitions != null) {
@@ -75,45 +61,19 @@ $customParserImport''');
   }
 
   final classes = _generateQueryClass(buffer, operation.selectionSet, fragments,
-      schema, className, parentType, options, schemaMap);
-  classes.forEach((c) => printCustomClass(buffer, c));
+      schema, queryName, parentType, options, schemaMap);
 
-  if (options.generateHelpers) {
-    final sanitizedQueryStr = queryStr
-        .replaceAll(RegExp(r'\s+'), ' ')
-        .replaceAll(RegExp(r'\$'), '\\\$')
-        .trim();
-
-    String buildArguments = '';
-    if (inputs.isNotEmpty) {
-      buildArguments = inputs.map((i) => '${i.type} ${i.name}').join(',') + ',';
-    }
-
-    buffer.writeln('''
-Future<$className> execute${className}Query(String graphQLEndpoint, $buildArguments {http.Client client}) async {
-  final httpClient = client ?? http.Client();
-  final dataResponse = await httpClient.post(graphQLEndpoint, body: json.encode({
-    'operationName': '${ReCase(className).snakeCase}',
-    'query': '$sanitizedQueryStr',''');
-
-    if (inputs.isNotEmpty) {
-      final variableMap =
-          inputs.map((i) => '\'${i.name}\': ${i.name}').join(', ');
-      buffer.writeln('\'variables\': {$variableMap},');
-    }
-
-    buffer.writeln('''}),  
-    headers: {
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-    },
-  );
-  httpClient.close();
-
-  return $className.fromJson(json.decode(dataResponse.body)['data']);
-}
-''');
-  }
+  printCustomQuery(
+      buffer,
+      QueryDefinition(
+        queryName,
+        queryStr,
+        basename,
+        classes: classes,
+        inputs: inputs,
+        generateHelpers: options.generateHelpers,
+        customParserImport: options.customParserImport,
+      ));
 
   return buffer.toString();
 }
