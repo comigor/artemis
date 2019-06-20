@@ -150,8 +150,20 @@ List<Definition> _extractClasses(
     final queue = <Definition>[];
     String mixins = '';
 
-    // Look at field selections and add it as class properties
-    selectionSet.selections.where((s) => s.field != null).forEach((selection) {
+    // Spread fragment spreads into selections
+    final fragmentSelections = selectionSet.selections
+        .where((s) => s.fragmentSpread != null)
+        .map((selection) => fragments
+            .firstWhere((f) => f.name == selection.fragmentSpread.name)
+            .selectionSet
+            .selections)
+        .expand((i) => i);
+
+    // Look at field selections (and fragment spreads) and add it as class properties
+    fragmentSelections
+        .followedBy(selectionSet.selections)
+        .where((s) => s.field != null)
+        .forEach((selection) {
       final cp =
           _selectionToClassProperty(selection, schema, currentType, options,
               onNewClassFound: (selectionSet, className, type) {
@@ -161,28 +173,6 @@ List<Definition> _extractClasses(
       });
 
       classProperties.add(cp);
-    });
-
-    // Look at fragment spreads and spread them
-    selectionSet.selections
-        .where((s) => s.fragmentSpread != null)
-        .forEach((selection) {
-      final fragment =
-          fragments.firstWhere((f) => f.name == selection.fragmentSpread.name);
-
-      fragment.selectionSet.selections
-          .where((s) => s.field != null)
-          .forEach((selection) {
-        final cp =
-            _selectionToClassProperty(selection, schema, currentType, options,
-                onNewClassFound: (selectionSet, className, type) {
-          queue.addAll(_extractClasses(buffer, fragment.selectionSet, fragments,
-              schema, className, type, options, schemaMap,
-              parentSelectionSet: selectionSet));
-        });
-
-        classProperties.add(cp);
-      });
     });
 
     // Look at inline fragment spreads to consider factory overrides
