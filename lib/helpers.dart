@@ -247,9 +247,23 @@ OperationDefinitionContext getOperationFromQuery(String queryStr) {
   return doc.definitions.first;
 }
 
+List<FragmentDefinitionContext> getFragmentsFromQuery(String queryStr) {
+  final tokens = scan(queryStr);
+  final parser = Parser(tokens);
+
+  if (parser.errors.isNotEmpty) {
+    print(parser.errors);
+  }
+
+  final doc = parser.parseDocument();
+
+  return doc.definitions.whereType<FragmentDefinitionContext>().toList();
+}
+
 Future<String> generateQuery(GraphQLSchema schema, String path, String queryStr,
     GeneratorOptions options, SchemaMap schemaMap) async {
   final operation = getOperationFromQuery(queryStr);
+  final fragments = getFragmentsFromQuery(queryStr);
 
   final basename = p.basenameWithoutExtension(path);
   final customParserImport = options.customParserImport != null
@@ -271,8 +285,8 @@ $customParserImport''');
 
   buffer.writeln('part \'$basename.query.g.dart\';');
 
-  _generateQueryClass(buffer, operation.selectionSet, schema, className,
-      parentType, options, schemaMap);
+  _generateQueryClass(buffer, operation.selectionSet, fragments, schema,
+      className, parentType, options, schemaMap);
 
   if (options.generateHelpers) {
     final sanitizedQueryStr = queryStr.replaceAll(RegExp(r'\s+'), ' ').trim();
@@ -296,6 +310,7 @@ Future<$className> execute${className}Query(String graphQLEndpoint, {http.Client
 List<Function> _generateQueryClassProperties(
     StringBuffer buffer,
     SelectionSetContext selectionSet,
+    List<FragmentDefinitionContext> fragments,
     GraphQLSchema schema,
     String className,
     GraphQLType parentType,
@@ -314,6 +329,7 @@ List<Function> _generateQueryClassProperties(
         final subQueue = _generateQueryClassProperties(
             buffer,
             selection.inlineFragment.selectionSet,
+            fragments,
             schema,
             className,
             spreadType,
@@ -348,6 +364,7 @@ List<Function> _generateQueryClassProperties(
           queue.add(() => _generateQueryClass(
               buffer,
               selection.field.selectionSet,
+              fragments,
               schema,
               aliasClassName ?? leafType.name,
               leafType,
@@ -406,6 +423,7 @@ ClassProperty selectionToClassProperty(SelectionContext selection,
 void _generateQueryClass(
     StringBuffer buffer,
     SelectionSetContext selectionSet,
+    List<FragmentDefinitionContext> fragments,
     GraphQLSchema schema,
     String className,
     GraphQLType currentType,
@@ -431,6 +449,7 @@ void _generateQueryClass(
         queue.add(() => _generateQueryClass(
             buffer,
             selection.field.selectionSet,
+            fragments,
             schema,
             className,
             type,
@@ -440,6 +459,27 @@ void _generateQueryClass(
       });
 
       classProperties.add(cp);
+    });
+
+    selectionSet.selections
+        .where((s) => s.fragmentSpread != null)
+        .forEach((selection) {
+      final fragment =
+          fragments.firstWhere((f) => f.name == selection.fragmentSpread.name);
+
+      fragment.selectionSet.selections
+          .where((s) => s.field != null)
+          .forEach((selection) {
+        final cp =
+            selectionToClassProperty(selection, schema, currentType, options,
+                customCall: (selectionSet, _, className, type, _2) {
+          queue.add(() => _generateQueryClass(buffer, fragment.selectionSet,
+              fragments, schema, className, type, options, schemaMap,
+              parentSelectionSet: selectionSet));
+        });
+
+        classProperties.add(cp);
+      });
     });
 
     // Look at inline fragment spreads to consider factory overrides
@@ -465,6 +505,7 @@ void _generateQueryClass(
       queue.add(() => _generateQueryClass(
           buffer,
           selection.inlineFragment.selectionSet,
+          fragments,
           schema,
           spreadClassName,
           spreadType,
