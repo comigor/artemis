@@ -31,11 +31,18 @@ class Pokemon {
 Future<SimpleQuery> executeSimpleQueryQuery(String graphQLEndpoint,
     {http.Client client}) async {
   final httpClient = client ?? http.Client();
-  final dataResponse = await httpClient.post(graphQLEndpoint, body: {
-    'operationName': 'simple_query',
-    'query':
-        'query simple_query { pokemon(name: "Charmander") { number types } }',
-  });
+  final dataResponse = await httpClient.post(
+    graphQLEndpoint,
+    body: json.encode({
+      'operationName': 'simple_query',
+      'query':
+          'query simple_query { pokemon(name: "Charmander") { number types } }',
+    }),
+    headers: {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+    },
+  );
   httpClient.close();
 
   return SimpleQuery.fromJson(json.decode(dataResponse.body)['data']);

@@ -1,9 +1,9 @@
-query big_query {
+query big_query($quantity: Int!) {
   charmander: pokemon(name: "Charmander") {
     number
     types
   }
-  pokemons(first: 150) {
+  pokemons(first: $quantity) {
     number
     name
     types
