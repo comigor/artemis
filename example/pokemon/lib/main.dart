@@ -7,7 +7,7 @@ Future<void> main() async {
   const graphQLEndpoint = 'https://graphql-pokemon.now.sh/graphql';
 
   final simpleQueryResponse = await executeSimpleQueryQuery(graphQLEndpoint);
-  final bigQueryResponse = await executeBigQueryQuery(graphQLEndpoint);
+  final bigQueryResponse = await executeBigQueryQuery(graphQLEndpoint, 10);
 
   print('Simple query response: ${simpleQueryResponse.pokemon.number}');
 

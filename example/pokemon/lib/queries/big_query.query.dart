@@ -53,14 +53,22 @@ class Evolutions {
   Map<String, dynamic> toJson() => _$EvolutionsToJson(this);
 }
 
-Future<BigQuery> executeBigQueryQuery(String graphQLEndpoint,
+Future<BigQuery> executeBigQueryQuery(String graphQLEndpoint, int quantity,
     {http.Client client}) async {
   final httpClient = client ?? http.Client();
-  final dataResponse = await httpClient.post(graphQLEndpoint, body: {
-    'operationName': 'big_query',
-    'query':
-        'query big_query { charmander: pokemon(name: "Charmander") { number types } pokemons(first: 150) { number name types evolutions: evolutions { number name } } }',
-  });
+  final dataResponse = await httpClient.post(
+    graphQLEndpoint,
+    body: json.encode({
+      'operationName': 'big_query',
+      'query':
+          'query big_query(\$quantity: Int!) { charmander: pokemon(name: "Charmander") { number types } pokemons(first: \$quantity) { number name types evolutions: evolutions { number name } } }',
+      'variables': {'quantity': quantity},
+    }),
+    headers: {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+    },
+  );
   httpClient.close();
 
   return BigQuery.fromJson(json.decode(dataResponse.body)['data']);
