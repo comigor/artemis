@@ -1,3 +1,4 @@
+import 'package:recase/recase.dart';
 import 'package:artemis/generator/data.dart';
 
 void printCustomEnum(
@@ -59,4 +60,60 @@ class ${definition.className} ${definition.mixins} {''');
   }
 
   buffer.writeln('}');
+}
+
+void printCustomQuery(StringBuffer buffer, QueryDefinition definition) {
+  buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND\n');
+  if (definition.generateHelpers) {
+    buffer.writeln('''import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;''');
+  }
+
+  buffer.writeln('import \'package:json_annotation/json_annotation.dart\';');
+  if (definition.customParserImport != null) {
+    buffer.writeln('  import \'${definition.customParserImport}\';');
+  }
+
+  buffer.writeln('\npart \'${definition.basename}.query.g.dart\';');
+
+  definition.classes.forEach((c) => printCustomClass(buffer, c));
+
+  if (definition.generateHelpers) {
+    final sanitizedQueryStr = definition.query
+        .replaceAll(RegExp(r'\s+'), ' ')
+        .replaceAll(RegExp(r'\$'), '\\\$')
+        .trim();
+
+    String buildArguments = '';
+    if (definition.inputs.isNotEmpty) {
+      buildArguments =
+          definition.inputs.map((i) => '${i.type} ${i.name}').join(',') + ',';
+    }
+
+    buffer.writeln('''
+Future<${definition.queryName}> execute${definition.queryName}Query(String graphQLEndpoint, $buildArguments {http.Client client}) async {
+  final httpClient = client ?? http.Client();
+  final dataResponse = await httpClient.post(graphQLEndpoint, body: json.encode({
+    'operationName': '${ReCase(definition.queryName).snakeCase}',
+    'query': '$sanitizedQueryStr',''');
+
+    if (definition.inputs.isNotEmpty) {
+      final variableMap =
+          definition.inputs.map((i) => '\'${i.name}\': ${i.name}').join(', ');
+      buffer.writeln('\'variables\': {$variableMap},');
+    }
+
+    buffer.writeln('''}),  
+    headers: {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+    },
+  );
+  httpClient.close();
+
+  return ${definition.queryName}.fromJson(json.decode(dataResponse.body)['data']);
+}
+''');
+  }
 }

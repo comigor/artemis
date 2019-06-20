@@ -47,3 +47,23 @@ class ClassDefinition {
                 (factoryPossibilities.isNotEmpty && resolveTypeField != null),
             'To use a custom factory, include resolveType.');
 }
+
+class QueryDefinition {
+  final String queryName;
+  final String query;
+  final String basename;
+  final List<ClassDefinition> classes;
+  final List<QueryInput> inputs;
+  final String customParserImport;
+  final bool generateHelpers;
+
+  QueryDefinition(
+    this.queryName,
+    this.query,
+    this.basename, {
+    this.classes = const [],
+    this.inputs = const [],
+    this.customParserImport,
+    this.generateHelpers = false,
+  });
+}
