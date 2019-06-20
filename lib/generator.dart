@@ -109,6 +109,7 @@ ClassProperty _selectionToClassProperty(SelectionContext selection,
         aliasClassName ?? leafType.name, leafType);
   }
 
+  // On custom scalars
   final scalar = gql.getSingleScalarMap(options, leafType);
   if (leafType.kind == GraphQLTypeKind.SCALAR && scalar.useCustomParser) {
     final graphqlTypeSafeStr = gql
@@ -217,13 +218,13 @@ List<Definition> _extractClasses(
       mixins = 'extends ${unionOf.name}';
     }
 
-    // If this is an interface or union type, we must add resolveType
+    // If this is an interface, we must add resolveType
     if (currentType.kind == GraphQLTypeKind.INTERFACE) {
       classProperties.add(ClassProperty('String', 'resolveType',
           annotation: '@JsonKey(name: \'${schemaMap.resolveTypeField}\')'));
     }
 
-    // If this is an interface child, we must add mixins and resolveType
+    // If this is an interface child, we must add mixins, resolveType, and override properties
     if (currentType.interfaces.isNotEmpty ||
         currentType.kind == GraphQLTypeKind.UNION) {
       final interfacesOfUnion = currentType.kind == GraphQLTypeKind.UNION
