@@ -29,30 +29,47 @@ class QueryInput {
   QueryInput(this.type, this.name);
 }
 
-class ClassDefinition {
-  final String className;
-  final List<ClassProperty> classProperties;
+abstract class Definition {
+  final String name;
+
+  Definition(this.name);
+}
+
+class ClassDefinition extends Definition {
+  final List<ClassProperty> properties;
   final String mixins;
   final Set<String> factoryPossibilities;
   final String resolveTypeField;
 
   ClassDefinition(
-    this.className,
-    this.classProperties, {
+    String name,
+    this.properties, {
     this.mixins = '',
     this.factoryPossibilities = const {},
     this.resolveTypeField = '__resolveType',
-  }) : assert(
+  })  : assert(
             factoryPossibilities.isEmpty ||
                 (factoryPossibilities.isNotEmpty && resolveTypeField != null),
-            'To use a custom factory, include resolveType.');
+            'To use a custom factory, include resolveType.'),
+        super(name);
+}
+
+class EnumDefinition extends Definition {
+  final List<String> values;
+
+  EnumDefinition(
+    name,
+    this.values,
+  )   : assert(values.isNotEmpty,
+            'An enum must have at least one possible value.'),
+        super(name);
 }
 
 class QueryDefinition {
   final String queryName;
   final String query;
   final String basename;
-  final List<ClassDefinition> classes;
+  final List<Definition> classes;
   final List<QueryInput> inputs;
   final String customParserImport;
   final bool generateHelpers;

@@ -122,7 +122,7 @@ ClassProperty _selectionToClassProperty(SelectionContext selection,
   return ClassProperty(dartTypeStr, alias, annotation: annotation);
 }
 
-List<ClassDefinition> _extractClasses(
+List<Definition> _extractClasses(
     StringBuffer buffer,
     SelectionSetContext selectionSet,
     List<FragmentDefinitionContext> fragments,
@@ -137,14 +137,17 @@ List<ClassDefinition> _extractClasses(
     return [];
   }
   if (currentType.kind == GraphQLTypeKind.ENUM) {
-    printCustomEnum(
-        buffer, currentType.name, currentType.enumValues.map((eV) => eV.name));
-    return [];
+    return [
+      EnumDefinition(
+        currentType.name,
+        currentType.enumValues.map((eV) => eV.name),
+      ),
+    ];
   }
   if (selectionSet != null) {
     final classProperties = <ClassProperty>[];
     final factoryPossibilities = Set<String>();
-    final queue = <ClassDefinition>[];
+    final queue = <Definition>[];
     String mixins = '';
 
     // Look at field selections and add it as class properties
