@@ -1,10 +1,9 @@
 import 'package:recase/recase.dart';
 import 'package:artemis/generator/data.dart';
 
-void printCustomEnum(
-    StringBuffer buffer, String enumName, List<String> enumValues) {
-  buffer.writeln('enum $enumName {');
-  for (final enumValue in enumValues) {
+void printCustomEnum(StringBuffer buffer, EnumDefinition definition) {
+  buffer.writeln('enum ${definition.name} {');
+  for (final enumValue in definition.values) {
     buffer.writeln('  $enumValue,');
   }
   buffer.writeln('}');
@@ -14,9 +13,9 @@ void printCustomClass(StringBuffer buffer, ClassDefinition definition) async {
   buffer.writeln('''
 
 @JsonSerializable()
-class ${definition.className} ${definition.mixins} {''');
+class ${definition.name} ${definition.mixins} {''');
 
-  for (final prop in definition.classProperties) {
+  for (final prop in definition.properties) {
     if (prop.override) buffer.writeln('  @override');
     if (prop.annotation != null) buffer.writeln('  ${prop.annotation}');
     buffer.writeln('  ${prop.type} ${prop.name};');
@@ -24,12 +23,12 @@ class ${definition.className} ${definition.mixins} {''');
 
   buffer.writeln('''
 
-  ${definition.className}();''');
+  ${definition.name}();''');
 
   if (definition.factoryPossibilities.isNotEmpty) {
     buffer.writeln('''
 
-  factory ${definition.className}.fromJson(Map<String, dynamic> json) {
+  factory ${definition.name}.fromJson(Map<String, dynamic> json) {
     switch (json['${definition.resolveTypeField}']) {''');
 
     for (final p in definition.factoryPossibilities) {
@@ -39,7 +38,7 @@ class ${definition.className} ${definition.mixins} {''');
 
     buffer.writeln('''default:
     }
-    return _\$${definition.className}FromJson(json);
+    return _\$${definition.name}FromJson(json);
   }
   Map<String, dynamic> toJson() {
     switch (resolveType) {''');
@@ -51,12 +50,12 @@ class ${definition.className} ${definition.mixins} {''');
 
     buffer.writeln('''default:
     }
-    return _\$${definition.className}ToJson(this);
+    return _\$${definition.name}ToJson(this);
   }''');
   } else {
     buffer.writeln(
-        '''factory ${definition.className}.fromJson(Map<String, dynamic> json) => _\$${definition.className}FromJson(json);
-  Map<String, dynamic> toJson() => _\$${definition.className}ToJson(this);''');
+        '''factory ${definition.name}.fromJson(Map<String, dynamic> json) => _\$${definition.name}FromJson(json);
+  Map<String, dynamic> toJson() => _\$${definition.name}ToJson(this);''');
   }
 
   buffer.writeln('}');
@@ -77,7 +76,13 @@ import 'package:http/http.dart' as http;''');
 
   buffer.writeln('\npart \'${definition.basename}.query.g.dart\';');
 
-  definition.classes.forEach((c) => printCustomClass(buffer, c));
+  definition.classes.forEach((d) {
+    if (d is ClassDefinition) {
+      printCustomClass(buffer, d);
+    } else if (d is EnumDefinition) {
+      printCustomEnum(buffer, d);
+    }
+  });
 
   if (definition.generateHelpers) {
     final sanitizedQueryStr = definition.query
