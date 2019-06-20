@@ -596,10 +596,16 @@ void _generateQueryClass(
       });
     }
 
-    _printCustomClass(buffer, className, classProperties,
+    _printCustomClass(
+      buffer,
+      ClassDefinition(
+        className,
+        classProperties,
         mixins: mixins,
         factoryPossibilities: factoryPossibilities,
-        resolveTypeField: schemaMap.resolveTypeField);
+        resolveTypeField: schemaMap.resolveTypeField,
+      ),
+    );
     queue.forEach((f) => f());
   }
 }
@@ -635,21 +641,32 @@ void _printCustomEnum(
   buffer.writeln('}');
 }
 
-void _printCustomClass(
-    StringBuffer buffer, String className, List<ClassProperty> classProperties,
-    {String mixins = '',
-    Set<String> factoryPossibilities = const {},
-    String resolveTypeField}) async {
-  if (factoryPossibilities.isNotEmpty) {
-    assert(resolveTypeField != null,
-        'To use a custom factory, include resolveType.');
-  }
+class ClassDefinition {
+  final String className;
+  final List<ClassProperty> classProperties;
+  final String mixins;
+  final Set<String> factoryPossibilities;
+  final String resolveTypeField;
+
+  ClassDefinition(
+    this.className,
+    this.classProperties, {
+    this.mixins = '',
+    this.factoryPossibilities = const {},
+    this.resolveTypeField = '__resolveType',
+  }) : assert(
+            factoryPossibilities.isEmpty ||
+                (factoryPossibilities.isNotEmpty && resolveTypeField != null),
+            'To use a custom factory, include resolveType.');
+}
+
+void _printCustomClass(StringBuffer buffer, ClassDefinition definition) async {
   buffer.writeln('''
 
 @JsonSerializable()
-class $className $mixins {''');
+class ${definition.className} ${definition.mixins} {''');
 
-  for (final prop in classProperties) {
+  for (final prop in definition.classProperties) {
     if (prop.override) buffer.writeln('  @override');
     if (prop.annotation != null) buffer.writeln('  ${prop.annotation}');
     buffer.writeln('  ${prop.type} ${prop.name};');
@@ -657,39 +674,39 @@ class $className $mixins {''');
 
   buffer.writeln('''
 
-  $className();''');
+  ${definition.className}();''');
 
-  if (factoryPossibilities.isNotEmpty) {
+  if (definition.factoryPossibilities.isNotEmpty) {
     buffer.writeln('''
 
-  factory $className.fromJson(Map<String, dynamic> json) {
-    switch (json['$resolveTypeField']) {''');
+  factory ${definition.className}.fromJson(Map<String, dynamic> json) {
+    switch (json['${definition.resolveTypeField}']) {''');
 
-    for (final p in factoryPossibilities) {
+    for (final p in definition.factoryPossibilities) {
       buffer.writeln('''case '$p':
         return ${p}.fromJson(json);''');
     }
 
     buffer.writeln('''default:
     }
-    return _\$${className}FromJson(json);
+    return _\$${definition.className}FromJson(json);
   }
   Map<String, dynamic> toJson() {
     switch (resolveType) {''');
 
-    for (final p in factoryPossibilities) {
+    for (final p in definition.factoryPossibilities) {
       buffer.writeln('''case '$p':
         return (this as ${p}).toJson();''');
     }
 
     buffer.writeln('''default:
     }
-    return _\$${className}ToJson(this);
+    return _\$${definition.className}ToJson(this);
   }''');
   } else {
     buffer.writeln(
-        '''factory $className.fromJson(Map<String, dynamic> json) => _\$${className}FromJson(json);
-  Map<String, dynamic> toJson() => _\$${className}ToJson(this);''');
+        '''factory ${definition.className}.fromJson(Map<String, dynamic> json) => _\$${definition.className}FromJson(json);
+  Map<String, dynamic> toJson() => _\$${definition.className}ToJson(this);''');
   }
 
   buffer.writeln('}');
