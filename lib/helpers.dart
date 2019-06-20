@@ -388,13 +388,14 @@ ClassProperty selectionToClassProperty(SelectionContext selection,
     GraphQLSchema schema, GraphQLType type, GeneratorOptions options,
     {ClassLikeCall customCall}) {
   String annotation;
-  final String fieldName = selection.field.fieldName.name;
+  String fieldName = selection.field.fieldName.name;
   String alias = fieldName;
   String aliasClassName;
   final bool hasAlias = selection.field.fieldName.alias != null;
   if (hasAlias) {
     alias = selection.field.fieldName.alias.alias;
     aliasClassName = ReCase(selection.field.fieldName.alias.alias).pascalCase;
+    fieldName = selection.field.fieldName.alias.name;
   }
 
   final graphQLField = type.fields.firstWhere((f) => f.name == fieldName);

@@ -3,7 +3,7 @@ targets:
     sources:
       - lib/**
     builders:
-      artemis|query_generator:
+      artemis:
         options:
           schema_mapping:
             - schema: lib/pokemon.schema.json

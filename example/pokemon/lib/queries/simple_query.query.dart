@@ -12,7 +12,6 @@ class SimpleQuery {
   Pokemon pokemon;
 
   SimpleQuery();
-
   factory SimpleQuery.fromJson(Map<String, dynamic> json) =>
       _$SimpleQueryFromJson(json);
   Map<String, dynamic> toJson() => _$SimpleQueryToJson(this);
@@ -24,7 +23,6 @@ class Pokemon {
   List<String> types;
 
   Pokemon();
-
   factory Pokemon.fromJson(Map<String, dynamic> json) =>
       _$PokemonFromJson(json);
   Map<String, dynamic> toJson() => _$PokemonToJson(this);
