@@ -285,18 +285,49 @@ $customParserImport''');
 
   buffer.writeln('part \'$basename.query.g.dart\';');
 
+  final List<QueryInput> inputs = [];
+  if (operation.variableDefinitions != null) {
+    inputs.addAll(operation.variableDefinitions.variableDefinitions.map((v) {
+      final type = _getTypeByName(schema, v.type.typeName.name);
+      final dartTypeStr =
+          _buildType(type, options, options.prefix, dartType: true);
+      return QueryInput(dartTypeStr, v.variable.name);
+    }));
+  }
+
   _generateQueryClass(buffer, operation.selectionSet, fragments, schema,
       className, parentType, options, schemaMap);
 
   if (options.generateHelpers) {
-    final sanitizedQueryStr = queryStr.replaceAll(RegExp(r'\s+'), ' ').trim();
+    final sanitizedQueryStr = queryStr
+        .replaceAll(RegExp(r'\s+'), ' ')
+        .replaceAll(RegExp(r'\$'), '\\\$')
+        .trim();
+
+    String buildArguments = '';
+    if (inputs.isNotEmpty) {
+      buildArguments = inputs.map((i) => '${i.type} ${i.name}').join(',') + ',';
+    }
+
     buffer.writeln('''
-Future<$className> execute${className}Query(String graphQLEndpoint, {http.Client client}) async {
+Future<$className> execute${className}Query(String graphQLEndpoint, $buildArguments {http.Client client}) async {
   final httpClient = client ?? http.Client();
-  final dataResponse = await httpClient.post(graphQLEndpoint, body: {
+  final dataResponse = await httpClient.post(graphQLEndpoint, body: json.encode({
     'operationName': '${ReCase(className).snakeCase}',
-    'query': '$sanitizedQueryStr',
-  });
+    'query': '$sanitizedQueryStr',''');
+
+    if (inputs.isNotEmpty) {
+      final variableMap =
+          inputs.map((i) => '\'${i.name}\': ${i.name}').join(', ');
+      buffer.writeln('\'variables\': {$variableMap},');
+    }
+
+    buffer.writeln('''}),  
+    headers: {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+    },
+  );
   httpClient.close();
 
   return $className.fromJson(json.decode(dataResponse.body)['data']);
@@ -319,10 +350,6 @@ List<Function> _generateQueryClassProperties(
   final List<Function> queue = [];
   if (selectionSet != null) {
     for (final selection in selectionSet.selections) {
-      // if (selection.fragmentSpread != null) {
-      //   print(selection.fragmentSpread.name);
-      // }
-
       if (selection.inlineFragment != null) {
         final spreadType = _getTypeByName(
             schema, selection.inlineFragment.typeCondition.typeName.name);
@@ -431,6 +458,10 @@ void _generateQueryClass(
     GeneratorOptions options,
     SchemaMap schemaMap,
     {SelectionSetContext parentSelectionSet}) async {
+  if (currentType.kind == GraphQLTypeKind.INPUT_OBJECT) {
+    // TODO: this
+    return;
+  }
   if (currentType.kind == GraphQLTypeKind.ENUM) {
     _printCustomEnum(
         buffer, currentType.name, currentType.enumValues.map((eV) => eV.name));
@@ -462,6 +493,7 @@ void _generateQueryClass(
       classProperties.add(cp);
     });
 
+    // Look at fragment spreads and spread them
     selectionSet.selections
         .where((s) => s.fragmentSpread != null)
         .forEach((selection) {
@@ -585,6 +617,13 @@ class ClassProperty {
       ClassProperty(type ?? this.type, name ?? this.name,
           override: override ?? this.override,
           annotation: annotation ?? this.annotation);
+}
+
+class QueryInput {
+  final String type;
+  final String name;
+
+  QueryInput(this.type, this.name);
 }
 
 void _printCustomEnum(
