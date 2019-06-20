@@ -295,8 +295,9 @@ $customParserImport''');
     }));
   }
 
-  _generateQueryClass(buffer, operation.selectionSet, fragments, schema,
-      className, parentType, options, schemaMap);
+  final classes = _generateQueryClass(buffer, operation.selectionSet, fragments,
+      schema, className, parentType, options, schemaMap);
+  classes.forEach((c) => _printCustomClass(buffer, c));
 
   if (options.generateHelpers) {
     final sanitizedQueryStr = queryStr
@@ -448,7 +449,7 @@ ClassProperty selectionToClassProperty(SelectionContext selection,
   return ClassProperty(dartTypeStr, alias, annotation: annotation);
 }
 
-void _generateQueryClass(
+List<ClassDefinition> _generateQueryClass(
     StringBuffer buffer,
     SelectionSetContext selectionSet,
     List<FragmentDefinitionContext> fragments,
@@ -457,20 +458,20 @@ void _generateQueryClass(
     GraphQLType currentType,
     GeneratorOptions options,
     SchemaMap schemaMap,
-    {SelectionSetContext parentSelectionSet}) async {
+    {SelectionSetContext parentSelectionSet}) {
   if (currentType.kind == GraphQLTypeKind.INPUT_OBJECT) {
     // TODO: this
-    return;
+    return [];
   }
   if (currentType.kind == GraphQLTypeKind.ENUM) {
     _printCustomEnum(
         buffer, currentType.name, currentType.enumValues.map((eV) => eV.name));
-    return;
+    return [];
   }
   if (selectionSet != null) {
     final classProperties = <ClassProperty>[];
     final factoryPossibilities = Set<String>();
-    final queue = <Function>[];
+    final queue = <ClassDefinition>[];
     String mixins = '';
 
     // Look at field selections and add it as class properties
@@ -478,15 +479,8 @@ void _generateQueryClass(
       final cp =
           selectionToClassProperty(selection, schema, currentType, options,
               customCall: (selectionSet, _, className, type, _2) {
-        queue.add(() => _generateQueryClass(
-            buffer,
-            selection.field.selectionSet,
-            fragments,
-            schema,
-            className,
-            type,
-            options,
-            schemaMap,
+        queue.addAll(_generateQueryClass(buffer, selection.field.selectionSet,
+            fragments, schema, className, type, options, schemaMap,
             parentSelectionSet: selectionSet));
       });
 
@@ -506,7 +500,7 @@ void _generateQueryClass(
         final cp =
             selectionToClassProperty(selection, schema, currentType, options,
                 customCall: (selectionSet, _, className, type, _2) {
-          queue.add(() => _generateQueryClass(buffer, fragment.selectionSet,
+          queue.addAll(_generateQueryClass(buffer, fragment.selectionSet,
               fragments, schema, className, type, options, schemaMap,
               parentSelectionSet: selectionSet));
         });
@@ -535,7 +529,7 @@ void _generateQueryClass(
         factoryPossibilities.add(spreadClassName);
       }
 
-      queue.add(() => _generateQueryClass(
+      queue.addAll(_generateQueryClass(
           buffer,
           selection.inlineFragment.selectionSet,
           fragments,
@@ -596,8 +590,8 @@ void _generateQueryClass(
       });
     }
 
-    _printCustomClass(
-      buffer,
+    queue.insert(
+      0,
       ClassDefinition(
         className,
         classProperties,
@@ -606,8 +600,10 @@ void _generateQueryClass(
         resolveTypeField: schemaMap.resolveTypeField,
       ),
     );
-    queue.forEach((f) => f());
+
+    return queue;
   }
+  return [];
 }
 
 class ClassProperty {
