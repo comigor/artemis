@@ -212,6 +212,7 @@ List<Definition> _extractClasses(
     fragmentSelections
         .followedBy(selectionSet.selections)
         .where((s) => s.field != null)
+        .where((s) => !s.field.fieldName.name.startsWith('__'))
         .forEach((selection) {
       final cp =
           _selectionToClassProperty(selection, schema, currentType, options,
@@ -295,6 +296,7 @@ List<Definition> _extractClasses(
       implementations.forEach((interfaceType) {
         parentSelectionSet.selections
             .where((s) => s.field != null)
+            .where((s) => !s.field.fieldName.name.startsWith('__'))
             .forEach((selection) {
           final cp = _selectionToClassProperty(
               selection, schema, interfaceType, options);
