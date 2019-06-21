@@ -115,7 +115,6 @@ Future<${definition.queryName}> execute${definition.queryName}Query(String graph
       'Accept': 'application/json',
     },
   );
-  httpClient.close();
 
   return ${definition.queryName}.fromJson(json.decode(dataResponse.body)['data']);
 }
