@@ -5,7 +5,7 @@ import 'package:build_test/build_test.dart';
 import 'package:test/test.dart';
 
 import 'package:artemis/schema/graphql.dart';
-import 'package:artemis/generator.dart';
+import 'package:artemis/builder.dart';
 
 String jsonFromSchema(GraphQLSchema schema) => json.encode({
       'data': {'__schema': schema.toJson()}
@@ -440,11 +440,17 @@ class AnotherObject {
 Future<SomeQuery> executeSomeQueryQuery(String graphQLEndpoint,
     {http.Client client}) async {
   final httpClient = client ?? http.Client();
-  final dataResponse = await httpClient.post(graphQLEndpoint, body: {
-    'operationName': 'some_query',
-    'query': 'query some_query { s o { st } anotherObject: ob { str } }',
-  });
-  httpClient.close();
+  final dataResponse = await httpClient.post(
+    graphQLEndpoint,
+    body: json.encode({
+      'operationName': 'some_query',
+      'query': 'query some_query { s o { st } anotherObject: ob { str } }',
+    }),
+    headers: {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+    },
+  );
 
   return SomeQuery.fromJson(json.decode(dataResponse.body)['data']);
 }
