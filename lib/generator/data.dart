@@ -36,9 +36,9 @@ abstract class Definition {
 }
 
 class ClassDefinition extends Definition {
-  final List<ClassProperty> properties;
+  final Iterable<ClassProperty> properties;
   final String mixins;
-  final Set<String> factoryPossibilities;
+  final Iterable<String> factoryPossibilities;
   final String resolveTypeField;
 
   ClassDefinition(
@@ -55,7 +55,7 @@ class ClassDefinition extends Definition {
 }
 
 class EnumDefinition extends Definition {
-  final List<String> values;
+  final Iterable<String> values;
 
   EnumDefinition(
     name,
@@ -69,8 +69,8 @@ class QueryDefinition {
   final String queryName;
   final String query;
   final String basename;
-  final List<Definition> classes;
-  final List<QueryInput> inputs;
+  final Iterable<Definition> classes;
+  final Iterable<QueryInput> inputs;
   final String customParserImport;
   final bool generateHelpers;
 
