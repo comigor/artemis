@@ -54,16 +54,26 @@ Future<String> generateQuery(GraphQLSchema schema, String path, String queryStr,
 
   final basename = p.basenameWithoutExtension(path);
   final queryName = ReCase(operation.name ?? basename).pascalCase;
-  final parentType = gql.getTypeByName(schema, schema.queryType.name);
+  GraphQLType parentType = gql.getTypeByName(schema, schema.queryType.name);
+  if (operation.isMutation) {
+    parentType = gql.getTypeByName(schema, schema.mutationType.name);
+  }
 
   final List<QueryInput> inputs = [];
+  final List<Definition> inputsClasses = [];
   if (operation.variableDefinitions != null) {
-    inputs.addAll(operation.variableDefinitions.variableDefinitions.map((v) {
+    operation.variableDefinitions.variableDefinitions.forEach((v) {
       final type = gql.getTypeByName(schema, v.type.typeName.name);
+
+      if (type.kind == GraphQLTypeKind.INPUT_OBJECT) {
+        inputsClasses.addAll(_extractClasses(buffer, null, fragments, schema,
+            type.name, type, options, schemaMap));
+      }
+
       final dartTypeStr =
-          gql.buildType(type, options, options.prefix, dartType: true);
-      return QueryInput(dartTypeStr, v.variable.name);
-    }));
+          gql.buildTypeString(type, options, options.prefix, dartType: true);
+      inputs.add(QueryInput(dartTypeStr, v.variable.name));
+    });
   }
 
   final classes = _extractClasses(buffer, operation.selectionSet, fragments,
@@ -75,7 +85,7 @@ Future<String> generateQuery(GraphQLSchema schema, String path, String queryStr,
         queryName,
         queryStr,
         basename,
-        classes: classes,
+        classes: classes.followedBy(inputsClasses),
         inputs: inputs,
         generateHelpers: options.generateHelpers,
         customParserImport: options.customParserImport,
@@ -84,10 +94,50 @@ Future<String> generateQuery(GraphQLSchema schema, String path, String queryStr,
   return buffer.toString();
 }
 
+ClassProperty _createClassProperty(
+    String fieldName,
+    String alias,
+    String aliasClassName,
+    GraphQLSchema schema,
+    GraphQLType type,
+    GeneratorOptions options,
+    {OnNewClassFoundCallback onNewClassFound,
+    SelectionContext selection}) {
+  String annotation;
+  final graphQLField =
+      type.fields.firstWhere((f) => f.name == fieldName, orElse: () => null);
+  final graphQLInputValue = type.inputFields
+      .firstWhere((f) => f.name == fieldName, orElse: () => null);
+
+  final selectedType =
+      graphQLField != null ? graphQLField.type : graphQLInputValue.type;
+
+  final dartTypeStr = gql.buildTypeString(selectedType, options, options.prefix,
+      dartType: true, replaceLeafWith: aliasClassName);
+
+  final leafType = gql.getTypeByName(schema, gql.followType(selectedType).name);
+  if (leafType.kind != GraphQLTypeKind.SCALAR && onNewClassFound != null) {
+    onNewClassFound(selection != null ? selection.field.selectionSet : null,
+        aliasClassName ?? leafType.name, leafType);
+  }
+
+  // On custom scalars
+  final scalar = gql.getSingleScalarMap(options, leafType);
+  if (leafType.kind == GraphQLTypeKind.SCALAR && scalar.useCustomParser) {
+    final graphqlTypeSafeStr = gql
+        .buildTypeString(selectedType, options, options.prefix, dartType: false)
+        .replaceAll(RegExp(r'[<>]'), '');
+    final dartTypeSafeStr = dartTypeStr.replaceAll(RegExp(r'[<>]'), '');
+    annotation =
+        '@JsonKey(fromJson: fromGraphQL${graphqlTypeSafeStr}ToDart$dartTypeSafeStr, toJson: fromDart${dartTypeSafeStr}ToGraphQL$graphqlTypeSafeStr)';
+  }
+
+  return ClassProperty(dartTypeStr, alias, annotation: annotation);
+}
+
 ClassProperty _selectionToClassProperty(SelectionContext selection,
     GraphQLSchema schema, GraphQLType type, GeneratorOptions options,
     {OnNewClassFoundCallback onNewClassFound}) {
-  String annotation;
   String fieldName = selection.field.fieldName.name;
   String alias = fieldName;
   String aliasClassName;
@@ -98,29 +148,9 @@ ClassProperty _selectionToClassProperty(SelectionContext selection,
     fieldName = selection.field.fieldName.alias.name;
   }
 
-  final graphQLField = type.fields.firstWhere((f) => f.name == fieldName);
-  final dartTypeStr = gql.buildType(graphQLField.type, options, options.prefix,
-      dartType: true, replaceLeafWith: aliasClassName);
-
-  final leafType =
-      gql.getTypeByName(schema, gql.followType(graphQLField.type).name);
-  if (leafType.kind != GraphQLTypeKind.SCALAR && onNewClassFound != null) {
-    onNewClassFound(selection.field.selectionSet,
-        aliasClassName ?? leafType.name, leafType);
-  }
-
-  // On custom scalars
-  final scalar = gql.getSingleScalarMap(options, leafType);
-  if (leafType.kind == GraphQLTypeKind.SCALAR && scalar.useCustomParser) {
-    final graphqlTypeSafeStr = gql
-        .buildType(graphQLField.type, options, options.prefix, dartType: false)
-        .replaceAll(RegExp(r'[<>]'), '');
-    final dartTypeSafeStr = dartTypeStr.replaceAll(RegExp(r'[<>]'), '');
-    annotation =
-        '@JsonKey(fromJson: fromGraphQL${graphqlTypeSafeStr}ToDart$dartTypeSafeStr, toJson: fromDart${dartTypeSafeStr}ToGraphQL$graphqlTypeSafeStr)';
-  }
-
-  return ClassProperty(dartTypeStr, alias, annotation: annotation);
+  return _createClassProperty(
+      fieldName, alias, aliasClassName, schema, type, options,
+      onNewClassFound: onNewClassFound, selection: selection);
 }
 
 List<Definition> _extractClasses(
@@ -134,8 +164,26 @@ List<Definition> _extractClasses(
     SchemaMap schemaMap,
     {SelectionSetContext parentSelectionSet}) {
   if (currentType.kind == GraphQLTypeKind.INPUT_OBJECT) {
-    // TODO: this
-    return [];
+    final queue = <Definition>[];
+    final properties = currentType.inputFields.map((i) {
+      final type = gql.getTypeByName(schema, gql.followType(i.type).name);
+      return _createClassProperty(
+          i.name, i.name, type.name, schema, currentType, options,
+          onNewClassFound: (selectionSet, className, type) {
+        if (type.kind == GraphQLTypeKind.INPUT_OBJECT) {
+          queue.addAll(_extractClasses(buffer, null, fragments, schema,
+              className, type, options, schemaMap,
+              parentSelectionSet: selectionSet));
+        }
+      });
+    }).toList();
+
+    queue.insert(
+      0,
+      ClassDefinition(className, properties),
+    );
+
+    return queue;
   }
   if (currentType.kind == GraphQLTypeKind.ENUM) {
     return [
