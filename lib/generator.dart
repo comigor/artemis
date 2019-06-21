@@ -150,6 +150,10 @@ ClassProperty _selectionToClassProperty(SelectionContext selection,
     fieldName = selection.field.fieldName.alias.name;
   }
 
+  if (fieldName.startsWith('__')) {
+    return null;
+  }
+
   return _createClassProperty(
       fieldName, alias, aliasClassName, schema, type, options,
       onNewClassFound: onNewClassFound, selection: selection);
@@ -215,7 +219,6 @@ List<Definition> _extractClasses(
     fragmentSelections
         .followedBy(selectionSet.selections)
         .where((s) => s.field != null)
-        .where((s) => !s.field.fieldName.name.startsWith('__'))
         .forEach((selection) {
       final cp =
           _selectionToClassProperty(selection, schema, currentType, options,
@@ -301,7 +304,6 @@ List<Definition> _extractClasses(
       implementations.forEach((interfaceType) {
         parentSelectionSet.selections
             .where((s) => s.field != null)
-            .where((s) => !s.field.fieldName.name.startsWith('__'))
             .forEach((selection) {
           final cp = _selectionToClassProperty(
               selection, schema, interfaceType, options);
@@ -314,7 +316,7 @@ List<Definition> _extractClasses(
       0,
       ClassDefinition(
         className,
-        classProperties,
+        classProperties.where((c) => c != null),
         mixins: mixins,
         factoryPossibilities: factoryPossibilities,
         resolveTypeField: schemaMap.resolveTypeField,
