@@ -72,7 +72,10 @@ import 'package:http/http.dart' as http;''');
 
   buffer.writeln('import \'package:json_annotation/json_annotation.dart\';');
   if (definition.customParserImport != null) {
-    buffer.writeln('  import \'${definition.customParserImport}\';');
+    buffer.writeln('import \'${definition.customParserImport}\';');
+  }
+  if (definition.generateHelpers) {
+    buffer.writeln('import \'package:artemis/schema/graphql_error.dart\';');
   }
 
   buffer.writeln('\npart \'${definition.basename}.query.g.dart\';');
@@ -98,7 +101,7 @@ import 'package:http/http.dart' as http;''');
     }
 
     buffer.writeln('''
-Future<${definition.queryName}> execute${definition.queryName}Query(String graphQLEndpoint, $buildArguments {http.Client client}) async {
+Future<GraphQLResponse<${definition.queryName}>> execute${definition.queryName}Query(String graphQLEndpoint, $buildArguments {http.Client client}) async {
   final httpClient = client ?? http.Client();
   final dataResponse = await httpClient.post(graphQLEndpoint, body: json.encode({
     'operationName': '${ReCase(definition.queryName).snakeCase}',
@@ -117,7 +120,11 @@ Future<${definition.queryName}> execute${definition.queryName}Query(String graph
     },
   );
 
-  return ${definition.queryName}.fromJson(json.decode(dataResponse.body)['data']);
+  final jsonBody = json.decode(dataResponse.body);
+  final response = GraphQLResponse<${definition.queryName}>.fromJson(jsonBody)
+    ..data = ${definition.queryName}.fromJson(jsonBody['data']);
+
+  return response;
 }
 ''');
   }
