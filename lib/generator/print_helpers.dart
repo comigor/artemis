@@ -23,7 +23,8 @@ class ${definition.name} ${definition.mixins} {''');
 
   buffer.writeln('''
 
-  ${definition.name}();''');
+  ${definition.name}();
+''');
 
   if (definition.factoryPossibilities.isNotEmpty) {
     buffer.writeln('''
