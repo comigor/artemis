@@ -307,7 +307,9 @@ List<Definition> _extractClasses(
             .forEach((selection) {
           final cp = _selectionToClassProperty(
               selection, schema, interfaceType, options);
-          classProperties.add(cp.copyWith(override: true));
+          if (cp != null) {
+            classProperties.add(cp.copyWith(override: true));
+          }
         });
       });
     }
