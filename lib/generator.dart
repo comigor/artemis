@@ -6,6 +6,7 @@ import 'package:artemis/schema/options.dart';
 import 'package:artemis/schema/graphql.dart';
 import 'package:artemis/generator/data.dart';
 import 'package:artemis/generator/print_helpers.dart';
+import 'package:artemis/generator/helpers.dart';
 import 'package:artemis/generator/graphql_helpers.dart' as gql;
 
 Future<String> generate(
@@ -85,7 +86,8 @@ Future<String> generateQuery(GraphQLSchema schema, String path, String queryStr,
         queryName,
         queryStr,
         basename,
-        classes: classes.followedBy(inputsClasses),
+        classes: removeDuplicatedBy(
+            classes.followedBy(inputsClasses), (i) => i.name),
         inputs: inputs,
         generateHelpers: options.generateHelpers,
         customParserImport: options.customParserImport,
