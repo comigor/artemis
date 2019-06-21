@@ -163,7 +163,8 @@ List<Definition> _extractClasses(
     GeneratorOptions options,
     SchemaMap schemaMap,
     {SelectionSetContext parentSelectionSet}) {
-  if (currentType.kind == GraphQLTypeKind.INPUT_OBJECT) {
+  if (currentType.kind == GraphQLTypeKind.INPUT_OBJECT ||
+      currentType.kind == GraphQLTypeKind.UNION) {
     final queue = <Definition>[];
     final properties = currentType.inputFields.map((i) {
       final type = gql.getTypeByName(schema, gql.followType(i.type).name);
@@ -265,6 +266,8 @@ List<Definition> _extractClasses(
         orElse: () => null);
     if (unionOf != null) {
       mixins = 'extends ${unionOf.name}';
+      queue.addAll(_extractClasses(buffer, null, fragments, schema,
+          unionOf.name, unionOf, options, schemaMap));
     }
 
     // If this is an interface, we must add resolveType
