@@ -302,6 +302,16 @@ List<Definition> _extractClasses(
           override: true));
 
       implementations.forEach((interfaceType) {
+        queue.addAll(_extractClasses(
+            buffer,
+            selectionSet,
+            fragments,
+            schema,
+            interfaceType.name,
+            gql.getTypeByName(schema, interfaceType.name),
+            options,
+            schemaMap));
+
         parentSelectionSet.selections
             .where((s) => s.field != null)
             .forEach((selection) {
