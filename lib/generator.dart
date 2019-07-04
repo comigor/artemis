@@ -328,7 +328,10 @@ List<Definition> _extractClasses(
       0,
       ClassDefinition(
         className,
-        classProperties.where((c) => c != null),
+        mergeDuplicatesBy(
+            classProperties.where((c) => c != null),
+            (c) => c.name,
+            (old, n) => old.copyWith(override: old.override || n.override)),
         mixins: mixins,
         factoryPossibilities: factoryPossibilities,
         resolveTypeField: schemaMap.resolveTypeField,
