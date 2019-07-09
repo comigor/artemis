@@ -101,18 +101,22 @@ ClassProperty _createClassProperty(
     String alias,
     String aliasClassName,
     GraphQLSchema schema,
-    GraphQLType type,
+    GraphQLType parentType,
     GeneratorOptions options,
     {OnNewClassFoundCallback onNewClassFound,
     SelectionContext selection}) {
   String annotation;
-  final graphQLField =
-      type.fields.firstWhere((f) => f.name == fieldName, orElse: () => null);
-  final graphQLInputValue = type.inputFields
+  final graphQLField = parentType.fields
+      .firstWhere((f) => f.name == fieldName, orElse: () => null);
+  final graphQLInputValue = parentType.inputFields
       .firstWhere((f) => f.name == fieldName, orElse: () => null);
 
-  final selectedType =
-      graphQLField != null ? graphQLField.type : graphQLInputValue.type;
+  final selectedType = graphQLField?.type ?? graphQLInputValue?.type;
+  if (selectedType == null) {
+    print(
+        'Could not find property "${fieldName}" of class "${parentType.name}". Moving on...');
+    return null;
+  }
 
   final dartTypeStr = gql.buildTypeString(selectedType, options, options.prefix,
       dartType: true, replaceLeafWith: aliasClassName);
@@ -138,7 +142,7 @@ ClassProperty _createClassProperty(
 }
 
 ClassProperty _selectionToClassProperty(SelectionContext selection,
-    GraphQLSchema schema, GraphQLType type, GeneratorOptions options,
+    GraphQLSchema schema, GraphQLType parentType, GeneratorOptions options,
     {OnNewClassFoundCallback onNewClassFound}) {
   String fieldName = selection.field.fieldName.name;
   String alias = fieldName;
@@ -155,7 +159,7 @@ ClassProperty _selectionToClassProperty(SelectionContext selection,
   }
 
   return _createClassProperty(
-      fieldName, alias, aliasClassName, schema, type, options,
+      fieldName, alias, aliasClassName, schema, parentType, options,
       onNewClassFound: onNewClassFound, selection: selection);
 }
 

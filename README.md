@@ -42,6 +42,9 @@ or
 flutter pub run build_runner build
 ```
 
+## **Interfaces/Union types resolution**
+`__resolveType` are not added automatically to the query.
+
 ## **Custom Scalars**
 If your schema uses custom scalars, they must be defined on `build.yaml` file on the root the project. If it needs a custom parser (to decode from/to json), the `custom_parser_import` path must be set and the file must implement both `fromGraphQL___ToDart___` and `fromDart___toGraphQL___` constant functions.
 

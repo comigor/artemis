@@ -1,0 +1,16 @@
+query ed_sheeran {
+  node(id: "QXJ0aXN0OmI4YTdjNTFmLTM2MmMtNGRjYi1hMjU5LWJjNmUwMDk1ZjBhNg==") {
+    __typename
+    id
+    ... on Artist {
+      mbid
+      name
+      lifeSpan {
+        begin
+      }
+      spotify {
+        href
+      }
+    }
+  }
+}
