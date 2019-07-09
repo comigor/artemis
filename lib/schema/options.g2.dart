@@ -8,7 +8,6 @@ part of 'options.dart';
 
 GeneratorOptions _$GeneratorOptionsFromJson(Map json) {
   return GeneratorOptions(
-      prefix: json['prefix'] as String ?? '',
       customParserImport: json['custom_parser_import'] as String,
       generateHelpers: json['generate_helpers'] as bool ?? true,
       scalarMapping: (json['scalar_mapping'] as List)
@@ -31,7 +30,6 @@ GeneratorOptions _$GeneratorOptionsFromJson(Map json) {
 
 Map<String, dynamic> _$GeneratorOptionsToJson(GeneratorOptions instance) =>
     <String, dynamic>{
-      'prefix': instance.prefix,
       'custom_parser_import': instance.customParserImport,
       'generate_helpers': instance.generateHelpers,
       'scalar_mapping': instance.scalarMapping,

@@ -15,21 +15,20 @@ GraphQLType followType(GraphQLType type) {
   }
 }
 
-String buildTypeString(
-    GraphQLType type, GeneratorOptions options, String prefix,
+String buildTypeString(GraphQLType type, GeneratorOptions options,
     {bool dartType = true, String replaceLeafWith}) {
   switch (type.kind) {
     case GraphQLTypeKind.LIST:
-      return 'List<${buildTypeString(type.ofType, options, prefix, dartType: dartType, replaceLeafWith: replaceLeafWith)}>';
+      return 'List<${buildTypeString(type.ofType, options, dartType: dartType, replaceLeafWith: replaceLeafWith)}>';
     case GraphQLTypeKind.NON_NULL:
-      return buildTypeString(type.ofType, options, prefix,
+      return buildTypeString(type.ofType, options,
           dartType: dartType, replaceLeafWith: replaceLeafWith);
     case GraphQLTypeKind.SCALAR:
       final scalar = getSingleScalarMap(options, type);
       return dartType ? scalar.dartType : scalar.graphQLType;
     default:
-      if (replaceLeafWith != null) return '$prefix$replaceLeafWith';
-      return '$prefix${type.name}';
+      if (replaceLeafWith != null) return replaceLeafWith;
+      return type.name;
   }
 }
 

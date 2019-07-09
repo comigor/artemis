@@ -7,7 +7,6 @@ part 'options.g2.dart';
 @JsonSerializable(fieldRename: FieldRename.snake, anyMap: true)
 class GeneratorOptions {
   @JsonKey(defaultValue: '')
-  final String prefix;
   final String customParserImport;
   @JsonKey(defaultValue: true)
   final bool generateHelpers;
@@ -17,7 +16,6 @@ class GeneratorOptions {
   final List<SchemaMap> schemaMapping;
 
   GeneratorOptions({
-    this.prefix = '',
     this.customParserImport,
     this.generateHelpers = true,
     this.scalarMapping = const [],
