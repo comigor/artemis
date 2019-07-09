@@ -71,8 +71,7 @@ Future<String> generateQuery(GraphQLSchema schema, String path, String queryStr,
             type.name, type, options, schemaMap));
       }
 
-      final dartTypeStr =
-          gql.buildTypeString(type, options, options.prefix, dartType: true);
+      final dartTypeStr = gql.buildTypeString(type, options, dartType: true);
       inputs.add(QueryInput(dartTypeStr, v.variable.name));
     });
   }
@@ -118,7 +117,7 @@ ClassProperty _createClassProperty(
     return null;
   }
 
-  final dartTypeStr = gql.buildTypeString(selectedType, options, options.prefix,
+  final dartTypeStr = gql.buildTypeString(selectedType, options,
       dartType: true, replaceLeafWith: aliasClassName);
 
   final leafType = gql.getTypeByName(schema, gql.followType(selectedType).name);
@@ -131,7 +130,7 @@ ClassProperty _createClassProperty(
   final scalar = gql.getSingleScalarMap(options, leafType);
   if (leafType.kind == GraphQLTypeKind.SCALAR && scalar.useCustomParser) {
     final graphqlTypeSafeStr = gql
-        .buildTypeString(selectedType, options, options.prefix, dartType: false)
+        .buildTypeString(selectedType, options, dartType: false)
         .replaceAll(RegExp(r'[<>]'), '');
     final dartTypeSafeStr = dartTypeStr.replaceAll(RegExp(r'[<>]'), '');
     annotation =
