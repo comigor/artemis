@@ -9,7 +9,7 @@
 
 **Build dart types from a GraphQL schema.**
 
-Artemis is a code generator that looks for `*.schema.json` (GraphQL Introspection Query response schema) and builds `.api.dart` files typing that schema. That's similar to what [Apollo](https://github.com/apollographql/apollo-client) does.
+Artemis is a code generator that looks for `*.schema.json` (GraphQL Introspection Query response schema) and `*.query.graphql` files and builds `.dart` files typing that query, based on schema. That's similar to what [Apollo](https://github.com/apollographql/apollo-client) does (Artemis is his sister anyway).
 
 ---
 
@@ -33,7 +33,7 @@ or
 flutter packages get
 ```
 
-Now `artemis` will generate the API file for you by running:
+Now Artemis will generate the API files for you by running:
 ```shell
 pub run build_runner build
 ```
@@ -42,11 +42,26 @@ or
 flutter pub run build_runner build
 ```
 
-## **Interfaces/Union types resolution**
-`__resolveType` are not added automatically to the query.
+## **Configuration**
+Artemis offers some configuration options to generate code. All options should be included on `build.yaml` file on the root of the project:
+```yaml
+targets:
+  $default:
+    builders:
+      artemis:
+        options:
+          # custom configuration options!
+```
 
-## **Custom Scalars**
-If your schema uses custom scalars, they must be defined on `build.yaml` file on the root the project. If it needs a custom parser (to decode from/to json), the `custom_parser_import` path must be set and the file must implement both `fromGraphQL___ToDart___` and `fromDart___toGraphQL___` constant functions.
+| Option | Default value | Description |
+| - | - | - |
+| `generate_helpers` | `true` | If Artemis should generate query/mutation helper functions (with inputs and coercing). |
+| `custom_parser_import` | `null` | Import path to the file implementing coercer functions for custom scalars. See [Custom scalars](#custom-scalars). |
+| `scalar_mapping` | `[]` | Mapping of GraphQL and Dart types. See [Custom scalars](#custom-scalars). |
+| `schema_mapping` | `[]` | Mapping of queries and which schemas they will use for code generation. See [Schema mapping](#schema-mapping). |
+
+## **Custom scalars**
+If your schema uses custom scalars, they must be defined on `build.yaml`. If it needs a custom parser (to decode from/to json), the `custom_parser_import` path must be set and the file must implement both `fromGraphQL___ToDart___` and `fromDart___toGraphQL___` constant functions.
 
 ```yaml
 targets:
@@ -59,5 +74,37 @@ targets:
           - graphql_type: Date
             dart_type: DateTime
 ```
+
+Each `ScalarMap` is configured this way:
+
+| Option | Default value | Description |
+| - | - | - |
+| `graphql_type` |  | The GraphQL custom scalar name on schema. |
+| `dart_type` |  | The Dart type this custom scalar should be converted from/to. |
+| `use_custom_parser` | `false` | Wheter `custom_parser_import` should be imported on the beginning of the file. |
+
+See [examples](./example) for more information and configuration options.
+
+## **Schema mapping**
+By default, Artemis won't generate anything. That's because your queries/mutations should be linked to GraphQL schemas. To configure it, you need to point `schema_mapping` to the path of those queries and schemas:
+
+```yaml
+targets:
+  $default:
+    builders:
+      artemis:
+        options:
+          schema_mapping:
+            - schema: lib/my_graphql.schema.json
+              queries_glob: lib/**.query.graphql
+```
+
+Each `SchemaMap` is configured this way:
+
+| Option | Default value | Description |
+| - | - | - |
+| `schema` |  | Relative path to the GraphQL schema. Its extension must be `.schema.json`. |
+| `queries_glob` |  | Glob that selects all query files to be used with this schema. Their extension must be `.query.graphql`. |
+| `resolve_type_field` | `__resolveType` | The name of the field used to differentiatiate interfaces and union types (commonly `__resolveType` or `__typename`). Note that `__resolveType` field are not added automatically to the query. If you want interface/union type resolution, you need to manually add it to the query. |
 
 See [examples](./example) for more information and configuration options.
