@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:path/path.dart' as p;
 import 'package:graphql_parser/graphql_parser.dart';
 import 'package:recase/recase.dart';
@@ -7,11 +6,6 @@ import 'package:artemis/schema/graphql.dart';
 import 'package:artemis/generator/data.dart';
 import 'package:artemis/generator/helpers.dart';
 import 'package:artemis/generator/graphql_helpers.dart' as gql;
-
-Future<String> generate(
-    GraphQLSchema schema, String path, GeneratorOptions options) async {
-  return '';
-}
 
 OperationDefinitionContext getOperationFromQuery(String queryStr) {
   final tokens = scan(queryStr);
