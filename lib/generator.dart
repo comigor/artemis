@@ -319,7 +319,7 @@ List<Definition> _extractClasses(
             (c) => c.name,
             (old, n) => old.copyWith(override: old.override || n.override)),
         mixins: mixins,
-        factoryPossibilities: factoryPossibilities,
+        factoryPossibilities: factoryPossibilities.toList(),
         resolveTypeField: schemaMap.resolveTypeField,
       ),
     );
