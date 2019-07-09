@@ -7,7 +7,7 @@ Iterable<T> removeDuplicatedBy<T, U>(
   return list.where((i) {
     final value = fn(i);
     return values.update(value, (_) => false, ifAbsent: () => true);
-  });
+  }).toList();
 }
 
 Iterable<T> mergeDuplicatesBy<T, U>(Iterable<T> list,
@@ -17,5 +17,5 @@ Iterable<T> mergeDuplicatesBy<T, U>(Iterable<T> list,
     final value = fn(i);
     values.update(value, (oldI) => mergeFn(oldI, i), ifAbsent: () => i);
   });
-  return values.values;
+  return values.values.toList();
 }
