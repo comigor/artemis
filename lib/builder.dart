@@ -4,6 +4,8 @@ import 'package:dart_style/dart_style.dart';
 import 'package:glob/glob.dart';
 import 'package:artemis/schema/options.dart';
 import 'package:artemis/generator.dart';
+import 'package:artemis/generator/data.dart';
+import 'package:artemis/generator/print_helpers.dart';
 import 'package:artemis/generator/graphql_helpers.dart';
 
 final DartFormatter _dartFormatter = DartFormatter();
@@ -49,6 +51,7 @@ class GraphQLQueryBuilder implements Builder {
       : options = GeneratorOptions.fromJson(builderOptions.config);
 
   final GeneratorOptions options;
+  OnBuildQuery onBuild;
 
   @override
   Map<String, List<String>> get buildExtensions => const {
@@ -74,10 +77,15 @@ class GraphQLQueryBuilder implements Builder {
       final outputAssetId =
           AssetId(buildStep.inputId.package, path).addExtension('.query.dart');
 
+      final definition = generateQuery(schema, path, src, options, schemaMap);
+      if (onBuild != null) {
+        onBuild(definition);
+      }
+
+      final buffer = StringBuffer();
+      printCustomQuery(buffer, definition);
       await buildStep.writeAsString(
-          outputAssetId,
-          _dartFormatter.format(
-              await generateQuery(schema, path, src, options, schemaMap)));
+          outputAssetId, _dartFormatter.format(buffer.toString()));
     }
   }
 }

@@ -5,7 +5,6 @@ import 'package:recase/recase.dart';
 import 'package:artemis/schema/options.dart';
 import 'package:artemis/schema/graphql.dart';
 import 'package:artemis/generator/data.dart';
-import 'package:artemis/generator/print_helpers.dart';
 import 'package:artemis/generator/helpers.dart';
 import 'package:artemis/generator/graphql_helpers.dart' as gql;
 
@@ -46,10 +45,13 @@ ${parser.errors.map((e) => e.message).join('\n')}
   return doc.definitions.whereType<FragmentDefinitionContext>().toList();
 }
 
-Future<String> generateQuery(GraphQLSchema schema, String path, String queryStr,
-    GeneratorOptions options, SchemaMap schemaMap) async {
-  final StringBuffer buffer = StringBuffer();
-
+QueryDefinition generateQuery(
+  GraphQLSchema schema,
+  String path,
+  String queryStr,
+  GeneratorOptions options,
+  SchemaMap schemaMap,
+) {
   final operation = getOperationFromQuery(queryStr);
   final fragments = getFragmentsFromQuery(queryStr);
 
@@ -67,8 +69,8 @@ Future<String> generateQuery(GraphQLSchema schema, String path, String queryStr,
       final type = gql.getTypeByName(schema, v.type.typeName.name);
 
       if (type.kind == GraphQLTypeKind.INPUT_OBJECT) {
-        inputsClasses.addAll(_extractClasses(buffer, null, fragments, schema,
-            type.name, type, options, schemaMap));
+        inputsClasses.addAll(_extractClasses(
+            null, fragments, schema, type.name, type, options, schemaMap));
       }
 
       final dartTypeStr = gql.buildTypeString(type, options, dartType: true);
@@ -76,23 +78,19 @@ Future<String> generateQuery(GraphQLSchema schema, String path, String queryStr,
     });
   }
 
-  final classes = _extractClasses(buffer, operation.selectionSet, fragments,
-      schema, queryName, parentType, options, schemaMap);
+  final classes = _extractClasses(operation.selectionSet, fragments, schema,
+      queryName, parentType, options, schemaMap);
 
-  printCustomQuery(
-      buffer,
-      QueryDefinition(
-        queryName,
-        queryStr,
-        basename,
-        classes: removeDuplicatedBy(
-            classes.followedBy(inputsClasses), (i) => i.name),
-        inputs: inputs,
-        generateHelpers: options.generateHelpers,
-        customParserImport: options.customParserImport,
-      ));
-
-  return buffer.toString();
+  return QueryDefinition(
+    queryName,
+    queryStr,
+    basename,
+    classes:
+        removeDuplicatedBy(classes.followedBy(inputsClasses), (i) => i.name),
+    inputs: inputs,
+    generateHelpers: options.generateHelpers,
+    customParserImport: options.customParserImport,
+  );
 }
 
 ClassProperty _createClassProperty(
@@ -163,7 +161,6 @@ ClassProperty _selectionToClassProperty(SelectionContext selection,
 }
 
 List<Definition> _extractClasses(
-    StringBuffer buffer,
     SelectionSetContext selectionSet,
     List<FragmentDefinitionContext> fragments,
     GraphQLSchema schema,
@@ -181,8 +178,8 @@ List<Definition> _extractClasses(
           i.name, i.name, type.name, schema, currentType, options,
           onNewClassFound: (selectionSet, className, type) {
         if (type.kind == GraphQLTypeKind.INPUT_OBJECT) {
-          queue.addAll(_extractClasses(buffer, null, fragments, schema,
-              className, type, options, schemaMap,
+          queue.addAll(_extractClasses(
+              null, fragments, schema, className, type, options, schemaMap,
               parentSelectionSet: selectionSet));
         }
       });
@@ -226,8 +223,8 @@ List<Definition> _extractClasses(
       final cp =
           _selectionToClassProperty(selection, schema, currentType, options,
               onNewClassFound: (selectionSet, className, type) {
-        queue.addAll(_extractClasses(buffer, selection.field.selectionSet,
-            fragments, schema, className, type, options, schemaMap,
+        queue.addAll(_extractClasses(selection.field.selectionSet, fragments,
+            schema, className, type, options, schemaMap,
             parentSelectionSet: selectionSet));
       });
 
@@ -254,15 +251,8 @@ List<Definition> _extractClasses(
         factoryPossibilities.add(spreadClassName);
       }
 
-      queue.addAll(_extractClasses(
-          buffer,
-          selection.inlineFragment.selectionSet,
-          fragments,
-          schema,
-          spreadClassName,
-          spreadType,
-          options,
-          schemaMap,
+      queue.addAll(_extractClasses(selection.inlineFragment.selectionSet,
+          fragments, schema, spreadClassName, spreadType, options, schemaMap,
           parentSelectionSet: selectionSet));
     });
 
@@ -274,8 +264,8 @@ List<Definition> _extractClasses(
         orElse: () => null);
     if (unionOf != null) {
       mixins = 'extends ${unionOf.name}';
-      queue.addAll(_extractClasses(buffer, null, fragments, schema,
-          unionOf.name, unionOf, options, schemaMap));
+      queue.addAll(_extractClasses(
+          null, fragments, schema, unionOf.name, unionOf, options, schemaMap));
     }
 
     // If this is an interface, we must add resolveType
@@ -306,7 +296,6 @@ List<Definition> _extractClasses(
 
       implementations.forEach((interfaceType) {
         queue.addAll(_extractClasses(
-            buffer,
             selectionSet,
             fragments,
             schema,

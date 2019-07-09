@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:artemis/generator/data.dart';
 import 'package:build/build.dart';
 import 'package:build_test/build_test.dart';
 import 'package:test/test.dart';
@@ -14,7 +15,8 @@ String jsonFromSchema(GraphQLSchema schema) => json.encode({
 void main() {
   group('On query generation', () {
     test('A simple query yields simple classes', () async {
-      final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
+      final GraphQLQueryBuilder anotherBuilder =
+          graphQLQueryBuilder(BuilderOptions({
         'generate_helpers': false,
         'schema_mapping': [
           {
@@ -43,6 +45,10 @@ void main() {
                           name: 'Int', kind: GraphQLTypeKind.SCALAR)),
                 ]),
           ]);
+
+      anotherBuilder.onBuild = expectAsync1((definition) {
+        expect(definition.queryName, equals('SomeQuery'));
+      }, count: 1);
 
       await testBuilder(anotherBuilder, {
         'a|api.schema.json': jsonFromSchema(schema),
