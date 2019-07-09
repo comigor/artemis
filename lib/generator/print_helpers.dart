@@ -122,7 +122,11 @@ Future<GraphQLResponse<${definition.queryName}>> execute${definition.queryName}Q
 
   final jsonBody = json.decode(dataResponse.body);
   final response = GraphQLResponse<${definition.queryName}>.fromJson(jsonBody)
-    ..data = ${definition.queryName}.fromJson(jsonBody['data']);
+    ..data = ${definition.queryName}.fromJson(jsonBody['data'] ?? {});
+
+  if (client == null) {
+    httpClient.close();
+  }
 
   return response;
 }

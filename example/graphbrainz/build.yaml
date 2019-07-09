@@ -2,9 +2,11 @@ targets:
   $default:
     builders:
       artemis:
-        generate_for:
-        - lib/*.schema.json
         options:
+          schema_mapping:
+            - schema: lib/graphbrainz.schema.json
+              queries_glob: lib/**.query.graphql
+              resolve_type_field: __typename
           custom_parser_import: 'package:graphbrainz_example/coercers.dart'
           scalar_mapping:
           - graphql_type: Date

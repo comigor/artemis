@@ -1,36 +1,17 @@
 import 'dart:async';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'graphbrainz.api.dart';
+import 'package:graphbrainz_example/queries/ed_sheeran.query.dart';
 
 Future<void> main() async {
   const graphQLEndpoint = 'https://graphbrainz.herokuapp.com/';
-  final client = http.Client();
-  final dataResponse = await client.post(graphQLEndpoint, body: {
-    'operationName': 'EdSheeran',
-    'query': '''
-query EdSheeran {
-  node(id: "QXJ0aXN0OmI4YTdjNTFmLTM2MmMtNGRjYi1hMjU5LWJjNmUwMDk1ZjBhNg==") {
-    __typename
-    id
-    ... on Artist {
-      mbid
-      name
-      lifeSpan {
-        begin
-      }
-      spotify {
-        href
-      }
-    }
+  final response = await executeEdSheeranQuery(graphQLEndpoint);
+
+  if (response.hasErrors) {
+    return print('Error: ${response.errors.map((e) => e.message).toList()}');
   }
-}'''
-  });
-  client.close();
 
-  final typedResponse = Query.fromJson(json.decode(dataResponse.body)['data']);
-
-  print(typedResponse.node.id);
-  // print(typedResponse.node.typename);
-  // print((typedResponse.node as Artist).spotify.href);
+  print(response.data.node.resolveType);
+  final edSheeran = response.data.node as Artist;
+  print(edSheeran.name);
+  print(edSheeran.lifeSpan.begin);
+  print(edSheeran.spotify.href);
 }
