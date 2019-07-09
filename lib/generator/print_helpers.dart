@@ -1,9 +1,10 @@
 import 'package:recase/recase.dart';
 import 'package:artemis/generator/data.dart';
+import 'package:artemis/generator/helpers.dart';
 
 void printCustomEnum(StringBuffer buffer, EnumDefinition definition) {
   buffer.writeln('enum ${definition.name} {');
-  for (final enumValue in definition.values) {
+  for (final enumValue in removeDuplicatedBy(definition.values, (i) => i)) {
     buffer.writeln('  $enumValue,');
   }
   buffer.writeln('}');
