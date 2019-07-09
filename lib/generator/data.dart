@@ -26,13 +26,19 @@ class QueryInput {
   final String type;
   final String name;
 
-  QueryInput(this.type, this.name);
+  QueryInput(this.type, this.name)
+      : assert(
+            type != null && type.isNotEmpty, 'Type can\'t be null nor empty.'),
+        assert(
+            name != null && name.isNotEmpty, 'Name can\'t be null nor empty.');
 }
 
 abstract class Definition {
   final String name;
 
-  Definition(this.name);
+  Definition(this.name)
+      : assert(
+            name != null && name.isNotEmpty, 'Name can\'t be null nor empty.');
 }
 
 class ClassDefinition extends Definition {
@@ -45,12 +51,14 @@ class ClassDefinition extends Definition {
     String name,
     this.properties, {
     this.mixins = '',
-    this.factoryPossibilities = const {},
-    this.resolveTypeField = '__resolveType',
+    this.factoryPossibilities = const [],
+    resolveTypeField,
   })  : assert(
-            factoryPossibilities.isEmpty ||
-                (factoryPossibilities.isNotEmpty && resolveTypeField != null),
+            factoryPossibilities == null ||
+                factoryPossibilities.isEmpty ||
+                resolveTypeField != null,
             'To use a custom factory, include resolveType.'),
+        this.resolveTypeField = resolveTypeField,
         super(name);
 }
 
@@ -58,9 +66,9 @@ class EnumDefinition extends Definition {
   final Iterable<String> values;
 
   EnumDefinition(
-    name,
+    String name,
     this.values,
-  )   : assert(values.isNotEmpty,
+  )   : assert(values != null && values.isNotEmpty,
             'An enum must have at least one possible value.'),
         super(name);
 }
