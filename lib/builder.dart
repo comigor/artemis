@@ -10,39 +10,6 @@ import 'package:artemis/generator/graphql_helpers.dart';
 
 final DartFormatter _dartFormatter = DartFormatter();
 
-/// Supports `package:build_runner` creation and configuration of
-/// `artemis`.
-///
-/// Not meant to be invoked by hand-authored code.
-Builder graphQLTypesBuilder(BuilderOptions options) =>
-    GraphQLTypesBuilder(options);
-
-class GraphQLTypesBuilder implements Builder {
-  GraphQLTypesBuilder(BuilderOptions builderOptions)
-      : options = GeneratorOptions.fromJson(builderOptions.config);
-
-  final GeneratorOptions options;
-
-  @override
-  Map<String, List<String>> get buildExtensions => const {
-        '.schema.json': ['.api.dart']
-      };
-
-  @override
-  Future<void> build(BuildStep buildStep) async {
-    final src = await buildStep.readAsString(buildStep.inputId);
-    final schema = schemaFromJsonString(src);
-    final path =
-        buildStep.inputId.path.replaceAll(RegExp(r'\.schema\.json$'), '');
-
-    final outputAssetId =
-        AssetId(buildStep.inputId.package, path).addExtension('.api.dart');
-
-    await buildStep.writeAsString(outputAssetId,
-        _dartFormatter.format(await generate(schema, path, options)));
-  }
-}
-
 Builder graphQLQueryBuilder(BuilderOptions options) =>
     GraphQLQueryBuilder(options);
 
