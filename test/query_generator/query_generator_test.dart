@@ -399,6 +399,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
+import 'package:artemis/schema/graphql_error.dart';
 
 part 'some_query.query.g.dart';
 
@@ -437,7 +438,7 @@ class AnotherObject {
   Map<String, dynamic> toJson() => _\$AnotherObjectToJson(this);
 }
 
-Future<SomeQuery> executeSomeQueryQuery(String graphQLEndpoint,
+Future<GraphQLResponse<SomeQuery>> executeSomeQueryQuery(String graphQLEndpoint,
     {http.Client client}) async {
   final httpClient = client ?? http.Client();
   final dataResponse = await httpClient.post(
@@ -452,7 +453,15 @@ Future<SomeQuery> executeSomeQueryQuery(String graphQLEndpoint,
     },
   );
 
-  return SomeQuery.fromJson(json.decode(dataResponse.body)['data']);
+  final jsonBody = json.decode(dataResponse.body);
+  final response = GraphQLResponse<SomeQuery>.fromJson(jsonBody)
+    ..data = SomeQuery.fromJson(jsonBody['data'] ?? {});
+
+  if (client == null) {
+    httpClient.close();
+  }
+
+  return response;
 }
 ''',
       });
