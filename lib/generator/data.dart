@@ -1,6 +1,8 @@
 import 'package:graphql_parser/graphql_parser.dart';
 import 'package:artemis/schema/graphql.dart';
 
+typedef void OnBuildQuery(QueryDefinition definition);
+
 typedef void OnNewClassFoundCallback(
   SelectionSetContext selectionSet,
   String className,
