@@ -225,4 +225,185 @@ class AClass  {
 ''');
     });
   });
+
+  group('On printCustomQuery', () {
+    test('It will throw if name/query/basename is null or empty.', () {
+      final buffer = StringBuffer();
+
+      expect(
+          () => printCustomQuery(buffer,
+              QueryDefinition(null, 'query test_query {}', 'test_query')),
+          throwsA(TypeMatcher<AssertionError>()));
+      expect(
+          () => printCustomQuery(
+              buffer, QueryDefinition('', 'query test_query {}', 'test_query')),
+          throwsA(TypeMatcher<AssertionError>()));
+      expect(
+          () => printCustomQuery(
+              buffer, QueryDefinition('TestQuery', null, 'test_query')),
+          throwsA(TypeMatcher<AssertionError>()));
+      expect(
+          () => printCustomQuery(
+              buffer, QueryDefinition('TestQuery', '', 'test_query')),
+          throwsA(TypeMatcher<AssertionError>()));
+      expect(
+          () => printCustomQuery(buffer,
+              QueryDefinition('TestQuery', 'query test_query {}', null)),
+          throwsA(TypeMatcher<AssertionError>()));
+      expect(
+          () => printCustomQuery(
+              buffer, QueryDefinition('TestQuery', 'query test_query {}', '')),
+          throwsA(TypeMatcher<AssertionError>()));
+    });
+
+    test('It should generated an empty file by default.', () {
+      final buffer = StringBuffer();
+      final definition =
+          QueryDefinition('TestQuery', 'query test_query {}', 'test_query');
+
+      printCustomQuery(buffer, definition);
+
+      expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
+
+import \'package:json_annotation/json_annotation.dart\';
+
+part \'test_query.query.g.dart\';
+''');
+    });
+
+    test('When customParserImport is given, its import is included.', () {
+      final buffer = StringBuffer();
+      final definition = QueryDefinition(
+          'TestQuery', 'query test_query {}', 'test_query',
+          customParserImport: 'some_file.dart');
+
+      printCustomQuery(buffer, definition);
+
+      expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
+
+import \'package:json_annotation/json_annotation.dart\';
+import \'some_file.dart\';
+
+part \'test_query.query.g.dart\';
+''');
+    });
+
+    test('When generateHelpers is true, an execute fn is generated.', () {
+      final buffer = StringBuffer();
+      final definition = QueryDefinition(
+          'TestQuery', 'query test_query {}', 'test_query',
+          generateHelpers: true);
+
+      printCustomQuery(buffer, definition);
+
+      expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
+
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:json_annotation/json_annotation.dart';
+import 'package:artemis/schema/graphql_error.dart';
+
+part 'test_query.query.g.dart';
+Future<GraphQLResponse<TestQuery>> executeTestQueryQuery(String graphQLEndpoint,  {http.Client client}) async {
+  final httpClient = client ?? http.Client();
+  final dataResponse = await httpClient.post(graphQLEndpoint,
+    body: json.encode({
+      'operationName': 'test_query',
+      'query': 'query test_query {}',
+    }),
+    headers: {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+    },
+  );
+
+  final jsonBody = json.decode(dataResponse.body);
+  final response = GraphQLResponse<TestQuery>.fromJson(jsonBody)
+    ..data = TestQuery.fromJson(jsonBody['data'] ?? {});
+
+  if (client == null) {
+    httpClient.close();
+  }
+
+  return response;
+}
+''');
+    });
+
+    test('The generated execute fn could have input.', () {
+      final buffer = StringBuffer();
+      final definition = QueryDefinition(
+          'TestQuery', 'query test_query {}', 'test_query',
+          generateHelpers: true, inputs: [QueryInput('Type', 'name')]);
+
+      printCustomQuery(buffer, definition);
+
+      expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
+
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:json_annotation/json_annotation.dart';
+import 'package:artemis/schema/graphql_error.dart';
+
+part 'test_query.query.g.dart';
+Future<GraphQLResponse<TestQuery>> executeTestQueryQuery(String graphQLEndpoint, Type name, {http.Client client}) async {
+  final httpClient = client ?? http.Client();
+  final dataResponse = await httpClient.post(graphQLEndpoint,
+    body: json.encode({
+      'operationName': 'test_query',
+      'query': 'query test_query {}',
+      'variables': {'name': name},
+    }),
+    headers: {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+    },
+  );
+
+  final jsonBody = json.decode(dataResponse.body);
+  final response = GraphQLResponse<TestQuery>.fromJson(jsonBody)
+    ..data = TestQuery.fromJson(jsonBody['data'] ?? {});
+
+  if (client == null) {
+    httpClient.close();
+  }
+
+  return response;
+}
+''');
+    });
+
+    test('It will accept and write class/enum definitions.', () {
+      final buffer = StringBuffer();
+      final definition = QueryDefinition(
+          'TestQuery', 'query test_query {}', 'test_query',
+          classes: [
+            EnumDefinition('Enum', ['Value']),
+            ClassDefinition('AClass', [])
+          ]);
+
+      printCustomQuery(buffer, definition);
+
+      expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
+
+import 'package:json_annotation/json_annotation.dart';
+
+part 'test_query.query.g.dart';
+enum Enum {
+  Value,
+}
+
+@JsonSerializable()
+class AClass  {
+
+  AClass();
+
+  factory AClass.fromJson(Map<String, dynamic> json) => _\$AClassFromJson(json);
+  Map<String, dynamic> toJson() => _\$AClassToJson(this);
+}
+''');
+    });
+  });
 }
