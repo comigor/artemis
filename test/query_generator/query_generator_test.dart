@@ -47,7 +47,20 @@ void main() {
           ]);
 
       anotherBuilder.onBuild = expectAsync1((definition) {
-        expect(definition.queryName, equals('SomeQuery'));
+        expect(
+          definition,
+          QueryDefinition(
+            'SomeQuery',
+            'query some_query { s, i }',
+            'some_query',
+            classes: [
+              ClassDefinition('SomeQuery', [
+                ClassProperty('String', 's'),
+                ClassProperty('int', 'i'),
+              ])
+            ],
+          ),
+        );
       }, count: 1);
 
       await testBuilder(anotherBuilder, {

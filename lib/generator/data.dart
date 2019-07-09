@@ -1,5 +1,8 @@
+import 'package:collection/collection.dart';
 import 'package:graphql_parser/graphql_parser.dart';
 import 'package:artemis/schema/graphql.dart';
+
+final Function _eq = const ListEquality().equals;
 
 typedef void OnBuildQuery(QueryDefinition definition);
 
@@ -17,10 +20,20 @@ class ClassProperty {
 
   ClassProperty(this.type, this.name, {this.override = false, this.annotation});
 
-  ClassProperty copyWith({type, name, override, annotation}) =>
+  ClassProperty copyWith(
+          {String type, String name, bool override, String annotation}) =>
       ClassProperty(type ?? this.type, name ?? this.name,
           override: override ?? this.override,
           annotation: annotation ?? this.annotation);
+
+  bool operator ==(dynamic o) =>
+      o is ClassProperty &&
+      o.type == type &&
+      o.name == name &&
+      o.override == override &&
+      o.annotation == annotation;
+  int get hashCode =>
+      type.hashCode ^ name.hashCode ^ override.hashCode ^ annotation.hashCode;
 }
 
 class QueryInput {
@@ -32,6 +45,10 @@ class QueryInput {
             type != null && type.isNotEmpty, 'Type can\'t be null nor empty.'),
         assert(
             name != null && name.isNotEmpty, 'Name can\'t be null nor empty.');
+
+  bool operator ==(dynamic o) =>
+      o is QueryInput && o.type == type && o.name == name;
+  int get hashCode => type.hashCode ^ name.hashCode;
 }
 
 abstract class Definition {
@@ -40,6 +57,9 @@ abstract class Definition {
   Definition(this.name)
       : assert(
             name != null && name.isNotEmpty, 'Name can\'t be null nor empty.');
+
+  bool operator ==(dynamic o) => o is Definition && o.name == name;
+  int get hashCode => name.hashCode;
 }
 
 class ClassDefinition extends Definition {
@@ -53,7 +73,7 @@ class ClassDefinition extends Definition {
     this.properties, {
     this.mixins = '',
     this.factoryPossibilities = const [],
-    resolveTypeField,
+    resolveTypeField = '__resolveType',
   })  : assert(
             factoryPossibilities == null ||
                 factoryPossibilities.isEmpty ||
@@ -61,6 +81,20 @@ class ClassDefinition extends Definition {
             'To use a custom factory, include resolveType.'),
         this.resolveTypeField = resolveTypeField,
         super(name);
+
+  bool operator ==(dynamic o) =>
+      o is ClassDefinition &&
+      o.name == name &&
+      _eq(o.properties, properties) &&
+      o.mixins == mixins &&
+      _eq(o.factoryPossibilities, factoryPossibilities) &&
+      o.resolveTypeField == resolveTypeField;
+  int get hashCode =>
+      name.hashCode ^
+      properties.hashCode ^
+      mixins.hashCode ^
+      factoryPossibilities.hashCode ^
+      resolveTypeField.hashCode;
 }
 
 class EnumDefinition extends Definition {
@@ -72,6 +106,10 @@ class EnumDefinition extends Definition {
   )   : assert(values != null && values.isNotEmpty,
             'An enum must have at least one possible value.'),
         super(name);
+
+  bool operator ==(dynamic o) =>
+      o is EnumDefinition && o.name == name && _eq(o.values, values);
+  int get hashCode => name.hashCode ^ values.hashCode;
 }
 
 class QueryDefinition {
@@ -97,4 +135,22 @@ class QueryDefinition {
             'Query must not be null or empty.'),
         assert(basename != null && basename.isNotEmpty,
             'Basename must not be null or empty.');
+
+  bool operator ==(dynamic o) =>
+      o is QueryDefinition &&
+      o.queryName == queryName &&
+      o.query == query &&
+      o.basename == basename &&
+      _eq(o.classes, classes) &&
+      _eq(o.inputs, inputs) &&
+      o.customParserImport == customParserImport &&
+      o.generateHelpers == generateHelpers;
+  int get hashCode =>
+      queryName.hashCode ^
+      query.hashCode ^
+      basename.hashCode ^
+      classes.hashCode ^
+      inputs.hashCode ^
+      customParserImport.hashCode ^
+      generateHelpers.hashCode;
 }
