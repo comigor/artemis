@@ -89,5 +89,10 @@ class QueryDefinition {
     this.inputs = const [],
     this.customParserImport,
     this.generateHelpers = false,
-  });
+  })  : assert(queryName != null && queryName.isNotEmpty,
+            'Query name must not be null or empty.'),
+        assert(query != null && query.isNotEmpty,
+            'Query must not be null or empty.'),
+        assert(basename != null && basename.isNotEmpty,
+            'Basename must not be null or empty.');
 }

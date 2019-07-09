@@ -103,17 +103,18 @@ import 'package:http/http.dart' as http;''');
     buffer.writeln('''
 Future<GraphQLResponse<${definition.queryName}>> execute${definition.queryName}Query(String graphQLEndpoint, $buildArguments {http.Client client}) async {
   final httpClient = client ?? http.Client();
-  final dataResponse = await httpClient.post(graphQLEndpoint, body: json.encode({
-    'operationName': '${ReCase(definition.queryName).snakeCase}',
-    'query': '$sanitizedQueryStr',''');
+  final dataResponse = await httpClient.post(graphQLEndpoint,
+    body: json.encode({
+      'operationName': '${ReCase(definition.queryName).snakeCase}',
+      'query': '$sanitizedQueryStr',''');
 
     if (definition.inputs.isNotEmpty) {
       final variableMap =
           definition.inputs.map((i) => '\'${i.name}\': ${i.name}').join(', ');
-      buffer.writeln('\'variables\': {$variableMap},');
+      buffer.writeln('      \'variables\': {$variableMap},');
     }
 
-    buffer.writeln('''}),  
+    buffer.writeln('''    }),
     headers: {
       'Content-type': 'application/json',
       'Accept': 'application/json',
@@ -129,7 +130,6 @@ Future<GraphQLResponse<${definition.queryName}>> execute${definition.queryName}Q
   }
 
   return response;
-}
-''');
+}''');
   }
 }
