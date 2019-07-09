@@ -29,16 +29,15 @@ class ${definition.name} ${definition.mixins} {''');
 
   if (definition.factoryPossibilities.isNotEmpty) {
     buffer.writeln('''
-
   factory ${definition.name}.fromJson(Map<String, dynamic> json) {
     switch (json['${definition.resolveTypeField}']) {''');
 
     for (final p in definition.factoryPossibilities) {
-      buffer.writeln('''case '$p':
+      buffer.writeln('''      case '$p':
         return ${p}.fromJson(json);''');
     }
 
-    buffer.writeln('''default:
+    buffer.writeln('''      default:
     }
     return _\$${definition.name}FromJson(json);
   }
@@ -46,17 +45,17 @@ class ${definition.name} ${definition.mixins} {''');
     switch (resolveType) {''');
 
     for (final p in definition.factoryPossibilities) {
-      buffer.writeln('''case '$p':
+      buffer.writeln('''      case '$p':
         return (this as ${p}).toJson();''');
     }
 
-    buffer.writeln('''default:
+    buffer.writeln('''      default:
     }
     return _\$${definition.name}ToJson(this);
   }''');
   } else {
     buffer.writeln(
-        '''factory ${definition.name}.fromJson(Map<String, dynamic> json) => _\$${definition.name}FromJson(json);
+        '''  factory ${definition.name}.fromJson(Map<String, dynamic> json) => _\$${definition.name}FromJson(json);
   Map<String, dynamic> toJson() => _\$${definition.name}ToJson(this);''');
   }
 

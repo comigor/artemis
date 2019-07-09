@@ -13,8 +13,7 @@ class ClassProperty {
   final bool override;
   final String annotation;
 
-  ClassProperty(this.type, this.name,
-      {this.override = false, this.annotation = ''});
+  ClassProperty(this.type, this.name, {this.override = false, this.annotation});
 
   ClassProperty copyWith({type, name, override, annotation}) =>
       ClassProperty(type ?? this.type, name ?? this.name,
