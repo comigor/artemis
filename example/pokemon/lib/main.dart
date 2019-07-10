@@ -9,9 +9,9 @@ Future<void> main() async {
   final simpleQueryResponse = await executeSimpleQueryQuery(graphQLEndpoint);
   final bigQueryResponse = await executeBigQueryQuery(graphQLEndpoint, 10);
 
-  print('Simple query response: ${simpleQueryResponse.pokemon.number}');
+  print('Simple query response: ${simpleQueryResponse.data.pokemon.number}');
 
-  for (final pokemon in bigQueryResponse.pokemons) {
+  for (final pokemon in bigQueryResponse.data.pokemons) {
     print('#${pokemon.number}: ${pokemon.name}');
   }
 }
