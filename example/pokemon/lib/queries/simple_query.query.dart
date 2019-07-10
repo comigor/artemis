@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
+import 'package:artemis/schema/graphql_error.dart';
 
 part 'simple_query.query.g.dart';
 
@@ -12,6 +13,7 @@ class SimpleQuery {
   Pokemon pokemon;
 
   SimpleQuery();
+
   factory SimpleQuery.fromJson(Map<String, dynamic> json) =>
       _$SimpleQueryFromJson(json);
   Map<String, dynamic> toJson() => _$SimpleQueryToJson(this);
@@ -23,12 +25,14 @@ class Pokemon {
   List<String> types;
 
   Pokemon();
+
   factory Pokemon.fromJson(Map<String, dynamic> json) =>
       _$PokemonFromJson(json);
   Map<String, dynamic> toJson() => _$PokemonToJson(this);
 }
 
-Future<SimpleQuery> executeSimpleQueryQuery(String graphQLEndpoint,
+Future<GraphQLResponse<SimpleQuery>> executeSimpleQueryQuery(
+    String graphQLEndpoint,
     {http.Client client}) async {
   final httpClient = client ?? http.Client();
   final dataResponse = await httpClient.post(
@@ -43,7 +47,14 @@ Future<SimpleQuery> executeSimpleQueryQuery(String graphQLEndpoint,
       'Accept': 'application/json',
     },
   );
-  httpClient.close();
 
-  return SimpleQuery.fromJson(json.decode(dataResponse.body)['data']);
+  final jsonBody = json.decode(dataResponse.body);
+  final response = GraphQLResponse<SimpleQuery>.fromJson(jsonBody)
+    ..data = SimpleQuery.fromJson(jsonBody['data'] ?? {});
+
+  if (client == null) {
+    httpClient.close();
+  }
+
+  return response;
 }

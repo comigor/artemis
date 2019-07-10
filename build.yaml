@@ -7,12 +7,3 @@ builders:
     build_to: source
     applies_builders: ['json_serializable']
     runs_before: ['json_serializable']
-  full_type_generator:
-    is_optional: true
-    auto_apply: none
-    import: 'package:artemis/builder.dart'
-    builder_factories: ['graphQLTypesBuilder']
-    build_extensions: {'.schema.json': ['.api.dart']}
-    build_to: source
-    applies_builders: ['json_serializable']
-    runs_before: ['json_serializable']

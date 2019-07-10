@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
+import 'package:artemis/schema/graphql_error.dart';
 
 part 'big_query.query.g.dart';
 
@@ -13,6 +14,7 @@ class BigQuery {
   List<Pokemon> pokemons;
 
   BigQuery();
+
   factory BigQuery.fromJson(Map<String, dynamic> json) =>
       _$BigQueryFromJson(json);
   Map<String, dynamic> toJson() => _$BigQueryToJson(this);
@@ -24,6 +26,7 @@ class Charmander {
   List<String> types;
 
   Charmander();
+
   factory Charmander.fromJson(Map<String, dynamic> json) =>
       _$CharmanderFromJson(json);
   Map<String, dynamic> toJson() => _$CharmanderToJson(this);
@@ -37,6 +40,7 @@ class Pokemon {
   List<Evolutions> evolutions;
 
   Pokemon();
+
   factory Pokemon.fromJson(Map<String, dynamic> json) =>
       _$PokemonFromJson(json);
   Map<String, dynamic> toJson() => _$PokemonToJson(this);
@@ -48,12 +52,14 @@ class Evolutions {
   String name;
 
   Evolutions();
+
   factory Evolutions.fromJson(Map<String, dynamic> json) =>
       _$EvolutionsFromJson(json);
   Map<String, dynamic> toJson() => _$EvolutionsToJson(this);
 }
 
-Future<BigQuery> executeBigQueryQuery(String graphQLEndpoint, int quantity,
+Future<GraphQLResponse<BigQuery>> executeBigQueryQuery(
+    String graphQLEndpoint, int quantity,
     {http.Client client}) async {
   final httpClient = client ?? http.Client();
   final dataResponse = await httpClient.post(
@@ -69,7 +75,14 @@ Future<BigQuery> executeBigQueryQuery(String graphQLEndpoint, int quantity,
       'Accept': 'application/json',
     },
   );
-  httpClient.close();
 
-  return BigQuery.fromJson(json.decode(dataResponse.body)['data']);
+  final jsonBody = json.decode(dataResponse.body);
+  final response = GraphQLResponse<BigQuery>.fromJson(jsonBody)
+    ..data = BigQuery.fromJson(jsonBody['data'] ?? {});
+
+  if (client == null) {
+    httpClient.close();
+  }
+
+  return response;
 }
