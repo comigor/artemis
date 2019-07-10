@@ -89,7 +89,8 @@ class SomeQuery {
     });
 
     test('The selection from query can nest', () async {
-      final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
+      final GraphQLQueryBuilder anotherBuilder =
+          graphQLQueryBuilder(BuilderOptions({
         'generate_helpers': false,
         'schema_mapping': [
           {
@@ -139,9 +140,7 @@ class SomeQuery {
                 ]),
           ]);
 
-      await testBuilder(anotherBuilder, {
-        'a|api.schema.json': jsonFromSchema(schema),
-        'a|some_query.query.graphql': '''
+      final queryString = '''
         query some_query {
           s
           o {
@@ -151,7 +150,35 @@ class SomeQuery {
             }
           }
         }
-        ''',
+        ''';
+
+      anotherBuilder.onBuild = expectAsync1((definition) {
+        expect(
+          definition,
+          QueryDefinition(
+            'SomeQuery',
+            queryString,
+            'some_query',
+            classes: [
+              ClassDefinition('SomeQuery', [
+                ClassProperty('String', 's'),
+                ClassProperty('SomeObject', 'o'),
+              ]),
+              ClassDefinition('SomeObject', [
+                ClassProperty('String', 'st'),
+                ClassProperty('List<AnotherObject>', 'ob'),
+              ]),
+              ClassDefinition('AnotherObject', [
+                ClassProperty('String', 'str'),
+              ]),
+            ],
+          ),
+        );
+      }, count: 1);
+
+      await testBuilder(anotherBuilder, {
+        'a|api.schema.json': jsonFromSchema(schema),
+        'a|some_query.query.graphql': queryString,
       }, outputs: {
         'a|some_query.query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
@@ -198,7 +225,8 @@ class AnotherObject {
     });
 
     test('Query selections can be aliased', () async {
-      final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
+      final GraphQLQueryBuilder anotherBuilder =
+          graphQLQueryBuilder(BuilderOptions({
         'generate_helpers': false,
         'schema_mapping': [
           {
@@ -222,6 +250,23 @@ class AnotherObject {
                       name: 'String', kind: GraphQLTypeKind.SCALAR)),
             ]),
           ]);
+
+      anotherBuilder.onBuild = expectAsync1((definition) {
+        expect(
+          definition,
+          QueryDefinition(
+            'SomeQuery',
+            'query some_query { firstName: s, lastName: st }',
+            'some_query',
+            classes: [
+              ClassDefinition('SomeQuery', [
+                ClassProperty('String', 'firstName'),
+                ClassProperty('String', 'lastName'),
+              ]),
+            ],
+          ),
+        );
+      }, count: 1);
 
       await testBuilder(anotherBuilder, {
         'a|api.schema.json': jsonFromSchema(schema),
@@ -252,7 +297,8 @@ class SomeQuery {
     test(
         'When multiple fields use different versions of an object, aliasing them means we\'ll alias class name as well',
         () async {
-      final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
+      final GraphQLQueryBuilder anotherBuilder =
+          graphQLQueryBuilder(BuilderOptions({
         'generate_helpers': false,
         'schema_mapping': [
           {
@@ -296,9 +342,7 @@ class SomeQuery {
                 ]),
           ]);
 
-      await testBuilder(anotherBuilder, {
-        'a|api.schema.json': jsonFromSchema(schema),
-        'a|some_query.query.graphql': '''
+      final queryString = '''
         query some_query {
           s
           o {
@@ -308,7 +352,35 @@ class SomeQuery {
             str
           }
         }
-        ''',
+        ''';
+
+      anotherBuilder.onBuild = expectAsync1((definition) {
+        expect(
+          definition,
+          QueryDefinition(
+            'SomeQuery',
+            queryString,
+            'some_query',
+            classes: [
+              ClassDefinition('SomeQuery', [
+                ClassProperty('String', 's'),
+                ClassProperty('SomeObject', 'o'),
+                ClassProperty('List<AnotherObject>', 'anotherObject'),
+              ]),
+              ClassDefinition('SomeObject', [
+                ClassProperty('String', 'st'),
+              ]),
+              ClassDefinition('AnotherObject', [
+                ClassProperty('String', 'str'),
+              ]),
+            ],
+          ),
+        );
+      }, count: 1);
+
+      await testBuilder(anotherBuilder, {
+        'a|api.schema.json': jsonFromSchema(schema),
+        'a|some_query.query.graphql': queryString,
       }, outputs: {
         'a|some_query.query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
@@ -355,7 +427,8 @@ class AnotherObject {
     });
 
     test('On helpers generation', () async {
-      final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
+      final GraphQLQueryBuilder anotherBuilder =
+          graphQLQueryBuilder(BuilderOptions({
         'schema_mapping': [
           {
             'schema': 'api.schema.json',
@@ -398,9 +471,7 @@ class AnotherObject {
                 ]),
           ]);
 
-      await testBuilder(anotherBuilder, {
-        'a|api.schema.json': jsonFromSchema(schema),
-        'a|some_query.query.graphql': '''
+      final queryString = '''
         query some_query {
           s
           o {
@@ -410,7 +481,36 @@ class AnotherObject {
             str
           }
         }
-        ''',
+        ''';
+
+      anotherBuilder.onBuild = expectAsync1((definition) {
+        expect(
+          definition,
+          QueryDefinition(
+            'SomeQuery',
+            queryString,
+            'some_query',
+            classes: [
+              ClassDefinition('SomeQuery', [
+                ClassProperty('String', 's'),
+                ClassProperty('SomeObject', 'o'),
+                ClassProperty('List<AnotherObject>', 'anotherObject'),
+              ]),
+              ClassDefinition('SomeObject', [
+                ClassProperty('String', 'st'),
+              ]),
+              ClassDefinition('AnotherObject', [
+                ClassProperty('String', 'str'),
+              ]),
+            ],
+            generateHelpers: true,
+          ),
+        );
+      }, count: 1);
+
+      await testBuilder(anotherBuilder, {
+        'a|api.schema.json': jsonFromSchema(schema),
+        'a|some_query.query.graphql': queryString,
       }, outputs: {
         'a|some_query.query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
