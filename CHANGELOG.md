@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 0.2.0 BREAKING
+Completely overhaul how this works.
+
+Artemis won't generate a full schema typing anymore. Instead, it will use the schema to generate typings from a specific query or mutation. It will also create helper functions to execute those queries. See [README](./README.md) for more info.
+
+This is totally a breaking change but as this library is still on alpha, I should keep it under 1.0.
+
 ## 0.1.3
 - Make objects that implement interfaces override resolveType
 
