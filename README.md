@@ -3,13 +3,12 @@
   <h1><b>Artemis</b></h1>
 </p>
 
+**Build dart types from GraphQL schemas and queries**
+
 <!-- Badges -->
+[![Pub Package](https://img.shields.io/pub/v/artemis.svg)](https://pub.dev/packages/artemis)
 
-[![Pub Package](https://img.shields.io/pub/v/artemis.svg)](https://pub.dartlang.org/packages/artemis)
-
-**Build dart types from a GraphQL schema.**
-
-Artemis is a code generator that looks for `*.schema.json` (GraphQL Introspection Query response schema) and `*.query.graphql` files and builds `.dart` files typing that query, based on schema. That's similar to what [Apollo](https://github.com/apollographql/apollo-client) does (Artemis is his sister anyway).
+Artemis is a code generator that looks for `*.schema.json` (GraphQL Introspection Query response data) and `*.query.graphql` files and builds `.dart` files typing that query, based on the schema. That's similar to what [Apollo](https://github.com/apollographql/apollo-client) does (Artemis is his sister anyway).
 
 ---
 
@@ -60,6 +59,30 @@ targets:
 | `scalar_mapping` | `[]` | Mapping of GraphQL and Dart types. See [Custom scalars](#custom-scalars). |
 | `schema_mapping` | `[]` | Mapping of queries and which schemas they will use for code generation. See [Schema mapping](#schema-mapping). |
 
+## **Schema mapping**
+By default, Artemis won't generate anything. That's because your queries/mutations should be linked to GraphQL schemas. To configure it, you need to point a `schema_mapping` to the path of those queries and schemas:
+
+```yaml
+targets:
+  $default:
+    builders:
+      artemis:
+        options:
+          schema_mapping:
+            - schema: lib/my_graphql.schema.json
+              queries_glob: lib/**.query.graphql
+```
+
+Each `SchemaMap` is configured this way:
+
+| Option | Default value | Description |
+| - | - | - |
+| `schema` |  | Relative path to the GraphQL schema. Its extension must be `.schema.json`. |
+| `queries_glob` |  | Glob that selects all query files to be used with this schema. Their extension must be `.query.graphql`. |
+| `resolve_type_field` | `__resolveType` | The name of the field used to differentiatiate interfaces and union types (commonly `__resolveType` or `__typename`). Note that `__resolveType` field are not added automatically to the query. If you want interface/union type resolution, you need to manually add it to the query. |
+
+See [examples](./example) for more information and configuration options.
+
 ## **Custom scalars**
 If your schema uses custom scalars, they must be defined on `build.yaml`. If it needs a custom parser (to decode from/to json), the `custom_parser_import` path must be set and the file must implement both `fromGraphQL___ToDart___` and `fromDart___toGraphQL___` constant functions.
 
@@ -82,29 +105,5 @@ Each `ScalarMap` is configured this way:
 | `graphql_type` |  | The GraphQL custom scalar name on schema. |
 | `dart_type` |  | The Dart type this custom scalar should be converted from/to. |
 | `use_custom_parser` | `false` | Wheter `custom_parser_import` should be imported on the beginning of the file. |
-
-See [examples](./example) for more information and configuration options.
-
-## **Schema mapping**
-By default, Artemis won't generate anything. That's because your queries/mutations should be linked to GraphQL schemas. To configure it, you need to point `schema_mapping` to the path of those queries and schemas:
-
-```yaml
-targets:
-  $default:
-    builders:
-      artemis:
-        options:
-          schema_mapping:
-            - schema: lib/my_graphql.schema.json
-              queries_glob: lib/**.query.graphql
-```
-
-Each `SchemaMap` is configured this way:
-
-| Option | Default value | Description |
-| - | - | - |
-| `schema` |  | Relative path to the GraphQL schema. Its extension must be `.schema.json`. |
-| `queries_glob` |  | Glob that selects all query files to be used with this schema. Their extension must be `.query.graphql`. |
-| `resolve_type_field` | `__resolveType` | The name of the field used to differentiatiate interfaces and union types (commonly `__resolveType` or `__typename`). Note that `__resolveType` field are not added automatically to the query. If you want interface/union type resolution, you need to manually add it to the query. |
 
 See [examples](./example) for more information and configuration options.
