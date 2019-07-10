@@ -71,19 +71,6 @@ void main() {
           throwsA(TypeMatcher<AssertionError>()));
     });
 
-    test(
-        'It will throw if factoryPossibilities is given without resolveTypeField.',
-        () {
-      final buffer = StringBuffer();
-
-      expect(
-          () => printCustomClass(
-              buffer,
-              ClassDefinition('AClass', [],
-                  factoryPossibilities: ['Possibility'])),
-          throwsA(TypeMatcher<AssertionError>()));
-    });
-
     test('It can generate a class without properties.', () {
       final buffer = StringBuffer();
       final definition = ClassDefinition('AClass', []);

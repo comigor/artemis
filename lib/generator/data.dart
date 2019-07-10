@@ -73,14 +73,8 @@ class ClassDefinition extends Definition {
     this.properties, {
     this.mixins = '',
     this.factoryPossibilities = const [],
-    resolveTypeField = '__resolveType',
-  })  : assert(
-            factoryPossibilities == null ||
-                factoryPossibilities.isEmpty ||
-                resolveTypeField != null,
-            'To use a custom factory, include resolveType.'),
-        this.resolveTypeField = resolveTypeField,
-        super(name);
+    this.resolveTypeField = '__resolveType',
+  }) : super(name);
 
   bool operator ==(dynamic o) =>
       o is ClassDefinition &&
