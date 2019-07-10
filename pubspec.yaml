@@ -4,7 +4,7 @@ version: 0.1.3
 authors:
   - Igor Borges <igor@borges.me>
 
-description: Build dart types from a GraphQL schema (using Introspection Query).
+description: Build dart types from GraphQL schemas and queries (using Introspection Query).
 homepage: https://github.com/Igor1201/artemis
 
 environment:
