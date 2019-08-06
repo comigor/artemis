@@ -115,15 +115,17 @@ Future<GraphQLResponse<${definition.queryName}>> execute${definition.queryName}Q
     }
 
     buffer.writeln('''    }),
-    headers: {
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-    },
+    headers: (client != null)
+        ? null
+        : {
+            'Content-type': 'application/json',
+            'Accept': 'application/json',
+          },
   );
 
-  final jsonBody = json.decode(dataResponse.body);
+  final dynamic jsonBody = json.decode(dataResponse.body);
   final response = GraphQLResponse<${definition.queryName}>.fromJson(jsonBody)
-    ..data = ${definition.queryName}.fromJson(jsonBody['data'] ?? {});
+    ..data = ${definition.queryName}.fromJson(jsonBody['data'] ?? <dynamic>{});
 
   if (client == null) {
     httpClient.close();
