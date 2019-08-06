@@ -566,15 +566,17 @@ Future<GraphQLResponse<SomeQuery>> executeSomeQueryQuery(String graphQLEndpoint,
       'operationName': 'some_query',
       'query': 'query some_query { s o { st } anotherObject: ob { str } }',
     }),
-    headers: {
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-    },
+    headers: (client != null)
+        ? null
+        : {
+            'Content-type': 'application/json',
+            'Accept': 'application/json',
+          },
   );
 
-  final jsonBody = json.decode(dataResponse.body);
+  final dynamic jsonBody = json.decode(dataResponse.body);
   final response = GraphQLResponse<SomeQuery>.fromJson(jsonBody)
-    ..data = SomeQuery.fromJson(jsonBody['data'] ?? {});
+    ..data = SomeQuery.fromJson(jsonBody['data'] ?? <dynamic>{});
 
   if (client == null) {
     httpClient.close();

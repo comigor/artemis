@@ -299,15 +299,17 @@ Future<GraphQLResponse<TestQuery>> executeTestQueryQuery(String graphQLEndpoint,
       'operationName': 'test_query',
       'query': 'query test_query {}',
     }),
-    headers: {
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-    },
+    headers: (client != null)
+        ? null
+        : {
+            'Content-type': 'application/json',
+            'Accept': 'application/json',
+          },
   );
 
-  final jsonBody = json.decode(dataResponse.body);
+  final dynamic jsonBody = json.decode(dataResponse.body);
   final response = GraphQLResponse<TestQuery>.fromJson(jsonBody)
-    ..data = TestQuery.fromJson(jsonBody['data'] ?? {});
+    ..data = TestQuery.fromJson(jsonBody['data'] ?? <dynamic>{});
 
   if (client == null) {
     httpClient.close();
@@ -343,15 +345,17 @@ Future<GraphQLResponse<TestQuery>> executeTestQueryQuery(String graphQLEndpoint,
       'query': 'query test_query {}',
       'variables': {'name': name},
     }),
-    headers: {
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-    },
+    headers: (client != null)
+        ? null
+        : {
+            'Content-type': 'application/json',
+            'Accept': 'application/json',
+          },
   );
 
-  final jsonBody = json.decode(dataResponse.body);
+  final dynamic jsonBody = json.decode(dataResponse.body);
   final response = GraphQLResponse<TestQuery>.fromJson(jsonBody)
-    ..data = TestQuery.fromJson(jsonBody['data'] ?? {});
+    ..data = TestQuery.fromJson(jsonBody['data'] ?? <dynamic>{});
 
   if (client == null) {
     httpClient.close();
