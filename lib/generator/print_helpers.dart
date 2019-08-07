@@ -123,9 +123,9 @@ Future<GraphQLResponse<${definition.queryName}>> execute${definition.queryName}Q
           },
   );
 
-  final dynamic jsonBody = json.decode(dataResponse.body);
+  final Map<String, dynamic> jsonBody = json.decode(dataResponse.body);
   final response = GraphQLResponse<${definition.queryName}>.fromJson(jsonBody)
-    ..data = ${definition.queryName}.fromJson(jsonBody['data'] ?? <dynamic>{});
+    ..data = ${definition.queryName}.fromJson(jsonBody['data'] ?? <Map<String, dynamic>>{});
 
   if (client == null) {
     httpClient.close();
