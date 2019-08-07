@@ -307,9 +307,9 @@ Future<GraphQLResponse<TestQuery>> executeTestQueryQuery(String graphQLEndpoint,
           },
   );
 
-  final dynamic jsonBody = json.decode(dataResponse.body);
+  final Map<String, dynamic> jsonBody = json.decode(dataResponse.body);
   final response = GraphQLResponse<TestQuery>.fromJson(jsonBody)
-    ..data = TestQuery.fromJson(jsonBody['data'] ?? <dynamic>{});
+    ..data = TestQuery.fromJson(jsonBody['data'] ?? <Map<String, dynamic>>{});
 
   if (client == null) {
     httpClient.close();
@@ -353,9 +353,9 @@ Future<GraphQLResponse<TestQuery>> executeTestQueryQuery(String graphQLEndpoint,
           },
   );
 
-  final dynamic jsonBody = json.decode(dataResponse.body);
+  final Map<String, dynamic> jsonBody = json.decode(dataResponse.body);
   final response = GraphQLResponse<TestQuery>.fromJson(jsonBody)
-    ..data = TestQuery.fromJson(jsonBody['data'] ?? <dynamic>{});
+    ..data = TestQuery.fromJson(jsonBody['data'] ?? <Map<String, dynamic>>{});
 
   if (client == null) {
     httpClient.close();

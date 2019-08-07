@@ -574,9 +574,9 @@ Future<GraphQLResponse<SomeQuery>> executeSomeQueryQuery(String graphQLEndpoint,
           },
   );
 
-  final dynamic jsonBody = json.decode(dataResponse.body);
+  final Map<String, dynamic> jsonBody = json.decode(dataResponse.body);
   final response = GraphQLResponse<SomeQuery>.fromJson(jsonBody)
-    ..data = SomeQuery.fromJson(jsonBody['data'] ?? <dynamic>{});
+    ..data = SomeQuery.fromJson(jsonBody['data'] ?? <Map<String, dynamic>>{});
 
   if (client == null) {
     httpClient.close();
