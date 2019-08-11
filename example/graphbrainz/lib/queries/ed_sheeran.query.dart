@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
 import 'package:graphbrainz_example/coercers.dart';
+import 'package:artemis/schema/graphql_query.dart';
 import 'package:artemis/schema/graphql_error.dart';
 
 part 'ed_sheeran.query.g.dart';
@@ -101,6 +102,19 @@ class Entity {
   Map<String, dynamic> toJson() => _$EntityToJson(this);
 }
 
+class EdSheeranQuery extends GraphQLQuery<EdSheeran> {
+  EdSheeranQuery();
+
+  @override
+  final String query =
+      'query ed_sheeran { node(id: "QXJ0aXN0OmI4YTdjNTFmLTM2MmMtNGRjYi1hMjU5LWJjNmUwMDk1ZjBhNg==") { __typename id ... on Artist { mbid name lifeSpan { begin } spotify { href } } } }';
+
+  @override
+  EdSheeran parse(Map<String, dynamic> json) {
+    return EdSheeran.fromJson(json);
+  }
+}
+
 Future<GraphQLResponse<EdSheeran>> executeEdSheeranQuery(String graphQLEndpoint,
     {http.Client client}) async {
   final httpClient = client ?? http.Client();
@@ -111,15 +125,17 @@ Future<GraphQLResponse<EdSheeran>> executeEdSheeranQuery(String graphQLEndpoint,
       'query':
           'query ed_sheeran { node(id: "QXJ0aXN0OmI4YTdjNTFmLTM2MmMtNGRjYi1hMjU5LWJjNmUwMDk1ZjBhNg==") { __typename id ... on Artist { mbid name lifeSpan { begin } spotify { href } } } }',
     }),
-    headers: {
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-    },
+    headers: (client != null)
+        ? null
+        : {
+            'Content-type': 'application/json',
+            'Accept': 'application/json',
+          },
   );
 
-  final jsonBody = json.decode(dataResponse.body);
+  final Map<String, dynamic> jsonBody = json.decode(dataResponse.body);
   final response = GraphQLResponse<EdSheeran>.fromJson(jsonBody)
-    ..data = EdSheeran.fromJson(jsonBody['data'] ?? {});
+    ..data = EdSheeran.fromJson(jsonBody['data'] ?? <Map<String, dynamic>>{});
 
   if (client == null) {
     httpClient.close();

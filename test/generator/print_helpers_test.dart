@@ -289,9 +289,21 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
+import 'package:artemis/schema/graphql_query.dart';
 import 'package:artemis/schema/graphql_error.dart';
 
 part 'test_query.query.g.dart';
+class TestQueryQuery extends GraphQLQuery<TestQuery> {
+  TestQueryQuery();
+
+  @override
+  final String query = 'query test_query {}';
+
+  @override
+  TestQuery parse(Map<String, dynamic> json) {
+    return TestQuery.fromJson(json);
+  }
+}
 Future<GraphQLResponse<TestQuery>> executeTestQueryQuery(String graphQLEndpoint,  {http.Client client}) async {
   final httpClient = client ?? http.Client();
   final dataResponse = await httpClient.post(graphQLEndpoint,
@@ -334,9 +346,32 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
+import 'package:artemis/schema/graphql_query.dart';
 import 'package:artemis/schema/graphql_error.dart';
 
 part 'test_query.query.g.dart';
+class TestQueryArguments {
+  TestQueryArguments({this.name});
+
+  final Type name;
+  
+  Map<String, dynamic> toMap() {
+    return {'name': this.name};
+  }
+}
+class TestQueryQuery extends GraphQLQuery<TestQuery> {
+  TestQueryQuery({TestQueryArguments arguments}) :
+  variables = arguments.toMap();
+  @override
+  final Map<String, dynamic> variables;
+  @override
+  final String query = 'query test_query {}';
+
+  @override
+  TestQuery parse(Map<String, dynamic> json) {
+    return TestQuery.fromJson(json);
+  }
+}
 Future<GraphQLResponse<TestQuery>> executeTestQueryQuery(String graphQLEndpoint, Type name, {http.Client client}) async {
   final httpClient = client ?? http.Client();
   final dataResponse = await httpClient.post(graphQLEndpoint,
@@ -362,6 +397,51 @@ Future<GraphQLResponse<TestQuery>> executeTestQueryQuery(String graphQLEndpoint,
   }
 
   return response;
+}
+''');
+    });
+
+    test('Will generate an Arguments class', () {
+      final buffer = StringBuffer();
+      final definition = QueryDefinition(
+          'TestQuery', 'query test_query {}', 'test_query',
+          generateHelpers: true, inputs: [QueryInput('Type', 'name')]);
+
+      printArgumentsClass(buffer, definition);
+
+      expect(buffer.toString(), '''class TestQueryArguments {
+  TestQueryArguments({this.name});
+
+  final Type name;
+  
+  Map<String, dynamic> toMap() {
+    return {'name': this.name};
+  }
+}
+''');
+    });
+
+    test('Will generate a Query Class', () {
+      final buffer = StringBuffer();
+      final definition = QueryDefinition(
+          'TestQuery', 'query test_query {}', 'test_query',
+          generateHelpers: true, inputs: [QueryInput('Type', 'name')]);
+
+      printQueryClass(buffer, definition);
+
+      expect(buffer.toString(),
+          '''class TestQueryQuery extends GraphQLQuery<TestQuery> {
+  TestQueryQuery({TestQueryArguments arguments}) :
+  variables = arguments.toMap();
+  @override
+  final Map<String, dynamic> variables;
+  @override
+  final String query = 'query test_query {}';
+
+  @override
+  TestQuery parse(Map<String, dynamic> json) {
+    return TestQuery.fromJson(json);
+  }
 }
 ''');
     });

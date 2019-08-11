@@ -13,8 +13,9 @@ EdSheeran _$EdSheeranFromJson(Map<String, dynamic> json) {
         : Node.fromJson(json['node'] as Map<String, dynamic>);
 }
 
-Map<String, dynamic> _$EdSheeranToJson(EdSheeran instance) =>
-    <String, dynamic>{'node': instance.node};
+Map<String, dynamic> _$EdSheeranToJson(EdSheeran instance) => <String, dynamic>{
+      'node': instance.node,
+    };
 
 Node _$NodeFromJson(Map<String, dynamic> json) {
   return Node()
@@ -22,8 +23,10 @@ Node _$NodeFromJson(Map<String, dynamic> json) {
     ..resolveType = json['__typename'] as String;
 }
 
-Map<String, dynamic> _$NodeToJson(Node instance) =>
-    <String, dynamic>{'id': instance.id, '__typename': instance.resolveType};
+Map<String, dynamic> _$NodeToJson(Node instance) => <String, dynamic>{
+      'id': instance.id,
+      '__typename': instance.resolveType,
+    };
 
 Artist _$ArtistFromJson(Map<String, dynamic> json) {
   return Artist()
@@ -45,7 +48,7 @@ Map<String, dynamic> _$ArtistToJson(Artist instance) => <String, dynamic>{
       'lifeSpan': instance.lifeSpan,
       'spotify': instance.spotify,
       '__typename': instance.resolveType,
-      'id': instance.id
+      'id': instance.id,
     };
 
 LifeSpan _$LifeSpanFromJson(Map<String, dynamic> json) {
@@ -53,15 +56,18 @@ LifeSpan _$LifeSpanFromJson(Map<String, dynamic> json) {
     ..begin = fromGraphQLDateToDartDateTime(json['begin'] as String);
 }
 
-Map<String, dynamic> _$LifeSpanToJson(LifeSpan instance) =>
-    <String, dynamic>{'begin': fromDartDateTimeToGraphQLDate(instance.begin)};
+Map<String, dynamic> _$LifeSpanToJson(LifeSpan instance) => <String, dynamic>{
+      'begin': fromDartDateTimeToGraphQLDate(instance.begin),
+    };
 
 SpotifyArtist _$SpotifyArtistFromJson(Map<String, dynamic> json) {
   return SpotifyArtist()..href = json['href'] as String;
 }
 
 Map<String, dynamic> _$SpotifyArtistToJson(SpotifyArtist instance) =>
-    <String, dynamic>{'href': instance.href};
+    <String, dynamic>{
+      'href': instance.href,
+    };
 
 Entity _$EntityFromJson(Map<String, dynamic> json) {
   return Entity()
@@ -71,5 +77,5 @@ Entity _$EntityFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$EntityToJson(Entity instance) => <String, dynamic>{
       'mbid': instance.mbid,
-      '__typename': instance.resolveType
+      '__typename': instance.resolveType,
     };
