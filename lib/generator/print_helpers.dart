@@ -62,6 +62,63 @@ class ${definition.name} ${definition.mixins} {''');
   buffer.writeln('}');
 }
 
+void printArgumentsClass(StringBuffer buffer, QueryDefinition definition) {
+  String argumentsMap = '';
+  String argumentsDeclarations = '';
+  String argumentConstructor = '';
+  if (definition.inputs.isNotEmpty) {
+    argumentsDeclarations =
+        definition.inputs.map((i) => 'final ${i.type} ${i.name};').join('\n');
+    argumentConstructor =
+        '{' + definition.inputs.map((i) => 'this.${i.name}').join(',\n') + '}';
+    argumentsMap = '{' +
+        definition.inputs.map((i) => "'${i.name}': this.${i.name}").join(',') +
+        '}';
+  }
+  final str = '''class ${definition.queryName}Arguments {
+  ${definition.queryName}Arguments(${argumentConstructor});
+
+  ${argumentsDeclarations}
+  
+  Map<String, dynamic> toMap() {
+    return ${argumentsMap};
+  }
+}
+''';
+  buffer.write(str);
+}
+
+void printQueryClass(StringBuffer buffer, QueryDefinition definition) {
+  final sanitizedQueryStr = definition.query
+      .replaceAll(RegExp(r'\s+'), ' ')
+      .replaceAll(RegExp(r'\$'), '\\\$')
+      .trim();
+
+  String variablesDeclaration = '';
+  String constructor = '();';
+  if (definition.inputs.isNotEmpty) {
+    variablesDeclaration = '''  @override
+  final Map<String, dynamic> variables;''';
+    constructor = '''({${definition.queryName}Arguments arguments}) :
+  variables = arguments.toMap();''';
+  }
+
+  final str =
+      '''class ${definition.queryName}Query extends GraphQLQuery<${definition.queryName}> {
+  ${definition.queryName}Query${constructor}
+${variablesDeclaration}
+  @override
+  final String query = '${sanitizedQueryStr}';
+
+  @override
+  ${definition.queryName} parse(Map<String, dynamic> json) {
+    return ${definition.queryName}.fromJson(json);
+  }
+}
+''';
+  buffer.write(str);
+}
+
 void printCustomQuery(StringBuffer buffer, QueryDefinition definition) {
   buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND\n');
   if (definition.generateHelpers) {
@@ -75,6 +132,7 @@ import 'package:http/http.dart' as http;''');
     buffer.writeln('import \'${definition.customParserImport}\';');
   }
   if (definition.generateHelpers) {
+    buffer.writeln('import \'package:artemis/schema/graphql_query.dart\';');
     buffer.writeln('import \'package:artemis/schema/graphql_error.dart\';');
   }
 
@@ -88,7 +146,13 @@ import 'package:http/http.dart' as http;''');
     }
   });
 
+  if (definition.inputs.isNotEmpty) {
+    printArgumentsClass(buffer, definition);
+  }
+
   if (definition.generateHelpers) {
+    printQueryClass(buffer, definition);
+
     final sanitizedQueryStr = definition.query
         .replaceAll(RegExp(r'\s+'), ' ')
         .replaceAll(RegExp(r'\$'), '\\\$')
