@@ -15,7 +15,7 @@ SimpleQuery _$SimpleQueryFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$SimpleQueryToJson(SimpleQuery instance) =>
     <String, dynamic>{
-      'pokemon': instance.pokemon,
+      'pokemon': instance.pokemon?.toJson(),
     };
 
 Pokemon _$PokemonFromJson(Map<String, dynamic> json) {

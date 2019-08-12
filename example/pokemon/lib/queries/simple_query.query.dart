@@ -9,7 +9,7 @@ import 'package:artemis/schema/graphql_error.dart';
 
 part 'simple_query.query.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class SimpleQuery {
   Pokemon pokemon;
 
@@ -20,7 +20,7 @@ class SimpleQuery {
   Map<String, dynamic> toJson() => _$SimpleQueryToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Pokemon {
   String number;
   List<String> types;
@@ -32,45 +32,17 @@ class Pokemon {
   Map<String, dynamic> toJson() => _$PokemonToJson(this);
 }
 
-class SimpleQueryQuery extends GraphQLQuery<SimpleQuery, void> {
+class SimpleQueryQuery extends GraphQLQuery<SimpleQuery, JsonSerializable> {
   SimpleQueryQuery();
 
   @override
   final String query =
       'query simple_query { pokemon(name: "Charmander") { number types } }';
+  @override
+  final String operationName = 'simple_query';
 
   @override
   SimpleQuery parse(Map<String, dynamic> json) {
     return SimpleQuery.fromJson(json);
   }
-}
-
-Future<GraphQLResponse<SimpleQuery>> executeSimpleQueryQuery(
-    String graphQLEndpoint,
-    {http.Client client}) async {
-  final httpClient = client ?? http.Client();
-  final dataResponse = await httpClient.post(
-    graphQLEndpoint,
-    body: json.encode({
-      'operationName': 'simple_query',
-      'query':
-          'query simple_query { pokemon(name: "Charmander") { number types } }',
-    }),
-    headers: (client != null)
-        ? null
-        : {
-            'Content-type': 'application/json',
-            'Accept': 'application/json',
-          },
-  );
-
-  final Map<String, dynamic> jsonBody = json.decode(dataResponse.body);
-  final response = GraphQLResponse<SimpleQuery>.fromJson(jsonBody)
-    ..data = SimpleQuery.fromJson(jsonBody['data'] ?? <Map<String, dynamic>>{});
-
-  if (client == null) {
-    httpClient.close();
-  }
-
-  return response;
 }
