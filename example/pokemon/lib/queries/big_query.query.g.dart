@@ -18,8 +18,8 @@ BigQuery _$BigQueryFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$BigQueryToJson(BigQuery instance) => <String, dynamic>{
-      'charmander': instance.charmander,
-      'pokemons': instance.pokemons,
+      'charmander': instance.charmander?.toJson(),
+      'pokemons': instance.pokemons?.map((e) => e?.toJson())?.toList(),
     };
 
 Charmander _$CharmanderFromJson(Map<String, dynamic> json) {
@@ -49,7 +49,7 @@ Map<String, dynamic> _$PokemonToJson(Pokemon instance) => <String, dynamic>{
       'number': instance.number,
       'name': instance.name,
       'types': instance.types,
-      'evolutions': instance.evolutions,
+      'evolutions': instance.evolutions?.map((e) => e?.toJson())?.toList(),
     };
 
 Evolutions _$EvolutionsFromJson(Map<String, dynamic> json) {
@@ -62,4 +62,15 @@ Map<String, dynamic> _$EvolutionsToJson(Evolutions instance) =>
     <String, dynamic>{
       'number': instance.number,
       'name': instance.name,
+    };
+
+BigQueryArguments _$BigQueryArgumentsFromJson(Map<String, dynamic> json) {
+  return BigQueryArguments(
+    quantity: json['quantity'] as int,
+  );
+}
+
+Map<String, dynamic> _$BigQueryArgumentsToJson(BigQueryArguments instance) =>
+    <String, dynamic>{
+      'quantity': instance.quantity,
     };

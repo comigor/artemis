@@ -9,7 +9,7 @@ import 'package:artemis/schema/graphql_error.dart';
 
 part 'big_query.query.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class BigQuery {
   Charmander charmander;
   List<Pokemon> pokemons;
@@ -21,7 +21,7 @@ class BigQuery {
   Map<String, dynamic> toJson() => _$BigQueryToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Charmander {
   String number;
   List<String> types;
@@ -33,7 +33,7 @@ class Charmander {
   Map<String, dynamic> toJson() => _$CharmanderToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Pokemon {
   String number;
   String name;
@@ -47,7 +47,7 @@ class Pokemon {
   Map<String, dynamic> toJson() => _$PokemonToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Evolutions {
   String number;
   String name;
@@ -59,14 +59,15 @@ class Evolutions {
   Map<String, dynamic> toJson() => _$EvolutionsToJson(this);
 }
 
-class BigQueryArguments {
+@JsonSerializable(explicitToJson: true)
+class BigQueryArguments extends JsonSerializable {
   BigQueryArguments({this.quantity});
 
   final int quantity;
 
-  Map<String, dynamic> toMap() {
-    return {'quantity': this.quantity};
-  }
+  factory BigQueryArguments.fromJson(Map<String, dynamic> json) =>
+      _$BigQueryArgumentsFromJson(json);
+  Map<String, dynamic> toJson() => _$BigQueryArgumentsToJson(this);
 }
 
 class BigQueryQuery extends GraphQLQuery<BigQuery, BigQueryArguments> {
@@ -76,40 +77,11 @@ class BigQueryQuery extends GraphQLQuery<BigQuery, BigQueryArguments> {
   @override
   final String query =
       'query big_query(\$quantity: Int!) { charmander: pokemon(name: "Charmander") { number types } pokemons(first: \$quantity) { number name types evolutions: evolutions { number name } } }';
+  @override
+  final String operationName = 'big_query';
 
   @override
   BigQuery parse(Map<String, dynamic> json) {
     return BigQuery.fromJson(json);
   }
-}
-
-Future<GraphQLResponse<BigQuery>> executeBigQueryQuery(
-    String graphQLEndpoint, int quantity,
-    {http.Client client}) async {
-  final httpClient = client ?? http.Client();
-  final dataResponse = await httpClient.post(
-    graphQLEndpoint,
-    body: json.encode({
-      'operationName': 'big_query',
-      'query':
-          'query big_query(\$quantity: Int!) { charmander: pokemon(name: "Charmander") { number types } pokemons(first: \$quantity) { number name types evolutions: evolutions { number name } } }',
-      'variables': {'quantity': quantity},
-    }),
-    headers: (client != null)
-        ? null
-        : {
-            'Content-type': 'application/json',
-            'Accept': 'application/json',
-          },
-  );
-
-  final Map<String, dynamic> jsonBody = json.decode(dataResponse.body);
-  final response = GraphQLResponse<BigQuery>.fromJson(jsonBody)
-    ..data = BigQuery.fromJson(jsonBody['data'] ?? <Map<String, dynamic>>{});
-
-  if (client == null) {
-    httpClient.close();
-  }
-
-  return response;
 }

@@ -2,12 +2,17 @@ import 'dart:async';
 
 import 'queries/big_query.query.dart';
 import 'queries/simple_query.query.dart';
+import 'package:artemis/client.dart';
 
 Future<void> main() async {
   const graphQLEndpoint = 'https://graphql-pokemon.now.sh/graphql';
+  final client = ArtemisClient(graphQLEndpoint);
 
-  final simpleQueryResponse = await executeSimpleQueryQuery(graphQLEndpoint);
-  final bigQueryResponse = await executeBigQueryQuery(graphQLEndpoint, 10);
+  final simpleQuery = SimpleQueryQuery();
+  final bigQuery = BigQueryQuery(variables: BigQueryArguments(quantity: 5));
+
+  final simpleQueryResponse = await client.execute(simpleQuery);
+  final bigQueryResponse = await client.execute(bigQuery);
 
   print('Simple query response: ${simpleQueryResponse.data.pokemon.number}');
 

@@ -13,7 +13,7 @@ void printCustomEnum(StringBuffer buffer, EnumDefinition definition) {
 void printCustomClass(StringBuffer buffer, ClassDefinition definition) async {
   buffer.writeln('''
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class ${definition.name} ${definition.mixins} {''');
 
   for (final prop in definition.properties) {
@@ -63,7 +63,6 @@ class ${definition.name} ${definition.mixins} {''');
 }
 
 void printArgumentsClass(StringBuffer buffer, QueryDefinition definition) {
-  String argumentsMap = '';
   String argumentsDeclarations = '';
   String argumentConstructor = '';
   if (definition.inputs.isNotEmpty) {
@@ -71,18 +70,16 @@ void printArgumentsClass(StringBuffer buffer, QueryDefinition definition) {
         definition.inputs.map((i) => 'final ${i.type} ${i.name};').join('\n');
     argumentConstructor =
         '{' + definition.inputs.map((i) => 'this.${i.name}').join(',\n') + '}';
-    argumentsMap = '{' +
-        definition.inputs.map((i) => "'${i.name}': this.${i.name}").join(',') +
-        '}';
   }
-  final str = '''class ${definition.queryName}Arguments {
+  final str = '''@JsonSerializable(explicitToJson: true)
+class ${definition.queryName}Arguments extends JsonSerializable {
   ${definition.queryName}Arguments(${argumentConstructor});
 
   ${argumentsDeclarations}
   
-  Map<String, dynamic> toMap() {
-    return ${argumentsMap};
-  }
+  factory ${definition.queryName}Arguments.fromJson(Map<String, dynamic> json) =>
+      _\$${definition.queryName}ArgumentsFromJson(json);
+  Map<String, dynamic> toJson() => _\$${definition.queryName}ArgumentsToJson(this);
 }
 ''';
   buffer.write(str);
@@ -96,7 +93,7 @@ void printQueryClass(StringBuffer buffer, QueryDefinition definition) {
 
   String variablesDeclaration = '';
   String constructor = '()';
-  String typeDeclaration = '${definition.queryName}, void';
+  String typeDeclaration = '${definition.queryName}, JsonSerializable';
   if (definition.inputs.isNotEmpty) {
     variablesDeclaration = '''  @override
   final ${definition.queryName}Arguments variables;''';
@@ -111,6 +108,8 @@ void printQueryClass(StringBuffer buffer, QueryDefinition definition) {
 ${variablesDeclaration}
   @override
   final String query = '${sanitizedQueryStr}';
+  @override
+  final String operationName = '${ReCase(definition.queryName).snakeCase}';
 
   @override
   ${definition.queryName} parse(Map<String, dynamic> json) {
@@ -147,57 +146,10 @@ import 'package:http/http.dart' as http;''');
       printCustomEnum(buffer, d);
     }
   });
-
   if (definition.inputs.isNotEmpty) {
     printArgumentsClass(buffer, definition);
   }
-
   if (definition.generateHelpers) {
     printQueryClass(buffer, definition);
-
-    final sanitizedQueryStr = definition.query
-        .replaceAll(RegExp(r'\s+'), ' ')
-        .replaceAll(RegExp(r'\$'), '\\\$')
-        .trim();
-
-    String buildArguments = '';
-    if (definition.inputs.isNotEmpty) {
-      buildArguments =
-          definition.inputs.map((i) => '${i.type} ${i.name}').join(',') + ',';
-    }
-
-    buffer.writeln('''
-Future<GraphQLResponse<${definition.queryName}>> execute${definition.queryName}Query(String graphQLEndpoint, $buildArguments {http.Client client}) async {
-  final httpClient = client ?? http.Client();
-  final dataResponse = await httpClient.post(graphQLEndpoint,
-    body: json.encode({
-      'operationName': '${ReCase(definition.queryName).snakeCase}',
-      'query': '$sanitizedQueryStr',''');
-
-    if (definition.inputs.isNotEmpty) {
-      final variableMap =
-          definition.inputs.map((i) => '\'${i.name}\': ${i.name}').join(', ');
-      buffer.writeln('      \'variables\': {$variableMap},');
-    }
-
-    buffer.writeln('''    }),
-    headers: (client != null)
-        ? null
-        : {
-            'Content-type': 'application/json',
-            'Accept': 'application/json',
-          },
-  );
-
-  final Map<String, dynamic> jsonBody = json.decode(dataResponse.body);
-  final response = GraphQLResponse<${definition.queryName}>.fromJson(jsonBody)
-    ..data = ${definition.queryName}.fromJson(jsonBody['data'] ?? <Map<String, dynamic>>{});
-
-  if (client == null) {
-    httpClient.close();
-  }
-
-  return response;
-}''');
   }
 }

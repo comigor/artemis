@@ -10,7 +10,7 @@ import 'package:artemis/schema/graphql_error.dart';
 
 part 'ed_sheeran.query.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class EdSheeran {
   Node node;
 
@@ -21,7 +21,7 @@ class EdSheeran {
   Map<String, dynamic> toJson() => _$EdSheeranToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Node {
   String id;
   @JsonKey(name: '__typename')
@@ -47,7 +47,7 @@ class Node {
   }
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Artist implements Node, Entity {
   String mbid;
   String name;
@@ -65,7 +65,7 @@ class Artist implements Node, Entity {
   Map<String, dynamic> toJson() => _$ArtistToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class LifeSpan {
   @JsonKey(
       fromJson: fromGraphQLDateToDartDateTime,
@@ -79,7 +79,7 @@ class LifeSpan {
   Map<String, dynamic> toJson() => _$LifeSpanToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class SpotifyArtist {
   String href;
 
@@ -90,7 +90,7 @@ class SpotifyArtist {
   Map<String, dynamic> toJson() => _$SpotifyArtistToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Entity {
   String mbid;
   @JsonKey(name: '__typename')
@@ -102,44 +102,17 @@ class Entity {
   Map<String, dynamic> toJson() => _$EntityToJson(this);
 }
 
-class EdSheeranQuery extends GraphQLQuery<EdSheeran, void> {
+class EdSheeranQuery extends GraphQLQuery<EdSheeran, JsonSerializable> {
   EdSheeranQuery();
 
   @override
   final String query =
       'query ed_sheeran { node(id: "QXJ0aXN0OmI4YTdjNTFmLTM2MmMtNGRjYi1hMjU5LWJjNmUwMDk1ZjBhNg==") { __typename id ... on Artist { mbid name lifeSpan { begin } spotify { href } } } }';
+  @override
+  final String operationName = 'ed_sheeran';
 
   @override
   EdSheeran parse(Map<String, dynamic> json) {
     return EdSheeran.fromJson(json);
   }
-}
-
-Future<GraphQLResponse<EdSheeran>> executeEdSheeranQuery(String graphQLEndpoint,
-    {http.Client client}) async {
-  final httpClient = client ?? http.Client();
-  final dataResponse = await httpClient.post(
-    graphQLEndpoint,
-    body: json.encode({
-      'operationName': 'ed_sheeran',
-      'query':
-          'query ed_sheeran { node(id: "QXJ0aXN0OmI4YTdjNTFmLTM2MmMtNGRjYi1hMjU5LWJjNmUwMDk1ZjBhNg==") { __typename id ... on Artist { mbid name lifeSpan { begin } spotify { href } } } }',
-    }),
-    headers: (client != null)
-        ? null
-        : {
-            'Content-type': 'application/json',
-            'Accept': 'application/json',
-          },
-  );
-
-  final Map<String, dynamic> jsonBody = json.decode(dataResponse.body);
-  final response = GraphQLResponse<EdSheeran>.fromJson(jsonBody)
-    ..data = EdSheeran.fromJson(jsonBody['data'] ?? <Map<String, dynamic>>{});
-
-  if (client == null) {
-    httpClient.close();
-  }
-
-  return response;
 }

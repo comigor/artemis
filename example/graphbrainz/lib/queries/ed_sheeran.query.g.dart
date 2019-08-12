@@ -14,7 +14,7 @@ EdSheeran _$EdSheeranFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$EdSheeranToJson(EdSheeran instance) => <String, dynamic>{
-      'node': instance.node,
+      'node': instance.node?.toJson(),
     };
 
 Node _$NodeFromJson(Map<String, dynamic> json) {
@@ -45,8 +45,8 @@ Artist _$ArtistFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$ArtistToJson(Artist instance) => <String, dynamic>{
       'mbid': instance.mbid,
       'name': instance.name,
-      'lifeSpan': instance.lifeSpan,
-      'spotify': instance.spotify,
+      'lifeSpan': instance.lifeSpan?.toJson(),
+      'spotify': instance.spotify?.toJson(),
       '__typename': instance.resolveType,
       'id': instance.id,
     };

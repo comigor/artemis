@@ -79,7 +79,7 @@ void main() {
 
       expect(buffer.toString(), '''
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class AClass  {
 
   AClass();
@@ -99,7 +99,7 @@ class AClass  {
 
       expect(buffer.toString(), '''
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class AClass extends AnotherClass {
 
   AClass();
@@ -125,7 +125,7 @@ class AClass extends AnotherClass {
 
       expect(buffer.toString(), '''
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class AClass  {
 
   AClass();
@@ -165,7 +165,7 @@ class AClass  {
 
       expect(buffer.toString(), '''
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class AClass  {
   Type name;
   AnotherType anotherName;
@@ -193,7 +193,7 @@ class AClass  {
 
       expect(buffer.toString(), '''
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class AClass  {
   Type name;
   @Hey()
@@ -293,41 +293,18 @@ import 'package:artemis/schema/graphql_query.dart';
 import 'package:artemis/schema/graphql_error.dart';
 
 part 'test_query.query.g.dart';
-class TestQueryQuery extends GraphQLQuery<TestQuery, void> {
+class TestQueryQuery extends GraphQLQuery<TestQuery, JsonSerializable> {
   TestQueryQuery();
 
   @override
   final String query = 'query test_query {}';
+  @override
+  final String operationName = 'test_query';
 
   @override
   TestQuery parse(Map<String, dynamic> json) {
     return TestQuery.fromJson(json);
   }
-}
-Future<GraphQLResponse<TestQuery>> executeTestQueryQuery(String graphQLEndpoint,  {http.Client client}) async {
-  final httpClient = client ?? http.Client();
-  final dataResponse = await httpClient.post(graphQLEndpoint,
-    body: json.encode({
-      'operationName': 'test_query',
-      'query': 'query test_query {}',
-    }),
-    headers: (client != null)
-        ? null
-        : {
-            'Content-type': 'application/json',
-            'Accept': 'application/json',
-          },
-  );
-
-  final Map<String, dynamic> jsonBody = json.decode(dataResponse.body);
-  final response = GraphQLResponse<TestQuery>.fromJson(jsonBody)
-    ..data = TestQuery.fromJson(jsonBody['data'] ?? <Map<String, dynamic>>{});
-
-  if (client == null) {
-    httpClient.close();
-  }
-
-  return response;
 }
 ''');
     });
@@ -350,14 +327,15 @@ import 'package:artemis/schema/graphql_query.dart';
 import 'package:artemis/schema/graphql_error.dart';
 
 part 'test_query.query.g.dart';
-class TestQueryArguments {
+@JsonSerializable(explicitToJson: true)
+class TestQueryArguments extends JsonSerializable {
   TestQueryArguments({this.name});
 
   final Type name;
   
-  Map<String, dynamic> toMap() {
-    return {'name': this.name};
-  }
+  factory TestQueryArguments.fromJson(Map<String, dynamic> json) =>
+      _\$TestQueryArgumentsFromJson(json);
+  Map<String, dynamic> toJson() => _\$TestQueryArgumentsToJson(this);
 }
 class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
   TestQueryQuery({this.variables});
@@ -365,37 +343,13 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
   final TestQueryArguments variables;
   @override
   final String query = 'query test_query {}';
+  @override
+  final String operationName = 'test_query';
 
   @override
   TestQuery parse(Map<String, dynamic> json) {
     return TestQuery.fromJson(json);
   }
-}
-Future<GraphQLResponse<TestQuery>> executeTestQueryQuery(String graphQLEndpoint, Type name, {http.Client client}) async {
-  final httpClient = client ?? http.Client();
-  final dataResponse = await httpClient.post(graphQLEndpoint,
-    body: json.encode({
-      'operationName': 'test_query',
-      'query': 'query test_query {}',
-      'variables': {'name': name},
-    }),
-    headers: (client != null)
-        ? null
-        : {
-            'Content-type': 'application/json',
-            'Accept': 'application/json',
-          },
-  );
-
-  final Map<String, dynamic> jsonBody = json.decode(dataResponse.body);
-  final response = GraphQLResponse<TestQuery>.fromJson(jsonBody)
-    ..data = TestQuery.fromJson(jsonBody['data'] ?? <Map<String, dynamic>>{});
-
-  if (client == null) {
-    httpClient.close();
-  }
-
-  return response;
 }
 ''');
     });
@@ -408,14 +362,15 @@ Future<GraphQLResponse<TestQuery>> executeTestQueryQuery(String graphQLEndpoint,
 
       printArgumentsClass(buffer, definition);
 
-      expect(buffer.toString(), '''class TestQueryArguments {
+      expect(buffer.toString(), '''@JsonSerializable(explicitToJson: true)
+class TestQueryArguments extends JsonSerializable {
   TestQueryArguments({this.name});
 
   final Type name;
   
-  Map<String, dynamic> toMap() {
-    return {'name': this.name};
-  }
+  factory TestQueryArguments.fromJson(Map<String, dynamic> json) =>
+      _\$TestQueryArgumentsFromJson(json);
+  Map<String, dynamic> toJson() => _\$TestQueryArgumentsToJson(this);
 }
 ''');
     });
@@ -435,6 +390,8 @@ Future<GraphQLResponse<TestQuery>> executeTestQueryQuery(String graphQLEndpoint,
   final TestQueryArguments variables;
   @override
   final String query = 'query test_query {}';
+  @override
+  final String operationName = 'test_query';
 
   @override
   TestQuery parse(Map<String, dynamic> json) {
@@ -464,7 +421,7 @@ enum Enum {
   Value,
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class AClass  {
 
   AClass();
