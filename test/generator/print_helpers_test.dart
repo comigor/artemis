@@ -293,7 +293,7 @@ import 'package:artemis/schema/graphql_query.dart';
 import 'package:artemis/schema/graphql_error.dart';
 
 part 'test_query.query.g.dart';
-class TestQueryQuery extends GraphQLQuery<TestQuery> {
+class TestQueryQuery extends GraphQLQuery<TestQuery, void> {
   TestQueryQuery();
 
   @override
@@ -359,11 +359,10 @@ class TestQueryArguments {
     return {'name': this.name};
   }
 }
-class TestQueryQuery extends GraphQLQuery<TestQuery> {
-  TestQueryQuery({TestQueryArguments arguments}) :
-  variables = arguments.toMap();
+class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
+  TestQueryQuery({this.variables});
   @override
-  final Map<String, dynamic> variables;
+  final TestQueryArguments variables;
   @override
   final String query = 'query test_query {}';
 
@@ -430,11 +429,10 @@ Future<GraphQLResponse<TestQuery>> executeTestQueryQuery(String graphQLEndpoint,
       printQueryClass(buffer, definition);
 
       expect(buffer.toString(),
-          '''class TestQueryQuery extends GraphQLQuery<TestQuery> {
-  TestQueryQuery({TestQueryArguments arguments}) :
-  variables = arguments.toMap();
+          '''class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
+  TestQueryQuery({this.variables});
   @override
-  final Map<String, dynamic> variables;
+  final TestQueryArguments variables;
   @override
   final String query = 'query test_query {}';
 

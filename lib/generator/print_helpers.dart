@@ -95,17 +95,19 @@ void printQueryClass(StringBuffer buffer, QueryDefinition definition) {
       .trim();
 
   String variablesDeclaration = '';
-  String constructor = '();';
+  String constructor = '()';
+  String typeDeclaration = '${definition.queryName}, void';
   if (definition.inputs.isNotEmpty) {
     variablesDeclaration = '''  @override
-  final Map<String, dynamic> variables;''';
-    constructor = '''({${definition.queryName}Arguments arguments}) :
-  variables = arguments.toMap();''';
+  final ${definition.queryName}Arguments variables;''';
+    constructor = '''({this.variables})''';
+    typeDeclaration =
+        '${definition.queryName}, ${definition.queryName}Arguments';
   }
 
   final str =
-      '''class ${definition.queryName}Query extends GraphQLQuery<${definition.queryName}> {
-  ${definition.queryName}Query${constructor}
+      '''class ${definition.queryName}Query extends GraphQLQuery<$typeDeclaration> {
+  ${definition.queryName}Query${constructor};
 ${variablesDeclaration}
   @override
   final String query = '${sanitizedQueryStr}';

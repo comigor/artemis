@@ -1,7 +1,7 @@
-abstract class GraphQLQuery<T> {
+abstract class GraphQLQuery<T, U extends Object> {
   GraphQLQuery({this.variables, this.query});
 
-  final Map<String, dynamic> variables;
+  final U variables;
   final String query;
 
   T parse(Map<String, dynamic> json);

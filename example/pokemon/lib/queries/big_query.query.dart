@@ -3,8 +3,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:artemis/schema/graphql_query.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:artemis/schema/graphql_query.dart';
 import 'package:artemis/schema/graphql_error.dart';
 
 part 'big_query.query.g.dart';
@@ -69,12 +69,10 @@ class BigQueryArguments {
   }
 }
 
-class BigQueryQuery extends GraphQLQuery<BigQuery> {
-  BigQueryQuery({BigQueryArguments arguments}) : variables = arguments.toMap();
-
+class BigQueryQuery extends GraphQLQuery<BigQuery, BigQueryArguments> {
+  BigQueryQuery({this.variables});
   @override
-  final Map<String, dynamic> variables;
-
+  final BigQueryArguments variables;
   @override
   final String query =
       'query big_query(\$quantity: Int!) { charmander: pokemon(name: "Charmander") { number types } pokemons(first: \$quantity) { number name types evolutions: evolutions { number name } } }';
