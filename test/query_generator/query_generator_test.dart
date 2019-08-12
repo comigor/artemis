@@ -73,7 +73,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'some_query.query.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class SomeQuery {
   String s;
   int i;
@@ -186,7 +186,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'some_query.query.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class SomeQuery {
   String s;
   SomeObject o;
@@ -198,7 +198,7 @@ class SomeQuery {
   Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class SomeObject {
   String st;
   List<AnotherObject> ob;
@@ -210,7 +210,7 @@ class SomeObject {
   Map<String, dynamic> toJson() => _\$SomeObjectToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class AnotherObject {
   String str;
 
@@ -279,7 +279,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'some_query.query.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class SomeQuery {
   String firstName;
   String lastName;
@@ -388,7 +388,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'some_query.query.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class SomeQuery {
   String s;
   SomeObject o;
@@ -401,7 +401,7 @@ class SomeQuery {
   Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class SomeObject {
   String st;
 
@@ -412,7 +412,7 @@ class SomeObject {
   Map<String, dynamic> toJson() => _\$SomeObjectToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class AnotherObject {
   String str;
 
@@ -518,11 +518,12 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
+import 'package:artemis/schema/graphql_query.dart';
 import 'package:artemis/schema/graphql_error.dart';
 
 part 'some_query.query.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class SomeQuery {
   String s;
   SomeObject o;
@@ -535,7 +536,7 @@ class SomeQuery {
   Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class SomeObject {
   String st;
 
@@ -546,7 +547,7 @@ class SomeObject {
   Map<String, dynamic> toJson() => _\$SomeObjectToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class AnotherObject {
   String str;
 
@@ -557,32 +558,19 @@ class AnotherObject {
   Map<String, dynamic> toJson() => _\$AnotherObjectToJson(this);
 }
 
-Future<GraphQLResponse<SomeQuery>> executeSomeQueryQuery(String graphQLEndpoint,
-    {http.Client client}) async {
-  final httpClient = client ?? http.Client();
-  final dataResponse = await httpClient.post(
-    graphQLEndpoint,
-    body: json.encode({
-      'operationName': 'some_query',
-      'query': 'query some_query { s o { st } anotherObject: ob { str } }',
-    }),
-    headers: (client != null)
-        ? null
-        : {
-            'Content-type': 'application/json',
-            'Accept': 'application/json',
-          },
-  );
+class SomeQueryQuery extends GraphQLQuery<SomeQuery, JsonSerializable> {
+  SomeQueryQuery();
 
-  final Map<String, dynamic> jsonBody = json.decode(dataResponse.body);
-  final response = GraphQLResponse<SomeQuery>.fromJson(jsonBody)
-    ..data = SomeQuery.fromJson(jsonBody['data'] ?? <Map<String, dynamic>>{});
+  @override
+  final String query =
+      'query some_query { s o { st } anotherObject: ob { str } }';
+  @override
+  final String operationName = 'some_query';
 
-  if (client == null) {
-    httpClient.close();
+  @override
+  SomeQuery parse(Map<String, dynamic> json) {
+    return SomeQuery.fromJson(json);
   }
-
-  return response;
 }
 ''',
       });
