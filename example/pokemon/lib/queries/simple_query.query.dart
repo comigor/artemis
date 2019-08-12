@@ -3,8 +3,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:artemis/schema/graphql_query.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:artemis/schema/graphql_query.dart';
 import 'package:artemis/schema/graphql_error.dart';
 
 part 'simple_query.query.g.dart';
@@ -32,7 +32,7 @@ class Pokemon {
   Map<String, dynamic> toJson() => _$PokemonToJson(this);
 }
 
-class SimpleQueryQuery extends GraphQLQuery<SimpleQuery> {
+class SimpleQueryQuery extends GraphQLQuery<SimpleQuery, void> {
   SimpleQueryQuery();
 
   @override

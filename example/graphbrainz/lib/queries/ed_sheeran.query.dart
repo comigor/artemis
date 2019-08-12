@@ -102,7 +102,7 @@ class Entity {
   Map<String, dynamic> toJson() => _$EntityToJson(this);
 }
 
-class EdSheeranQuery extends GraphQLQuery<EdSheeran> {
+class EdSheeranQuery extends GraphQLQuery<EdSheeran, void> {
   EdSheeranQuery();
 
   @override
