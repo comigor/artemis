@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:graphbrainz_example/queries/ed_sheeran.query.dart';
-import 'package:artemis/client.dart';
+import 'package:artemis/artemis.dart';
+import 'queries/ed_sheeran.query.dart';
 
 Future<void> main() async {
   const graphQLEndpoint = 'https://graphbrainz.herokuapp.com/';

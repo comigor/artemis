@@ -5,8 +5,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
 import 'package:graphbrainz_example/coercers.dart';
-import 'package:artemis/schema/graphql_query.dart';
-import 'package:artemis/schema/graphql_error.dart';
+import 'package:artemis/artemis.dart';
 
 part 'ed_sheeran.query.g.dart';
 

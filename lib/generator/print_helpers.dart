@@ -131,8 +131,7 @@ import 'package:http/http.dart' as http;''');
     buffer.writeln('import \'${definition.customParserImport}\';');
   }
   if (definition.generateHelpers) {
-    buffer.writeln('import \'package:artemis/schema/graphql_query.dart\';');
-    buffer.writeln('import \'package:artemis/schema/graphql_error.dart\';');
+    buffer.writeln('import \'package:artemis/artemis.dart\';');
   }
 
   buffer.writeln('\npart \'${definition.basename}.query.g.dart\';');
