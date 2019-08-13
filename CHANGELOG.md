@@ -1,10 +1,19 @@
 # CHANGELOG
 
+## 0.3.1
+- Export common used files on default package route (`package:artemis/artemis.dart`)
+- Use single schemaMap globbing stream to make sure only one schema will be found
+- Add missing changelog
+- Test new github actions
+
 ## 0.3.0 BREAKING
 - Add new generators to GraphQLQuery and QueryArguments
 - Fix toJson() on JsonSerializable classes (for nested entities)
 - [BREAKING] Remove the `execute*` functions generations, to use instead the generic `ArtemisClient` class
 that should receive a GraphQLQuery generated subclass.
+
+## 0.2.1
+Set HTTP headers only when using default HTTP client.
 
 ## 0.2.0 BREAKING
 Completely overhaul how this works.
