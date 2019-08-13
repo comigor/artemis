@@ -1,0 +1,25 @@
+on:
+  push:
+    branches:
+    - master
+    tags:
+    - v*
+
+name: On tag push to master, test and deploy to pub.dev
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Clone repository
+      uses: actions/checkout@master
+    - name: Run tests
+      uses: comigor/actions/dart-test@master
+      env:
+        DTA_DISABLE_ANALYZER: "YES"
+    - name: Publish to pub.dev
+      uses: comigor/actions/pub-publish@master
+      env:
+        PUB_ACCESS_TOKEN: ${{ secrets.PUB_ACCESS_TOKEN }}
+        PUB_EXPIRATION: ${{ secrets.PUB_EXPIRATION }}
+        PUB_REFRESH_TOKEN: ${{ secrets.PUB_REFRESH_TOKEN }}

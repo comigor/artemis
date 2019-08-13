@@ -1,0 +1,14 @@
+on: pull_request
+
+name: On pull request, test
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Clone repository
+      uses: actions/checkout@master
+    - name: Run tests
+      uses: comigor/actions/dart-test@master
+      env:
+        DTA_DISABLE_ANALYZER: "YES"
