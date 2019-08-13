@@ -71,7 +71,7 @@ void printArgumentsClass(StringBuffer buffer, QueryDefinition definition) {
     argumentConstructor =
         '{' + definition.inputs.map((i) => 'this.${i.name}').join(',\n') + '}';
   }
-  final str = '''@JsonSerializable(explicitToJson: true)
+  buffer.write('''@JsonSerializable(explicitToJson: true)
 class ${definition.queryName}Arguments extends JsonSerializable {
   ${definition.queryName}Arguments(${argumentConstructor});
 
@@ -81,8 +81,7 @@ class ${definition.queryName}Arguments extends JsonSerializable {
       _\$${definition.queryName}ArgumentsFromJson(json);
   Map<String, dynamic> toJson() => _\$${definition.queryName}ArgumentsToJson(this);
 }
-''';
-  buffer.write(str);
+''');
 }
 
 void printQueryClass(StringBuffer buffer, QueryDefinition definition) {
@@ -102,7 +101,7 @@ void printQueryClass(StringBuffer buffer, QueryDefinition definition) {
         '${definition.queryName}, ${definition.queryName}Arguments';
   }
 
-  final str =
+  buffer.write(
       '''class ${definition.queryName}Query extends GraphQLQuery<$typeDeclaration> {
   ${definition.queryName}Query${constructor};
 ${variablesDeclaration}
@@ -116,8 +115,7 @@ ${variablesDeclaration}
     return ${definition.queryName}.fromJson(json);
   }
 }
-''';
-  buffer.write(str);
+''');
 }
 
 void printCustomQuery(StringBuffer buffer, QueryDefinition definition) {

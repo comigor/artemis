@@ -4,17 +4,32 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
 
+class _DefaultHttpJsonClient extends http.BaseClient {
+  http.Client _httpClient = new http.Client();
+
+  _DefaultHttpJsonClient();
+
+  @override
+  Future<http.StreamedResponse> send(http.BaseRequest request) {
+    final jsonHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+    };
+    request.headers.addAll(jsonHeaders);
+    return _httpClient.send(request);
+  }
+}
+
 class ArtemisClient {
   ArtemisClient(this.graphQLEndpoint, {http.Client httpClient}) {
-    this.httpClient = httpClient ?? http.Client();
+    this.httpClient = httpClient ?? _DefaultHttpJsonClient();
   }
 
   final String graphQLEndpoint;
   http.Client httpClient;
 
   Future<GraphQLResponse<T>> execute<T, U extends JsonSerializable>(
-      GraphQLQuery<T, U> query,
-      {http.Client client}) async {
+      GraphQLQuery<T, U> query) async {
     final dataResponse = await httpClient.post(
       graphQLEndpoint,
       body: json.encode({
@@ -22,12 +37,6 @@ class ArtemisClient {
         'variables': query.getVariablesMap(),
         'query': query.query,
       }),
-      headers: (client != null)
-          ? null
-          : {
-              'Content-type': 'application/json',
-              'Accept': 'application/json',
-            },
     );
 
     final Map<String, dynamic> jsonBody = json.decode(dataResponse.body);
