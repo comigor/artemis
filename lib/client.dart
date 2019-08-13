@@ -1,11 +1,12 @@
+import 'dart:async';
+import 'dart:convert';
 import 'package:artemis/schema/graphql_error.dart';
 import 'package:artemis/schema/graphql_query.dart';
-import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
 
 class _DefaultHttpJsonClient extends http.BaseClient {
-  http.Client _httpClient = new http.Client();
+  http.Client _httpClient = http.Client();
 
   _DefaultHttpJsonClient();
 
@@ -41,7 +42,7 @@ class ArtemisClient {
 
     final Map<String, dynamic> jsonBody = json.decode(dataResponse.body);
     final response = GraphQLResponse<T>.fromJson(jsonBody)
-      ..data = query.parse(jsonBody['data'] ?? <Map<String, dynamic>>{});
+      ..data = query.parse(jsonBody['data'] ?? {});
 
     return response;
   }
