@@ -54,7 +54,7 @@ targets:
 
 | Option | Default value | Description |
 | - | - | - |
-| `generate_helpers` | `true` | If Artemis should generate query/mutation helper functions (with inputs and coercing). |
+| `generate_helpers` | `true` | If Artemis should generate query/mutation helper GraphQLQuery subclass. |
 | `custom_parser_import` | `null` | Import path to the file implementing coercer functions for custom scalars. See [Custom scalars](#custom-scalars). |
 | `scalar_mapping` | `[]` | Mapping of GraphQL and Dart types. See [Custom scalars](#custom-scalars). |
 | `schema_mapping` | `[]` | Mapping of queries and which schemas they will use for code generation. See [Schema mapping](#schema-mapping). |
@@ -107,3 +107,15 @@ Each `ScalarMap` is configured this way:
 | `use_custom_parser` | `false` | Wheter `custom_parser_import` should be imported on the beginning of the file. |
 
 See [examples](./example) for more information and configuration options.
+
+## **ArtemisClient**
+If you have `generate_helpers` then, Artemis will create a subclass of `GraphQLQuery` for you, this class can be used
+in conjunction with the `ArtemisClient` found at: `package:artemis/client.dart`.
+
+```dart
+final client = ArtemisClient();
+final gitHubReposQuery = MyGitHubReposQuery();
+final response = await client.query(gitHubReposQuery);
+```
+ 
+Check the [examples](./example) to seehow to use it in details.

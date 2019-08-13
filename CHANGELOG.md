@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 0.3.0 BREAKING
+- Add new generators to GraphQLQuery and QueryArguments
+- Fix toJson() on JsonSerializable classes (for nested entities)
+- [BREAKING] Remove the `execute*` functions generations, to use instead the generic `ArtemisClient` class
+that should receive a GraphQLQuery generated subclass.
+
 ## 0.2.0 BREAKING
 Completely overhaul how this works.
 
