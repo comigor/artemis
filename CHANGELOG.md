@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 0.3.2
+- Decode HTTP response as UTF-8 on execute helper.
+
 ## 0.3.1
 - Export common used files on default package route (`package:artemis/artemis.dart`)
 - Use single schemaMap globbing stream to make sure only one schema will be found
