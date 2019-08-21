@@ -40,7 +40,7 @@ class ArtemisClient {
       }),
     );
 
-    final Map<String, dynamic> jsonBody = json.decode(dataResponse.body);
+    final Map<String, dynamic> jsonBody = json.decode(utf8.decode(dataResponse.bodyBytes));
     final response = GraphQLResponse<T>.fromJson(jsonBody)
       ..data = query.parse(jsonBody['data'] ?? {});
 
