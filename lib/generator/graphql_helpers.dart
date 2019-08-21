@@ -25,7 +25,7 @@ String buildTypeString(GraphQLType type, GeneratorOptions options,
           dartType: dartType, replaceLeafWith: replaceLeafWith);
     case GraphQLTypeKind.SCALAR:
       final scalar = getSingleScalarMap(options, type);
-      return dartType ? scalar.dartType : scalar.graphQLType;
+      return dartType ? scalar.dartType.name : scalar.graphQLType;
     default:
       if (replaceLeafWith != null) return replaceLeafWith;
       return type.name;
@@ -33,17 +33,21 @@ String buildTypeString(GraphQLType type, GeneratorOptions options,
 }
 
 List<ScalarMap> _defaultScalarMapping = [
-  ScalarMap(graphQLType: 'Boolean', dartType: 'bool'),
-  ScalarMap(graphQLType: 'Float', dartType: 'double'),
-  ScalarMap(graphQLType: 'ID', dartType: 'String'),
-  ScalarMap(graphQLType: 'Int', dartType: 'int'),
-  ScalarMap(graphQLType: 'String', dartType: 'String'),
+  ScalarMap(graphQLType: 'Boolean', dartType: const DartType(name: 'bool')),
+  ScalarMap(graphQLType: 'Float', dartType: const DartType(name: 'double')),
+  ScalarMap(graphQLType: 'ID', dartType: const DartType(name: 'String')),
+  ScalarMap(graphQLType: 'Int', dartType: const DartType(name: 'int')),
+  ScalarMap(graphQLType: 'String', dartType: const DartType(name: 'String')),
 ];
 
 ScalarMap getSingleScalarMap(GeneratorOptions options, GraphQLType type) =>
-    options.scalarMapping.followedBy(_defaultScalarMapping).firstWhere(
-        (m) => m.graphQLType == type.name,
-        orElse: () => ScalarMap(graphQLType: type.name, dartType: type.name));
+    options.scalarMapping
+        .followedBy(_defaultScalarMapping)
+        .firstWhere((m) => m.graphQLType == type.name,
+            orElse: () => ScalarMap(
+                  graphQLType: type.name,
+                  dartType: DartType(name: type.name),
+                ));
 
 GraphQLSchema schemaFromJsonString(String jsonS) =>
     GraphQLSchema.fromJson(json.decode(jsonS));

@@ -114,6 +114,7 @@ class QueryDefinition {
   final Iterable<QueryInput> inputs;
   final String customParserImport;
   final bool generateHelpers;
+  final Iterable<String> customImports;
 
   QueryDefinition(
     this.queryName,
@@ -123,6 +124,7 @@ class QueryDefinition {
     this.inputs = const [],
     this.customParserImport,
     this.generateHelpers = false,
+    this.customImports = const [],
   })  : assert(queryName != null && queryName.isNotEmpty,
             'Query name must not be null or empty.'),
         assert(query != null && query.isNotEmpty,
@@ -138,7 +140,8 @@ class QueryDefinition {
       _eq(o.classes, classes) &&
       _eq(o.inputs, inputs) &&
       o.customParserImport == customParserImport &&
-      o.generateHelpers == generateHelpers;
+      o.generateHelpers == generateHelpers &&
+      _eq(o.customImports, customImports);
   int get hashCode =>
       queryName.hashCode ^
       query.hashCode ^
@@ -146,5 +149,6 @@ class QueryDefinition {
       classes.hashCode ^
       inputs.hashCode ^
       customParserImport.hashCode ^
-      generateHelpers.hashCode;
+      generateHelpers.hashCode ^
+      customImports.hashCode;
 }

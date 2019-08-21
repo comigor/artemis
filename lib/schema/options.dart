@@ -28,11 +28,36 @@ class GeneratorOptions {
   Map<String, dynamic> toJson() => _$GeneratorOptionsToJson(this);
 }
 
+@JsonSerializable()
+class DartType {
+  final String name;
+
+  @JsonKey(defaultValue: <String>[])
+  final List<String> imports;
+
+  const DartType({
+    this.name,
+    this.imports = const [],
+  });
+
+  factory DartType.fromJson(dynamic json) {
+    if (json is String) {
+      return DartType(name: json);
+    } else if (json is Map<String, dynamic>) {
+      return _$DartTypeFromJson(json);
+    } else {
+      throw 'Invalid json: $json';
+    }
+  }
+
+  Map<String, dynamic> toJson() => _$DartTypeToJson(this);
+}
+
 @JsonSerializable(fieldRename: FieldRename.snake)
 class ScalarMap {
   @JsonKey(name: 'graphql_type')
   final String graphQLType;
-  final String dartType;
+  final DartType dartType;
   @JsonKey(defaultValue: false)
   final bool useCustomParser;
 

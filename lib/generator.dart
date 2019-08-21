@@ -72,6 +72,9 @@ QueryDefinition generateQuery(
     });
   }
 
+  final List<String> customImports =
+      _extractCustomImports(schema.types, options);
+
   final classes = _extractClasses(operation.selectionSet, fragments, schema,
       queryName, parentType, options, schemaMap);
 
@@ -84,8 +87,20 @@ QueryDefinition generateQuery(
     inputs: inputs,
     generateHelpers: options.generateHelpers,
     customParserImport: options.customParserImport,
+    customImports: customImports,
   );
 }
+
+List<String> _extractCustomImports(
+  List<GraphQLType> types,
+  GeneratorOptions options,
+) =>
+    types
+        .map((GraphQLType type) =>
+            gql.getSingleScalarMap(options, type).dartType.imports)
+        .expand((i) => i)
+        .toSet()
+        .toList();
 
 ClassProperty _createClassProperty(
     String fieldName,

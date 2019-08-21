@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 0.4.0
+- Allow scalar mappings to include imports for types
+
 ## 0.3.2
 - Decode HTTP response as UTF-8 on execute helper.
 
