@@ -574,5 +574,115 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery, JsonSerializable> {
 ''',
       });
     });
+
+    test('Imports from the scalar mapping are included', () async {
+      final builderOptions = BuilderOptions({
+        'generate_helpers': false,
+        'schema_mapping': [
+          {
+            'schema': 'api.schema.json',
+            'queries_glob': '**.query.graphql',
+          },
+        ],
+        'scalar_mapping': [
+          {
+            'graphql_type': 'BigDecimal',
+            'dart_type': {
+              'name': 'Decimal',
+              'imports': ['package:decimal/decimal.dart'],
+            },
+          },
+          {
+            'graphql_type': 'DateTime',
+            'dart_type': 'DateTime',
+          },
+        ],
+      });
+
+      final GraphQLQueryBuilder anotherBuilder =
+          graphQLQueryBuilder(builderOptions);
+
+      final GraphQLSchema schema = GraphQLSchema(
+          queryType: GraphQLType(
+            name: 'SomeObject',
+            kind: GraphQLTypeKind.OBJECT,
+          ),
+          types: [
+            GraphQLType(
+              name: 'BigDecimal',
+              kind: GraphQLTypeKind.SCALAR,
+            ),
+            GraphQLType(
+              name: 'DateTime',
+              kind: GraphQLTypeKind.SCALAR,
+            ),
+            GraphQLType(
+              name: 'SomeObject',
+              kind: GraphQLTypeKind.OBJECT,
+              fields: [
+                GraphQLField(
+                  name: 'bigDecimal',
+                  type: GraphQLType(
+                    name: 'BigDecimal',
+                    kind: GraphQLTypeKind.SCALAR,
+                  ),
+                ),
+                GraphQLField(
+                  name: 'dateTime',
+                  type: GraphQLType(
+                    name: 'DateTime',
+                    kind: GraphQLTypeKind.SCALAR,
+                  ),
+                ),
+              ],
+            ),
+          ]);
+
+      anotherBuilder.onBuild = expectAsync1((definition) {
+        expect(
+          definition,
+          QueryDefinition(
+            'SomeQuery',
+            'query some_query { bigDecimal, dateTime }',
+            'some_query',
+            classes: [
+              ClassDefinition('SomeQuery', [
+                ClassProperty('Decimal', 'bigDecimal'),
+                ClassProperty('DateTime', 'dateTime'),
+              ])
+            ],
+            customImports: [
+              'package:decimal/decimal.dart',
+            ],
+          ),
+        );
+      }, count: 1);
+
+      await testBuilder(anotherBuilder, {
+        'a|api.schema.json': jsonFromSchema(schema),
+        'a|some_query.query.graphql':
+            'query some_query { bigDecimal, dateTime }',
+      }, outputs: {
+        'a|some_query.query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
+
+import 'package:json_annotation/json_annotation.dart';
+import 'package:decimal/decimal.dart';
+
+part 'some_query.query.g.dart';
+
+@JsonSerializable(explicitToJson: true)
+class SomeQuery {
+  Decimal bigDecimal;
+  DateTime dateTime;
+
+  SomeQuery();
+
+  factory SomeQuery.fromJson(Map<String, dynamic> json) =>
+      _\$SomeQueryFromJson(json);
+  Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
+}
+''',
+      });
+    });
   });
 }

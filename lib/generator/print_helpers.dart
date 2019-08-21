@@ -130,6 +130,10 @@ import 'package:http/http.dart' as http;''');
   if (definition.customParserImport != null) {
     buffer.writeln('import \'${definition.customParserImport}\';');
   }
+
+  definition.customImports
+      .forEach((customImport) => buffer.writeln('import \'$customImport\';'));
+
   if (definition.generateHelpers) {
     buffer.writeln('import \'package:artemis/artemis.dart\';');
   }

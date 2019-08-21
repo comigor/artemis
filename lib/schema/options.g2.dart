@@ -36,10 +36,22 @@ Map<String, dynamic> _$GeneratorOptionsToJson(GeneratorOptions instance) =>
       'schema_mapping': instance.schemaMapping
     };
 
+DartType _$DartTypeFromJson(Map<String, dynamic> json) {
+  return DartType(
+      name: json['name'] as String,
+      imports:
+          (json['imports'] as List)?.map((e) => e as String)?.toList() ?? []);
+}
+
+Map<String, dynamic> _$DartTypeToJson(DartType instance) =>
+    <String, dynamic>{'name': instance.name, 'imports': instance.imports};
+
 ScalarMap _$ScalarMapFromJson(Map<String, dynamic> json) {
   return ScalarMap(
       graphQLType: json['graphql_type'] as String,
-      dartType: json['dart_type'] as String,
+      dartType: json['dart_type'] == null
+          ? null
+          : DartType.fromJson(json['dart_type']),
       useCustomParser: json['use_custom_parser'] as bool ?? false);
 }
 
