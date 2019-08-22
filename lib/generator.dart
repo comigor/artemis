@@ -1,5 +1,7 @@
 import 'package:path/path.dart' as p;
-import 'package:graphql_parser/graphql_parser.dart';
+import 'package:gql/ast.dart';
+import 'package:gql/language.dart';
+import 'package:source_span/source_span.dart';
 import 'package:recase/recase.dart';
 import './schema/options.dart';
 import './schema/graphql.dart';
@@ -7,36 +9,16 @@ import './generator/data.dart';
 import './generator/helpers.dart';
 import './generator/graphql_helpers.dart' as gql;
 
-OperationDefinitionContext _getOperationFromQuery(String queryStr) {
-  final tokens = scan(queryStr);
-  final parser = Parser(tokens);
+OperationDefinitionNode _getOperationFromQuery(String queryStr) {
+  final doc = parse(SourceFile.fromString(queryStr));
 
-  if (parser.errors.isNotEmpty) {
-    throw Exception('''
-There's (at least) an error while parsing a query. Please fix it and run me again:
-${parser.errors.map((e) => e.message).join('\n')}
-''');
-  }
-
-  final doc = parser.parseDocument();
-
-  return doc.definitions.whereType<OperationDefinitionContext>().first;
+  return doc.definitions.whereType<OperationDefinitionNode>().first;
 }
 
-List<FragmentDefinitionContext> _getFragmentsFromQuery(String queryStr) {
-  final tokens = scan(queryStr);
-  final parser = Parser(tokens);
+List<FragmentDefinitionNode> _getFragmentsFromQuery(String queryStr) {
+  final doc = parse(SourceFile.fromString(queryStr));
 
-  if (parser.errors.isNotEmpty) {
-    throw Exception('''
-There's (at least) an error while parsing a query. Please fix it and run me again:
-${parser.errors.map((e) => e.message).join('\n')}
-''');
-  }
-
-  final doc = parser.parseDocument();
-
-  return doc.definitions.whereType<FragmentDefinitionContext>().toList();
+  return doc.definitions.whereType<FragmentDefinitionNode>().toList();
 }
 
 /// Generate a query definition from a GraphQL schema and a query, given
@@ -52,17 +34,23 @@ QueryDefinition generateQuery(
   final fragments = _getFragmentsFromQuery(queryStr);
 
   final basename = p.basenameWithoutExtension(path);
-  final queryName = ReCase(operation.name ?? basename).pascalCase;
+  final queryName = ReCase(operation.name.value ?? basename).pascalCase;
   GraphQLType parentType = gql.getTypeByName(schema, schema.queryType.name);
-  if (operation.isMutation) {
+  if (operation.type == OperationType.mutation) {
     parentType = gql.getTypeByName(schema, schema.mutationType.name);
   }
 
   final List<QueryInput> inputs = [];
   final List<Definition> inputsClasses = [];
   if (operation.variableDefinitions != null) {
-    operation.variableDefinitions.variableDefinitions.forEach((v) {
-      final type = gql.getTypeByName(schema, v.type.typeName.name);
+    operation.variableDefinitions.forEach((v) {
+      NamedTypeNode unwrappedType = v.type;
+
+      if (v.type is ListTypeNode) {
+        unwrappedType = (v.type as ListTypeNode).type;
+      }
+
+      final type = gql.getTypeByName(schema, unwrappedType.name.value);
 
       if (type.kind == GraphQLTypeKind.INPUT_OBJECT) {
         inputsClasses.addAll(_extractClasses(
@@ -70,15 +58,22 @@ QueryDefinition generateQuery(
       }
 
       final dartTypeStr = gql.buildTypeString(type, options, dartType: true);
-      inputs.add(QueryInput(dartTypeStr, v.variable.name));
+      inputs.add(QueryInput(dartTypeStr, v.variable.name.value));
     });
   }
 
   final List<String> customImports =
       _extractCustomImports(schema.types, options);
 
-  final classes = _extractClasses(operation.selectionSet, fragments, schema,
-      queryName, parentType, options, schemaMap);
+  final classes = _extractClasses(
+    operation.selectionSet,
+    fragments,
+    schema,
+    queryName,
+    parentType,
+    options,
+    schemaMap,
+  );
 
   return QueryDefinition(
     queryName,
@@ -112,7 +107,7 @@ ClassProperty _createClassProperty(
     GraphQLType parentType,
     GeneratorOptions options,
     {OnNewClassFoundCallback onNewClassFound,
-    SelectionContext selection}) {
+    SelectionNode selection}) {
   String annotation;
   final graphQLField = parentType.fields
       .firstWhere((f) => f.name == fieldName, orElse: () => null);
@@ -131,8 +126,12 @@ ClassProperty _createClassProperty(
 
   final leafType = gql.getTypeByName(schema, gql.followType(selectedType).name);
   if (leafType.kind != GraphQLTypeKind.SCALAR && onNewClassFound != null) {
-    onNewClassFound(selection != null ? selection.field.selectionSet : null,
-        aliasClassName ?? leafType.name, leafType);
+    onNewClassFound(
+        selection != null && selection is FieldNode
+            ? selection.selectionSet
+            : null,
+        aliasClassName ?? leafType.name,
+        leafType);
   }
 
   // On custom scalars
@@ -149,17 +148,24 @@ ClassProperty _createClassProperty(
   return ClassProperty(dartTypeStr, alias, annotation: annotation);
 }
 
-ClassProperty _selectionToClassProperty(SelectionContext selection,
-    GraphQLSchema schema, GraphQLType parentType, GeneratorOptions options,
-    {OnNewClassFoundCallback onNewClassFound}) {
-  String fieldName = selection.field.fieldName.name;
+ClassProperty _selectionToClassProperty(
+  SelectionNode selection,
+  GraphQLSchema schema,
+  GraphQLType parentType,
+  GeneratorOptions options, {
+  OnNewClassFoundCallback onNewClassFound,
+}) {
+  if (selection is! FieldNode) return null;
+
+  final field = (selection as FieldNode);
+
+  String fieldName = field.name.value;
   String alias = fieldName;
   String aliasClassName;
-  final bool hasAlias = selection.field.fieldName.alias != null;
+  final bool hasAlias = field.alias != null;
   if (hasAlias) {
-    alias = selection.field.fieldName.alias.alias;
-    aliasClassName = ReCase(selection.field.fieldName.alias.alias).pascalCase;
-    fieldName = selection.field.fieldName.alias.name;
+    alias = field.alias.value;
+    aliasClassName = ReCase(alias).pascalCase;
   }
 
   if (fieldName.startsWith('__')) {
@@ -167,33 +173,56 @@ ClassProperty _selectionToClassProperty(SelectionContext selection,
   }
 
   return _createClassProperty(
-      fieldName, alias, aliasClassName, schema, parentType, options,
-      onNewClassFound: onNewClassFound, selection: selection);
+    fieldName,
+    alias,
+    aliasClassName,
+    schema,
+    parentType,
+    options,
+    onNewClassFound: onNewClassFound,
+    selection: selection,
+  );
 }
 
 List<Definition> _extractClasses(
-    SelectionSetContext selectionSet,
-    List<FragmentDefinitionContext> fragments,
-    GraphQLSchema schema,
-    String className,
-    GraphQLType currentType,
-    GeneratorOptions options,
-    SchemaMap schemaMap,
-    {SelectionSetContext parentSelectionSet}) {
+  SelectionSetNode selectionSet,
+  List<FragmentDefinitionNode> fragments,
+  GraphQLSchema schema,
+  String className,
+  GraphQLType currentType,
+  GeneratorOptions options,
+  SchemaMap schemaMap, {
+  SelectionSetNode parentSelectionSet,
+}) {
   if (currentType.kind == GraphQLTypeKind.INPUT_OBJECT ||
       currentType.kind == GraphQLTypeKind.UNION) {
     final queue = <Definition>[];
     final properties = currentType.inputFields.map((i) {
       final type = gql.getTypeByName(schema, gql.followType(i.type).name);
       return _createClassProperty(
-          i.name, i.name, type.name, schema, currentType, options,
-          onNewClassFound: (selectionSet, className, type) {
-        if (type.kind == GraphQLTypeKind.INPUT_OBJECT) {
-          queue.addAll(_extractClasses(
-              null, fragments, schema, className, type, options, schemaMap,
-              parentSelectionSet: selectionSet));
-        }
-      });
+        i.name,
+        i.name,
+        type.name,
+        schema,
+        currentType,
+        options,
+        onNewClassFound: (selectionSet, className, type) {
+          if (type.kind == GraphQLTypeKind.INPUT_OBJECT) {
+            queue.addAll(
+              _extractClasses(
+                null,
+                fragments,
+                schema,
+                className,
+                type,
+                options,
+                schemaMap,
+                parentSelectionSet: selectionSet,
+              ),
+            );
+          }
+        },
+      );
     }).toList();
 
     queue.insert(
@@ -220,53 +249,101 @@ List<Definition> _extractClasses(
 
     // Spread fragment spreads into selections
     final fragmentSelections = selectionSet.selections
-        .where((s) => s.fragmentSpread != null)
-        .map((selection) => fragments
-            .firstWhere((f) => f.name == selection.fragmentSpread.name)
-            .selectionSet
-            .selections)
-        .expand((i) => i);
+        .where(
+          (s) => s is FragmentSpreadNode,
+        )
+        .cast<FragmentSpreadNode>()
+        .map(
+          (selection) => fragments
+              .firstWhere(
+                (f) => f.name.value == selection.name.value,
+              )
+              .selectionSet
+              .selections,
+        )
+        .expand(
+          (i) => i,
+        );
 
     // Look at field selections (and fragment spreads) and add it as class properties
     fragmentSelections
-        .followedBy(selectionSet.selections)
-        .where((s) => s.field != null)
-        .forEach((selection) {
-      final cp =
-          _selectionToClassProperty(selection, schema, currentType, options,
-              onNewClassFound: (selectionSet, className, type) {
-        queue.addAll(_extractClasses(selection.field.selectionSet, fragments,
-            schema, className, type, options, schemaMap,
-            parentSelectionSet: selectionSet));
-      });
+        .followedBy(
+          selectionSet.selections,
+        )
+        .whereType<FieldNode>()
+        .forEach(
+      (selection) {
+        final cp = _selectionToClassProperty(
+          selection,
+          schema,
+          currentType,
+          options,
+          onNewClassFound: (
+            selectionSet,
+            className,
+            type,
+          ) {
+            queue.addAll(
+              _extractClasses(
+                selection.selectionSet,
+                fragments,
+                schema,
+                className,
+                type,
+                options,
+                schemaMap,
+                parentSelectionSet: selectionSet,
+              ),
+            );
+          },
+        );
 
-      classProperties.add(cp);
-    });
+        classProperties.add(cp);
+      },
+    );
 
     // Look at inline fragment spreads to consider factory overrides
-    selectionSet.selections
-        .where((s) => s.inlineFragment != null)
-        .forEach((selection) {
-      final spreadClassName =
-          selection.inlineFragment.typeCondition.typeName.name;
-      final spreadType = gql.getTypeByName(schema, spreadClassName);
+    selectionSet.selections.whereType<InlineFragmentNode>().forEach(
+      (selection) {
+        final spreadClassName = selection.typeCondition.on.name.value;
+        final spreadType = gql.getTypeByName(
+          schema,
+          spreadClassName,
+        );
 
-      if (spreadType.possibleTypes.isNotEmpty) {
-        // If it's, say, a union type, add to factory possibilities all possibleTypes that the query selects
-        factoryPossibilities.addAll(spreadType.possibleTypes
-            .where((t) => selection.inlineFragment.selectionSet.selections.any(
-                (s) =>
-                    s.inlineFragment != null &&
-                    s.inlineFragment.typeCondition.typeName.name == t.name))
-            .map((t) => t.name));
-      } else {
-        factoryPossibilities.add(spreadClassName);
-      }
+        if (spreadType.possibleTypes.isNotEmpty) {
+          // If it's, say, a union type, add to factory possibilities all possibleTypes that the query selects
+          factoryPossibilities.addAll(
+            spreadType.possibleTypes
+                .where(
+                  (t) => selection.selectionSet.selections
+                      .whereType<InlineFragmentNode>()
+                      .any(
+                        (s) => s.typeCondition.on.name.value == t.name,
+                      ),
+                )
+                .map(
+                  (t) => t.name,
+                ),
+          );
+        } else {
+          factoryPossibilities.add(spreadClassName);
+        }
 
-      queue.addAll(_extractClasses(selection.inlineFragment.selectionSet,
-          fragments, schema, spreadClassName, spreadType, options, schemaMap,
-          parentSelectionSet: selectionSet));
-    });
+        queue.addAll(
+          _extractClasses(
+            selection.selectionSet,
+            fragments,
+            schema,
+            spreadClassName,
+            spreadType,
+            options,
+            schemaMap,
+            parentSelectionSet: selectionSet,
+          ),
+        );
+      },
+    );
 
     // Part of a union type
     final unionOf = schema.types.firstWhere(
@@ -315,15 +392,19 @@ List<Definition> _extractClasses(
             options,
             schemaMap));
 
-        parentSelectionSet.selections
-            .where((s) => s.field != null)
-            .forEach((selection) {
-          final cp = _selectionToClassProperty(
-              selection, schema, interfaceType, options);
-          if (cp != null) {
-            classProperties.add(cp.copyWith(override: true));
-          }
-        });
+        parentSelectionSet.selections.whereType<FieldNode>().forEach(
+          (selection) {
+            final cp = _selectionToClassProperty(
+              selection,
+              schema,
+              interfaceType,
+              options,
+            );
+            if (cp != null) {
+              classProperties.add(cp.copyWith(override: true));
+            }
+          },
+        );
       });
     }
 
