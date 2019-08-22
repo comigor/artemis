@@ -1,7 +1,8 @@
-on:
-  push:
-    tags:
-    - v*
+push:
+  branches:
+  - master
+  tags:
+  - v*
 
 name: On tag push to master, test and deploy to pub.dev
 
