@@ -1,5 +1,5 @@
 import 'package:collection/collection.dart';
-import 'package:graphql_parser/graphql_parser.dart';
+import 'package:gql/ast.dart';
 import '../schema/graphql.dart';
 
 final Function _eq = const ListEquality().equals;
@@ -9,7 +9,7 @@ typedef void OnBuildQuery(QueryDefinition definition);
 
 /// Callback fired when a new class is found during schema parsing.
 typedef void OnNewClassFoundCallback(
-  SelectionSetContext selectionSet,
+  SelectionSetNode selectionSet,
   String className,
   GraphQLType parentType,
 );

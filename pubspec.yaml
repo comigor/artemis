@@ -16,7 +16,8 @@ dependencies:
   build_config: ^0.4.0
   source_gen: ^0.9.4+2
   path: ^1.6.2
-  graphql_parser: ^1.0.0
+  gql: ^0.1.0
+  source_span: ^1.5.5
   recase: ^2.0.1
   glob: ^1.1.7
   code_builder: ^3.2.0
