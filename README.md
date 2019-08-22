@@ -100,6 +100,23 @@ targets:
             dart_type: DateTime
 ```
 
+If your custom scalar needs to import Dart libraries, you can provide it in the config as well:
+
+```yaml
+targets:
+  $default:
+    builders:
+      artemis:
+        options:
+          custom_parser_import: 'package:graphbrainz_example/coercers.dart'
+          scalar_mapping:
+          - graphql_type: BigDecimal
+            dart_type:
+              name: Decimal
+              imports:
+              - 'package:decimal/decimal.dart'
+```
+
 Each `ScalarMap` is configured this way:
 
 | Option | Default value | Description |
