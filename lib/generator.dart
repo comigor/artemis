@@ -213,7 +213,8 @@ List<Definition> _extractClasses(
     final classProperties = <ClassProperty>[];
     final factoryPossibilities = Set<String>();
     final queue = <Definition>[];
-    String mixins = '';
+    String classExtension;
+    List<String> classImplementations = [];
 
     // Spread fragment spreads into selections
     final fragmentSelections = selectionSet.selections
@@ -272,7 +273,7 @@ List<Definition> _extractClasses(
             t.possibleTypes.any((pt) => pt.name == currentType.name),
         orElse: () => null);
     if (unionOf != null) {
-      mixins = 'extends ${unionOf.name}';
+      classExtension = unionOf.name;
       queue.addAll(_extractClasses(
           null, fragments, schema, unionOf.name, unionOf, options, schemaMap));
     }
@@ -280,7 +281,7 @@ List<Definition> _extractClasses(
     // If this is an interface, we must add resolveType
     if (currentType.kind == GraphQLTypeKind.INTERFACE) {
       classProperties.add(ClassProperty('String', 'resolveType',
-          annotation: '@JsonKey(name: \'${schemaMap.resolveTypeField}\')'));
+          annotation: 'JsonKey(name: \'${schemaMap.resolveTypeField}\')'));
     }
 
     // If this is an interface child, we must add mixins, resolveType, and override properties
@@ -296,11 +297,10 @@ List<Definition> _extractClasses(
           .map((t) => gql.getTypeByName(schema, t.name))
           .toSet();
 
-      mixins =
-          '$mixins implements ' + implementations.map((t) => t.name).join(', ');
+      classImplementations = implementations.map((t) => t.name);
 
       classProperties.add(ClassProperty('String', 'resolveType',
-          annotation: '@JsonKey(name: \'${schemaMap.resolveTypeField}\')',
+          annotation: 'JsonKey(name: \'${schemaMap.resolveTypeField}\')',
           override: true));
 
       implementations.forEach((interfaceType) {
@@ -333,7 +333,8 @@ List<Definition> _extractClasses(
             classProperties.where((c) => c != null),
             (c) => c.name,
             (old, n) => old.copyWith(override: old.override || n.override)),
-        mixins: mixins,
+        extension: classExtension,
+        implementations: classImplementations,
         factoryPossibilities: factoryPossibilities.toList(),
         resolveTypeField: schemaMap.resolveTypeField,
       ),

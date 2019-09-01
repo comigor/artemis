@@ -75,13 +75,15 @@ part 'some_query.query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class SomeQuery {
-  String s;
-  int i;
-
   SomeQuery();
 
   factory SomeQuery.fromJson(Map<String, dynamic> json) =>
       _\$SomeQueryFromJson(json);
+
+  String s;
+
+  int i;
+
   Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
 }
 ''',
@@ -188,36 +190,41 @@ part 'some_query.query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class SomeQuery {
-  String s;
-  SomeObject o;
-
   SomeQuery();
 
   factory SomeQuery.fromJson(Map<String, dynamic> json) =>
       _\$SomeQueryFromJson(json);
+
+  String s;
+
+  SomeObject o;
+
   Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
 class SomeObject {
-  String st;
-  List<AnotherObject> ob;
-
   SomeObject();
 
   factory SomeObject.fromJson(Map<String, dynamic> json) =>
       _\$SomeObjectFromJson(json);
+
+  String st;
+
+  List<AnotherObject> ob;
+
   Map<String, dynamic> toJson() => _\$SomeObjectToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
 class AnotherObject {
-  String str;
-
   AnotherObject();
 
   factory AnotherObject.fromJson(Map<String, dynamic> json) =>
       _\$AnotherObjectFromJson(json);
+
+  String str;
+
   Map<String, dynamic> toJson() => _\$AnotherObjectToJson(this);
 }
 ''',
@@ -281,13 +288,15 @@ part 'some_query.query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class SomeQuery {
-  String firstName;
-  String lastName;
-
   SomeQuery();
 
   factory SomeQuery.fromJson(Map<String, dynamic> json) =>
       _\$SomeQueryFromJson(json);
+
+  String firstName;
+
+  String lastName;
+
   Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
 }
 ''',
@@ -390,36 +399,41 @@ part 'some_query.query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class SomeQuery {
-  String s;
-  SomeObject o;
-  List<AnotherObject> anotherObject;
-
   SomeQuery();
 
   factory SomeQuery.fromJson(Map<String, dynamic> json) =>
       _\$SomeQueryFromJson(json);
+
+  String s;
+
+  SomeObject o;
+
+  List<AnotherObject> anotherObject;
+
   Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
 class SomeObject {
-  String st;
-
   SomeObject();
 
   factory SomeObject.fromJson(Map<String, dynamic> json) =>
       _\$SomeObjectFromJson(json);
+
+  String st;
+
   Map<String, dynamic> toJson() => _\$SomeObjectToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
 class AnotherObject {
-  String str;
-
   AnotherObject();
 
   factory AnotherObject.fromJson(Map<String, dynamic> json) =>
       _\$AnotherObjectFromJson(json);
+
+  String str;
+
   Map<String, dynamic> toJson() => _\$AnotherObjectToJson(this);
 }
 ''',
@@ -524,36 +538,41 @@ part 'some_query.query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class SomeQuery {
-  String s;
-  SomeObject o;
-  List<AnotherObject> anotherObject;
-
   SomeQuery();
 
   factory SomeQuery.fromJson(Map<String, dynamic> json) =>
       _\$SomeQueryFromJson(json);
+
+  String s;
+
+  SomeObject o;
+
+  List<AnotherObject> anotherObject;
+
   Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
 class SomeObject {
-  String st;
-
   SomeObject();
 
   factory SomeObject.fromJson(Map<String, dynamic> json) =>
       _\$SomeObjectFromJson(json);
+
+  String st;
+
   Map<String, dynamic> toJson() => _\$SomeObjectToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
 class AnotherObject {
-  String str;
-
   AnotherObject();
 
   factory AnotherObject.fromJson(Map<String, dynamic> json) =>
       _\$AnotherObjectFromJson(json);
+
+  String str;
+
   Map<String, dynamic> toJson() => _\$AnotherObjectToJson(this);
 }
 
@@ -672,13 +691,15 @@ part 'some_query.query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class SomeQuery {
-  Decimal bigDecimal;
-  DateTime dateTime;
-
   SomeQuery();
 
   factory SomeQuery.fromJson(Map<String, dynamic> json) =>
       _\$SomeQueryFromJson(json);
+
+  Decimal bigDecimal;
+
+  DateTime dateTime;
+
   Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
 }
 ''',

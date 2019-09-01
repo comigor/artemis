@@ -64,14 +64,16 @@ abstract class Definition {
 
 class ClassDefinition extends Definition {
   final Iterable<ClassProperty> properties;
-  final String mixins;
+  final String extension;
+  final Iterable<String> implementations;
   final Iterable<String> factoryPossibilities;
   final String resolveTypeField;
 
   ClassDefinition(
     String name,
     this.properties, {
-    this.mixins = '',
+    this.extension,
+    this.implementations = const [],
     this.factoryPossibilities = const [],
     this.resolveTypeField = '__resolveType',
   }) : super(name);
@@ -80,13 +82,15 @@ class ClassDefinition extends Definition {
       o is ClassDefinition &&
       o.name == name &&
       _eq(o.properties, properties) &&
-      o.mixins == mixins &&
+      o.extension == extension &&
+      _eq(o.implementations, implementations) &&
       _eq(o.factoryPossibilities, factoryPossibilities) &&
       o.resolveTypeField == resolveTypeField;
   int get hashCode =>
       name.hashCode ^
       properties.hashCode ^
-      mixins.hashCode ^
+      extension.hashCode ^
+      implementations.hashCode ^
       factoryPossibilities.hashCode ^
       resolveTypeField.hashCode;
 }
