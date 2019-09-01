@@ -1,6 +1,8 @@
+import 'package:code_builder/code_builder.dart';
+import 'package:dart_style/dart_style.dart';
 import 'package:recase/recase.dart';
-import 'package:artemis/generator/data.dart';
-import 'package:artemis/generator/helpers.dart';
+import '../generator/data.dart';
+import '../generator/helpers.dart';
 
 void printCustomEnum(StringBuffer buffer, EnumDefinition definition) {
   buffer.writeln('enum ${definition.name} {');
@@ -10,56 +12,105 @@ void printCustomEnum(StringBuffer buffer, EnumDefinition definition) {
   buffer.writeln('}');
 }
 
-void printCustomClass(StringBuffer buffer, ClassDefinition definition) async {
-  buffer.writeln('''
+String _fromJsonBody(ClassDefinition definition) {
+  final buffer = StringBuffer();
+  buffer.writeln('''switch (json['${definition.resolveTypeField}']) {''');
 
-@JsonSerializable(explicitToJson: true)
-class ${definition.name} ${definition.mixins} {''');
-
-  for (final prop in definition.properties) {
-    if (prop.override) buffer.writeln('  @override');
-    if (prop.annotation != null) buffer.writeln('  ${prop.annotation}');
-    buffer.writeln('  ${prop.type} ${prop.name};');
-  }
-
-  buffer.writeln('''
-
-  ${definition.name}();
-''');
-
-  if (definition.factoryPossibilities.isNotEmpty) {
-    buffer.writeln('''
-  factory ${definition.name}.fromJson(Map<String, dynamic> json) {
-    switch (json['${definition.resolveTypeField}']) {''');
-
-    for (final p in definition.factoryPossibilities) {
-      buffer.writeln('''      case '$p':
+  for (final p in definition.factoryPossibilities) {
+    buffer.writeln('''      case '$p':
         return ${p}.fromJson(json);''');
-    }
-
-    buffer.writeln('''      default:
-    }
-    return _\$${definition.name}FromJson(json);
   }
-  Map<String, dynamic> toJson() {
-    switch (resolveType) {''');
 
-    for (final p in definition.factoryPossibilities) {
-      buffer.writeln('''      case '$p':
+  buffer.writeln('''      default:
+    }
+    return _\$${definition.name}FromJson(json);''');
+  return buffer.toString();
+}
+
+String _toJsonBody(ClassDefinition definition) {
+  final buffer = StringBuffer();
+  buffer.writeln('''switch (resolveType) {''');
+
+  for (final p in definition.factoryPossibilities) {
+    buffer.writeln('''      case '$p':
         return (this as ${p}).toJson();''');
-    }
-
-    buffer.writeln('''      default:
-    }
-    return _\$${definition.name}ToJson(this);
-  }''');
-  } else {
-    buffer.writeln(
-        '''  factory ${definition.name}.fromJson(Map<String, dynamic> json) => _\$${definition.name}FromJson(json);
-  Map<String, dynamic> toJson() => _\$${definition.name}ToJson(this);''');
   }
 
-  buffer.writeln('}');
+  buffer.writeln('''      default:
+    }
+    return _\$${definition.name}ToJson(this);''');
+  return buffer.toString();
+}
+
+void printCustomClass(StringBuffer buffer, ClassDefinition definition) {
+  final fromJson = definition.factoryPossibilities.isNotEmpty
+      ? Constructor(
+          (b) => b
+            ..factory = true
+            ..name = 'fromJson'
+            ..requiredParameters.add(Parameter(
+              (p) => p
+                ..type = refer('Map<String, dynamic>')
+                ..name = 'json',
+            ))
+            ..body = Code(_fromJsonBody(definition)),
+        )
+      : Constructor(
+          (b) => b
+            ..factory = true
+            ..name = 'fromJson'
+            ..lambda = true
+            ..requiredParameters.add(Parameter(
+              (p) => p
+                ..type = refer('Map<String, dynamic>')
+                ..name = 'json',
+            ))
+            ..body = Code('_\$${definition.name}FromJson(json)'),
+        );
+
+  final toJson = definition.factoryPossibilities.isNotEmpty
+      ? Method(
+          (m) => m
+            ..name = 'toJson'
+            ..returns = refer('Map<String, dynamic>')
+            ..body = Code(_toJsonBody(definition)),
+        )
+      : Method(
+          (m) => m
+            ..name = 'toJson'
+            ..lambda = true
+            ..returns = refer('Map<String, dynamic>')
+            ..body = Code('_\$${definition.name}ToJson(this)'),
+        );
+
+  final classDef = Class(
+    (b) => b
+      ..annotations
+          .add(CodeExpression(Code('JsonSerializable(explicitToJson: true)')))
+      ..name = definition.name
+      ..extend =
+          definition.extension != null ? refer(definition.extension) : null
+      ..implements.addAll(definition.implementations.map((i) => refer(i)))
+      ..constructors.add(Constructor())
+      ..constructors.add(fromJson)
+      ..methods.add(toJson)
+      ..fields.addAll(definition.properties.map((p) {
+        final annotations = <CodeExpression>[];
+        if (p.override) annotations.add(CodeExpression(Code('override')));
+        if (p.annotation != null)
+          annotations.add(CodeExpression(Code(p.annotation)));
+        final field = Field(
+          (f) => f
+            ..name = p.name
+            ..type = refer(p.type)
+            ..annotations.addAll(annotations),
+        );
+        return field;
+      })),
+  );
+
+  final emitter = DartEmitter();
+  buffer.writeln(DartFormatter().format(classDef.accept(emitter).toString()));
 }
 
 void printArgumentsClass(StringBuffer buffer, QueryDefinition definition) {

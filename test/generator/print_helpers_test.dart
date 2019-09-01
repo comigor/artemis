@@ -77,36 +77,34 @@ void main() {
 
       printCustomClass(buffer, definition);
 
-      expect(buffer.toString(), '''
-
-@JsonSerializable(explicitToJson: true)
-class AClass  {
-
+      expect(buffer.toString(), '''@JsonSerializable(explicitToJson: true)
+class AClass {
   AClass();
 
   factory AClass.fromJson(Map<String, dynamic> json) => _\$AClassFromJson(json);
+
   Map<String, dynamic> toJson() => _\$AClassToJson(this);
 }
+
 ''');
     });
 
     test('"Mixins" will be included to class.', () {
       final buffer = StringBuffer();
       final definition =
-          ClassDefinition('AClass', [], mixins: 'extends AnotherClass');
+          ClassDefinition('AClass', [], extension: 'AnotherClass');
 
       printCustomClass(buffer, definition);
 
-      expect(buffer.toString(), '''
-
-@JsonSerializable(explicitToJson: true)
+      expect(buffer.toString(), '''@JsonSerializable(explicitToJson: true)
 class AClass extends AnotherClass {
-
   AClass();
 
   factory AClass.fromJson(Map<String, dynamic> json) => _\$AClassFromJson(json);
+
   Map<String, dynamic> toJson() => _\$AClassToJson(this);
 }
+
 ''');
     });
 
@@ -123,11 +121,8 @@ class AClass extends AnotherClass {
 
       printCustomClass(buffer, definition);
 
-      expect(buffer.toString(), '''
-
-@JsonSerializable(explicitToJson: true)
-class AClass  {
-
+      expect(buffer.toString(), '''@JsonSerializable(explicitToJson: true)
+class AClass {
   AClass();
 
   factory AClass.fromJson(Map<String, dynamic> json) {
@@ -140,6 +135,7 @@ class AClass  {
     }
     return _\$AClassFromJson(json);
   }
+
   Map<String, dynamic> toJson() {
     switch (resolveType) {
       case 'ASubClass':
@@ -151,6 +147,7 @@ class AClass  {
     return _\$AClassToJson(this);
   }
 }
+
 ''');
     });
 
@@ -163,18 +160,19 @@ class AClass  {
 
       printCustomClass(buffer, definition);
 
-      expect(buffer.toString(), '''
-
-@JsonSerializable(explicitToJson: true)
-class AClass  {
-  Type name;
-  AnotherType anotherName;
-
+      expect(buffer.toString(), '''@JsonSerializable(explicitToJson: true)
+class AClass {
   AClass();
 
   factory AClass.fromJson(Map<String, dynamic> json) => _\$AClassFromJson(json);
+
+  Type name;
+
+  AnotherType anotherName;
+
   Map<String, dynamic> toJson() => _\$AClassToJson(this);
 }
+
 ''');
     });
 
@@ -184,31 +182,34 @@ class AClass  {
       final buffer = StringBuffer();
       final definition = ClassDefinition('AClass', [
         ClassProperty('Type', 'name'),
-        ClassProperty('AnnotedProperty', 'name', annotation: '@Hey()'),
+        ClassProperty('AnnotedProperty', 'name', annotation: 'Hey()'),
         ClassProperty('OverridenProperty', 'name', override: true),
-        ClassProperty('AllAtOnce', 'name', override: true, annotation: '@Ho()'),
+        ClassProperty('AllAtOnce', 'name', override: true, annotation: 'Ho()'),
       ]);
 
       printCustomClass(buffer, definition);
 
-      expect(buffer.toString(), '''
+      expect(buffer.toString(), '''@JsonSerializable(explicitToJson: true)
+class AClass {
+  AClass();
 
-@JsonSerializable(explicitToJson: true)
-class AClass  {
+  factory AClass.fromJson(Map<String, dynamic> json) => _\$AClassFromJson(json);
+
   Type name;
+
   @Hey()
   AnnotedProperty name;
+
   @override
   OverridenProperty name;
+
   @override
   @Ho()
   AllAtOnce name;
 
-  AClass();
-
-  factory AClass.fromJson(Map<String, dynamic> json) => _\$AClassFromJson(json);
   Map<String, dynamic> toJson() => _\$AClassToJson(this);
 }
+
 ''');
     });
   });
@@ -418,15 +419,15 @@ part 'test_query.query.g.dart';
 enum Enum {
   Value,
 }
-
 @JsonSerializable(explicitToJson: true)
-class AClass  {
-
+class AClass {
   AClass();
 
   factory AClass.fromJson(Map<String, dynamic> json) => _\$AClassFromJson(json);
+
   Map<String, dynamic> toJson() => _\$AClassToJson(this);
 }
+
 ''');
     });
   });
