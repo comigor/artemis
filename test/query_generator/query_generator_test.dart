@@ -582,13 +582,12 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery, JsonSerializable> {
   @override
   final String query =
       'query some_query { s o { st } anotherObject: ob { str } }';
+
   @override
   final String operationName = 'some_query';
 
   @override
-  SomeQuery parse(Map<String, dynamic> json) {
-    return SomeQuery.fromJson(json);
-  }
+  SomeQuery parse(Map<String, dynamic> json) => SomeQuery.fromJson(json);
 }
 ''',
       });
