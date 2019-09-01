@@ -49,7 +49,7 @@ class GraphQLQueryBuilder implements Builder {
       }
 
       final buffer = StringBuffer();
-      printCustomQuery(buffer, definition);
+      printCustomQueryFile(buffer, definition);
       await buildStep.writeAsString(
           outputAssetId, _dartFormatter.format(buffer.toString()));
     }
