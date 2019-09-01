@@ -219,27 +219,27 @@ class AClass {
       final buffer = StringBuffer();
 
       expect(
-          () => printCustomQuery(buffer,
+          () => printCustomQueryFile(buffer,
               QueryDefinition(null, 'query test_query {}', 'test_query')),
           throwsA(TypeMatcher<AssertionError>()));
       expect(
-          () => printCustomQuery(
+          () => printCustomQueryFile(
               buffer, QueryDefinition('', 'query test_query {}', 'test_query')),
           throwsA(TypeMatcher<AssertionError>()));
       expect(
-          () => printCustomQuery(
+          () => printCustomQueryFile(
               buffer, QueryDefinition('TestQuery', null, 'test_query')),
           throwsA(TypeMatcher<AssertionError>()));
       expect(
-          () => printCustomQuery(
+          () => printCustomQueryFile(
               buffer, QueryDefinition('TestQuery', '', 'test_query')),
           throwsA(TypeMatcher<AssertionError>()));
       expect(
-          () => printCustomQuery(buffer,
+          () => printCustomQueryFile(buffer,
               QueryDefinition('TestQuery', 'query test_query {}', null)),
           throwsA(TypeMatcher<AssertionError>()));
       expect(
-          () => printCustomQuery(
+          () => printCustomQueryFile(
               buffer, QueryDefinition('TestQuery', 'query test_query {}', '')),
           throwsA(TypeMatcher<AssertionError>()));
     });
@@ -249,7 +249,7 @@ class AClass {
       final definition =
           QueryDefinition('TestQuery', 'query test_query {}', 'test_query');
 
-      printCustomQuery(buffer, definition);
+      printCustomQueryFile(buffer, definition);
 
       expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
@@ -265,7 +265,7 @@ part \'test_query.query.g.dart\';
           'TestQuery', 'query test_query {}', 'test_query',
           customParserImport: 'some_file.dart');
 
-      printCustomQuery(buffer, definition);
+      printCustomQueryFile(buffer, definition);
 
       expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
@@ -282,7 +282,7 @@ part \'test_query.query.g.dart\';
           'TestQuery', 'query test_query {}', 'test_query',
           generateHelpers: true);
 
-      printCustomQuery(buffer, definition);
+      printCustomQueryFile(buffer, definition);
 
       expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
@@ -315,7 +315,7 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, JsonSerializable> {
           'TestQuery', 'query test_query {}', 'test_query',
           generateHelpers: true, inputs: [QueryInput('Type', 'name')]);
 
-      printCustomQuery(buffer, definition);
+      printCustomQueryFile(buffer, definition);
 
       expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
@@ -417,7 +417,7 @@ class TestQueryArguments extends JsonSerializable {
             ClassDefinition('AClass', [])
           ]);
 
-      printCustomQuery(buffer, definition);
+      printCustomQueryFile(buffer, definition);
 
       expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
 

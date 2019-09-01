@@ -240,7 +240,7 @@ void printQueryClass(StringBuffer buffer, QueryDefinition definition) {
       DartFormatter().format(queryClassDef.accept(emitter).toString()));
 }
 
-void printCustomQuery(StringBuffer buffer, QueryDefinition definition) {
+void printCustomQueryFile(StringBuffer buffer, QueryDefinition definition) {
   buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND\n');
   if (definition.generateHelpers) {
     buffer.writeln('''import 'dart:async';
