@@ -330,12 +330,14 @@ part 'test_query.query.g.dart';
 class TestQueryArguments extends JsonSerializable {
   TestQueryArguments({this.name});
 
-  final Type name;
-  
   factory TestQueryArguments.fromJson(Map<String, dynamic> json) =>
       _\$TestQueryArgumentsFromJson(json);
+
+  final Type name;
+
   Map<String, dynamic> toJson() => _\$TestQueryArgumentsToJson(this);
 }
+
 class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
   TestQueryQuery({this.variables});
   @override
@@ -365,12 +367,14 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
 class TestQueryArguments extends JsonSerializable {
   TestQueryArguments({this.name});
 
-  final Type name;
-  
   factory TestQueryArguments.fromJson(Map<String, dynamic> json) =>
       _\$TestQueryArgumentsFromJson(json);
+
+  final Type name;
+
   Map<String, dynamic> toJson() => _\$TestQueryArgumentsToJson(this);
 }
+
 ''');
     });
 

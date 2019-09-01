@@ -114,25 +114,55 @@ void printCustomClass(StringBuffer buffer, ClassDefinition definition) {
 }
 
 void printArgumentsClass(StringBuffer buffer, QueryDefinition definition) {
-  String argumentsDeclarations = '';
-  String argumentConstructor = '';
-  if (definition.inputs.isNotEmpty) {
-    argumentsDeclarations =
-        definition.inputs.map((i) => 'final ${i.type} ${i.name};').join('\n');
-    argumentConstructor =
-        '{' + definition.inputs.map((i) => 'this.${i.name}').join(',\n') + '}';
-  }
-  buffer.write('''@JsonSerializable(explicitToJson: true)
-class ${definition.queryName}Arguments extends JsonSerializable {
-  ${definition.queryName}Arguments(${argumentConstructor});
+  final argumentClassDef = Class(
+    (b) => b
+      ..annotations
+          .add(CodeExpression(Code('JsonSerializable(explicitToJson: true)')))
+      ..name = '${definition.queryName}Arguments'
+      ..extend = refer('JsonSerializable')
+      ..constructors.add(Constructor(
+        (b) => b
+          ..optionalParameters.addAll(definition.inputs.map(
+            (input) => Parameter(
+              (p) => p
+                ..name = input.name
+                ..named = true
+                ..toThis = true,
+            ),
+          )),
+      ))
+      ..constructors.add(Constructor(
+        (b) => b
+          ..factory = true
+          ..name = 'fromJson'
+          ..lambda = true
+          ..requiredParameters.add(Parameter(
+            (p) => p
+              ..type = refer('Map<String, dynamic>')
+              ..name = 'json',
+          ))
+          ..body = Code('_\$${definition.queryName}ArgumentsFromJson(json)'),
+      ))
+      ..methods.add(Method(
+        (m) => m
+          ..name = 'toJson'
+          ..lambda = true
+          ..returns = refer('Map<String, dynamic>')
+          ..body = Code('_\$${definition.queryName}ArgumentsToJson(this)'),
+      ))
+      ..fields.addAll(definition.inputs.map(
+        (p) => Field(
+          (f) => f
+            ..name = p.name
+            ..type = refer(p.type)
+            ..modifier = FieldModifier.final$,
+        ),
+      )),
+  );
 
-  ${argumentsDeclarations}
-  
-  factory ${definition.queryName}Arguments.fromJson(Map<String, dynamic> json) =>
-      _\$${definition.queryName}ArgumentsFromJson(json);
-  Map<String, dynamic> toJson() => _\$${definition.queryName}ArgumentsToJson(this);
-}
-''');
+  final emitter = DartEmitter();
+  buffer.writeln(
+      DartFormatter().format(argumentClassDef.accept(emitter).toString()));
 }
 
 void printQueryClass(StringBuffer buffer, QueryDefinition definition) {
