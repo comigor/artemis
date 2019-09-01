@@ -171,32 +171,73 @@ void printQueryClass(StringBuffer buffer, QueryDefinition definition) {
       .replaceAll(RegExp(r'\$'), '\\\$')
       .trim();
 
-  String variablesDeclaration = '';
-  String constructor = '()';
-  String typeDeclaration = '${definition.queryName}, JsonSerializable';
+  final String typeDeclaration = definition.inputs.isEmpty
+      ? '${definition.queryName}, JsonSerializable'
+      : '${definition.queryName}, ${definition.queryName}Arguments';
+
+  final constructor = definition.inputs.isEmpty
+      ? Constructor()
+      : Constructor((b) => b
+        ..optionalParameters.add(Parameter(
+          (p) => p
+            ..name = 'variables'
+            ..toThis = true
+            ..named = true,
+        )));
+
+  final fields = [
+    Field(
+      (f) => f
+        ..annotations.add(CodeExpression(Code('override')))
+        ..modifier = FieldModifier.final$
+        ..type = refer('String')
+        ..name = 'query'
+        ..assignment = Code('\'$sanitizedQueryStr\''),
+    ),
+    Field(
+      (f) => f
+        ..annotations.add(CodeExpression(Code('override')))
+        ..modifier = FieldModifier.final$
+        ..type = refer('String')
+        ..name = 'operationName'
+        ..assignment = Code('\'${ReCase(definition.queryName).snakeCase}\''),
+    ),
+  ];
+
   if (definition.inputs.isNotEmpty) {
-    variablesDeclaration = '''  @override
-  final ${definition.queryName}Arguments variables;''';
-    constructor = '''({this.variables})''';
-    typeDeclaration =
-        '${definition.queryName}, ${definition.queryName}Arguments';
+    fields.add(Field(
+      (f) => f
+        ..annotations.add(CodeExpression(Code('override')))
+        ..modifier = FieldModifier.final$
+        ..type = refer('${definition.queryName}Arguments')
+        ..name = 'variables',
+    ));
   }
 
-  buffer.write(
-      '''class ${definition.queryName}Query extends GraphQLQuery<$typeDeclaration> {
-  ${definition.queryName}Query${constructor};
-${variablesDeclaration}
-  @override
-  final String query = '${sanitizedQueryStr}';
-  @override
-  final String operationName = '${ReCase(definition.queryName).snakeCase}';
+  final queryClassDef = Class(
+    (b) => b
+      ..name = '${definition.queryName}Query'
+      ..extend = refer('GraphQLQuery<$typeDeclaration>')
+      ..constructors.add(constructor)
+      ..fields.addAll(fields)
+      ..methods.add(Method(
+        (m) => m
+          ..annotations.add(CodeExpression(Code('override')))
+          ..returns = refer(definition.queryName)
+          ..name = 'parse'
+          ..requiredParameters.add(Parameter(
+            (p) => p
+              ..type = refer('Map<String, dynamic>')
+              ..name = 'json',
+          ))
+          ..lambda = true
+          ..body = Code('${definition.queryName}.fromJson(json)'),
+      )),
+  );
 
-  @override
-  ${definition.queryName} parse(Map<String, dynamic> json) {
-    return ${definition.queryName}.fromJson(json);
-  }
-}
-''');
+  final emitter = DartEmitter();
+  buffer.writeln(
+      DartFormatter().format(queryClassDef.accept(emitter).toString()));
 }
 
 void printCustomQuery(StringBuffer buffer, QueryDefinition definition) {

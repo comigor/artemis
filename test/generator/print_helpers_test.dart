@@ -298,14 +298,14 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, JsonSerializable> {
 
   @override
   final String query = 'query test_query {}';
+
   @override
   final String operationName = 'test_query';
 
   @override
-  TestQuery parse(Map<String, dynamic> json) {
-    return TestQuery.fromJson(json);
-  }
+  TestQuery parse(Map<String, dynamic> json) => TestQuery.fromJson(json);
 }
+
 ''');
     });
 
@@ -340,18 +340,20 @@ class TestQueryArguments extends JsonSerializable {
 
 class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
   TestQueryQuery({this.variables});
-  @override
-  final TestQueryArguments variables;
+
   @override
   final String query = 'query test_query {}';
+
   @override
   final String operationName = 'test_query';
 
   @override
-  TestQuery parse(Map<String, dynamic> json) {
-    return TestQuery.fromJson(json);
-  }
+  final TestQueryArguments variables;
+
+  @override
+  TestQuery parse(Map<String, dynamic> json) => TestQuery.fromJson(json);
 }
+
 ''');
     });
 
@@ -389,18 +391,20 @@ class TestQueryArguments extends JsonSerializable {
       expect(buffer.toString(),
           '''class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
   TestQueryQuery({this.variables});
-  @override
-  final TestQueryArguments variables;
+
   @override
   final String query = 'query test_query {}';
+
   @override
   final String operationName = 'test_query';
 
   @override
-  TestQuery parse(Map<String, dynamic> json) {
-    return TestQuery.fromJson(json);
-  }
+  final TestQueryArguments variables;
+
+  @override
+  TestQuery parse(Map<String, dynamic> json) => TestQuery.fromJson(json);
 }
+
 ''');
     });
 
