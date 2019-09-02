@@ -1,10 +1,12 @@
 import 'dart:convert';
-import '../schema/options.dart';
 import '../schema/graphql.dart';
+import '../schema/options.dart';
 
+/// Get a full [GraphQLType] from its canonical name.
 GraphQLType getTypeByName(GraphQLSchema schema, String name) =>
     schema.types.firstWhere((t) => t.name == name);
 
+/// "Follow" a type to find the leaf scalar or type.
 GraphQLType followType(GraphQLType type) {
   switch (type.kind) {
     case GraphQLTypeKind.LIST:
@@ -15,6 +17,7 @@ GraphQLType followType(GraphQLType type) {
   }
 }
 
+/// Build a string repesenting a Dart type, given a GraphQL type.
 String buildTypeString(GraphQLType type, GeneratorOptions options,
     {bool dartType = true, String replaceLeafWith}) {
   switch (type.kind) {
@@ -40,6 +43,7 @@ List<ScalarMap> _defaultScalarMapping = [
   ScalarMap(graphQLType: 'String', dartType: const DartType(name: 'String')),
 ];
 
+/// Retrieve a scalar mapping of a type.
 ScalarMap getSingleScalarMap(GeneratorOptions options, GraphQLType type) =>
     options.scalarMapping
         .followedBy(_defaultScalarMapping)
@@ -49,5 +53,6 @@ ScalarMap getSingleScalarMap(GeneratorOptions options, GraphQLType type) =>
                   dartType: DartType(name: type.name),
                 ));
 
+/// Instantiates a schema from a JSON string.
 GraphQLSchema schemaFromJsonString(String jsonS) =>
     GraphQLSchema.fromJson(json.decode(jsonS));
