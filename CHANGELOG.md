@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 0.5.0
+- Start using `code_builder` to better generate Dart code
+
 ## 0.4.0
 - Allow scalar mappings to include imports for types
 
