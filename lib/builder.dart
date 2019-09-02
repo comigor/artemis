@@ -1,14 +1,11 @@
 import 'dart:async';
 import 'package:build/build.dart';
-import 'package:dart_style/dart_style.dart';
 import 'package:glob/glob.dart';
 import 'package:artemis/schema/options.dart';
 import 'package:artemis/generator.dart';
 import 'package:artemis/generator/data.dart';
 import 'package:artemis/generator/print_helpers.dart';
 import 'package:artemis/generator/graphql_helpers.dart';
-
-final DartFormatter _dartFormatter = DartFormatter();
 
 Builder graphQLQueryBuilder(BuilderOptions options) =>
     GraphQLQueryBuilder(options);
@@ -50,8 +47,8 @@ class GraphQLQueryBuilder implements Builder {
 
       final buffer = StringBuffer();
       printCustomQueryFile(buffer, definition);
-      await buildStep.writeAsString(
-          outputAssetId, _dartFormatter.format(buffer.toString()));
+
+      await buildStep.writeAsString(outputAssetId, buffer.toString());
     }
   }
 }

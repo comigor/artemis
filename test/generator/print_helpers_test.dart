@@ -237,7 +237,6 @@ class AClass {
 
 import \'package:json_annotation/json_annotation.dart\';
 part \'test_query.query.g.dart\';
-
 ''');
     });
 
@@ -254,7 +253,6 @@ part \'test_query.query.g.dart\';
 import \'package:json_annotation/json_annotation.dart\';
 import \'some_file.dart\';
 part \'test_query.query.g.dart\';
-
 ''');
     });
 
@@ -287,7 +285,6 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, JsonSerializable> {
   @override
   TestQuery parse(Map<String, dynamic> json) => TestQuery.fromJson(json);
 }
-
 ''');
     });
 
@@ -335,7 +332,6 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
   @override
   TestQuery parse(Map<String, dynamic> json) => TestQuery.fromJson(json);
 }
-
 ''');
     });
 
@@ -414,7 +410,6 @@ class AClass {
 enum Enum {
   Value,
 }
-
 ''');
     });
   });

@@ -267,11 +267,8 @@ void printCustomQueryFile(StringBuffer buffer, QueryDefinition definition) {
     (b) => b..directives.addAll(importDirectives)..body.addAll(bodyDirectives),
   );
 
-  final emitter = DartEmitter();
-  buffer.writeln(
-      DartFormatter().format('''// GENERATED CODE - DO NOT MODIFY BY HAND
-
-${libraryDef.accept(emitter).toString()}'''));
+  buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND\n');
+  buffer.write(specToString(libraryDef));
 }
 
 String specToString(Spec spec) {
