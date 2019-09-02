@@ -232,12 +232,10 @@ void printCustomQueryFile(StringBuffer buffer, QueryDefinition definition) {
   ];
 
   if (definition.generateHelpers) {
-    importDirectives.insertAll(0, [
-      Directive.import('dart:async'),
-      Directive.import('dart:convert'),
+    importDirectives.insert(
+      0,
       Directive.import('package:artemis/artemis.dart'),
-      Directive.import('package:http/http.dart', as: 'http'),
-    ]);
+    );
   }
 
   if (definition.customParserImport != null) {
