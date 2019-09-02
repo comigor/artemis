@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:artemis/schema/graphql_error.dart';
-import 'package:artemis/schema/graphql_query.dart';
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
+import './schema/graphql_error.dart';
+import './schema/graphql_query.dart';
 
 class _DefaultHttpJsonClient extends http.BaseClient {
   http.Client _httpClient = http.Client();

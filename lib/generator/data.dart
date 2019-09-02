@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:graphql_parser/graphql_parser.dart';
-import 'package:artemis/schema/graphql.dart';
+import '../schema/graphql.dart';
 
 final Function _eq = const ListEquality().equals;
 

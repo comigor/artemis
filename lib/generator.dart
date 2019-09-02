@@ -1,11 +1,11 @@
 import 'package:path/path.dart' as p;
 import 'package:graphql_parser/graphql_parser.dart';
 import 'package:recase/recase.dart';
-import 'package:artemis/schema/options.dart';
-import 'package:artemis/schema/graphql.dart';
-import 'package:artemis/generator/data.dart';
-import 'package:artemis/generator/helpers.dart';
-import 'package:artemis/generator/graphql_helpers.dart' as gql;
+import './schema/options.dart';
+import './schema/graphql.dart';
+import './generator/data.dart';
+import './generator/helpers.dart';
+import './generator/graphql_helpers.dart' as gql;
 
 OperationDefinitionContext getOperationFromQuery(String queryStr) {
   final tokens = scan(queryStr);

@@ -129,7 +129,7 @@ See [examples](./example) for more information and configuration options.
 
 ## **ArtemisClient**
 If you have `generate_helpers` then, Artemis will create a subclass of `GraphQLQuery` for you, this class can be used
-in conjunction with the `ArtemisClient` found at: `package:artemis/client.dart`.
+in conjunction with `ArtemisClient`.
 
 ```dart
 final client = ArtemisClient();
