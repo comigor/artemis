@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.5.1
+- Add most documentation
+- Increase pana grade (health and maintenance)
+- Fix some stuff related to importing http on client
+
 ## 0.5.0
 - Start using `code_builder` to better generate Dart code
 
