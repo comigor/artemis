@@ -141,7 +141,7 @@ ClassProperty _createClassProperty(
         .replaceAll(RegExp(r'[<>]'), '');
     final dartTypeSafeStr = dartTypeStr.replaceAll(RegExp(r'[<>]'), '');
     annotation =
-        '@JsonKey(fromJson: fromGraphQL${graphqlTypeSafeStr}ToDart$dartTypeSafeStr, toJson: fromDart${dartTypeSafeStr}ToGraphQL$graphqlTypeSafeStr)';
+        'JsonKey(fromJson: fromGraphQL${graphqlTypeSafeStr}ToDart$dartTypeSafeStr, toJson: fromDart${dartTypeSafeStr}ToGraphQL$graphqlTypeSafeStr)';
   }
 
   return ClassProperty(dartTypeStr, alias, annotation: annotation);
@@ -214,7 +214,7 @@ List<Definition> _extractClasses(
     final factoryPossibilities = Set<String>();
     final queue = <Definition>[];
     String classExtension;
-    List<String> classImplementations = [];
+    Iterable<String> classImplementations = [];
 
     // Spread fragment spreads into selections
     final fragmentSelections = selectionSet.selections
