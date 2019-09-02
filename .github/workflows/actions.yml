@@ -7,7 +7,7 @@ on:
       - master
       - refs/tags/*
 
-name: Test, and deploy to pub.dev if tagged
+name: Test and deploy to pub.dev if tagged
 
 jobs:
   test:
@@ -17,8 +17,6 @@ jobs:
       uses: actions/checkout@master
     - name: Run tests
       uses: comigor/actions/dart-test@master
-      env:
-        DTA_DISABLE_ANALYZER: "YES"
   deploy:
     needs: test
     runs-on: ubuntu-latest
