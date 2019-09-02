@@ -46,7 +46,7 @@ class GraphQLQueryBuilder implements Builder {
       }
 
       final buffer = StringBuffer();
-      printCustomQueryFile(buffer, definition);
+      writeDefinitionsToBuffer(buffer, definition);
 
       await buildStep.writeAsString(outputAssetId, buffer.toString());
     }

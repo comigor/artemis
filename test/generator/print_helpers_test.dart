@@ -1,20 +1,20 @@
 import 'package:artemis/generator/data.dart';
-import 'package:test/test.dart';
 import 'package:artemis/generator/print_helpers.dart';
+import 'package:test/test.dart';
 
 void main() {
   group('On printCustomEnum', () {
     test('It will throw if name is null or empty.', () {
-      expect(() => printCustomEnum(EnumDefinition(null, [])),
+      expect(() => enumDefinitionToSpec(EnumDefinition(null, [])),
           throwsA(TypeMatcher<AssertionError>()));
-      expect(() => printCustomEnum(EnumDefinition('', [])),
+      expect(() => enumDefinitionToSpec(EnumDefinition('', [])),
           throwsA(TypeMatcher<AssertionError>()));
     });
 
     test('It will throw if values is null or empty.', () {
-      expect(() => printCustomEnum(EnumDefinition('Name', null)),
+      expect(() => enumDefinitionToSpec(EnumDefinition('Name', null)),
           throwsA(TypeMatcher<AssertionError>()));
-      expect(() => printCustomEnum(EnumDefinition('Name', [])),
+      expect(() => enumDefinitionToSpec(EnumDefinition('Name', [])),
           throwsA(TypeMatcher<AssertionError>()));
     });
 
@@ -26,7 +26,7 @@ void main() {
         'FORTH_OPTION',
       ]);
 
-      final str = specToString(printCustomEnum(definition));
+      final str = specToString(enumDefinitionToSpec(definition));
 
       expect(str, '''enum Name {
   Option,
@@ -45,7 +45,7 @@ void main() {
         'AnotherOption',
       ]);
 
-      final str = specToString(printCustomEnum(definition));
+      final str = specToString(enumDefinitionToSpec(definition));
 
       expect(str, '''enum Name {
   Option,
@@ -57,16 +57,16 @@ void main() {
 
   group('On printCustomClass', () {
     test('It will throw if name is null or empty.', () {
-      expect(() => printCustomClass(ClassDefinition(null, [])),
+      expect(() => classDefinitionToSpec(ClassDefinition(null, [])),
           throwsA(TypeMatcher<AssertionError>()));
-      expect(() => printCustomClass(ClassDefinition('', [])),
+      expect(() => classDefinitionToSpec(ClassDefinition('', [])),
           throwsA(TypeMatcher<AssertionError>()));
     });
 
     test('It can generate a class without properties.', () {
       final definition = ClassDefinition('AClass', []);
 
-      final str = specToString(printCustomClass(definition));
+      final str = specToString(classDefinitionToSpec(definition));
 
       expect(str, '''@JsonSerializable(explicitToJson: true)
 class AClass {
@@ -83,7 +83,7 @@ class AClass {
       final definition =
           ClassDefinition('AClass', [], extension: 'AnotherClass');
 
-      final str = specToString(printCustomClass(definition));
+      final str = specToString(classDefinitionToSpec(definition));
 
       expect(str, '''@JsonSerializable(explicitToJson: true)
 class AClass extends AnotherClass {
@@ -106,7 +106,7 @@ class AClass extends AnotherClass {
         resolveTypeField: '__resolveType',
       );
 
-      final str = specToString(printCustomClass(definition));
+      final str = specToString(classDefinitionToSpec(definition));
 
       expect(str, '''@JsonSerializable(explicitToJson: true)
 class AClass {
@@ -143,7 +143,7 @@ class AClass {
         ClassProperty('AnotherType', 'anotherName'),
       ]);
 
-      final str = specToString(printCustomClass(definition));
+      final str = specToString(classDefinitionToSpec(definition));
 
       expect(str, '''@JsonSerializable(explicitToJson: true)
 class AClass {
@@ -170,7 +170,7 @@ class AClass {
         ClassProperty('AllAtOnce', 'name', override: true, annotation: 'Ho()'),
       ]);
 
-      final str = specToString(printCustomClass(definition));
+      final str = specToString(classDefinitionToSpec(definition));
 
       expect(str, '''@JsonSerializable(explicitToJson: true)
 class AClass {
@@ -201,27 +201,27 @@ class AClass {
       final buffer = StringBuffer();
 
       expect(
-          () => printCustomQueryFile(buffer,
+          () => writeDefinitionsToBuffer(buffer,
               QueryDefinition(null, 'query test_query {}', 'test_query')),
           throwsA(TypeMatcher<AssertionError>()));
       expect(
-          () => printCustomQueryFile(
+          () => writeDefinitionsToBuffer(
               buffer, QueryDefinition('', 'query test_query {}', 'test_query')),
           throwsA(TypeMatcher<AssertionError>()));
       expect(
-          () => printCustomQueryFile(
+          () => writeDefinitionsToBuffer(
               buffer, QueryDefinition('TestQuery', null, 'test_query')),
           throwsA(TypeMatcher<AssertionError>()));
       expect(
-          () => printCustomQueryFile(
+          () => writeDefinitionsToBuffer(
               buffer, QueryDefinition('TestQuery', '', 'test_query')),
           throwsA(TypeMatcher<AssertionError>()));
       expect(
-          () => printCustomQueryFile(buffer,
+          () => writeDefinitionsToBuffer(buffer,
               QueryDefinition('TestQuery', 'query test_query {}', null)),
           throwsA(TypeMatcher<AssertionError>()));
       expect(
-          () => printCustomQueryFile(
+          () => writeDefinitionsToBuffer(
               buffer, QueryDefinition('TestQuery', 'query test_query {}', '')),
           throwsA(TypeMatcher<AssertionError>()));
     });
@@ -231,7 +231,7 @@ class AClass {
       final definition =
           QueryDefinition('TestQuery', 'query test_query {}', 'test_query');
 
-      printCustomQueryFile(buffer, definition);
+      writeDefinitionsToBuffer(buffer, definition);
 
       expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
@@ -246,7 +246,7 @@ part \'test_query.query.g.dart\';
           'TestQuery', 'query test_query {}', 'test_query',
           customParserImport: 'some_file.dart');
 
-      printCustomQueryFile(buffer, definition);
+      writeDefinitionsToBuffer(buffer, definition);
 
       expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
@@ -262,7 +262,7 @@ part \'test_query.query.g.dart\';
           'TestQuery', 'query test_query {}', 'test_query',
           generateHelpers: true);
 
-      printCustomQueryFile(buffer, definition);
+      writeDefinitionsToBuffer(buffer, definition);
 
       expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
@@ -291,7 +291,7 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, JsonSerializable> {
           'TestQuery', 'query test_query {}', 'test_query',
           generateHelpers: true, inputs: [QueryInput('Type', 'name')]);
 
-      printCustomQueryFile(buffer, definition);
+      writeDefinitionsToBuffer(buffer, definition);
 
       expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
@@ -334,7 +334,7 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
           'TestQuery', 'query test_query {}', 'test_query',
           generateHelpers: true, inputs: [QueryInput('Type', 'name')]);
 
-      final str = specToString(printArgumentsClass(definition));
+      final str = specToString(generateArgumentClassSpec(definition));
 
       expect(str, '''@JsonSerializable(explicitToJson: true)
 class TestQueryArguments extends JsonSerializable {
@@ -355,7 +355,7 @@ class TestQueryArguments extends JsonSerializable {
           'TestQuery', 'query test_query {}', 'test_query',
           generateHelpers: true, inputs: [QueryInput('Type', 'name')]);
 
-      final str = specToString(printQueryClass(definition));
+      final str = specToString(generateQueryClassSpec(definition));
 
       expect(str,
           '''class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
@@ -385,7 +385,7 @@ class TestQueryArguments extends JsonSerializable {
             ClassDefinition('AClass', [])
           ]);
 
-      printCustomQueryFile(buffer, definition);
+      writeDefinitionsToBuffer(buffer, definition);
 
       expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
