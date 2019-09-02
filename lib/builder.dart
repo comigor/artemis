@@ -1,20 +1,26 @@
 import 'dart:async';
 import 'package:build/build.dart';
 import 'package:glob/glob.dart';
-import 'schema/options.dart';
 import './generator.dart';
 import './generator/data.dart';
-import './generator/print_helpers.dart';
 import './generator/graphql_helpers.dart';
+import './generator/print_helpers.dart';
+import './schema/options.dart';
 
+/// [GraphQLQueryBuilder] instance, to be used by `build_runner`.
 Builder graphQLQueryBuilder(BuilderOptions options) =>
     GraphQLQueryBuilder(options);
 
+/// Main Artemis builder.
 class GraphQLQueryBuilder implements Builder {
+  /// Creates a builder from [BuilderOptions].
   GraphQLQueryBuilder(BuilderOptions builderOptions)
       : options = GeneratorOptions.fromJson(builderOptions.config);
 
+  /// This generator options, gathered from `build.yaml` file.
   final GeneratorOptions options;
+
+  /// Callback fired when the generator processes a [QueryDefinition].
   OnBuildQuery onBuild;
 
   @override

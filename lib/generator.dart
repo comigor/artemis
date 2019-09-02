@@ -7,7 +7,7 @@ import './generator/data.dart';
 import './generator/helpers.dart';
 import './generator/graphql_helpers.dart' as gql;
 
-OperationDefinitionContext getOperationFromQuery(String queryStr) {
+OperationDefinitionContext _getOperationFromQuery(String queryStr) {
   final tokens = scan(queryStr);
   final parser = Parser(tokens);
 
@@ -23,7 +23,7 @@ ${parser.errors.map((e) => e.message).join('\n')}
   return doc.definitions.whereType<OperationDefinitionContext>().first;
 }
 
-List<FragmentDefinitionContext> getFragmentsFromQuery(String queryStr) {
+List<FragmentDefinitionContext> _getFragmentsFromQuery(String queryStr) {
   final tokens = scan(queryStr);
   final parser = Parser(tokens);
 
@@ -39,6 +39,8 @@ ${parser.errors.map((e) => e.message).join('\n')}
   return doc.definitions.whereType<FragmentDefinitionContext>().toList();
 }
 
+/// Generate a query definition from a GraphQL schema and a query, given
+/// Artemis options and schema mappings.
 QueryDefinition generateQuery(
   GraphQLSchema schema,
   String path,
@@ -46,8 +48,8 @@ QueryDefinition generateQuery(
   GeneratorOptions options,
   SchemaMap schemaMap,
 ) {
-  final operation = getOperationFromQuery(queryStr);
-  final fragments = getFragmentsFromQuery(queryStr);
+  final operation = _getOperationFromQuery(queryStr);
+  final fragments = _getFragmentsFromQuery(queryStr);
 
   final basename = p.basenameWithoutExtension(path);
   final queryName = ReCase(operation.name ?? basename).pascalCase;

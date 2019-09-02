@@ -1,6 +1,8 @@
 typedef U _IterableFunction<T, U>(T i);
 typedef T _MergeableFunction<T>(T oldT, T newT);
 
+/// Remove duplicated values from an iterable given a predicate without
+/// modifying the original iterable.
 Iterable<T> removeDuplicatedBy<T, U>(
     Iterable<T> list, _IterableFunction<T, U> fn) {
   final values = Map<U, bool>();
@@ -10,6 +12,8 @@ Iterable<T> removeDuplicatedBy<T, U>(
   }).toList();
 }
 
+/// Merge multiple values from an iterable given a predicate without modifying
+/// the original iterable.
 Iterable<T> mergeDuplicatesBy<T, U>(Iterable<T> list,
     _IterableFunction<T, U> fn, _MergeableFunction<T> mergeFn) {
   final values = Map<U, T>();
