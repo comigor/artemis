@@ -70,7 +70,6 @@ void main() {
         'a|some_query.query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
-
 part 'some_query.query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
@@ -185,7 +184,6 @@ class SomeQuery {
         'a|some_query.query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
-
 part 'some_query.query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
@@ -283,7 +281,6 @@ class AnotherObject {
         'a|some_query.query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
-
 part 'some_query.query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
@@ -394,7 +391,6 @@ class SomeQuery {
         'a|some_query.query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
-
 part 'some_query.query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
@@ -530,10 +526,9 @@ class AnotherObject {
 
 import 'dart:async';
 import 'dart:convert';
+import 'package:artemis/artemis.dart';
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
-import 'package:artemis/artemis.dart';
-
 part 'some_query.query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
@@ -685,7 +680,6 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery, JsonSerializable> {
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:decimal/decimal.dart';
-
 part 'some_query.query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
