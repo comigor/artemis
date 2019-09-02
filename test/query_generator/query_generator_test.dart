@@ -527,7 +527,6 @@ class AnotherObject {
 import 'dart:async';
 import 'dart:convert';
 import 'package:artemis/artemis.dart';
-import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
 part 'some_query.query.g.dart';
 

@@ -269,7 +269,6 @@ part \'test_query.query.g.dart\';
 import 'dart:async';
 import 'dart:convert';
 import 'package:artemis/artemis.dart';
-import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
 part 'test_query.query.g.dart';
 
@@ -301,7 +300,6 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, JsonSerializable> {
 import 'dart:async';
 import 'dart:convert';
 import 'package:artemis/artemis.dart';
-import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
 part 'test_query.query.g.dart';
 
