@@ -524,8 +524,6 @@ class AnotherObject {
       }, outputs: {
         'a|some_query.query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
-import 'dart:async';
-import 'dart:convert';
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'some_query.query.g.dart';

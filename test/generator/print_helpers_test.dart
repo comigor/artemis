@@ -266,8 +266,6 @@ part \'test_query.query.g.dart\';
 
       expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
-import 'dart:async';
-import 'dart:convert';
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'test_query.query.g.dart';
@@ -297,8 +295,6 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, JsonSerializable> {
 
       expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
-import 'dart:async';
-import 'dart:convert';
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'test_query.query.g.dart';
