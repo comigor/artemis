@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:artemis/schema/options.dart';
-import 'package:artemis/schema/graphql.dart';
+import '../schema/options.dart';
+import '../schema/graphql.dart';
 
 GraphQLType getTypeByName(GraphQLSchema schema, String name) =>
     schema.types.firstWhere((t) => t.name == name);

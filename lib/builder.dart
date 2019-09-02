@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:build/build.dart';
 import 'package:glob/glob.dart';
-import 'package:artemis/schema/options.dart';
-import 'package:artemis/generator.dart';
-import 'package:artemis/generator/data.dart';
-import 'package:artemis/generator/print_helpers.dart';
-import 'package:artemis/generator/graphql_helpers.dart';
+import 'schema/options.dart';
+import './generator.dart';
+import './generator/data.dart';
+import './generator/print_helpers.dart';
+import './generator/graphql_helpers.dart';
 
 Builder graphQLQueryBuilder(BuilderOptions options) =>
     GraphQLQueryBuilder(options);
