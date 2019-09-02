@@ -4,6 +4,7 @@ import 'package:recase/recase.dart';
 import '../generator/data.dart';
 import '../generator/helpers.dart';
 
+/// Generates a [Spec] of a single enum definition.
 Spec enumDefinitionToSpec(EnumDefinition definition) =>
     CodeExpression(Code('''enum ${definition.name} {
   ${removeDuplicatedBy(definition.values, (i) => i).map((v) => '$v, ').join()}
@@ -39,6 +40,7 @@ String _toJsonBody(ClassDefinition definition) {
   return buffer.toString();
 }
 
+/// Generates a [Spec] of a single class definition.
 Spec classDefinitionToSpec(ClassDefinition definition) {
   final fromJson = definition.factoryPossibilities.isNotEmpty
       ? Constructor(
@@ -108,6 +110,7 @@ Spec classDefinitionToSpec(ClassDefinition definition) {
   );
 }
 
+/// Generates a [Spec] of a mutation argument class.
 Spec generateArgumentClassSpec(QueryDefinition definition) {
   return Class(
     (b) => b
@@ -156,6 +159,7 @@ Spec generateArgumentClassSpec(QueryDefinition definition) {
   );
 }
 
+/// Generates a [Spec] of a query/mutation class.
 Spec generateQueryClassSpec(QueryDefinition definition) {
   final sanitizedQueryStr = definition.query
       .replaceAll(RegExp(r'\s+'), ' ')
@@ -227,6 +231,8 @@ Spec generateQueryClassSpec(QueryDefinition definition) {
   );
 }
 
+/// Gathers and generates a [Spec] of a whole query/mutation and its
+/// dependencies into a single library file.
 Spec generateLibrarySpec(QueryDefinition definition) {
   final importDirectives = [
     Directive.import('package:json_annotation/json_annotation.dart'),
@@ -268,11 +274,14 @@ Spec generateLibrarySpec(QueryDefinition definition) {
   );
 }
 
+/// Emit a [Spec] into a String, considering Dart formatting.
 String specToString(Spec spec) {
   final emitter = DartEmitter();
   return DartFormatter().format(spec.accept(emitter).toString());
 }
 
+/// Generate Dart code typings from a query or mutation and its response from
+/// a [QueryDefinition] into a buffer.
 void writeDefinitionsToBuffer(StringBuffer buffer, QueryDefinition definition) {
   buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND\n');
   buffer.write(specToString(generateLibrarySpec(definition)));
