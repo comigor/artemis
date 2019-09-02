@@ -5,25 +5,20 @@ import 'package:artemis/generator/print_helpers.dart';
 void main() {
   group('On printCustomEnum', () {
     test('It will throw if name is null or empty.', () {
-      final buffer = StringBuffer();
-
-      expect(() => printCustomEnum(buffer, EnumDefinition(null, [])),
+      expect(() => printCustomEnum(EnumDefinition(null, [])),
           throwsA(TypeMatcher<AssertionError>()));
-      expect(() => printCustomEnum(buffer, EnumDefinition('', [])),
+      expect(() => printCustomEnum(EnumDefinition('', [])),
           throwsA(TypeMatcher<AssertionError>()));
     });
 
     test('It will throw if values is null or empty.', () {
-      final buffer = StringBuffer();
-
-      expect(() => printCustomEnum(buffer, EnumDefinition('Name', null)),
+      expect(() => printCustomEnum(EnumDefinition('Name', null)),
           throwsA(TypeMatcher<AssertionError>()));
-      expect(() => printCustomEnum(buffer, EnumDefinition('Name', [])),
+      expect(() => printCustomEnum(EnumDefinition('Name', [])),
           throwsA(TypeMatcher<AssertionError>()));
     });
 
     test('It will generate an Enum declaration.', () {
-      final buffer = StringBuffer();
       final definition = EnumDefinition('Name', [
         'Option',
         'anotherOption',
@@ -31,9 +26,9 @@ void main() {
         'FORTH_OPTION',
       ]);
 
-      printCustomEnum(buffer, definition);
+      final str = specToString(printCustomEnum(definition));
 
-      expect(buffer.toString(), '''enum Name {
+      expect(str, '''enum Name {
   Option,
   anotherOption,
   third_option,
@@ -43,7 +38,6 @@ void main() {
     });
 
     test('It will ignore duplicate options.', () {
-      final buffer = StringBuffer();
       final definition = EnumDefinition('Name', [
         'Option',
         'AnotherOption',
@@ -51,9 +45,9 @@ void main() {
         'AnotherOption',
       ]);
 
-      printCustomEnum(buffer, definition);
+      final str = specToString(printCustomEnum(definition));
 
-      expect(buffer.toString(), '''enum Name {
+      expect(str, '''enum Name {
   Option,
   AnotherOption,
 }
@@ -63,21 +57,18 @@ void main() {
 
   group('On printCustomClass', () {
     test('It will throw if name is null or empty.', () {
-      final buffer = StringBuffer();
-
-      expect(() => printCustomClass(buffer, ClassDefinition(null, [])),
+      expect(() => printCustomClass(ClassDefinition(null, [])),
           throwsA(TypeMatcher<AssertionError>()));
-      expect(() => printCustomClass(buffer, ClassDefinition('', [])),
+      expect(() => printCustomClass(ClassDefinition('', [])),
           throwsA(TypeMatcher<AssertionError>()));
     });
 
     test('It can generate a class without properties.', () {
-      final buffer = StringBuffer();
       final definition = ClassDefinition('AClass', []);
 
-      printCustomClass(buffer, definition);
+      final str = specToString(printCustomClass(definition));
 
-      expect(buffer.toString(), '''@JsonSerializable(explicitToJson: true)
+      expect(str, '''@JsonSerializable(explicitToJson: true)
 class AClass {
   AClass();
 
@@ -85,18 +76,16 @@ class AClass {
 
   Map<String, dynamic> toJson() => _\$AClassToJson(this);
 }
-
 ''');
     });
 
     test('"Mixins" will be included to class.', () {
-      final buffer = StringBuffer();
       final definition =
           ClassDefinition('AClass', [], extension: 'AnotherClass');
 
-      printCustomClass(buffer, definition);
+      final str = specToString(printCustomClass(definition));
 
-      expect(buffer.toString(), '''@JsonSerializable(explicitToJson: true)
+      expect(str, '''@JsonSerializable(explicitToJson: true)
 class AClass extends AnotherClass {
   AClass();
 
@@ -104,14 +93,12 @@ class AClass extends AnotherClass {
 
   Map<String, dynamic> toJson() => _\$AClassToJson(this);
 }
-
 ''');
     });
 
     test(
         'factoryPossibilities and resolveTypeField are used to generated a branch factory.',
         () {
-      final buffer = StringBuffer();
       final definition = ClassDefinition(
         'AClass',
         [],
@@ -119,9 +106,9 @@ class AClass extends AnotherClass {
         resolveTypeField: '__resolveType',
       );
 
-      printCustomClass(buffer, definition);
+      final str = specToString(printCustomClass(definition));
 
-      expect(buffer.toString(), '''@JsonSerializable(explicitToJson: true)
+      expect(str, '''@JsonSerializable(explicitToJson: true)
 class AClass {
   AClass();
 
@@ -147,20 +134,18 @@ class AClass {
     return _\$AClassToJson(this);
   }
 }
-
 ''');
     });
 
     test('It can have properties.', () {
-      final buffer = StringBuffer();
       final definition = ClassDefinition('AClass', [
         ClassProperty('Type', 'name'),
         ClassProperty('AnotherType', 'anotherName'),
       ]);
 
-      printCustomClass(buffer, definition);
+      final str = specToString(printCustomClass(definition));
 
-      expect(buffer.toString(), '''@JsonSerializable(explicitToJson: true)
+      expect(str, '''@JsonSerializable(explicitToJson: true)
 class AClass {
   AClass();
 
@@ -172,14 +157,12 @@ class AClass {
 
   Map<String, dynamic> toJson() => _\$AClassToJson(this);
 }
-
 ''');
     });
 
     test(
         'Its properties can be an override or have a custom annotation, or both.',
         () {
-      final buffer = StringBuffer();
       final definition = ClassDefinition('AClass', [
         ClassProperty('Type', 'name'),
         ClassProperty('AnnotedProperty', 'name', annotation: 'Hey()'),
@@ -187,9 +170,9 @@ class AClass {
         ClassProperty('AllAtOnce', 'name', override: true, annotation: 'Ho()'),
       ]);
 
-      printCustomClass(buffer, definition);
+      final str = specToString(printCustomClass(definition));
 
-      expect(buffer.toString(), '''@JsonSerializable(explicitToJson: true)
+      expect(str, '''@JsonSerializable(explicitToJson: true)
 class AClass {
   AClass();
 
@@ -209,7 +192,6 @@ class AClass {
 
   Map<String, dynamic> toJson() => _\$AClassToJson(this);
 }
-
 ''');
     });
   });
@@ -254,8 +236,8 @@ class AClass {
       expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import \'package:json_annotation/json_annotation.dart\';
-
 part \'test_query.query.g.dart\';
+
 ''');
     });
 
@@ -271,8 +253,8 @@ part \'test_query.query.g.dart\';
 
 import \'package:json_annotation/json_annotation.dart\';
 import \'some_file.dart\';
-
 part \'test_query.query.g.dart\';
+
 ''');
     });
 
@@ -288,11 +270,11 @@ part \'test_query.query.g.dart\';
 
 import 'dart:async';
 import 'dart:convert';
+import 'package:artemis/artemis.dart';
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
-import 'package:artemis/artemis.dart';
-
 part 'test_query.query.g.dart';
+
 class TestQueryQuery extends GraphQLQuery<TestQuery, JsonSerializable> {
   TestQueryQuery();
 
@@ -321,11 +303,11 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, JsonSerializable> {
 
 import 'dart:async';
 import 'dart:convert';
+import 'package:artemis/artemis.dart';
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
-import 'package:artemis/artemis.dart';
-
 part 'test_query.query.g.dart';
+
 @JsonSerializable(explicitToJson: true)
 class TestQueryArguments extends JsonSerializable {
   TestQueryArguments({this.name});
@@ -358,14 +340,13 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
     });
 
     test('Will generate an Arguments class', () {
-      final buffer = StringBuffer();
       final definition = QueryDefinition(
           'TestQuery', 'query test_query {}', 'test_query',
           generateHelpers: true, inputs: [QueryInput('Type', 'name')]);
 
-      printArgumentsClass(buffer, definition);
+      final str = specToString(printArgumentsClass(definition));
 
-      expect(buffer.toString(), '''@JsonSerializable(explicitToJson: true)
+      expect(str, '''@JsonSerializable(explicitToJson: true)
 class TestQueryArguments extends JsonSerializable {
   TestQueryArguments({this.name});
 
@@ -376,19 +357,17 @@ class TestQueryArguments extends JsonSerializable {
 
   Map<String, dynamic> toJson() => _\$TestQueryArgumentsToJson(this);
 }
-
 ''');
     });
 
     test('Will generate a Query Class', () {
-      final buffer = StringBuffer();
       final definition = QueryDefinition(
           'TestQuery', 'query test_query {}', 'test_query',
           generateHelpers: true, inputs: [QueryInput('Type', 'name')]);
 
-      printQueryClass(buffer, definition);
+      final str = specToString(printQueryClass(definition));
 
-      expect(buffer.toString(),
+      expect(str,
           '''class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
   TestQueryQuery({this.variables});
 
@@ -404,7 +383,6 @@ class TestQueryArguments extends JsonSerializable {
   @override
   TestQuery parse(Map<String, dynamic> json) => TestQuery.fromJson(json);
 }
-
 ''');
     });
 
@@ -422,11 +400,8 @@ class TestQueryArguments extends JsonSerializable {
       expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
-
 part 'test_query.query.g.dart';
-enum Enum {
-  Value,
-}
+
 @JsonSerializable(explicitToJson: true)
 class AClass {
   AClass();
@@ -434,6 +409,10 @@ class AClass {
   factory AClass.fromJson(Map<String, dynamic> json) => _\$AClassFromJson(json);
 
   Map<String, dynamic> toJson() => _\$AClassToJson(this);
+}
+
+enum Enum {
+  Value,
 }
 
 ''');

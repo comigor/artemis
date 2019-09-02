@@ -4,13 +4,10 @@ import 'package:recase/recase.dart';
 import '../generator/data.dart';
 import '../generator/helpers.dart';
 
-void printCustomEnum(StringBuffer buffer, EnumDefinition definition) {
-  buffer.writeln('enum ${definition.name} {');
-  for (final enumValue in removeDuplicatedBy(definition.values, (i) => i)) {
-    buffer.writeln('  $enumValue,');
-  }
-  buffer.writeln('}');
-}
+Spec printCustomEnum(EnumDefinition definition) =>
+    CodeExpression(Code('''enum ${definition.name} {
+  ${removeDuplicatedBy(definition.values, (i) => i).map((v) => '$v, ').join()}
+}'''));
 
 String _fromJsonBody(ClassDefinition definition) {
   final buffer = StringBuffer();
@@ -42,7 +39,7 @@ String _toJsonBody(ClassDefinition definition) {
   return buffer.toString();
 }
 
-void printCustomClass(StringBuffer buffer, ClassDefinition definition) {
+Spec printCustomClass(ClassDefinition definition) {
   final fromJson = definition.factoryPossibilities.isNotEmpty
       ? Constructor(
           (b) => b
@@ -83,7 +80,7 @@ void printCustomClass(StringBuffer buffer, ClassDefinition definition) {
             ..body = Code('_\$${definition.name}ToJson(this)'),
         );
 
-  final classDef = Class(
+  return Class(
     (b) => b
       ..annotations
           .add(CodeExpression(Code('JsonSerializable(explicitToJson: true)')))
@@ -108,13 +105,10 @@ void printCustomClass(StringBuffer buffer, ClassDefinition definition) {
         return field;
       })),
   );
-
-  final emitter = DartEmitter();
-  buffer.writeln(DartFormatter().format(classDef.accept(emitter).toString()));
 }
 
-void printArgumentsClass(StringBuffer buffer, QueryDefinition definition) {
-  final argumentClassDef = Class(
+Class printArgumentsClass(QueryDefinition definition) {
+  return Class(
     (b) => b
       ..annotations
           .add(CodeExpression(Code('JsonSerializable(explicitToJson: true)')))
@@ -159,13 +153,9 @@ void printArgumentsClass(StringBuffer buffer, QueryDefinition definition) {
         ),
       )),
   );
-
-  final emitter = DartEmitter();
-  buffer.writeln(
-      DartFormatter().format(argumentClassDef.accept(emitter).toString()));
 }
 
-void printQueryClass(StringBuffer buffer, QueryDefinition definition) {
+Class printQueryClass(QueryDefinition definition) {
   final sanitizedQueryStr = definition.query
       .replaceAll(RegExp(r'\s+'), ' ')
       .replaceAll(RegExp(r'\$'), '\\\$')
@@ -214,7 +204,7 @@ void printQueryClass(StringBuffer buffer, QueryDefinition definition) {
     ));
   }
 
-  final queryClassDef = Class(
+  return Class(
     (b) => b
       ..name = '${definition.queryName}Query'
       ..extend = refer('GraphQLQuery<$typeDeclaration>')
@@ -234,45 +224,57 @@ void printQueryClass(StringBuffer buffer, QueryDefinition definition) {
           ..body = Code('${definition.queryName}.fromJson(json)'),
       )),
   );
-
-  final emitter = DartEmitter();
-  buffer.writeln(
-      DartFormatter().format(queryClassDef.accept(emitter).toString()));
 }
 
 void printCustomQueryFile(StringBuffer buffer, QueryDefinition definition) {
-  buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND\n');
+  final importDirectives = [
+    Directive.import('package:json_annotation/json_annotation.dart'),
+  ];
+
   if (definition.generateHelpers) {
-    buffer.writeln('''import 'dart:async';
-import 'dart:convert';
-import 'package:http/http.dart' as http;''');
+    importDirectives.insertAll(0, [
+      Directive.import('dart:async'),
+      Directive.import('dart:convert'),
+      Directive.import('package:artemis/artemis.dart'),
+      Directive.import('package:http/http.dart', as: 'http'),
+    ]);
   }
 
-  buffer.writeln('import \'package:json_annotation/json_annotation.dart\';');
   if (definition.customParserImport != null) {
-    buffer.writeln('import \'${definition.customParserImport}\';');
+    importDirectives.add(Directive.import(definition.customParserImport));
   }
 
-  definition.customImports
-      .forEach((customImport) => buffer.writeln('import \'$customImport\';'));
+  importDirectives.addAll(definition.customImports
+      .map((customImport) => Directive.import(customImport)));
 
-  if (definition.generateHelpers) {
-    buffer.writeln('import \'package:artemis/artemis.dart\';');
-  }
+  final bodyDirectives = <Spec>[
+    CodeExpression(Code('part \'${definition.basename}.query.g.dart\';')),
+  ];
 
-  buffer.writeln('\npart \'${definition.basename}.query.g.dart\';');
+  bodyDirectives.addAll(
+      definition.classes.whereType<ClassDefinition>().map(printCustomClass));
+  bodyDirectives.addAll(
+      definition.classes.whereType<EnumDefinition>().map(printCustomEnum));
 
-  definition.classes.forEach((d) {
-    if (d is ClassDefinition) {
-      printCustomClass(buffer, d);
-    } else if (d is EnumDefinition) {
-      printCustomEnum(buffer, d);
-    }
-  });
   if (definition.inputs.isNotEmpty) {
-    printArgumentsClass(buffer, definition);
+    bodyDirectives.add(printArgumentsClass(definition));
   }
   if (definition.generateHelpers) {
-    printQueryClass(buffer, definition);
+    bodyDirectives.add(printQueryClass(definition));
   }
+
+  final libraryDef = Library(
+    (b) => b..directives.addAll(importDirectives)..body.addAll(bodyDirectives),
+  );
+
+  final emitter = DartEmitter();
+  buffer.writeln(
+      DartFormatter().format('''// GENERATED CODE - DO NOT MODIFY BY HAND
+
+${libraryDef.accept(emitter).toString()}'''));
+}
+
+String specToString(Spec spec) {
+  final emitter = DartEmitter();
+  return DartFormatter().format(spec.accept(emitter).toString());
 }
