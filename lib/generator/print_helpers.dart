@@ -4,7 +4,7 @@ import 'package:recase/recase.dart';
 import '../generator/data.dart';
 import '../generator/helpers.dart';
 
-Spec printCustomEnum(EnumDefinition definition) =>
+Spec enumDefinitionToSpec(EnumDefinition definition) =>
     CodeExpression(Code('''enum ${definition.name} {
   ${removeDuplicatedBy(definition.values, (i) => i).map((v) => '$v, ').join()}
 }'''));
@@ -39,7 +39,7 @@ String _toJsonBody(ClassDefinition definition) {
   return buffer.toString();
 }
 
-Spec printCustomClass(ClassDefinition definition) {
+Spec classDefinitionToSpec(ClassDefinition definition) {
   final fromJson = definition.factoryPossibilities.isNotEmpty
       ? Constructor(
           (b) => b
@@ -107,7 +107,7 @@ Spec printCustomClass(ClassDefinition definition) {
   );
 }
 
-Class printArgumentsClass(QueryDefinition definition) {
+Spec generateArgumentClassSpec(QueryDefinition definition) {
   return Class(
     (b) => b
       ..annotations
@@ -155,7 +155,7 @@ Class printArgumentsClass(QueryDefinition definition) {
   );
 }
 
-Class printQueryClass(QueryDefinition definition) {
+Spec generateQueryClassSpec(QueryDefinition definition) {
   final sanitizedQueryStr = definition.query
       .replaceAll(RegExp(r'\s+'), ' ')
       .replaceAll(RegExp(r'\$'), '\\\$')
@@ -226,7 +226,7 @@ Class printQueryClass(QueryDefinition definition) {
   );
 }
 
-void printCustomQueryFile(StringBuffer buffer, QueryDefinition definition) {
+Spec generateLibrarySpec(QueryDefinition definition) {
   final importDirectives = [
     Directive.import('package:json_annotation/json_annotation.dart'),
   ];
@@ -249,27 +249,30 @@ void printCustomQueryFile(StringBuffer buffer, QueryDefinition definition) {
     CodeExpression(Code('part \'${definition.basename}.query.g.dart\';')),
   ];
 
+  bodyDirectives.addAll(definition.classes
+      .whereType<ClassDefinition>()
+      .map(classDefinitionToSpec));
   bodyDirectives.addAll(
-      definition.classes.whereType<ClassDefinition>().map(printCustomClass));
-  bodyDirectives.addAll(
-      definition.classes.whereType<EnumDefinition>().map(printCustomEnum));
+      definition.classes.whereType<EnumDefinition>().map(enumDefinitionToSpec));
 
   if (definition.inputs.isNotEmpty) {
-    bodyDirectives.add(printArgumentsClass(definition));
+    bodyDirectives.add(generateArgumentClassSpec(definition));
   }
   if (definition.generateHelpers) {
-    bodyDirectives.add(printQueryClass(definition));
+    bodyDirectives.add(generateQueryClassSpec(definition));
   }
 
-  final libraryDef = Library(
+  return Library(
     (b) => b..directives.addAll(importDirectives)..body.addAll(bodyDirectives),
   );
-
-  buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND\n');
-  buffer.write(specToString(libraryDef));
 }
 
 String specToString(Spec spec) {
   final emitter = DartEmitter();
   return DartFormatter().format(spec.accept(emitter).toString());
+}
+
+void writeDefinitionsToBuffer(StringBuffer buffer, QueryDefinition definition) {
+  buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND\n');
+  buffer.write(specToString(generateLibrarySpec(definition)));
 }
