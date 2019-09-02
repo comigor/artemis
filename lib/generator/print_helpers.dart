@@ -94,8 +94,9 @@ Spec classDefinitionToSpec(ClassDefinition definition) {
       ..fields.addAll(definition.properties.map((p) {
         final annotations = <CodeExpression>[];
         if (p.override) annotations.add(CodeExpression(Code('override')));
-        if (p.annotation != null)
+        if (p.annotation != null) {
           annotations.add(CodeExpression(Code(p.annotation)));
+        }
         final field = Field(
           (f) => f
             ..name = p.name
