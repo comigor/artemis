@@ -2,9 +2,10 @@ targets:
   $default:
     sources:
       - lib/**
+      - pokemon.schema.json
     builders:
       artemis:
         options:
           schema_mapping:
-            - schema: lib/pokemon.schema.json
+            - schema: pokemon.schema.json
               queries_glob: lib/**.query.graphql
