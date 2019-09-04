@@ -102,6 +102,9 @@ class ScalarMap {
 /// Maps a GraphQL schema to queries files.
 @JsonSerializable(fieldRename: FieldRename.snake)
 class SchemaMap {
+  /// The output file of this queries glob.
+  final String output;
+
   /// The GraphQL schema string.
   final String schema;
 
@@ -114,6 +117,7 @@ class SchemaMap {
 
   /// Instatiates a schema mapping.
   SchemaMap({
+    this.output,
     this.schema,
     this.queriesGlob,
     this.resolveTypeField = '__resolveType',
