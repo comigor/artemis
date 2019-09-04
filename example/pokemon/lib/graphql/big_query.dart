@@ -3,7 +3,7 @@
 import 'package:artemis/artemis.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
-part 'big_query.query.g.dart';
+part 'big_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class BigQuery with EquatableMixin {
