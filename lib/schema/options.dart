@@ -8,7 +8,6 @@ part 'options.g2.dart';
 @JsonSerializable(fieldRename: FieldRename.snake, anyMap: true)
 class GeneratorOptions {
   /// A custom import for this query, defined in `build.yaml`.
-  @JsonKey(defaultValue: '')
   final String customParserImport;
 
   /// If instances of [GraphQLQuery] should be generated.

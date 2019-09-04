@@ -274,7 +274,7 @@ Spec generateLibrarySpec(QueryDefinition definition) {
       .map((customImport) => Directive.import(customImport)));
 
   final bodyDirectives = <Spec>[
-    CodeExpression(Code('part \'${definition.basename}.query.g.dart\';')),
+    CodeExpression(Code('part \'${definition.basename}.g.dart\';')),
   ];
 
   bodyDirectives.addAll(definition.classes

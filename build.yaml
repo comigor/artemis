@@ -2,7 +2,7 @@ builders:
   artemis:
     import: 'package:artemis/builder.dart'
     builder_factories: ['graphQLQueryBuilder']
-    build_extensions: {'.query.graphql': ['.query.dart']}
+    build_extensions: {'$lib$': ['.graphql.dart']}
     auto_apply: dependents
     build_to: source
     applies_builders: ['json_serializable']
