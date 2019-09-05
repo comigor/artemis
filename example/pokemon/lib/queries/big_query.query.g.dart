@@ -19,7 +19,7 @@ BigQuery _$BigQueryFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$BigQueryToJson(BigQuery instance) => <String, dynamic>{
       'charmander': instance.charmander?.toJson(),
-      'pokemons': instance.pokemons?.map((e) => e?.toJson())?.toList()
+      'pokemons': instance.pokemons?.map((e) => e?.toJson())?.toList(),
     };
 
 Charmander _$CharmanderFromJson(Map<String, dynamic> json) {
@@ -29,7 +29,10 @@ Charmander _$CharmanderFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$CharmanderToJson(Charmander instance) =>
-    <String, dynamic>{'number': instance.number, 'types': instance.types};
+    <String, dynamic>{
+      'number': instance.number,
+      'types': instance.types,
+    };
 
 Pokemon _$PokemonFromJson(Map<String, dynamic> json) {
   return Pokemon()
@@ -46,7 +49,7 @@ Map<String, dynamic> _$PokemonToJson(Pokemon instance) => <String, dynamic>{
       'number': instance.number,
       'name': instance.name,
       'types': instance.types,
-      'evolutions': instance.evolutions?.map((e) => e?.toJson())?.toList()
+      'evolutions': instance.evolutions?.map((e) => e?.toJson())?.toList(),
     };
 
 Evolutions _$EvolutionsFromJson(Map<String, dynamic> json) {
@@ -56,11 +59,18 @@ Evolutions _$EvolutionsFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$EvolutionsToJson(Evolutions instance) =>
-    <String, dynamic>{'number': instance.number, 'name': instance.name};
+    <String, dynamic>{
+      'number': instance.number,
+      'name': instance.name,
+    };
 
 BigQueryArguments _$BigQueryArgumentsFromJson(Map<String, dynamic> json) {
-  return BigQueryArguments(quantity: json['quantity'] as int);
+  return BigQueryArguments(
+    quantity: json['quantity'] as int,
+  );
 }
 
 Map<String, dynamic> _$BigQueryArgumentsToJson(BigQueryArguments instance) =>
-    <String, dynamic>{'quantity': instance.quantity};
+    <String, dynamic>{
+      'quantity': instance.quantity,
+    };
