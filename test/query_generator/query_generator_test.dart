@@ -21,7 +21,8 @@ void main() {
         'schema_mapping': [
           {
             'schema': 'api.schema.json',
-            'queries_glob': '**.query.graphql',
+            'queries_glob': '**.graphql',
+            'output': 'lib/some_query.dart',
           }
         ]
       }));
@@ -67,11 +68,11 @@ void main() {
         'a|api.schema.json': jsonFromSchema(schema),
         'a|some_query.query.graphql': 'query some_query { s, i }',
       }, outputs: {
-        'a|some_query.query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
+        'a|lib/some_query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
-part 'some_query.query.g.dart';
+part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class SomeQuery with EquatableMixin {
@@ -99,7 +100,8 @@ class SomeQuery with EquatableMixin {
         'schema_mapping': [
           {
             'schema': 'api.schema.json',
-            'queries_glob': '**.query.graphql',
+            'queries_glob': '**.graphql',
+            'output': 'lib/some_query.dart',
           }
         ]
       }));
@@ -182,13 +184,13 @@ class SomeQuery with EquatableMixin {
 
       await testBuilder(anotherBuilder, {
         'a|api.schema.json': jsonFromSchema(schema),
-        'a|some_query.query.graphql': queryString,
+        'a|some_query.graphql': queryString,
       }, outputs: {
-        'a|some_query.query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
+        'a|lib/some_query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
-part 'some_query.query.g.dart';
+part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class SomeQuery with EquatableMixin {
@@ -246,7 +248,8 @@ class AnotherObject with EquatableMixin {
         'schema_mapping': [
           {
             'schema': 'api.schema.json',
-            'queries_glob': '**.query.graphql',
+            'queries_glob': '**.graphql',
+            'output': 'lib/some_query.dart',
           }
         ]
       }));
@@ -285,14 +288,14 @@ class AnotherObject with EquatableMixin {
 
       await testBuilder(anotherBuilder, {
         'a|api.schema.json': jsonFromSchema(schema),
-        'a|some_query.query.graphql':
+        'a|some_query.graphql':
             'query some_query { firstName: s, lastName: st }',
       }, outputs: {
-        'a|some_query.query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
+        'a|lib/some_query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
-part 'some_query.query.g.dart';
+part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class SomeQuery with EquatableMixin {
@@ -322,7 +325,8 @@ class SomeQuery with EquatableMixin {
         'schema_mapping': [
           {
             'schema': 'api.schema.json',
-            'queries_glob': '**.query.graphql',
+            'queries_glob': '**.graphql',
+            'output': 'lib/some_query.dart',
           }
         ]
       }));
@@ -399,13 +403,13 @@ class SomeQuery with EquatableMixin {
 
       await testBuilder(anotherBuilder, {
         'a|api.schema.json': jsonFromSchema(schema),
-        'a|some_query.query.graphql': queryString,
+        'a|some_query.graphql': queryString,
       }, outputs: {
-        'a|some_query.query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
+        'a|lib/some_query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
-part 'some_query.query.g.dart';
+part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class SomeQuery with EquatableMixin {
@@ -462,7 +466,8 @@ class AnotherObject with EquatableMixin {
         'schema_mapping': [
           {
             'schema': 'api.schema.json',
-            'queries_glob': '**.query.graphql',
+            'queries_glob': '**.graphql',
+            'output': 'lib/some_query.dart',
           }
         ]
       }));
@@ -540,14 +545,14 @@ class AnotherObject with EquatableMixin {
 
       await testBuilder(anotherBuilder, {
         'a|api.schema.json': jsonFromSchema(schema),
-        'a|some_query.query.graphql': queryString,
+        'a|some_query.graphql': queryString,
       }, outputs: {
-        'a|some_query.query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
+        'a|lib/some_query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
-part 'some_query.query.g.dart';
+part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class SomeQuery with EquatableMixin {
@@ -620,7 +625,8 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery, JsonSerializable> {
         'schema_mapping': [
           {
             'schema': 'api.schema.json',
-            'queries_glob': '**.query.graphql',
+            'queries_glob': '**.graphql',
+            'output': 'lib/some_query.dart',
           },
         ],
         'scalar_mapping': [
@@ -699,17 +705,12 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery, JsonSerializable> {
 
       await testBuilder(anotherBuilder, {
         'a|api.schema.json': jsonFromSchema(schema),
-        'a|some_query.query.graphql':
-            'query some_query { bigDecimal, dateTime }',
+        'a|some_query.graphql': 'query some_query { bigDecimal, dateTime }',
       }, outputs: {
-        'a|some_query.query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
+        'a|lib/some_query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
-import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
-import 'package:decimal/decimal.dart';
-part 'some_query.query.g.dart';
 
-@JsonSerializable(explicitToJson: true)
 class SomeQuery with EquatableMixin {
   SomeQuery();
 
