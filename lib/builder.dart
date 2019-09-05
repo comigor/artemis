@@ -48,6 +48,10 @@ class GraphQLQueryBuilder implements Builder {
   @override
   Future<void> build(BuildStep buildStep) async {
     for (final schemaMap in options.schemaMapping) {
+      if (schemaMap.output == null) {
+        throw Exception('Each schema mapping must specify an output path!');
+      }
+
       final buffer = StringBuffer();
       final outputFileId = AssetId(buildStep.inputId.package, schemaMap.output);
       final schema = await _readSchemaFromPath(buildStep, schemaMap);
