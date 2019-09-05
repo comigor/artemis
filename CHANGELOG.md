@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 0.6.1
+- Include pubspec.lock files of examples
+
 ## 0.6.0
 - Replace `graphql_parser` with `gql` package
 
