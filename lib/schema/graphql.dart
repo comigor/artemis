@@ -14,13 +14,13 @@ class GraphQLSchema {
   /// A list of GraphQL types in this schema.
   final List<GraphQLType> types;
 
-  /// A list of GraphQL queries in this schema.
+  /// The GraphQL query type in this schema.
   final GraphQLType queryType;
 
-  /// A list of GraphQL mutation in this schema.
+  /// The GraphQL mutation type in this schema.
   final GraphQLType mutationType;
 
-  /// A list of GraphQL subscriptions in this schema.
+  /// The GraphQL subscription type in this schema.
   final GraphQLType subscriptionType;
 
   /// A list of GraphQL directives in this schema.
