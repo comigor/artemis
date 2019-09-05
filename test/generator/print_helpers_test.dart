@@ -247,7 +247,7 @@ class AClass with EquatableMixin {
 
 import \'package:json_annotation/json_annotation.dart\';
 import \'package:equatable/equatable.dart\';
-part \'test_query.query.g.dart\';
+part \'test_query.g.dart\';
 ''');
     });
 
@@ -264,7 +264,7 @@ part \'test_query.query.g.dart\';
 import \'package:json_annotation/json_annotation.dart\';
 import \'package:equatable/equatable.dart\';
 import \'some_file.dart\';
-part \'test_query.query.g.dart\';
+part \'test_query.g.dart\';
 ''');
     });
 
@@ -281,7 +281,7 @@ part \'test_query.query.g.dart\';
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
-part 'test_query.query.g.dart';
+part 'test_query.g.dart';
 
 class TestQueryQuery extends GraphQLQuery<TestQuery, JsonSerializable> {
   TestQueryQuery();
@@ -313,7 +313,7 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, JsonSerializable> {
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
-part 'test_query.query.g.dart';
+part 'test_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class TestQueryArguments extends JsonSerializable with EquatableMixin {
@@ -415,7 +415,7 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
-part 'test_query.query.g.dart';
+part 'test_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class AClass with EquatableMixin {
