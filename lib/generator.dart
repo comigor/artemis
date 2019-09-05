@@ -249,10 +249,7 @@ List<Definition> _extractClasses(
 
     // Spread fragment spreads into selections
     final fragmentSelections = selectionSet.selections
-        .where(
-          (s) => s is FragmentSpreadNode,
-        )
-        .cast<FragmentSpreadNode>()
+        .whereType<FragmentSpreadNode>()
         .map(
           (selection) => fragments
               .firstWhere(
