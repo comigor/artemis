@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 0.6.0
+- Replace `graphql_parser` with `gql` package
+
 ## 0.5.1
 - Add most documentation
 - Increase pana grade (health and maintenance)
