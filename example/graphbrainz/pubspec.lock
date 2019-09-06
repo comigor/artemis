@@ -21,7 +21,7 @@ packages:
       path: "../.."
       relative: true
     source: path
-    version: "0.6.0"
+    version: "0.6.1"
   async:
     dependency: transitive
     description:
@@ -148,6 +148,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.10"
+  equatable:
+    dependency: transitive
+    description:
+      name: equatable
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.1"
   fixnum:
     dependency: transitive
     description:

@@ -40,6 +40,16 @@ String _toJsonBody(ClassDefinition definition) {
   return buffer.toString();
 }
 
+Method _propsMethod(String body) {
+  return Method((m) => m
+    ..type = MethodType.getter
+    ..returns = refer('List<Object>')
+    ..annotations.add(CodeExpression(Code('override')))
+    ..name = 'props'
+    ..lambda = true
+    ..body = Code(body));
+}
+
 /// Generates a [Spec] of a single class definition.
 Spec classDefinitionToSpec(ClassDefinition definition) {
   final fromJson = definition.factoryPossibilities.isNotEmpty
@@ -87,6 +97,9 @@ Spec classDefinitionToSpec(ClassDefinition definition) {
       ..annotations
           .add(CodeExpression(Code('JsonSerializable(explicitToJson: true)')))
       ..name = definition.name
+      ..mixins.add(refer('EquatableMixin'))
+      ..methods.add(_propsMethod(
+          '[${definition.properties.map((p) => p.name).join(',')}]'))
       ..extend =
           definition.extension != null ? refer(definition.extension) : null
       ..implements.addAll(definition.implementations.map((i) => refer(i)))
@@ -118,6 +131,9 @@ Spec generateArgumentClassSpec(QueryDefinition definition) {
           .add(CodeExpression(Code('JsonSerializable(explicitToJson: true)')))
       ..name = '${definition.queryName}Arguments'
       ..extend = refer('JsonSerializable')
+      ..mixins.add(refer('EquatableMixin'))
+      ..methods.add(_propsMethod(
+          '[${definition.inputs.map((input) => input.name).join(',')}]'))
       ..constructors.add(Constructor(
         (b) => b
           ..optionalParameters.addAll(definition.inputs.map(
@@ -215,6 +231,8 @@ Spec generateQueryClassSpec(QueryDefinition definition) {
       ..extend = refer('GraphQLQuery<$typeDeclaration>')
       ..constructors.add(constructor)
       ..fields.addAll(fields)
+      ..methods.add(_propsMethod(
+          '[query, operationName${definition.inputs.isNotEmpty ? ', variables' : ''}]'))
       ..methods.add(Method(
         (m) => m
           ..annotations.add(CodeExpression(Code('override')))
@@ -236,12 +254,15 @@ Spec generateQueryClassSpec(QueryDefinition definition) {
 Spec generateLibrarySpec(QueryDefinition definition) {
   final importDirectives = [
     Directive.import('package:json_annotation/json_annotation.dart'),
+    Directive.import('package:equatable/equatable.dart'),
   ];
 
   if (definition.generateHelpers) {
-    importDirectives.insert(
+    importDirectives.insertAll(
       0,
-      Directive.import('package:artemis/artemis.dart'),
+      [
+        Directive.import('package:artemis/artemis.dart'),
+      ],
     );
   }
 

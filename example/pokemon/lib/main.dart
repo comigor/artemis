@@ -10,6 +10,10 @@ Future<void> main() async {
   final simpleQuery = SimpleQueryQuery();
   final bigQuery = BigQueryQuery(variables: BigQueryArguments(quantity: 5));
 
+  final bigQuery2 = BigQueryQuery(variables: BigQueryArguments(quantity: 5));
+
+  print('Equality works: ${bigQuery == bigQuery2}');
+
   final simpleQueryResponse = await client.execute(simpleQuery);
   final bigQueryResponse = await client.execute(bigQuery);
 

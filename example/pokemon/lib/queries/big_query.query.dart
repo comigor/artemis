@@ -1,11 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:artemis/artemis.dart';
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'big_query.query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class BigQuery {
+class BigQuery with EquatableMixin {
   BigQuery();
 
   factory BigQuery.fromJson(Map<String, dynamic> json) =>
@@ -15,11 +16,13 @@ class BigQuery {
 
   List<Pokemon> pokemons;
 
+  @override
+  List<Object> get props => [charmander, pokemons];
   Map<String, dynamic> toJson() => _$BigQueryToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class Charmander {
+class Charmander with EquatableMixin {
   Charmander();
 
   factory Charmander.fromJson(Map<String, dynamic> json) =>
@@ -29,11 +32,13 @@ class Charmander {
 
   List<String> types;
 
+  @override
+  List<Object> get props => [number, types];
   Map<String, dynamic> toJson() => _$CharmanderToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class Pokemon {
+class Pokemon with EquatableMixin {
   Pokemon();
 
   factory Pokemon.fromJson(Map<String, dynamic> json) =>
@@ -47,11 +52,13 @@ class Pokemon {
 
   List<Evolutions> evolutions;
 
+  @override
+  List<Object> get props => [number, name, types, evolutions];
   Map<String, dynamic> toJson() => _$PokemonToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class Evolutions {
+class Evolutions with EquatableMixin {
   Evolutions();
 
   factory Evolutions.fromJson(Map<String, dynamic> json) =>
@@ -61,11 +68,13 @@ class Evolutions {
 
   String name;
 
+  @override
+  List<Object> get props => [number, name];
   Map<String, dynamic> toJson() => _$EvolutionsToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class BigQueryArguments extends JsonSerializable {
+class BigQueryArguments extends JsonSerializable with EquatableMixin {
   BigQueryArguments({this.quantity});
 
   factory BigQueryArguments.fromJson(Map<String, dynamic> json) =>
@@ -73,6 +82,8 @@ class BigQueryArguments extends JsonSerializable {
 
   final int quantity;
 
+  @override
+  List<Object> get props => [quantity];
   Map<String, dynamic> toJson() => _$BigQueryArgumentsToJson(this);
 }
 
@@ -89,6 +100,8 @@ class BigQueryQuery extends GraphQLQuery<BigQuery, BigQueryArguments> {
   @override
   final BigQueryArguments variables;
 
+  @override
+  List<Object> get props => [query, operationName, variables];
   @override
   BigQuery parse(Map<String, dynamic> json) => BigQuery.fromJson(json);
 }
