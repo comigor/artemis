@@ -1,8 +1,6 @@
-import 'package:collection/collection.dart';
+import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
 import '../schema/graphql.dart';
-
-final Function _eq = const ListEquality().equals;
 
 /// Callback fired when the generator processes a [QueryDefinition].
 typedef void OnBuildQuery(QueryDefinition definition);
@@ -15,7 +13,7 @@ typedef void OnNewClassFoundCallback(
 );
 
 /// Define a property (field) from a class.
-class ClassProperty {
+class ClassProperty extends Equatable {
   /// The property type.
   final String type;
 
@@ -38,18 +36,11 @@ class ClassProperty {
           override: override ?? this.override,
           annotation: annotation ?? this.annotation);
 
-  bool operator ==(dynamic o) =>
-      o is ClassProperty &&
-      o.type == type &&
-      o.name == name &&
-      o.override == override &&
-      o.annotation == annotation;
-  int get hashCode =>
-      type.hashCode ^ name.hashCode ^ override.hashCode ^ annotation.hashCode;
+  List get props => [type, name, override, annotation];
 }
 
 /// Define a query/mutation input parameter.
-class QueryInput {
+class QueryInput extends Equatable {
   /// The input type.
   final String type;
 
@@ -63,13 +54,12 @@ class QueryInput {
         assert(
             name != null && name.isNotEmpty, 'Name can\'t be null nor empty.');
 
-  bool operator ==(dynamic o) =>
-      o is QueryInput && o.type == type && o.name == name;
-  int get hashCode => type.hashCode ^ name.hashCode;
+  @override
+  List get props => [type, name];
 }
 
 /// Abstract definition of an entity.
-abstract class Definition {
+abstract class Definition extends Equatable {
   /// The definition name.
   final String name;
 
@@ -78,8 +68,8 @@ abstract class Definition {
       : assert(
             name != null && name.isNotEmpty, 'Name can\'t be null nor empty.');
 
-  bool operator ==(dynamic o) => o is Definition && o.name == name;
-  int get hashCode => name.hashCode;
+  @override
+  List get props => [name];
 }
 
 /// Define a Dart class parsed from GraphQL schema.
@@ -110,21 +100,15 @@ class ClassDefinition extends Definition {
     this.resolveTypeField = '__resolveType',
   }) : super(name);
 
-  bool operator ==(dynamic o) =>
-      o is ClassDefinition &&
-      o.name == name &&
-      _eq(o.properties, properties) &&
-      o.extension == extension &&
-      _eq(o.implementations, implementations) &&
-      _eq(o.factoryPossibilities, factoryPossibilities) &&
-      o.resolveTypeField == resolveTypeField;
-  int get hashCode =>
-      name.hashCode ^
-      properties.hashCode ^
-      extension.hashCode ^
-      implementations.hashCode ^
-      factoryPossibilities.hashCode ^
-      resolveTypeField.hashCode;
+  @override
+  List get props => [
+        name,
+        properties,
+        extension,
+        implementations,
+        factoryPossibilities,
+        resolveTypeField
+      ];
 }
 
 /// Define a Dart enum parsed from GraphQL schema.
@@ -140,13 +124,12 @@ class EnumDefinition extends Definition {
             'An enum must have at least one possible value.'),
         super(name);
 
-  bool operator ==(dynamic o) =>
-      o is EnumDefinition && o.name == name && _eq(o.values, values);
-  int get hashCode => name.hashCode ^ values.hashCode;
+  @override
+  List get props => [name, values];
 }
 
 /// Define a GraphQL query.
-class QueryDefinition {
+class QueryDefinition extends Equatable {
   /// The query name.
   final String queryName;
 
@@ -188,23 +171,15 @@ class QueryDefinition {
         assert(basename != null && basename.isNotEmpty,
             'Basename must not be null or empty.');
 
-  bool operator ==(dynamic o) =>
-      o is QueryDefinition &&
-      o.queryName == queryName &&
-      o.query == query &&
-      o.basename == basename &&
-      _eq(o.classes, classes) &&
-      _eq(o.inputs, inputs) &&
-      o.customParserImport == customParserImport &&
-      o.generateHelpers == generateHelpers &&
-      _eq(o.customImports, customImports);
-  int get hashCode =>
-      queryName.hashCode ^
-      query.hashCode ^
-      basename.hashCode ^
-      classes.hashCode ^
-      inputs.hashCode ^
-      customParserImport.hashCode ^
-      generateHelpers.hashCode ^
-      customImports.hashCode;
+  @override
+  List get props => [
+        queryName,
+        query,
+        basename,
+        classes,
+        inputs,
+        customImports,
+        generateHelpers,
+        customParserImport
+      ];
 }
