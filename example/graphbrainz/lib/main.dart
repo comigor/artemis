@@ -7,7 +7,10 @@ Future<void> main() async {
   final client = ArtemisClient(graphQLEndpoint);
 
   final query = EdSheeranQuery();
+  final query2 = EdSheeranQuery();
   final response = await client.execute(query);
+
+  print('Equality works: ${query == query2}');
 
   if (response.hasErrors) {
     return print('Error: ${response.errors.map((e) => e.message).toList()}');

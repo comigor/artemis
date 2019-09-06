@@ -70,10 +70,11 @@ void main() {
         'a|some_query.query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:equatable/equatable.dart';
 part 'some_query.query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery {
+class SomeQuery with EquatableMixin {
   SomeQuery();
 
   factory SomeQuery.fromJson(Map<String, dynamic> json) =>
@@ -83,6 +84,8 @@ class SomeQuery {
 
   int i;
 
+  @override
+  List<Object> get props => [s, i];
   Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
 }
 ''',
@@ -184,10 +187,11 @@ class SomeQuery {
         'a|some_query.query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:equatable/equatable.dart';
 part 'some_query.query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery {
+class SomeQuery with EquatableMixin {
   SomeQuery();
 
   factory SomeQuery.fromJson(Map<String, dynamic> json) =>
@@ -197,11 +201,13 @@ class SomeQuery {
 
   SomeObject o;
 
+  @override
+  List<Object> get props => [s, o];
   Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class SomeObject {
+class SomeObject with EquatableMixin {
   SomeObject();
 
   factory SomeObject.fromJson(Map<String, dynamic> json) =>
@@ -211,11 +217,13 @@ class SomeObject {
 
   List<AnotherObject> ob;
 
+  @override
+  List<Object> get props => [st, ob];
   Map<String, dynamic> toJson() => _\$SomeObjectToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class AnotherObject {
+class AnotherObject with EquatableMixin {
   AnotherObject();
 
   factory AnotherObject.fromJson(Map<String, dynamic> json) =>
@@ -223,6 +231,8 @@ class AnotherObject {
 
   String str;
 
+  @override
+  List<Object> get props => [str];
   Map<String, dynamic> toJson() => _\$AnotherObjectToJson(this);
 }
 ''',
@@ -281,10 +291,11 @@ class AnotherObject {
         'a|some_query.query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:equatable/equatable.dart';
 part 'some_query.query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery {
+class SomeQuery with EquatableMixin {
   SomeQuery();
 
   factory SomeQuery.fromJson(Map<String, dynamic> json) =>
@@ -294,6 +305,8 @@ class SomeQuery {
 
   String lastName;
 
+  @override
+  List<Object> get props => [firstName, lastName];
   Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
 }
 ''',
@@ -391,10 +404,11 @@ class SomeQuery {
         'a|some_query.query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:equatable/equatable.dart';
 part 'some_query.query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery {
+class SomeQuery with EquatableMixin {
   SomeQuery();
 
   factory SomeQuery.fromJson(Map<String, dynamic> json) =>
@@ -406,11 +420,13 @@ class SomeQuery {
 
   List<AnotherObject> anotherObject;
 
+  @override
+  List<Object> get props => [s, o, anotherObject];
   Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class SomeObject {
+class SomeObject with EquatableMixin {
   SomeObject();
 
   factory SomeObject.fromJson(Map<String, dynamic> json) =>
@@ -418,11 +434,13 @@ class SomeObject {
 
   String st;
 
+  @override
+  List<Object> get props => [st];
   Map<String, dynamic> toJson() => _\$SomeObjectToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class AnotherObject {
+class AnotherObject with EquatableMixin {
   AnotherObject();
 
   factory AnotherObject.fromJson(Map<String, dynamic> json) =>
@@ -430,6 +448,8 @@ class AnotherObject {
 
   String str;
 
+  @override
+  List<Object> get props => [str];
   Map<String, dynamic> toJson() => _\$AnotherObjectToJson(this);
 }
 ''',
@@ -526,10 +546,11 @@ class AnotherObject {
 
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:equatable/equatable.dart';
 part 'some_query.query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery {
+class SomeQuery with EquatableMixin {
   SomeQuery();
 
   factory SomeQuery.fromJson(Map<String, dynamic> json) =>
@@ -541,11 +562,13 @@ class SomeQuery {
 
   List<AnotherObject> anotherObject;
 
+  @override
+  List<Object> get props => [s, o, anotherObject];
   Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class SomeObject {
+class SomeObject with EquatableMixin {
   SomeObject();
 
   factory SomeObject.fromJson(Map<String, dynamic> json) =>
@@ -553,11 +576,13 @@ class SomeObject {
 
   String st;
 
+  @override
+  List<Object> get props => [st];
   Map<String, dynamic> toJson() => _\$SomeObjectToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class AnotherObject {
+class AnotherObject with EquatableMixin {
   AnotherObject();
 
   factory AnotherObject.fromJson(Map<String, dynamic> json) =>
@@ -565,6 +590,8 @@ class AnotherObject {
 
   String str;
 
+  @override
+  List<Object> get props => [str];
   Map<String, dynamic> toJson() => _\$AnotherObjectToJson(this);
 }
 
@@ -578,6 +605,8 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery, JsonSerializable> {
   @override
   final String operationName = 'some_query';
 
+  @override
+  List<Object> get props => [query, operationName];
   @override
   SomeQuery parse(Map<String, dynamic> json) => SomeQuery.fromJson(json);
 }
@@ -676,11 +705,12 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery, JsonSerializable> {
         'a|some_query.query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:equatable/equatable.dart';
 import 'package:decimal/decimal.dart';
 part 'some_query.query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery {
+class SomeQuery with EquatableMixin {
   SomeQuery();
 
   factory SomeQuery.fromJson(Map<String, dynamic> json) =>
@@ -690,6 +720,8 @@ class SomeQuery {
 
   DateTime dateTime;
 
+  @override
+  List<Object> get props => [bigDecimal, dateTime];
   Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
 }
 ''',

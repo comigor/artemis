@@ -2,11 +2,12 @@
 
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:equatable/equatable.dart';
 import 'package:graphbrainz_example/coercers.dart';
 part 'ed_sheeran.query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class EdSheeran {
+class EdSheeran with EquatableMixin {
   EdSheeran();
 
   factory EdSheeran.fromJson(Map<String, dynamic> json) =>
@@ -14,11 +15,13 @@ class EdSheeran {
 
   Node node;
 
+  @override
+  List<Object> get props => [node];
   Map<String, dynamic> toJson() => _$EdSheeranToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class Node {
+class Node with EquatableMixin {
   Node();
 
   factory Node.fromJson(Map<String, dynamic> json) {
@@ -35,6 +38,8 @@ class Node {
   @JsonKey(name: '__typename')
   String resolveType;
 
+  @override
+  List<Object> get props => [id, resolveType];
   Map<String, dynamic> toJson() {
     switch (resolveType) {
       case 'Artist':
@@ -46,7 +51,7 @@ class Node {
 }
 
 @JsonSerializable(explicitToJson: true)
-class Artist implements Node, Entity {
+class Artist with EquatableMixin implements Node, Entity {
   Artist();
 
   factory Artist.fromJson(Map<String, dynamic> json) => _$ArtistFromJson(json);
@@ -66,11 +71,13 @@ class Artist implements Node, Entity {
   @override
   String id;
 
+  @override
+  List<Object> get props => [mbid, name, lifeSpan, spotify, resolveType, id];
   Map<String, dynamic> toJson() => _$ArtistToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class LifeSpan {
+class LifeSpan with EquatableMixin {
   LifeSpan();
 
   factory LifeSpan.fromJson(Map<String, dynamic> json) =>
@@ -81,11 +88,13 @@ class LifeSpan {
       toJson: fromDartDateTimeToGraphQLDate)
   DateTime begin;
 
+  @override
+  List<Object> get props => [begin];
   Map<String, dynamic> toJson() => _$LifeSpanToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class SpotifyArtist {
+class SpotifyArtist with EquatableMixin {
   SpotifyArtist();
 
   factory SpotifyArtist.fromJson(Map<String, dynamic> json) =>
@@ -93,11 +102,13 @@ class SpotifyArtist {
 
   String href;
 
+  @override
+  List<Object> get props => [href];
   Map<String, dynamic> toJson() => _$SpotifyArtistToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class Entity {
+class Entity with EquatableMixin {
   Entity();
 
   factory Entity.fromJson(Map<String, dynamic> json) => _$EntityFromJson(json);
@@ -107,6 +118,8 @@ class Entity {
   @JsonKey(name: '__typename')
   String resolveType;
 
+  @override
+  List<Object> get props => [mbid, resolveType];
   Map<String, dynamic> toJson() => _$EntityToJson(this);
 }
 
@@ -120,6 +133,8 @@ class EdSheeranQuery extends GraphQLQuery<EdSheeran, JsonSerializable> {
   @override
   final String operationName = 'ed_sheeran';
 
+  @override
+  List<Object> get props => [query, operationName];
   @override
   EdSheeran parse(Map<String, dynamic> json) => EdSheeran.fromJson(json);
 }

@@ -1,8 +1,9 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 /// A GraphQL query abstraction. This class should be extended automatically
 /// by Artemis and used with [ArtemisClient].
-abstract class GraphQLQuery<T, U extends JsonSerializable> {
+abstract class GraphQLQuery<T, U extends JsonSerializable> extends Equatable {
   /// Instantiates a query or mutation.
   GraphQLQuery({this.variables});
 
