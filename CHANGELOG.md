@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 0.7.0
+- Make generated classes a mixin of `Equatable`, meaning they can be easily comparable with `==`
+
 ## 0.6.1
 - Include pubspec.lock files of examples
 
