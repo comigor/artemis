@@ -114,8 +114,8 @@ class SchemaMap {
   @JsonKey(defaultValue: '__resolveType')
   final String resolveTypeField;
 
-  /// Wheter to add the name of the query as a prefix for each object on query
-  /// input/response.
+  /// Wheter to add the name of the query as a prefix for each dependent object
+  /// of this query input or response.
   ///
   /// This is useful when [queriesGlob] from a single [SchemaMap] references
   /// more than one query with the same input or output objects, so their

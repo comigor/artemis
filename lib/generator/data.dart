@@ -164,16 +164,16 @@ class QueryDefinition extends Equatable {
 /// Define a whole library file, the output of a single [SchemaMap] code
 /// generation.
 class LibraryDefinition extends Equatable {
-  /// The file basename which contains the query on file path.
+  /// The output file basename.
   final String basename;
 
   /// A list of queries.
   final Iterable<QueryDefinition> queries;
 
-  /// A custom import for this query, defined in `build.yaml`.
+  /// An import for coercing custom scalars, defined in `build.yaml`.
   final String customParserImport;
 
-  /// Any other custom packagee imports, defined in `build.yaml`.
+  /// Any other custom package imports, defined in `build.yaml`.
   final Iterable<String> customImports;
 
   /// Instantiate a library definition.
