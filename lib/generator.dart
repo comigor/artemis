@@ -35,6 +35,7 @@ QueryDefinition generateQuery(
 
   final basename = p.basenameWithoutExtension(path);
   final queryName = ReCase(operation.name.value ?? basename).pascalCase;
+
   GraphQLType parentType = gql.getTypeByName(schema, schema.queryType.name);
   if (operation.type == OperationType.mutation) {
     parentType = gql.getTypeByName(schema, schema.mutationType.name);
@@ -53,8 +54,8 @@ QueryDefinition generateQuery(
       final type = gql.getTypeByName(schema, unwrappedType.name.value);
 
       if (type.kind == GraphQLTypeKind.INPUT_OBJECT) {
-        inputsClasses.addAll(_extractClasses(
-            null, fragments, schema, type.name, type, options, schemaMap));
+        inputsClasses.addAll(_extractClasses(null, fragments, schema, type.name,
+            type, options, schemaMap, queryName));
       }
 
       final dartTypeStr = gql.buildTypeString(type, options, dartType: true);
@@ -73,6 +74,7 @@ QueryDefinition generateQuery(
     parentType,
     options,
     schemaMap,
+    queryName,
   );
 
   return QueryDefinition(
@@ -152,14 +154,16 @@ ClassProperty _selectionToClassProperty(
   SelectionNode selection,
   GraphQLSchema schema,
   GraphQLType parentType,
-  GeneratorOptions options, {
+  GeneratorOptions options,
+  SchemaMap schemaMap,
+  String queryName, {
   OnNewClassFoundCallback onNewClassFound,
 }) {
   if (selection is! FieldNode) return null;
 
   final field = (selection as FieldNode);
 
-  String fieldName = field.name.value;
+  final String fieldName = field.name.value;
   String alias = fieldName;
   String aliasClassName;
   final bool hasAlias = field.alias != null;
@@ -170,6 +174,11 @@ ClassProperty _selectionToClassProperty(
 
   if (fieldName.startsWith('__')) {
     return null;
+  }
+
+  if (schemaMap.addQueryPrefix) {
+    alias = '$queryName$alias';
+    aliasClassName = '$queryName$aliasClassName';
   }
 
   return _createClassProperty(
@@ -191,7 +200,8 @@ List<Definition> _extractClasses(
   String className,
   GraphQLType currentType,
   GeneratorOptions options,
-  SchemaMap schemaMap, {
+  SchemaMap schemaMap,
+  String queryName, {
   SelectionSetNode parentSelectionSet,
 }) {
   if (currentType.kind == GraphQLTypeKind.INPUT_OBJECT ||
@@ -217,6 +227,7 @@ List<Definition> _extractClasses(
                 type,
                 options,
                 schemaMap,
+                queryName,
                 parentSelectionSet: selectionSet,
               ),
             );
@@ -275,6 +286,8 @@ List<Definition> _extractClasses(
           schema,
           currentType,
           options,
+          schemaMap,
+          queryName,
           onNewClassFound: (
             selectionSet,
             className,
@@ -289,6 +302,7 @@ List<Definition> _extractClasses(
                 type,
                 options,
                 schemaMap,
+                queryName,
                 parentSelectionSet: selectionSet,
               ),
             );
@@ -336,6 +350,7 @@ List<Definition> _extractClasses(
             spreadType,
             options,
             schemaMap,
+            queryName,
             parentSelectionSet: selectionSet,
           ),
         );
@@ -350,8 +365,8 @@ List<Definition> _extractClasses(
         orElse: () => null);
     if (unionOf != null) {
       classExtension = unionOf.name;
-      queue.addAll(_extractClasses(
-          null, fragments, schema, unionOf.name, unionOf, options, schemaMap));
+      queue.addAll(_extractClasses(null, fragments, schema, unionOf.name,
+          unionOf, options, schemaMap, queryName));
     }
 
     // If this is an interface, we must add resolveType
@@ -381,13 +396,15 @@ List<Definition> _extractClasses(
 
       implementations.forEach((interfaceType) {
         queue.addAll(_extractClasses(
-            selectionSet,
-            fragments,
-            schema,
-            interfaceType.name,
-            gql.getTypeByName(schema, interfaceType.name),
-            options,
-            schemaMap));
+          selectionSet,
+          fragments,
+          schema,
+          interfaceType.name,
+          gql.getTypeByName(schema, interfaceType.name),
+          options,
+          schemaMap,
+          queryName,
+        ));
 
         parentSelectionSet.selections.whereType<FieldNode>().forEach(
           (selection) {
@@ -396,6 +413,8 @@ List<Definition> _extractClasses(
               schema,
               interfaceType,
               options,
+              schemaMap,
+              queryName,
             );
             if (cp != null) {
               classProperties.add(cp.copyWith(override: true));
