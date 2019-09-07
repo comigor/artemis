@@ -728,5 +728,154 @@ class SomeQuery with EquatableMixin {
 ''',
       });
     });
+
+    test(
+        'If addQueryPrefix is true, all generated classes will have queryName as prefix',
+        () async {
+      final GraphQLQueryBuilder anotherBuilder =
+          graphQLQueryBuilder(BuilderOptions({
+        'generate_helpers': false,
+        'schema_mapping': [
+          {
+            'schema': 'api.schema.json',
+            'queries_glob': '**.graphql',
+            'output': 'lib/some_query.dart',
+            'add_query_prefix': true,
+          }
+        ]
+      }));
+      final GraphQLSchema schema = GraphQLSchema(
+          queryType: GraphQLType(name: 'Query', kind: GraphQLTypeKind.OBJECT),
+          types: [
+            GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR),
+            GraphQLType(name: 'Query', kind: GraphQLTypeKind.OBJECT, fields: [
+              GraphQLField(
+                  name: 's',
+                  type: GraphQLType(
+                      name: 'String', kind: GraphQLTypeKind.SCALAR)),
+              GraphQLField(
+                  name: 'o',
+                  type: GraphQLType(
+                      name: 'SomeObject', kind: GraphQLTypeKind.OBJECT)),
+            ]),
+            GraphQLType(
+                name: 'SomeObject',
+                kind: GraphQLTypeKind.OBJECT,
+                fields: [
+                  GraphQLField(
+                      name: 'st',
+                      type: GraphQLType(
+                          name: 'String', kind: GraphQLTypeKind.SCALAR)),
+                  GraphQLField(
+                      name: 'ob',
+                      type: GraphQLType(
+                          kind: GraphQLTypeKind.LIST,
+                          ofType: GraphQLType(
+                              name: 'AnotherObject',
+                              kind: GraphQLTypeKind.OBJECT))),
+                ]),
+            GraphQLType(
+                name: 'AnotherObject',
+                kind: GraphQLTypeKind.OBJECT,
+                fields: [
+                  GraphQLField(
+                      name: 'str',
+                      type: GraphQLType(
+                          name: 'String', kind: GraphQLTypeKind.SCALAR)),
+                ]),
+          ]);
+
+      final queryString = '''
+        query some_query {
+          s
+          o {
+            st
+            ob {
+              str
+            }
+          }
+        }
+        ''';
+
+      anotherBuilder.onBuild = expectAsync1((definition) {
+        expect(
+          definition,
+          QueryDefinition(
+            'SomeQuery',
+            queryString,
+            'some_query',
+            classes: [
+              ClassDefinition('SomeQuery', [
+                ClassProperty('String', 's'),
+                ClassProperty('SomeQuerySomeObject', 'o'),
+              ]),
+              ClassDefinition('SomeQuerySomeObject', [
+                ClassProperty('String', 'st'),
+                ClassProperty('List<SomeQueryAnotherObject>', 'ob'),
+              ]),
+              ClassDefinition('SomeQueryAnotherObject', [
+                ClassProperty('String', 'str'),
+              ]),
+            ],
+          ),
+        );
+      }, count: 1);
+
+      await testBuilder(
+          anotherBuilder,
+          {
+            'a|api.schema.json': jsonFromSchema(schema),
+            'a|some_query.graphql': queryString,
+          },
+          outputs: {
+            'a|lib/some_query.dart':
+                '''// GENERATED CODE - DO NOT MODIFY BY HAND
+
+import 'package:json_annotation/json_annotation.dart';
+part 'some_query.g.dart';
+
+@JsonSerializable(explicitToJson: true)
+class SomeQuery {
+  SomeQuery();
+
+  factory SomeQuery.fromJson(Map<String, dynamic> json) =>
+      _\$SomeQueryFromJson(json);
+
+  String s;
+
+  SomeQuerySomeObject o;
+
+  Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class SomeQuerySomeObject {
+  SomeQuerySomeObject();
+
+  factory SomeQuerySomeObject.fromJson(Map<String, dynamic> json) =>
+      _\$SomeQuerySomeObjectFromJson(json);
+
+  String st;
+
+  List<SomeQueryAnotherObject> ob;
+
+  Map<String, dynamic> toJson() => _\$SomeQuerySomeObjectToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class SomeQueryAnotherObject {
+  SomeQueryAnotherObject();
+
+  factory SomeQueryAnotherObject.fromJson(Map<String, dynamic> json) =>
+      _\$SomeQueryAnotherObjectFromJson(json);
+
+  String str;
+
+  Map<String, dynamic> toJson() => _\$SomeQueryAnotherObjectToJson(this);
+}
+''',
+          },
+          onLog: print);
+    });
   });
 }
