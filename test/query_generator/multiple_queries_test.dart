@@ -1,12 +1,11 @@
 import 'dart:convert';
-
-import 'package:artemis/generator/data.dart';
 import 'package:build/build.dart';
 import 'package:build_test/build_test.dart';
 import 'package:test/test.dart';
 
-import 'package:artemis/schema/graphql.dart';
 import 'package:artemis/builder.dart';
+import 'package:artemis/generator/data.dart';
+import 'package:artemis/schema/graphql.dart';
 
 String jsonFromSchema(GraphQLSchema schema) => json.encode({
       'data': {'__schema': schema.toJson()}
@@ -46,22 +45,35 @@ void main() {
               ]),
         ]);
 
-    // anotherBuilder.onBuild = expectAsync1((definition) {
-    //   expect(
-    //     definition,
-    //     QueryDefinition(
-    //       'SomeQuery',
-    //       'query some_query { s, i }',
-    //       'some_query',
-    //       classes: [
-    //         ClassDefinition('SomeQuery', [
-    //           ClassProperty('String', 's'),
-    //           ClassProperty('int', 'i'),
-    //         ])
-    //       ],
-    //     ),
-    //   );
-    // }, count: 1);
+    anotherBuilder.onBuild = expectAsync1((definition) {
+      expect(
+        definition,
+        LibraryDefinition(
+          'graphql_api',
+          queries: [
+            QueryDefinition(
+              'SomeQuery',
+              'query some_query { s, i }',
+              classes: [
+                ClassDefinition('SomeQuery', [
+                  ClassProperty('String', 's'),
+                  ClassProperty('int', 'i'),
+                ]),
+              ],
+            ),
+            QueryDefinition(
+              'AnotherQuery',
+              'query another_query { s }',
+              classes: [
+                ClassDefinition('AnotherQuery', [
+                  ClassProperty('String', 's'),
+                ]),
+              ],
+            ),
+          ],
+        ),
+      );
+    }, count: 1);
 
     await testBuilder(anotherBuilder, {
       'a|api.schema.json': jsonFromSchema(schema),
@@ -86,10 +98,6 @@ class SomeQuery {
 
   Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
 }
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
-import 'package:json_annotation/json_annotation.dart';
-part 'graphql_api.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class AnotherQuery {
@@ -106,18 +114,7 @@ class AnotherQuery {
     });
   });
 
-  test('Generated objects shouldn\'t be generated twice', () async {
-    final GraphQLQueryBuilder anotherBuilder =
-        graphQLQueryBuilder(BuilderOptions({
-      'generate_helpers': false,
-      'schema_mapping': [
-        {
-          'schema': 'api.schema.json',
-          'queries_glob': '**.graphql',
-          'output': 'lib/graphql_api.dart',
-        }
-      ]
-    }));
+  group('Generated objects shouldn\'t be generated twice', () {
     final GraphQLSchema schema = GraphQLSchema(
         queryType:
             GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT),
@@ -152,29 +149,86 @@ class AnotherQuery {
               ]),
         ]);
 
-    // anotherBuilder.onBuild = expectAsync1((definition) {
-    //   expect(
-    //     definition,
-    //     QueryDefinition(
-    //       'SomeQuery',
-    //       'query some_query { s, i }',
-    //       'some_query',
-    //       classes: [
-    //         ClassDefinition('SomeQuery', [
-    //           ClassProperty('String', 's'),
-    //           ClassProperty('int', 'i'),
-    //         ])
-    //       ],
-    //     ),
-    //   );
-    // }, count: 1);
+    test('By default, it will throw', () async {
+      final GraphQLQueryBuilder anotherBuilder =
+          graphQLQueryBuilder(BuilderOptions({
+        'generate_helpers': false,
+        'schema_mapping': [
+          {
+            'schema': 'api.schema.json',
+            'queries_glob': '**.graphql',
+            'output': 'lib/graphql_api.dart',
+          }
+        ]
+      }));
 
-    await testBuilder(anotherBuilder, {
-      'a|api.schema.json': jsonFromSchema(schema),
-      'a|some_query.graphql': 'query some_query { i, obj { str } }',
-      'a|another_query.graphql': 'query another_query { s, obj { str } }',
-    }, outputs: {
-      'a|lib/graphql_api.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
+      expect(
+          () => testBuilder(anotherBuilder, {
+                'a|api.schema.json': jsonFromSchema(schema),
+                'a|some_query.graphql': 'query some_query { i, obj { str } }',
+                'a|another_query.graphql':
+                    'query another_query { s, obj { str } }',
+              }),
+          throwsException);
+    });
+
+    test('If add_query_prefix is true, it will work', () async {
+      final GraphQLQueryBuilder anotherBuilder =
+          graphQLQueryBuilder(BuilderOptions({
+        'generate_helpers': false,
+        'schema_mapping': [
+          {
+            'schema': 'api.schema.json',
+            'queries_glob': '**.graphql',
+            'output': 'lib/graphql_api.dart',
+            'add_query_prefix': true,
+          }
+        ]
+      }));
+
+      anotherBuilder.onBuild = expectAsync1((definition) {
+        expect(
+          definition,
+          LibraryDefinition(
+            'graphql_api',
+            queries: [
+              QueryDefinition(
+                'SomeQuery',
+                'query some_query { i, obj { str } }',
+                classes: [
+                  ClassDefinition('SomeQuery', [
+                    ClassProperty('int', 'i'),
+                    ClassProperty('SomeQueryAnotherObject', 'obj'),
+                  ]),
+                  ClassDefinition('SomeQueryAnotherObject', [
+                    ClassProperty('String', 'str'),
+                  ]),
+                ],
+              ),
+              QueryDefinition(
+                'AnotherQuery',
+                'query another_query { s, obj { str } }',
+                classes: [
+                  ClassDefinition('AnotherQuery', [
+                    ClassProperty('String', 's'),
+                    ClassProperty('AnotherQueryAnotherObject', 'obj'),
+                  ]),
+                  ClassDefinition('AnotherQueryAnotherObject', [
+                    ClassProperty('String', 'str'),
+                  ]),
+                ],
+              ),
+            ],
+          ),
+        );
+      }, count: 1);
+
+      await testBuilder(anotherBuilder, {
+        'a|api.schema.json': jsonFromSchema(schema),
+        'a|some_query.graphql': 'query some_query { i, obj { str } }',
+        'a|another_query.graphql': 'query another_query { s, obj { str } }',
+      }, outputs: {
+        'a|lib/graphql_api.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
 part 'graphql_api.g.dart';
@@ -188,26 +242,22 @@ class SomeQuery {
 
   int i;
 
-  AnotherObject obj;
+  SomeQueryAnotherObject obj;
 
   Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class AnotherObject {
-  AnotherObject();
+class SomeQueryAnotherObject {
+  SomeQueryAnotherObject();
 
-  factory AnotherObject.fromJson(Map<String, dynamic> json) =>
-      _\$AnotherObjectFromJson(json);
+  factory SomeQueryAnotherObject.fromJson(Map<String, dynamic> json) =>
+      _\$SomeQueryAnotherObjectFromJson(json);
 
   String str;
 
-  Map<String, dynamic> toJson() => _\$AnotherObjectToJson(this);
+  Map<String, dynamic> toJson() => _\$SomeQueryAnotherObjectToJson(this);
 }
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
-import 'package:json_annotation/json_annotation.dart';
-part 'graphql_api.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class AnotherQuery {
@@ -218,23 +268,24 @@ class AnotherQuery {
 
   String s;
 
-  AnotherObject obj;
+  AnotherQueryAnotherObject obj;
 
   Map<String, dynamic> toJson() => _\$AnotherQueryToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class AnotherObject {
-  AnotherObject();
+class AnotherQueryAnotherObject {
+  AnotherQueryAnotherObject();
 
-  factory AnotherObject.fromJson(Map<String, dynamic> json) =>
-      _\$AnotherObjectFromJson(json);
+  factory AnotherQueryAnotherObject.fromJson(Map<String, dynamic> json) =>
+      _\$AnotherQueryAnotherObjectFromJson(json);
 
   String str;
 
-  Map<String, dynamic> toJson() => _\$AnotherObjectToJson(this);
+  Map<String, dynamic> toJson() => _\$AnotherQueryAnotherObjectToJson(this);
 }
 ''',
+      });
     });
   });
 }
