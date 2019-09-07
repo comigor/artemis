@@ -83,10 +83,11 @@ void main() {
       'a|lib/graphql_api.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:equatable/equatable.dart';
 part 'graphql_api.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery {
+class SomeQuery with EquatableMixin {
   SomeQuery();
 
   factory SomeQuery.fromJson(Map<String, dynamic> json) =>
@@ -96,11 +97,13 @@ class SomeQuery {
 
   int i;
 
+  @override
+  List<Object> get props => [s, i];
   Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class AnotherQuery {
+class AnotherQuery with EquatableMixin {
   AnotherQuery();
 
   factory AnotherQuery.fromJson(Map<String, dynamic> json) =>
@@ -108,6 +111,8 @@ class AnotherQuery {
 
   String s;
 
+  @override
+  List<Object> get props => [s];
   Map<String, dynamic> toJson() => _\$AnotherQueryToJson(this);
 }
 ''',
@@ -231,10 +236,11 @@ class AnotherQuery {
         'a|lib/graphql_api.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:equatable/equatable.dart';
 part 'graphql_api.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery {
+class SomeQuery with EquatableMixin {
   SomeQuery();
 
   factory SomeQuery.fromJson(Map<String, dynamic> json) =>
@@ -244,11 +250,13 @@ class SomeQuery {
 
   SomeQueryAnotherObject obj;
 
+  @override
+  List<Object> get props => [i, obj];
   Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class SomeQueryAnotherObject {
+class SomeQueryAnotherObject with EquatableMixin {
   SomeQueryAnotherObject();
 
   factory SomeQueryAnotherObject.fromJson(Map<String, dynamic> json) =>
@@ -256,11 +264,13 @@ class SomeQueryAnotherObject {
 
   String str;
 
+  @override
+  List<Object> get props => [str];
   Map<String, dynamic> toJson() => _\$SomeQueryAnotherObjectToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class AnotherQuery {
+class AnotherQuery with EquatableMixin {
   AnotherQuery();
 
   factory AnotherQuery.fromJson(Map<String, dynamic> json) =>
@@ -270,11 +280,13 @@ class AnotherQuery {
 
   AnotherQueryAnotherObject obj;
 
+  @override
+  List<Object> get props => [s, obj];
   Map<String, dynamic> toJson() => _\$AnotherQueryToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class AnotherQueryAnotherObject {
+class AnotherQueryAnotherObject with EquatableMixin {
   AnotherQueryAnotherObject();
 
   factory AnotherQueryAnotherObject.fromJson(Map<String, dynamic> json) =>
@@ -282,6 +294,8 @@ class AnotherQueryAnotherObject {
 
   String str;
 
+  @override
+  List<Object> get props => [str];
   Map<String, dynamic> toJson() => _\$AnotherQueryAnotherObjectToJson(this);
 }
 ''',
