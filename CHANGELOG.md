@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 1.0.0
+- Breaking: Add required `output` option to `SchemaMap`
+- Make Artemis a `$lib$` synthetic generator
+- Add `add_query_prefix` option to `SchemaMap`
+
 ## 0.7.0
 - Make generated classes a mixin of `Equatable`, meaning they can be easily comparable with `==`
 
