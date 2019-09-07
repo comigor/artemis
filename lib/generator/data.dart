@@ -2,8 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
 import '../schema/graphql.dart';
 
-/// Callback fired when the generator processes a [QueryDefinition].
-typedef void OnBuildQuery(QueryDefinition definition);
+/// Callback fired when the generator processes a [LibraryDefinition].
+typedef void OnBuildQuery(LibraryDefinition definition);
 
 /// Callback fired when a new class is found during schema parsing.
 typedef void OnNewClassFoundCallback(
@@ -128,7 +128,7 @@ class EnumDefinition extends Definition {
   List get props => [name, values];
 }
 
-/// Define a GraphQL query.
+/// Define a GraphQL query and its dependencies.
 class QueryDefinition extends Equatable {
   /// The query name.
   final String queryName;
@@ -136,50 +136,33 @@ class QueryDefinition extends Equatable {
   /// The full query string.
   final String query;
 
-  /// The file basename which contains the query on file path.
-  final String basename;
-
   /// A list of classes related to this query.
   final Iterable<Definition> classes;
 
   /// A list of inputs related to this query.
   final Iterable<QueryInput> inputs;
 
-  /// A custom import for this query, defined in `build.yaml`.
-  final String customParserImport;
-
   /// If instances of [GraphQLQuery] should be generated.
   final bool generateHelpers;
-
-  /// Any other custom packagee imports, defined in `build.yaml`.
-  final Iterable<String> customImports;
 
   /// Instantiate a query definition.
   QueryDefinition(
     this.queryName,
-    this.query,
-    this.basename, {
+    this.query, {
     this.classes = const [],
     this.inputs = const [],
-    this.customParserImport,
     this.generateHelpers = false,
-    this.customImports = const [],
   })  : assert(queryName != null && queryName.isNotEmpty,
             'Query name must not be null or empty.'),
         assert(query != null && query.isNotEmpty,
-            'Query must not be null or empty.'),
-        assert(basename != null && basename.isNotEmpty,
-            'Basename must not be null or empty.');
+            'Query must not be null or empty.');
 
   @override
   List get props => [
         queryName,
         query,
-        basename,
         classes,
         inputs,
-        customImports,
         generateHelpers,
-        customParserImport
       ];
 }
