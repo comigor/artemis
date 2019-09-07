@@ -7,6 +7,7 @@
 
 <!-- Badges -->
 [![Pub Package](https://img.shields.io/pub/v/artemis.svg)](https://pub.dev/packages/artemis)
+[![GitHub Actions](https://github.com/comigor/artemis/workflows/test/badge.svg)](https://github.com/comigor/artemis/actions)
 
 Artemis is a code generator that looks for `*.schema.json` (GraphQL Introspection Query response data) and `*.graphql` files and builds `.dart` files typing that query, based on the schema. That's similar to what [Apollo](https://github.com/apollographql/apollo-client) does (Artemis is his sister anyway).
 

@@ -1,6 +1,6 @@
 on: [pull_request, push]
 
-name: Test and deploy to pub.dev if tagged
+name: test
 
 jobs:
   test:
