@@ -733,8 +733,12 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery, JsonSerializable> {
       }, outputs: {
         'a|lib/some_query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
+import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
+import 'package:decimal/decimal.dart';
+part 'some_query.g.dart';
 
+@JsonSerializable(explicitToJson: true)
 class SomeQuery with EquatableMixin {
   SomeQuery();
 
@@ -860,10 +864,11 @@ class SomeQuery with EquatableMixin {
                 '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:equatable/equatable.dart';
 part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery {
+class SomeQuery with EquatableMixin {
   SomeQuery();
 
   factory SomeQuery.fromJson(Map<String, dynamic> json) =>
@@ -873,11 +878,13 @@ class SomeQuery {
 
   SomeQuerySomeObject o;
 
+  @override
+  List<Object> get props => [s, o];
   Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuerySomeObject {
+class SomeQuerySomeObject with EquatableMixin {
   SomeQuerySomeObject();
 
   factory SomeQuerySomeObject.fromJson(Map<String, dynamic> json) =>
@@ -887,11 +894,13 @@ class SomeQuerySomeObject {
 
   List<SomeQueryAnotherObject> ob;
 
+  @override
+  List<Object> get props => [st, ob];
   Map<String, dynamic> toJson() => _\$SomeQuerySomeObjectToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class SomeQueryAnotherObject {
+class SomeQueryAnotherObject with EquatableMixin {
   SomeQueryAnotherObject();
 
   factory SomeQueryAnotherObject.fromJson(Map<String, dynamic> json) =>
@@ -899,6 +908,8 @@ class SomeQueryAnotherObject {
 
   String str;
 
+  @override
+  List<Object> get props => [str];
   Map<String, dynamic> toJson() => _\$SomeQueryAnotherObjectToJson(this);
 }
 ''',
