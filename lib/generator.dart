@@ -21,6 +21,41 @@ List<FragmentDefinitionNode> _getFragmentsFromQuery(String queryStr) {
   return doc.definitions.whereType<FragmentDefinitionNode>().toList();
 }
 
+/// Generate queries definitions from a GraphQL schema and a list of queries,
+/// given Artemis options and schema mappings.
+LibraryDefinition generateLibrary(
+  GraphQLSchema schema,
+  String path,
+  List<String> queriesStrs,
+  GeneratorOptions options,
+  SchemaMap schemaMap,
+) {
+  final queriesDefinitions = queriesStrs
+      .map((s) => generateQuery(schema, path, s, options, schemaMap))
+      .toList();
+
+  final allClassesNames = queriesDefinitions.fold<Iterable<String>>(
+      [], (defs, def) => defs.followedBy(def.classes.map((c) => c.name)));
+
+  mergeDuplicatesBy(allClassesNames, (a) => a, (a, b) {
+    throw Exception('''Two classes were generated with the same name `$a`!
+You may want to do either:
+- Enable add_query_prefix on this schema_map
+- Make queries_glob stricter, to gather less .graphql files on a single output
+- Use alias on one of the places a `$a` field is requested''');
+  });
+
+  final basename = p.basenameWithoutExtension(path);
+  final List<String> customImports =
+      _extractCustomImports(schema.types, options);
+  return LibraryDefinition(
+    basename,
+    queries: queriesDefinitions,
+    customImports: customImports,
+    customParserImport: options.customParserImport,
+  );
+}
+
 /// Generate a query definition from a GraphQL schema and a query, given
 /// Artemis options and schema mappings.
 QueryDefinition generateQuery(
@@ -67,9 +102,6 @@ QueryDefinition generateQuery(
     });
   }
 
-  final List<String> customImports =
-      _extractCustomImports(schema.types, options);
-
   final classes = _extractClasses(
     operation.selectionSet,
     fragments,
@@ -84,13 +116,10 @@ QueryDefinition generateQuery(
   return QueryDefinition(
     queryName,
     queryStr,
-    basename,
     classes:
         removeDuplicatedBy(classes.followedBy(inputsClasses), (i) => i.name),
     inputs: inputs,
     generateHelpers: options.generateHelpers,
-    customParserImport: options.customParserImport,
-    customImports: customImports,
   );
 }
 
