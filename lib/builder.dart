@@ -13,8 +13,9 @@ Builder graphQLQueryBuilder(BuilderOptions options) =>
     GraphQLQueryBuilder(options);
 
 List<String> _builderOptionsToExpectedOutputs(BuilderOptions builderOptions) =>
-    (builderOptions.config['schema_mapping'] as List)
-        .map((i) => i['output'].toString().replaceAll(RegExp(r'^lib/'), ''))
+    GeneratorOptions.fromJson(builderOptions.config)
+        .schemaMapping
+        .map((s) => s.output.replaceAll(RegExp(r'^lib/'), ''))
         .toList();
 
 /// Main Artemis builder.

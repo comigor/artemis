@@ -14,6 +14,38 @@ String jsonFromSchema(GraphQLSchema schema) => json.encode({
 
 void main() {
   group('On query generation', () {
+    test('When not configured, nothing will be generated', () async {
+      final GraphQLQueryBuilder anotherBuilder =
+          graphQLQueryBuilder(BuilderOptions({}));
+      final GraphQLSchema schema = GraphQLSchema(
+          queryType:
+              GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT),
+          types: [
+            GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR),
+            GraphQLType(name: 'Int', kind: GraphQLTypeKind.SCALAR),
+            GraphQLType(
+                name: 'SomeObject',
+                kind: GraphQLTypeKind.OBJECT,
+                fields: [
+                  GraphQLField(
+                      name: 's',
+                      type: GraphQLType(
+                          name: 'String', kind: GraphQLTypeKind.SCALAR)),
+                  GraphQLField(
+                      name: 'i',
+                      type: GraphQLType(
+                          name: 'Int', kind: GraphQLTypeKind.SCALAR)),
+                ]),
+          ]);
+
+      anotherBuilder.onBuild = expectAsync1((_) {}, count: 0);
+
+      await testBuilder(anotherBuilder, {
+        'a|api.schema.json': jsonFromSchema(schema),
+        'a|some_query.query.graphql': 'query some_query { s, i }',
+      });
+    });
+
     test('A simple query yields simple classes', () async {
       final GraphQLQueryBuilder anotherBuilder =
           graphQLQueryBuilder(BuilderOptions({
