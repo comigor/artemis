@@ -251,13 +251,13 @@ Spec generateQueryClassSpec(QueryDefinition definition) {
 
 /// Gathers and generates a [Spec] of a whole query/mutation and its
 /// dependencies into a single library file.
-Spec generateLibrarySpec(QueryDefinition definition) {
+Spec generateLibrarySpec(LibraryDefinition definition) {
   final importDirectives = [
     Directive.import('package:json_annotation/json_annotation.dart'),
     Directive.import('package:equatable/equatable.dart'),
   ];
 
-  if (definition.generateHelpers) {
+  if (definition.queries.any((q) => q.generateHelpers)) {
     importDirectives.insertAll(
       0,
       [
@@ -277,17 +277,19 @@ Spec generateLibrarySpec(QueryDefinition definition) {
     CodeExpression(Code('part \'${definition.basename}.g.dart\';')),
   ];
 
-  bodyDirectives.addAll(definition.classes
-      .whereType<ClassDefinition>()
-      .map(classDefinitionToSpec));
-  bodyDirectives.addAll(
-      definition.classes.whereType<EnumDefinition>().map(enumDefinitionToSpec));
+  for (final queryDef in definition.queries) {
+    bodyDirectives.addAll(queryDef.classes
+        .whereType<ClassDefinition>()
+        .map(classDefinitionToSpec));
+    bodyDirectives.addAll(
+        queryDef.classes.whereType<EnumDefinition>().map(enumDefinitionToSpec));
 
-  if (definition.inputs.isNotEmpty) {
-    bodyDirectives.add(generateArgumentClassSpec(definition));
-  }
-  if (definition.generateHelpers) {
-    bodyDirectives.add(generateQueryClassSpec(definition));
+    if (queryDef.inputs.isNotEmpty) {
+      bodyDirectives.add(generateArgumentClassSpec(queryDef));
+    }
+    if (queryDef.generateHelpers) {
+      bodyDirectives.add(generateQueryClassSpec(queryDef));
+    }
   }
 
   return Library(
@@ -303,7 +305,8 @@ String specToString(Spec spec) {
 
 /// Generate Dart code typings from a query or mutation and its response from
 /// a [QueryDefinition] into a buffer.
-void writeDefinitionsToBuffer(StringBuffer buffer, QueryDefinition definition) {
+void writeLibraryDefinitionToBuffer(
+    StringBuffer buffer, LibraryDefinition definition) {
   buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND\n');
   buffer.write(specToString(generateLibrarySpec(definition)));
 }
