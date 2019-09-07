@@ -50,15 +50,19 @@ void main() {
       anotherBuilder.onBuild = expectAsync1((definition) {
         expect(
           definition,
-          QueryDefinition(
-            'SomeQuery',
-            'query some_query { s, i }',
+          LibraryDefinition(
             'some_query',
-            classes: [
-              ClassDefinition('SomeQuery', [
-                ClassProperty('String', 's'),
-                ClassProperty('int', 'i'),
-              ])
+            queries: [
+              QueryDefinition(
+                'SomeQuery',
+                'query some_query { s, i }',
+                classes: [
+                  ClassDefinition('SomeQuery', [
+                    ClassProperty('String', 's'),
+                    ClassProperty('int', 'i'),
+                  ])
+                ],
+              ),
             ],
           ),
         );
@@ -161,22 +165,26 @@ class SomeQuery with EquatableMixin {
       anotherBuilder.onBuild = expectAsync1((definition) {
         expect(
           definition,
-          QueryDefinition(
-            'SomeQuery',
-            queryString,
+          LibraryDefinition(
             'some_query',
-            classes: [
-              ClassDefinition('SomeQuery', [
-                ClassProperty('String', 's'),
-                ClassProperty('SomeObject', 'o'),
-              ]),
-              ClassDefinition('SomeObject', [
-                ClassProperty('String', 'st'),
-                ClassProperty('List<AnotherObject>', 'ob'),
-              ]),
-              ClassDefinition('AnotherObject', [
-                ClassProperty('String', 'str'),
-              ]),
+            queries: [
+              QueryDefinition(
+                'SomeQuery',
+                queryString,
+                classes: [
+                  ClassDefinition('SomeQuery', [
+                    ClassProperty('String', 's'),
+                    ClassProperty('SomeObject', 'o'),
+                  ]),
+                  ClassDefinition('SomeObject', [
+                    ClassProperty('String', 'st'),
+                    ClassProperty('List<AnotherObject>', 'ob'),
+                  ]),
+                  ClassDefinition('AnotherObject', [
+                    ClassProperty('String', 'str'),
+                  ]),
+                ],
+              ),
             ],
           ),
         );
@@ -272,15 +280,19 @@ class AnotherObject with EquatableMixin {
       anotherBuilder.onBuild = expectAsync1((definition) {
         expect(
           definition,
-          QueryDefinition(
-            'SomeQuery',
-            'query some_query { firstName: s, lastName: st }',
+          LibraryDefinition(
             'some_query',
-            classes: [
-              ClassDefinition('SomeQuery', [
-                ClassProperty('String', 'firstName'),
-                ClassProperty('String', 'lastName'),
-              ]),
+            queries: [
+              QueryDefinition(
+                'SomeQuery',
+                'query some_query { firstName: s, lastName: st }',
+                classes: [
+                  ClassDefinition('SomeQuery', [
+                    ClassProperty('String', 'firstName'),
+                    ClassProperty('String', 'lastName'),
+                  ]),
+                ],
+              ),
             ],
           ),
         );
@@ -380,22 +392,26 @@ class SomeQuery with EquatableMixin {
       anotherBuilder.onBuild = expectAsync1((definition) {
         expect(
           definition,
-          QueryDefinition(
-            'SomeQuery',
-            queryString,
+          LibraryDefinition(
             'some_query',
-            classes: [
-              ClassDefinition('SomeQuery', [
-                ClassProperty('String', 's'),
-                ClassProperty('SomeObject', 'o'),
-                ClassProperty('List<AnotherObject>', 'anotherObject'),
-              ]),
-              ClassDefinition('SomeObject', [
-                ClassProperty('String', 'st'),
-              ]),
-              ClassDefinition('AnotherObject', [
-                ClassProperty('String', 'str'),
-              ]),
+            queries: [
+              QueryDefinition(
+                'SomeQuery',
+                queryString,
+                classes: [
+                  ClassDefinition('SomeQuery', [
+                    ClassProperty('String', 's'),
+                    ClassProperty('SomeObject', 'o'),
+                    ClassProperty('List<AnotherObject>', 'anotherObject'),
+                  ]),
+                  ClassDefinition('SomeObject', [
+                    ClassProperty('String', 'st'),
+                  ]),
+                  ClassDefinition('AnotherObject', [
+                    ClassProperty('String', 'str'),
+                  ]),
+                ],
+              ),
             ],
           ),
         );
@@ -521,24 +537,28 @@ class AnotherObject with EquatableMixin {
       anotherBuilder.onBuild = expectAsync1((definition) {
         expect(
           definition,
-          QueryDefinition(
-            'SomeQuery',
-            queryString,
+          LibraryDefinition(
             'some_query',
-            classes: [
-              ClassDefinition('SomeQuery', [
-                ClassProperty('String', 's'),
-                ClassProperty('SomeObject', 'o'),
-                ClassProperty('List<AnotherObject>', 'anotherObject'),
-              ]),
-              ClassDefinition('SomeObject', [
-                ClassProperty('String', 'st'),
-              ]),
-              ClassDefinition('AnotherObject', [
-                ClassProperty('String', 'str'),
-              ]),
+            queries: [
+              QueryDefinition(
+                'SomeQuery',
+                queryString,
+                classes: [
+                  ClassDefinition('SomeQuery', [
+                    ClassProperty('String', 's'),
+                    ClassProperty('SomeObject', 'o'),
+                    ClassProperty('List<AnotherObject>', 'anotherObject'),
+                  ]),
+                  ClassDefinition('SomeObject', [
+                    ClassProperty('String', 'st'),
+                  ]),
+                  ClassDefinition('AnotherObject', [
+                    ClassProperty('String', 'str'),
+                  ]),
+                ],
+                generateHelpers: true,
+              ),
             ],
-            generateHelpers: true,
           ),
         );
       }, count: 1);
@@ -686,15 +706,19 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery, JsonSerializable> {
       anotherBuilder.onBuild = expectAsync1((definition) {
         expect(
           definition,
-          QueryDefinition(
-            'SomeQuery',
-            'query some_query { bigDecimal, dateTime }',
+          LibraryDefinition(
             'some_query',
-            classes: [
-              ClassDefinition('SomeQuery', [
-                ClassProperty('Decimal', 'bigDecimal'),
-                ClassProperty('DateTime', 'dateTime'),
-              ])
+            queries: [
+              QueryDefinition(
+                'SomeQuery',
+                'query some_query { bigDecimal, dateTime }',
+                classes: [
+                  ClassDefinition('SomeQuery', [
+                    ClassProperty('Decimal', 'bigDecimal'),
+                    ClassProperty('DateTime', 'dateTime'),
+                  ])
+                ],
+              ),
             ],
             customImports: [
               'package:decimal/decimal.dart',
@@ -800,22 +824,26 @@ class SomeQuery with EquatableMixin {
       anotherBuilder.onBuild = expectAsync1((definition) {
         expect(
           definition,
-          QueryDefinition(
-            'SomeQuery',
-            queryString,
+          LibraryDefinition(
             'some_query',
-            classes: [
-              ClassDefinition('SomeQuery', [
-                ClassProperty('String', 's'),
-                ClassProperty('SomeQuerySomeObject', 'o'),
-              ]),
-              ClassDefinition('SomeQuerySomeObject', [
-                ClassProperty('String', 'st'),
-                ClassProperty('List<SomeQueryAnotherObject>', 'ob'),
-              ]),
-              ClassDefinition('SomeQueryAnotherObject', [
-                ClassProperty('String', 'str'),
-              ]),
+            queries: [
+              QueryDefinition(
+                'SomeQuery',
+                queryString,
+                classes: [
+                  ClassDefinition('SomeQuery', [
+                    ClassProperty('String', 's'),
+                    ClassProperty('SomeQuerySomeObject', 'o'),
+                  ]),
+                  ClassDefinition('SomeQuerySomeObject', [
+                    ClassProperty('String', 'st'),
+                    ClassProperty('List<SomeQueryAnotherObject>', 'ob'),
+                  ]),
+                  ClassDefinition('SomeQueryAnotherObject', [
+                    ClassProperty('String', 'str'),
+                  ]),
+                ],
+              ),
             ],
           ),
         );
