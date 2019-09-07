@@ -58,16 +58,15 @@ class GraphQLQueryBuilder implements Builder {
 
       // Loop through all files in glob
       final assetStream = buildStep.findAssets(Glob(schemaMap.queriesGlob));
-      await for (final input in assetStream) {
-        final src = await buildStep.readAsString(input);
-        final definition =
-            generateQuery(schema, schemaMap.output, src, options, schemaMap);
-        if (onBuild != null) {
-          onBuild(definition);
-        }
+      final sources =
+          await assetStream.asyncMap(buildStep.readAsString).toList();
 
-        writeDefinitionsToBuffer(buffer, definition);
+      final libDefinition = generateLibrary(
+          schema, schemaMap.output, sources, options, schemaMap);
+      if (onBuild != null) {
+        onBuild(libDefinition);
       }
+      writeLibraryDefinitionToBuffer(buffer, libDefinition);
 
       await buildStep.writeAsString(outputFileId, buffer.toString());
     }

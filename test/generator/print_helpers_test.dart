@@ -206,42 +206,34 @@ class AClass with EquatableMixin {
     });
   });
 
-  group('On printCustomQuery', () {
-    test('It will throw if name/query/basename is null or empty.', () {
-      final buffer = StringBuffer();
+  group('On generateQueryClassSpec', () {
+    test('It will throw if basename is null or empty.', () {
+      expect(() => generateLibrarySpec(LibraryDefinition(null)),
+          throwsA(TypeMatcher<AssertionError>()));
+      expect(() => generateLibrarySpec(LibraryDefinition('')),
+          throwsA(TypeMatcher<AssertionError>()));
+    });
 
+    test('It will throw if name/query is null or empty.', () {
       expect(
-          () => writeDefinitionsToBuffer(buffer,
-              QueryDefinition(null, 'query test_query {}', 'test_query')),
+          () => generateQueryClassSpec(
+              QueryDefinition(null, 'query test_query {}')),
           throwsA(TypeMatcher<AssertionError>()));
       expect(
-          () => writeDefinitionsToBuffer(
-              buffer, QueryDefinition('', 'query test_query {}', 'test_query')),
+          () => generateQueryClassSpec(
+              QueryDefinition('', 'query test_query {}')),
           throwsA(TypeMatcher<AssertionError>()));
-      expect(
-          () => writeDefinitionsToBuffer(
-              buffer, QueryDefinition('TestQuery', null, 'test_query')),
+      expect(() => generateQueryClassSpec(QueryDefinition('TestQuery', null)),
           throwsA(TypeMatcher<AssertionError>()));
-      expect(
-          () => writeDefinitionsToBuffer(
-              buffer, QueryDefinition('TestQuery', '', 'test_query')),
-          throwsA(TypeMatcher<AssertionError>()));
-      expect(
-          () => writeDefinitionsToBuffer(buffer,
-              QueryDefinition('TestQuery', 'query test_query {}', null)),
-          throwsA(TypeMatcher<AssertionError>()));
-      expect(
-          () => writeDefinitionsToBuffer(
-              buffer, QueryDefinition('TestQuery', 'query test_query {}', '')),
+      expect(() => generateQueryClassSpec(QueryDefinition('TestQuery', '')),
           throwsA(TypeMatcher<AssertionError>()));
     });
 
     test('It should generated an empty file by default.', () {
       final buffer = StringBuffer();
-      final definition =
-          QueryDefinition('TestQuery', 'query test_query {}', 'test_query');
+      final definition = LibraryDefinition('test_query');
 
-      writeDefinitionsToBuffer(buffer, definition);
+      writeLibraryDefinitionToBuffer(buffer, definition);
 
       expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
@@ -253,11 +245,10 @@ part \'test_query.g.dart\';
 
     test('When customParserImport is given, its import is included.', () {
       final buffer = StringBuffer();
-      final definition = QueryDefinition(
-          'TestQuery', 'query test_query {}', 'test_query',
-          customParserImport: 'some_file.dart');
+      final definition =
+          LibraryDefinition('test_query', customParserImport: 'some_file.dart');
 
-      writeDefinitionsToBuffer(buffer, definition);
+      writeLibraryDefinitionToBuffer(buffer, definition);
 
       expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
@@ -270,11 +261,15 @@ part \'test_query.g.dart\';
 
     test('When generateHelpers is true, an execute fn is generated.', () {
       final buffer = StringBuffer();
-      final definition = QueryDefinition(
-          'TestQuery', 'query test_query {}', 'test_query',
-          generateHelpers: true);
+      final definition = LibraryDefinition(
+        'test_query',
+        queries: [
+          QueryDefinition('TestQuery', 'query test_query {}',
+              generateHelpers: true)
+        ],
+      );
 
-      writeDefinitionsToBuffer(buffer, definition);
+      writeLibraryDefinitionToBuffer(buffer, definition);
 
       expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
@@ -302,11 +297,12 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, JsonSerializable> {
 
     test('The generated execute fn could have input.', () {
       final buffer = StringBuffer();
-      final definition = QueryDefinition(
-          'TestQuery', 'query test_query {}', 'test_query',
-          generateHelpers: true, inputs: [QueryInput('Type', 'name')]);
+      final definition = LibraryDefinition('test_query', queries: [
+        QueryDefinition('TestQuery', 'query test_query {}',
+            generateHelpers: true, inputs: [QueryInput('Type', 'name')]),
+      ]);
 
-      writeDefinitionsToBuffer(buffer, definition);
+      writeLibraryDefinitionToBuffer(buffer, definition);
 
       expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
@@ -350,8 +346,7 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
     });
 
     test('Will generate an Arguments class', () {
-      final definition = QueryDefinition(
-          'TestQuery', 'query test_query {}', 'test_query',
+      final definition = QueryDefinition('TestQuery', 'query test_query {}',
           generateHelpers: true, inputs: [QueryInput('Type', 'name')]);
 
       final str = specToString(generateArgumentClassSpec(definition));
@@ -373,8 +368,7 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
     });
 
     test('Will generate a Query Class', () {
-      final definition = QueryDefinition(
-          'TestQuery', 'query test_query {}', 'test_query',
+      final definition = QueryDefinition('TestQuery', 'query test_query {}',
           generateHelpers: true, inputs: [QueryInput('Type', 'name')]);
 
       final str = specToString(generateQueryClassSpec(definition));
@@ -402,14 +396,14 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
 
     test('It will accept and write class/enum definitions.', () {
       final buffer = StringBuffer();
-      final definition = QueryDefinition(
-          'TestQuery', 'query test_query {}', 'test_query',
-          classes: [
-            EnumDefinition('Enum', ['Value']),
-            ClassDefinition('AClass', [])
-          ]);
+      final definition = LibraryDefinition('test_query', queries: [
+        QueryDefinition('TestQuery', 'query test_query {}', classes: [
+          EnumDefinition('Enum', ['Value']),
+          ClassDefinition('AClass', [])
+        ]),
+      ]);
 
-      writeDefinitionsToBuffer(buffer, definition);
+      writeLibraryDefinitionToBuffer(buffer, definition);
 
       expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
 

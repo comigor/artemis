@@ -107,7 +107,7 @@ class ClassDefinition extends Definition {
         extension,
         implementations,
         factoryPossibilities,
-        resolveTypeField
+        resolveTypeField,
       ];
 }
 
@@ -158,11 +158,33 @@ class QueryDefinition extends Equatable {
             'Query must not be null or empty.');
 
   @override
-  List get props => [
-        queryName,
-        query,
-        classes,
-        inputs,
-        generateHelpers,
-      ];
+  List get props => [queryName, query, classes, inputs, generateHelpers];
+}
+
+/// Define a whole library file, the output of a single [SchemaMap] code
+/// generation.
+class LibraryDefinition extends Equatable {
+  /// The file basename which contains the query on file path.
+  final String basename;
+
+  /// A list of queries.
+  final Iterable<QueryDefinition> queries;
+
+  /// A custom import for this query, defined in `build.yaml`.
+  final String customParserImport;
+
+  /// Any other custom packagee imports, defined in `build.yaml`.
+  final Iterable<String> customImports;
+
+  /// Instantiate a library definition.
+  LibraryDefinition(
+    this.basename, {
+    this.customParserImport,
+    this.queries = const [],
+    this.customImports = const [],
+  }) : assert(basename != null && basename.isNotEmpty,
+            'Basename must not be null or empty.');
+
+  @override
+  List get props => [basename, queries, customParserImport, customImports];
 }
