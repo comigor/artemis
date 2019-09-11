@@ -3,6 +3,7 @@
 ## 1.0.1
 - Upgrade `gql` to version `0.2.0` to get rid of direct dependency on `source_span`
   and for better parsing errors.
+- Filter for `SchemaMap` with `output` when generating code
 
 ## 1.0.0
 - Breaking: Add required `output` option to `SchemaMap`

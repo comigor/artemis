@@ -15,6 +15,7 @@ Builder graphQLQueryBuilder(BuilderOptions options) =>
 List<String> _builderOptionsToExpectedOutputs(BuilderOptions builderOptions) =>
     GeneratorOptions.fromJson(builderOptions.config)
         .schemaMapping
+        .where((s) => s.output != null)
         .map((s) => s.output.replaceAll(RegExp(r'^lib/'), ''))
         .toList();
 
