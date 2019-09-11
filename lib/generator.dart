@@ -1,7 +1,6 @@
 import 'package:path/path.dart' as p;
 import 'package:gql/ast.dart';
 import 'package:gql/language.dart';
-import 'package:source_span/source_span.dart';
 import 'package:recase/recase.dart';
 import './schema/options.dart';
 import './schema/graphql.dart';
@@ -10,13 +9,13 @@ import './generator/helpers.dart';
 import './generator/graphql_helpers.dart' as gql;
 
 OperationDefinitionNode _getOperationFromQuery(String queryStr) {
-  final doc = parse(SourceFile.fromString(queryStr));
+  final doc = parseString(queryStr);
 
   return doc.definitions.whereType<OperationDefinitionNode>().first;
 }
 
 List<FragmentDefinitionNode> _getFragmentsFromQuery(String queryStr) {
-  final doc = parse(SourceFile.fromString(queryStr));
+  final doc = parseString(queryStr);
 
   return doc.definitions.whereType<FragmentDefinitionNode>().toList();
 }
