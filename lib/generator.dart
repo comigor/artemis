@@ -55,6 +55,14 @@ You may want to do either:
   );
 }
 
+NamedTypeNode _unwrapType(TypeNode type) {
+  if (type is NamedTypeNode) return type;
+
+  if (type is ListTypeNode) return _unwrapType(type.type);
+
+  return null;
+}
+
 /// Generate a query definition from a GraphQL schema and a query, given
 /// Artemis options and schema mappings.
 QueryDefinition generateQuery(
@@ -81,11 +89,7 @@ QueryDefinition generateQuery(
   final List<Definition> inputsClasses = [];
   if (operation.variableDefinitions != null) {
     operation.variableDefinitions.forEach((v) {
-      NamedTypeNode unwrappedType = v.type;
-
-      if (v.type is ListTypeNode) {
-        unwrappedType = (v.type as ListTypeNode).type;
-      }
+      NamedTypeNode unwrappedType = _unwrapType(v.type);
 
       final type = gql.getTypeByName(schema, unwrappedType.name.value);
 
