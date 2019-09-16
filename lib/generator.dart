@@ -69,7 +69,7 @@ QueryDefinition generateQuery(
   final fragments = _getFragmentsFromQuery(queryStr);
 
   final basename = p.basenameWithoutExtension(path);
-  final queryName = ReCase(operation.name.value ?? basename).pascalCase;
+  final queryName = ReCase(operation.name?.value ?? basename).pascalCase;
 
   GraphQLType parentType = gql.getTypeByName(schema, schema.queryType.name);
   if (operation.type == OperationType.mutation) {
