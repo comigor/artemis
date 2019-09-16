@@ -8,18 +8,6 @@ import './generator/data.dart';
 import './generator/helpers.dart';
 import './generator/graphql_helpers.dart' as gql;
 
-OperationDefinitionNode _getOperationFromQuery(String queryStr) {
-  final doc = parseString(queryStr);
-
-  return doc.definitions.whereType<OperationDefinitionNode>().first;
-}
-
-List<FragmentDefinitionNode> _getFragmentsFromQuery(String queryStr) {
-  final doc = parseString(queryStr);
-
-  return doc.definitions.whereType<FragmentDefinitionNode>().toList();
-}
-
 /// Generate queries definitions from a GraphQL schema and a list of queries,
 /// given Artemis options and schema mappings.
 LibraryDefinition generateLibrary(
@@ -64,8 +52,10 @@ QueryDefinition generateQuery(
   GeneratorOptions options,
   SchemaMap schemaMap,
 ) {
-  final operation = _getOperationFromQuery(queryStr);
-  final fragments = _getFragmentsFromQuery(queryStr);
+  final doc = parseString(queryStr);
+
+  final operation = doc.definitions.whereType<OperationDefinitionNode>().first;
+  final fragments = doc.definitions.whereType<FragmentDefinitionNode>().toList();
 
   final basename = p.basenameWithoutExtension(path);
   final queryName = ReCase(operation.name.value ?? basename).pascalCase;
