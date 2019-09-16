@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:http/http.dart' as http;
+
 import 'package:args/args.dart';
+import 'package:http/http.dart' as http;
 
 const String introspectionQuery = '''
   query IntrospectionQuery {
@@ -117,11 +118,16 @@ void main(List<String> args) async {
     ..addOption('output', abbr: 'o', help: 'File to output the schema to');
   final results = parser.parse(args);
 
-  if (results['help'] || args.isEmpty) {
+  if (results['help'] as bool || args.isEmpty) {
     return print(parser.usage);
   }
 
-  File(results['output']).writeAsStringSync(
-      await fetchGraphQLSchemaStringFromURL(results['endpoint']),
-      flush: true);
+  File(
+    results['output'] as String,
+  ).writeAsStringSync(
+    await fetchGraphQLSchemaStringFromURL(
+      results['endpoint'] as String,
+    ),
+    flush: true,
+  );
 }

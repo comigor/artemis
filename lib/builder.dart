@@ -9,7 +9,7 @@ import './schema/graphql.dart';
 import './schema/options.dart';
 
 /// [GraphQLQueryBuilder] instance, to be used by `build_runner`.
-Builder graphQLQueryBuilder(BuilderOptions options) =>
+GraphQLQueryBuilder graphQLQueryBuilder(BuilderOptions options) =>
     GraphQLQueryBuilder(options);
 
 List<String> _builderOptionsToExpectedOutputs(BuilderOptions builderOptions) =>
