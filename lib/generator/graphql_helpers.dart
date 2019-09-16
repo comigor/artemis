@@ -55,4 +55,4 @@ ScalarMap getSingleScalarMap(GeneratorOptions options, GraphQLType type) =>
 
 /// Instantiates a schema from a JSON string.
 GraphQLSchema schemaFromJsonString(String jsonS) =>
-    GraphQLSchema.fromJson(json.decode(jsonS));
+    GraphQLSchema.fromJson(json.decode(jsonS) as Map<String, dynamic>);
