@@ -129,6 +129,128 @@ class SomeQuery with EquatableMixin {
       });
     });
 
+    test('A simple query with list input', () async {
+      final GraphQLQueryBuilder anotherBuilder =
+          graphQLQueryBuilder(BuilderOptions({
+        'generate_helpers': false,
+        'schema_mapping': [
+          {
+            'schema': 'api.schema.json',
+            'queries_glob': '**.graphql',
+            'output': 'lib/some_query.dart',
+          }
+        ]
+      }));
+      final GraphQLSchema schema = GraphQLSchema(
+          queryType:
+              GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT),
+          types: [
+            GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR),
+            GraphQLType(name: 'Int', kind: GraphQLTypeKind.SCALAR),
+            GraphQLType(
+                name: 'List',
+                kind: GraphQLTypeKind.LIST,
+                ofType: GraphQLType(name: 'Int', kind: GraphQLTypeKind.SCALAR)),
+            GraphQLType(
+                name: 'SomeObject',
+                kind: GraphQLTypeKind.OBJECT,
+                fields: [
+                  GraphQLField(
+                      name: 's',
+                      type: GraphQLType(
+                          name: 'String', kind: GraphQLTypeKind.SCALAR)),
+                  GraphQLField(
+                      name: 'i',
+                      type: GraphQLType(
+                          name: 'Int', kind: GraphQLTypeKind.SCALAR)),
+                  GraphQLField(
+                      name: 'list',
+                      type: GraphQLType(
+                          name: 'List',
+                          kind: GraphQLTypeKind.LIST,
+                          ofType: GraphQLType(
+                              name: 'Int', kind: GraphQLTypeKind.SCALAR)),
+                      args: [
+                        GraphQLInputValue(
+                          name: 'ints',
+                          defaultValue: null,
+                          type: GraphQLType(
+                              name: 'List',
+                              kind: GraphQLTypeKind.LIST,
+                              ofType: GraphQLType(
+                                  name: 'Int', kind: GraphQLTypeKind.SCALAR)),
+                        )
+                      ]),
+                ]),
+          ]);
+
+      anotherBuilder.onBuild = expectAsync1((definition) {
+        final libraryDefinition = LibraryDefinition(
+          'some_query',
+          queries: [
+            QueryDefinition(
+              'SomeQuery',
+              'query some_query(\$ints: [Int]!) { s, i, list(ints: \$ints) }',
+              inputs: [QueryInput('int', 'ints')],
+              classes: [
+                ClassDefinition('SomeQuery', [
+                  ClassProperty('String', 's'),
+                  ClassProperty('int', 'i'),
+                  ClassProperty('List<int>', 'list')
+                ])
+              ],
+            ),
+          ],
+        );
+        expect(definition, libraryDefinition);
+      }, count: 1);
+
+      await testBuilder(anotherBuilder, {
+        'a|api.schema.json': jsonFromSchema(schema),
+        'a|some_query.query.graphql':
+            'query some_query(\$ints: [Int]!) { s, i, list(ints: \$ints) }',
+      }, outputs: {
+        'a|lib/some_query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
+
+import 'package:json_annotation/json_annotation.dart';
+import 'package:equatable/equatable.dart';
+part 'some_query.g.dart';
+
+@JsonSerializable(explicitToJson: true)
+class SomeQuery with EquatableMixin {
+  SomeQuery();
+
+  factory SomeQuery.fromJson(Map<String, dynamic> json) =>
+      _\$SomeQueryFromJson(json);
+
+  String s;
+
+  int i;
+
+  List<int> list;
+
+  @override
+  List<Object> get props => [s, i, list];
+  Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class SomeQueryArguments extends JsonSerializable with EquatableMixin {
+  SomeQueryArguments({this.ints});
+
+  factory SomeQueryArguments.fromJson(Map<String, dynamic> json) =>
+      _\$SomeQueryArgumentsFromJson(json);
+
+  final int ints;
+
+  @override
+  List<Object> get props => [ints];
+  Map<String, dynamic> toJson() => _\$SomeQueryArgumentsToJson(this);
+}
+''',
+      });
+    });
+
     test('The selection from query can nest', () async {
       final GraphQLQueryBuilder anotherBuilder =
           graphQLQueryBuilder(BuilderOptions({
