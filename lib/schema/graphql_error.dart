@@ -1,7 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 
-// I can't use the default json_serializable flow because the artemis generator
-// would crash when importing graphql.dart file.
 part 'graphql_error.g2.dart';
 
 /// Encapsulates a single GraphQL error, from `errors` key.
