@@ -16,7 +16,7 @@ dependencies:
   build_config: ^0.4.0
   source_gen: ^0.9.4+2
   path: ^1.6.2
-  gql: ^0.2.0
+  gql: ^0.7.1
   equatable: ^0.5.1
   recase: ^2.0.1
   glob: ^1.1.7

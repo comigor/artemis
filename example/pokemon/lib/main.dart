@@ -5,7 +5,9 @@ import 'graphql/big_query.dart';
 
 Future<void> main() async {
   const graphQLEndpoint = 'https://graphql-pokemon.now.sh/graphql';
-  final client = ArtemisClient(graphQLEndpoint);
+  final client = ArtemisClient(
+    link: SimpleHttpJsonLink(graphQLEndpoint),
+  );
 
   final simpleQuery = SimpleQueryQuery();
   final bigQuery = BigQueryQuery(variables: BigQueryArguments(quantity: 5));

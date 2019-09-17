@@ -1,10 +1,14 @@
 import 'dart:async';
+
 import 'package:artemis/artemis.dart';
+
 import 'queries/ed_sheeran.query.dart';
 
 Future<void> main() async {
   const graphQLEndpoint = 'https://graphbrainz.herokuapp.com/';
-  final client = ArtemisClient(graphQLEndpoint);
+  final client = ArtemisClient(
+    link: SimpleHttpJsonLink(graphQLEndpoint),
+  );
 
   final query = EdSheeranQuery();
   final query2 = EdSheeranQuery();
