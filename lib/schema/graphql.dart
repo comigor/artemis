@@ -43,7 +43,8 @@ class GraphQLSchema {
             json['data'] != null &&
             json['data']['__schema'] != null,
         'JSON schema file must be the output of an Introspection Query.');
-    return _$GraphQLSchemaFromJson(json['data']['__schema'] as Map<String, dynamic>);
+    return _$GraphQLSchemaFromJson(
+        json['data']['__schema'] as Map<String, dynamic>);
   }
 
   /// Convert this GraphQL schema instance to JSON.
