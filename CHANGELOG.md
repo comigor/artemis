@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.0.3
+- Disable implicit casts
+- Avoid double-parsing the source string
+
 ## 1.0.2
 - Differentiate lists from named types when looping through variables
 - Consider nullable operation name when defining query name
