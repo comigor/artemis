@@ -63,7 +63,8 @@ QueryDefinition generateQuery(
   final doc = parseString(queryStr);
 
   final operation = doc.definitions.whereType<OperationDefinitionNode>().first;
-  final fragments = doc.definitions.whereType<FragmentDefinitionNode>().toList();
+  final fragments =
+      doc.definitions.whereType<FragmentDefinitionNode>().toList();
 
   final basename = p.basenameWithoutExtension(path);
   final queryName = ReCase(operation.name?.value ?? basename).pascalCase;
