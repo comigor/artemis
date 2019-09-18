@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 1.0.4
+- Add a test to guarantee query inputs can be lists
+
 ## 1.0.3
 - Disable implicit casts
 - Avoid double-parsing the source string
