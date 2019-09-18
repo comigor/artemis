@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.0.2
+- Differentiate lists from named types when looping through variables
+- Consider nullable operation name when defining query name
+
 ## 1.0.1
 - Upgrade `gql` to version `0.2.0` to get rid of direct dependency on `source_span`
   and for better parsing errors.
