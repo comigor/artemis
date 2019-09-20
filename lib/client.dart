@@ -15,10 +15,12 @@ class SimpleHttpJsonLink implements gql_link.Link {
   /// Endpoint of a GraphQL service
   final String graphQLEndpoint;
 
-  http.Client _httpClient = http.Client();
+  http.Client _httpClient;
 
   /// Construct the Link
-  SimpleHttpJsonLink(this.graphQLEndpoint);
+  SimpleHttpJsonLink(this.graphQLEndpoint, {http.Client httpClient}) {
+    this._httpClient = httpClient ?? http.Client();
+  }
 
   Future<exec.Response> _post(exec.Request request) async {
     final dataResponse = await _httpClient.post(
@@ -89,9 +91,18 @@ class ArtemisClient {
   final gql_link.Link link;
 
   /// Instantiates an [ArtemisClient].
-  ArtemisClient({
-    this.link,
-  }) : assert(link != null);
+  factory ArtemisClient(
+    String graphQLEndpoint, {
+    http.Client httpClient,
+  }) =>
+      ArtemisClient.fromLink(
+        SimpleHttpJsonLink(
+          graphQLEndpoint,
+          httpClient: httpClient,
+        ),
+      );
+
+  ArtemisClient.fromLink(this.link) : assert(link != null);
 
   /// Executes a [GraphQLQuery], returning a typed response.
   Future<GraphQLResponse<T>> execute<T, U extends JsonSerializable>(

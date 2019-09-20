@@ -1,12 +1,14 @@
 import 'dart:async';
+
 import 'package:artemis/artemis.dart';
-import 'graphql/simple_query.dart';
+
 import 'graphql/big_query.dart';
+import 'graphql/simple_query.dart';
 
 Future<void> main() async {
   const graphQLEndpoint = 'https://graphql-pokemon.now.sh/graphql';
-  final client = ArtemisClient(
-    link: SimpleHttpJsonLink(graphQLEndpoint),
+  final client = ArtemisClient.fromLink(
+    SimpleHttpJsonLink(graphQLEndpoint),
   );
 
   final simpleQuery = SimpleQueryQuery();
