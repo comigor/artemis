@@ -1,12 +1,12 @@
 import 'dart:convert';
 
+import 'package:artemis/builder.dart';
 import 'package:artemis/generator/data.dart';
+import 'package:artemis/schema/graphql.dart';
 import 'package:build/build.dart';
 import 'package:build_test/build_test.dart';
+import 'package:gql/language.dart';
 import 'package:test/test.dart';
-
-import 'package:artemis/schema/graphql.dart';
-import 'package:artemis/builder.dart';
 
 String jsonFromSchema(GraphQLSchema schema) => json.encode({
       'data': {'__schema': schema.toJson()}
@@ -87,7 +87,7 @@ void main() {
             queries: [
               QueryDefinition(
                 'SomeQuery',
-                'query some_query { s, i }',
+                parseString('query some_query { s, i }'),
                 classes: [
                   ClassDefinition('SomeQuery', [
                     ClassProperty('String', 's'),
@@ -108,6 +108,7 @@ void main() {
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
+import 'package:gql/ast.dart';
 part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
@@ -190,7 +191,8 @@ class SomeQuery with EquatableMixin {
           queries: [
             QueryDefinition(
               'SomeQuery',
-              'query some_query(\$ints: [Int]!) { s, i, list(ints: \$ints) }',
+              parseString(
+                  'query some_query(\$ints: [Int]!) { s, i, list(ints: \$ints) }'),
               inputs: [QueryInput('int', 'ints')],
               classes: [
                 ClassDefinition('SomeQuery', [
@@ -214,6 +216,7 @@ class SomeQuery with EquatableMixin {
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
+import 'package:gql/ast.dart';
 part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
@@ -304,7 +307,7 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
                 ]),
           ]);
 
-      final queryString = '''
+      final document = '''
         query some_query {
           s
           o {
@@ -324,7 +327,7 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
             queries: [
               QueryDefinition(
                 'SomeQuery',
-                queryString,
+                parseString(document),
                 classes: [
                   ClassDefinition('SomeQuery', [
                     ClassProperty('String', 's'),
@@ -346,12 +349,13 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
 
       await testBuilder(anotherBuilder, {
         'a|api.schema.json': jsonFromSchema(schema),
-        'a|some_query.graphql': queryString,
+        'a|some_query.graphql': document,
       }, outputs: {
         'a|lib/some_query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
+import 'package:gql/ast.dart';
 part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
@@ -439,7 +443,7 @@ class AnotherObject with EquatableMixin {
             queries: [
               QueryDefinition(
                 'SomeQuery',
-                'query some_query { firstName: s, lastName: st }',
+                parseString('query some_query { firstName: s, lastName: st }'),
                 classes: [
                   ClassDefinition('SomeQuery', [
                     ClassProperty('String', 'firstName'),
@@ -461,6 +465,7 @@ class AnotherObject with EquatableMixin {
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
+import 'package:gql/ast.dart';
 part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
@@ -531,7 +536,7 @@ class SomeQuery with EquatableMixin {
                 ]),
           ]);
 
-      final queryString = '''
+      final document = '''
         query some_query {
           s
           o {
@@ -551,7 +556,7 @@ class SomeQuery with EquatableMixin {
             queries: [
               QueryDefinition(
                 'SomeQuery',
-                queryString,
+                parseString(document),
                 classes: [
                   ClassDefinition('SomeQuery', [
                     ClassProperty('String', 's'),
@@ -573,12 +578,13 @@ class SomeQuery with EquatableMixin {
 
       await testBuilder(anotherBuilder, {
         'a|api.schema.json': jsonFromSchema(schema),
-        'a|some_query.graphql': queryString,
+        'a|some_query.graphql': document,
       }, outputs: {
         'a|lib/some_query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
+import 'package:gql/ast.dart';
 part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
@@ -676,7 +682,7 @@ class AnotherObject with EquatableMixin {
                 ]),
           ]);
 
-      final queryString = '''
+      final document = '''
         query some_query {
           s
           o {
@@ -696,7 +702,7 @@ class AnotherObject with EquatableMixin {
             queries: [
               QueryDefinition(
                 'SomeQuery',
-                queryString,
+                parseString(document),
                 classes: [
                   ClassDefinition('SomeQuery', [
                     ClassProperty('String', 's'),
@@ -719,13 +725,14 @@ class AnotherObject with EquatableMixin {
 
       await testBuilder(anotherBuilder, {
         'a|api.schema.json': jsonFromSchema(schema),
-        'a|some_query.graphql': queryString,
+        'a|some_query.graphql': document,
       }, outputs: {
         'a|lib/some_query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
+import 'package:gql/ast.dart';
 part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
@@ -778,14 +785,53 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery, JsonSerializable> {
   SomeQueryQuery();
 
   @override
-  final String query =
-      'query some_query { s o { st } anotherObject: ob { str } }';
+  final DocumentNode document = DocumentNode(definitions: [
+    OperationDefinitionNode(
+        type: OperationType.query,
+        name: NameNode(value: 'some_query'),
+        variableDefinitions: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+              name: NameNode(value: 's'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null),
+          FieldNode(
+              name: NameNode(value: 'o'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: SelectionSetNode(selections: [
+                FieldNode(
+                    name: NameNode(value: 'st'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null)
+              ])),
+          FieldNode(
+              name: NameNode(value: 'ob'),
+              alias: NameNode(value: 'anotherObject'),
+              arguments: [],
+              directives: [],
+              selectionSet: SelectionSetNode(selections: [
+                FieldNode(
+                    name: NameNode(value: 'str'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null)
+              ]))
+        ]))
+  ]);
 
   @override
   final String operationName = 'some_query';
 
   @override
-  List<Object> get props => [query, operationName];
+  List<Object> get props => [document, operationName];
   @override
   SomeQuery parse(Map<String, dynamic> json) => SomeQuery.fromJson(json);
 }
@@ -865,7 +911,7 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery, JsonSerializable> {
             queries: [
               QueryDefinition(
                 'SomeQuery',
-                'query some_query { bigDecimal, dateTime }',
+                parseString('query some_query { bigDecimal, dateTime }'),
                 classes: [
                   ClassDefinition('SomeQuery', [
                     ClassProperty('Decimal', 'bigDecimal'),
@@ -889,6 +935,7 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery, JsonSerializable> {
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
+import 'package:gql/ast.dart';
 import 'package:decimal/decimal.dart';
 part 'some_query.g.dart';
 
@@ -967,7 +1014,7 @@ class SomeQuery with EquatableMixin {
                 ]),
           ]);
 
-      final queryString = '''
+      final document = '''
         query some_query {
           s
           o {
@@ -987,7 +1034,7 @@ class SomeQuery with EquatableMixin {
             queries: [
               QueryDefinition(
                 'SomeQuery',
-                queryString,
+                parseString(document),
                 classes: [
                   ClassDefinition('SomeQuery', [
                     ClassProperty('String', 's'),
@@ -1011,7 +1058,7 @@ class SomeQuery with EquatableMixin {
           anotherBuilder,
           {
             'a|api.schema.json': jsonFromSchema(schema),
-            'a|some_query.graphql': queryString,
+            'a|some_query.graphql': document,
           },
           outputs: {
             'a|lib/some_query.dart':
@@ -1019,6 +1066,7 @@ class SomeQuery with EquatableMixin {
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
+import 'package:gql/ast.dart';
 part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)

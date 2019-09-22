@@ -1,24 +1,24 @@
-import 'package:path/path.dart' as p;
 import 'package:gql/ast.dart';
-import 'package:gql/language.dart';
+import 'package:path/path.dart' as p;
 import 'package:recase/recase.dart';
-import './schema/options.dart';
-import './schema/graphql.dart';
+
 import './generator/data.dart';
-import './generator/helpers.dart';
 import './generator/graphql_helpers.dart' as gql;
+import './generator/helpers.dart';
+import './schema/graphql.dart';
+import './schema/options.dart';
 
 /// Generate queries definitions from a GraphQL schema and a list of queries,
 /// given Artemis options and schema mappings.
 LibraryDefinition generateLibrary(
   GraphQLSchema schema,
   String path,
-  List<String> queriesStrs,
+  List<DocumentNode> gqlDocs,
   GeneratorOptions options,
   SchemaMap schemaMap,
 ) {
-  final queriesDefinitions = queriesStrs
-      .map((s) => generateQuery(schema, path, s, options, schemaMap))
+  final queriesDefinitions = gqlDocs
+      .map((doc) => generateQuery(schema, path, doc, options, schemaMap))
       .toList();
 
   final allClassesNames = queriesDefinitions.fold<Iterable<String>>(
@@ -56,15 +56,14 @@ NamedTypeNode _unwrapType(TypeNode type) {
 QueryDefinition generateQuery(
   GraphQLSchema schema,
   String path,
-  String queryStr,
+  DocumentNode document,
   GeneratorOptions options,
   SchemaMap schemaMap,
 ) {
-  final doc = parseString(queryStr);
-
-  final operation = doc.definitions.whereType<OperationDefinitionNode>().first;
+  final operation =
+      document.definitions.whereType<OperationDefinitionNode>().first;
   final fragments =
-      doc.definitions.whereType<FragmentDefinitionNode>().toList();
+      document.definitions.whereType<FragmentDefinitionNode>().toList();
 
   final basename = p.basenameWithoutExtension(path);
   final queryName = ReCase(operation.name?.value ?? basename).pascalCase;
@@ -109,7 +108,7 @@ QueryDefinition generateQuery(
 
   return QueryDefinition(
     queryName,
-    queryStr,
+    document,
     classes:
         removeDuplicatedBy(classes.followedBy(inputsClasses), (i) => i.name),
     inputs: inputs,

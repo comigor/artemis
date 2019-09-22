@@ -1,5 +1,6 @@
 import 'package:artemis/generator/data.dart';
 import 'package:artemis/generator/print_helpers.dart';
+import 'package:gql/language.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -216,17 +217,27 @@ class AClass with EquatableMixin {
 
     test('It will throw if name/query is null or empty.', () {
       expect(
-          () => generateQueryClassSpec(
-              QueryDefinition(null, 'query test_query {}')),
-          throwsA(TypeMatcher<AssertionError>()));
+        () => generateQueryClassSpec(
+          QueryDefinition(null, parseString('query test_query {}')),
+        ),
+        throwsA(TypeMatcher<AssertionError>()),
+      );
       expect(
-          () => generateQueryClassSpec(
-              QueryDefinition('', 'query test_query {}')),
-          throwsA(TypeMatcher<AssertionError>()));
-      expect(() => generateQueryClassSpec(QueryDefinition('TestQuery', null)),
-          throwsA(TypeMatcher<AssertionError>()));
-      expect(() => generateQueryClassSpec(QueryDefinition('TestQuery', '')),
-          throwsA(TypeMatcher<AssertionError>()));
+        () => generateQueryClassSpec(
+          QueryDefinition('', parseString('query test_query {}')),
+        ),
+        throwsA(
+          TypeMatcher<AssertionError>(),
+        ),
+      );
+      expect(
+        () => generateQueryClassSpec(
+          QueryDefinition('TestQuery', null),
+        ),
+        throwsA(
+          TypeMatcher<AssertionError>(),
+        ),
+      );
     });
 
     test('It should generated an empty file by default.', () {
@@ -237,9 +248,10 @@ class AClass with EquatableMixin {
 
       expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
-import \'package:json_annotation/json_annotation.dart\';
-import \'package:equatable/equatable.dart\';
-part \'test_query.g.dart\';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:equatable/equatable.dart';
+import 'package:gql/ast.dart';
+part 'test_query.g.dart';
 ''');
     });
 
@@ -252,10 +264,11 @@ part \'test_query.g.dart\';
 
       expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
-import \'package:json_annotation/json_annotation.dart\';
-import \'package:equatable/equatable.dart\';
-import \'some_file.dart\';
-part \'test_query.g.dart\';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:equatable/equatable.dart';
+import 'package:gql/ast.dart';
+import 'some_file.dart';
+part 'test_query.g.dart';
 ''');
     });
 
@@ -264,8 +277,11 @@ part \'test_query.g.dart\';
       final definition = LibraryDefinition(
         'test_query',
         queries: [
-          QueryDefinition('TestQuery', 'query test_query {}',
-              generateHelpers: true)
+          QueryDefinition(
+            'TestQuery',
+            parseString('query test_query {}'),
+            generateHelpers: true,
+          )
         ],
       );
 
@@ -276,19 +292,27 @@ part \'test_query.g.dart\';
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
+import 'package:gql/ast.dart';
 part 'test_query.g.dart';
 
 class TestQueryQuery extends GraphQLQuery<TestQuery, JsonSerializable> {
   TestQueryQuery();
 
   @override
-  final String query = 'query test_query {}';
+  final DocumentNode document = DocumentNode(definitions: [
+    OperationDefinitionNode(
+        type: OperationType.query,
+        name: NameNode(value: 'test_query'),
+        variableDefinitions: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: []))
+  ]);
 
   @override
   final String operationName = 'test_query';
 
   @override
-  List<Object> get props => [query, operationName];
+  List<Object> get props => [document, operationName];
   @override
   TestQuery parse(Map<String, dynamic> json) => TestQuery.fromJson(json);
 }
@@ -298,8 +322,12 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, JsonSerializable> {
     test('The generated execute fn could have input.', () {
       final buffer = StringBuffer();
       final definition = LibraryDefinition('test_query', queries: [
-        QueryDefinition('TestQuery', 'query test_query {}',
-            generateHelpers: true, inputs: [QueryInput('Type', 'name')]),
+        QueryDefinition(
+          'TestQuery',
+          parseString('query test_query {}'),
+          generateHelpers: true,
+          inputs: [QueryInput('Type', 'name')],
+        ),
       ]);
 
       writeLibraryDefinitionToBuffer(buffer, definition);
@@ -309,6 +337,7 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, JsonSerializable> {
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
+import 'package:gql/ast.dart';
 part 'test_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
@@ -329,7 +358,14 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
   TestQueryQuery({this.variables});
 
   @override
-  final String query = 'query test_query {}';
+  final DocumentNode document = DocumentNode(definitions: [
+    OperationDefinitionNode(
+        type: OperationType.query,
+        name: NameNode(value: 'test_query'),
+        variableDefinitions: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: []))
+  ]);
 
   @override
   final String operationName = 'test_query';
@@ -338,7 +374,7 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
   final TestQueryArguments variables;
 
   @override
-  List<Object> get props => [query, operationName, variables];
+  List<Object> get props => [document, operationName, variables];
   @override
   TestQuery parse(Map<String, dynamic> json) => TestQuery.fromJson(json);
 }
@@ -346,8 +382,12 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
     });
 
     test('Will generate an Arguments class', () {
-      final definition = QueryDefinition('TestQuery', 'query test_query {}',
-          generateHelpers: true, inputs: [QueryInput('Type', 'name')]);
+      final definition = QueryDefinition(
+        'TestQuery',
+        parseString('query test_query {}'),
+        generateHelpers: true,
+        inputs: [QueryInput('Type', 'name')],
+      );
 
       final str = specToString(generateArgumentClassSpec(definition));
 
@@ -368,8 +408,12 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
     });
 
     test('Will generate a Query Class', () {
-      final definition = QueryDefinition('TestQuery', 'query test_query {}',
-          generateHelpers: true, inputs: [QueryInput('Type', 'name')]);
+      final definition = QueryDefinition(
+        'TestQuery',
+        parseString('query test_query {}'),
+        generateHelpers: true,
+        inputs: [QueryInput('Type', 'name')],
+      );
 
       final str = specToString(generateQueryClassSpec(definition));
 
@@ -378,7 +422,14 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
   TestQueryQuery({this.variables});
 
   @override
-  final String query = 'query test_query {}';
+  final DocumentNode document = DocumentNode(definitions: [
+    OperationDefinitionNode(
+        type: OperationType.query,
+        name: NameNode(value: 'test_query'),
+        variableDefinitions: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: []))
+  ]);
 
   @override
   final String operationName = 'test_query';
@@ -387,7 +438,7 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
   final TestQueryArguments variables;
 
   @override
-  List<Object> get props => [query, operationName, variables];
+  List<Object> get props => [document, operationName, variables];
   @override
   TestQuery parse(Map<String, dynamic> json) => TestQuery.fromJson(json);
 }
@@ -397,10 +448,14 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
     test('It will accept and write class/enum definitions.', () {
       final buffer = StringBuffer();
       final definition = LibraryDefinition('test_query', queries: [
-        QueryDefinition('TestQuery', 'query test_query {}', classes: [
-          EnumDefinition('Enum', ['Value']),
-          ClassDefinition('AClass', [])
-        ]),
+        QueryDefinition(
+          'TestQuery',
+          parseString('query test_query {}'),
+          classes: [
+            EnumDefinition('Enum', ['Value']),
+            ClassDefinition('AClass', [])
+          ],
+        ),
       ]);
 
       writeLibraryDefinitionToBuffer(buffer, definition);
@@ -409,6 +464,7 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
+import 'package:gql/ast.dart';
 part 'test_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)

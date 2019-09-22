@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
+
 import '../schema/graphql.dart';
 
 /// Callback fired when the generator processes a [LibraryDefinition].
@@ -133,8 +134,8 @@ class QueryDefinition extends Equatable {
   /// The query name.
   final String queryName;
 
-  /// The full query string.
-  final String query;
+  /// The AST representation of GraphQL document.
+  final DocumentNode document;
 
   /// A list of classes related to this query.
   final Iterable<Definition> classes;
@@ -148,17 +149,21 @@ class QueryDefinition extends Equatable {
   /// Instantiate a query definition.
   QueryDefinition(
     this.queryName,
-    this.query, {
+    this.document, {
     this.classes = const [],
     this.inputs = const [],
     this.generateHelpers = false,
-  })  : assert(queryName != null && queryName.isNotEmpty,
-            'Query name must not be null or empty.'),
-        assert(query != null && query.isNotEmpty,
-            'Query must not be null or empty.');
+  })  : assert(
+          queryName != null && queryName.isNotEmpty,
+          'Query name must not be null or empty.',
+        ),
+        assert(
+          document != null,
+          'Query must not be null or empty.',
+        );
 
   @override
-  List get props => [queryName, query, classes, inputs, generateHelpers];
+  List get props => [queryName, document, classes, inputs, generateHelpers];
 }
 
 /// Define a whole library file, the output of a single [SchemaMap] code

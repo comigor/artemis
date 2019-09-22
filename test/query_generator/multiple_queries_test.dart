@@ -1,11 +1,12 @@
 import 'dart:convert';
-import 'package:build/build.dart';
-import 'package:build_test/build_test.dart';
-import 'package:test/test.dart';
 
 import 'package:artemis/builder.dart';
 import 'package:artemis/generator/data.dart';
 import 'package:artemis/schema/graphql.dart';
+import 'package:build/build.dart';
+import 'package:build_test/build_test.dart';
+import 'package:gql/language.dart';
+import 'package:test/test.dart';
 
 String jsonFromSchema(GraphQLSchema schema) => json.encode({
       'data': {'__schema': schema.toJson()}
@@ -53,7 +54,7 @@ void main() {
           queries: [
             QueryDefinition(
               'SomeQuery',
-              'query some_query { s, i }',
+              parseString('query some_query { s, i }'),
               classes: [
                 ClassDefinition('SomeQuery', [
                   ClassProperty('String', 's'),
@@ -63,7 +64,7 @@ void main() {
             ),
             QueryDefinition(
               'AnotherQuery',
-              'query another_query { s }',
+              parseString('query another_query { s }'),
               classes: [
                 ClassDefinition('AnotherQuery', [
                   ClassProperty('String', 's'),
@@ -84,6 +85,7 @@ void main() {
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
+import 'package:gql/ast.dart';
 part 'graphql_api.g.dart';
 
 @JsonSerializable(explicitToJson: true)
@@ -199,7 +201,7 @@ class AnotherQuery with EquatableMixin {
             queries: [
               QueryDefinition(
                 'SomeQuery',
-                'query some_query { i, obj { str } }',
+                parseString('query some_query { i, obj { str } }'),
                 classes: [
                   ClassDefinition('SomeQuery', [
                     ClassProperty('int', 'i'),
@@ -212,7 +214,7 @@ class AnotherQuery with EquatableMixin {
               ),
               QueryDefinition(
                 'AnotherQuery',
-                'query another_query { s, obj { str } }',
+                parseString('query another_query { s, obj { str } }'),
                 classes: [
                   ClassDefinition('AnotherQuery', [
                     ClassProperty('String', 's'),
@@ -237,6 +239,7 @@ class AnotherQuery with EquatableMixin {
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
+import 'package:gql/ast.dart';
 part 'graphql_api.g.dart';
 
 @JsonSerializable(explicitToJson: true)
