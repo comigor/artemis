@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## Next
+
+- Upgrade `package:gql` to version `0.7.4`
+- Build GQL AST into generated Dart code instead of the raw string
+- Use `Link` from `package:gql/link` as the execution interface of `ArtemisClient`
+- Use `package:gql_dedupe_link` and `package:gql_http_link` as the default links
+
 ## 1.0.4
 - Add a test to guarantee query inputs can be lists
 
