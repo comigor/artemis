@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:gql/execution.dart' as exec;
+import 'package:gql/execution.dart';
 import 'package:gql/link.dart';
 import 'package:gql_dedupe_link/gql_dedupe_link.dart';
 import 'package:gql_http_link/gql_http_link.dart';
@@ -41,15 +41,15 @@ class ArtemisClient {
   Future<GraphQLResponse<T>> execute<T, U extends JsonSerializable>(
     GraphQLQuery<T, U> query,
   ) async {
-    final request = exec.Request(
-      operation: exec.Operation(
+    final request = Request(
+      operation: Operation(
         document: query.document,
         operationName: query.operationName,
         variables: query.getVariablesMap(),
       ),
     );
 
-    final exec.Response response = await _link.request(request).first;
+    final Response response = await _link.request(request).first;
 
     return GraphQLResponse<T>(
       data: response.data == null ? null : query.parse(response.data),
