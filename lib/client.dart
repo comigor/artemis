@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:gql/execution.dart' as exec;
-import 'package:gql/language.dart';
 import 'package:gql/link.dart';
 import 'package:gql_dedupe_link/gql_dedupe_link.dart';
 import 'package:gql_http_link/gql_http_link.dart';
@@ -44,8 +43,7 @@ class ArtemisClient {
   ) async {
     final request = exec.Request(
       operation: exec.Operation(
-        // TODO: build document into generated code using `package:gql/dart`
-        document: parseString(query.query),
+        document: query.document,
         operationName: query.operationName,
         variables: query.getVariablesMap(),
       ),

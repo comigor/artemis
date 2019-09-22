@@ -3,6 +3,7 @@
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
+import 'package:gql/ast.dart';
 part 'simple_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
@@ -39,14 +40,44 @@ class SimpleQueryQuery extends GraphQLQuery<SimpleQuery, JsonSerializable> {
   SimpleQueryQuery();
 
   @override
-  final String query =
-      'query simple_query { pokemon(name: "Charmander") { number types } }';
+  final DocumentNode document = DocumentNode(definitions: [
+    OperationDefinitionNode(
+        type: OperationType.query,
+        name: NameNode(value: 'simple_query'),
+        variableDefinitions: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+              name: NameNode(value: 'pokemon'),
+              alias: null,
+              arguments: [
+                ArgumentNode(
+                    name: NameNode(value: 'name'),
+                    value: StringValueNode(value: 'Charmander', isBlock: false))
+              ],
+              directives: [],
+              selectionSet: SelectionSetNode(selections: [
+                FieldNode(
+                    name: NameNode(value: 'number'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null),
+                FieldNode(
+                    name: NameNode(value: 'types'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null)
+              ]))
+        ]))
+  ]);
 
   @override
   final String operationName = 'simple_query';
 
   @override
-  List<Object> get props => [query, operationName];
+  List<Object> get props => [document, operationName];
   @override
   SimpleQuery parse(Map<String, dynamic> json) => SimpleQuery.fromJson(json);
 }

@@ -1,6 +1,8 @@
 import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
+import 'package:gql/dart.dart' as dart;
 import 'package:recase/recase.dart';
+
 import '../generator/data.dart';
 import '../generator/helpers.dart';
 
@@ -177,11 +179,6 @@ Spec generateArgumentClassSpec(QueryDefinition definition) {
 
 /// Generates a [Spec] of a query/mutation class.
 Spec generateQueryClassSpec(QueryDefinition definition) {
-  final sanitizedQueryStr = definition.query
-      .replaceAll(RegExp(r'\s+'), ' ')
-      .replaceAll(RegExp(r'\$'), '\\\$')
-      .trim();
-
   final String typeDeclaration = definition.inputs.isEmpty
       ? '${definition.queryName}, JsonSerializable'
       : '${definition.queryName}, ${definition.queryName}Arguments';
@@ -201,9 +198,9 @@ Spec generateQueryClassSpec(QueryDefinition definition) {
       (f) => f
         ..annotations.add(CodeExpression(Code('override')))
         ..modifier = FieldModifier.final$
-        ..type = refer('String')
-        ..name = 'query'
-        ..assignment = Code('\'$sanitizedQueryStr\''),
+        ..type = refer('DocumentNode', 'package:gql/ast.dart')
+        ..name = 'document'
+        ..assignment = dart.fromNode(definition.document).code,
     ),
     Field(
       (f) => f
@@ -232,7 +229,7 @@ Spec generateQueryClassSpec(QueryDefinition definition) {
       ..constructors.add(constructor)
       ..fields.addAll(fields)
       ..methods.add(_propsMethod(
-          '[query, operationName${definition.inputs.isNotEmpty ? ', variables' : ''}]'))
+          '[document, operationName${definition.inputs.isNotEmpty ? ', variables' : ''}]'))
       ..methods.add(Method(
         (m) => m
           ..annotations.add(CodeExpression(Code('override')))
@@ -255,6 +252,7 @@ Spec generateLibrarySpec(LibraryDefinition definition) {
   final importDirectives = [
     Directive.import('package:json_annotation/json_annotation.dart'),
     Directive.import('package:equatable/equatable.dart'),
+    Directive.import('package:gql/ast.dart'),
   ];
 
   if (definition.queries.any((q) => q.generateHelpers)) {

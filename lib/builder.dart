@@ -1,6 +1,9 @@
 import 'dart:async';
+
 import 'package:build/build.dart';
 import 'package:glob/glob.dart';
+import 'package:gql/language.dart';
+
 import './generator.dart';
 import './generator/data.dart';
 import './generator/graphql_helpers.dart';
@@ -60,11 +63,22 @@ class GraphQLQueryBuilder implements Builder {
 
       // Loop through all files in glob
       final assetStream = buildStep.findAssets(Glob(schemaMap.queriesGlob));
-      final sources =
-          await assetStream.asyncMap(buildStep.readAsString).toList();
+      final gqlDocs = await assetStream
+          .asyncMap(
+            (asset) async => parseString(
+              await buildStep.readAsString(asset),
+              url: asset.path,
+            ),
+          )
+          .toList();
 
       final libDefinition = generateLibrary(
-          schema, schemaMap.output, sources, options, schemaMap);
+        schema,
+        schemaMap.output,
+        gqlDocs,
+        options,
+        schemaMap,
+      );
       if (onBuild != null) {
         onBuild(libDefinition);
       }

@@ -3,6 +3,7 @@
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
+import 'package:gql/ast.dart';
 part 'big_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
@@ -91,8 +92,93 @@ class BigQueryQuery extends GraphQLQuery<BigQuery, BigQueryArguments> {
   BigQueryQuery({this.variables});
 
   @override
-  final String query =
-      'query big_query(\$quantity: Int!) { charmander: pokemon(name: "Charmander") { number types } pokemons(first: \$quantity) { number name types evolutions: evolutions { number name } } }';
+  final DocumentNode document = DocumentNode(definitions: [
+    OperationDefinitionNode(
+        type: OperationType.query,
+        name: NameNode(value: 'big_query'),
+        variableDefinitions: [
+          VariableDefinitionNode(
+              variable: VariableNode(name: NameNode(value: 'quantity')),
+              type:
+                  NamedTypeNode(name: NameNode(value: 'Int'), isNonNull: true),
+              defaultValue: DefaultValueNode(value: null),
+              directives: [])
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+              name: NameNode(value: 'pokemon'),
+              alias: NameNode(value: 'charmander'),
+              arguments: [
+                ArgumentNode(
+                    name: NameNode(value: 'name'),
+                    value: StringValueNode(value: 'Charmander', isBlock: false))
+              ],
+              directives: [],
+              selectionSet: SelectionSetNode(selections: [
+                FieldNode(
+                    name: NameNode(value: 'number'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null),
+                FieldNode(
+                    name: NameNode(value: 'types'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null)
+              ])),
+          FieldNode(
+              name: NameNode(value: 'pokemons'),
+              alias: null,
+              arguments: [
+                ArgumentNode(
+                    name: NameNode(value: 'first'),
+                    value: VariableNode(name: NameNode(value: 'quantity')))
+              ],
+              directives: [],
+              selectionSet: SelectionSetNode(selections: [
+                FieldNode(
+                    name: NameNode(value: 'number'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null),
+                FieldNode(
+                    name: NameNode(value: 'name'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null),
+                FieldNode(
+                    name: NameNode(value: 'types'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null),
+                FieldNode(
+                    name: NameNode(value: 'evolutions'),
+                    alias: NameNode(value: 'evolutions'),
+                    arguments: [],
+                    directives: [],
+                    selectionSet: SelectionSetNode(selections: [
+                      FieldNode(
+                          name: NameNode(value: 'number'),
+                          alias: null,
+                          arguments: [],
+                          directives: [],
+                          selectionSet: null),
+                      FieldNode(
+                          name: NameNode(value: 'name'),
+                          alias: null,
+                          arguments: [],
+                          directives: [],
+                          selectionSet: null)
+                    ]))
+              ]))
+        ]))
+  ]);
 
   @override
   final String operationName = 'big_query';
@@ -101,7 +187,7 @@ class BigQueryQuery extends GraphQLQuery<BigQuery, BigQueryArguments> {
   final BigQueryArguments variables;
 
   @override
-  List<Object> get props => [query, operationName, variables];
+  List<Object> get props => [document, operationName, variables];
   @override
   BigQuery parse(Map<String, dynamic> json) => BigQuery.fromJson(json);
 }
