@@ -14,19 +14,21 @@ Artemis is a code generator that looks for `*.schema.json` (GraphQL Introspectio
 ---
 
 ## **Installation**
-Add the following to your `pubspec.yaml` file:
+Add the following to your `pubspec.yaml` file to be able to do code generation:
 ```yaml
-dependencies:
-  artemis: <1.0.0
-
 dev_dependencies:
+  artemis: ^1.0.4
   build_runner: ^1.5.0
   json_serializable: ^3.0.0
 ```
-
->ℹ️ Note that `build_runner` and `json_serializable` are required on `dev_dependencies`!
-
->ℹ️ If you're not using `ArtemisClient`, the lib can be included on `dev_dependencies` instead.
+The generated code uses the following packages in run-time:
+```yaml
+dependencies:
+  artemis: ^1.0.4
+  json_serializable: ^3.0.0
+  equatable: ^0.5.1
+  gql: ^0.7.4
+```
 
 Then run:
 ```shell
@@ -145,13 +147,16 @@ Each `ScalarMap` is configured this way:
 See [examples](./example) for more information and configuration options.
 
 ## **ArtemisClient**
-If you have `generate_helpers` then, Artemis will create a subclass of `GraphQLQuery` for you, this class can be used
+If you have `generate_helpers`, Artemis will create a subclass of `GraphQLQuery` for you, this class can be used
 in conjunction with `ArtemisClient`.
 
 ```dart
-final client = ArtemisClient();
+final client = ArtemisClient("/graphql");
 final gitHubReposQuery = MyGitHubReposQuery();
-final response = await client.query(gitHubReposQuery);
+final response = await client.execute(gitHubReposQuery);
 ```
+
+`ArtemisClient` adds type-awareness around `Link` from [`package:gql/link`](https://pub.dev/packages/gql).
+You can create `ArtemisClient` from any `Link` using `ArtemisClient.fromLink`.
  
 Check the [examples](./example) to see how to use it in details.
