@@ -123,6 +123,10 @@ class SchemaMap {
   @JsonKey(defaultValue: false)
   final bool addQueryPrefix;
 
+  /// A mapping between a glob of queries and the output file.
+  @JsonKey(defaultValue: {})
+  final Map<String, String> mapping;
+
   /// Instatiates a schema mapping.
   SchemaMap({
     this.output,
@@ -130,7 +134,10 @@ class SchemaMap {
     this.queriesGlob,
     this.resolveTypeField = '__resolveType',
     this.addQueryPrefix = false,
-  });
+    this.mapping = const <String, String>{},
+  })  : assert(schema != null, 'Schema path must be provided in SchemaMap.'),
+        assert((output != null && queriesGlob != null) || mapping.isNotEmpty,
+            'Either (output and queriesGlob) or mapping must be provided in SchemaMap.');
 
   /// Build a schema mapping from a JSON map.
   factory SchemaMap.fromJson(Map<String, dynamic> json) =>

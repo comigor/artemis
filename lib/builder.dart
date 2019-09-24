@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:build/build.dart';
 import 'package:glob/glob.dart';
+import 'package:yaml/yaml.dart';
 import './generator.dart';
 import './generator/data.dart';
 import './generator/graphql_helpers.dart';
@@ -15,8 +16,13 @@ GraphQLQueryBuilder graphQLQueryBuilder(BuilderOptions options) =>
 List<String> _builderOptionsToExpectedOutputs(BuilderOptions builderOptions) =>
     GeneratorOptions.fromJson(builderOptions.config)
         .schemaMapping
-        .where((s) => s.output != null)
-        .map((s) => s.output.replaceAll(RegExp(r'^lib/'), ''))
+        .fold<Iterable<String>>([], (memo, schemaMap) {
+          if (schemaMap.output != null) {
+            return memo.followedBy([schemaMap.output]);
+          }
+          return memo.followedBy(schemaMap.mapping.values);
+        })
+        .map((s) => s.replaceAll(RegExp(r'^lib/'), ''))
         .toList();
 
 /// Main Artemis builder.
@@ -47,30 +53,38 @@ class GraphQLQueryBuilder implements Builder {
     return schemaFromJsonString(await buildStep.readAsString(schemaFile));
   }
 
+  Future<void> _generateToSingleOutput(BuildStep buildStep, String queriesGlob,
+      String output, SchemaMap schemaMap) async {
+    final buffer = StringBuffer();
+    final outputFileId = AssetId(buildStep.inputId.package, output);
+    final schema = await _readSchemaFromPath(buildStep, schemaMap);
+
+    // Loop through all files in glob
+    final assetStream = buildStep.findAssets(Glob(queriesGlob));
+    final sources = await assetStream.asyncMap(buildStep.readAsString).toList();
+
+    final libDefinition =
+        generateLibrary(schema, output, sources, options, schemaMap);
+    if (onBuild != null) {
+      onBuild(libDefinition);
+    }
+    writeLibraryDefinitionToBuffer(buffer, libDefinition);
+
+    await buildStep.writeAsString(outputFileId, buffer.toString());
+  }
+
   @override
   Future<void> build(BuildStep buildStep) async {
     for (final schemaMap in options.schemaMapping) {
-      if (schemaMap.output == null) {
-        throw Exception('Each schema mapping must specify an output path!');
+      if (schemaMap.output != null) {
+        await _generateToSingleOutput(
+            buildStep, schemaMap.queriesGlob, schemaMap.output, schemaMap);
+      } else {
+        for (final mapping in schemaMap.mapping.entries) {
+          await _generateToSingleOutput(
+              buildStep, mapping.key, mapping.value, schemaMap);
+        }
       }
-
-      final buffer = StringBuffer();
-      final outputFileId = AssetId(buildStep.inputId.package, schemaMap.output);
-      final schema = await _readSchemaFromPath(buildStep, schemaMap);
-
-      // Loop through all files in glob
-      final assetStream = buildStep.findAssets(Glob(schemaMap.queriesGlob));
-      final sources =
-          await assetStream.asyncMap(buildStep.readAsString).toList();
-
-      final libDefinition = generateLibrary(
-          schema, schemaMap.output, sources, options, schemaMap);
-      if (onBuild != null) {
-        onBuild(libDefinition);
-      }
-      writeLibraryDefinitionToBuffer(buffer, libDefinition);
-
-      await buildStep.writeAsString(outputFileId, buffer.toString());
     }
   }
 }

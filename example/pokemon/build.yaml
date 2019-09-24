@@ -9,8 +9,6 @@ targets:
         options:
           schema_mapping:
             - schema: pokemon.schema.json
-              queries_glob: graphql/simple_query.query.graphql
-              output: lib/graphql/simple_query.dart
-            - schema: pokemon.schema.json
-              queries_glob: graphql/big_query.query.graphql
-              output: lib/graphql/big_query.dart
+              mapping:
+                graphql/simple_query.graphql: lib/graphql/simple_query.dart
+                graphql/big_query.graphql: lib/graphql/big_query.dart
