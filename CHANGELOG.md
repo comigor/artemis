@@ -1,7 +1,9 @@
 # CHANGELOG
 
-## Next
-
+## 2.0.0
+- BREAKING: move `GraphQLError` to `package:gql`. If you don't use it, or just
+  reference it indirectly, it will not be breaking, but a major will be bumped
+  anyway, just for sure.
 - Upgrade `package:gql` to version `0.7.4`
 - Build GQL AST into generated Dart code instead of the raw string
 - Use `Link` from `package:gql/link` as the execution interface of `ArtemisClient`
