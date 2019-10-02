@@ -27,7 +27,7 @@ dependencies:
   artemis: ^1.0.4
   json_serializable: ^3.0.0
   equatable: ^0.5.1
-  gql: '>=0.7.3 <1.0.0'
+  gql: ^0.9.0
 ```
 
 Then run:
