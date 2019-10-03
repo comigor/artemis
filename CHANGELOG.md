@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.0.1
+- Loosen up dependencies to make it work again with Flutter `beta` channel
+
 ## 2.0.0
 - BREAKING: move `GraphQLError` to `package:gql`. If you don't use it, or just
   reference it indirectly, it will not be breaking, but a major will be bumped
