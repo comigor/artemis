@@ -38,11 +38,18 @@ class GraphQLSchema {
 
   /// Build a GraphQL schema from a JSON map.
   factory GraphQLSchema.fromJson(Map<String, dynamic> json) {
+    // Support finding '__schema' nested under 'data' or not.
+    // Graphql codegen generates the __schema field at the top level.
     assert(
         json != null &&
-            json['data'] != null &&
-            json['data']['__schema'] != null,
+            ((json['data'] != null && json['data']['__schema'] != null) ||
+                json['__schema'] != null),
         'JSON schema file must be the output of an Introspection Query.');
+
+    if (json['__schema'] != null) {
+      return _$GraphQLSchemaFromJson(json['__schema'] as Map<String, dynamic>);
+    }
+
     return _$GraphQLSchemaFromJson(
         json['data']['__schema'] as Map<String, dynamic>);
   }
