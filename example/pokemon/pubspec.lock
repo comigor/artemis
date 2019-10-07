@@ -21,7 +21,7 @@ packages:
       path: "../.."
       relative: true
     source: path
-    version: "2.0.2"
+    version: "2.0.3"
   async:
     dependency: transitive
     description:
@@ -182,28 +182,28 @@ packages:
       name: gql
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.9.0"
+    version: "0.10.0"
   gql_code_gen:
     dependency: transitive
     description:
       name: gql_code_gen
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.0"
+    version: "0.1.1"
   gql_dedupe_link:
     dependency: transitive
     description:
       name: gql_dedupe_link
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.3"
+    version: "1.0.4"
   gql_http_link:
     dependency: transitive
     description:
       name: gql_http_link
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.2"
+    version: "0.2.0"
   graphs:
     dependency: transitive
     description:
