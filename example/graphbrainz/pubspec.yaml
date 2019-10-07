@@ -12,7 +12,6 @@ dependencies:
   intl: ^0.15.8
 
 dev_dependencies:
-  analyzer: 0.38.2 # avoid bug https://github.com/dart-lang/build/issues/2451
   test: ^1.6.3
   build_runner: ^1.5.0
   json_serializable: ^3.0.0
