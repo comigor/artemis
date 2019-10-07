@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.0.2
+- Support `__schema` key under the data field or on root of `schema.json`.
+
 ## 2.0.1
 - Loosen up dependencies to make it work again with Flutter `beta` channel
 
