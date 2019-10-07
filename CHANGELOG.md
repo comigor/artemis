@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.0.3
+- Generate every field of input objects
+
 ## 2.0.2
 - Support `__schema` key under the data field or on root of `schema.json`.
 
