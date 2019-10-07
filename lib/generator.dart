@@ -243,21 +243,19 @@ List<Definition> _extractClasses(
         options,
         prefix: prefix,
         onNewClassFound: (selectionSet, className, type) {
-          if (type.kind == GraphQLTypeKind.INPUT_OBJECT) {
-            queue.addAll(
-              _extractClasses(
-                null,
-                fragments,
-                schema,
-                className,
-                type,
-                options,
-                schemaMap,
-                prefix: prefix,
-                parentSelectionSet: selectionSet,
-              ),
-            );
-          }
+          queue.addAll(
+            _extractClasses(
+              null,
+              fragments,
+              schema,
+              className,
+              type,
+              options,
+              schemaMap,
+              prefix: prefix,
+              parentSelectionSet: selectionSet,
+            ),
+          );
         },
       );
     }).toList();
@@ -273,7 +271,7 @@ List<Definition> _extractClasses(
     return [
       EnumDefinition(
         currentType.name,
-        currentType.enumValues.map((eV) => eV.name),
+        currentType.enumValues.map((eV) => eV.name).toList(),
       ),
     ];
   }
