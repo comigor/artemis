@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.0.4
+- Bump `gql` package
+
 ## 2.0.3
 - Generate every field of input objects
 
