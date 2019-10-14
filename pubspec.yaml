@@ -1,5 +1,5 @@
 name: artemis
-version: 2.0.4
+version: 2.0.5
 
 authors:
   - Igor Borges <igor@borges.dev>
@@ -16,10 +16,10 @@ dependencies:
   code_builder: ^3.2.0
   equatable: ^0.6.1
   glob: ^1.1.7
-  gql_code_gen: ^0.1.1
-  gql_dedupe_link: ^1.0.4
-  gql_http_link: ^0.2.0
-  gql: ^0.10.0
+  gql_code_gen: ^0.1.3
+  gql_dedupe_link: ^1.0.6
+  gql_http_link: ^0.2.3
+  gql: ^0.11.1
   http: ^0.12.0+2
   meta: ^1.1.7
   path: ^1.6.2
