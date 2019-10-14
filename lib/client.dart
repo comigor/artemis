@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:gql/execution.dart';
-import 'package:gql/link.dart';
 import 'package:gql_dedupe_link/gql_dedupe_link.dart';
 import 'package:gql_http_link/gql_http_link.dart';
+import 'package:gql_link/gql_link.dart';
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
 
