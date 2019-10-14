@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.0.5
+- Bump `gql` package
+
 ## 2.0.4
 - Bump `gql` package
 
