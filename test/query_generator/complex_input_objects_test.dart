@@ -59,7 +59,7 @@ void main() {
         'some_query',
         queries: [
           QueryDefinition(
-            'SomeQuery',
+            'some_query',
             parseString('query some_query(\$filter: ComplexType!) { s }'),
             inputs: [QueryInput('ComplexType', 'filter')],
             classes: [

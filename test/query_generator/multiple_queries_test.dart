@@ -53,7 +53,7 @@ void main() {
           'graphql_api',
           queries: [
             QueryDefinition(
-              'SomeQuery',
+              'some_query',
               parseString('query some_query { s, i }'),
               classes: [
                 ClassDefinition('SomeQuery', [
@@ -63,7 +63,7 @@ void main() {
               ],
             ),
             QueryDefinition(
-              'AnotherQuery',
+              'another_query',
               parseString('query another_query { s }'),
               classes: [
                 ClassDefinition('AnotherQuery', [
@@ -200,7 +200,7 @@ class AnotherQuery with EquatableMixin {
             'graphql_api',
             queries: [
               QueryDefinition(
-                'SomeQuery',
+                'some_query',
                 parseString('query some_query { i, obj { str } }'),
                 classes: [
                   ClassDefinition('SomeQuery', [
@@ -213,7 +213,7 @@ class AnotherQuery with EquatableMixin {
                 ],
               ),
               QueryDefinition(
-                'AnotherQuery',
+                'another_query',
                 parseString('query another_query { s, obj { str } }'),
                 classes: [
                   ClassDefinition('AnotherQuery', [

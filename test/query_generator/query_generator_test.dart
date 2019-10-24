@@ -86,7 +86,7 @@ void main() {
             'some_query',
             queries: [
               QueryDefinition(
-                'SomeQuery',
+                'some_query',
                 parseString('query some_query { s, i }'),
                 classes: [
                   ClassDefinition('SomeQuery', [
@@ -190,7 +190,7 @@ class SomeQuery with EquatableMixin {
           'some_query',
           queries: [
             QueryDefinition(
-              'SomeQuery',
+              'some_query',
               parseString(
                   'query some_query(\$ints: [Int]!) { s, i, list(ints: \$ints) }'),
               inputs: [QueryInput('int', 'ints')],
@@ -326,7 +326,7 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
             'some_query',
             queries: [
               QueryDefinition(
-                'SomeQuery',
+                'some_query',
                 parseString(document),
                 classes: [
                   ClassDefinition('SomeQuery', [
@@ -442,7 +442,7 @@ class AnotherObject with EquatableMixin {
             'some_query',
             queries: [
               QueryDefinition(
-                'SomeQuery',
+                'some_query',
                 parseString('query some_query { firstName: s, lastName: st }'),
                 classes: [
                   ClassDefinition('SomeQuery', [
@@ -555,7 +555,7 @@ class SomeQuery with EquatableMixin {
             'some_query',
             queries: [
               QueryDefinition(
-                'SomeQuery',
+                'some_query',
                 parseString(document),
                 classes: [
                   ClassDefinition('SomeQuery', [
@@ -701,7 +701,7 @@ class AnotherObject with EquatableMixin {
             'some_query',
             queries: [
               QueryDefinition(
-                'SomeQuery',
+                'some_query',
                 parseString(document),
                 classes: [
                   ClassDefinition('SomeQuery', [
@@ -910,7 +910,7 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery, JsonSerializable> {
             'some_query',
             queries: [
               QueryDefinition(
-                'SomeQuery',
+                'some_query',
                 parseString('query some_query { bigDecimal, dateTime }'),
                 classes: [
                   ClassDefinition('SomeQuery', [
@@ -1033,7 +1033,7 @@ class SomeQuery with EquatableMixin {
             'some_query',
             queries: [
               QueryDefinition(
-                'SomeQuery',
+                'some_query',
                 parseString(document),
                 classes: [
                   ClassDefinition('SomeQuery', [
