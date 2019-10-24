@@ -131,7 +131,7 @@ Spec generateArgumentClassSpec(QueryDefinition definition) {
     (b) => b
       ..annotations
           .add(CodeExpression(Code('JsonSerializable(explicitToJson: true)')))
-      ..name = '${definition.queryName}Arguments'
+      ..name = '${definition.className}Arguments'
       ..extend = refer('JsonSerializable')
       ..mixins.add(refer('EquatableMixin'))
       ..methods.add(_propsMethod(
@@ -157,14 +157,14 @@ Spec generateArgumentClassSpec(QueryDefinition definition) {
               ..type = refer('Map<String, dynamic>')
               ..name = 'json',
           ))
-          ..body = Code('_\$${definition.queryName}ArgumentsFromJson(json)'),
+          ..body = Code('_\$${definition.className}ArgumentsFromJson(json)'),
       ))
       ..methods.add(Method(
         (m) => m
           ..name = 'toJson'
           ..lambda = true
           ..returns = refer('Map<String, dynamic>')
-          ..body = Code('_\$${definition.queryName}ArgumentsToJson(this)'),
+          ..body = Code('_\$${definition.className}ArgumentsToJson(this)'),
       ))
       ..fields.addAll(definition.inputs.map(
         (p) => Field(
@@ -180,8 +180,8 @@ Spec generateArgumentClassSpec(QueryDefinition definition) {
 /// Generates a [Spec] of a query/mutation class.
 Spec generateQueryClassSpec(QueryDefinition definition) {
   final String typeDeclaration = definition.inputs.isEmpty
-      ? '${definition.queryName}, JsonSerializable'
-      : '${definition.queryName}, ${definition.queryName}Arguments';
+      ? '${definition.className}, JsonSerializable'
+      : '${definition.className}, ${definition.className}Arguments';
 
   final constructor = definition.inputs.isEmpty
       ? Constructor()
@@ -208,7 +208,7 @@ Spec generateQueryClassSpec(QueryDefinition definition) {
         ..modifier = FieldModifier.final$
         ..type = refer('String')
         ..name = 'operationName'
-        ..assignment = Code('\'${ReCase(definition.queryName).snakeCase}\''),
+        ..assignment = Code('\'${definition.queryName}\''),
     ),
   ];
 
@@ -217,14 +217,14 @@ Spec generateQueryClassSpec(QueryDefinition definition) {
       (f) => f
         ..annotations.add(CodeExpression(Code('override')))
         ..modifier = FieldModifier.final$
-        ..type = refer('${definition.queryName}Arguments')
+        ..type = refer('${definition.className}Arguments')
         ..name = 'variables',
     ));
   }
 
   return Class(
     (b) => b
-      ..name = '${definition.queryName}Query'
+      ..name = '${definition.className}Query'
       ..extend = refer('GraphQLQuery<$typeDeclaration>')
       ..constructors.add(constructor)
       ..fields.addAll(fields)
@@ -233,7 +233,7 @@ Spec generateQueryClassSpec(QueryDefinition definition) {
       ..methods.add(Method(
         (m) => m
           ..annotations.add(CodeExpression(Code('override')))
-          ..returns = refer(definition.queryName)
+          ..returns = refer(definition.className)
           ..name = 'parse'
           ..requiredParameters.add(Parameter(
             (p) => p
@@ -241,7 +241,7 @@ Spec generateQueryClassSpec(QueryDefinition definition) {
               ..name = 'json',
           ))
           ..lambda = true
-          ..body = Code('${definition.queryName}.fromJson(json)'),
+          ..body = Code('${definition.className}.fromJson(json)'),
       )),
   );
 }
