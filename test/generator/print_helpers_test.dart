@@ -232,7 +232,7 @@ class AClass with EquatableMixin {
       );
       expect(
         () => generateQueryClassSpec(
-          QueryDefinition('TestQuery', null),
+          QueryDefinition('test_query', null),
         ),
         throwsA(
           TypeMatcher<AssertionError>(),
@@ -278,7 +278,7 @@ part 'test_query.g.dart';
         'test_query',
         queries: [
           QueryDefinition(
-            'TestQuery',
+            'test_query',
             parseString('query test_query {}'),
             generateHelpers: true,
           )
@@ -323,7 +323,7 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, JsonSerializable> {
       final buffer = StringBuffer();
       final definition = LibraryDefinition('test_query', queries: [
         QueryDefinition(
-          'TestQuery',
+          'test_query',
           parseString('query test_query {}'),
           generateHelpers: true,
           inputs: [QueryInput('Type', 'name')],
@@ -383,7 +383,7 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
 
     test('Will generate an Arguments class', () {
       final definition = QueryDefinition(
-        'TestQuery',
+        'test_query',
         parseString('query test_query {}'),
         generateHelpers: true,
         inputs: [QueryInput('Type', 'name')],
@@ -409,7 +409,7 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
 
     test('Will generate a Query Class', () {
       final definition = QueryDefinition(
-        'TestQuery',
+        'test_query',
         parseString('query test_query {}'),
         generateHelpers: true,
         inputs: [QueryInput('Type', 'name')],
@@ -449,7 +449,7 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
       final buffer = StringBuffer();
       final definition = LibraryDefinition('test_query', queries: [
         QueryDefinition(
-          'TestQuery',
+          'test_query',
           parseString('query test_query {}'),
           classes: [
             EnumDefinition('Enum', ['Value']),
