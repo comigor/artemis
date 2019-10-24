@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
+import 'package:recase/recase.dart';
 
 import '../schema/graphql.dart';
 
@@ -145,6 +146,9 @@ class QueryDefinition extends Equatable {
 
   /// If instances of [GraphQLQuery] should be generated.
   final bool generateHelpers;
+
+  /// The class name.
+  String get className => ReCase(queryName).pascalCase;
 
   /// Instantiate a query definition.
   QueryDefinition(

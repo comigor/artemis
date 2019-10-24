@@ -66,7 +66,7 @@ QueryDefinition generateQuery(
       document.definitions.whereType<FragmentDefinitionNode>().toList();
 
   final basename = p.basenameWithoutExtension(path);
-  final queryName = ReCase(operation.name?.value ?? basename).pascalCase;
+  final queryName = operation.name?.value ?? basename;
 
   GraphQLType parentType = gql.getTypeByName(schema, schema.queryType.name);
   if (operation.type == OperationType.mutation) {
@@ -95,11 +95,12 @@ QueryDefinition generateQuery(
     });
   }
 
+  final className = ReCase(queryName).pascalCase;
   final classes = _extractClasses(
     operation.selectionSet,
     fragments,
     schema,
-    queryName,
+    className,
     parentType,
     options,
     schemaMap,
