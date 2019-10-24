@@ -67,13 +67,14 @@ QueryDefinition generateQuery(
 
   final basename = p.basenameWithoutExtension(path);
   final queryName = operation.name?.value ?? basename;
+  final className = ReCase(queryName).pascalCase;
 
   GraphQLType parentType = gql.getTypeByName(schema, schema.queryType.name);
   if (operation.type == OperationType.mutation) {
     parentType = gql.getTypeByName(schema, schema.mutationType.name);
   }
 
-  final prefix = schemaMap.addQueryPrefix ? queryName : '';
+  final prefix = schemaMap.addQueryPrefix ? className : '';
 
   final List<QueryInput> inputs = [];
   final List<Definition> inputsClasses = [];
@@ -95,7 +96,6 @@ QueryDefinition generateQuery(
     });
   }
 
-  final className = ReCase(queryName).pascalCase;
   final classes = _extractClasses(
     operation.selectionSet,
     fragments,
