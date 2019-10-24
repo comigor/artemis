@@ -1121,7 +1121,7 @@ class SomeQueryAnotherObject with EquatableMixin {
 
     test('Query name (pascal casing)', () async {
       final GraphQLQueryBuilder anotherBuilder =
-      graphQLQueryBuilder(BuilderOptions({
+          graphQLQueryBuilder(BuilderOptions({
         'generate_helpers': false,
         'schema_mapping': [
           {
@@ -1132,8 +1132,8 @@ class SomeQueryAnotherObject with EquatableMixin {
         ]
       }));
       final GraphQLSchema schema = GraphQLSchema(
-          queryType:
-          GraphQLType(name: 'PascalCasingQuery', kind: GraphQLTypeKind.OBJECT),
+          queryType: GraphQLType(
+              name: 'PascalCasingQuery', kind: GraphQLTypeKind.OBJECT),
           types: [
             GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR),
             GraphQLType(
@@ -1171,7 +1171,8 @@ class SomeQueryAnotherObject with EquatableMixin {
         'a|api.schema.json': jsonFromSchema(schema),
         'a|pascal_casing_query.query.graphql': 'query PascalCasingQuery { s }',
       }, outputs: {
-        'a|lib/pascal_casing_query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
+        'a|lib/pascal_casing_query.dart':
+            '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
