@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.0.6
+- Perserve the query name casing
+
 ## 2.0.5
 - Bump `gql` package
 
