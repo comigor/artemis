@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.0.7
+- Add missing prefix to interfaces
+- Make all class properties camelCased
+
 ## 2.0.6
 - Perserve the query name casing
 
