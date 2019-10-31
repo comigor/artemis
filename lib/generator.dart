@@ -417,7 +417,7 @@ List<Definition> _extractClasses(
 
       classProperties.add(ClassProperty('String', 'resolveType',
           annotation: 'JsonKey(name: \'${schemaMap.resolveTypeField}\')',
-          override: true));
+          isOverride: true));
 
       implementations.forEach((interfaceType) {
         queue.addAll(_extractClasses(
@@ -441,7 +441,7 @@ List<Definition> _extractClasses(
               prefix: prefix,
             );
             if (cp != null) {
-              classProperties.add(cp.copyWith(override: true));
+              classProperties.add(cp.copyWith(isOverride: true));
             }
           },
         );
@@ -455,7 +455,8 @@ List<Definition> _extractClasses(
         mergeDuplicatesBy(
             classProperties.where((c) => c != null),
             (c) => c.name,
-            (old, n) => old.copyWith(override: old.override || n.override)),
+            (old, n) =>
+                old.copyWith(isOverride: old.isOverride || n.isOverride)),
         extension: classExtension,
         implementations: classImplementations,
         factoryPossibilities: factoryPossibilities.toList(),

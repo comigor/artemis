@@ -175,8 +175,9 @@ class AClass with EquatableMixin {
       final definition = ClassDefinition('AClass', [
         ClassProperty('Type', 'name'),
         ClassProperty('AnnotedProperty', 'name', annotation: 'Hey()'),
-        ClassProperty('OverridenProperty', 'name', override: true),
-        ClassProperty('AllAtOnce', 'name', override: true, annotation: 'Ho()'),
+        ClassProperty('OverridenProperty', 'name', isOverride: true),
+        ClassProperty('AllAtOnce', 'name',
+            isOverride: true, annotation: 'Ho()'),
       ]);
 
       final str = specToString(classDefinitionToSpec(definition));

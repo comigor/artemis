@@ -109,7 +109,7 @@ Spec classDefinitionToSpec(ClassDefinition definition) {
       ..methods.add(toJson)
       ..fields.addAll(definition.properties.map((p) {
         final annotations = <CodeExpression>[];
-        if (p.override) annotations.add(CodeExpression(Code('override')));
+        if (p.isOverride) annotations.add(CodeExpression(Code('override')));
         if (p.annotation != null) {
           annotations.add(CodeExpression(Code(p.annotation)));
         }
