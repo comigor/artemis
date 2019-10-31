@@ -413,7 +413,8 @@ List<Definition> _extractClasses(
           .map((t) => gql.getTypeByName(schema, t.name))
           .toSet();
 
-      classImplementations = implementations.map((t) => '$prefix${t.name}');
+      classImplementations =
+          implementations.map((t) => '$prefix${t.name}').toList();
 
       classProperties.add(ClassProperty('String', 'resolveType',
           annotation: 'JsonKey(name: \'${schemaMap.resolveTypeField}\')',
