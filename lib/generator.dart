@@ -176,8 +176,7 @@ ClassProperty _createClassProperty(
         'JsonKey(fromJson: fromGraphQL${graphqlTypeSafeStr}ToDart$dartTypeSafeStr, toJson: fromDart${dartTypeSafeStr}ToGraphQL$graphqlTypeSafeStr)';
   }
 
-  return ClassProperty(dartTypeStr, ReCase(alias).camelCase,
-      annotation: annotation);
+  return ClassProperty(dartTypeStr, alias, annotation: annotation);
 }
 
 ClassProperty _selectionToClassProperty(
