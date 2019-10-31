@@ -990,6 +990,10 @@ class SomeQuery with EquatableMixin {
             GraphQLType(
                 name: 'SomeObject',
                 kind: GraphQLTypeKind.OBJECT,
+                interfaces: [
+                  GraphQLType(
+                      name: 'AInterface', kind: GraphQLTypeKind.INTERFACE),
+                ],
                 fields: [
                   GraphQLField(
                       name: 'st',
@@ -1002,6 +1006,18 @@ class SomeQuery with EquatableMixin {
                           ofType: GraphQLType(
                               name: 'AnotherObject',
                               kind: GraphQLTypeKind.OBJECT))),
+                ]),
+            GraphQLType(
+                name: 'AInterface',
+                kind: GraphQLTypeKind.INTERFACE,
+                fields: [
+                  GraphQLField(
+                      name: 'st',
+                      type: GraphQLType(
+                          name: 'String', kind: GraphQLTypeKind.SCALAR)),
+                ],
+                possibleTypes: [
+                  GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT)
                 ]),
             GraphQLType(
                 name: 'AnotherObject',
@@ -1041,11 +1057,21 @@ class SomeQuery with EquatableMixin {
                     ClassProperty('SomeQuerySomeObject', 'o'),
                   ]),
                   ClassDefinition('SomeQuerySomeObject', [
-                    ClassProperty('String', 'st'),
+                    ClassProperty('String', 'st', isOverride: true),
                     ClassProperty('List<SomeQueryAnotherObject>', 'ob'),
+                    ClassProperty('String', 'resolveType',
+                        annotation: 'JsonKey(name: \'__resolveType\')',
+                        isOverride: true),
+                  ], implementations: [
+                    'SomeQueryAInterface'
                   ]),
                   ClassDefinition('SomeQueryAnotherObject', [
                     ClassProperty('String', 'str'),
+                  ]),
+                  ClassDefinition('SomeQueryAInterface', [
+                    ClassProperty('String', 'st'),
+                    ClassProperty('String', 'resolveType',
+                        annotation: 'JsonKey(name: \'__resolveType\')'),
                   ]),
                 ],
               ),
@@ -1054,15 +1080,11 @@ class SomeQuery with EquatableMixin {
         );
       }, count: 1);
 
-      await testBuilder(
-          anotherBuilder,
-          {
-            'a|api.schema.json': jsonFromSchema(schema),
-            'a|some_query.graphql': document,
-          },
-          outputs: {
-            'a|lib/some_query.dart':
-                '''// GENERATED CODE - DO NOT MODIFY BY HAND
+      await testBuilder(anotherBuilder, {
+        'a|api.schema.json': jsonFromSchema(schema),
+        'a|some_query.graphql': document,
+      }, outputs: {
+        'a|lib/some_query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -1086,18 +1108,23 @@ class SomeQuery with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuerySomeObject with EquatableMixin {
+class SomeQuerySomeObject with EquatableMixin implements SomeQueryAInterface {
   SomeQuerySomeObject();
 
   factory SomeQuerySomeObject.fromJson(Map<String, dynamic> json) =>
       _\$SomeQuerySomeObjectFromJson(json);
 
+  @override
   String st;
 
   List<SomeQueryAnotherObject> ob;
 
   @override
-  List<Object> get props => [st, ob];
+  @JsonKey(name: '__resolveType')
+  String resolveType;
+
+  @override
+  List<Object> get props => [st, ob, resolveType];
   Map<String, dynamic> toJson() => _\$SomeQuerySomeObjectToJson(this);
 }
 
@@ -1114,9 +1141,25 @@ class SomeQueryAnotherObject with EquatableMixin {
   List<Object> get props => [str];
   Map<String, dynamic> toJson() => _\$SomeQueryAnotherObjectToJson(this);
 }
+
+@JsonSerializable(explicitToJson: true)
+class SomeQueryAInterface with EquatableMixin {
+  SomeQueryAInterface();
+
+  factory SomeQueryAInterface.fromJson(Map<String, dynamic> json) =>
+      _\$SomeQueryAInterfaceFromJson(json);
+
+  String st;
+
+  @JsonKey(name: '__resolveType')
+  String resolveType;
+
+  @override
+  List<Object> get props => [st, resolveType];
+  Map<String, dynamic> toJson() => _\$SomeQueryAInterfaceToJson(this);
+}
 ''',
-          },
-          onLog: print);
+      });
     });
 
     test('Query name (pascal casing)', () async {
