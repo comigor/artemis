@@ -23,22 +23,27 @@ class ClassProperty extends Equatable {
   final String name;
 
   /// If property is an override from super class.
-  final bool override;
+  final bool isOverride;
 
   /// Some other custom annotation.
   final String annotation;
 
   /// Instantiate a property (field) from a class.
-  ClassProperty(this.type, this.name, {this.override = false, this.annotation});
+  ClassProperty(this.type, this.name,
+      {this.isOverride = false, this.annotation});
 
   /// Creates a copy of [ClassProperty] without modifying the original.
   ClassProperty copyWith(
-          {String type, String name, bool override, String annotation}) =>
+          {String type, String name, bool isOverride, String annotation}) =>
       ClassProperty(type ?? this.type, name ?? this.name,
-          override: override ?? this.override,
+          isOverride: isOverride ?? this.isOverride,
           annotation: annotation ?? this.annotation);
 
-  List get props => [type, name, override, annotation];
+  @override
+  String toString() => props.toList().toString();
+
+  @override
+  List get props => [type, name, isOverride, annotation];
 }
 
 /// Define a query/mutation input parameter.
@@ -69,6 +74,9 @@ abstract class Definition extends Equatable {
   Definition(this.name)
       : assert(
             name != null && name.isNotEmpty, 'Name can\'t be null nor empty.');
+
+  @override
+  String toString() => props.toList().toString();
 
   @override
   List get props => [name];
@@ -103,6 +111,9 @@ class ClassDefinition extends Definition {
   }) : super(name);
 
   @override
+  String toString() => props.toList().toString();
+
+  @override
   List get props => [
         name,
         properties,
@@ -125,6 +136,9 @@ class EnumDefinition extends Definition {
   )   : assert(values != null && values.isNotEmpty,
             'An enum must have at least one possible value.'),
         super(name);
+
+  @override
+  String toString() => props.toList().toString();
 
   @override
   List get props => [name, values];
@@ -167,6 +181,9 @@ class QueryDefinition extends Equatable {
         );
 
   @override
+  String toString() => props.toList().toString();
+
+  @override
   List get props => [queryName, document, classes, inputs, generateHelpers];
 }
 
@@ -193,6 +210,9 @@ class LibraryDefinition extends Equatable {
     this.customImports = const [],
   }) : assert(basename != null && basename.isNotEmpty,
             'Basename must not be null or empty.');
+
+  @override
+  String toString() => props.toList().toString();
 
   @override
   List get props => [basename, queries, customParserImport, customImports];
