@@ -17,14 +17,14 @@ Artemis is a code generator that looks for `*.schema.json` (GraphQL Introspectio
 Add the following to your `pubspec.yaml` file to be able to do code generation:
 ```yaml
 dev_dependencies:
-  artemis: ^1.0.4
+  artemis: ^2.0.7
   build_runner: ^1.5.0
   json_serializable: ^3.0.0
 ```
 The generated code uses the following packages in run-time:
 ```yaml
 dependencies:
-  artemis: ^1.0.4
+  artemis: ^2.0.7
   json_serializable: ^3.0.0
   equatable: ^0.5.1
   gql: '>=0.7.3 <1.0.0'
