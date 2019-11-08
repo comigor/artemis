@@ -9,7 +9,7 @@
 [![Pub Package](https://img.shields.io/pub/v/artemis.svg)](https://pub.dev/packages/artemis)
 [![GitHub Actions](https://github.com/comigor/artemis/workflows/test/badge.svg)](https://github.com/comigor/artemis/actions)
 
-Artemis is a code generator that looks for `*.schema.json` (GraphQL Introspection Query response data) and `*.graphql` files and builds `.dart` files typing that query, based on the schema. That's similar to what [Apollo](https://github.com/apollographql/apollo-client) does (Artemis is his sister anyway).
+Artemis is a code generator that looks for `schema.json` (GraphQL Introspection Query response data) and `*.graphql` files and builds `.dart` files typing that query, based on the schema. That's similar to what [Apollo](https://github.com/apollographql/apollo-client) does (Artemis is his sister anyway).
 
 ---
 
@@ -17,16 +17,16 @@ Artemis is a code generator that looks for `*.schema.json` (GraphQL Introspectio
 Add the following to your `pubspec.yaml` file to be able to do code generation:
 ```yaml
 dev_dependencies:
-  artemis: ^2.0.7
+  artemis: '>=2.0.0 <3.0.0'
   build_runner: ^1.5.0
   json_serializable: ^3.0.0
 ```
 The generated code uses the following packages in run-time:
 ```yaml
 dependencies:
-  artemis: ^2.0.7
+  artemis: '>=2.0.0 <3.0.0' # only if you're using ArtemisClient!
   json_serializable: ^3.0.0
-  equatable: ^0.5.1
+  equatable: ^0.6.1
   gql: '>=0.7.3 <1.0.0'
 ```
 
@@ -87,9 +87,9 @@ targets:
       artemis:
         options:
           schema_mapping:
-            - output: 'lib/graphql_api.dart'
-              schema: lib/my_graphql.schema.json
-              queries_glob: lib/**.query.graphql
+            - output: lib/graphql_api.dart
+              schema: lib/my_graphql_schema.json
+              queries_glob: lib/**.graphql
 ```
 
 Each `SchemaMap` is configured this way:
@@ -98,7 +98,7 @@ Each `SchemaMap` is configured this way:
 | - | - | - |
 | `output` |  | Relative path to output the generated code. |
 | `schema` |  | Relative path to the GraphQL schema. |
-| `queries_glob` |  | Glob that selects all query files to be used with this schema. Their extension must be `.query.graphql`. |
+| `queries_glob` |  | Glob that selects all query files to be used with this schema. |
 | `resolve_type_field` | `__resolveType` | The name of the field used to differentiatiate interfaces and union types (commonly `__resolveType` or `__typename`). Note that `__resolveType` field are not added automatically to the query. If you want interface/union type resolution, you need to manually add it to the query. |
 | `add_query_prefix` | `false` | Wheter to add the name of the query as a prefix for each dependent object of this query input or response. |
 
@@ -151,7 +151,7 @@ If you have `generate_helpers`, Artemis will create a subclass of `GraphQLQuery`
 in conjunction with `ArtemisClient`.
 
 ```dart
-final client = ArtemisClient("/graphql");
+final client = ArtemisClient('/graphql');
 final gitHubReposQuery = MyGitHubReposQuery();
 final response = await client.execute(gitHubReposQuery);
 ```
