@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.0.7+1
+- README updates
+
 ## 2.0.7
 - Add missing prefix to interfaces
 
