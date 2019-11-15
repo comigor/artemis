@@ -55,6 +55,36 @@ void main() {
 ''');
     });
   });
+  group('On printCustomFragmentClass', () {
+    test('It will throw if name is null or empty.', () {
+      expect(
+          () =>
+              fragmentClassDefinitionToSpec(FragmentClassDefinition(null, [])),
+          throwsA(TypeMatcher<AssertionError>()));
+      expect(
+          () => fragmentClassDefinitionToSpec(FragmentClassDefinition('', [])),
+          throwsA(TypeMatcher<AssertionError>()));
+    });
+
+    test('It will generate an Mixins declarations.', () {
+      final definition = FragmentClassDefinition('FragmentMixin', [
+        ClassProperty('Type', 'name'),
+        ClassProperty('Type', 'name', isOverride: true),
+        ClassProperty('Type', 'name', annotation: 'Test'),
+      ]);
+
+      final str = specToString(fragmentClassDefinitionToSpec(definition));
+
+      expect(str, '''mixin FragmentMixin {
+  Type name;
+  @override
+  Type name;
+  @Test
+  Type name;
+}
+''');
+    });
+  });
 
   group('On printCustomClass', () {
     test('It will throw if name is null or empty.', () {
@@ -202,6 +232,30 @@ class AClass with EquatableMixin {
 
   @override
   List<Object> get props => [name, name, name, name];
+  Map<String, dynamic> toJson() => _\$AClassToJson(this);
+}
+''');
+    });
+
+    test(
+        'Mixins can be included and its properties will be considered on props getter',
+        () {
+      final definition = ClassDefinition('AClass', [], mixins: [
+        FragmentClassDefinition('FragmentMixin', [
+          ClassProperty('Type', 'name'),
+        ]),
+      ]);
+
+      final str = specToString(classDefinitionToSpec(definition));
+
+      expect(str, '''@JsonSerializable(explicitToJson: true)
+class AClass with EquatableMixin, FragmentMixin {
+  AClass();
+
+  factory AClass.fromJson(Map<String, dynamic> json) => _\$AClassFromJson(json);
+
+  @override
+  List<Object> get props => [name];
   Map<String, dynamic> toJson() => _\$AClassToJson(this);
 }
 ''');
