@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.1.0+1
+- Fix GitHub actions deploy pipeline
+- Make sure artemis depends on json_annotation
+
 ## 2.1.0
 - Generate fragments as mixins
 

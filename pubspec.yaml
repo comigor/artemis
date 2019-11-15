@@ -1,5 +1,5 @@
 name: artemis
-version: 2.1.0
+version: 2.1.0+1
 
 authors:
   - Igor Borges <igor@borges.dev>
@@ -22,6 +22,7 @@ dependencies:
   gql_link: ^0.2.0
   gql: ^0.11.1
   http: ^0.12.0+2
+  json_annotation: ^2.4.0
   meta: ^1.1.7
   path: ^1.6.2
   recase: ^2.0.1
