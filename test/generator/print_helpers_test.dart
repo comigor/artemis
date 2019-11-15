@@ -118,7 +118,7 @@ class AClass with EquatableMixin {
   AClass();
 
   factory AClass.fromJson(Map<String, dynamic> json) {
-    switch (json['__resolveType']) {
+    switch (json['__resolveType'].toString()) {
       case 'ASubClass':
         return ASubClass.fromJson(json);
       case 'BSubClass':

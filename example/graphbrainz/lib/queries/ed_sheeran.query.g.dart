@@ -53,12 +53,11 @@ Map<String, dynamic> _$ArtistToJson(Artist instance) => <String, dynamic>{
 
 LifeSpan _$LifeSpanFromJson(Map<String, dynamic> json) {
   return LifeSpan()
-    ..begin =
-        json['begin'] == null ? null : DateTime.parse(json['begin'] as String);
+    ..begin = fromGraphQLDateToDartDateTime(json['begin'] as String);
 }
 
 Map<String, dynamic> _$LifeSpanToJson(LifeSpan instance) => <String, dynamic>{
-      'begin': instance.begin?.toIso8601String(),
+      'begin': fromDartDateTimeToGraphQLDate(instance.begin),
     };
 
 SpotifyArtist _$SpotifyArtistFromJson(Map<String, dynamic> json) {

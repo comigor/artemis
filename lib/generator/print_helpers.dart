@@ -13,7 +13,8 @@ Spec enumDefinitionToSpec(EnumDefinition definition) =>
 
 String _fromJsonBody(ClassDefinition definition) {
   final buffer = StringBuffer();
-  buffer.writeln('''switch (json['${definition.resolveTypeField}']) {''');
+  buffer.writeln(
+      '''switch (json['${definition.resolveTypeField}'].toString()) {''');
 
   for (final p in definition.factoryPossibilities) {
     buffer.writeln('''      case '$p':

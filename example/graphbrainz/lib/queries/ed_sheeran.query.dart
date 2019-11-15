@@ -26,7 +26,7 @@ class Node with EquatableMixin {
   Node();
 
   factory Node.fromJson(Map<String, dynamic> json) {
-    switch (json['__typename']) {
+    switch (json['__typename'].toString()) {
       case 'Artist':
         return Artist.fromJson(json);
       default:
