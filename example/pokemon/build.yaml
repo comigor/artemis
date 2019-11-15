@@ -14,3 +14,6 @@ targets:
             - schema: pokemon.schema.json
               queries_glob: graphql/big_query.query.graphql
               output: lib/graphql/big_query.dart
+            - schema: pokemon.schema.json
+              queries_glob: graphql/fragment_query.query.graphql
+              output: lib/graphql/fragment_query.dart
