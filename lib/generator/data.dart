@@ -82,7 +82,7 @@ abstract class Definition extends Equatable {
   List get props => [name];
 }
 
-/// Define a Dart class parsed from GraphQL schema.
+/// Define a Dart class parsed from GraphQL type.
 class ClassDefinition extends Definition {
   /// The properties (fields) of the class.
   final Iterable<ClassProperty> properties;
@@ -92,6 +92,9 @@ class ClassDefinition extends Definition {
 
   /// The types this class implements.
   final Iterable<String> implementations;
+
+  /// The types this class mixins.
+  final Iterable<FragmentClassDefinition> mixins;
 
   /// The types possibilities the class implements, if it's part of an union
   /// type or interface.
@@ -106,6 +109,7 @@ class ClassDefinition extends Definition {
     this.properties, {
     this.extension,
     this.implementations = const [],
+    this.mixins = const [],
     this.factoryPossibilities = const [],
     this.resolveTypeField = '__resolveType',
   }) : super(name);
@@ -119,9 +123,28 @@ class ClassDefinition extends Definition {
         properties,
         extension,
         implementations,
+        mixins,
         factoryPossibilities,
         resolveTypeField,
       ];
+}
+
+/// Define a Dart class parsed from GraphQL fragment.
+class FragmentClassDefinition extends Definition {
+  /// The properties (fields) of the class.
+  final Iterable<ClassProperty> properties;
+
+  /// Instantiate a fragment class definition.
+  FragmentClassDefinition(
+    String name,
+    this.properties,
+  ) : super(name);
+
+  @override
+  String toString() => props.toList().toString();
+
+  @override
+  List get props => [name, properties];
 }
 
 /// Define a Dart enum parsed from GraphQL schema.
