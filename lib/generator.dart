@@ -279,32 +279,69 @@ List<Definition> _extractClasses(
   if (selectionSet != null) {
     final classProperties = <ClassProperty>[];
     final factoryPossibilities = Set<String>();
+    final mixins = Set<FragmentClassDefinition>();
     final queue = <Definition>[];
     String classExtension;
     Iterable<String> classImplementations = [];
 
-    // Spread fragment spreads into selections
-    final fragmentSelections = selectionSet.selections
+    // Add fragments as mixins
+    selectionSet.selections
         .whereType<FragmentSpreadNode>()
-        .map(
-          (selection) => fragments
-              .firstWhere(
-                (f) => f.name.value == selection.name.value,
-              )
-              .selectionSet
-              .selections,
-        )
-        .expand(
-          (i) => i,
-        );
+        .forEach((selection) {
+      final mixinFields = <ClassProperty>[];
+      fragments
+          .firstWhere(
+            (f) => f.name.value == selection.name.value,
+          )
+          .selectionSet
+          .selections
+          .whereType<FieldNode>()
+          .forEach(
+        (selection) {
+          final cp = _selectionToClassProperty(
+            selection,
+            schema,
+            currentType,
+            options,
+            prefix: prefix,
+            onNewClassFound: (
+              selectionSet,
+              className,
+              type,
+            ) {
+              queue.addAll(
+                _extractClasses(
+                  selection.selectionSet,
+                  fragments,
+                  schema,
+                  className,
+                  type,
+                  options,
+                  schemaMap,
+                  prefix: prefix,
+                  parentSelectionSet: selectionSet,
+                ),
+              );
+            },
+          );
 
-    // Look at field selections (and fragment spreads) and add it as class properties
-    fragmentSelections
-        .followedBy(
-          selectionSet.selections,
-        )
-        .whereType<FieldNode>()
-        .forEach(
+          mixinFields.add(cp);
+        },
+      );
+
+      if (mixinFields.isNotEmpty) {
+        final mixinName = ReCase('${selection.name.value}Mixin').pascalCase;
+        final fragment = FragmentClassDefinition(
+          mixinName,
+          mixinFields.toList(),
+        );
+        queue.add(fragment);
+        mixins.add(fragment);
+      }
+    });
+
+    // Look at field selections and add it as class properties
+    selectionSet.selections.whereType<FieldNode>().forEach(
       (selection) {
         final cp = _selectionToClassProperty(
           selection,
@@ -460,6 +497,7 @@ List<Definition> _extractClasses(
                 old.copyWith(isOverride: old.isOverride || n.isOverride)),
         extension: classExtension,
         implementations: classImplementations,
+        mixins: mixins.toList(),
         factoryPossibilities: factoryPossibilities.toList(),
         resolveTypeField: schemaMap.resolveTypeField,
       ),
