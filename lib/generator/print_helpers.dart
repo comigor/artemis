@@ -94,14 +94,19 @@ Spec classDefinitionToSpec(ClassDefinition definition) {
             ..body = Code('_\$${definition.name}ToJson(this)'),
         );
 
+  final props = definition.mixins
+      .map((i) => i.properties.map((p) => p.name))
+      .expand((i) => i)
+      .followedBy(definition.properties.map((p) => p.name));
+
   return Class(
     (b) => b
       ..annotations
           .add(CodeExpression(Code('JsonSerializable(explicitToJson: true)')))
       ..name = definition.name
       ..mixins.add(refer('EquatableMixin'))
-      ..methods.add(_propsMethod(
-          '[${definition.properties.map((p) => p.name).join(',')}]'))
+      ..mixins.addAll(definition.mixins.map((i) => refer(i.name)))
+      ..methods.add(_propsMethod('[${props.join(',')}]'))
       ..extend =
           definition.extension != null ? refer(definition.extension) : null
       ..implements.addAll(definition.implementations.map((i) => refer(i)))
@@ -123,6 +128,23 @@ Spec classDefinitionToSpec(ClassDefinition definition) {
         return field;
       })),
   );
+}
+
+/// Generates a [Spec] of a single fragment class definition.
+Spec fragmentClassDefinitionToSpec(FragmentClassDefinition definition) {
+  final fields = (definition.properties ?? []).map((p) {
+    final lines = <String>[];
+    if (p.isOverride) lines.add('@override');
+    if (p.annotation != null) {
+      lines.add('@${p.annotation}');
+    }
+    lines.add('${p.type} ${p.name};');
+    return lines.join('\n');
+  });
+
+  return CodeExpression(Code('''mixin ${definition.name} {
+  ${fields.join('\n')}
+}'''));
 }
 
 /// Generates a [Spec] of a mutation argument class.
@@ -276,6 +298,9 @@ Spec generateLibrarySpec(LibraryDefinition definition) {
   ];
 
   for (final queryDef in definition.queries) {
+    bodyDirectives.addAll(queryDef.classes
+        .whereType<FragmentClassDefinition>()
+        .map(fragmentClassDefinitionToSpec));
     bodyDirectives.addAll(queryDef.classes
         .whereType<ClassDefinition>()
         .map(classDefinitionToSpec));
