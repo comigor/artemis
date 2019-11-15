@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.1.0
+- Generate fragments as mixins
+
 ## 2.0.7+1
 - README updates
 
