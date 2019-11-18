@@ -1,0 +1,218 @@
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+import 'dart:isolate';
+
+import 'package:build/build.dart';
+import 'package:path/path.dart' as p;
+
+import './schema/options.dart';
+import 'package:io/io.dart';
+import 'package:stack_trace/stack_trace.dart';
+import 'package:logging/logging.dart';
+
+final logger = Logger('Artemis:PreBuilder');
+
+PrepBuilder prepBuilder(BuilderOptions options) => PrepBuilder(options);
+
+class PrepBuilder implements Builder {
+  /// Creates a builder from [BuilderOptions].
+  PrepBuilder(BuilderOptions builderOptions)
+      : options = GeneratorOptions.fromJson(builderOptions.config),
+        expectedOutputs = ['prep.executable.dart'];
+
+  /// This generator options, gathered from `build.yaml` file.
+  final GeneratorOptions options;
+
+  /// The generated output file.
+  final List<String> expectedOutputs;
+
+  @override
+  Map<String, List<String>> get buildExtensions => {
+        r'$lib$': expectedOutputs,
+      };
+
+  @override
+  Future<void> build(BuildStep buildStep) async {
+    final outputFileId =
+        AssetId(buildStep.inputId.package, 'lib/prep.executable.dart');
+
+    final generatedFile = File(p.absolute(
+        '.dart_tool/build/generated', outputFileId.package, outputFileId.path));
+
+    await buildStep.writeAsString(outputFileId, '''
+import 'dart:io';
+
+void main() async {
+  print('HELLO WORLD!');
+  await File('${p.setExtension(generatedFile.path, 'logzinho')}').writeAsString('zoeirinha');
+}
+''');
+
+    await generateAndRun(
+        p.withoutExtension(generatedFile.path), generatedFile.path);
+
+    print(await generatedFile.exists());
+    print(await generatedFile.readAsString());
+  }
+
+  /// Generates the build script, snapshots it if needed, and runs it.
+  ///
+  /// Will retry once on [IsolateSpawnException]s to handle SDK updates.
+  ///
+  /// Returns the exit code from running the build script.
+  ///
+  /// If an exit code of 75 is returned, this function should be re-ran.
+  /// Borrowed and modified from https://github.com/dart-lang/build/blob/master/build_runner/lib/src/build_script_generate/bootstrap.dart.
+  Future<int> generateAndRun(
+      String scriptSnapshotLocation, String scriptLocation) async {
+    ReceivePort exitPort;
+    ReceivePort errorPort;
+    ReceivePort messagePort;
+    StreamSubscription errorListener;
+    int scriptExitCode;
+
+    var tryCount = 0;
+    var succeeded = false;
+    while (tryCount < 2 && !succeeded) {
+      tryCount++;
+      exitPort?.close();
+      errorPort?.close();
+      messagePort?.close();
+      await errorListener?.cancel();
+
+      try {
+        var buildScript = File(scriptLocation);
+        var oldContents = '';
+        if (buildScript.existsSync()) {
+          oldContents = buildScript.readAsStringSync();
+        }
+        var newContents = await generateBuildScript();
+        // Only trigger a build script update if necessary.
+        if (newContents != oldContents) {
+          buildScript
+            ..createSync(recursive: true)
+            ..writeAsStringSync(newContents);
+        }
+      } on CannotBuildException {
+        return ExitCode.config.code;
+      }
+
+      scriptExitCode = await _createSnapshotIfNeeded(logger);
+      if (scriptExitCode != 0) return scriptExitCode;
+
+      exitPort = ReceivePort();
+      errorPort = ReceivePort();
+      messagePort = ReceivePort();
+      errorListener = errorPort.listen((e) {
+        final error = e[0];
+        final trace = e[1] as String;
+        stderr
+          ..writeln('\n\nYou have hit a bug in build_runner')
+          ..writeln('Please file an issue with reproduction steps at '
+              'https://github.com/dart-lang/build/issues\n\n')
+          ..writeln(error)
+          ..writeln(Trace.parse(trace).terse);
+        if (scriptExitCode == 0) scriptExitCode = 1;
+      });
+      try {
+        await Isolate.spawnUri(Uri.file(p.absolute(scriptSnapshotLocation)),
+            args, messagePort.sendPort,
+            errorsAreFatal: true,
+            onExit: exitPort.sendPort,
+            onError: errorPort.sendPort);
+        succeeded = true;
+      } on IsolateSpawnException catch (e) {
+        if (tryCount > 1) {
+          logger.severe(
+              'Failed to spawn build script after retry. '
+              'This is likely due to a misconfigured builder definition. '
+              'See the generated script at $scriptLocation to find errors.',
+              e);
+          messagePort.sendPort.send(ExitCode.config.code);
+          exitPort.sendPort.send(null);
+        } else {
+          logger.warning(
+              'Error spawning build script isolate, this is likely due to a Dart '
+              'SDK update. Deleting snapshot and retrying...');
+        }
+        await File(scriptSnapshotLocation).delete();
+      }
+    }
+
+    StreamSubscription exitCodeListener;
+    exitCodeListener = messagePort.listen((isolateExitCode) {
+      if (isolateExitCode is int) {
+        scriptExitCode = isolateExitCode;
+      } else {
+        throw StateError(
+            'Bad response from isolate, expected an exit code but got '
+            '$isolateExitCode');
+      }
+      exitCodeListener.cancel();
+      exitCodeListener = null;
+    });
+    await exitPort.first;
+    await errorListener.cancel();
+    await exitCodeListener?.cancel();
+
+    return scriptExitCode;
+  }
+
+  /// Creates a script snapshot for the build script in necessary.
+  ///
+  /// A snapshot is generated if:
+  ///
+  /// - It doesn't exist currently
+  /// - Either build_runner or build_daemon point at a different location than
+  ///   they used to, see https://github.com/dart-lang/build/issues/1929.
+  ///
+  /// Returns zero for success or a number for failure which should be set to the
+  /// exit code.
+  Future<int> _createSnapshotIfNeeded(
+      String scriptSnapshotLocation, String scriptLocation) async {
+    var assetGraphFile = File(assetGraphPathFor(scriptSnapshotLocation));
+    var snapshotFile = File(scriptSnapshotLocation);
+
+    if (await snapshotFile.exists()) {
+      // If we failed to serialize an asset graph for the snapshot, then we don't
+      // want to re-use it because we can't check if it is up to date.
+      if (!await assetGraphFile.exists()) {
+        await snapshotFile.delete();
+        logger.warning('Deleted previous snapshot due to missing asset graph.');
+      } else if (!await _checkImportantPackageDeps()) {
+        await snapshotFile.delete();
+        logger.warning('Deleted previous snapshot due to core package update');
+      }
+    }
+
+    String stderr;
+    if (!await snapshotFile.exists()) {
+      var mode = stdin.hasTerminal
+          ? ProcessStartMode.normal
+          : ProcessStartMode.detachedWithStdio;
+      await logTimedAsync(logger, 'Creating build script snapshot...',
+          () async {
+        var snapshot = await Process.start(Platform.executable,
+            ['--snapshot=$scriptSnapshotLocation', scriptLocation],
+            mode: mode);
+        stderr = (await snapshot.stderr
+                .transform(utf8.decoder)
+                .transform(LineSplitter())
+                .toList())
+            .join('');
+      });
+      if (!await snapshotFile.exists()) {
+        logger.severe('Failed to snapshot build script $scriptLocation.\n'
+            'This is likely caused by a misconfigured builder definition.');
+        if (stderr.isNotEmpty) {
+          logger.severe(stderr);
+        }
+        return ExitCode.config.code;
+      }
+      // Create _previousLocationsFile.
+      await _checkImportantPackageDeps();
+    }
+    return 0;
+  }
+}

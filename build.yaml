@@ -1,4 +1,12 @@
 builders:
+  prep:
+    import: 'package:artemis/prep_builder.dart'
+    builder_factories: ['prepBuilder']
+    build_extensions: {'$lib$': ['.executable.dart']}
+    auto_apply: dependents
+    build_to: cache
+    runs_before: ['artemis|runner']
+    applies_builders: ['artemis|runner']
   artemis:
     import: 'package:artemis/builder.dart'
     builder_factories: ['graphQLQueryBuilder']
