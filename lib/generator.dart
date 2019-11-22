@@ -230,8 +230,7 @@ List<Definition> _extractClasses(
 }) {
   final thisClassName = prefix == className ? className : '$prefix$className';
 
-  if (currentType.kind == GraphQLTypeKind.INPUT_OBJECT ||
-      currentType.kind == GraphQLTypeKind.UNION) {
+  if (currentType.kind == GraphQLTypeKind.INPUT_OBJECT) {
     final queue = <Definition>[];
     final properties = currentType.inputFields.map((i) {
       final type = gql.getTypeByName(schema, gql.followType(i.type).name);
