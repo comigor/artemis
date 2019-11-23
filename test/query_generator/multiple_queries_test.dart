@@ -203,26 +203,32 @@ class AnotherQuery with EquatableMixin {
                 'some_query',
                 parseString('query some_query { i, obj { str } }'),
                 classes: [
-                  ClassDefinition('SomeQuery', [
-                    ClassProperty('int', 'i'),
-                    ClassProperty('SomeQueryAnotherObject', 'obj'),
-                  ]),
-                  ClassDefinition('SomeQueryAnotherObject', [
-                    ClassProperty('String', 'str'),
-                  ]),
+                  ClassDefinition(
+                      'SomeQuery',
+                      [
+                        ClassProperty('int', 'i'),
+                        ClassProperty('SomeQueryAnotherObject', 'obj')
+                      ],
+                      prefix: 'SomeQuery'),
+                  ClassDefinition('SomeQueryAnotherObject',
+                      [ClassProperty('String', 'str')],
+                      prefix: 'SomeQuery'),
                 ],
               ),
               QueryDefinition(
                 'another_query',
                 parseString('query another_query { s, obj { str } }'),
                 classes: [
-                  ClassDefinition('AnotherQuery', [
-                    ClassProperty('String', 's'),
-                    ClassProperty('AnotherQueryAnotherObject', 'obj'),
-                  ]),
-                  ClassDefinition('AnotherQueryAnotherObject', [
-                    ClassProperty('String', 'str'),
-                  ]),
+                  ClassDefinition(
+                      'AnotherQuery',
+                      [
+                        ClassProperty('String', 's'),
+                        ClassProperty('AnotherQueryAnotherObject', 'obj')
+                      ],
+                      prefix: 'AnotherQuery'),
+                  ClassDefinition('AnotherQueryAnotherObject',
+                      [ClassProperty('String', 'str')],
+                      prefix: 'AnotherQuery'),
                 ],
               ),
             ],

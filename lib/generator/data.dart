@@ -100,6 +100,10 @@ class ClassDefinition extends Definition {
   /// type or interface.
   final Iterable<String> factoryPossibilities;
 
+  /// The prefix this class and its relations will use.
+  // TODO(igor): make everything use this prefix
+  final String prefix;
+
   /// The field name used to resolve this class type.
   final String resolveTypeField;
 
@@ -107,6 +111,7 @@ class ClassDefinition extends Definition {
   ClassDefinition(
     String name,
     this.properties, {
+    this.prefix = '',
     this.extension,
     this.implementations = const [],
     this.mixins = const [],
@@ -121,6 +126,7 @@ class ClassDefinition extends Definition {
   List get props => [
         name,
         properties,
+        prefix,
         extension,
         implementations,
         mixins,
