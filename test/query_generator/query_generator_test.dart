@@ -1052,27 +1052,35 @@ class SomeQuery with EquatableMixin {
                 'some_query',
                 parseString(document),
                 classes: [
-                  ClassDefinition('SomeQuery', [
-                    ClassProperty('String', 's'),
-                    ClassProperty('SomeQuerySomeObject', 'o'),
-                  ]),
-                  ClassDefinition('SomeQuerySomeObject', [
-                    ClassProperty('String', 'st', isOverride: true),
-                    ClassProperty('List<SomeQueryAnotherObject>', 'ob'),
-                    ClassProperty('String', 'resolveType',
-                        annotation: 'JsonKey(name: \'__resolveType\')',
-                        isOverride: true),
-                  ], implementations: [
-                    'SomeQueryAInterface'
-                  ]),
-                  ClassDefinition('SomeQueryAnotherObject', [
-                    ClassProperty('String', 'str'),
-                  ]),
-                  ClassDefinition('SomeQueryAInterface', [
-                    ClassProperty('String', 'st'),
-                    ClassProperty('String', 'resolveType',
-                        annotation: 'JsonKey(name: \'__resolveType\')'),
-                  ]),
+                  ClassDefinition(
+                      'SomeQuery',
+                      [
+                        ClassProperty('String', 's'),
+                        ClassProperty('SomeQuerySomeObject', 'o')
+                      ],
+                      prefix: 'SomeQuery'),
+                  ClassDefinition(
+                      'SomeQuerySomeObject',
+                      [
+                        ClassProperty('String', 'st', isOverride: true),
+                        ClassProperty('List<SomeQueryAnotherObject>', 'ob'),
+                        ClassProperty('String', 'resolveType',
+                            annotation: 'JsonKey(name: \'__resolveType\')',
+                            isOverride: true)
+                      ],
+                      implementations: ['SomeQueryAInterface'],
+                      prefix: 'SomeQuery'),
+                  ClassDefinition('SomeQueryAnotherObject',
+                      [ClassProperty('String', 'str')],
+                      prefix: 'SomeQuery'),
+                  ClassDefinition(
+                      'SomeQueryAInterface',
+                      [
+                        ClassProperty('String', 'st'),
+                        ClassProperty('String', 'resolveType',
+                            annotation: 'JsonKey(name: \'__resolveType\')')
+                      ],
+                      prefix: 'SomeQuery'),
                 ],
               ),
             ],

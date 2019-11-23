@@ -425,9 +425,9 @@ List<Definition> _extractClasses(
             t.possibleTypes.any((pt) => pt.name == currentType.name),
         orElse: () => null);
     if (unionOf != null) {
-      classExtension = unionOf.name;
+      classExtension = '$prefix${unionOf.name}';
       queue.addAll(_extractClasses(
-          null, fragments, schema, classExtension, unionOf, options, schemaMap,
+          null, fragments, schema, unionOf.name, unionOf, options, schemaMap,
           prefix: prefix));
     }
 
@@ -499,6 +499,7 @@ List<Definition> _extractClasses(
         implementations: classImplementations,
         mixins: mixins.toList(),
         factoryPossibilities: factoryPossibilities.toList(),
+        prefix: prefix,
         resolveTypeField: schemaMap.resolveTypeField,
       ),
     );
