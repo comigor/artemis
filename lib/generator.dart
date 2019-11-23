@@ -230,7 +230,8 @@ List<Definition> _extractClasses(
 }) {
   final thisClassName = prefix == className ? className : '$prefix$className';
 
-  if (currentType.kind == GraphQLTypeKind.INPUT_OBJECT) {
+  if (currentType.kind == GraphQLTypeKind.INPUT_OBJECT ||
+      (currentType.kind == GraphQLTypeKind.UNION && selectionSet == null)) {
     final queue = <Definition>[];
     final properties = currentType.inputFields.map((i) {
       final type = gql.getTypeByName(schema, gql.followType(i.type).name);
@@ -426,7 +427,7 @@ List<Definition> _extractClasses(
     if (unionOf != null) {
       classExtension = unionOf.name;
       queue.addAll(_extractClasses(
-          null, fragments, schema, unionOf.name, unionOf, options, schemaMap,
+          null, fragments, schema, classExtension, unionOf, options, schemaMap,
           prefix: prefix));
     }
 
