@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.1.1
+- Properly consider Union types on generation
+
 ## 2.1.0+1
 - Fix GitHub actions deploy pipeline
 - Make sure artemis depends on json_annotation
