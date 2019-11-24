@@ -1,4 +1,5 @@
 import 'package:gql/ast.dart';
+import "package:gql/language.dart" as lang;
 import 'package:path/path.dart' as p;
 import 'package:recase/recase.dart';
 
@@ -17,12 +18,31 @@ LibraryDefinition generateLibrary(
   GeneratorOptions options,
   SchemaMap schemaMap,
 ) {
+  // TODO this class deduplication doesn't work (had to use prefixes),
+  //      because different queries have on different selection sets
+  // To me this is more evidence that generating full restricted types that are then
+  // loosened by the query types is the right approach
+  // TODO does work for enums though
+  Set<Definition> classes = Set();
   final queriesDefinitions = gqlDocs
-      .map((doc) => generateQuery(schema, path, doc, options, schemaMap))
-      .toList();
+      .expand((doc) => generateQueries(schema, path, doc, options, schemaMap))
+      .map((def) {
+    final q = QueryDefinition(
+      def.queryName,
+      def.document,
+      classes: def.classes
+          .where((c) => classes.where((seen) => seen == c).isEmpty)
+          .toList(),
+      inputs: def.inputs,
+      generateHelpers: options.generateHelpers,
+    );
+    print(q.classes.map((c) => c.name));
+    classes.addAll(q.classes);
+    return q;
+  }).toList();
 
-  final allClassesNames = queriesDefinitions.fold<Iterable<String>>(
-      [], (defs, def) => defs.followedBy(def.classes.map((c) => c.name)));
+  final allClassesNames = queriesDefinitions
+      .expand((queryDefinition) => queryDefinition.classes.map((c) => c.name));
 
   mergeDuplicatesBy(allClassesNames, (a) => a, (a, b) {
     throw Exception('''Two classes were generated with the same name `$a`!
@@ -53,23 +73,20 @@ NamedTypeNode _unwrapType(TypeNode type) {
 
 /// Generate a query definition from a GraphQL schema and a query, given
 /// Artemis options and schema mappings.
-QueryDefinition generateQuery(
+QueryDefinition _generateQuery(
   GraphQLSchema schema,
-  String path,
-  DocumentNode document,
+  OperationDefinitionNode operation,
+  List<FragmentDefinitionNode> fragments,
   GeneratorOptions options,
   SchemaMap schemaMap,
 ) {
-  final operation =
-      document.definitions.whereType<OperationDefinitionNode>().first;
-  final fragments =
-      document.definitions.whereType<FragmentDefinitionNode>().toList();
-
-  final basename = p.basenameWithoutExtension(path);
-  final queryName = operation.name?.value ?? basename;
+  final queryName = operation.name?.value;
+  assert(
+      queryName != null, 'Attempted to generate an operation without a name');
   final className = ReCase(queryName).pascalCase;
 
   GraphQLType parentType = gql.getTypeByName(schema, schema.queryType.name);
+
   if (operation.type == OperationType.mutation) {
     parentType = gql.getTypeByName(schema, schema.mutationType.name);
   }
@@ -109,12 +126,36 @@ QueryDefinition generateQuery(
 
   return QueryDefinition(
     queryName,
-    document,
+    DocumentNode(
+        definitions: [operation]
+          ..addAll(_extractFragments(operation, fragments))),
     classes:
         removeDuplicatedBy(classes.followedBy(inputsClasses), (i) => i.name),
     inputs: inputs,
     generateHelpers: options.generateHelpers,
   );
+}
+
+/// Generate query definitions from a GraphQL schema and a query, given
+/// Artemis options and schema mappings.
+Iterable<QueryDefinition> generateQueries(
+  GraphQLSchema schema,
+  String path,
+  DocumentNode document,
+  GeneratorOptions options,
+  SchemaMap schemaMap,
+) {
+  final fragments =
+      document.definitions.whereType<FragmentDefinitionNode>().toList();
+  return document.definitions
+      .whereType<OperationDefinitionNode>()
+      .map((operation) => _generateQuery(
+            schema,
+            operation,
+            fragments,
+            options,
+            schemaMap,
+          ));
 }
 
 List<String> _extractCustomImports(
@@ -255,7 +296,7 @@ List<Definition> _extractClasses(
               schemaMap,
               prefix: prefix,
               parentSelectionSet: selectionSet,
-            ),
+            ).where((extracted) => extracted != null),
           );
         },
       );
@@ -271,7 +312,7 @@ List<Definition> _extractClasses(
   if (currentType.kind == GraphQLTypeKind.ENUM) {
     return [
       EnumDefinition(
-        currentType.name,
+        thisClassName, //currentType.name,
         currentType.enumValues.map((eV) => eV.name).toList(),
       ),
     ];
@@ -507,4 +548,29 @@ List<Definition> _extractClasses(
     return queue;
   }
   return [];
+}
+
+class _FragmentReferenceCollector extends TransformingVisitor {
+  Set<String> fragmentNames = Set<String>();
+
+  @override
+  FragmentSpreadNode visitFragmentSpreadNode(
+    FragmentSpreadNode node,
+  ) {
+    fragmentNames.add(node.name.value);
+    return node;
+  }
+}
+
+// traverse the operation to extract all spread fragments
+Iterable<FragmentDefinitionNode> _extractFragments(
+    OperationDefinitionNode operation,
+    Iterable<FragmentDefinitionNode> allFragments) {
+  if (allFragments.isEmpty) {
+    return allFragments;
+  }
+  _FragmentReferenceCollector collector = _FragmentReferenceCollector();
+  transform(operation, [collector]);
+  return allFragments.where(
+      (fragment) => collector.fragmentNames.contains(fragment.name.value));
 }

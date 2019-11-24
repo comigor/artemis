@@ -123,6 +123,12 @@ class SchemaMap {
   @JsonKey(defaultValue: false)
   final bool addQueryPrefix;
 
+  /// How to preprocess the source files
+  ///
+  /// If `"concatenate"`, all input files will be concatenated before parsing
+  @JsonKey(required: false)
+  final String preprocess;
+
   /// Instatiates a schema mapping.
   SchemaMap({
     this.output,
@@ -130,6 +136,7 @@ class SchemaMap {
     this.queriesGlob,
     this.resolveTypeField = '__resolveType',
     this.addQueryPrefix = false,
+    this.preprocess,
   });
 
   /// Build a schema mapping from a JSON map.

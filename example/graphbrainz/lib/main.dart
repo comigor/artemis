@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:artemis/artemis.dart';
 
-import 'queries/ed_sheeran.query.dart';
+import 'queries/queries.dart';
 
 Future<void> main() async {
   final client = ArtemisClient(

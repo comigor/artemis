@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:build/build.dart';
 import 'package:glob/glob.dart';
+import 'package:gql/ast.dart';
 import 'package:gql/language.dart';
 
 import './generator.dart';
@@ -50,41 +51,66 @@ class GraphQLQueryBuilder implements Builder {
     return schemaFromJsonString(await buildStep.readAsString(schemaFile));
   }
 
-  @override
-  Future<void> build(BuildStep buildStep) async {
-    for (final schemaMap in options.schemaMapping) {
-      if (schemaMap.output == null) {
-        throw Exception('Each schema mapping must specify an output path!');
-      }
+  Future<List<DocumentNode>> _parseDocuments(
+      BuildStep buildStep, SchemaMap schemaMap) async {
+    // Loop through all files in glob
+    final assetStream = buildStep.findAssets(Glob(schemaMap.queriesGlob));
 
-      final buffer = StringBuffer();
-      final outputFileId = AssetId(buildStep.inputId.package, schemaMap.output);
-      final schema = await _readSchemaFromPath(buildStep, schemaMap);
-
-      // Loop through all files in glob
-      final assetStream = buildStep.findAssets(Glob(schemaMap.queriesGlob));
-      final gqlDocs = await assetStream
+    print(schemaMap.preprocess);
+    if ((schemaMap.preprocess?.toLowerCase() ?? '').startsWith('concat')) {
+      return [
+        parseString(
+          await assetStream
+              .asyncMap(
+                (asset) => buildStep.readAsString(asset),
+              )
+              .reduce((a, b) => b + '\n\n' + a),
+          url: schemaMap.queriesGlob,
+        )
+      ];
+    } else {
+      return assetStream
           .asyncMap(
             (asset) async => parseString(
-              await buildStep.readAsString(asset),
-              url: asset.path,
-            ),
+                  await buildStep.readAsString(asset),
+                  url: asset.path,
+                ),
           )
           .toList();
+    }
+  }
 
-      final libDefinition = generateLibrary(
-        schema,
-        schemaMap.output,
-        gqlDocs,
-        options,
-        schemaMap,
-      );
-      if (onBuild != null) {
-        onBuild(libDefinition);
+  @override
+  Future<void> build(BuildStep buildStep) async {
+    try {
+      for (final schemaMap in options.schemaMapping) {
+        if (schemaMap.output == null) {
+          throw Exception('Each schema mapping must specify an output path!');
+        }
+
+        final buffer = StringBuffer();
+        final outputFileId =
+            AssetId(buildStep.inputId.package, schemaMap.output);
+        final schema = await _readSchemaFromPath(buildStep, schemaMap);
+        final gqlDocs = await _parseDocuments(buildStep, schemaMap);
+
+        final libDefinition = generateLibrary(
+          schema,
+          schemaMap.output,
+          gqlDocs,
+          options,
+          schemaMap,
+        );
+        if (onBuild != null) {
+          onBuild(libDefinition);
+        }
+        writeLibraryDefinitionToBuffer(buffer, libDefinition);
+
+        await buildStep.writeAsString(outputFileId, buffer.toString());
       }
-      writeLibraryDefinitionToBuffer(buffer, libDefinition);
-
-      await buildStep.writeAsString(outputFileId, buffer.toString());
+    } catch (e) {
+      print(e);
+      rethrow;
     }
   }
 }
