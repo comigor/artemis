@@ -36,7 +36,6 @@ LibraryDefinition generateLibrary(
       inputs: def.inputs,
       generateHelpers: options.generateHelpers,
     );
-    print(q.classes.map((c) => c.name));
     classes.addAll(q.classes);
     return q;
   }).toList();

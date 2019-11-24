@@ -360,7 +360,7 @@ class EdSheeranNode with EquatableMixin {
 
   factory EdSheeranNode.fromJson(Map<String, dynamic> json) {
     switch (json['__typename'].toString()) {
-      case 'EdSheeranArtist':
+      case 'Artist':
         return EdSheeranArtist.fromJson(json);
       default:
     }
@@ -376,7 +376,7 @@ class EdSheeranNode with EquatableMixin {
   List<Object> get props => [id, resolveType];
   Map<String, dynamic> toJson() {
     switch (resolveType) {
-      case 'EdSheeranArtist':
+      case 'Artist':
         return (this as EdSheeranArtist).toJson();
       default:
     }

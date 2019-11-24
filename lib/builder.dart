@@ -56,7 +56,6 @@ class GraphQLQueryBuilder implements Builder {
     // Loop through all files in glob
     final assetStream = buildStep.findAssets(Glob(schemaMap.queriesGlob));
 
-    print(schemaMap.preprocess);
     if ((schemaMap.preprocess?.toLowerCase() ?? '').startsWith('concat')) {
       return [
         parseString(
