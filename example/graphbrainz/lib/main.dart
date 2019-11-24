@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:artemis/artemis.dart';
 
-import 'queries/ed_sheeran.query.dart';
+import 'queries/queries.dart';
 
 Future<void> main() async {
   final client = ArtemisClient(
@@ -20,7 +20,7 @@ Future<void> main() async {
   }
 
   print(response.data.node.resolveType);
-  final edSheeran = response.data.node as Artist;
+  final edSheeran = response.data.node as EdSheeranArtist;
   print(edSheeran.name);
   print(edSheeran.lifeSpan.begin);
   print(edSheeran.spotify.href);

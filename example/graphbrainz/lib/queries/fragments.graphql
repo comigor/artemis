@@ -1,0 +1,10 @@
+fragment all_albums on Artist {
+  albums: releases(type: [ALBUM]) {
+    nodes {
+      mbid
+      title
+      date
+      status
+    }
+  }
+}

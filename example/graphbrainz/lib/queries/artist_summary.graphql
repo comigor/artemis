@@ -1,0 +1,15 @@
+query artist_summary($mbid: MBID!) {
+  lookup {
+    artist(mbid: $mbid) {
+      mbid
+      name
+      lifeSpan {
+        begin
+      }
+      spotify {
+        href
+      }
+      ...all_albums
+    }
+  }
+}

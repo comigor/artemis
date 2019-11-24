@@ -71,6 +71,7 @@ SchemaMap _$SchemaMapFromJson(Map<String, dynamic> json) {
     queriesGlob: json['queries_glob'] as String,
     resolveTypeField: json['resolve_type_field'] as String ?? '__resolveType',
     addQueryPrefix: json['add_query_prefix'] as bool ?? false,
+    preprocess: json['preprocess'] as String,
   );
 }
 
@@ -80,4 +81,5 @@ Map<String, dynamic> _$SchemaMapToJson(SchemaMap instance) => <String, dynamic>{
       'queries_glob': instance.queriesGlob,
       'resolve_type_field': instance.resolveTypeField,
       'add_query_prefix': instance.addQueryPrefix,
+      'preprocess': instance.preprocess,
     };
