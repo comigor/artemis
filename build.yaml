@@ -1,12 +1,19 @@
 builders:
-  prep:
-    import: 'package:artemis/prep_builder.dart'
-    builder_factories: ['prepBuilder']
-    build_extensions: {'$lib$': ['.executable.dart']}
+  _preprocessor:
+    import: 'package:artemis/processor_builder.dart'
+    builder_factories: ['processorBuilder']
+    build_extensions: {'$lib$': ['.dart']}
     auto_apply: dependents
     build_to: cache
-    runs_before: ['artemis|runner']
-    applies_builders: ['artemis|runner']
+    runs_before: ['artemis']
+    applies_builders: ['artemis']
+  # runner:
+  #   import: 'package:artemis/prep_runner.dart'
+  #   builder_factories: ['prepRunner']
+  #   build_extensions: {'.executable.dart': ['.']}
+  #   auto_apply: dependents
+  #   build_to: cache
+  #   runs_before: ['artemis']
   artemis:
     import: 'package:artemis/builder.dart'
     builder_factories: ['graphQLQueryBuilder']
