@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.1.2
+- Bump json_serializable/json_annotation
+
 ## 2.1.1
 - Properly consider Union types on generation
 
