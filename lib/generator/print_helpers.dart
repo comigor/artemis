@@ -201,7 +201,7 @@ Spec generateArgumentClassSpec(QueryDefinition definition) {
 
 /// Generates a [Spec] of a query/mutation class.
 Spec generateQueryClassSpec(QueryDefinition definition) {
-  final String typeDeclaration = definition.inputs.isEmpty
+  final typeDeclaration = definition.inputs.isEmpty
       ? '${definition.className}, JsonSerializable'
       : '${definition.className}, ${definition.className}Arguments';
 

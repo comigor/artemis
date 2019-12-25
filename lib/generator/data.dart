@@ -5,10 +5,10 @@ import 'package:recase/recase.dart';
 import '../schema/graphql.dart';
 
 /// Callback fired when the generator processes a [LibraryDefinition].
-typedef void OnBuildQuery(LibraryDefinition definition);
+typedef OnBuildQuery = void Function(LibraryDefinition definition);
 
 /// Callback fired when a new class is found during schema parsing.
-typedef void OnNewClassFoundCallback(
+typedef OnNewClassFoundCallback = void Function(
   SelectionSetNode selectionSet,
   String className,
   GraphQLType parentType,
