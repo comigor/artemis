@@ -1,4 +1,4 @@
-import 'package:gql/execution.dart';
+import 'package:gql_exec/gql_exec.dart';
 import 'package:meta/meta.dart';
 
 /// Encapsulates a GraphQL query/mutation response from server, with typed
