@@ -190,10 +190,10 @@ ClassProperty _selectionToClassProperty(
 
   final field = (selection as FieldNode);
 
-  final String fieldName = field.name.value;
-  String alias = fieldName;
+  final fieldName = field.name.value;
+  var alias = fieldName;
   String aliasClassName;
-  final bool hasAlias = field.alias != null;
+  final hasAlias = field.alias != null;
   if (hasAlias) {
     alias = field.alias.value;
     aliasClassName = ReCase(alias).pascalCase;
@@ -277,8 +277,8 @@ List<Definition> _extractClasses(
   }
   if (selectionSet != null) {
     final classProperties = <ClassProperty>[];
-    final factoryPossibilities = Set<String>();
-    final mixins = Set<FragmentClassDefinition>();
+    final factoryPossibilities = <String>{};
+    final mixins = <FragmentClassDefinition>{};
     final queue = <Definition>[];
     String classExtension;
     Iterable<String> classImplementations = [];
