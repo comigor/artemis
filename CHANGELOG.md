@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.1.3
+- Bump equatable/gql suite, refine GitHub actions
+
 ## 2.1.2
 - Bump json_serializable/json_annotation
 
