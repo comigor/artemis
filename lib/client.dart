@@ -49,7 +49,7 @@ class ArtemisClient {
       variables: query.getVariablesMap(),
     );
 
-    final Response response = await _link.request(request).first;
+    final response = await _link.request(request).first;
 
     return GraphQLResponse<T>(
       data: response.data == null ? null : query.parse(response.data),

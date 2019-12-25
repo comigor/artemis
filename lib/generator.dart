@@ -33,8 +33,7 @@ You may want to do either:
   });
 
   final basename = p.basenameWithoutExtension(path);
-  final List<String> customImports =
-      _extractCustomImports(schema.types, options);
+  final customImports = _extractCustomImports(schema.types, options);
   return LibraryDefinition(
     basename,
     queries: queriesDefinitions,
@@ -69,18 +68,18 @@ QueryDefinition generateQuery(
   final queryName = operation.name?.value ?? basename;
   final className = ReCase(queryName).pascalCase;
 
-  GraphQLType parentType = gql.getTypeByName(schema, schema.queryType.name);
+  var parentType = gql.getTypeByName(schema, schema.queryType.name);
   if (operation.type == OperationType.mutation) {
     parentType = gql.getTypeByName(schema, schema.mutationType.name);
   }
 
   final prefix = schemaMap.addQueryPrefix ? className : '';
 
-  final List<QueryInput> inputs = [];
-  final List<Definition> inputsClasses = [];
+  final inputs = <QueryInput>[];
+  final inputsClasses = <Definition>[];
   if (operation.variableDefinitions != null) {
     operation.variableDefinitions.forEach((v) {
-      NamedTypeNode unwrappedType = _unwrapType(v.type);
+      final unwrappedType = _unwrapType(v.type);
 
       final type = gql.getTypeByName(schema, unwrappedType.name.value);
 
