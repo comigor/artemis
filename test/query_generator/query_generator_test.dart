@@ -977,6 +977,13 @@ class SomeQuery with EquatableMixin {
           queryType: GraphQLType(name: 'Query', kind: GraphQLTypeKind.OBJECT),
           types: [
             GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR),
+            GraphQLType(
+                name: 'MyEnum',
+                kind: GraphQLTypeKind.ENUM,
+                enumValues: [
+                  GraphQLEnumValue(name: 'value1'),
+                  GraphQLEnumValue(name: 'value2'),
+                ]),
             GraphQLType(name: 'Query', kind: GraphQLTypeKind.OBJECT, fields: [
               GraphQLField(
                   name: 's',
@@ -986,6 +993,10 @@ class SomeQuery with EquatableMixin {
                   name: 'o',
                   type: GraphQLType(
                       name: 'SomeObject', kind: GraphQLTypeKind.OBJECT)),
+              GraphQLField(
+                  name: 'e',
+                  type:
+                      GraphQLType(name: 'MyEnum', kind: GraphQLTypeKind.ENUM)),
             ]),
             GraphQLType(
                 name: 'SomeObject',
@@ -1039,6 +1050,7 @@ class SomeQuery with EquatableMixin {
               str
             }
           }
+          e
         }
         ''';
 
@@ -1056,7 +1068,8 @@ class SomeQuery with EquatableMixin {
                       'SomeQuery',
                       [
                         ClassProperty('String', 's'),
-                        ClassProperty('SomeQuerySomeObject', 'o')
+                        ClassProperty('SomeQuerySomeObject', 'o'),
+                        ClassProperty('SomeQueryMyEnum', 'e')
                       ],
                       prefix: 'SomeQuery'),
                   ClassDefinition(
@@ -1081,6 +1094,7 @@ class SomeQuery with EquatableMixin {
                             annotation: 'JsonKey(name: \'__resolveType\')')
                       ],
                       prefix: 'SomeQuery'),
+                  EnumDefinition('SomeQueryMyEnum', ['value1', 'value2']),
                 ],
               ),
             ],
@@ -1110,8 +1124,10 @@ class SomeQuery with EquatableMixin {
 
   SomeQuerySomeObject o;
 
+  SomeQueryMyEnum e;
+
   @override
-  List<Object> get props => [s, o];
+  List<Object> get props => [s, o, e];
   Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
 }
 
@@ -1165,6 +1181,11 @@ class SomeQueryAInterface with EquatableMixin {
   @override
   List<Object> get props => [st, resolveType];
   Map<String, dynamic> toJson() => _\$SomeQueryAInterfaceToJson(this);
+}
+
+enum SomeQueryMyEnum {
+  value1,
+  value2,
 }
 ''',
       });
