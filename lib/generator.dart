@@ -270,7 +270,7 @@ List<Definition> _extractClasses(
   if (currentType.kind == GraphQLTypeKind.ENUM) {
     return [
       EnumDefinition(
-        currentType.name,
+        prefix + currentType.name,
         currentType.enumValues.map((eV) => eV.name).toList(),
       ),
     ];
