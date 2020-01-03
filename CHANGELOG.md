@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.1.4
+- Add missing prefix to generated enums
+
 ## 2.1.3
 - Bump equatable/gql suite, refine GitHub actions
 
