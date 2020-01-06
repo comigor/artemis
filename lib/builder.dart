@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:build/build.dart';
 import 'package:glob/glob.dart';
+import 'package:gql/ast.dart';
 import 'package:gql/language.dart';
 
 import './generator.dart';
@@ -32,6 +33,9 @@ class GraphQLQueryBuilder implements Builder {
   /// This generator options, gathered from `build.yaml` file.
   final GeneratorOptions options;
 
+  /// List FragmentDefinitionNode in fragments_glob.
+  final List<FragmentDefinitionNode> fragmentsCommon = [];
+
   /// The generated output file.
   final List<String> expectedOutputs;
 
@@ -52,6 +56,20 @@ class GraphQLQueryBuilder implements Builder {
 
   @override
   Future<void> build(BuildStep buildStep) async {
+    if (options.fragmentsGlob != null) {
+      final fragmentStream = buildStep.findAssets(Glob(options.fragmentsGlob));
+      final fDocs = await fragmentStream
+          .asyncMap(
+            (asset) async => parseString(
+              await buildStep.readAsString(asset),
+              url: asset.path,
+            ),
+          )
+          .toList();
+      fDocs.forEach((fDoc) => fragmentsCommon.addAll(
+          fDoc.definitions.whereType<FragmentDefinitionNode>().toList()));
+    }
+
     for (final schemaMap in options.schemaMapping) {
       if (schemaMap.output == null) {
         throw Exception('Each schema mapping must specify an output path!');
@@ -72,13 +90,8 @@ class GraphQLQueryBuilder implements Builder {
           )
           .toList();
 
-      final libDefinition = generateLibrary(
-        schema,
-        schemaMap.output,
-        gqlDocs,
-        options,
-        schemaMap,
-      );
+      final libDefinition = generateLibrary(schema, schemaMap.output, gqlDocs,
+          options, schemaMap, fragmentsCommon);
       if (onBuild != null) {
         onBuild(libDefinition);
       }

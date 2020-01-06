@@ -18,6 +18,9 @@ class GeneratorOptions {
   @JsonKey(defaultValue: [])
   final List<ScalarMap> scalarMapping;
 
+  /// A list of fragments apply for all query files without declare them.
+  final String fragmentsGlob;
+
   /// A list of schema mappings.
   @JsonKey(defaultValue: [])
   final List<SchemaMap> schemaMapping;
@@ -27,6 +30,7 @@ class GeneratorOptions {
     this.customParserImport,
     this.generateHelpers = true,
     this.scalarMapping = const [],
+    this.fragmentsGlob,
     this.schemaMapping = const [],
   });
 
