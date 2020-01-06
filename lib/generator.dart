@@ -62,9 +62,17 @@ QueryDefinition generateQuery(
     List<FragmentDefinitionNode> fragmentsCommon) {
   final operation =
       document.definitions.whereType<OperationDefinitionNode>().first;
-  final fragments = fragmentsCommon.isNotEmpty
-      ? _extractFragments(operation.selectionSet, fragmentsCommon)
-      : document.definitions.whereType<FragmentDefinitionNode>().toList();
+
+  final fragments = <FragmentDefinitionNode>[];
+
+  if (fragmentsCommon.isEmpty) {
+    fragments.addAll(document.definitions.whereType<FragmentDefinitionNode>());
+  } else {
+    final fragmentsOperation =
+        _extractFragments(operation.selectionSet, fragmentsCommon);
+    document.definitions.addAll(fragmentsOperation);
+    fragments.addAll(fragmentsOperation);
+  }
 
   final basename = p.basenameWithoutExtension(path);
   final queryName = operation.name?.value ?? basename;
