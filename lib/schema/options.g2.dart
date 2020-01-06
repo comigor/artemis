@@ -26,6 +26,7 @@ GeneratorOptions _$GeneratorOptionsFromJson(Map json) {
                   )))
             ?.toList() ??
         [],
+    fragmentsGlob: json['fragments_glob'] as String,
   );
 }
 
@@ -35,6 +36,7 @@ Map<String, dynamic> _$GeneratorOptionsToJson(GeneratorOptions instance) =>
       'generate_helpers': instance.generateHelpers,
       'scalar_mapping': instance.scalarMapping,
       'schema_mapping': instance.schemaMapping,
+      'fragments_glob': instance.fragmentsGlob
     };
 
 DartType _$DartTypeFromJson(Map<String, dynamic> json) {

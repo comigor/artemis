@@ -11,14 +11,15 @@ import './schema/options.dart';
 /// Generate queries definitions from a GraphQL schema and a list of queries,
 /// given Artemis options and schema mappings.
 LibraryDefinition generateLibrary(
-  GraphQLSchema schema,
-  String path,
-  List<DocumentNode> gqlDocs,
-  GeneratorOptions options,
-  SchemaMap schemaMap,
-) {
+    GraphQLSchema schema,
+    String path,
+    List<DocumentNode> gqlDocs,
+    GeneratorOptions options,
+    SchemaMap schemaMap,
+    List<FragmentDefinitionNode> fragmenDefinitionNode) {
   final queriesDefinitions = gqlDocs
-      .map((doc) => generateQuery(schema, path, doc, options, schemaMap))
+      .map((doc) => generateQuery(
+          schema, path, doc, options, schemaMap, fragmenDefinitionNode))
       .toList();
 
   final allClassesNames = queriesDefinitions.fold<Iterable<String>>(
@@ -53,16 +54,17 @@ NamedTypeNode _unwrapType(TypeNode type) {
 /// Generate a query definition from a GraphQL schema and a query, given
 /// Artemis options and schema mappings.
 QueryDefinition generateQuery(
-  GraphQLSchema schema,
-  String path,
-  DocumentNode document,
-  GeneratorOptions options,
-  SchemaMap schemaMap,
-) {
+    GraphQLSchema schema,
+    String path,
+    DocumentNode document,
+    GeneratorOptions options,
+    SchemaMap schemaMap,
+    List<FragmentDefinitionNode> fragmentsCommon) {
   final operation =
       document.definitions.whereType<OperationDefinitionNode>().first;
-  final fragments =
-      document.definitions.whereType<FragmentDefinitionNode>().toList();
+  final fragments = fragmentsCommon.isNotEmpty
+      ? _extractFragments(operation.selectionSet, fragmentsCommon)
+      : document.definitions.whereType<FragmentDefinitionNode>().toList();
 
   final basename = p.basenameWithoutExtension(path);
   final queryName = operation.name?.value ?? basename;
@@ -214,6 +216,27 @@ ClassProperty _selectionToClassProperty(
     selection: selection,
     prefix: prefix,
   );
+}
+
+List<FragmentDefinitionNode> _extractFragments(SelectionSetNode selectionSet,
+    List<FragmentDefinitionNode> fragmentsCommon) {
+  final result = <FragmentDefinitionNode>[];
+  if (selectionSet != null) {
+    selectionSet.selections.whereType<FieldNode>().forEach((selection) {
+      result.addAll(_extractFragments(selection.selectionSet, fragmentsCommon));
+    });
+    selectionSet.selections
+        .whereType<FragmentSpreadNode>()
+        .forEach((selection) {
+      final fragmentDefinition = fragmentsCommon.firstWhere(
+          (fragmentDifinition) =>
+              fragmentDifinition.name.value == selection.name.value);
+      result.add(fragmentDefinition);
+      result.addAll(
+          _extractFragments(fragmentDefinition.selectionSet, fragmentsCommon));
+    });
+  }
+  return result;
 }
 
 List<Definition> _extractClasses(
