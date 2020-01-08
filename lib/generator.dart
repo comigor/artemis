@@ -226,9 +226,9 @@ ClassProperty _selectionToClassProperty(
   );
 }
 
-List<FragmentDefinitionNode> _extractFragments(SelectionSetNode selectionSet,
+Set<FragmentDefinitionNode> _extractFragments(SelectionSetNode selectionSet,
     List<FragmentDefinitionNode> fragmentsCommon) {
-  final result = <FragmentDefinitionNode>[];
+  final result = <FragmentDefinitionNode>{};
   if (selectionSet != null) {
     selectionSet.selections.whereType<FieldNode>().forEach((selection) {
       result.addAll(_extractFragments(selection.selectionSet, fragmentsCommon));
