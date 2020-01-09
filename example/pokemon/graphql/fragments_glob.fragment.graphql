@@ -1,0 +1,30 @@
+fragment Pokemon on Pokemon {
+  		id
+      weight {
+        ...weight
+      }
+      attacks {
+        ...pokemonAttack
+      }
+    
+}
+
+fragment PokemonParts on Pokemon {
+  number
+  name
+  types
+}
+
+fragment weight on PokemonDimension {
+  	minimum
+}
+
+fragment pokemonAttack on PokemonAttack {
+  special {
+    ...attack
+  }
+}
+
+fragment attack on Attack {
+  name
+}

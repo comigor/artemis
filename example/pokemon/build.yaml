@@ -7,6 +7,7 @@ targets:
     builders:
       artemis:
         options:
+          fragments_glob: graphql/**.fragment.graphql
           schema_mapping:
             - schema: pokemon.schema.json
               queries_glob: graphql/simple_query.query.graphql
@@ -17,3 +18,6 @@ targets:
             - schema: pokemon.schema.json
               queries_glob: graphql/fragment_query.query.graphql
               output: lib/graphql/fragment_query.dart
+            - schema: pokemon.schema.json
+              queries_glob: graphql/fragments_glob.query.graphql
+              output: lib/graphql/fragments_glob.dart

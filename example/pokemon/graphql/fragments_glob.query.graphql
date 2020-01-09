@@ -1,0 +1,8 @@
+{
+  pokemon(name: "Pikachu") {
+    ...Pokemon
+    evolutions {
+      ...Pokemon
+    }
+  }
+}
