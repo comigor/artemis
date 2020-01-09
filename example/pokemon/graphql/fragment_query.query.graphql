@@ -1,9 +1,3 @@
-fragment PokemonParts on Pokemon {
-  number
-  name
-  types
-}
-
 query fragmentQuery($quantity: Int!) {
   charmander: pokemon(name: "Charmander") {
     ...PokemonParts
