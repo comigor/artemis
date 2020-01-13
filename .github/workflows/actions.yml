@@ -17,7 +17,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - run: |
-        go get -u github.com/itchyny/gojq/cmd/gojq
+        GO111MODULE=on go get -u github.com/itchyny/gojq/cmd/gojq@d24ecb5d89a9eee8b4cd2071bdff7585a8b44f0e
         cd "$GITHUB_WORKSPACE"
     - name: Check if version on pubspec.yaml was changed and if there's an entry for this new version on CHANGELOG
       run: |
