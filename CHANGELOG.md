@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.2.0
+- Share fragments between queries and schemas (see `fragments_glob`) [#65](https://github.com/comigor/artemis/pull/65)
+
 ## 2.1.4
 - Add missing prefix to generated enums
 
