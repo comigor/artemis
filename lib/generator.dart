@@ -101,7 +101,8 @@ QueryDefinition generateQuery(
 
       final dartTypeStr =
           gql.buildTypeString(type, options, dartType: true, prefix: prefix);
-      inputs.add(QueryInput(dartTypeStr, v.variable.name.value));
+      inputs.add(
+          QueryInput(dartTypeStr, v.variable.name.value, v.type.isNonNull));
     });
   }
 

@@ -61,7 +61,7 @@ void main() {
           QueryDefinition(
             'some_query',
             parseString('query some_query(\$filter: ComplexType!) { s }'),
-            inputs: [QueryInput('ComplexType', 'filter')],
+            inputs: [QueryInput('ComplexType', 'filter', true)],
             classes: [
               ClassDefinition('SomeQuery', [
                 ClassProperty('String', 's'),
@@ -86,6 +86,7 @@ void main() {
     }, outputs: {
       'a|lib/some_query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
+import 'package:meta/meta.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
@@ -128,7 +129,7 @@ enum MyEnum {
 
 @JsonSerializable(explicitToJson: true)
 class SomeQueryArguments extends JsonSerializable with EquatableMixin {
-  SomeQueryArguments({this.filter});
+  SomeQueryArguments({@required this.filter});
 
   factory SomeQueryArguments.fromJson(Map<String, dynamic> json) =>
       _\$SomeQueryArgumentsFromJson(json);

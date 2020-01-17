@@ -162,10 +162,16 @@ Spec generateArgumentClassSpec(QueryDefinition definition) {
         (b) => b
           ..optionalParameters.addAll(definition.inputs.map(
             (input) => Parameter(
-              (p) => p
-                ..name = input.name
-                ..named = true
-                ..toThis = true,
+              (p) {
+                p
+                  ..name = input.name
+                  ..named = true
+                  ..toThis = true;
+
+                if (input.isNonNull) {
+                  p.annotations.add(refer('required'));
+                }
+              },
             ),
           )),
       ))
@@ -282,6 +288,17 @@ Spec generateLibrarySpec(LibraryDefinition definition) {
       0,
       [
         Directive.import('package:artemis/artemis.dart'),
+      ],
+    );
+  }
+
+  // inserts import of meta package only if there is at least one non nullable input
+  // see this link for details https://github.com/dart-lang/sdk/issues/4188#issuecomment-240322222
+  if (hasNonNullableInput(definition.queries)) {
+    importDirectives.insertAll(
+      0,
+      [
+        Directive.import('package:meta/meta.dart'),
       ],
     );
   }

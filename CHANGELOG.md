@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 3.0.0
+- BREAKING: Marks non nullable input field as `@required` [#68](https://github.com/comigor/artemis/pull/68)
+
 ## 2.2.0
 - Share fragments between queries and schemas (see `fragments_glob`) [#65](https://github.com/comigor/artemis/pull/65)
 

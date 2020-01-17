@@ -54,15 +54,18 @@ class QueryInput extends Equatable {
   /// The input name.
   final String name;
 
+  /// Whether this parameter is required
+  final bool isNonNull;
+
   /// Instantiate an input parameter.
-  QueryInput(this.type, this.name)
+  QueryInput(this.type, this.name, this.isNonNull)
       : assert(
             type != null && type.isNotEmpty, 'Type can\'t be null nor empty.'),
         assert(
             name != null && name.isNotEmpty, 'Name can\'t be null nor empty.');
 
   @override
-  List get props => [type, name];
+  List get props => [type, name, isNonNull];
 }
 
 /// Abstract definition of an entity.

@@ -381,7 +381,7 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, JsonSerializable> {
           'test_query',
           parseString('query test_query {}'),
           generateHelpers: true,
-          inputs: [QueryInput('Type', 'name')],
+          inputs: [QueryInput('Type', 'name', false)],
         ),
       ]);
 
@@ -441,7 +441,7 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
         'test_query',
         parseString('query test_query {}'),
         generateHelpers: true,
-        inputs: [QueryInput('Type', 'name')],
+        inputs: [QueryInput('Type', 'name', false)],
       );
 
       final str = specToString(generateArgumentClassSpec(definition));
@@ -467,7 +467,7 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
         'test_query',
         parseString('query test_query {}'),
         generateHelpers: true,
-        inputs: [QueryInput('Type', 'name')],
+        inputs: [QueryInput('Type', 'name', false)],
       );
 
       final str = specToString(generateQueryClassSpec(definition));

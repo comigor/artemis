@@ -193,7 +193,7 @@ class SomeQuery with EquatableMixin {
               'some_query',
               parseString(
                   'query some_query(\$ints: [Int]!) { s, i, list(ints: \$ints) }'),
-              inputs: [QueryInput('int', 'ints')],
+              inputs: [QueryInput('int', 'ints', true)],
               classes: [
                 ClassDefinition('SomeQuery', [
                   ClassProperty('String', 's'),
@@ -214,6 +214,7 @@ class SomeQuery with EquatableMixin {
       }, outputs: {
         'a|lib/some_query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
+import 'package:meta/meta.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
@@ -239,7 +240,7 @@ class SomeQuery with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class SomeQueryArguments extends JsonSerializable with EquatableMixin {
-  SomeQueryArguments({this.ints});
+  SomeQueryArguments({@required this.ints});
 
   factory SomeQueryArguments.fromJson(Map<String, dynamic> json) =>
       _\$SomeQueryArgumentsFromJson(json);
