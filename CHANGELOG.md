@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.2.1
+- Display error on types not found on schema
+
 ## 2.2.0+1
 - Add "Articles and videos" category on README
 

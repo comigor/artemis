@@ -78,9 +78,11 @@ QueryDefinition generateQuery(
   final queryName = operation.name?.value ?? basename;
   final className = ReCase(queryName).pascalCase;
 
-  var parentType = gql.getTypeByName(schema, schema.queryType.name);
+  var parentType =
+      gql.getTypeByName(schema, schema.queryType.name, context: 'query');
   if (operation.type == OperationType.mutation) {
-    parentType = gql.getTypeByName(schema, schema.mutationType.name);
+    parentType = gql.getTypeByName(schema, schema.mutationType.name,
+        context: 'mutation');
   }
 
   final prefix = schemaMap.addQueryPrefix ? className : '';
@@ -91,7 +93,8 @@ QueryDefinition generateQuery(
     operation.variableDefinitions.forEach((v) {
       final unwrappedType = _unwrapType(v.type);
 
-      final type = gql.getTypeByName(schema, unwrappedType.name.value);
+      final type = gql.getTypeByName(schema, unwrappedType.name.value,
+          context: 'query variables');
 
       if (type.kind == GraphQLTypeKind.INPUT_OBJECT) {
         inputsClasses.addAll(_extractClasses(
@@ -164,7 +167,8 @@ ClassProperty _createClassProperty(
   final dartTypeStr = gql.buildTypeString(selectedType, options,
       dartType: true, replaceLeafWith: aliasClassName, prefix: prefix);
 
-  final leafType = gql.getTypeByName(schema, gql.followType(selectedType).name);
+  final leafType = gql.getTypeByName(schema, gql.followType(selectedType).name,
+      context: 'class property');
   if (leafType.kind != GraphQLTypeKind.SCALAR && onNewClassFound != null) {
     onNewClassFound(
         selection != null && selection is FieldNode
@@ -264,7 +268,8 @@ List<Definition> _extractClasses(
       (currentType.kind == GraphQLTypeKind.UNION && selectionSet == null)) {
     final queue = <Definition>[];
     final properties = currentType.inputFields.map((i) {
-      final type = gql.getTypeByName(schema, gql.followType(i.type).name);
+      final type = gql.getTypeByName(schema, gql.followType(i.type).name,
+          context: 'input object/union');
       return _createClassProperty(
         i.name,
         i.name,
@@ -411,6 +416,7 @@ List<Definition> _extractClasses(
         final spreadType = gql.getTypeByName(
           schema,
           spreadClassName,
+          context: 'inline fragment',
         );
 
         if (spreadType.possibleTypes.isNotEmpty) {
@@ -472,12 +478,14 @@ List<Definition> _extractClasses(
         currentType.kind == GraphQLTypeKind.UNION) {
       final interfacesOfUnion = currentType.kind == GraphQLTypeKind.UNION
           ? currentType.possibleTypes
-              .map((t) => gql.getTypeByName(schema, t.name).interfaces)
+              .map((t) => gql
+                  .getTypeByName(schema, t.name, context: 'union interfaces')
+                  .interfaces)
               .expand<GraphQLType>((i) => i)
           : <GraphQLType>[];
       final implementations = currentType.interfaces
           .followedBy(interfacesOfUnion)
-          .map((t) => gql.getTypeByName(schema, t.name))
+          .map((t) => gql.getTypeByName(schema, t.name, context: 'interfaces'))
           .toSet();
 
       classImplementations =
@@ -493,7 +501,7 @@ List<Definition> _extractClasses(
           fragments,
           schema,
           interfaceType.name,
-          gql.getTypeByName(schema, interfaceType.name),
+          gql.getTypeByName(schema, interfaceType.name, context: 'interface'),
           options,
           schemaMap,
           prefix: prefix,
