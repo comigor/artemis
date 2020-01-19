@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.2.0+1
+- Add "Articles and videos" category on README
+
 ## 2.2.0
 - Share fragments between queries and schemas (see `fragments_glob`) [#65](https://github.com/comigor/artemis/pull/65)
 
