@@ -125,7 +125,17 @@ QueryDefinition generateQuery(
     prefix: prefix,
   );
 
-  return QueryDefinition(
+  document.accept(_AB(
+    className: className,
+    currentType: parentType,
+    parentSelectionSet: null,
+    schema: schema,
+    options: options,
+    schemaMap: schemaMap,
+    prefix: prefix,
+  ));
+
+  final qd = QueryDefinition(
     queryName,
     document,
     classes:
@@ -133,6 +143,11 @@ QueryDefinition generateQuery(
     inputs: inputs,
     generateHelpers: options.generateHelpers,
   );
+
+  print(qd);
+  print(_generatedClasses);
+
+  return qd;
 }
 
 List<String> _extractCustomImports(
@@ -255,6 +270,72 @@ Set<FragmentDefinitionNode> _extractFragments(SelectionSetNode selectionSet,
     });
   }
   return result;
+}
+
+final _generatedClasses = <ClassDefinition>[];
+
+class _AB extends RecursiveVisitor {
+  _AB({
+    this.className,
+    this.currentType,
+    this.parentSelectionSet,
+    this.schema,
+    this.options,
+    this.schemaMap,
+    this.prefix = '',
+  });
+
+  final String className;
+  final GraphQLType currentType;
+  final SelectionSetNode parentSelectionSet;
+
+  final GraphQLSchema schema;
+  final GeneratorOptions options;
+  final SchemaMap schemaMap;
+  final String prefix;
+
+  SelectionSetNode selectionSetNode;
+  final List<ClassProperty> _classProperties = [];
+
+  @override
+  void visitSelectionSetNode(SelectionSetNode node) {
+    selectionSetNode = node;
+    super.visitSelectionSetNode(node);
+    _generatedClasses.add(ClassDefinition(
+      className,
+      _classProperties,
+    ));
+  }
+
+  @override
+  void visitFieldNode(FieldNode node) {
+    final fieldName = node.name.value;
+    final field = currentType.fields
+        .firstWhere((f) => f.name == fieldName, orElse: () => null);
+    print(
+        'Searching for field $fieldName in type ${currentType.name}... ${field == null ? 'Not found' : 'Found'}.');
+
+    final nextClassName = '$prefix${ReCase(fieldName).pascalCase}';
+    final nextType = gql.getTypeByName(schema, gql.followType(field.type).name);
+
+    final dartTypeStr = gql.buildTypeString(field.type, options,
+        dartType: true, prefix: prefix, replaceLeafWith: nextClassName);
+
+    _classProperties.add(ClassProperty(
+      dartTypeStr,
+      fieldName,
+    ));
+
+    node.visitChildren(_AB(
+      className: nextClassName,
+      currentType: nextType,
+      parentSelectionSet: selectionSetNode,
+      schema: schema,
+      options: options,
+      schemaMap: schemaMap,
+      prefix: prefix,
+    ));
+  }
 }
 
 List<Definition> _extractClasses(
