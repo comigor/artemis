@@ -40,7 +40,8 @@ class ClassProperty extends Equatable {
           annotation: annotation ?? this.annotation);
 
   @override
-  String toString() => props.toList().toString();
+  String toString() =>
+      'ClassProperty(\'$type\', \'$name\', isOverride:$isOverride, annotation:\'$annotation\')';
 
   @override
   List get props => [type, name, isOverride, annotation];
@@ -62,6 +63,9 @@ class QueryInput extends Equatable {
             name != null && name.isNotEmpty, 'Name can\'t be null nor empty.');
 
   @override
+  String toString() => 'QueryInput(\'$type\', \'$name\')';
+
+  @override
   List get props => [type, name];
 }
 
@@ -74,9 +78,6 @@ abstract class Definition extends Equatable {
   Definition(this.name)
       : assert(
             name != null && name.isNotEmpty, 'Name can\'t be null nor empty.');
-
-  @override
-  String toString() => props.toList().toString();
 
   @override
   List get props => [name];
@@ -120,7 +121,8 @@ class ClassDefinition extends Definition {
   }) : super(name);
 
   @override
-  String toString() => props.toList().toString();
+  String toString() =>
+      'ClassDefinition(\'$name\', $properties, prefix:\'$prefix\', extension:\'$extension\', implementations:$implementations, mixins:$mixins, factoryPossibilities:$factoryPossibilities, resolveTypeField:\'$resolveTypeField\')';
 
   @override
   List get props => [
@@ -147,7 +149,7 @@ class FragmentClassDefinition extends Definition {
   ) : super(name);
 
   @override
-  String toString() => props.toList().toString();
+  String toString() => 'FragmentClassDefinition(\'$name\', $properties)';
 
   @override
   List get props => [name, properties];
@@ -167,7 +169,7 @@ class EnumDefinition extends Definition {
         super(name);
 
   @override
-  String toString() => props.toList().toString();
+  String toString() => 'EnumDefinition(\'$name\', $values)';
 
   @override
   List get props => [name, values];
@@ -210,7 +212,8 @@ class QueryDefinition extends Equatable {
         );
 
   @override
-  String toString() => props.toList().toString();
+  String toString() =>
+      'QueryDefinition(\'$queryName\', null, classes:$classes, inputs:$inputs, generateHelpers:$generateHelpers)';
 
   @override
   List get props => [queryName, document, classes, inputs, generateHelpers];
@@ -241,7 +244,8 @@ class LibraryDefinition extends Equatable {
             'Basename must not be null or empty.');
 
   @override
-  String toString() => props.toList().toString();
+  String toString() =>
+      'LibraryDefinition(\'$basename\', customParserImport:\'$customParserImport\', queries:$queries, customImports:$customImports)';
 
   @override
   List get props => [basename, queries, customParserImport, customImports];
