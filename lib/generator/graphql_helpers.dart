@@ -3,8 +3,11 @@ import '../schema/graphql.dart';
 import '../schema/options.dart';
 
 /// Get a full [GraphQLType] from its canonical name.
-GraphQLType getTypeByName(GraphQLSchema schema, String name) =>
-    schema.types.firstWhere((t) => t.name == name);
+GraphQLType getTypeByName(GraphQLSchema schema, String name,
+        {String context}) =>
+    schema.types.firstWhere((t) => t.name == name,
+        orElse: () => throw Exception(
+            'Type $name not found on schema while on `$context` context.'));
 
 /// "Follow" a type to find the leaf scalar or type.
 GraphQLType followType(GraphQLType type) {
