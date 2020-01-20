@@ -148,6 +148,11 @@ Each `ScalarMap` is configured this way:
 
 See [examples](./example) for more information and configuration options.
 
+## **Articles and videos**
+
+1. [Ultimate toolchain to work with GraphQL in Flutter](https://medium.com/@v.ditsyak/ultimate-toolchain-to-work-with-graphql-in-flutter-13aef79c6484)
+2. [Awesome GraphQL](https://github.com/chentsulin/awesome-graphql)
+
 ## **ArtemisClient**
 If you have `generate_helpers`, Artemis will create a subclass of `GraphQLQuery` for you, this class can be used
 in conjunction with `ArtemisClient`.
