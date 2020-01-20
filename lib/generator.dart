@@ -1,3 +1,4 @@
+import 'package:meta/meta.dart';
 import 'package:gql/ast.dart';
 import 'package:path/path.dart' as p;
 import 'package:recase/recase.dart';
@@ -126,13 +127,17 @@ QueryDefinition generateQuery(
   );
 
   document.accept(_AB(
-    className: className,
-    currentType: parentType,
-    parentSelectionSet: null,
-    schema: schema,
-    options: options,
-    schemaMap: schemaMap,
-    prefix: prefix,
+    context: _Context(
+      className: className,
+      currentType: parentType,
+      parentSelectionSet: null,
+    ),
+    options: _InjectedOptions(
+      schema: schema,
+      options: options,
+      schemaMap: schemaMap,
+      prefix: prefix,
+    ),
   ));
 
   final qd = QueryDefinition(
@@ -274,25 +279,40 @@ Set<FragmentDefinitionNode> _extractFragments(SelectionSetNode selectionSet,
 
 final _generatedClasses = <ClassDefinition>[];
 
-class _AB extends RecursiveVisitor {
-  _AB({
-    this.className,
-    this.currentType,
-    this.parentSelectionSet,
-    this.schema,
-    this.options,
-    this.schemaMap,
+class _InjectedOptions {
+  _InjectedOptions({
+    @required this.schema,
+    @required this.options,
+    @required this.schemaMap,
     this.prefix = '',
   });
-
-  final String className;
-  final GraphQLType currentType;
-  final SelectionSetNode parentSelectionSet;
 
   final GraphQLSchema schema;
   final GeneratorOptions options;
   final SchemaMap schemaMap;
   final String prefix;
+}
+
+class _Context {
+  _Context({
+    @required this.className,
+    @required this.currentType,
+    @required this.parentSelectionSet,
+  });
+
+  final String className;
+  final GraphQLType currentType;
+  final SelectionSetNode parentSelectionSet;
+}
+
+class _AB extends RecursiveVisitor {
+  _AB({
+    @required this.context,
+    @required this.options,
+  });
+
+  final _Context context;
+  final _InjectedOptions options;
 
   SelectionSetNode selectionSetNode;
   final List<ClassProperty> _classProperties = [];
@@ -302,7 +322,7 @@ class _AB extends RecursiveVisitor {
     selectionSetNode = node;
     super.visitSelectionSetNode(node);
     _generatedClasses.add(ClassDefinition(
-      className,
+      context.className,
       _classProperties,
     ));
   }
@@ -310,16 +330,17 @@ class _AB extends RecursiveVisitor {
   @override
   void visitFieldNode(FieldNode node) {
     final fieldName = node.name.value;
-    final field = currentType.fields
+    final field = context.currentType.fields
         .firstWhere((f) => f.name == fieldName, orElse: () => null);
     print(
-        'Searching for field $fieldName in type ${currentType.name}... ${field == null ? 'Not found' : 'Found'}.');
+        'Searching for field $fieldName in type ${context.currentType.name}... ${field == null ? 'Not found' : 'Found'}.');
 
-    final nextClassName = '$prefix${ReCase(fieldName).pascalCase}';
-    final nextType = gql.getTypeByName(schema, gql.followType(field.type).name);
+    final nextClassName = '${options.prefix}${ReCase(fieldName).pascalCase}';
+    final nextType =
+        gql.getTypeByName(options.schema, gql.followType(field.type).name);
 
-    final dartTypeStr = gql.buildTypeString(field.type, options,
-        dartType: true, prefix: prefix, replaceLeafWith: nextClassName);
+    final dartTypeStr = gql.buildTypeString(field.type, options.options,
+        dartType: true, prefix: options.prefix, replaceLeafWith: nextClassName);
 
     _classProperties.add(ClassProperty(
       dartTypeStr,
@@ -327,13 +348,12 @@ class _AB extends RecursiveVisitor {
     ));
 
     node.visitChildren(_AB(
-      className: nextClassName,
-      currentType: nextType,
-      parentSelectionSet: selectionSetNode,
-      schema: schema,
+      context: _Context(
+        className: nextClassName,
+        currentType: nextType,
+        parentSelectionSet: selectionSetNode,
+      ),
       options: options,
-      schemaMap: schemaMap,
-      prefix: prefix,
     ));
   }
 }
