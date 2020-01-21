@@ -193,7 +193,7 @@ class SomeQuery with EquatableMixin {
               'some_query',
               parseString(
                   'query some_query(\$ints: [Int]!) { s, i, list(ints: \$ints) }'),
-              inputs: [QueryInput('int', 'ints')],
+              inputs: [QueryInput('List<int>', 'ints')],
               classes: [
                 ClassDefinition('SomeQuery', [
                   ClassProperty('String', 's'),
@@ -244,7 +244,7 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
   factory SomeQueryArguments.fromJson(Map<String, dynamic> json) =>
       _\$SomeQueryArgumentsFromJson(json);
 
-  final int ints;
+  final List<int> ints;
 
   @override
   List<Object> get props => [ints];
