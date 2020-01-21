@@ -191,7 +191,7 @@ mixin PokemonMixin {
 
 @JsonSerializable(explicitToJson: true)
 class Query with EquatableMixin {
-  Query();
+  Query({this.pokemon});
 
   factory Query.fromJson(Map<String, dynamic> json) => _\$QueryFromJson(json);
 
@@ -204,7 +204,7 @@ class Query with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class Pokemon with EquatableMixin, PokemonMixin {
-  Pokemon();
+  Pokemon({this.evolutions});
 
   factory Pokemon.fromJson(Map<String, dynamic> json) =>
       _\$PokemonFromJson(json);

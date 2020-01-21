@@ -184,7 +184,7 @@ class AClass with EquatableMixin {
 
       expect(str, '''@JsonSerializable(explicitToJson: true)
 class AClass with EquatableMixin {
-  AClass();
+  AClass({this.name, this.anotherName});
 
   factory AClass.fromJson(Map<String, dynamic> json) => _\$AClassFromJson(json);
 
@@ -214,7 +214,7 @@ class AClass with EquatableMixin {
 
       expect(str, '''@JsonSerializable(explicitToJson: true)
 class AClass with EquatableMixin {
-  AClass();
+  AClass({this.name});
 
   factory AClass.fromJson(Map<String, dynamic> json) => _\$AClassFromJson(json);
 

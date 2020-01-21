@@ -190,7 +190,12 @@ ClassProperty _createClassProperty(
         'JsonKey(fromJson: fromGraphQL${graphqlTypeSafeStr}ToDart$dartTypeSafeStr, toJson: fromDart${dartTypeSafeStr}ToGraphQL$graphqlTypeSafeStr)';
   }
 
-  return ClassProperty(dartTypeStr, alias, annotation: annotation);
+  return ClassProperty(
+    dartTypeStr,
+    alias,
+    annotation: annotation,
+    isNonNull: graphQLInputValue?.type?.kind == GraphQLTypeKind.NON_NULL,
+  );
 }
 
 ClassProperty _selectionToClassProperty(
@@ -262,6 +267,7 @@ List<Definition> _extractClasses(
   SchemaMap schemaMap, {
   String prefix = '',
   SelectionSetNode parentSelectionSet,
+  DocumentNode documentNode,
 }) {
   final thisClassName = prefix == className ? className : '$prefix$className';
 
