@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.2.2
+- Make lists as input objects work again
+
 ## 2.2.1
 - Display error on types not found on schema
 
