@@ -43,12 +43,19 @@ You may want to do either:
   );
 }
 
-NamedTypeNode _unwrapType(TypeNode type) {
-  if (type is NamedTypeNode) return type;
+GraphQLType _unwrapToType(GraphQLSchema schema, TypeNode node) {
+  final isList = node is ListTypeNode;
+  final leafNode =
+      (isList ? (node as ListTypeNode).type : node) as NamedTypeNode;
 
-  if (type is ListTypeNode) return _unwrapType(type.type);
+  final type = gql.getTypeByName(schema, leafNode.name.value,
+      context: 'query variables');
 
-  return null;
+  if (isList) {
+    return GraphQLType(kind: GraphQLTypeKind.LIST, ofType: type);
+  }
+
+  return type;
 }
 
 /// Generate a query definition from a GraphQL schema and a query, given
@@ -91,12 +98,11 @@ QueryDefinition generateQuery(
   final inputsClasses = <Definition>[];
   if (operation.variableDefinitions != null) {
     operation.variableDefinitions.forEach((v) {
-      final unwrappedType = _unwrapType(v.type);
+      final type = _unwrapToType(schema, v.type);
 
-      final type = gql.getTypeByName(schema, unwrappedType.name.value,
-          context: 'query variables');
-
-      if (type.kind == GraphQLTypeKind.INPUT_OBJECT) {
+      if (type.kind == GraphQLTypeKind.INPUT_OBJECT ||
+          (type.kind == GraphQLTypeKind.LIST &&
+              type.ofType.kind == GraphQLTypeKind.INPUT_OBJECT)) {
         inputsClasses.addAll(_extractClasses(
             null, fragments, schema, type.name, type, options, schemaMap,
             prefix: prefix));
