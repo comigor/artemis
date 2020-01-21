@@ -45,6 +45,12 @@ void main() {
                   name: 'e',
                   type:
                       GraphQLType(name: 'MyEnum', kind: GraphQLTypeKind.ENUM)),
+              GraphQLInputValue(
+                  name: 'ls',
+                  type: GraphQLType(
+                      kind: GraphQLTypeKind.LIST,
+                      ofType: GraphQLType(
+                          name: 'String', kind: GraphQLTypeKind.SCALAR))),
             ]),
         GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT, fields: [
           GraphQLField(
@@ -69,6 +75,7 @@ void main() {
               ClassDefinition('ComplexType', [
                 ClassProperty('String', 's'),
                 ClassProperty('MyEnum', 'e'),
+                ClassProperty('List<String>', 'ls'),
               ]),
               EnumDefinition('MyEnum', ['value1', 'value2']),
             ],
@@ -116,8 +123,10 @@ class ComplexType with EquatableMixin {
 
   MyEnum e;
 
+  List<String> ls;
+
   @override
-  List<Object> get props => [s, e];
+  List<Object> get props => [s, e, ls];
   Map<String, dynamic> toJson() => _\$ComplexTypeToJson(this);
 }
 
