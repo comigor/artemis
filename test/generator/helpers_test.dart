@@ -1,3 +1,5 @@
+import 'package:artemis/generator/data.dart';
+import 'package:gql/language.dart';
 import 'package:test/test.dart';
 import 'package:artemis/generator/helpers.dart';
 
@@ -101,6 +103,51 @@ void main() {
             {'a': 1, 'last': true},
             {'a': 2, 'last': true},
           ]));
+    });
+  });
+
+  group('On hasNonNullableInput helper', () {
+    test('It will return `false` on empty input', () {
+      var result = hasNonNullableInput([]);
+
+      expect(result, false);
+    });
+
+    test('It will return `true` if at least one query input is non nullable',
+        () {
+      var input = [
+        QueryDefinition(
+          'some_query',
+          parseString('query some_query {}'),
+          inputs: [QueryInput('Type', 'name', true)],
+        ),
+        QueryDefinition(
+          'another_query',
+          parseString('query another_query {}'),
+          inputs: [QueryInput('Type', 'name', false)],
+        ),
+      ];
+      var result = hasNonNullableInput(input);
+
+      expect(result, true);
+    });
+
+    test('It will return `false` if there is no non nullable inputs', () {
+      var input = [
+        QueryDefinition(
+          'some_query',
+          parseString('query some_query {}'),
+          inputs: [QueryInput('Type', 'name', false)],
+        ),
+        QueryDefinition(
+          'another_query',
+          parseString('query another_query {}'),
+          inputs: [QueryInput('Type', 'name', false)],
+        ),
+      ];
+      var result = hasNonNullableInput(input);
+
+      expect(result, false);
     });
   });
 }

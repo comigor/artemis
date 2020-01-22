@@ -28,22 +28,33 @@ class ClassProperty extends Equatable {
   /// Some other custom annotation.
   final String annotation;
 
+  /// Whether this parameter is required
+  final bool isNonNull;
+
   /// Instantiate a property (field) from a class.
   ClassProperty(this.type, this.name,
-      {this.isOverride = false, this.annotation});
+      {this.isOverride = false, this.annotation, this.isNonNull = false});
 
   /// Creates a copy of [ClassProperty] without modifying the original.
   ClassProperty copyWith(
-          {String type, String name, bool isOverride, String annotation}) =>
-      ClassProperty(type ?? this.type, name ?? this.name,
-          isOverride: isOverride ?? this.isOverride,
-          annotation: annotation ?? this.annotation);
+          {String type,
+          String name,
+          bool isOverride,
+          String annotation,
+          bool isNonNull}) =>
+      ClassProperty(
+        type ?? this.type,
+        name ?? this.name,
+        isOverride: isOverride ?? this.isOverride,
+        annotation: annotation ?? this.annotation,
+        isNonNull: isNonNull ?? this.isNonNull,
+      );
 
   @override
   String toString() => props.toList().toString();
 
   @override
-  List get props => [type, name, isOverride, annotation];
+  List get props => [type, name, isOverride, annotation, isNonNull];
 }
 
 /// Define a query/mutation input parameter.
@@ -54,15 +65,18 @@ class QueryInput extends Equatable {
   /// The input name.
   final String name;
 
+  /// Whether this parameter is required
+  final bool isNonNull;
+
   /// Instantiate an input parameter.
-  QueryInput(this.type, this.name)
+  QueryInput(this.type, this.name, this.isNonNull)
       : assert(
             type != null && type.isNotEmpty, 'Type can\'t be null nor empty.'),
         assert(
             name != null && name.isNotEmpty, 'Name can\'t be null nor empty.');
 
   @override
-  List get props => [type, name];
+  List get props => [type, name, isNonNull];
 }
 
 /// Abstract definition of an entity.

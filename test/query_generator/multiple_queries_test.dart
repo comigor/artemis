@@ -90,7 +90,7 @@ part 'graphql_api.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class SomeQuery with EquatableMixin {
-  SomeQuery();
+  SomeQuery({this.s, this.i});
 
   factory SomeQuery.fromJson(Map<String, dynamic> json) =>
       _\$SomeQueryFromJson(json);
@@ -106,7 +106,7 @@ class SomeQuery with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class AnotherQuery with EquatableMixin {
-  AnotherQuery();
+  AnotherQuery({this.s});
 
   factory AnotherQuery.fromJson(Map<String, dynamic> json) =>
       _\$AnotherQueryFromJson(json);
@@ -250,7 +250,7 @@ part 'graphql_api.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class SomeQuery with EquatableMixin {
-  SomeQuery();
+  SomeQuery({this.i, this.obj});
 
   factory SomeQuery.fromJson(Map<String, dynamic> json) =>
       _\$SomeQueryFromJson(json);
@@ -266,7 +266,7 @@ class SomeQuery with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class SomeQueryAnotherObject with EquatableMixin {
-  SomeQueryAnotherObject();
+  SomeQueryAnotherObject({this.str});
 
   factory SomeQueryAnotherObject.fromJson(Map<String, dynamic> json) =>
       _\$SomeQueryAnotherObjectFromJson(json);
@@ -280,7 +280,7 @@ class SomeQueryAnotherObject with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class AnotherQuery with EquatableMixin {
-  AnotherQuery();
+  AnotherQuery({this.s, this.obj});
 
   factory AnotherQuery.fromJson(Map<String, dynamic> json) =>
       _\$AnotherQueryFromJson(json);
@@ -296,7 +296,7 @@ class AnotherQuery with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class AnotherQueryAnotherObject with EquatableMixin {
-  AnotherQueryAnotherObject();
+  AnotherQueryAnotherObject({this.str});
 
   factory AnotherQueryAnotherObject.fromJson(Map<String, dynamic> json) =>
       _\$AnotherQueryAnotherObjectFromJson(json);

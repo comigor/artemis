@@ -184,7 +184,7 @@ class AClass with EquatableMixin {
 
       expect(str, '''@JsonSerializable(explicitToJson: true)
 class AClass with EquatableMixin {
-  AClass();
+  AClass({this.name, this.anotherName});
 
   factory AClass.fromJson(Map<String, dynamic> json) => _\$AClassFromJson(json);
 
@@ -214,7 +214,7 @@ class AClass with EquatableMixin {
 
       expect(str, '''@JsonSerializable(explicitToJson: true)
 class AClass with EquatableMixin {
-  AClass();
+  AClass({this.name});
 
   factory AClass.fromJson(Map<String, dynamic> json) => _\$AClassFromJson(json);
 
@@ -381,7 +381,7 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, JsonSerializable> {
           'test_query',
           parseString('query test_query {}'),
           generateHelpers: true,
-          inputs: [QueryInput('Type', 'name')],
+          inputs: [QueryInput('Type', 'name', false)],
         ),
       ]);
 
@@ -441,7 +441,7 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
         'test_query',
         parseString('query test_query {}'),
         generateHelpers: true,
-        inputs: [QueryInput('Type', 'name')],
+        inputs: [QueryInput('Type', 'name', false)],
       );
 
       final str = specToString(generateArgumentClassSpec(definition));
@@ -467,7 +467,7 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
         'test_query',
         parseString('query test_query {}'),
         generateHelpers: true,
-        inputs: [QueryInput('Type', 'name')],
+        inputs: [QueryInput('Type', 'name', false)],
       );
 
       final str = specToString(generateQueryClassSpec(definition));

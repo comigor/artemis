@@ -14,8 +14,13 @@ String jsonFromSchema(GraphQLSchema schema) => json.encode({
 
 void main() {
   test('On complex input objects', () async {
-    final GraphQLQueryBuilder anotherBuilder =
-        graphQLQueryBuilder(BuilderOptions({
+    var query = r'''
+          query some_query($filter: ComplexType!) { 
+            s 
+          }
+        ''';
+
+    final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
       'generate_helpers': false,
       'schema_mapping': [
         {
@@ -25,7 +30,8 @@ void main() {
         }
       ]
     }));
-    final GraphQLSchema schema = GraphQLSchema(
+
+    final schema = GraphQLSchema(
       queryType: GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT),
       types: [
         GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR),
@@ -38,9 +44,16 @@ void main() {
             kind: GraphQLTypeKind.INPUT_OBJECT,
             inputFields: [
               GraphQLInputValue(
-                  name: 's',
-                  type: GraphQLType(
-                      name: 'String', kind: GraphQLTypeKind.SCALAR)),
+                name: 's',
+                type: GraphQLType(
+                  name: null,
+                  kind: GraphQLTypeKind.NON_NULL,
+                  ofType: GraphQLType(
+                    name: 'String',
+                    kind: GraphQLTypeKind.SCALAR,
+                  ),
+                ),
+              ),
               GraphQLInputValue(
                   name: 'e',
                   type:
@@ -66,14 +79,14 @@ void main() {
         queries: [
           QueryDefinition(
             'some_query',
-            parseString('query some_query(\$filter: ComplexType!) { s }'),
-            inputs: [QueryInput('ComplexType', 'filter')],
+            parseString(query),
+            inputs: [QueryInput('ComplexType', 'filter', true)],
             classes: [
               ClassDefinition('SomeQuery', [
                 ClassProperty('String', 's'),
               ]),
               ClassDefinition('ComplexType', [
-                ClassProperty('String', 's'),
+                ClassProperty('String', 's', isNonNull: true),
                 ClassProperty('MyEnum', 'e'),
                 ClassProperty('List<String>', 'ls'),
               ]),
@@ -88,11 +101,11 @@ void main() {
 
     await testBuilder(anotherBuilder, {
       'a|api.schema.json': jsonFromSchema(schema),
-      'a|some_query.query.graphql':
-          'query some_query(\$filter: ComplexType!) { s }',
+      'a|some_query.query.graphql': query,
     }, outputs: {
       'a|lib/some_query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
+import 'package:meta/meta.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
@@ -100,7 +113,7 @@ part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class SomeQuery with EquatableMixin {
-  SomeQuery();
+  SomeQuery({this.s});
 
   factory SomeQuery.fromJson(Map<String, dynamic> json) =>
       _\$SomeQueryFromJson(json);
@@ -114,7 +127,7 @@ class SomeQuery with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class ComplexType with EquatableMixin {
-  ComplexType();
+  ComplexType({@required this.s, this.e, this.ls});
 
   factory ComplexType.fromJson(Map<String, dynamic> json) =>
       _\$ComplexTypeFromJson(json);
@@ -137,7 +150,7 @@ enum MyEnum {
 
 @JsonSerializable(explicitToJson: true)
 class SomeQueryArguments extends JsonSerializable with EquatableMixin {
-  SomeQueryArguments({this.filter});
+  SomeQueryArguments({@required this.filter});
 
   factory SomeQueryArguments.fromJson(Map<String, dynamic> json) =>
       _\$SomeQueryArgumentsFromJson(json);

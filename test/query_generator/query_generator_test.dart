@@ -113,7 +113,7 @@ part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class SomeQuery with EquatableMixin {
-  SomeQuery();
+  SomeQuery({this.s, this.i});
 
   factory SomeQuery.fromJson(Map<String, dynamic> json) =>
       _\$SomeQueryFromJson(json);
@@ -131,6 +131,14 @@ class SomeQuery with EquatableMixin {
     });
 
     test('A simple query with list input', () async {
+      var query = r'''
+        query some_query($intsNonNullable: [Int]!, $stringNullable: String) { 
+          s, 
+          i, 
+          list(intsNonNullable: $intsNonNullable) 
+        }
+      ''';
+
       final GraphQLQueryBuilder anotherBuilder =
           graphQLQueryBuilder(BuilderOptions({
         'generate_helpers': false,
@@ -142,6 +150,7 @@ class SomeQuery with EquatableMixin {
           }
         ]
       }));
+
       final GraphQLSchema schema = GraphQLSchema(
           queryType:
               GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT),
@@ -173,13 +182,19 @@ class SomeQuery with EquatableMixin {
                               name: 'Int', kind: GraphQLTypeKind.SCALAR)),
                       args: [
                         GraphQLInputValue(
-                          name: 'ints',
+                          name: 'intsNonNullable',
                           defaultValue: null,
                           type: GraphQLType(
                               name: 'List',
                               kind: GraphQLTypeKind.LIST,
                               ofType: GraphQLType(
                                   name: 'Int', kind: GraphQLTypeKind.SCALAR)),
+                        ),
+                        GraphQLInputValue(
+                          name: 'stringNullable',
+                          defaultValue: null,
+                          type: GraphQLType(
+                              name: 'String', kind: GraphQLTypeKind.SCALAR),
                         )
                       ]),
                 ]),
@@ -191,9 +206,11 @@ class SomeQuery with EquatableMixin {
           queries: [
             QueryDefinition(
               'some_query',
-              parseString(
-                  'query some_query(\$ints: [Int]!) { s, i, list(ints: \$ints) }'),
-              inputs: [QueryInput('List<int>', 'ints')],
+              parseString(query),
+              inputs: [
+                QueryInput('List<int>', 'intsNonNullable', true),
+                QueryInput('String', 'stringNullable', false)
+              ],
               classes: [
                 ClassDefinition('SomeQuery', [
                   ClassProperty('String', 's'),
@@ -209,11 +226,11 @@ class SomeQuery with EquatableMixin {
 
       await testBuilder(anotherBuilder, {
         'a|api.schema.json': jsonFromSchema(schema),
-        'a|some_query.query.graphql':
-            'query some_query(\$ints: [Int]!) { s, i, list(ints: \$ints) }',
+        'a|some_query.query.graphql': query,
       }, outputs: {
         'a|lib/some_query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
+import 'package:meta/meta.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
@@ -221,7 +238,7 @@ part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class SomeQuery with EquatableMixin {
-  SomeQuery();
+  SomeQuery({this.s, this.i, this.list});
 
   factory SomeQuery.fromJson(Map<String, dynamic> json) =>
       _\$SomeQueryFromJson(json);
@@ -239,15 +256,17 @@ class SomeQuery with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class SomeQueryArguments extends JsonSerializable with EquatableMixin {
-  SomeQueryArguments({this.ints});
+  SomeQueryArguments({@required this.intsNonNullable, this.stringNullable});
 
   factory SomeQueryArguments.fromJson(Map<String, dynamic> json) =>
       _\$SomeQueryArgumentsFromJson(json);
 
-  final List<int> ints;
+  final List<int> intsNonNullable;
+
+  final String stringNullable;
 
   @override
-  List<Object> get props => [ints];
+  List<Object> get props => [intsNonNullable, stringNullable];
   Map<String, dynamic> toJson() => _\$SomeQueryArgumentsToJson(this);
 }
 ''',
@@ -360,7 +379,7 @@ part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class SomeQuery with EquatableMixin {
-  SomeQuery();
+  SomeQuery({this.s, this.o});
 
   factory SomeQuery.fromJson(Map<String, dynamic> json) =>
       _\$SomeQueryFromJson(json);
@@ -376,7 +395,7 @@ class SomeQuery with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class SomeObject with EquatableMixin {
-  SomeObject();
+  SomeObject({this.st, this.ob});
 
   factory SomeObject.fromJson(Map<String, dynamic> json) =>
       _\$SomeObjectFromJson(json);
@@ -392,7 +411,7 @@ class SomeObject with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class AnotherObject with EquatableMixin {
-  AnotherObject();
+  AnotherObject({this.str});
 
   factory AnotherObject.fromJson(Map<String, dynamic> json) =>
       _\$AnotherObjectFromJson(json);
@@ -470,7 +489,7 @@ part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class SomeQuery with EquatableMixin {
-  SomeQuery();
+  SomeQuery({this.firstName, this.lastName});
 
   factory SomeQuery.fromJson(Map<String, dynamic> json) =>
       _\$SomeQueryFromJson(json);
@@ -488,7 +507,7 @@ class SomeQuery with EquatableMixin {
     });
 
     test(
-        'When multiple fields use different versions of an object, aliasing them means we\'ll alias class name as well',
+        "When multiple fields use different versions of an object, aliasing them means we'll alias class name as well",
         () async {
       final GraphQLQueryBuilder anotherBuilder =
           graphQLQueryBuilder(BuilderOptions({
@@ -589,7 +608,7 @@ part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class SomeQuery with EquatableMixin {
-  SomeQuery();
+  SomeQuery({this.s, this.o, this.anotherObject});
 
   factory SomeQuery.fromJson(Map<String, dynamic> json) =>
       _\$SomeQueryFromJson(json);
@@ -607,7 +626,7 @@ class SomeQuery with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class SomeObject with EquatableMixin {
-  SomeObject();
+  SomeObject({this.st});
 
   factory SomeObject.fromJson(Map<String, dynamic> json) =>
       _\$SomeObjectFromJson(json);
@@ -621,7 +640,7 @@ class SomeObject with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class AnotherObject with EquatableMixin {
-  AnotherObject();
+  AnotherObject({this.str});
 
   factory AnotherObject.fromJson(Map<String, dynamic> json) =>
       _\$AnotherObjectFromJson(json);
@@ -737,7 +756,7 @@ part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class SomeQuery with EquatableMixin {
-  SomeQuery();
+  SomeQuery({this.s, this.o, this.anotherObject});
 
   factory SomeQuery.fromJson(Map<String, dynamic> json) =>
       _\$SomeQueryFromJson(json);
@@ -755,7 +774,7 @@ class SomeQuery with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class SomeObject with EquatableMixin {
-  SomeObject();
+  SomeObject({this.st});
 
   factory SomeObject.fromJson(Map<String, dynamic> json) =>
       _\$SomeObjectFromJson(json);
@@ -769,7 +788,7 @@ class SomeObject with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class AnotherObject with EquatableMixin {
-  AnotherObject();
+  AnotherObject({this.str});
 
   factory AnotherObject.fromJson(Map<String, dynamic> json) =>
       _\$AnotherObjectFromJson(json);
@@ -941,7 +960,7 @@ part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class SomeQuery with EquatableMixin {
-  SomeQuery();
+  SomeQuery({this.bigDecimal, this.dateTime});
 
   factory SomeQuery.fromJson(Map<String, dynamic> json) =>
       _\$SomeQueryFromJson(json);
@@ -1115,7 +1134,7 @@ part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class SomeQuery with EquatableMixin {
-  SomeQuery();
+  SomeQuery({this.s, this.o, this.e});
 
   factory SomeQuery.fromJson(Map<String, dynamic> json) =>
       _\$SomeQueryFromJson(json);
@@ -1133,7 +1152,7 @@ class SomeQuery with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class SomeQuerySomeObject with EquatableMixin implements SomeQueryAInterface {
-  SomeQuerySomeObject();
+  SomeQuerySomeObject({this.ob});
 
   factory SomeQuerySomeObject.fromJson(Map<String, dynamic> json) =>
       _\$SomeQuerySomeObjectFromJson(json);
@@ -1154,7 +1173,7 @@ class SomeQuerySomeObject with EquatableMixin implements SomeQueryAInterface {
 
 @JsonSerializable(explicitToJson: true)
 class SomeQueryAnotherObject with EquatableMixin {
-  SomeQueryAnotherObject();
+  SomeQueryAnotherObject({this.str});
 
   factory SomeQueryAnotherObject.fromJson(Map<String, dynamic> json) =>
       _\$SomeQueryAnotherObjectFromJson(json);
@@ -1168,7 +1187,7 @@ class SomeQueryAnotherObject with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class SomeQueryAInterface with EquatableMixin {
-  SomeQueryAInterface();
+  SomeQueryAInterface({this.st});
 
   factory SomeQueryAInterface.fromJson(Map<String, dynamic> json) =>
       _\$SomeQueryAInterfaceFromJson(json);
@@ -1253,7 +1272,7 @@ part 'pascal_casing_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class PascalCasingQuery with EquatableMixin {
-  PascalCasingQuery();
+  PascalCasingQuery({this.s});
 
   factory PascalCasingQuery.fromJson(Map<String, dynamic> json) =>
       _\$PascalCasingQueryFromJson(json);
@@ -1465,7 +1484,7 @@ part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class SomeQuery with EquatableMixin {
-  SomeQuery();
+  SomeQuery({this.o});
 
   factory SomeQuery.fromJson(Map<String, dynamic> json) =>
       _\$SomeQueryFromJson(json);
@@ -1512,7 +1531,7 @@ class SomeUnion with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class TypeA extends SomeUnion with EquatableMixin {
-  TypeA();
+  TypeA({this.a});
 
   factory TypeA.fromJson(Map<String, dynamic> json) => _\$TypeAFromJson(json);
 
@@ -1525,7 +1544,7 @@ class TypeA extends SomeUnion with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class TypeB extends SomeUnion with EquatableMixin {
-  TypeB();
+  TypeB({this.b});
 
   factory TypeB.fromJson(Map<String, dynamic> json) => _\$TypeBFromJson(json);
 
