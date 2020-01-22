@@ -208,7 +208,7 @@ class SomeQuery with EquatableMixin {
               'some_query',
               parseString(query),
               inputs: [
-                QueryInput('int', 'intsNonNullable', true),
+                QueryInput('List<int>', 'intsNonNullable', true),
                 QueryInput('String', 'stringNullable', false)
               ],
               classes: [
@@ -261,7 +261,7 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
   factory SomeQueryArguments.fromJson(Map<String, dynamic> json) =>
       _\$SomeQueryArgumentsFromJson(json);
 
-  final int intsNonNullable;
+  final List<int> intsNonNullable;
 
   final String stringNullable;
 

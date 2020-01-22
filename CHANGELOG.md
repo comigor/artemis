@@ -3,6 +3,9 @@
 ## 3.0.0
 - BREAKING: Marks non nullable input field as `@required` [#68](https://github.com/comigor/artemis/pull/68)
 
+## 2.2.2
+- Make lists as input objects work again
+
 ## 2.2.1
 - Display error on types not found on schema
 
