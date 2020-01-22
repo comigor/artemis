@@ -127,7 +127,7 @@ class SomeQuery with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class ComplexType with EquatableMixin {
-  ComplexType({@required this.s, this.e});
+  ComplexType({@required this.s, this.e, this.ls});
 
   factory ComplexType.fromJson(Map<String, dynamic> json) =>
       _\$ComplexTypeFromJson(json);
