@@ -1,9 +1,8 @@
+import 'package:artemis/builder.dart';
 import 'package:build/build.dart';
 import 'package:build_test/build_test.dart';
 import 'package:gql/ast.dart';
 import 'package:test/test.dart';
-
-import '../../lib/builder.dart';
 
 void main() {
   group('[Fragment generation]', () {
