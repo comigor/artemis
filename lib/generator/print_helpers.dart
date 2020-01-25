@@ -53,7 +53,8 @@ Method _propsMethod(String body) {
 }
 
 /// Generates a [Spec] of a single class definition.
-Spec classDefinitionToSpec(ClassDefinition definition) {
+Spec classDefinitionToSpec(
+    ClassDefinition definition, Iterable<FragmentClassDefinition> fragments) {
   final fromJson = definition.factoryPossibilities.isNotEmpty
       ? Constructor(
           (b) => b
@@ -95,7 +96,10 @@ Spec classDefinitionToSpec(ClassDefinition definition) {
         );
 
   final props = definition.mixins
-      .map((i) => i.properties.map((p) => p.name))
+      .map((i) => fragments
+          .firstWhere((f) => f.name == i)
+          .properties
+          .map((p) => p.name))
       .expand((i) => i)
       .followedBy(definition.properties.map((p) => p.name));
 
@@ -105,7 +109,7 @@ Spec classDefinitionToSpec(ClassDefinition definition) {
           .add(CodeExpression(Code('JsonSerializable(explicitToJson: true)')))
       ..name = definition.name
       ..mixins.add(refer('EquatableMixin'))
-      ..mixins.addAll(definition.mixins.map((i) => refer(i.name)))
+      ..mixins.addAll(definition.mixins.map((i) => refer(i)))
       ..methods.add(_propsMethod('[${props.join(',')}]'))
       ..extend =
           definition.extension != null ? refer(definition.extension) : null
@@ -301,9 +305,9 @@ Spec generateLibrarySpec(LibraryDefinition definition) {
     bodyDirectives.addAll(queryDef.classes
         .whereType<FragmentClassDefinition>()
         .map(fragmentClassDefinitionToSpec));
-    bodyDirectives.addAll(queryDef.classes
-        .whereType<ClassDefinition>()
-        .map(classDefinitionToSpec));
+    bodyDirectives.addAll(queryDef.classes.whereType<ClassDefinition>().map(
+        (cDef) => classDefinitionToSpec(
+            cDef, queryDef.classes.whereType<FragmentClassDefinition>())));
     bodyDirectives.addAll(
         queryDef.classes.whereType<EnumDefinition>().map(enumDefinitionToSpec));
 

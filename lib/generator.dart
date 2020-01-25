@@ -27,6 +27,8 @@ LibraryDefinition generateLibrary(
       [], (defs, def) => defs.followedBy(def.classes.map((c) => c.name)));
 
   mergeDuplicatesBy(allClassesNames, (a) => a, (a, b) {
+    print(queriesDefinitions);
+
     throw Exception('''Two classes were generated with the same name `$a`!
 You may want to do either:
 - Enable add_query_prefix on this schema_map
@@ -288,7 +290,7 @@ class _AB extends RecursiveVisitor {
 
   SelectionSetNode selectionSetNode;
   final List<ClassProperty> _classProperties = [];
-  final List<FragmentClassDefinition> _mixins = [];
+  final List<String> _mixins = [];
 
   @override
   void visitSelectionSetNode(SelectionSetNode node) {
@@ -314,7 +316,8 @@ class _AB extends RecursiveVisitor {
   @override
   void visitFragmentDefinitionNode(FragmentDefinitionNode node) {
     context.fragments.add(node);
-    print('FRAGMENTS! ${node.name.value}');
+    final fragmentName = '${ReCase(node.name.value).pascalCase}Mixin';
+    print('Found new fragment ${node.name.value} (-> $fragmentName).');
 
     final fragmentOnClassName = node.typeCondition.on.name.value;
     final nextType = gql.getTypeByName(options.schema, fragmentOnClassName,
@@ -336,7 +339,7 @@ class _AB extends RecursiveVisitor {
     node.visitChildren(visitor);
 
     context.generatedClasses.add(FragmentClassDefinition(
-      '${ReCase(node.name.value).pascalCase}Mixin',
+      fragmentName,
       visitor._classProperties,
     ));
   }
@@ -377,17 +380,9 @@ class _AB extends RecursiveVisitor {
 
   @override
   void visitFragmentSpreadNode(FragmentSpreadNode node) {
-    final fragmentName = node.name.value;
-    final fragment = context.fragments
-        .firstWhere((f) => f.name.value == fragmentName, orElse: () => null);
-    final fragmentDef = context.generatedClasses
-        .whereType<FragmentClassDefinition>()
-        .firstWhere((f) => f.name == '${ReCase(fragmentName).pascalCase}Mixin',
-            orElse: () => null);
-    print(
-        'Searching for fragment $fragmentName in type ${context.currentType.name}... ${fragment != null && fragmentDef != null ? 'Found' : 'Not found'}.');
-
-    _mixins.add(fragmentDef);
+    final fragmentName = '${ReCase(node.name.value).pascalCase}Mixin';
+    print('Spreading fragment $fragmentName into ${context.currentType.name}.');
+    _mixins.add(fragmentName);
   }
 }
 
@@ -675,7 +670,7 @@ List<Definition> _extractClasses(
                 old.copyWith(isOverride: old.isOverride || n.isOverride)),
         extension: classExtension,
         implementations: classImplementations,
-        mixins: mixins.toList(),
+        // mixins: mixins.toList(),
         factoryPossibilities: factoryPossibilities.toList(),
         prefix: prefix,
         resolveTypeField: schemaMap.resolveTypeField,

@@ -95,7 +95,7 @@ class ClassDefinition extends Definition {
   final Iterable<String> implementations;
 
   /// The types this class mixins.
-  final Iterable<FragmentClassDefinition> mixins;
+  final Iterable<String> mixins;
 
   /// The types possibilities the class implements, if it's part of an union
   /// type or interface.

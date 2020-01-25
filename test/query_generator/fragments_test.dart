@@ -62,12 +62,7 @@ void main() {
                     ClassProperty('String', 's'),
                     ClassProperty('int', 'i'),
                   ]),
-                  ClassDefinition('SomeQuery', [], mixins: [
-                    FragmentClassDefinition('MyFragmentMixin', [
-                      ClassProperty('String', 's'),
-                      ClassProperty('int', 'i'),
-                    ]),
-                  ]),
+                  ClassDefinition('SomeQuery', [], mixins: ['MyFragmentMixin']),
                 ],
               ),
             ],
