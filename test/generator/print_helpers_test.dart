@@ -88,16 +88,16 @@ void main() {
 
   group('On printCustomClass', () {
     test('It will throw if name is null or empty.', () {
-      expect(() => classDefinitionToSpec(ClassDefinition(null, [])),
+      expect(() => classDefinitionToSpec(ClassDefinition(null, []), []),
           throwsA(TypeMatcher<AssertionError>()));
-      expect(() => classDefinitionToSpec(ClassDefinition('', [])),
+      expect(() => classDefinitionToSpec(ClassDefinition('', []), []),
           throwsA(TypeMatcher<AssertionError>()));
     });
 
     test('It can generate a class without properties.', () {
       final definition = ClassDefinition('AClass', []);
 
-      final str = specToString(classDefinitionToSpec(definition));
+      final str = specToString(classDefinitionToSpec(definition, []));
 
       expect(str, '''@JsonSerializable(explicitToJson: true)
 class AClass with EquatableMixin {
@@ -116,7 +116,7 @@ class AClass with EquatableMixin {
       final definition =
           ClassDefinition('AClass', [], extension: 'AnotherClass');
 
-      final str = specToString(classDefinitionToSpec(definition));
+      final str = specToString(classDefinitionToSpec(definition, []));
 
       expect(str, '''@JsonSerializable(explicitToJson: true)
 class AClass extends AnotherClass with EquatableMixin {
@@ -141,7 +141,7 @@ class AClass extends AnotherClass with EquatableMixin {
         resolveTypeField: '__resolveType',
       );
 
-      final str = specToString(classDefinitionToSpec(definition));
+      final str = specToString(classDefinitionToSpec(definition, []));
 
       expect(str, '''@JsonSerializable(explicitToJson: true)
 class AClass with EquatableMixin {
@@ -180,7 +180,7 @@ class AClass with EquatableMixin {
         ClassProperty('AnotherType', 'anotherName'),
       ]);
 
-      final str = specToString(classDefinitionToSpec(definition));
+      final str = specToString(classDefinitionToSpec(definition, []));
 
       expect(str, '''@JsonSerializable(explicitToJson: true)
 class AClass with EquatableMixin {
@@ -210,7 +210,7 @@ class AClass with EquatableMixin {
             isOverride: true, annotation: 'Ho()'),
       ]);
 
-      final str = specToString(classDefinitionToSpec(definition));
+      final str = specToString(classDefinitionToSpec(definition, []));
 
       expect(str, '''@JsonSerializable(explicitToJson: true)
 class AClass with EquatableMixin {
@@ -240,13 +240,14 @@ class AClass with EquatableMixin {
     test(
         'Mixins can be included and its properties will be considered on props getter',
         () {
-      final definition = ClassDefinition('AClass', [], mixins: [
+      final definition =
+          ClassDefinition('AClass', [], mixins: ['FragmentMixin']);
+
+      final str = specToString(classDefinitionToSpec(definition, [
         FragmentClassDefinition('FragmentMixin', [
           ClassProperty('Type', 'name'),
-        ]),
-      ]);
-
-      final str = specToString(classDefinitionToSpec(definition));
+        ])
+      ]));
 
       expect(str, '''@JsonSerializable(explicitToJson: true)
 class AClass with EquatableMixin, FragmentMixin {
