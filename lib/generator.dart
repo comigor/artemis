@@ -291,7 +291,9 @@ class _AB extends RecursiveVisitor {
 
   @override
   void visitSelectionSetNode(SelectionSetNode node) {
+    print('Start wrapping class ${context.className}.');
     super.visitSelectionSetNode(node);
+    print('Finish wrapping class ${context.className}.');
     context.generatedClasses.add(ClassDefinition(
       context.className,
       _classProperties,
@@ -318,25 +320,27 @@ class _AB extends RecursiveVisitor {
     final fragmentOnClassName = node.typeCondition.on.name.value;
     final nextType = gql.getTypeByName(options.schema, fragmentOnClassName,
         context: 'fragment definition');
-    final nextClassName = '${options.prefix}$fragmentOnClassName';
+    final nextClassName = '${options.prefix}$fragmentName';
 
     final visitor = _AB(
       context: _Context(
         className: nextClassName,
         currentType: nextType,
-        generatedClasses: [],
+        generatedClasses: context.generatedClasses,
         inputsClasses: [],
         fragments: [],
       ),
       options: options,
     );
 
-    node.visitChildren(visitor);
+    node.selectionSet.visitChildren(visitor);
 
-    context.generatedClasses.add(FragmentClassDefinition(
-      fragmentName,
-      visitor._classProperties,
-    ));
+    context.generatedClasses.add(
+      FragmentClassDefinition(
+        fragmentName,
+        visitor._classProperties,
+      ),
+    );
   }
 
   @override
@@ -345,15 +349,20 @@ class _AB extends RecursiveVisitor {
     final field = context.currentType.fields
         .firstWhere((f) => f.name == fieldName, orElse: () => null);
     print(
-        'Searching for field $fieldName in type ${context.currentType.name}... ${field == null ? 'Not found' : 'Found'}.');
-
+        'Searching for field $fieldName in GraphQL type ${context.currentType.name} (on ${context.className} context)... ${field == null ? 'Not found' : 'Found'}.');
+    if (field == null) {
+      throw Exception(
+          '''Field $fieldName was not found in GraphQL type ${context.currentType.name}.
+Make sure your query is correct and your schema is updated.''');
+    }
     final nextType =
         gql.getTypeByName(options.schema, gql.followType(field.type).name);
-    final nextClassName =
-        '${options.prefix}${ReCase(node.alias?.value ?? nextType.name).pascalCase}';
+    final nextClassName = '${context.className}${nextType.name}';
 
     final dartTypeStr = gql.buildTypeString(field.type, options.options,
         dartType: true, prefix: options.prefix, replaceLeafWith: nextClassName);
+
+    print('$fieldName GraphQL type is ${nextType.name} (-> $dartTypeStr).');
 
     _classProperties.add(ClassProperty(
       dartTypeStr,
@@ -375,7 +384,8 @@ class _AB extends RecursiveVisitor {
   @override
   void visitFragmentSpreadNode(FragmentSpreadNode node) {
     final fragmentName = '${ReCase(node.name.value).pascalCase}Mixin';
-    print('Spreading fragment $fragmentName into ${context.currentType.name}.');
+    print(
+        'Spreading fragment $fragmentName into GraphQL type ${context.currentType.name} (on ${context.className} context).');
     _mixins.add(fragmentName);
   }
 }
