@@ -102,6 +102,7 @@ QueryDefinition generateQuery(
       parentSelectionSet: null,
       generatedClasses: [],
       inputsClasses: [],
+      fragments: [],
     ),
     options: _InjectedOptions(
       schema: schema,
@@ -264,14 +265,16 @@ class _Context {
     @required this.parentSelectionSet,
     @required this.generatedClasses,
     @required this.inputsClasses,
+    @required this.fragments,
   });
 
   final String className;
   final GraphQLType currentType;
   final SelectionSetNode parentSelectionSet;
 
-  final List<ClassDefinition> generatedClasses;
+  final List<Definition> generatedClasses;
   final List<QueryInput> inputsClasses;
+  final List<FragmentDefinitionNode> fragments;
 }
 
 class _AB extends RecursiveVisitor {
@@ -285,6 +288,7 @@ class _AB extends RecursiveVisitor {
 
   SelectionSetNode selectionSetNode;
   final List<ClassProperty> _classProperties = [];
+  final List<FragmentClassDefinition> _mixins = [];
 
   @override
   void visitSelectionSetNode(SelectionSetNode node) {
@@ -293,6 +297,8 @@ class _AB extends RecursiveVisitor {
     context.generatedClasses.add(ClassDefinition(
       context.className,
       _classProperties,
+      mixins: _mixins,
+      prefix: options.prefix,
     ));
   }
 
@@ -303,6 +309,36 @@ class _AB extends RecursiveVisitor {
         dartType: true, prefix: options.prefix);
     context.inputsClasses
         .add(QueryInput(dartTypeStr, node.variable.name.value));
+  }
+
+  @override
+  void visitFragmentDefinitionNode(FragmentDefinitionNode node) {
+    context.fragments.add(node);
+    print('FRAGMENTS! ${node.name.value}');
+
+    final fragmentOnClassName = node.typeCondition.on.name.value;
+    final nextType = gql.getTypeByName(options.schema, fragmentOnClassName,
+        context: 'fragment definition');
+    final nextClassName = '${options.prefix}$fragmentOnClassName';
+
+    final visitor = _AB(
+      context: _Context(
+        className: nextClassName,
+        currentType: nextType,
+        parentSelectionSet: selectionSetNode,
+        generatedClasses: [],
+        inputsClasses: [],
+        fragments: [],
+      ),
+      options: options,
+    );
+
+    node.visitChildren(visitor);
+
+    context.generatedClasses.add(FragmentClassDefinition(
+      '${ReCase(node.name.value).pascalCase}Mixin',
+      visitor._classProperties,
+    ));
   }
 
   @override
@@ -333,9 +369,25 @@ class _AB extends RecursiveVisitor {
         parentSelectionSet: selectionSetNode,
         generatedClasses: context.generatedClasses,
         inputsClasses: context.inputsClasses,
+        fragments: context.fragments,
       ),
       options: options,
     ));
+  }
+
+  @override
+  void visitFragmentSpreadNode(FragmentSpreadNode node) {
+    final fragmentName = node.name.value;
+    final fragment = context.fragments
+        .firstWhere((f) => f.name.value == fragmentName, orElse: () => null);
+    final fragmentDef = context.generatedClasses
+        .whereType<FragmentClassDefinition>()
+        .firstWhere((f) => f.name == '${ReCase(fragmentName).pascalCase}Mixin',
+            orElse: () => null);
+    print(
+        'Searching for fragment $fragmentName in type ${context.currentType.name}... ${fragment != null && fragmentDef != null ? 'Found' : 'Not found'}.');
+
+    _mixins.add(fragmentDef);
   }
 }
 

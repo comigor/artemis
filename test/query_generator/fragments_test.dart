@@ -56,17 +56,17 @@ void main() {
               QueryDefinition(
                 'some_query',
                 parseString(
-                    'fragment myFragment on SomeQuery { s, i }\nquery some_query { ...myFragment }'),
+                    'fragment myFragment on SomeObject { s, i }\nquery some_query { ...myFragment }'),
                 classes: [
+                  FragmentClassDefinition('MyFragmentMixin', [
+                    ClassProperty('String', 's'),
+                    ClassProperty('int', 'i'),
+                  ]),
                   ClassDefinition('SomeQuery', [], mixins: [
                     FragmentClassDefinition('MyFragmentMixin', [
                       ClassProperty('String', 's'),
                       ClassProperty('int', 'i'),
                     ]),
-                  ]),
-                  FragmentClassDefinition('MyFragmentMixin', [
-                    ClassProperty('String', 's'),
-                    ClassProperty('int', 'i'),
                   ]),
                 ],
               ),
@@ -78,7 +78,7 @@ void main() {
       await testBuilder(anotherBuilder, {
         'a|api.schema.json': jsonFromSchema(schema),
         'a|some_query.query.graphql':
-            'fragment myFragment on SomeQuery { s, i }\nquery some_query { ...myFragment }',
+            'fragment myFragment on SomeObject { s, i }\nquery some_query { ...myFragment }',
       }, outputs: {
         'a|lib/some_query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
