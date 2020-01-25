@@ -115,7 +115,7 @@ QueryDefinition generateQuery(
   document.accept(visitor);
 
   return QueryDefinition(
-    queryName,
+    className,
     document,
     classes: visitor.context.generatedClasses,
     inputs: visitor.context.inputsClasses,
@@ -357,7 +357,7 @@ Make sure your query is correct and your schema is updated.''');
     }
     final nextType =
         gql.getTypeByName(options.schema, gql.followType(field.type).name);
-    final nextClassName = '${context.className}${nextType.name}';
+    final nextClassName = '${context.currentType.name}\$${nextType.name}';
 
     final dartTypeStr = gql.buildTypeString(field.type, options.options,
         dartType: true, prefix: options.prefix, replaceLeafWith: nextClassName);
