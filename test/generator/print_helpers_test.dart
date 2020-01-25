@@ -55,6 +55,7 @@ void main() {
 ''');
     });
   });
+
   group('On printCustomFragmentClass', () {
     test('It will throw if name is null or empty.', () {
       expect(
@@ -271,16 +272,16 @@ class AClass with EquatableMixin, FragmentMixin {
           throwsA(TypeMatcher<AssertionError>()));
     });
 
-    test('It will throw if name/query is null or empty.', () {
+    test('It will throw if name/type/query is null or empty.', () {
       expect(
         () => generateQueryClassSpec(
-          QueryDefinition(null, parseString('query test_query {}')),
+          QueryDefinition(null, 'Type', parseString('query test_query {}')),
         ),
         throwsA(TypeMatcher<AssertionError>()),
       );
       expect(
         () => generateQueryClassSpec(
-          QueryDefinition('', parseString('query test_query {}')),
+          QueryDefinition('', 'Type', parseString('query test_query {}')),
         ),
         throwsA(
           TypeMatcher<AssertionError>(),
@@ -288,7 +289,24 @@ class AClass with EquatableMixin, FragmentMixin {
       );
       expect(
         () => generateQueryClassSpec(
-          QueryDefinition('test_query', null),
+          QueryDefinition(
+              'test_query', null, parseString('query test_query {}')),
+        ),
+        throwsA(
+          TypeMatcher<AssertionError>(),
+        ),
+      );
+      expect(
+        () => generateQueryClassSpec(
+          QueryDefinition('test_query', '', parseString('query test_query {}')),
+        ),
+        throwsA(
+          TypeMatcher<AssertionError>(),
+        ),
+      );
+      expect(
+        () => generateQueryClassSpec(
+          QueryDefinition('test_query', 'Type', null),
         ),
         throwsA(
           TypeMatcher<AssertionError>(),
@@ -335,6 +353,7 @@ part 'test_query.g.dart';
         queries: [
           QueryDefinition(
             'test_query',
+            'TestQuery',
             parseString('query test_query {}'),
             generateHelpers: true,
           )
@@ -380,6 +399,7 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, JsonSerializable> {
       final definition = LibraryDefinition('test_query', queries: [
         QueryDefinition(
           'test_query',
+          'TestQuery',
           parseString('query test_query {}'),
           generateHelpers: true,
           inputs: [QueryInput('Type', 'name')],
@@ -440,6 +460,7 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
     test('Will generate an Arguments class', () {
       final definition = QueryDefinition(
         'test_query',
+        'TestQuery',
         parseString('query test_query {}'),
         generateHelpers: true,
         inputs: [QueryInput('Type', 'name')],
@@ -466,6 +487,7 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
     test('Will generate a Query Class', () {
       final definition = QueryDefinition(
         'test_query',
+        'TestQuery',
         parseString('query test_query {}'),
         generateHelpers: true,
         inputs: [QueryInput('Type', 'name')],
@@ -506,6 +528,7 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
       final definition = LibraryDefinition('test_query', queries: [
         QueryDefinition(
           'test_query',
+          'TestQuery',
           parseString('query test_query {}'),
           classes: [
             EnumDefinition('Enum', ['Value']),

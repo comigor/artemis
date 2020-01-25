@@ -99,7 +99,7 @@ QueryDefinition generateQuery(
 
   final visitor = _AB(
     context: _Context(
-      className: className,
+      className: parentType.name,
       currentType: parentType,
       generatedClasses: [],
       inputsClasses: [],
@@ -115,7 +115,8 @@ QueryDefinition generateQuery(
   document.accept(visitor);
 
   return QueryDefinition(
-    className,
+    queryName,
+    parentType.name,
     document,
     classes: visitor.context.generatedClasses,
     inputs: visitor.context.inputsClasses,
@@ -355,9 +356,13 @@ class _AB extends RecursiveVisitor {
           '''Field $fieldName was not found in GraphQL type ${context.currentType.name}.
 Make sure your query is correct and your schema is updated.''');
     }
+    final aliasAsClassName = node.alias?.value != null
+        ? ReCase('${options.prefix}${node.alias?.value}').pascalCase
+        : null;
     final nextType =
         gql.getTypeByName(options.schema, gql.followType(field.type).name);
-    final nextClassName = '${context.currentType.name}\$${nextType.name}';
+    final nextClassName =
+        '${context.className}\$${aliasAsClassName ?? nextType.name}';
 
     final dartTypeStr = gql.buildTypeString(field.type, options.options,
         dartType: true, prefix: options.prefix, replaceLeafWith: nextClassName);

@@ -180,6 +180,9 @@ class QueryDefinition extends Equatable {
   /// The query name.
   final String queryName;
 
+  /// The query type name.
+  final String queryType;
+
   /// The AST representation of GraphQL document.
   final DocumentNode document;
 
@@ -198,6 +201,7 @@ class QueryDefinition extends Equatable {
   /// Instantiate a query definition.
   QueryDefinition(
     this.queryName,
+    this.queryType,
     this.document, {
     this.classes = const [],
     this.inputs = const [],
@@ -207,16 +211,21 @@ class QueryDefinition extends Equatable {
           'Query name must not be null or empty.',
         ),
         assert(
+          queryType != null && queryType.isNotEmpty,
+          'Query type must not be null or empty.',
+        ),
+        assert(
           document != null,
           'Query must not be null or empty.',
         );
 
   @override
   String toString() =>
-      'QueryDefinition(\'$queryName\', null, classes:$classes, inputs:$inputs, generateHelpers:$generateHelpers)';
+      'QueryDefinition(\'$queryName\', \'$queryType\', null, classes:$classes, inputs:$inputs, generateHelpers:$generateHelpers)';
 
   @override
-  List get props => [queryName, document, classes, inputs, generateHelpers];
+  List get props =>
+      [queryName, queryType, document, classes, inputs, generateHelpers];
 }
 
 /// Define a whole library file, the output of a single [SchemaMap] code

@@ -40,10 +40,14 @@ void main() {
 
       anotherBuilder.onBuild = expectAsync1((_) {}, count: 0);
 
-      await testBuilder(anotherBuilder, {
-        'a|api.schema.json': jsonFromSchema(schema),
-        'a|some_query.query.graphql': 'query some_query { s, i }',
-      });
+      await testBuilder(
+        anotherBuilder,
+        {
+          'a|api.schema.json': jsonFromSchema(schema),
+          'a|some_query.query.graphql': 'query some_query { s, i }',
+        },
+        onLog: print,
+      );
     });
 
     test('A simple query yields simple classes', () async {
@@ -87,9 +91,10 @@ void main() {
             queries: [
               QueryDefinition(
                 'some_query',
+                'SomeObject',
                 parseString('query some_query { s, i }'),
                 classes: [
-                  ClassDefinition('SomeQuery', [
+                  ClassDefinition('SomeObject', [
                     ClassProperty('String', 's'),
                     ClassProperty('int', 'i'),
                   ])
@@ -100,11 +105,14 @@ void main() {
         );
       }, count: 1);
 
-      await testBuilder(anotherBuilder, {
-        'a|api.schema.json': jsonFromSchema(schema),
-        'a|some_query.query.graphql': 'query some_query { s, i }',
-      }, outputs: {
-        'a|lib/some_query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
+      await testBuilder(
+        anotherBuilder,
+        {
+          'a|api.schema.json': jsonFromSchema(schema),
+          'a|some_query.query.graphql': 'query some_query { s, i }',
+        },
+        outputs: {
+          'a|lib/some_query.dart': r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -112,11 +120,11 @@ import 'package:gql/ast.dart';
 part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery with EquatableMixin {
-  SomeQuery();
+class SomeObject with EquatableMixin {
+  SomeObject();
 
-  factory SomeQuery.fromJson(Map<String, dynamic> json) =>
-      _\$SomeQueryFromJson(json);
+  factory SomeObject.fromJson(Map<String, dynamic> json) =>
+      _$SomeObjectFromJson(json);
 
   String s;
 
@@ -124,10 +132,12 @@ class SomeQuery with EquatableMixin {
 
   @override
   List<Object> get props => [s, i];
-  Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
+  Map<String, dynamic> toJson() => _$SomeObjectToJson(this);
 }
 ''',
-      });
+        },
+        onLog: print,
+      );
     });
 
     test('A simple query with list input', () async {
@@ -191,11 +201,12 @@ class SomeQuery with EquatableMixin {
           queries: [
             QueryDefinition(
               'some_query',
+              'SomeObject',
               parseString(
-                  'query some_query(\$ints: [Int]!) { s, i, list(ints: \$ints) }'),
+                  r'query some_query($ints: [Int]!) { s, i, list(ints: $ints) }'),
               inputs: [QueryInput('List<int>', 'ints')],
               classes: [
-                ClassDefinition('SomeQuery', [
+                ClassDefinition('SomeObject', [
                   ClassProperty('String', 's'),
                   ClassProperty('int', 'i'),
                   ClassProperty('List<int>', 'list')
@@ -207,12 +218,15 @@ class SomeQuery with EquatableMixin {
         expect(definition, libraryDefinition);
       }, count: 1);
 
-      await testBuilder(anotherBuilder, {
-        'a|api.schema.json': jsonFromSchema(schema),
-        'a|some_query.query.graphql':
-            'query some_query(\$ints: [Int]!) { s, i, list(ints: \$ints) }',
-      }, outputs: {
-        'a|lib/some_query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
+      await testBuilder(
+        anotherBuilder,
+        {
+          'a|api.schema.json': jsonFromSchema(schema),
+          'a|some_query.query.graphql':
+              'query some_query(\$ints: [Int]!) { s, i, list(ints: \$ints) }',
+        },
+        outputs: {
+          'a|lib/some_query.dart': r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -220,11 +234,11 @@ import 'package:gql/ast.dart';
 part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery with EquatableMixin {
-  SomeQuery();
+class SomeObject with EquatableMixin {
+  SomeObject();
 
-  factory SomeQuery.fromJson(Map<String, dynamic> json) =>
-      _\$SomeQueryFromJson(json);
+  factory SomeObject.fromJson(Map<String, dynamic> json) =>
+      _$SomeObjectFromJson(json);
 
   String s;
 
@@ -234,7 +248,7 @@ class SomeQuery with EquatableMixin {
 
   @override
   List<Object> get props => [s, i, list];
-  Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
+  Map<String, dynamic> toJson() => _$SomeObjectToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -242,16 +256,18 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
   SomeQueryArguments({this.ints});
 
   factory SomeQueryArguments.fromJson(Map<String, dynamic> json) =>
-      _\$SomeQueryArgumentsFromJson(json);
+      _$SomeQueryArgumentsFromJson(json);
 
   final List<int> ints;
 
   @override
   List<Object> get props => [ints];
-  Map<String, dynamic> toJson() => _\$SomeQueryArgumentsToJson(this);
+  Map<String, dynamic> toJson() => _$SomeQueryArgumentsToJson(this);
 }
 ''',
-      });
+        },
+        onLog: print,
+      );
     });
 
     test('The selection from query can nest', () async {
@@ -327,18 +343,20 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
             queries: [
               QueryDefinition(
                 'some_query',
+                'Query',
                 parseString(document),
                 classes: [
-                  ClassDefinition('AnotherObject', [
+                  ClassDefinition('Query\$SomeObject\$AnotherObject', [
                     ClassProperty('String', 'str'),
                   ]),
-                  ClassDefinition('SomeObject', [
+                  ClassDefinition('Query\$SomeObject', [
                     ClassProperty('String', 'st'),
-                    ClassProperty('List<AnotherObject>', 'ob'),
+                    ClassProperty(
+                        'List<Query\$SomeObject\$AnotherObject>', 'ob'),
                   ]),
-                  ClassDefinition('SomeQuery', [
+                  ClassDefinition('Query', [
                     ClassProperty('String', 's'),
-                    ClassProperty('SomeObject', 'o'),
+                    ClassProperty('Query\$SomeObject', 'o'),
                   ]),
                 ],
               ),
@@ -347,11 +365,14 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
         );
       }, count: 1);
 
-      await testBuilder(anotherBuilder, {
-        'a|api.schema.json': jsonFromSchema(schema),
-        'a|some_query.graphql': document,
-      }, outputs: {
-        'a|lib/some_query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
+      await testBuilder(
+        anotherBuilder,
+        {
+          'a|api.schema.json': jsonFromSchema(schema),
+          'a|some_query.graphql': document,
+        },
+        outputs: {
+          'a|lib/some_query.dart': r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -359,52 +380,53 @@ import 'package:gql/ast.dart';
 part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class AnotherObject with EquatableMixin {
-  AnotherObject();
+class Query$SomeObject$AnotherObject with EquatableMixin {
+  Query$SomeObject$AnotherObject();
 
-  factory AnotherObject.fromJson(Map<String, dynamic> json) =>
-      _\$AnotherObjectFromJson(json);
+  factory Query$SomeObject$AnotherObject.fromJson(Map<String, dynamic> json) =>
+      _$Query$SomeObject$AnotherObjectFromJson(json);
 
   String str;
 
   @override
   List<Object> get props => [str];
-  Map<String, dynamic> toJson() => _\$AnotherObjectToJson(this);
+  Map<String, dynamic> toJson() => _$Query$SomeObject$AnotherObjectToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class SomeObject with EquatableMixin {
-  SomeObject();
+class Query$SomeObject with EquatableMixin {
+  Query$SomeObject();
 
-  factory SomeObject.fromJson(Map<String, dynamic> json) =>
-      _\$SomeObjectFromJson(json);
+  factory Query$SomeObject.fromJson(Map<String, dynamic> json) =>
+      _$Query$SomeObjectFromJson(json);
 
   String st;
 
-  List<AnotherObject> ob;
+  List<Query$SomeObject$AnotherObject> ob;
 
   @override
   List<Object> get props => [st, ob];
-  Map<String, dynamic> toJson() => _\$SomeObjectToJson(this);
+  Map<String, dynamic> toJson() => _$Query$SomeObjectToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery with EquatableMixin {
-  SomeQuery();
+class Query with EquatableMixin {
+  Query();
 
-  factory SomeQuery.fromJson(Map<String, dynamic> json) =>
-      _\$SomeQueryFromJson(json);
+  factory Query.fromJson(Map<String, dynamic> json) => _$QueryFromJson(json);
 
   String s;
 
-  SomeObject o;
+  Query$SomeObject o;
 
   @override
   List<Object> get props => [s, o];
-  Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
+  Map<String, dynamic> toJson() => _$QueryToJson(this);
 }
 ''',
-      });
+        },
+        onLog: print,
+      );
     });
 
     test('Query selections can be aliased', () async {
@@ -443,9 +465,10 @@ class SomeQuery with EquatableMixin {
             queries: [
               QueryDefinition(
                 'some_query',
+                'Query',
                 parseString('query some_query { firstName: s, lastName: st }'),
                 classes: [
-                  ClassDefinition('SomeQuery', [
+                  ClassDefinition('Query', [
                     ClassProperty('String', 'firstName'),
                     ClassProperty('String', 'lastName'),
                   ]),
@@ -456,12 +479,15 @@ class SomeQuery with EquatableMixin {
         );
       }, count: 1);
 
-      await testBuilder(anotherBuilder, {
-        'a|api.schema.json': jsonFromSchema(schema),
-        'a|some_query.graphql':
-            'query some_query { firstName: s, lastName: st }',
-      }, outputs: {
-        'a|lib/some_query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
+      await testBuilder(
+        anotherBuilder,
+        {
+          'a|api.schema.json': jsonFromSchema(schema),
+          'a|some_query.graphql':
+              'query some_query { firstName: s, lastName: st }',
+        },
+        outputs: {
+          'a|lib/some_query.dart': r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -469,11 +495,10 @@ import 'package:gql/ast.dart';
 part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery with EquatableMixin {
-  SomeQuery();
+class Query with EquatableMixin {
+  Query();
 
-  factory SomeQuery.fromJson(Map<String, dynamic> json) =>
-      _\$SomeQueryFromJson(json);
+  factory Query.fromJson(Map<String, dynamic> json) => _$QueryFromJson(json);
 
   String firstName;
 
@@ -481,10 +506,12 @@ class SomeQuery with EquatableMixin {
 
   @override
   List<Object> get props => [firstName, lastName];
-  Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
+  Map<String, dynamic> toJson() => _$QueryToJson(this);
 }
 ''',
-      });
+        },
+        onLog: print,
+      );
     });
 
     test(
@@ -556,18 +583,20 @@ class SomeQuery with EquatableMixin {
             queries: [
               QueryDefinition(
                 'some_query',
+                'Query',
                 parseString(document),
                 classes: [
-                  ClassDefinition('SomeObject', [
+                  ClassDefinition('Query\$SomeObject', [
                     ClassProperty('String', 'st'),
                   ]),
-                  ClassDefinition('AnotherObject', [
+                  ClassDefinition('Query\$AnotherObject', [
                     ClassProperty('String', 'str'),
                   ]),
-                  ClassDefinition('SomeQuery', [
+                  ClassDefinition('Query', [
                     ClassProperty('String', 's'),
-                    ClassProperty('SomeObject', 'o'),
-                    ClassProperty('List<AnotherObject>', 'anotherObject'),
+                    ClassProperty('Query\$SomeObject', 'o'),
+                    ClassProperty(
+                        'List<Query\$AnotherObject>', 'anotherObject'),
                   ]),
                 ],
               ),
@@ -576,11 +605,14 @@ class SomeQuery with EquatableMixin {
         );
       }, count: 1);
 
-      await testBuilder(anotherBuilder, {
-        'a|api.schema.json': jsonFromSchema(schema),
-        'a|some_query.graphql': document,
-      }, outputs: {
-        'a|lib/some_query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
+      await testBuilder(
+        anotherBuilder,
+        {
+          'a|api.schema.json': jsonFromSchema(schema),
+          'a|some_query.graphql': document,
+        },
+        outputs: {
+          'a|lib/some_query.dart': r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -588,52 +620,53 @@ import 'package:gql/ast.dart';
 part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SomeObject with EquatableMixin {
-  SomeObject();
+class Query$SomeObject with EquatableMixin {
+  Query$SomeObject();
 
-  factory SomeObject.fromJson(Map<String, dynamic> json) =>
-      _\$SomeObjectFromJson(json);
+  factory Query$SomeObject.fromJson(Map<String, dynamic> json) =>
+      _$Query$SomeObjectFromJson(json);
 
   String st;
 
   @override
   List<Object> get props => [st];
-  Map<String, dynamic> toJson() => _\$SomeObjectToJson(this);
+  Map<String, dynamic> toJson() => _$Query$SomeObjectToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class AnotherObject with EquatableMixin {
-  AnotherObject();
+class Query$AnotherObject with EquatableMixin {
+  Query$AnotherObject();
 
-  factory AnotherObject.fromJson(Map<String, dynamic> json) =>
-      _\$AnotherObjectFromJson(json);
+  factory Query$AnotherObject.fromJson(Map<String, dynamic> json) =>
+      _$Query$AnotherObjectFromJson(json);
 
   String str;
 
   @override
   List<Object> get props => [str];
-  Map<String, dynamic> toJson() => _\$AnotherObjectToJson(this);
+  Map<String, dynamic> toJson() => _$Query$AnotherObjectToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery with EquatableMixin {
-  SomeQuery();
+class Query with EquatableMixin {
+  Query();
 
-  factory SomeQuery.fromJson(Map<String, dynamic> json) =>
-      _\$SomeQueryFromJson(json);
+  factory Query.fromJson(Map<String, dynamic> json) => _$QueryFromJson(json);
 
   String s;
 
-  SomeObject o;
+  Query$SomeObject o;
 
-  List<AnotherObject> anotherObject;
+  List<Query$AnotherObject> anotherObject;
 
   @override
   List<Object> get props => [s, o, anotherObject];
-  Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
+  Map<String, dynamic> toJson() => _$QueryToJson(this);
 }
 ''',
-      });
+        },
+        onLog: print,
+      );
     });
 
     test('On helpers generation', () async {
@@ -702,18 +735,20 @@ class SomeQuery with EquatableMixin {
             queries: [
               QueryDefinition(
                 'some_query',
+                'Query',
                 parseString(document),
                 classes: [
-                  ClassDefinition('SomeObject', [
+                  ClassDefinition('Query\$SomeObject', [
                     ClassProperty('String', 'st'),
                   ]),
-                  ClassDefinition('AnotherObject', [
+                  ClassDefinition('Query\$AnotherObject', [
                     ClassProperty('String', 'str'),
                   ]),
-                  ClassDefinition('SomeQuery', [
+                  ClassDefinition('Query', [
                     ClassProperty('String', 's'),
-                    ClassProperty('SomeObject', 'o'),
-                    ClassProperty('List<AnotherObject>', 'anotherObject'),
+                    ClassProperty('Query\$SomeObject', 'o'),
+                    ClassProperty(
+                        'List<Query\$AnotherObject>', 'anotherObject'),
                   ]),
                 ],
                 generateHelpers: true,
@@ -723,11 +758,14 @@ class SomeQuery with EquatableMixin {
         );
       }, count: 1);
 
-      await testBuilder(anotherBuilder, {
-        'a|api.schema.json': jsonFromSchema(schema),
-        'a|some_query.graphql': document,
-      }, outputs: {
-        'a|lib/some_query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
+      await testBuilder(
+        anotherBuilder,
+        {
+          'a|api.schema.json': jsonFromSchema(schema),
+          'a|some_query.graphql': document,
+        },
+        outputs: {
+          'a|lib/some_query.dart': r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -736,52 +774,51 @@ import 'package:gql/ast.dart';
 part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SomeObject with EquatableMixin {
-  SomeObject();
+class Query$SomeObject with EquatableMixin {
+  Query$SomeObject();
 
-  factory SomeObject.fromJson(Map<String, dynamic> json) =>
-      _\$SomeObjectFromJson(json);
+  factory Query$SomeObject.fromJson(Map<String, dynamic> json) =>
+      _$Query$SomeObjectFromJson(json);
 
   String st;
 
   @override
   List<Object> get props => [st];
-  Map<String, dynamic> toJson() => _\$SomeObjectToJson(this);
+  Map<String, dynamic> toJson() => _$Query$SomeObjectToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class AnotherObject with EquatableMixin {
-  AnotherObject();
+class Query$AnotherObject with EquatableMixin {
+  Query$AnotherObject();
 
-  factory AnotherObject.fromJson(Map<String, dynamic> json) =>
-      _\$AnotherObjectFromJson(json);
+  factory Query$AnotherObject.fromJson(Map<String, dynamic> json) =>
+      _$Query$AnotherObjectFromJson(json);
 
   String str;
 
   @override
   List<Object> get props => [str];
-  Map<String, dynamic> toJson() => _\$AnotherObjectToJson(this);
+  Map<String, dynamic> toJson() => _$Query$AnotherObjectToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery with EquatableMixin {
-  SomeQuery();
+class Query with EquatableMixin {
+  Query();
 
-  factory SomeQuery.fromJson(Map<String, dynamic> json) =>
-      _\$SomeQueryFromJson(json);
+  factory Query.fromJson(Map<String, dynamic> json) => _$QueryFromJson(json);
 
   String s;
 
-  SomeObject o;
+  Query$SomeObject o;
 
-  List<AnotherObject> anotherObject;
+  List<Query$AnotherObject> anotherObject;
 
   @override
   List<Object> get props => [s, o, anotherObject];
-  Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
+  Map<String, dynamic> toJson() => _$QueryToJson(this);
 }
 
-class SomeQueryQuery extends GraphQLQuery<SomeQuery, JsonSerializable> {
+class SomeQueryQuery extends GraphQLQuery<Query, JsonSerializable> {
   SomeQueryQuery();
 
   @override
@@ -836,7 +873,9 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery, JsonSerializable> {
   SomeQuery parse(Map<String, dynamic> json) => SomeQuery.fromJson(json);
 }
 ''',
-      });
+        },
+        onLog: print,
+      );
     });
 
     test('Imports from the scalar mapping are included', () async {
@@ -911,9 +950,10 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery, JsonSerializable> {
             queries: [
               QueryDefinition(
                 'some_query',
+                'SomeObject',
                 parseString('query some_query { bigDecimal, dateTime }'),
                 classes: [
-                  ClassDefinition('SomeQuery', [
+                  ClassDefinition('SomeObject', [
                     ClassProperty('Decimal', 'bigDecimal'),
                     ClassProperty('DateTime', 'dateTime'),
                   ])
@@ -927,11 +967,14 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery, JsonSerializable> {
         );
       }, count: 1);
 
-      await testBuilder(anotherBuilder, {
-        'a|api.schema.json': jsonFromSchema(schema),
-        'a|some_query.graphql': 'query some_query { bigDecimal, dateTime }',
-      }, outputs: {
-        'a|lib/some_query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
+      await testBuilder(
+        anotherBuilder,
+        {
+          'a|api.schema.json': jsonFromSchema(schema),
+          'a|some_query.graphql': 'query some_query { bigDecimal, dateTime }',
+        },
+        outputs: {
+          'a|lib/some_query.dart': r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -940,11 +983,11 @@ import 'package:decimal/decimal.dart';
 part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery with EquatableMixin {
-  SomeQuery();
+class SomeObject with EquatableMixin {
+  SomeObject();
 
-  factory SomeQuery.fromJson(Map<String, dynamic> json) =>
-      _\$SomeQueryFromJson(json);
+  factory SomeObject.fromJson(Map<String, dynamic> json) =>
+      _$SomeObjectFromJson(json);
 
   Decimal bigDecimal;
 
@@ -952,10 +995,12 @@ class SomeQuery with EquatableMixin {
 
   @override
   List<Object> get props => [bigDecimal, dateTime];
-  Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
+  Map<String, dynamic> toJson() => _$SomeObjectToJson(this);
 }
 ''',
-      });
+        },
+        onLog: print,
+      );
     });
 
     test('Query name (pascal casing)', () async {
@@ -994,6 +1039,7 @@ class SomeQuery with EquatableMixin {
             queries: [
               QueryDefinition(
                 'PascalCasingQuery',
+                'PascalCasingQuery',
                 parseString('query PascalCasingQuery { s }'),
                 classes: [
                   ClassDefinition('PascalCasingQuery', [
@@ -1006,12 +1052,16 @@ class SomeQuery with EquatableMixin {
         );
       }, count: 1);
 
-      await testBuilder(anotherBuilder, {
-        'a|api.schema.json': jsonFromSchema(schema),
-        'a|pascal_casing_query.query.graphql': 'query PascalCasingQuery { s }',
-      }, outputs: {
-        'a|lib/pascal_casing_query.dart':
-            '''// GENERATED CODE - DO NOT MODIFY BY HAND
+      await testBuilder(
+        anotherBuilder,
+        {
+          'a|api.schema.json': jsonFromSchema(schema),
+          'a|pascal_casing_query.query.graphql':
+              'query PascalCasingQuery { s }',
+        },
+        outputs: {
+          'a|lib/pascal_casing_query.dart':
+              '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -1032,7 +1082,9 @@ class PascalCasingQuery with EquatableMixin {
   Map<String, dynamic> toJson() => _\$PascalCasingQueryToJson(this);
 }
 ''',
-      });
+        },
+        onLog: print,
+      );
     });
   });
 }
