@@ -6,11 +6,17 @@ import 'package:artemis/schema/graphql.dart';
 import 'package:build/build.dart';
 import 'package:build_test/build_test.dart';
 import 'package:gql/language.dart';
+import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 
 String jsonFromSchema(GraphQLSchema schema) => json.encode({
       'data': {'__schema': schema.toJson()}
     });
+
+void debug(LogRecord log) {
+  const IS_DEBUG = false;
+  if (IS_DEBUG) print(log);
+}
 
 void main() {
   group('On query generation', () {
@@ -46,7 +52,7 @@ void main() {
           'a|api.schema.json': jsonFromSchema(schema),
           'a|some_query.query.graphql': 'query some_query { s, i }',
         },
-        onLog: print,
+        onLog: debug,
       );
     });
 
@@ -136,7 +142,7 @@ class SomeObject with EquatableMixin {
 }
 ''',
         },
-        onLog: print,
+        onLog: debug,
       );
     });
 
@@ -266,7 +272,7 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
 }
 ''',
         },
-        onLog: print,
+        onLog: debug,
       );
     });
 
@@ -425,7 +431,7 @@ class Query with EquatableMixin {
 }
 ''',
         },
-        onLog: print,
+        onLog: debug,
       );
     });
 
@@ -510,7 +516,7 @@ class Query with EquatableMixin {
 }
 ''',
         },
-        onLog: print,
+        onLog: debug,
       );
     });
 
@@ -665,7 +671,7 @@ class Query with EquatableMixin {
 }
 ''',
         },
-        onLog: print,
+        onLog: debug,
       );
     });
 
@@ -874,7 +880,7 @@ class SomeQueryQuery extends GraphQLQuery<Query, JsonSerializable> {
 }
 ''',
         },
-        onLog: print,
+        onLog: debug,
       );
     });
 
@@ -999,7 +1005,7 @@ class SomeObject with EquatableMixin {
 }
 ''',
         },
-        onLog: print,
+        onLog: debug,
       );
     });
 
@@ -1083,7 +1089,7 @@ class PascalCasingQuery with EquatableMixin {
 }
 ''',
         },
-        onLog: print,
+        onLog: debug,
       );
     });
   });
