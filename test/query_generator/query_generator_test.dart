@@ -1,22 +1,12 @@
-import 'dart:convert';
-
 import 'package:artemis/builder.dart';
 import 'package:artemis/generator/data.dart';
 import 'package:artemis/schema/graphql.dart';
 import 'package:build/build.dart';
 import 'package:build_test/build_test.dart';
 import 'package:gql/language.dart';
-import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 
-String jsonFromSchema(GraphQLSchema schema) => json.encode({
-      'data': {'__schema': schema.toJson()}
-    });
-
-void debug(LogRecord log) {
-  const IS_DEBUG = false;
-  if (IS_DEBUG) print(log);
-}
+import '../helpers.dart';
 
 void main() {
   group('On query generation', () {

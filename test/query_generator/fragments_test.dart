@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:artemis/builder.dart';
 import 'package:artemis/generator/data.dart';
 import 'package:artemis/schema/graphql.dart';
@@ -8,9 +6,7 @@ import 'package:build_test/build_test.dart';
 import 'package:gql/language.dart';
 import 'package:test/test.dart';
 
-String jsonFromSchema(GraphQLSchema schema) => json.encode({
-      'data': {'__schema': schema.toJson()}
-    });
+import '../helpers.dart';
 
 void main() {
   group('On fragments', () {
@@ -55,6 +51,7 @@ void main() {
             queries: [
               QueryDefinition(
                 'some_query',
+                'SomeObject',
                 parseString(
                     'fragment myFragment on SomeObject { s, i }\nquery some_query { ...myFragment }'),
                 classes: [
@@ -62,7 +59,8 @@ void main() {
                     ClassProperty('String', 's'),
                     ClassProperty('int', 'i'),
                   ]),
-                  ClassDefinition('SomeQuery', [], mixins: ['MyFragmentMixin']),
+                  ClassDefinition('SomeObject', [],
+                      mixins: ['MyFragmentMixin']),
                 ],
               ),
             ],
@@ -70,12 +68,15 @@ void main() {
         );
       }, count: 1);
 
-      await testBuilder(anotherBuilder, {
-        'a|api.schema.json': jsonFromSchema(schema),
-        'a|some_query.query.graphql':
-            'fragment myFragment on SomeObject { s, i }\nquery some_query { ...myFragment }',
-      }, outputs: {
-        'a|lib/some_query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
+      await testBuilder(
+        anotherBuilder,
+        {
+          'a|api.schema.json': jsonFromSchema(schema),
+          'a|some_query.query.graphql':
+              'fragment myFragment on SomeObject { s, i }\nquery some_query { ...myFragment }',
+        },
+        outputs: {
+          'a|lib/some_query.dart': r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -88,18 +89,20 @@ mixin MyFragmentMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery with EquatableMixin, MyFragmentMixin {
-  SomeQuery();
+class SomeObject with EquatableMixin, MyFragmentMixin {
+  SomeObject();
 
-  factory SomeQuery.fromJson(Map<String, dynamic> json) =>
-      _\$SomeQueryFromJson(json);
+  factory SomeObject.fromJson(Map<String, dynamic> json) =>
+      _$SomeObjectFromJson(json);
 
   @override
   List<Object> get props => [s, i];
-  Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
+  Map<String, dynamic> toJson() => _$SomeObjectToJson(this);
 }
 ''',
-      });
+        },
+        onLog: debug,
+      );
     });
   });
 }
