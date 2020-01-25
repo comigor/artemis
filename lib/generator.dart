@@ -95,11 +95,13 @@ QueryDefinition generateQuery(
 
   final prefix = schemaMap.addQueryPrefix ? className : '';
 
-  document.accept(_AB(
+  final visitor = _AB(
     context: _Context(
       className: className,
       currentType: parentType,
       parentSelectionSet: null,
+      generatedClasses: [],
+      inputsClasses: [],
     ),
     options: _InjectedOptions(
       schema: schema,
@@ -107,13 +109,14 @@ QueryDefinition generateQuery(
       schemaMap: schemaMap,
       prefix: prefix,
     ),
-  ));
+  );
+  document.accept(visitor);
 
   return QueryDefinition(
     queryName,
     document,
-    classes: _generatedClasses,
-    inputs: _inputsClasses,
+    classes: visitor.context.generatedClasses,
+    inputs: visitor.context.inputsClasses,
     generateHelpers: options.generateHelpers,
   );
 }
@@ -240,9 +243,6 @@ Set<FragmentDefinitionNode> _extractFragments(SelectionSetNode selectionSet,
   return result;
 }
 
-final _generatedClasses = <ClassDefinition>[];
-final _inputsClasses = <QueryInput>[];
-
 class _InjectedOptions {
   _InjectedOptions({
     @required this.schema,
@@ -262,11 +262,16 @@ class _Context {
     @required this.className,
     @required this.currentType,
     @required this.parentSelectionSet,
+    @required this.generatedClasses,
+    @required this.inputsClasses,
   });
 
   final String className;
   final GraphQLType currentType;
   final SelectionSetNode parentSelectionSet;
+
+  final List<ClassDefinition> generatedClasses;
+  final List<QueryInput> inputsClasses;
 }
 
 class _AB extends RecursiveVisitor {
@@ -285,7 +290,7 @@ class _AB extends RecursiveVisitor {
   void visitSelectionSetNode(SelectionSetNode node) {
     selectionSetNode = node;
     super.visitSelectionSetNode(node);
-    _generatedClasses.add(ClassDefinition(
+    context.generatedClasses.add(ClassDefinition(
       context.className,
       _classProperties,
     ));
@@ -296,7 +301,8 @@ class _AB extends RecursiveVisitor {
     final varType = _unwrapToType(options.schema, node.type);
     final dartTypeStr = gql.buildTypeString(varType, options.options,
         dartType: true, prefix: options.prefix);
-    _inputsClasses.add(QueryInput(dartTypeStr, node.variable.name.value));
+    context.inputsClasses
+        .add(QueryInput(dartTypeStr, node.variable.name.value));
   }
 
   @override
@@ -325,6 +331,8 @@ class _AB extends RecursiveVisitor {
         className: nextClassName,
         currentType: nextType,
         parentSelectionSet: selectionSetNode,
+        generatedClasses: context.generatedClasses,
+        inputsClasses: context.inputsClasses,
       ),
       options: options,
     ));
