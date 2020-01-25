@@ -73,17 +73,6 @@ QueryDefinition generateQuery(
   final operation =
       document.definitions.whereType<OperationDefinitionNode>().first;
 
-  final fragments = <FragmentDefinitionNode>[];
-
-  if (fragmentsCommon.isEmpty) {
-    fragments.addAll(document.definitions.whereType<FragmentDefinitionNode>());
-  } else {
-    final fragmentsOperation =
-        _extractFragments(operation.selectionSet, fragmentsCommon);
-    document.definitions.addAll(fragmentsOperation);
-    fragments.addAll(fragmentsOperation);
-  }
-
   final basename = p.basenameWithoutExtension(path);
   final queryName = operation.name?.value ?? basename;
   final className = ReCase(queryName).pascalCase;
@@ -185,65 +174,6 @@ ClassProperty _createClassProperty(
   }
 
   return ClassProperty(dartTypeStr, alias, annotation: annotation);
-}
-
-ClassProperty _selectionToClassProperty(
-  SelectionNode selection,
-  GraphQLSchema schema,
-  GraphQLType parentType,
-  GeneratorOptions options, {
-  OnNewClassFoundCallback onNewClassFound,
-  String prefix = '',
-}) {
-  if (selection is! FieldNode) return null;
-
-  final field = (selection as FieldNode);
-
-  final fieldName = field.name.value;
-  var alias = fieldName;
-  String aliasClassName;
-  final hasAlias = field.alias != null;
-  if (hasAlias) {
-    alias = field.alias.value;
-    aliasClassName = ReCase(alias).pascalCase;
-  }
-
-  if (fieldName.startsWith('__')) {
-    return null;
-  }
-
-  return _createClassProperty(
-    fieldName,
-    alias,
-    aliasClassName,
-    schema,
-    parentType,
-    options,
-    onNewClassFound: onNewClassFound,
-    selection: selection,
-    prefix: prefix,
-  );
-}
-
-Set<FragmentDefinitionNode> _extractFragments(SelectionSetNode selectionSet,
-    List<FragmentDefinitionNode> fragmentsCommon) {
-  final result = <FragmentDefinitionNode>{};
-  if (selectionSet != null) {
-    selectionSet.selections.whereType<FieldNode>().forEach((selection) {
-      result.addAll(_extractFragments(selection.selectionSet, fragmentsCommon));
-    });
-    selectionSet.selections
-        .whereType<FragmentSpreadNode>()
-        .forEach((selection) {
-      final fragmentDefinition = fragmentsCommon.firstWhere(
-          (fragmentDifinition) =>
-              fragmentDifinition.name.value == selection.name.value);
-      result.add(fragmentDefinition);
-      result.addAll(
-          _extractFragments(fragmentDefinition.selectionSet, fragmentsCommon));
-    });
-  }
-  return result;
 }
 
 class _InjectedOptions {
