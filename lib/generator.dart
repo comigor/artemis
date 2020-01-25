@@ -101,7 +101,6 @@ QueryDefinition generateQuery(
     context: _Context(
       className: className,
       currentType: parentType,
-      parentSelectionSet: null,
       generatedClasses: [],
       inputsClasses: [],
       fragments: [],
@@ -264,7 +263,6 @@ class _Context {
   _Context({
     @required this.className,
     @required this.currentType,
-    @required this.parentSelectionSet,
     @required this.generatedClasses,
     @required this.inputsClasses,
     @required this.fragments,
@@ -272,7 +270,6 @@ class _Context {
 
   final String className;
   final GraphQLType currentType;
-  final SelectionSetNode parentSelectionSet;
 
   final List<Definition> generatedClasses;
   final List<QueryInput> inputsClasses;
@@ -294,7 +291,6 @@ class _AB extends RecursiveVisitor {
 
   @override
   void visitSelectionSetNode(SelectionSetNode node) {
-    selectionSetNode = node;
     super.visitSelectionSetNode(node);
     context.generatedClasses.add(ClassDefinition(
       context.className,
@@ -328,7 +324,6 @@ class _AB extends RecursiveVisitor {
       context: _Context(
         className: nextClassName,
         currentType: nextType,
-        parentSelectionSet: selectionSetNode,
         generatedClasses: [],
         inputsClasses: [],
         fragments: [],
@@ -369,7 +364,6 @@ class _AB extends RecursiveVisitor {
       context: _Context(
         className: nextClassName,
         currentType: nextType,
-        parentSelectionSet: selectionSetNode,
         generatedClasses: context.generatedClasses,
         inputsClasses: context.inputsClasses,
         fragments: context.fragments,
