@@ -95,37 +95,6 @@ QueryDefinition generateQuery(
 
   final prefix = schemaMap.addQueryPrefix ? className : '';
 
-  final inputs = <QueryInput>[];
-  final inputsClasses = <Definition>[];
-  if (operation.variableDefinitions != null) {
-    operation.variableDefinitions.forEach((v) {
-      final type = _unwrapToType(schema, v.type);
-
-      if (type.kind == GraphQLTypeKind.INPUT_OBJECT ||
-          (type.kind == GraphQLTypeKind.LIST &&
-              type.ofType.kind == GraphQLTypeKind.INPUT_OBJECT)) {
-        inputsClasses.addAll(_extractClasses(
-            null, fragments, schema, type.name, type, options, schemaMap,
-            prefix: prefix));
-      }
-
-      final dartTypeStr =
-          gql.buildTypeString(type, options, dartType: true, prefix: prefix);
-      inputs.add(QueryInput(dartTypeStr, v.variable.name.value));
-    });
-  }
-
-  final classes = _extractClasses(
-    operation.selectionSet,
-    fragments,
-    schema,
-    className,
-    parentType,
-    options,
-    schemaMap,
-    prefix: prefix,
-  );
-
   document.accept(_AB(
     context: _Context(
       className: className,
@@ -140,19 +109,13 @@ QueryDefinition generateQuery(
     ),
   ));
 
-  final qd = QueryDefinition(
+  return QueryDefinition(
     queryName,
     document,
-    classes:
-        removeDuplicatedBy(classes.followedBy(inputsClasses), (i) => i.name),
-    inputs: inputs,
+    classes: _generatedClasses,
+    inputs: _inputsClasses,
     generateHelpers: options.generateHelpers,
   );
-
-  print(qd);
-  print(_generatedClasses);
-
-  return qd;
 }
 
 List<String> _extractCustomImports(
@@ -278,6 +241,7 @@ Set<FragmentDefinitionNode> _extractFragments(SelectionSetNode selectionSet,
 }
 
 final _generatedClasses = <ClassDefinition>[];
+final _inputsClasses = <QueryInput>[];
 
 class _InjectedOptions {
   _InjectedOptions({
@@ -325,6 +289,14 @@ class _AB extends RecursiveVisitor {
       context.className,
       _classProperties,
     ));
+  }
+
+  @override
+  void visitVariableDefinitionNode(VariableDefinitionNode node) {
+    final varType = _unwrapToType(options.schema, node.type);
+    final dartTypeStr = gql.buildTypeString(varType, options.options,
+        dartType: true, prefix: options.prefix);
+    _inputsClasses.add(QueryInput(dartTypeStr, node.variable.name.value));
   }
 
   @override
