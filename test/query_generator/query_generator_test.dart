@@ -329,16 +329,16 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
                 'some_query',
                 parseString(document),
                 classes: [
-                  ClassDefinition('SomeQuery', [
-                    ClassProperty('String', 's'),
-                    ClassProperty('SomeObject', 'o'),
+                  ClassDefinition('AnotherObject', [
+                    ClassProperty('String', 'str'),
                   ]),
                   ClassDefinition('SomeObject', [
                     ClassProperty('String', 'st'),
                     ClassProperty('List<AnotherObject>', 'ob'),
                   ]),
-                  ClassDefinition('AnotherObject', [
-                    ClassProperty('String', 'str'),
+                  ClassDefinition('SomeQuery', [
+                    ClassProperty('String', 's'),
+                    ClassProperty('SomeObject', 'o'),
                   ]),
                 ],
               ),
@@ -359,19 +359,17 @@ import 'package:gql/ast.dart';
 part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery with EquatableMixin {
-  SomeQuery();
+class AnotherObject with EquatableMixin {
+  AnotherObject();
 
-  factory SomeQuery.fromJson(Map<String, dynamic> json) =>
-      _\$SomeQueryFromJson(json);
+  factory AnotherObject.fromJson(Map<String, dynamic> json) =>
+      _\$AnotherObjectFromJson(json);
 
-  String s;
-
-  SomeObject o;
+  String str;
 
   @override
-  List<Object> get props => [s, o];
-  Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
+  List<Object> get props => [str];
+  Map<String, dynamic> toJson() => _\$AnotherObjectToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -391,17 +389,19 @@ class SomeObject with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class AnotherObject with EquatableMixin {
-  AnotherObject();
+class SomeQuery with EquatableMixin {
+  SomeQuery();
 
-  factory AnotherObject.fromJson(Map<String, dynamic> json) =>
-      _\$AnotherObjectFromJson(json);
+  factory SomeQuery.fromJson(Map<String, dynamic> json) =>
+      _\$SomeQueryFromJson(json);
 
-  String str;
+  String s;
+
+  SomeObject o;
 
   @override
-  List<Object> get props => [str];
-  Map<String, dynamic> toJson() => _\$AnotherObjectToJson(this);
+  List<Object> get props => [s, o];
+  Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
 }
 ''',
       });

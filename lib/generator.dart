@@ -307,16 +307,17 @@ class _AB extends RecursiveVisitor {
     print(
         'Searching for field $fieldName in type ${context.currentType.name}... ${field == null ? 'Not found' : 'Found'}.');
 
-    final nextClassName = '${options.prefix}${ReCase(fieldName).pascalCase}';
     final nextType =
         gql.getTypeByName(options.schema, gql.followType(field.type).name);
+    final nextClassName =
+        '${options.prefix}${ReCase(node.alias?.value ?? nextType.name).pascalCase}';
 
     final dartTypeStr = gql.buildTypeString(field.type, options.options,
         dartType: true, prefix: options.prefix, replaceLeafWith: nextClassName);
 
     _classProperties.add(ClassProperty(
       dartTypeStr,
-      fieldName,
+      node.alias?.value ?? fieldName,
     ));
 
     node.visitChildren(_AB(
