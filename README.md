@@ -100,7 +100,7 @@ Each `SchemaMap` is configured this way:
 | `output` |  | Relative path to output the generated code. |
 | `schema` |  | Relative path to the GraphQL schema. |
 | `queries_glob` |  | Glob that selects all query files to be used with this schema. |
-| `resolve_type_field` | `__typename` | The name of the field used to differentiatiate interfaces and union types (commonly `__typename` or `__typename`). Note that `__typename` field are not added automatically to the query. If you want interface/union type resolution, you need to manually add it to the query. |
+| `type_name_field` | `__typename` | The name of the field used to differentiatiate interfaces and union types (commonly `__typename` or `__resolveType`). Note that `__typename` field are not added automatically to the query. If you want interface/union type resolution, you need to manually add it there. |
 
 See [examples](./example) for more information and configuration options.
 

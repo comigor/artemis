@@ -1,5 +1,38 @@
 # CHANGELOG
 
+## Next
+**MAJOR BREAKING CHANGE**
+This version completely refactors how Artemis generate code (by finally
+using the implementation of visitor pattern provided by `gql`). On top of that,
+I've decided to do other major breaking changes to make code cleaner and more
+maintainable. Listed:
+- `add_query_prefix` doesn't exist anymore (it's now the default to generate
+  classes with its "path" from the query), e.g., this query's `user` field will
+  be typed as `Name$QueryRoot$User`:
+  ```graphql
+  query name {
+    user {
+      name
+    }
+  }
+  ```
+  This change was also done to tip users to NOT use those generated queries
+  directly on their code, to avoid coupling them to your business logic.
+- `resolve_type_field` option was renamed to `type_name_field`, as `__typename`
+  is the correct field name (by GraphQL spec).
+- Change pre-generation data classes constructors to named parameters, so if
+  you're using `GraphQLQueryBuilder.onBuild`, it will break.
+- Add more logs while generating code, to help debugging.
+
+TODO:
+- check scalars/scalarmap
+- review built-in scalars
+- useCustomParser
+- clean options?
+- prefix every class with `$` (?)
+- refactor class naming variables
+- review readme
+
 ## 2.2.2
 - Make lists as input objects work again
 
