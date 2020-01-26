@@ -34,7 +34,7 @@ void testGenerator({
 
   test(description, () async {
     final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
-      if (generateHelpers) 'generate_helpers': true,
+      if (!generateHelpers) 'generate_helpers': false,
       'schema_mapping': [
         {
           'schema': 'api.schema.json',
