@@ -265,9 +265,11 @@ class _AB extends RecursiveVisitor {
     final possibleTypes = <String, String>{};
     if (context.currentType.kind == GraphQLTypeKind.UNION ||
         context.currentType.kind == GraphQLTypeKind.INTERFACE) {
-      final keys = context.currentType.possibleTypes.map((t) => t.name);
-      final values = context.currentType.possibleTypes
-          .map((t) => '${context.className}\$${t.name}');
+      // Filter by requested types
+      final keys = node.selections
+          .whereType<InlineFragmentNode>()
+          .map((n) => n.typeCondition.on.name.value);
+      final values = keys.map((t) => '${context.className}\$$t');
       possibleTypes.addAll(Map.fromIterables(keys, values));
       _classProperties.add(ClassProperty(
         type: 'String',
