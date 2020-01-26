@@ -19,6 +19,7 @@ Future<void> main() async {
 
   final simpleQueryResponse = await client.execute(simpleQuery);
   final bigQueryResponse = await client.execute(bigQuery);
+  client.dispose();
 
   print('Simple query response: ${simpleQueryResponse.data.pokemon.number}');
 

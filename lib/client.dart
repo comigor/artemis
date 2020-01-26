@@ -14,6 +14,7 @@ import './schema/graphql_response.dart';
 ///
 /// A [Link] is used as the network interface.
 class ArtemisClient {
+  HttpLink _httpLink;
   final Link _link;
 
   /// Instantiate an [ArtemisClient].
@@ -23,16 +24,18 @@ class ArtemisClient {
   factory ArtemisClient(
     String graphQLEndpoint, {
     http.Client httpClient,
-  }) =>
-      ArtemisClient.fromLink(
-        Link.from([
-          DedupeLink(),
-          HttpLink(
-            graphQLEndpoint,
-            httpClient: httpClient,
-          ),
-        ]),
-      );
+  }) {
+    final httpLink = HttpLink(
+      graphQLEndpoint,
+      httpClient: httpClient,
+    );
+    return ArtemisClient.fromLink(
+      Link.from([
+        DedupeLink(),
+        httpLink,
+      ]),
+    ).._httpLink = httpLink;
+  }
 
   /// Create an [ArtemisClient] from [Link].
   ArtemisClient.fromLink(this._link) : assert(_link != null);
@@ -55,5 +58,14 @@ class ArtemisClient {
       data: response.data == null ? null : query.parse(response.data),
       errors: response.errors,
     );
+  }
+
+  /// Close the inline [http.Client].
+  ///
+  /// Keep in mind this will not close clients whose Artemis client
+  /// was instantiated from [ArtemisClient.fromLink]. If you're using
+  /// this constructor, you need to close your own links.
+  void dispose() {
+    _httpLink?.dispose();
   }
 }
