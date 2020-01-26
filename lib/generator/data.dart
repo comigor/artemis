@@ -107,9 +107,9 @@ class ClassDefinition extends Definition with DataPrinter {
   /// The types this class mixins.
   final Iterable<String> mixins;
 
-  /// The types possibilities the class implements, if it's part of an union
-  /// type or interface.
-  final Iterable<String> factoryPossibilities;
+  /// The types possibilities (GraphQL type -> class name) the class
+  /// implements, if it's part of an union type or interface.
+  final Map<String, String> factoryPossibilities;
 
   /// The field name used to resolve this class type.
   final String typeNameField;
@@ -121,7 +121,7 @@ class ClassDefinition extends Definition with DataPrinter {
     this.extension,
     this.implementations = const [],
     this.mixins = const [],
-    this.factoryPossibilities = const [],
+    this.factoryPossibilities = const {},
     this.typeNameField = '__typename',
   })  : assert(hasValue(name)),
         super(name: name);

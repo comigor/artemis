@@ -16,9 +16,9 @@ String _fromJsonBody(ClassDefinition definition) {
   buffer
       .writeln('''switch (json['${definition.typeNameField}'].toString()) {''');
 
-  for (final p in definition.factoryPossibilities) {
-    buffer.writeln('''      case '$p':
-        return $p.fromJson(json);''');
+  for (final p in definition.factoryPossibilities.entries) {
+    buffer.writeln('''      case r'${p.key}':
+        return ${p.value}.fromJson(json);''');
   }
 
   buffer.writeln('''      default:
@@ -31,9 +31,9 @@ String _toJsonBody(ClassDefinition definition) {
   final buffer = StringBuffer();
   buffer.writeln('''switch (typeName) {''');
 
-  for (final p in definition.factoryPossibilities) {
-    buffer.writeln('''      case '$p':
-        return (this as $p).toJson();''');
+  for (final p in definition.factoryPossibilities.entries) {
+    buffer.writeln('''      case r'${p.key}':
+        return (this as ${p.value}).toJson();''');
   }
 
   buffer.writeln('''      default:

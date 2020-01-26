@@ -147,7 +147,10 @@ class AClass extends AnotherClass with EquatableMixin {
       final definition = ClassDefinition(
         name: 'AClass',
         properties: [],
-        factoryPossibilities: ['ASubClass', 'BSubClass'],
+        factoryPossibilities: {
+          'ASubClass': 'ASubClass',
+          'BSubClass': 'BSubClass',
+        },
         typeNameField: '__typename',
       );
 
@@ -159,9 +162,9 @@ class AClass with EquatableMixin {
 
   factory AClass.fromJson(Map<String, dynamic> json) {
     switch (json['__typename'].toString()) {
-      case 'ASubClass':
+      case r'ASubClass':
         return ASubClass.fromJson(json);
-      case 'BSubClass':
+      case r'BSubClass':
         return BSubClass.fromJson(json);
       default:
     }
@@ -172,9 +175,9 @@ class AClass with EquatableMixin {
   List<Object> get props => [];
   Map<String, dynamic> toJson() {
     switch (typeName) {
-      case 'ASubClass':
+      case r'ASubClass':
         return (this as ASubClass).toJson();
-      case 'BSubClass':
+      case r'BSubClass':
         return (this as BSubClass).toJson();
       default:
     }

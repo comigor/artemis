@@ -195,6 +195,7 @@ class _Context {
   _Context({
     @required this.className,
     @required this.currentType,
+    @required this.ofUnion,
     @required this.generatedClasses,
     @required this.inputsClasses,
     @required this.fragments,
@@ -202,6 +203,7 @@ class _Context {
 
   final String className;
   final GraphQLType currentType;
+  final GraphQLType ofUnion;
 
   final List<Definition> generatedClasses;
   final List<QueryInput> inputsClasses;
@@ -223,13 +225,39 @@ class _AB extends RecursiveVisitor {
 
   @override
   void visitSelectionSetNode(SelectionSetNode node) {
-    print('Start wrapping class ${context.className}.');
+    print(
+        'Start wrapping class ${context.currentType.name} (-> ${context.className}).');
     super.visitSelectionSetNode(node);
-    print('Finish wrapping class ${context.className}.');
+    print(
+        'Finish wrapping class ${context.currentType.name} (-> ${context.className}).');
+
+    final possibleTypes = <String, String>{};
+    if (context.currentType.kind == GraphQLTypeKind.UNION) {
+      final keys = context.currentType.possibleTypes.map((t) => t.name);
+      final values = context.currentType.possibleTypes
+          .map((t) => '${context.className}\$${t.name}');
+      possibleTypes.addAll(Map.fromIterables(keys, values));
+      _classProperties.add(ClassProperty(
+        type: 'String',
+        name: 'typeName',
+        annotation: 'JsonKey(name: \'${options.schemaMap.typeNameField}\')',
+        isOverride: true,
+      ));
+      print('It is an union of possible types $possibleTypes.');
+    }
+    final partOfUnion = context.ofUnion != null;
+    if (partOfUnion) {
+      print('It is part of union ${context.ofUnion.name}.');
+    }
+
     context.generatedClasses.add(ClassDefinition(
       name: context.className,
       properties: _classProperties,
       mixins: _mixins,
+      extension: partOfUnion
+          ? context.className.replaceAll('\$${context.currentType.name}', '')
+          : null,
+      factoryPossibilities: possibleTypes,
     ));
   }
 
@@ -320,8 +348,42 @@ class _AB extends RecursiveVisitor {
   }
 
   @override
+  void visitInlineFragmentNode(InlineFragmentNode node) {
+    final onTypeName = node.typeCondition.on.name.value;
+    final nextType = gql.getTypeByName(options.schema, onTypeName,
+        context: 'inline fragment');
+
+    if (context.currentType.kind == GraphQLTypeKind.UNION) {
+      print(
+          'Fragment spread on ${nextType.name}, part of union ${context.currentType.name} (on ${context.className} context).');
+
+      final visitor = _AB(
+        context: _Context(
+          className: '${context.className}\$${nextType.name}',
+          currentType: nextType,
+          ofUnion: context.currentType,
+          generatedClasses: context.generatedClasses,
+          inputsClasses: [],
+          fragments: [],
+        ),
+        options: options,
+      );
+
+      node.visitChildren(visitor);
+
+      return;
+    }
+
+    super.visitInlineFragmentNode(node);
+  }
+
+  @override
   void visitFieldNode(FieldNode node) {
     final fieldName = node.name.value;
+    if (fieldName == options.schemaMap.typeNameField) {
+      return;
+    }
+
     final field = context.currentType.fields
         .firstWhere((f) => f.name == fieldName, orElse: () => null);
     print(

@@ -3,10 +3,13 @@ import 'package:equatable/equatable.dart';
 import 'helpers.dart';
 
 String _formatPrint(Object obj) {
-  if (obj is List) {
+  if (obj is Map) {
+    return '{${obj.entries.map((e) => '${_formatPrint(e.key)}: ${_formatPrint(e.value)}').join(', ')}}';
+  } else if (obj is Iterable) {
     return '[${obj.map(_formatPrint).join(', ')}]';
   } else if (obj is String) {
-    return 'r\'$obj\'';
+    final bt = obj.contains('\'');
+    return 'r\'${bt ? '\'\'' : ''}$obj${bt ? '\'\'' : ''}\'';
   }
   final str = obj.toString();
   if (str.startsWith('Instance of')) {
