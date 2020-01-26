@@ -35,14 +35,14 @@ final schema = GraphQLSchema(
 final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
   QueryDefinition(
       queryName: r'some_query',
-      queryType: r'SomeObject',
+      queryType: r'SomeQuery$SomeObject',
       classes: [
         FragmentClassDefinition(name: r'MyFragmentMixin', properties: [
           ClassProperty(type: r'String', name: r's', isOverride: false),
           ClassProperty(type: r'int', name: r'i', isOverride: false)
         ]),
         ClassDefinition(
-            name: r'SomeObject',
+            name: r'SomeQuery$SomeObject',
             mixins: [r'MyFragmentMixin'],
             resolveTypeField: r'__resolveType')
       ],
@@ -62,14 +62,14 @@ mixin MyFragmentMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class SomeObject with EquatableMixin, MyFragmentMixin {
-  SomeObject();
+class SomeQuery$SomeObject with EquatableMixin, MyFragmentMixin {
+  SomeQuery$SomeObject();
 
-  factory SomeObject.fromJson(Map<String, dynamic> json) =>
-      _$SomeObjectFromJson(json);
+  factory SomeQuery$SomeObject.fromJson(Map<String, dynamic> json) =>
+      _$SomeQuery$SomeObjectFromJson(json);
 
   @override
   List<Object> get props => [s, i];
-  Map<String, dynamic> toJson() => _$SomeObjectToJson(this);
+  Map<String, dynamic> toJson() => _$SomeQuery$SomeObjectToJson(this);
 }
 ''';

@@ -18,7 +18,7 @@ String _fromJsonBody(ClassDefinition definition) {
 
   for (final p in definition.factoryPossibilities) {
     buffer.writeln('''      case '$p':
-        return ${definition.prefix}$p.fromJson(json);''');
+        return $p.fromJson(json);''');
   }
 
   buffer.writeln('''      default:
@@ -33,7 +33,7 @@ String _toJsonBody(ClassDefinition definition) {
 
   for (final p in definition.factoryPossibilities) {
     buffer.writeln('''      case '$p':
-        return (this as ${definition.prefix}$p).toJson();''');
+        return (this as $p).toJson();''');
   }
 
   buffer.writeln('''      default:

@@ -101,7 +101,6 @@ Each `SchemaMap` is configured this way:
 | `schema` |  | Relative path to the GraphQL schema. |
 | `queries_glob` |  | Glob that selects all query files to be used with this schema. |
 | `resolve_type_field` | `__resolveType` | The name of the field used to differentiatiate interfaces and union types (commonly `__resolveType` or `__typename`). Note that `__resolveType` field are not added automatically to the query. If you want interface/union type resolution, you need to manually add it to the query. |
-| `add_query_prefix` | `false` | Wheter to add the name of the query as a prefix for each dependent object of this query input or response. |
 
 See [examples](./example) for more information and configuration options.
 

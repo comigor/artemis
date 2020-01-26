@@ -58,19 +58,21 @@ final schema = GraphQLSchema(
 final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
   QueryDefinition(
       queryName: r'some_query',
-      queryType: r'QueryRoot',
+      queryType: r'SomeQuery$QueryRoot',
       classes: [
         ClassDefinition(
-            name: r'QueryRoot$SomeObject',
+            name: r'SomeQuery$QueryRoot$SomeObject',
             properties: [
               ClassProperty(type: r'String', name: r's', isOverride: false)
             ],
             resolveTypeField: r'__resolveType'),
         ClassDefinition(
-            name: r'QueryRoot',
+            name: r'SomeQuery$QueryRoot',
             properties: [
               ClassProperty(
-                  type: r'QueryRoot$SomeObject', name: r'o', isOverride: false)
+                  type: r'SomeQuery$QueryRoot$SomeObject',
+                  name: r'o',
+                  isOverride: false)
             ],
             resolveTypeField: r'__resolveType'),
         EnumDefinition(name: r'MyEnum', values: [r'value1', r'value2']),
@@ -96,31 +98,31 @@ import 'package:gql/ast.dart';
 part 'query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class QueryRoot$SomeObject with EquatableMixin {
-  QueryRoot$SomeObject();
+class SomeQuery$QueryRoot$SomeObject with EquatableMixin {
+  SomeQuery$QueryRoot$SomeObject();
 
-  factory QueryRoot$SomeObject.fromJson(Map<String, dynamic> json) =>
-      _$QueryRoot$SomeObjectFromJson(json);
+  factory SomeQuery$QueryRoot$SomeObject.fromJson(Map<String, dynamic> json) =>
+      _$SomeQuery$QueryRoot$SomeObjectFromJson(json);
 
   String s;
 
   @override
   List<Object> get props => [s];
-  Map<String, dynamic> toJson() => _$QueryRoot$SomeObjectToJson(this);
+  Map<String, dynamic> toJson() => _$SomeQuery$QueryRoot$SomeObjectToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class QueryRoot with EquatableMixin {
-  QueryRoot();
+class SomeQuery$QueryRoot with EquatableMixin {
+  SomeQuery$QueryRoot();
 
-  factory QueryRoot.fromJson(Map<String, dynamic> json) =>
-      _$QueryRootFromJson(json);
+  factory SomeQuery$QueryRoot.fromJson(Map<String, dynamic> json) =>
+      _$SomeQuery$QueryRootFromJson(json);
 
-  QueryRoot$SomeObject o;
+  SomeQuery$QueryRoot$SomeObject o;
 
   @override
   List<Object> get props => [o];
-  Map<String, dynamic> toJson() => _$QueryRootToJson(this);
+  Map<String, dynamic> toJson() => _$SomeQuery$QueryRootToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)

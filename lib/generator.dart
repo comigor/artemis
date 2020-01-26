@@ -12,12 +12,13 @@ import './schema/options.dart';
 /// Generate queries definitions from a GraphQL schema and a list of queries,
 /// given Artemis options and schema mappings.
 LibraryDefinition generateLibrary(
-    GraphQLSchema schema,
-    String path,
-    List<DocumentNode> gqlDocs,
-    GeneratorOptions options,
-    SchemaMap schemaMap,
-    List<FragmentDefinitionNode> fragmenDefinitionNode) {
+  GraphQLSchema schema,
+  String path,
+  List<DocumentNode> gqlDocs,
+  GeneratorOptions options,
+  SchemaMap schemaMap,
+  List<FragmentDefinitionNode> fragmenDefinitionNode,
+) {
   final queriesDefinitions = gqlDocs
       .map((doc) => generateQuery(
           schema, path, doc, options, schemaMap, fragmenDefinitionNode))
@@ -30,10 +31,10 @@ LibraryDefinition generateLibrary(
     print(queriesDefinitions);
 
     throw Exception('''Two classes were generated with the same name `$a`!
-You may want to do either:
-- Enable add_query_prefix on this schema_map
+You may want to:
 - Make queries_glob stricter, to gather less .graphql files on a single output
-- Use alias on one of the places a `$a` field is requested''');
+- Use alias on one of the places a field of type `$a` is requested
+- File a bug on artemis (https://is.gd/YLSfC2)''');
   });
 
   final basename = p.basenameWithoutExtension(path);
@@ -86,8 +87,6 @@ QueryDefinition generateQuery(
         context: 'mutation');
   }
 
-  final prefix = schemaMap.addQueryPrefix ? className : '';
-
   final visitor = _AB(
     context: _Context(
       className: '$className\$${parentType.name}',
@@ -100,7 +99,6 @@ QueryDefinition generateQuery(
       schema: schema,
       options: options,
       schemaMap: schemaMap,
-      prefix: prefix,
     ),
   );
   document.accept(visitor);
@@ -135,7 +133,6 @@ ClassProperty _createClassProperty(
   GeneratorOptions options, {
   OnNewClassFoundCallback onNewClassFound,
   SelectionNode selection,
-  String prefix = '',
 }) {
   String annotation;
   final graphQLField = parentType.fields
@@ -151,7 +148,7 @@ ClassProperty _createClassProperty(
   }
 
   final dartTypeStr = gql.buildTypeString(selectedType, options,
-      dartType: true, replaceLeafWith: aliasClassName, prefix: prefix);
+      dartType: true, replaceLeafWith: aliasClassName);
 
   final leafType = gql.getTypeByName(schema, gql.followType(selectedType).name,
       context: 'class property');
@@ -187,13 +184,11 @@ class _InjectedOptions {
     @required this.schema,
     @required this.options,
     @required this.schemaMap,
-    this.prefix = '',
   });
 
   final GraphQLSchema schema;
   final GeneratorOptions options;
   final SchemaMap schemaMap;
-  final String prefix;
 }
 
 class _Context {
@@ -235,7 +230,6 @@ class _AB extends RecursiveVisitor {
       name: context.className,
       properties: _classProperties,
       mixins: _mixins,
-      prefix: options.prefix,
     ));
   }
 
@@ -264,7 +258,6 @@ class _AB extends RecursiveVisitor {
         options.schema,
         currentType,
         options.options,
-        prefix: options.prefix,
         onNewClassFound: (selectionSet, className, type) {
           _generateInputObjectClassesByType(context, type);
         },
@@ -274,15 +267,14 @@ class _AB extends RecursiveVisitor {
     context.generatedClasses.add(ClassDefinition(
       name: type.name,
       properties: properties,
-      prefix: options.prefix,
     ));
   }
 
   @override
   void visitVariableDefinitionNode(VariableDefinitionNode node) {
     final varType = _unwrapToType(options.schema, node.type);
-    final dartTypeStr = gql.buildTypeString(varType, options.options,
-        dartType: true, prefix: options.prefix);
+    final dartTypeStr =
+        gql.buildTypeString(varType, options.options, dartType: true);
     context.inputsClasses.add(QueryInput(
       type: dartTypeStr,
       name: node.variable.name.value,
@@ -305,11 +297,10 @@ class _AB extends RecursiveVisitor {
     final fragmentOnClassName = node.typeCondition.on.name.value;
     final nextType = gql.getTypeByName(options.schema, fragmentOnClassName,
         context: 'fragment definition');
-    final nextClassName = '${options.prefix}$fragmentName';
 
     final visitor = _AB(
       context: _Context(
-        className: nextClassName,
+        className: fragmentName,
         currentType: nextType,
         generatedClasses: context.generatedClasses,
         inputsClasses: [],
@@ -340,16 +331,15 @@ class _AB extends RecursiveVisitor {
           '''Field $fieldName was not found in GraphQL type ${context.currentType.name}.
 Make sure your query is correct and your schema is updated.''');
     }
-    final aliasAsClassName = node.alias?.value != null
-        ? ReCase('${options.prefix}${node.alias?.value}').pascalCase
-        : null;
+    final aliasAsClassName =
+        node.alias?.value != null ? ReCase(node.alias?.value).pascalCase : null;
     final nextType =
         gql.getTypeByName(options.schema, gql.followType(field.type).name);
     final nextClassName =
         '${context.className}\$${aliasAsClassName ?? nextType.name}';
 
     final dartTypeStr = gql.buildTypeString(field.type, options.options,
-        dartType: true, prefix: options.prefix, replaceLeafWith: nextClassName);
+        dartType: true, replaceLeafWith: nextClassName);
 
     print('$fieldName GraphQL type is ${nextType.name} (-> $dartTypeStr).');
 

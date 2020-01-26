@@ -13,6 +13,7 @@ void main() {
       stringSchema: pokemonSchema,
       builderOptionsMap: {'fragments_glob': '**.frag'},
       sourceAssetsMap: {'a|fragment.frag': fragmentsString},
+      generateHelpers: true,
     );
   });
 }
@@ -47,27 +48,29 @@ const queryString = '''
 final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
   QueryDefinition(
       queryName: r'query',
-      queryType: r'Query',
+      queryType: r'Query$Query',
       classes: [
         ClassDefinition(
-            name: r'Query$Pokemon$Pokemon',
+            name: r'Query$Query$Pokemon$Pokemon',
             mixins: [r'PokemonMixin'],
             resolveTypeField: r'__resolveType'),
         ClassDefinition(
-            name: r'Query$Pokemon',
+            name: r'Query$Query$Pokemon',
             properties: [
               ClassProperty(
-                  type: r'List<Query$Pokemon$Pokemon>',
+                  type: r'List<Query$Query$Pokemon$Pokemon>',
                   name: r'evolutions',
                   isOverride: false)
             ],
             mixins: [r'PokemonMixin'],
             resolveTypeField: r'__resolveType'),
         ClassDefinition(
-            name: r'Query',
+            name: r'Query$Query',
             properties: [
               ClassProperty(
-                  type: r'Query$Pokemon', name: r'pokemon', isOverride: false)
+                  type: r'Query$Query$Pokemon',
+                  name: r'pokemon',
+                  isOverride: false)
             ],
             resolveTypeField: r'__resolveType'),
         ClassDefinition(
@@ -133,42 +136,43 @@ mixin AttackMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class Query$Pokemon$Pokemon with EquatableMixin, PokemonMixin {
-  Query$Pokemon$Pokemon();
+class Query$Query$Pokemon$Pokemon with EquatableMixin, PokemonMixin {
+  Query$Query$Pokemon$Pokemon();
 
-  factory Query$Pokemon$Pokemon.fromJson(Map<String, dynamic> json) =>
-      _$Query$Pokemon$PokemonFromJson(json);
+  factory Query$Query$Pokemon$Pokemon.fromJson(Map<String, dynamic> json) =>
+      _$Query$Query$Pokemon$PokemonFromJson(json);
 
   @override
   List<Object> get props => [id, weight, attacks];
-  Map<String, dynamic> toJson() => _$Query$Pokemon$PokemonToJson(this);
+  Map<String, dynamic> toJson() => _$Query$Query$Pokemon$PokemonToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class Query$Pokemon with EquatableMixin, PokemonMixin {
-  Query$Pokemon();
+class Query$Query$Pokemon with EquatableMixin, PokemonMixin {
+  Query$Query$Pokemon();
 
-  factory Query$Pokemon.fromJson(Map<String, dynamic> json) =>
-      _$Query$PokemonFromJson(json);
+  factory Query$Query$Pokemon.fromJson(Map<String, dynamic> json) =>
+      _$Query$Query$PokemonFromJson(json);
 
-  List<Query$Pokemon$Pokemon> evolutions;
+  List<Query$Query$Pokemon$Pokemon> evolutions;
 
   @override
   List<Object> get props => [id, weight, attacks, evolutions];
-  Map<String, dynamic> toJson() => _$Query$PokemonToJson(this);
+  Map<String, dynamic> toJson() => _$Query$Query$PokemonToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class Query with EquatableMixin {
-  Query();
+class Query$Query with EquatableMixin {
+  Query$Query();
 
-  factory Query.fromJson(Map<String, dynamic> json) => _$QueryFromJson(json);
+  factory Query$Query.fromJson(Map<String, dynamic> json) =>
+      _$Query$QueryFromJson(json);
 
-  Query$Pokemon pokemon;
+  Query$Query$Pokemon pokemon;
 
   @override
   List<Object> get props => [pokemon];
-  Map<String, dynamic> toJson() => _$QueryToJson(this);
+  Map<String, dynamic> toJson() => _$Query$QueryToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -207,7 +211,7 @@ class PokemonAttackMixin$Attack with EquatableMixin, AttackMixin {
   Map<String, dynamic> toJson() => _$PokemonAttackMixin$AttackToJson(this);
 }
 
-class QueryQuery extends GraphQLQuery<Query, JsonSerializable> {
+class QueryQuery extends GraphQLQuery<Query$Query, JsonSerializable> {
   QueryQuery();
 
   @override

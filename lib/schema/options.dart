@@ -118,22 +118,12 @@ class SchemaMap {
   @JsonKey(defaultValue: '__resolveType')
   final String resolveTypeField;
 
-  /// Wheter to add the name of the query as a prefix for each dependent object
-  /// of this query input or response.
-  ///
-  /// This is useful when [queriesGlob] from a single [SchemaMap] references
-  /// more than one query with the same input or output objects, so their
-  /// properties won't conflict.
-  @JsonKey(defaultValue: false)
-  final bool addQueryPrefix;
-
   /// Instatiates a schema mapping.
   SchemaMap({
     this.output,
     this.schema,
     this.queriesGlob,
     this.resolveTypeField = '__resolveType',
-    this.addQueryPrefix = false,
   });
 
   /// Build a schema mapping from a JSON map.
