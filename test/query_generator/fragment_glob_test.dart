@@ -1,28 +1,23 @@
-import 'package:artemis/builder.dart';
-import 'package:artemis/schema/graphql.dart';
-import 'package:meta/meta.dart';
 import 'package:artemis/generator/data.dart';
-import 'package:build/build.dart';
-import 'package:build_test/build_test.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
 
 void main() {
   group('[Fragment generation]', () {
-    test('Extracting', () async {
-      final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
-        'fragments_glob': '**.frag',
-        'schema_mapping': [
-          {
-            'schema': 'pokemon.schema.json',
-            'queries_glob': '**.graphql',
-            'output': 'lib/query.dart',
-          }
-        ]
-      }));
+    testGenerator(
+      description: 'Extracting',
+      query: queryString,
+      libraryDefinition: libraryDefinition,
+      generatedFile: generatedFile,
+      stringSchema: pokemonSchema,
+      builderOptionsMap: {'fragments_glob': '**.frag'},
+      sourceAssetsMap: {'a|fragment.frag': fragmentsString},
+    );
+  });
+}
 
-      final fragmentsString = '''
+const fragmentsString = '''
       fragment Pokemon on Pokemon {
             id
             weight {
@@ -39,7 +34,7 @@ void main() {
       fragment attack on Attack { name }
         ''';
 
-      final queryString = '''
+const queryString = '''
       {
           pokemon(name: "Pikachu") {
             ...Pokemon
@@ -49,92 +44,72 @@ void main() {
           }
       }''';
 
-      anotherBuilder.onBuild = expectAsync1((definition) {
-        final libraryDefinition =
-            LibraryDefinition(basename: r'query', queries: [
-          QueryDefinition(
-              queryName: r'query',
-              queryType: r'Query',
-              classes: [
-                ClassDefinition(
-                    name: r'Query$Pokemon$Pokemon',
-                    mixins: [r'PokemonMixin'],
-                    resolveTypeField: r'__resolveType'),
-                ClassDefinition(
-                    name: r'Query$Pokemon',
-                    properties: [
-                      ClassProperty(
-                          type: r'List<Query$Pokemon$Pokemon>',
-                          name: r'evolutions',
-                          isOverride: false)
-                    ],
-                    mixins: [r'PokemonMixin'],
-                    resolveTypeField: r'__resolveType'),
-                ClassDefinition(
-                    name: r'Query',
-                    properties: [
-                      ClassProperty(
-                          type: r'Query$Pokemon',
-                          name: r'pokemon',
-                          isOverride: false)
-                    ],
-                    resolveTypeField: r'__resolveType'),
-                ClassDefinition(
-                    name: r'PokemonMixin$PokemonDimension',
-                    mixins: [r'WeightMixin'],
-                    resolveTypeField: r'__resolveType'),
-                ClassDefinition(
-                    name: r'PokemonMixin$PokemonAttack',
-                    mixins: [r'PokemonAttackMixin'],
-                    resolveTypeField: r'__resolveType'),
-                FragmentClassDefinition(name: r'PokemonMixin', properties: [
-                  ClassProperty(
-                      type: r'String', name: r'id', isOverride: false),
-                  ClassProperty(
-                      type: r'PokemonMixin$PokemonDimension',
-                      name: r'weight',
-                      isOverride: false),
-                  ClassProperty(
-                      type: r'PokemonMixin$PokemonAttack',
-                      name: r'attacks',
-                      isOverride: false)
-                ]),
-                FragmentClassDefinition(name: r'WeightMixin', properties: [
-                  ClassProperty(
-                      type: r'String', name: r'minimum', isOverride: false)
-                ]),
-                ClassDefinition(
-                    name: r'PokemonAttackMixin$Attack',
-                    mixins: [r'AttackMixin'],
-                    resolveTypeField: r'__resolveType'),
-                FragmentClassDefinition(
-                    name: r'PokemonAttackMixin',
-                    properties: [
-                      ClassProperty(
-                          type: r'List<PokemonAttackMixin$Attack>',
-                          name: r'special',
-                          isOverride: false)
-                    ]),
-                FragmentClassDefinition(name: r'AttackMixin', properties: [
-                  ClassProperty(
-                      type: r'String', name: r'name', isOverride: false)
-                ])
-              ],
-              generateHelpers: true)
-        ]);
+final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
+  QueryDefinition(
+      queryName: r'query',
+      queryType: r'Query',
+      classes: [
+        ClassDefinition(
+            name: r'Query$Pokemon$Pokemon',
+            mixins: [r'PokemonMixin'],
+            resolveTypeField: r'__resolveType'),
+        ClassDefinition(
+            name: r'Query$Pokemon',
+            properties: [
+              ClassProperty(
+                  type: r'List<Query$Pokemon$Pokemon>',
+                  name: r'evolutions',
+                  isOverride: false)
+            ],
+            mixins: [r'PokemonMixin'],
+            resolveTypeField: r'__resolveType'),
+        ClassDefinition(
+            name: r'Query',
+            properties: [
+              ClassProperty(
+                  type: r'Query$Pokemon', name: r'pokemon', isOverride: false)
+            ],
+            resolveTypeField: r'__resolveType'),
+        ClassDefinition(
+            name: r'PokemonMixin$PokemonDimension',
+            mixins: [r'WeightMixin'],
+            resolveTypeField: r'__resolveType'),
+        ClassDefinition(
+            name: r'PokemonMixin$PokemonAttack',
+            mixins: [r'PokemonAttackMixin'],
+            resolveTypeField: r'__resolveType'),
+        FragmentClassDefinition(name: r'PokemonMixin', properties: [
+          ClassProperty(type: r'String', name: r'id', isOverride: false),
+          ClassProperty(
+              type: r'PokemonMixin$PokemonDimension',
+              name: r'weight',
+              isOverride: false),
+          ClassProperty(
+              type: r'PokemonMixin$PokemonAttack',
+              name: r'attacks',
+              isOverride: false)
+        ]),
+        FragmentClassDefinition(name: r'WeightMixin', properties: [
+          ClassProperty(type: r'String', name: r'minimum', isOverride: false)
+        ]),
+        ClassDefinition(
+            name: r'PokemonAttackMixin$Attack',
+            mixins: [r'AttackMixin'],
+            resolveTypeField: r'__resolveType'),
+        FragmentClassDefinition(name: r'PokemonAttackMixin', properties: [
+          ClassProperty(
+              type: r'List<PokemonAttackMixin$Attack>',
+              name: r'special',
+              isOverride: false)
+        ]),
+        FragmentClassDefinition(name: r'AttackMixin', properties: [
+          ClassProperty(type: r'String', name: r'name', isOverride: false)
+        ])
+      ],
+      generateHelpers: true)
+]);
 
-        expect(definition, libraryDefinition);
-      }, count: 1);
-
-      await testBuilder(
-        anotherBuilder,
-        {
-          'a|fragment.frag': fragmentsString,
-          'a|pokemon.schema.json': pokemonSchema,
-          'a|query.graphql': queryString,
-        },
-        outputs: {
-          'a|lib/query.dart': r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -353,15 +328,9 @@ class QueryQuery extends GraphQLQuery<Query, JsonSerializable> {
   @override
   Query parse(Map<String, dynamic> json) => Query.fromJson(json);
 }
-'''
-        },
-        onLog: debug,
-      );
-    });
-  });
-}
+''';
 
-const String pokemonSchema = '''
+const pokemonSchema = '''
 {
   "data": {
     "__schema": {
