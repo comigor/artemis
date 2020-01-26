@@ -8,123 +8,104 @@ import 'package:graphbrainz_example/coercers.dart';
 part 'ed_sheeran.query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class EdSheeran with EquatableMixin {
-  EdSheeran();
+class EdSheeran$Query$Node$Artist$LifeSpan with EquatableMixin {
+  EdSheeran$Query$Node$Artist$LifeSpan();
 
-  factory EdSheeran.fromJson(Map<String, dynamic> json) =>
-      _$EdSheeranFromJson(json);
+  factory EdSheeran$Query$Node$Artist$LifeSpan.fromJson(
+          Map<String, dynamic> json) =>
+      _$EdSheeran$Query$Node$Artist$LifeSpanFromJson(json);
 
-  Node node;
-
-  @override
-  List<Object> get props => [node];
-  Map<String, dynamic> toJson() => _$EdSheeranToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class Node with EquatableMixin {
-  Node();
-
-  factory Node.fromJson(Map<String, dynamic> json) {
-    switch (json['__typename'].toString()) {
-      case 'Artist':
-        return Artist.fromJson(json);
-      default:
-    }
-    return _$NodeFromJson(json);
-  }
-
-  String id;
-
-  @JsonKey(name: '__typename')
-  String resolveType;
-
-  @override
-  List<Object> get props => [id, resolveType];
-  Map<String, dynamic> toJson() {
-    switch (resolveType) {
-      case 'Artist':
-        return (this as Artist).toJson();
-      default:
-    }
-    return _$NodeToJson(this);
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class Artist with EquatableMixin implements Node, Entity {
-  Artist();
-
-  factory Artist.fromJson(Map<String, dynamic> json) => _$ArtistFromJson(json);
-
-  String mbid;
-
-  String name;
-
-  LifeSpan lifeSpan;
-
-  SpotifyArtist spotify;
-
-  @override
-  @JsonKey(name: '__typename')
-  String resolveType;
-
-  @override
-  String id;
-
-  @override
-  List<Object> get props => [mbid, name, lifeSpan, spotify, resolveType, id];
-  Map<String, dynamic> toJson() => _$ArtistToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class LifeSpan with EquatableMixin {
-  LifeSpan();
-
-  factory LifeSpan.fromJson(Map<String, dynamic> json) =>
-      _$LifeSpanFromJson(json);
-
-  @JsonKey(
-      fromJson: fromGraphQLDateToDartDateTime,
-      toJson: fromDartDateTimeToGraphQLDate)
   DateTime begin;
 
   @override
   List<Object> get props => [begin];
-  Map<String, dynamic> toJson() => _$LifeSpanToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$EdSheeran$Query$Node$Artist$LifeSpanToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class SpotifyArtist with EquatableMixin {
-  SpotifyArtist();
+class EdSheeran$Query$Node$Artist$SpotifyArtist with EquatableMixin {
+  EdSheeran$Query$Node$Artist$SpotifyArtist();
 
-  factory SpotifyArtist.fromJson(Map<String, dynamic> json) =>
-      _$SpotifyArtistFromJson(json);
+  factory EdSheeran$Query$Node$Artist$SpotifyArtist.fromJson(
+          Map<String, dynamic> json) =>
+      _$EdSheeran$Query$Node$Artist$SpotifyArtistFromJson(json);
 
   String href;
 
   @override
   List<Object> get props => [href];
-  Map<String, dynamic> toJson() => _$SpotifyArtistToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$EdSheeran$Query$Node$Artist$SpotifyArtistToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class Entity with EquatableMixin {
-  Entity();
+class EdSheeran$Query$Node$Artist extends EdSheeran$Query$Node
+    with EquatableMixin {
+  EdSheeran$Query$Node$Artist();
 
-  factory Entity.fromJson(Map<String, dynamic> json) => _$EntityFromJson(json);
+  factory EdSheeran$Query$Node$Artist.fromJson(Map<String, dynamic> json) =>
+      _$EdSheeran$Query$Node$ArtistFromJson(json);
 
   String mbid;
 
-  @JsonKey(name: '__typename')
-  String resolveType;
+  String name;
+
+  EdSheeran$Query$Node$Artist$LifeSpan lifeSpan;
+
+  EdSheeran$Query$Node$Artist$SpotifyArtist spotify;
 
   @override
-  List<Object> get props => [mbid, resolveType];
-  Map<String, dynamic> toJson() => _$EntityToJson(this);
+  List<Object> get props => [mbid, name, lifeSpan, spotify];
+  Map<String, dynamic> toJson() => _$EdSheeran$Query$Node$ArtistToJson(this);
 }
 
-class EdSheeranQuery extends GraphQLQuery<EdSheeran, JsonSerializable> {
+@JsonSerializable(explicitToJson: true)
+class EdSheeran$Query$Node with EquatableMixin {
+  EdSheeran$Query$Node();
+
+  factory EdSheeran$Query$Node.fromJson(Map<String, dynamic> json) {
+    switch (json['__typename'].toString()) {
+      case r'Artist':
+        return EdSheeran$Query$Node$Artist.fromJson(json);
+      default:
+    }
+    return _$EdSheeran$Query$NodeFromJson(json);
+  }
+
+  String id;
+
+  @override
+  @JsonKey(name: '__typename')
+  String typeName;
+
+  @override
+  List<Object> get props => [id, typeName];
+  Map<String, dynamic> toJson() {
+    switch (typeName) {
+      case r'Artist':
+        return (this as EdSheeran$Query$Node$Artist).toJson();
+      default:
+    }
+    return _$EdSheeran$Query$NodeToJson(this);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class EdSheeran$Query with EquatableMixin {
+  EdSheeran$Query();
+
+  factory EdSheeran$Query.fromJson(Map<String, dynamic> json) =>
+      _$EdSheeran$QueryFromJson(json);
+
+  EdSheeran$Query$Node node;
+
+  @override
+  List<Object> get props => [node];
+  Map<String, dynamic> toJson() => _$EdSheeran$QueryToJson(this);
+}
+
+class EdSheeranQuery extends GraphQLQuery<EdSheeran$Query, JsonSerializable> {
   EdSheeranQuery();
 
   @override
@@ -215,5 +196,6 @@ class EdSheeranQuery extends GraphQLQuery<EdSheeran, JsonSerializable> {
   @override
   List<Object> get props => [document, operationName];
   @override
-  EdSheeran parse(Map<String, dynamic> json) => EdSheeran.fromJson(json);
+  EdSheeran$Query parse(Map<String, dynamic> json) =>
+      EdSheeran$Query.fromJson(json);
 }
