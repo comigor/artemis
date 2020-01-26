@@ -4,6 +4,8 @@ import 'package:recase/recase.dart';
 import 'package:meta/meta.dart';
 
 import '../schema/graphql.dart';
+import 'data_printer.dart';
+import 'helpers.dart';
 
 /// Callback fired when the generator processes a [LibraryDefinition].
 typedef OnBuildQuery = void Function(LibraryDefinition definition);
@@ -15,15 +17,8 @@ typedef OnNewClassFoundCallback = void Function(
   GraphQLType parentType,
 );
 
-bool hasValue(Object obj) {
-  if (obj is List) {
-    return obj != null && obj.isNotEmpty;
-  }
-  return obj != null && obj.toString().isNotEmpty;
-}
-
 /// Define a property (field) from a class.
-class ClassProperty extends Equatable {
+class ClassProperty extends Equatable with DataPrinter {
   /// The property type.
   final String type;
 
@@ -59,15 +54,16 @@ class ClassProperty extends Equatable {
       );
 
   @override
-  String toString() =>
-      'ClassProperty(\'$type\', \'$name\', isOverride:$isOverride, annotation:\'$annotation\')';
-
-  @override
-  List get props => [type, name, isOverride, annotation];
+  Map<String, Object> get namedProps => {
+        'type': type,
+        'name': name,
+        'isOverride': isOverride,
+        'annotation': annotation,
+      };
 }
 
 /// Define a query/mutation input parameter.
-class QueryInput extends Equatable {
+class QueryInput extends Equatable with DataPrinter {
   /// The input type.
   final String type;
 
@@ -79,10 +75,10 @@ class QueryInput extends Equatable {
       : assert(hasValue(type) && hasValue(name));
 
   @override
-  String toString() => 'QueryInput(\'$type\', \'$name\')';
-
-  @override
-  List get props => [type, name];
+  Map<String, Object> get namedProps => {
+        'type': type,
+        'name': name,
+      };
 }
 
 /// Abstract definition of an entity.
@@ -98,7 +94,7 @@ abstract class Definition extends Equatable {
 }
 
 /// Define a Dart class parsed from GraphQL type.
-class ClassDefinition extends Definition {
+class ClassDefinition extends Definition with DataPrinter {
   /// The properties (fields) of the class.
   final Iterable<ClassProperty> properties;
 
@@ -131,23 +127,19 @@ class ClassDefinition extends Definition {
         super(name: name);
 
   @override
-  String toString() =>
-      'ClassDefinition(\'$name\', $properties, extension:\'$extension\', implementations:$implementations, mixins:$mixins, factoryPossibilities:$factoryPossibilities, resolveTypeField:\'$resolveTypeField\')';
-
-  @override
-  List get props => [
-        name,
-        properties,
-        extension,
-        implementations,
-        mixins,
-        factoryPossibilities,
-        resolveTypeField,
-      ];
+  Map<String, Object> get namedProps => {
+        'name': name,
+        'properties': properties,
+        'extension': extension,
+        'implementations': implementations,
+        'mixins': mixins,
+        'factoryPossibilities': factoryPossibilities,
+        'resolveTypeField': resolveTypeField,
+      };
 }
 
 /// Define a Dart class parsed from GraphQL fragment.
-class FragmentClassDefinition extends Definition {
+class FragmentClassDefinition extends Definition with DataPrinter {
   /// The properties (fields) of the class.
   final Iterable<ClassProperty> properties;
 
@@ -159,14 +151,14 @@ class FragmentClassDefinition extends Definition {
         super(name: name);
 
   @override
-  String toString() => 'FragmentClassDefinition(\'$name\', $properties)';
-
-  @override
-  List get props => [name, properties];
+  Map<String, Object> get namedProps => {
+        'name': name,
+        'properties': properties,
+      };
 }
 
 /// Define a Dart enum parsed from GraphQL schema.
-class EnumDefinition extends Definition {
+class EnumDefinition extends Definition with DataPrinter {
   /// The possible values of this enum.
   final Iterable<String> values;
 
@@ -178,14 +170,14 @@ class EnumDefinition extends Definition {
         super(name: name);
 
   @override
-  String toString() => 'EnumDefinition(\'$name\', $values)';
-
-  @override
-  List get props => [name, values];
+  Map<String, Object> get namedProps => {
+        'name': name,
+        'values': values,
+      };
 }
 
 /// Define a GraphQL query and its dependencies.
-class QueryDefinition extends Equatable {
+class QueryDefinition extends Equatable with DataPrinter {
   /// The query name.
   final String queryName;
 
@@ -218,16 +210,18 @@ class QueryDefinition extends Equatable {
   }) : assert(hasValue(queryName) && hasValue(queryType));
 
   @override
-  String toString() =>
-      'QueryDefinition(\'$queryName\', \'$queryType\', classes:$classes, inputs:$inputs, generateHelpers:$generateHelpers)';
-
-  @override
-  List get props => [queryName, queryType, classes, inputs, generateHelpers];
+  Map<String, Object> get namedProps => {
+        'queryName': queryName,
+        'queryType': queryType,
+        'classes': classes,
+        'inputs': inputs,
+        'generateHelpers': generateHelpers,
+      };
 }
 
 /// Define a whole library file, the output of a single [SchemaMap] code
 /// generation.
-class LibraryDefinition extends Equatable {
+class LibraryDefinition extends Equatable with DataPrinter {
   /// The output file basename.
   final String basename;
 
@@ -249,9 +243,10 @@ class LibraryDefinition extends Equatable {
   }) : assert(hasValue(basename));
 
   @override
-  String toString() =>
-      'LibraryDefinition(\'$basename\', customParserImport:\'$customParserImport\', queries:$queries, customImports:$customImports)';
-
-  @override
-  List get props => [basename, queries, customParserImport, customImports];
+  Map<String, Object> get namedProps => {
+        'basename': basename,
+        'queries': queries,
+        'customParserImport': customParserImport,
+        'customImports': customImports,
+      };
 }

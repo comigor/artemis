@@ -23,3 +23,11 @@ Iterable<T> mergeDuplicatesBy<T, U>(Iterable<T> list,
   });
   return values.values.toList();
 }
+
+/// Check if [obj] has value (isn't null or empty).
+bool hasValue(Object obj) {
+  if (obj is Iterable) {
+    return obj != null && obj.isNotEmpty;
+  }
+  return obj != null && obj.toString().isNotEmpty;
+}
