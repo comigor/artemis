@@ -259,7 +259,7 @@ Spec generateQueryClassSpec(QueryDefinition definition) {
       ..methods.add(Method(
         (m) => m
           ..annotations.add(CodeExpression(Code('override')))
-          ..returns = refer(definition.className)
+          ..returns = refer(definition.queryType)
           ..name = 'parse'
           ..requiredParameters.add(Parameter(
             (p) => p
@@ -267,7 +267,7 @@ Spec generateQueryClassSpec(QueryDefinition definition) {
               ..name = 'json',
           ))
           ..lambda = true
-          ..body = Code('${definition.className}.fromJson(json)'),
+          ..body = Code('${definition.queryType}.fromJson(json)'),
       )),
   );
 }

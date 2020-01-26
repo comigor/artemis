@@ -330,7 +330,7 @@ class QueryQuery extends GraphQLQuery<Query$Query, JsonSerializable> {
   @override
   List<Object> get props => [document, operationName];
   @override
-  Query parse(Map<String, dynamic> json) => Query.fromJson(json);
+  Query$Query parse(Map<String, dynamic> json) => Query$Query.fromJson(json);
 }
 ''';
 

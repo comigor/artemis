@@ -910,7 +910,8 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, JsonSerializable> {
   @override
   List<Object> get props => [document, operationName];
   @override
-  SomeQuery parse(Map<String, dynamic> json) => SomeQuery.fromJson(json);
+  SomeQuery$Query parse(Map<String, dynamic> json) =>
+      SomeQuery$Query.fromJson(json);
 }
 ''',
         },
