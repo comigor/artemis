@@ -115,35 +115,29 @@ class ClassDefinition extends Definition {
   /// type or interface.
   final Iterable<String> factoryPossibilities;
 
-  /// The prefix this class and its relations will use.
-  // TODO(igor): make everything use this prefix
-  final String prefix;
-
   /// The field name used to resolve this class type.
   final String resolveTypeField;
 
   /// Instantiate a class definition.
   ClassDefinition({
     @required String name,
-    @required this.properties,
-    this.prefix = '',
+    this.properties = const [],
     this.extension,
     this.implementations = const [],
     this.mixins = const [],
     this.factoryPossibilities = const [],
     this.resolveTypeField = '__resolveType',
-  })  : assert(hasValue(name) && hasValue(properties)),
+  })  : assert(hasValue(name)),
         super(name: name);
 
   @override
   String toString() =>
-      'ClassDefinition(\'$name\', $properties, prefix:\'$prefix\', extension:\'$extension\', implementations:$implementations, mixins:$mixins, factoryPossibilities:$factoryPossibilities, resolveTypeField:\'$resolveTypeField\')';
+      'ClassDefinition(\'$name\', $properties, extension:\'$extension\', implementations:$implementations, mixins:$mixins, factoryPossibilities:$factoryPossibilities, resolveTypeField:\'$resolveTypeField\')';
 
   @override
   List get props => [
         name,
         properties,
-        prefix,
         extension,
         implementations,
         mixins,
@@ -217,19 +211,18 @@ class QueryDefinition extends Equatable {
   QueryDefinition({
     @required this.queryName,
     @required this.queryType,
-    @required this.document,
+    this.document = const DocumentNode(),
     this.classes = const [],
     this.inputs = const [],
     this.generateHelpers = false,
-  }) : assert(hasValue(queryName) && hasValue(queryType) && hasValue(document));
+  }) : assert(hasValue(queryName) && hasValue(queryType));
 
   @override
   String toString() =>
-      'QueryDefinition(\'$queryName\', \'$queryType\', null, classes:$classes, inputs:$inputs, generateHelpers:$generateHelpers)';
+      'QueryDefinition(\'$queryName\', \'$queryType\', classes:$classes, inputs:$inputs, generateHelpers:$generateHelpers)';
 
   @override
-  List get props =>
-      [queryName, queryType, document, classes, inputs, generateHelpers];
+  List get props => [queryName, queryType, classes, inputs, generateHelpers];
 }
 
 /// Define a whole library file, the output of a single [SchemaMap] code

@@ -286,7 +286,7 @@ class AClass with EquatableMixin, FragmentMixin {
           throwsA(TypeMatcher<AssertionError>()));
     });
 
-    test('It will throw if name/type/query is null or empty.', () {
+    test('It will throw if query name/type is null or empty.', () {
       expect(
         () => generateQueryClassSpec(
           QueryDefinition(
@@ -324,15 +324,6 @@ class AClass with EquatableMixin, FragmentMixin {
               queryName: 'test_query',
               queryType: '',
               document: parseString('query test_query {}')),
-        ),
-        throwsA(
-          TypeMatcher<AssertionError>(),
-        ),
-      );
-      expect(
-        () => generateQueryClassSpec(
-          QueryDefinition(
-              queryName: 'test_query', queryType: 'Type', document: null),
         ),
         throwsA(
           TypeMatcher<AssertionError>(),
