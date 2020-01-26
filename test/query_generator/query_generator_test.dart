@@ -246,20 +246,6 @@ class SomeQuery$SomeObject with EquatableMixin {
   List<Object> get props => [s, i, list];
   Map<String, dynamic> toJson() => _$SomeQuery$SomeObjectToJson(this);
 }
-
-@JsonSerializable(explicitToJson: true)
-class SomeQueryArguments extends JsonSerializable with EquatableMixin {
-  SomeQueryArguments({this.ints});
-
-  factory SomeQueryArguments.fromJson(Map<String, dynamic> json) =>
-      _$SomeQueryArgumentsFromJson(json);
-
-  final List<int> ints;
-
-  @override
-  List<Object> get props => [ints];
-  Map<String, dynamic> toJson() => _$SomeQueryArgumentsToJson(this);
-}
 ''',
         },
         onLog: debug,

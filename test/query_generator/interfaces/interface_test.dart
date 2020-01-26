@@ -458,18 +458,4 @@ class Custom$Query with EquatableMixin {
   List<Object> get props => [nodeById];
   Map<String, dynamic> toJson() => _$Custom$QueryToJson(this);
 }
-
-@JsonSerializable(explicitToJson: true)
-class CustomArguments extends JsonSerializable with EquatableMixin {
-  CustomArguments({this.id});
-
-  factory CustomArguments.fromJson(Map<String, dynamic> json) =>
-      _$CustomArgumentsFromJson(json);
-
-  final String id;
-
-  @override
-  List<Object> get props => [id];
-  Map<String, dynamic> toJson() => _$CustomArgumentsToJson(this);
-}
 ''';

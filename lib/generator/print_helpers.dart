@@ -311,7 +311,7 @@ Spec generateLibrarySpec(LibraryDefinition definition) {
     bodyDirectives.addAll(
         queryDef.classes.whereType<EnumDefinition>().map(enumDefinitionToSpec));
 
-    if (queryDef.inputs.isNotEmpty) {
+    if (queryDef.inputs.isNotEmpty && queryDef.generateHelpers) {
       bodyDirectives.add(generateArgumentClassSpec(queryDef));
     }
     if (queryDef.generateHelpers) {

@@ -147,18 +147,4 @@ enum MyEnum {
   value1,
   value2,
 }
-
-@JsonSerializable(explicitToJson: true)
-class SomeQueryArguments extends JsonSerializable with EquatableMixin {
-  SomeQueryArguments({this.filter});
-
-  factory SomeQueryArguments.fromJson(Map<String, dynamic> json) =>
-      _$SomeQueryArgumentsFromJson(json);
-
-  final ComplexType filter;
-
-  @override
-  List<Object> get props => [filter];
-  Map<String, dynamic> toJson() => _$SomeQueryArgumentsToJson(this);
-}
 ''';
