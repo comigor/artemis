@@ -18,11 +18,7 @@ dependencies:
   gql_code_gen: ^0.1.5
   gql_dedupe_link: ^1.0.8
   gql_exec: ^0.2.0
-  gql_http_link:
-    git:
-      url: git@github.com:comigor/gql.git
-      ref: 570482ebbc025d70e1e977aae68b50c721e8c8e9
-      path: gql_http_link
+  gql_http_link: ^0.3.0
   gql_link: ^0.2.2
   gql: ^0.12.0
   http: ^0.12.0+2
