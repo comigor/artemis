@@ -112,7 +112,7 @@ class ClassDefinition extends Definition with DataPrinter {
   final Iterable<String> factoryPossibilities;
 
   /// The field name used to resolve this class type.
-  final String resolveTypeField;
+  final String typeNameField;
 
   /// Instantiate a class definition.
   ClassDefinition({
@@ -122,7 +122,7 @@ class ClassDefinition extends Definition with DataPrinter {
     this.implementations = const [],
     this.mixins = const [],
     this.factoryPossibilities = const [],
-    this.resolveTypeField = '__resolveType',
+    this.typeNameField = '__typename',
   })  : assert(hasValue(name)),
         super(name: name);
 
@@ -134,7 +134,7 @@ class ClassDefinition extends Definition with DataPrinter {
         'implementations': implementations,
         'mixins': mixins,
         'factoryPossibilities': factoryPossibilities,
-        'resolveTypeField': resolveTypeField,
+        'typeNameField': typeNameField,
       };
 }
 

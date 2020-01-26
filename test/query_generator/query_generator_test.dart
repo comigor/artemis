@@ -92,7 +92,7 @@ void main() {
                           type: r'String', name: r's', isOverride: false),
                       ClassProperty(type: r'int', name: r'i', isOverride: false)
                     ],
-                    resolveTypeField: r'__resolveType')
+                    typeNameField: r'__typename')
               ],
               generateHelpers: false)
         ]);
@@ -206,7 +206,7 @@ class SomeQuery$SomeObject with EquatableMixin {
                       ClassProperty(
                           type: r'List<int>', name: r'list', isOverride: false)
                     ],
-                    resolveTypeField: r'__resolveType')
+                    typeNameField: r'__typename')
               ],
               inputs: [QueryInput(type: r'List<int>', name: r'ints')],
               generateHelpers: false)
@@ -344,7 +344,7 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
                       ClassProperty(
                           type: r'String', name: r'str', isOverride: false)
                     ],
-                    resolveTypeField: r'__resolveType'),
+                    typeNameField: r'__typename'),
                 ClassDefinition(
                     name: r'SomeQuery$Query$SomeObject',
                     properties: [
@@ -356,7 +356,7 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
                           name: r'ob',
                           isOverride: false)
                     ],
-                    resolveTypeField: r'__resolveType'),
+                    typeNameField: r'__typename'),
                 ClassDefinition(
                     name: r'SomeQuery$Query',
                     properties: [
@@ -367,7 +367,7 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
                           name: r'o',
                           isOverride: false)
                     ],
-                    resolveTypeField: r'__resolveType')
+                    typeNameField: r'__typename')
               ],
               generateHelpers: false)
         ]);
@@ -486,7 +486,7 @@ class SomeQuery$Query with EquatableMixin {
                       ClassProperty(
                           type: r'String', name: r'lastName', isOverride: false)
                     ],
-                    resolveTypeField: r'__resolveType')
+                    typeNameField: r'__typename')
               ],
               generateHelpers: false)
         ]);
@@ -603,14 +603,14 @@ class SomeQuery$Query with EquatableMixin {
                       ClassProperty(
                           type: r'String', name: r'st', isOverride: false)
                     ],
-                    resolveTypeField: r'__resolveType'),
+                    typeNameField: r'__typename'),
                 ClassDefinition(
                     name: r'SomeQuery$Query$AnotherObject',
                     properties: [
                       ClassProperty(
                           type: r'String', name: r'str', isOverride: false)
                     ],
-                    resolveTypeField: r'__resolveType'),
+                    typeNameField: r'__typename'),
                 ClassDefinition(
                     name: r'SomeQuery$Query',
                     properties: [
@@ -625,7 +625,7 @@ class SomeQuery$Query with EquatableMixin {
                           name: r'anotherObject',
                           isOverride: false)
                     ],
-                    resolveTypeField: r'__resolveType')
+                    typeNameField: r'__typename')
               ],
               generateHelpers: false)
         ]);
@@ -768,14 +768,14 @@ class SomeQuery$Query with EquatableMixin {
                       ClassProperty(
                           type: r'String', name: r'st', isOverride: false)
                     ],
-                    resolveTypeField: r'__resolveType'),
+                    typeNameField: r'__typename'),
                 ClassDefinition(
                     name: r'SomeQuery$Query$AnotherObject',
                     properties: [
                       ClassProperty(
                           type: r'String', name: r'str', isOverride: false)
                     ],
-                    resolveTypeField: r'__resolveType'),
+                    typeNameField: r'__typename'),
                 ClassDefinition(
                     name: r'SomeQuery$Query',
                     properties: [
@@ -790,7 +790,7 @@ class SomeQuery$Query with EquatableMixin {
                           name: r'anotherObject',
                           isOverride: false)
                     ],
-                    resolveTypeField: r'__resolveType')
+                    typeNameField: r'__typename')
               ],
               generateHelpers: true)
         ]);
@@ -1001,7 +1001,7 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, JsonSerializable> {
                           name: r'dateTime',
                           isOverride: false)
                     ],
-                    resolveTypeField: r'__resolveType')
+                    typeNameField: r'__typename')
               ],
               generateHelpers: false)
         ], customImports: [
@@ -1087,7 +1087,7 @@ class SomeQuery$SomeObject with EquatableMixin {
                       ClassProperty(
                           type: r'String', name: r's', isOverride: false)
                     ],
-                    resolveTypeField: r'__resolveType')
+                    typeNameField: r'__typename')
               ],
               generateHelpers: false)
         ]);

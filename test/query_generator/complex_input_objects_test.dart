@@ -65,7 +65,7 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
             properties: [
               ClassProperty(type: r'String', name: r's', isOverride: false)
             ],
-            resolveTypeField: r'__resolveType'),
+            typeNameField: r'__typename'),
         ClassDefinition(
             name: r'SomeQuery$QueryRoot',
             properties: [
@@ -74,7 +74,7 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
                   name: r'o',
                   isOverride: false)
             ],
-            resolveTypeField: r'__resolveType'),
+            typeNameField: r'__typename'),
         EnumDefinition(name: r'MyEnum', values: [r'value1', r'value2']),
         ClassDefinition(
             name: r'ComplexType',
@@ -84,7 +84,7 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
               ClassProperty(
                   type: r'List<String>', name: r'ls', isOverride: false)
             ],
-            resolveTypeField: r'__resolveType')
+            typeNameField: r'__typename')
       ],
       inputs: [QueryInput(type: r'ComplexType', name: r'filter')],
       generateHelpers: false)

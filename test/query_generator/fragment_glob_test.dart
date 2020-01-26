@@ -53,7 +53,7 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
         ClassDefinition(
             name: r'Query$Query$Pokemon$Pokemon',
             mixins: [r'PokemonMixin'],
-            resolveTypeField: r'__resolveType'),
+            typeNameField: r'__typename'),
         ClassDefinition(
             name: r'Query$Query$Pokemon',
             properties: [
@@ -63,7 +63,7 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
                   isOverride: false)
             ],
             mixins: [r'PokemonMixin'],
-            resolveTypeField: r'__resolveType'),
+            typeNameField: r'__typename'),
         ClassDefinition(
             name: r'Query$Query',
             properties: [
@@ -72,15 +72,15 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
                   name: r'pokemon',
                   isOverride: false)
             ],
-            resolveTypeField: r'__resolveType'),
+            typeNameField: r'__typename'),
         ClassDefinition(
             name: r'PokemonMixin$PokemonDimension',
             mixins: [r'WeightMixin'],
-            resolveTypeField: r'__resolveType'),
+            typeNameField: r'__typename'),
         ClassDefinition(
             name: r'PokemonMixin$PokemonAttack',
             mixins: [r'PokemonAttackMixin'],
-            resolveTypeField: r'__resolveType'),
+            typeNameField: r'__typename'),
         FragmentClassDefinition(name: r'PokemonMixin', properties: [
           ClassProperty(type: r'String', name: r'id', isOverride: false),
           ClassProperty(
@@ -98,7 +98,7 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
         ClassDefinition(
             name: r'PokemonAttackMixin$Attack',
             mixins: [r'AttackMixin'],
-            resolveTypeField: r'__resolveType'),
+            typeNameField: r'__typename'),
         FragmentClassDefinition(name: r'PokemonAttackMixin', properties: [
           ClassProperty(
               type: r'List<PokemonAttackMixin$Attack>',

@@ -115,15 +115,15 @@ class SchemaMap {
   final String queriesGlob;
 
   /// The resolve type field used on this schema.
-  @JsonKey(defaultValue: '__resolveType')
-  final String resolveTypeField;
+  @JsonKey(defaultValue: '__typename')
+  final String typeNameField;
 
   /// Instatiates a schema mapping.
   SchemaMap({
     this.output,
     this.schema,
     this.queriesGlob,
-    this.resolveTypeField = '__resolveType',
+    this.typeNameField = '__typename',
   });
 
   /// Build a schema mapping from a JSON map.

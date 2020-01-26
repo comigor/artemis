@@ -142,13 +142,13 @@ class AClass extends AnotherClass with EquatableMixin {
     });
 
     test(
-        'factoryPossibilities and resolveTypeField are used to generated a branch factory.',
+        'factoryPossibilities and typeNameField are used to generated a branch factory.',
         () {
       final definition = ClassDefinition(
         name: 'AClass',
         properties: [],
         factoryPossibilities: ['ASubClass', 'BSubClass'],
-        resolveTypeField: '__resolveType',
+        typeNameField: '__typename',
       );
 
       final str = specToString(classDefinitionToSpec(definition, []));
@@ -158,7 +158,7 @@ class AClass with EquatableMixin {
   AClass();
 
   factory AClass.fromJson(Map<String, dynamic> json) {
-    switch (json['__resolveType'].toString()) {
+    switch (json['__typename'].toString()) {
       case 'ASubClass':
         return ASubClass.fromJson(json);
       case 'BSubClass':
@@ -171,7 +171,7 @@ class AClass with EquatableMixin {
   @override
   List<Object> get props => [];
   Map<String, dynamic> toJson() {
-    switch (resolveType) {
+    switch (typeName) {
       case 'ASubClass':
         return (this as ASubClass).toJson();
       case 'BSubClass':

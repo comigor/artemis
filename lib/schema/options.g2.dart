@@ -71,7 +71,7 @@ SchemaMap _$SchemaMapFromJson(Map<String, dynamic> json) {
     output: json['output'] as String,
     schema: json['schema'] as String,
     queriesGlob: json['queries_glob'] as String,
-    resolveTypeField: json['resolve_type_field'] as String ?? '__resolveType',
+    typeNameField: json['resolve_type_field'] as String ?? '__typename',
   );
 }
 
@@ -79,5 +79,5 @@ Map<String, dynamic> _$SchemaMapToJson(SchemaMap instance) => <String, dynamic>{
       'output': instance.output,
       'schema': instance.schema,
       'queries_glob': instance.queriesGlob,
-      'resolve_type_field': instance.resolveTypeField,
+      'resolve_type_field': instance.typeNameField,
     };

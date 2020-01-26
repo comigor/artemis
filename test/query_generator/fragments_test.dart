@@ -44,7 +44,7 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
         ClassDefinition(
             name: r'SomeQuery$SomeObject',
             mixins: [r'MyFragmentMixin'],
-            resolveTypeField: r'__resolveType')
+            typeNameField: r'__typename')
       ],
       generateHelpers: false)
 ]);

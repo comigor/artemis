@@ -45,7 +45,7 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
               ClassProperty(type: r'String', name: r's', isOverride: false),
               ClassProperty(type: r'int', name: r'i', isOverride: false)
             ],
-            resolveTypeField: r'__resolveType')
+            typeNameField: r'__typename')
       ],
       generateHelpers: false),
   QueryDefinition(
@@ -57,7 +57,7 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
             properties: [
               ClassProperty(type: r'String', name: r's', isOverride: false)
             ],
-            resolveTypeField: r'__resolveType')
+            typeNameField: r'__typename')
       ],
       generateHelpers: false)
 ]);
