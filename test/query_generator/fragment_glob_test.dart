@@ -1,7 +1,9 @@
 import 'package:artemis/builder.dart';
+import 'package:artemis/schema/graphql.dart';
+import 'package:meta/meta.dart';
+import 'package:artemis/generator/data.dart';
 import 'package:build/build.dart';
 import 'package:build_test/build_test.dart';
-import 'package:gql/ast.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -20,128 +22,7 @@ void main() {
         ]
       }));
 
-      anotherBuilder.onBuild = expectAsync1((definition) {
-        expect(
-            definition.queries.first.document,
-            DocumentNode(definitions: [
-              OperationDefinitionNode(
-                  type: OperationType.query,
-                  name: null,
-                  variableDefinitions: [],
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FieldNode(
-                        name: NameNode(value: 'pokemon'),
-                        alias: null,
-                        arguments: [
-                          ArgumentNode(
-                              name: NameNode(value: 'name'),
-                              value: StringValueNode(
-                                  value: 'Pikachu', isBlock: false))
-                        ],
-                        directives: [],
-                        selectionSet: SelectionSetNode(selections: [
-                          FragmentSpreadNode(
-                              name: NameNode(value: 'Pokemon'), directives: []),
-                          FieldNode(
-                              name: NameNode(value: 'evolutions'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: SelectionSetNode(selections: [
-                                FragmentSpreadNode(
-                                    name: NameNode(value: 'Pokemon'),
-                                    directives: [])
-                              ]))
-                        ]))
-                  ])),
-              FragmentDefinitionNode(
-                  name: NameNode(value: 'Pokemon'),
-                  typeCondition: TypeConditionNode(
-                      on: NamedTypeNode(
-                          name: NameNode(value: 'Pokemon'), isNonNull: false)),
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FieldNode(
-                        name: NameNode(value: 'id'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null),
-                    FieldNode(
-                        name: NameNode(value: 'weight'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: SelectionSetNode(selections: [
-                          FragmentSpreadNode(
-                              name: NameNode(value: 'weight'), directives: [])
-                        ])),
-                    FieldNode(
-                        name: NameNode(value: 'attacks'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: SelectionSetNode(selections: [
-                          FragmentSpreadNode(
-                              name: NameNode(value: 'pokemonAttack'),
-                              directives: [])
-                        ]))
-                  ])),
-              FragmentDefinitionNode(
-                  name: NameNode(value: 'weight'),
-                  typeCondition: TypeConditionNode(
-                      on: NamedTypeNode(
-                          name: NameNode(value: 'PokemonDimension'),
-                          isNonNull: false)),
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FieldNode(
-                        name: NameNode(value: 'minimum'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null)
-                  ])),
-              FragmentDefinitionNode(
-                  name: NameNode(value: 'pokemonAttack'),
-                  typeCondition: TypeConditionNode(
-                      on: NamedTypeNode(
-                          name: NameNode(value: 'PokemonAttack'),
-                          isNonNull: false)),
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FieldNode(
-                        name: NameNode(value: 'special'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: SelectionSetNode(selections: [
-                          FragmentSpreadNode(
-                              name: NameNode(value: 'attack'), directives: [])
-                        ]))
-                  ])),
-              FragmentDefinitionNode(
-                  name: NameNode(value: 'attack'),
-                  typeCondition: TypeConditionNode(
-                      on: NamedTypeNode(
-                          name: NameNode(value: 'Attack'), isNonNull: false)),
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FieldNode(
-                        name: NameNode(value: 'name'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null)
-                  ]))
-            ]));
-      }, count: 1);
-
-      await testBuilder(
-        anotherBuilder,
-        {
-          'a|fragment.frag': '''
+      final fragmentsString = '''
       fragment Pokemon on Pokemon {
             id
             weight {
@@ -156,9 +37,9 @@ void main() {
         special { ...attack }
       }
       fragment attack on Attack { name }
-        ''',
-          'a|pokemon.schema.json': pokemonSchema,
-          'a|query.graphql': '''
+        ''';
+
+      final queryString = '''
       {
           pokemon(name: "Pikachu") {
             ...Pokemon
@@ -166,8 +47,91 @@ void main() {
               ...Pokemon
             }
           }
-      }
-        ''',
+      }''';
+
+      anotherBuilder.onBuild = expectAsync1((definition) {
+        final libraryDefinition =
+            LibraryDefinition(basename: r'query', queries: [
+          QueryDefinition(
+              queryName: r'query',
+              queryType: r'Query',
+              classes: [
+                ClassDefinition(
+                    name: r'Query$Pokemon$Pokemon',
+                    mixins: [r'PokemonMixin'],
+                    resolveTypeField: r'__resolveType'),
+                ClassDefinition(
+                    name: r'Query$Pokemon',
+                    properties: [
+                      ClassProperty(
+                          type: r'List<Query$Pokemon$Pokemon>',
+                          name: r'evolutions',
+                          isOverride: false)
+                    ],
+                    mixins: [r'PokemonMixin'],
+                    resolveTypeField: r'__resolveType'),
+                ClassDefinition(
+                    name: r'Query',
+                    properties: [
+                      ClassProperty(
+                          type: r'Query$Pokemon',
+                          name: r'pokemon',
+                          isOverride: false)
+                    ],
+                    resolveTypeField: r'__resolveType'),
+                ClassDefinition(
+                    name: r'PokemonMixin$PokemonDimension',
+                    mixins: [r'WeightMixin'],
+                    resolveTypeField: r'__resolveType'),
+                ClassDefinition(
+                    name: r'PokemonMixin$PokemonAttack',
+                    mixins: [r'PokemonAttackMixin'],
+                    resolveTypeField: r'__resolveType'),
+                FragmentClassDefinition(name: r'PokemonMixin', properties: [
+                  ClassProperty(
+                      type: r'String', name: r'id', isOverride: false),
+                  ClassProperty(
+                      type: r'PokemonMixin$PokemonDimension',
+                      name: r'weight',
+                      isOverride: false),
+                  ClassProperty(
+                      type: r'PokemonMixin$PokemonAttack',
+                      name: r'attacks',
+                      isOverride: false)
+                ]),
+                FragmentClassDefinition(name: r'WeightMixin', properties: [
+                  ClassProperty(
+                      type: r'String', name: r'minimum', isOverride: false)
+                ]),
+                ClassDefinition(
+                    name: r'PokemonAttackMixin$Attack',
+                    mixins: [r'AttackMixin'],
+                    resolveTypeField: r'__resolveType'),
+                FragmentClassDefinition(
+                    name: r'PokemonAttackMixin',
+                    properties: [
+                      ClassProperty(
+                          type: r'List<PokemonAttackMixin$Attack>',
+                          name: r'special',
+                          isOverride: false)
+                    ]),
+                FragmentClassDefinition(name: r'AttackMixin', properties: [
+                  ClassProperty(
+                      type: r'String', name: r'name', isOverride: false)
+                ])
+              ],
+              generateHelpers: true)
+        ]);
+
+        expect(definition, libraryDefinition);
+      }, count: 1);
+
+      await testBuilder(
+        anotherBuilder,
+        {
+          'a|fragment.frag': fragmentsString,
+          'a|pokemon.schema.json': pokemonSchema,
+          'a|query.graphql': queryString,
         },
         outputs: {
           'a|lib/query.dart': r'''// GENERATED CODE - DO NOT MODIFY BY HAND

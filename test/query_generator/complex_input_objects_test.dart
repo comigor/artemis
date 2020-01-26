@@ -3,7 +3,6 @@ import 'package:artemis/generator/data.dart';
 import 'package:artemis/schema/graphql.dart';
 import 'package:build/build.dart';
 import 'package:build_test/build_test.dart';
-import 'package:gql/language.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -63,32 +62,44 @@ void main() {
     );
 
     anotherBuilder.onBuild = expectAsync1((definition) {
-      final libraryDefinition = LibraryDefinition(
-        'some_query',
-        queries: [
-          QueryDefinition(
-            'some_query',
-            'QueryRoot',
-            parseString(
-                'query some_query(\$filter: ComplexType!) { o(filter: \$filter) { s } }'),
-            inputs: [QueryInput('ComplexType', 'filter')],
+      final libraryDefinition =
+          LibraryDefinition(basename: r'some_query', queries: [
+        QueryDefinition(
+            queryName: r'some_query',
+            queryType: r'QueryRoot',
             classes: [
-              ClassDefinition('QueryRoot\$SomeObject', [
-                ClassProperty('String', 's'),
-              ]),
-              ClassDefinition('QueryRoot', [
-                ClassProperty('QueryRoot\$SomeObject', 'o'),
-              ]),
-              EnumDefinition('MyEnum', ['value1', 'value2']),
-              ClassDefinition('ComplexType', [
-                ClassProperty('String', 's'),
-                ClassProperty('MyEnum', 'e'),
-                ClassProperty('List<String>', 'ls'),
-              ]),
+              ClassDefinition(
+                  name: r'QueryRoot$SomeObject',
+                  properties: [
+                    ClassProperty(
+                        type: r'String', name: r's', isOverride: false)
+                  ],
+                  resolveTypeField: r'__resolveType'),
+              ClassDefinition(
+                  name: r'QueryRoot',
+                  properties: [
+                    ClassProperty(
+                        type: r'QueryRoot$SomeObject',
+                        name: r'o',
+                        isOverride: false)
+                  ],
+                  resolveTypeField: r'__resolveType'),
+              EnumDefinition(name: r'MyEnum', values: [r'value1', r'value2']),
+              ClassDefinition(
+                  name: r'ComplexType',
+                  properties: [
+                    ClassProperty(
+                        type: r'String', name: r's', isOverride: false),
+                    ClassProperty(
+                        type: r'MyEnum', name: r'e', isOverride: false),
+                    ClassProperty(
+                        type: r'List<String>', name: r'ls', isOverride: false)
+                  ],
+                  resolveTypeField: r'__resolveType')
             ],
-          ),
-        ],
-      );
+            inputs: [QueryInput(type: r'ComplexType', name: r'filter')],
+            generateHelpers: false)
+      ]);
 
       expect(definition, libraryDefinition);
     }, count: 1);

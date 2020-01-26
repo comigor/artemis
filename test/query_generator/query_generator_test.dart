@@ -3,7 +3,6 @@ import 'package:artemis/generator/data.dart';
 import 'package:artemis/schema/graphql.dart';
 import 'package:build/build.dart';
 import 'package:build_test/build_test.dart';
-import 'package:gql/language.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -80,25 +79,24 @@ void main() {
           ]);
 
       anotherBuilder.onBuild = expectAsync1((definition) {
-        expect(
-          definition,
-          LibraryDefinition(
-            'some_query',
-            queries: [
-              QueryDefinition(
-                'some_query',
-                'SomeObject',
-                parseString('query some_query { s, i }'),
-                classes: [
-                  ClassDefinition('SomeObject', [
-                    ClassProperty('String', 's'),
-                    ClassProperty('int', 'i'),
-                  ])
-                ],
-              ),
-            ],
-          ),
-        );
+        final libraryDefinition =
+            LibraryDefinition(basename: r'some_query', queries: [
+          QueryDefinition(
+              queryName: r'some_query',
+              queryType: r'SomeObject',
+              classes: [
+                ClassDefinition(
+                    name: r'SomeObject',
+                    properties: [
+                      ClassProperty(
+                          type: r'String', name: r's', isOverride: false),
+                      ClassProperty(type: r'int', name: r'i', isOverride: false)
+                    ],
+                    resolveTypeField: r'__resolveType')
+              ],
+              generateHelpers: false)
+        ]);
+        expect(definition, libraryDefinition);
       }, count: 1);
 
       await testBuilder(
@@ -192,25 +190,27 @@ class SomeObject with EquatableMixin {
           ]);
 
       anotherBuilder.onBuild = expectAsync1((definition) {
-        final libraryDefinition = LibraryDefinition(
-          'some_query',
-          queries: [
-            QueryDefinition(
-              'some_query',
-              'SomeObject',
-              parseString(
-                  r'query some_query($ints: [Int]!) { s, i, list(ints: $ints) }'),
-              inputs: [QueryInput('List<int>', 'ints')],
+        final libraryDefinition =
+            LibraryDefinition(basename: r'some_query', queries: [
+          QueryDefinition(
+              queryName: r'some_query',
+              queryType: r'SomeObject',
               classes: [
-                ClassDefinition('SomeObject', [
-                  ClassProperty('String', 's'),
-                  ClassProperty('int', 'i'),
-                  ClassProperty('List<int>', 'list')
-                ])
+                ClassDefinition(
+                    name: r'SomeObject',
+                    properties: [
+                      ClassProperty(
+                          type: r'String', name: r's', isOverride: false),
+                      ClassProperty(
+                          type: r'int', name: r'i', isOverride: false),
+                      ClassProperty(
+                          type: r'List<int>', name: r'list', isOverride: false)
+                    ],
+                    resolveTypeField: r'__resolveType')
               ],
-            ),
-          ],
-        );
+              inputs: [QueryInput(type: r'List<int>', name: r'ints')],
+              generateHelpers: false)
+        ]);
         expect(definition, libraryDefinition);
       }, count: 1);
 
@@ -332,33 +332,45 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
         ''';
 
       anotherBuilder.onBuild = expectAsync1((definition) {
-        expect(
-          definition,
-          LibraryDefinition(
-            'some_query',
-            queries: [
-              QueryDefinition(
-                'some_query',
-                'Query',
-                parseString(document),
-                classes: [
-                  ClassDefinition('Query\$SomeObject\$AnotherObject', [
-                    ClassProperty('String', 'str'),
-                  ]),
-                  ClassDefinition('Query\$SomeObject', [
-                    ClassProperty('String', 'st'),
-                    ClassProperty(
-                        'List<Query\$SomeObject\$AnotherObject>', 'ob'),
-                  ]),
-                  ClassDefinition('Query', [
-                    ClassProperty('String', 's'),
-                    ClassProperty('Query\$SomeObject', 'o'),
-                  ]),
-                ],
-              ),
-            ],
-          ),
-        );
+        final libraryDefinition =
+            LibraryDefinition(basename: r'some_query', queries: [
+          QueryDefinition(
+              queryName: r'some_query',
+              queryType: r'Query',
+              classes: [
+                ClassDefinition(
+                    name: r'Query$SomeObject$AnotherObject',
+                    properties: [
+                      ClassProperty(
+                          type: r'String', name: r'str', isOverride: false)
+                    ],
+                    resolveTypeField: r'__resolveType'),
+                ClassDefinition(
+                    name: r'Query$SomeObject',
+                    properties: [
+                      ClassProperty(
+                          type: r'String', name: r'st', isOverride: false),
+                      ClassProperty(
+                          type: r'List<Query$SomeObject$AnotherObject>',
+                          name: r'ob',
+                          isOverride: false)
+                    ],
+                    resolveTypeField: r'__resolveType'),
+                ClassDefinition(
+                    name: r'Query',
+                    properties: [
+                      ClassProperty(
+                          type: r'String', name: r's', isOverride: false),
+                      ClassProperty(
+                          type: r'Query$SomeObject',
+                          name: r'o',
+                          isOverride: false)
+                    ],
+                    resolveTypeField: r'__resolveType')
+              ],
+              generateHelpers: false)
+        ]);
+        expect(definition, libraryDefinition);
       }, count: 1);
 
       await testBuilder(
@@ -454,25 +466,27 @@ class Query with EquatableMixin {
           ]);
 
       anotherBuilder.onBuild = expectAsync1((definition) {
-        expect(
-          definition,
-          LibraryDefinition(
-            'some_query',
-            queries: [
-              QueryDefinition(
-                'some_query',
-                'Query',
-                parseString('query some_query { firstName: s, lastName: st }'),
-                classes: [
-                  ClassDefinition('Query', [
-                    ClassProperty('String', 'firstName'),
-                    ClassProperty('String', 'lastName'),
-                  ]),
-                ],
-              ),
-            ],
-          ),
-        );
+        final libraryDefinition =
+            LibraryDefinition(basename: r'some_query', queries: [
+          QueryDefinition(
+              queryName: r'some_query',
+              queryType: r'Query',
+              classes: [
+                ClassDefinition(
+                    name: r'Query',
+                    properties: [
+                      ClassProperty(
+                          type: r'String',
+                          name: r'firstName',
+                          isOverride: false),
+                      ClassProperty(
+                          type: r'String', name: r'lastName', isOverride: false)
+                    ],
+                    resolveTypeField: r'__resolveType')
+              ],
+              generateHelpers: false)
+        ]);
+        expect(definition, libraryDefinition);
       }, count: 1);
 
       await testBuilder(
@@ -572,33 +586,45 @@ class Query with EquatableMixin {
         ''';
 
       anotherBuilder.onBuild = expectAsync1((definition) {
-        expect(
-          definition,
-          LibraryDefinition(
-            'some_query',
-            queries: [
-              QueryDefinition(
-                'some_query',
-                'Query',
-                parseString(document),
-                classes: [
-                  ClassDefinition('Query\$SomeObject', [
-                    ClassProperty('String', 'st'),
-                  ]),
-                  ClassDefinition('Query\$AnotherObject', [
-                    ClassProperty('String', 'str'),
-                  ]),
-                  ClassDefinition('Query', [
-                    ClassProperty('String', 's'),
-                    ClassProperty('Query\$SomeObject', 'o'),
-                    ClassProperty(
-                        'List<Query\$AnotherObject>', 'anotherObject'),
-                  ]),
-                ],
-              ),
-            ],
-          ),
-        );
+        final libraryDefinition =
+            LibraryDefinition(basename: r'some_query', queries: [
+          QueryDefinition(
+              queryName: r'some_query',
+              queryType: r'Query',
+              classes: [
+                ClassDefinition(
+                    name: r'Query$SomeObject',
+                    properties: [
+                      ClassProperty(
+                          type: r'String', name: r'st', isOverride: false)
+                    ],
+                    resolveTypeField: r'__resolveType'),
+                ClassDefinition(
+                    name: r'Query$AnotherObject',
+                    properties: [
+                      ClassProperty(
+                          type: r'String', name: r'str', isOverride: false)
+                    ],
+                    resolveTypeField: r'__resolveType'),
+                ClassDefinition(
+                    name: r'Query',
+                    properties: [
+                      ClassProperty(
+                          type: r'String', name: r's', isOverride: false),
+                      ClassProperty(
+                          type: r'Query$SomeObject',
+                          name: r'o',
+                          isOverride: false),
+                      ClassProperty(
+                          type: r'List<Query$AnotherObject>',
+                          name: r'anotherObject',
+                          isOverride: false)
+                    ],
+                    resolveTypeField: r'__resolveType')
+              ],
+              generateHelpers: false)
+        ]);
+        expect(definition, libraryDefinition);
       }, count: 1);
 
       await testBuilder(
@@ -724,34 +750,45 @@ class Query with EquatableMixin {
         ''';
 
       anotherBuilder.onBuild = expectAsync1((definition) {
-        expect(
-          definition,
-          LibraryDefinition(
-            'some_query',
-            queries: [
-              QueryDefinition(
-                'some_query',
-                'Query',
-                parseString(document),
-                classes: [
-                  ClassDefinition('Query\$SomeObject', [
-                    ClassProperty('String', 'st'),
-                  ]),
-                  ClassDefinition('Query\$AnotherObject', [
-                    ClassProperty('String', 'str'),
-                  ]),
-                  ClassDefinition('Query', [
-                    ClassProperty('String', 's'),
-                    ClassProperty('Query\$SomeObject', 'o'),
-                    ClassProperty(
-                        'List<Query\$AnotherObject>', 'anotherObject'),
-                  ]),
-                ],
-                generateHelpers: true,
-              ),
-            ],
-          ),
-        );
+        final libraryDefinition =
+            LibraryDefinition(basename: r'some_query', queries: [
+          QueryDefinition(
+              queryName: r'some_query',
+              queryType: r'Query',
+              classes: [
+                ClassDefinition(
+                    name: r'Query$SomeObject',
+                    properties: [
+                      ClassProperty(
+                          type: r'String', name: r'st', isOverride: false)
+                    ],
+                    resolveTypeField: r'__resolveType'),
+                ClassDefinition(
+                    name: r'Query$AnotherObject',
+                    properties: [
+                      ClassProperty(
+                          type: r'String', name: r'str', isOverride: false)
+                    ],
+                    resolveTypeField: r'__resolveType'),
+                ClassDefinition(
+                    name: r'Query',
+                    properties: [
+                      ClassProperty(
+                          type: r'String', name: r's', isOverride: false),
+                      ClassProperty(
+                          type: r'Query$SomeObject',
+                          name: r'o',
+                          isOverride: false),
+                      ClassProperty(
+                          type: r'List<Query$AnotherObject>',
+                          name: r'anotherObject',
+                          isOverride: false)
+                    ],
+                    resolveTypeField: r'__resolveType')
+              ],
+              generateHelpers: true)
+        ]);
+        expect(definition, libraryDefinition);
       }, count: 1);
 
       await testBuilder(
@@ -939,28 +976,31 @@ class SomeQueryQuery extends GraphQLQuery<Query, JsonSerializable> {
           ]);
 
       anotherBuilder.onBuild = expectAsync1((definition) {
-        expect(
-          definition,
-          LibraryDefinition(
-            'some_query',
-            queries: [
-              QueryDefinition(
-                'some_query',
-                'SomeObject',
-                parseString('query some_query { bigDecimal, dateTime }'),
-                classes: [
-                  ClassDefinition('SomeObject', [
-                    ClassProperty('Decimal', 'bigDecimal'),
-                    ClassProperty('DateTime', 'dateTime'),
-                  ])
-                ],
-              ),
-            ],
-            customImports: [
-              'package:decimal/decimal.dart',
-            ],
-          ),
-        );
+        final libraryDefinition =
+            LibraryDefinition(basename: r'some_query', queries: [
+          QueryDefinition(
+              queryName: r'some_query',
+              queryType: r'SomeObject',
+              classes: [
+                ClassDefinition(
+                    name: r'SomeObject',
+                    properties: [
+                      ClassProperty(
+                          type: r'Decimal',
+                          name: r'bigDecimal',
+                          isOverride: false),
+                      ClassProperty(
+                          type: r'DateTime',
+                          name: r'dateTime',
+                          isOverride: false)
+                    ],
+                    resolveTypeField: r'__resolveType')
+              ],
+              generateHelpers: false)
+        ], customImports: [
+          r'package:decimal/decimal.dart'
+        ]);
+        expect(definition, libraryDefinition);
       }, count: 1);
 
       await testBuilder(
@@ -1028,24 +1068,23 @@ class SomeObject with EquatableMixin {
           ]);
 
       anotherBuilder.onBuild = expectAsync1((definition) {
-        expect(
-          definition,
-          LibraryDefinition(
-            'pascal_casing_query',
-            queries: [
-              QueryDefinition(
-                'PascalCasingQuery',
-                'PascalCasingQuery',
-                parseString('query PascalCasingQuery { s }'),
-                classes: [
-                  ClassDefinition('PascalCasingQuery', [
-                    ClassProperty('String', 's'),
-                  ])
-                ],
-              ),
-            ],
-          ),
-        );
+        final libraryDefinition =
+            LibraryDefinition(basename: r'pascal_casing_query', queries: [
+          QueryDefinition(
+              queryName: r'PascalCasingQuery',
+              queryType: r'PascalCasingQuery',
+              classes: [
+                ClassDefinition(
+                    name: r'PascalCasingQuery',
+                    properties: [
+                      ClassProperty(
+                          type: r'String', name: r's', isOverride: false)
+                    ],
+                    resolveTypeField: r'__resolveType')
+              ],
+              generateHelpers: false)
+        ]);
+        expect(definition, libraryDefinition);
       }, count: 1);
 
       await testBuilder(
