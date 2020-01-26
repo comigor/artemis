@@ -233,9 +233,9 @@ class _AB extends RecursiveVisitor {
     ));
   }
 
-  void _generateInputObjectClassesByTypeName(_Context context, String name) {
+  void _generateInputObjectClassesByType(_Context context, GraphQLType type) {
     final currentType =
-        gql.getTypeByName(options.schema, name, context: 'input object');
+        gql.getTypeByName(options.schema, type.name, context: 'input object');
 
     if (currentType.kind == GraphQLTypeKind.ENUM) {
       context.generatedClasses.add(
@@ -248,7 +248,6 @@ class _AB extends RecursiveVisitor {
     }
 
     final properties = currentType.inputFields.map((i) {
-      print(i.name);
       final type = gql.getTypeByName(
           options.schema, gql.followType(i.type).name,
           context: 'input object/union');
@@ -261,13 +260,13 @@ class _AB extends RecursiveVisitor {
         options.options,
         prefix: options.prefix,
         onNewClassFound: (selectionSet, className, type) {
-          _generateInputObjectClassesByTypeName(context, type.name);
+          _generateInputObjectClassesByType(context, type);
         },
       );
     }).toList();
 
     context.generatedClasses.add(ClassDefinition(
-      name,
+      type.name,
       properties,
       prefix: options.prefix,
     ));
@@ -281,9 +280,12 @@ class _AB extends RecursiveVisitor {
     context.inputsClasses
         .add(QueryInput(dartTypeStr, node.variable.name.value));
 
-    print('Found new input ${varType.name} (-> $dartTypeStr).');
+    print('Found new input ${node.variable.name.value} (-> $dartTypeStr).');
 
-    _generateInputObjectClassesByTypeName(context, varType.name);
+    final leafType = gql.followType(varType);
+    if (leafType.kind == GraphQLTypeKind.INPUT_OBJECT) {
+      _generateInputObjectClassesByType(context, leafType);
+    }
   }
 
   @override

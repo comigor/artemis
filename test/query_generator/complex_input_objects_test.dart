@@ -57,7 +57,7 @@ void main() {
           GraphQLField(
               name: 'o',
               type: GraphQLType(
-                  name: 'SomeObject', kind: GraphQLTypeKind.SCALAR)),
+                  name: 'SomeObject', kind: GraphQLTypeKind.OBJECT)),
         ]),
       ],
     );
