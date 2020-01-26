@@ -7,25 +7,11 @@ import 'package:gql/ast.dart';
 part 'simple_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SimpleQuery with EquatableMixin {
-  SimpleQuery();
+class SimpleQuery$Query$Pokemon with EquatableMixin {
+  SimpleQuery$Query$Pokemon();
 
-  factory SimpleQuery.fromJson(Map<String, dynamic> json) =>
-      _$SimpleQueryFromJson(json);
-
-  Pokemon pokemon;
-
-  @override
-  List<Object> get props => [pokemon];
-  Map<String, dynamic> toJson() => _$SimpleQueryToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class Pokemon with EquatableMixin {
-  Pokemon();
-
-  factory Pokemon.fromJson(Map<String, dynamic> json) =>
-      _$PokemonFromJson(json);
+  factory SimpleQuery$Query$Pokemon.fromJson(Map<String, dynamic> json) =>
+      _$SimpleQuery$Query$PokemonFromJson(json);
 
   String number;
 
@@ -33,10 +19,25 @@ class Pokemon with EquatableMixin {
 
   @override
   List<Object> get props => [number, types];
-  Map<String, dynamic> toJson() => _$PokemonToJson(this);
+  Map<String, dynamic> toJson() => _$SimpleQuery$Query$PokemonToJson(this);
 }
 
-class SimpleQueryQuery extends GraphQLQuery<SimpleQuery, JsonSerializable> {
+@JsonSerializable(explicitToJson: true)
+class SimpleQuery$Query with EquatableMixin {
+  SimpleQuery$Query();
+
+  factory SimpleQuery$Query.fromJson(Map<String, dynamic> json) =>
+      _$SimpleQuery$QueryFromJson(json);
+
+  SimpleQuery$Query$Pokemon pokemon;
+
+  @override
+  List<Object> get props => [pokemon];
+  Map<String, dynamic> toJson() => _$SimpleQuery$QueryToJson(this);
+}
+
+class SimpleQueryQuery
+    extends GraphQLQuery<SimpleQuery$Query, JsonSerializable> {
   SimpleQueryQuery();
 
   @override
@@ -79,5 +80,6 @@ class SimpleQueryQuery extends GraphQLQuery<SimpleQuery, JsonSerializable> {
   @override
   List<Object> get props => [document, operationName];
   @override
-  SimpleQuery parse(Map<String, dynamic> json) => SimpleQuery.fromJson(json);
+  SimpleQuery$Query parse(Map<String, dynamic> json) =>
+      SimpleQuery$Query.fromJson(json);
 }

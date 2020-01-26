@@ -6,67 +6,80 @@ part of 'fragment_query.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-FragmentQuery _$FragmentQueryFromJson(Map<String, dynamic> json) {
-  return FragmentQuery()
-    ..charmander = json['charmander'] == null
-        ? null
-        : Charmander.fromJson(json['charmander'] as Map<String, dynamic>)
-    ..pokemons = (json['pokemons'] as List)
-        ?.map((e) =>
-            e == null ? null : Pokemon.fromJson(e as Map<String, dynamic>))
-        ?.toList();
-}
-
-Map<String, dynamic> _$FragmentQueryToJson(FragmentQuery instance) =>
-    <String, dynamic>{
-      'charmander': instance.charmander?.toJson(),
-      'pokemons': instance.pokemons?.map((e) => e?.toJson())?.toList(),
-    };
-
-Charmander _$CharmanderFromJson(Map<String, dynamic> json) {
-  return Charmander()
+FragmentQuery$Query$Charmander _$FragmentQuery$Query$CharmanderFromJson(
+    Map<String, dynamic> json) {
+  return FragmentQuery$Query$Charmander()
     ..number = json['number'] as String
     ..name = json['name'] as String
     ..types = (json['types'] as List)?.map((e) => e as String)?.toList();
 }
 
-Map<String, dynamic> _$CharmanderToJson(Charmander instance) =>
+Map<String, dynamic> _$FragmentQuery$Query$CharmanderToJson(
+        FragmentQuery$Query$Charmander instance) =>
     <String, dynamic>{
       'number': instance.number,
       'name': instance.name,
       'types': instance.types,
     };
 
-Pokemon _$PokemonFromJson(Map<String, dynamic> json) {
-  return Pokemon()
+FragmentQuery$Query$Pokemon$Evolutions
+    _$FragmentQuery$Query$Pokemon$EvolutionsFromJson(
+        Map<String, dynamic> json) {
+  return FragmentQuery$Query$Pokemon$Evolutions()
+    ..number = json['number'] as String
+    ..name = json['name'] as String
+    ..types = (json['types'] as List)?.map((e) => e as String)?.toList();
+}
+
+Map<String, dynamic> _$FragmentQuery$Query$Pokemon$EvolutionsToJson(
+        FragmentQuery$Query$Pokemon$Evolutions instance) =>
+    <String, dynamic>{
+      'number': instance.number,
+      'name': instance.name,
+      'types': instance.types,
+    };
+
+FragmentQuery$Query$Pokemon _$FragmentQuery$Query$PokemonFromJson(
+    Map<String, dynamic> json) {
+  return FragmentQuery$Query$Pokemon()
     ..number = json['number'] as String
     ..name = json['name'] as String
     ..types = (json['types'] as List)?.map((e) => e as String)?.toList()
     ..evolutions = (json['evolutions'] as List)
-        ?.map((e) =>
-            e == null ? null : Evolutions.fromJson(e as Map<String, dynamic>))
+        ?.map((e) => e == null
+            ? null
+            : FragmentQuery$Query$Pokemon$Evolutions.fromJson(
+                e as Map<String, dynamic>))
         ?.toList();
 }
 
-Map<String, dynamic> _$PokemonToJson(Pokemon instance) => <String, dynamic>{
+Map<String, dynamic> _$FragmentQuery$Query$PokemonToJson(
+        FragmentQuery$Query$Pokemon instance) =>
+    <String, dynamic>{
       'number': instance.number,
       'name': instance.name,
       'types': instance.types,
       'evolutions': instance.evolutions?.map((e) => e?.toJson())?.toList(),
     };
 
-Evolutions _$EvolutionsFromJson(Map<String, dynamic> json) {
-  return Evolutions()
-    ..number = json['number'] as String
-    ..name = json['name'] as String
-    ..types = (json['types'] as List)?.map((e) => e as String)?.toList();
+FragmentQuery$Query _$FragmentQuery$QueryFromJson(Map<String, dynamic> json) {
+  return FragmentQuery$Query()
+    ..charmander = json['charmander'] == null
+        ? null
+        : FragmentQuery$Query$Charmander.fromJson(
+            json['charmander'] as Map<String, dynamic>)
+    ..pokemons = (json['pokemons'] as List)
+        ?.map((e) => e == null
+            ? null
+            : FragmentQuery$Query$Pokemon.fromJson(e as Map<String, dynamic>))
+        ?.toList();
 }
 
-Map<String, dynamic> _$EvolutionsToJson(Evolutions instance) =>
+Map<String, dynamic> _$FragmentQuery$QueryToJson(
+        FragmentQuery$Query instance) =>
     <String, dynamic>{
-      'number': instance.number,
-      'name': instance.name,
-      'types': instance.types,
+      'charmander': instance.charmander?.toJson(),
+      'pokemons': instance.pokemons?.map((e) => e?.toJson())?.toList(),
     };
 
 FragmentQueryArguments _$FragmentQueryArgumentsFromJson(
