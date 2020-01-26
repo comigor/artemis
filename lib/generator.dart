@@ -226,7 +226,7 @@ class _Context {
   _Context({
     @required this.className,
     @required this.currentType,
-    @required this.ofUnion,
+    this.ofUnion,
     @required this.generatedClasses,
     @required this.inputsClasses,
     @required this.fragments,
@@ -263,7 +263,8 @@ class _AB extends RecursiveVisitor {
         'Finish wrapping class ${context.currentType.name} (-> ${context.className}).');
 
     final possibleTypes = <String, String>{};
-    if (context.currentType.kind == GraphQLTypeKind.UNION) {
+    if (context.currentType.kind == GraphQLTypeKind.UNION ||
+        context.currentType.kind == GraphQLTypeKind.INTERFACE) {
       final keys = context.currentType.possibleTypes.map((t) => t.name);
       final values = context.currentType.possibleTypes
           .map((t) => '${context.className}\$${t.name}');
@@ -274,7 +275,7 @@ class _AB extends RecursiveVisitor {
         annotation: 'JsonKey(name: \'${options.schemaMap.typeNameField}\')',
         isOverride: true,
       ));
-      print('It is an union of possible types $possibleTypes.');
+      print('It is an union/interface of possible types $possibleTypes.');
     }
     final partOfUnion = context.ofUnion != null;
     if (partOfUnion) {
@@ -384,28 +385,22 @@ class _AB extends RecursiveVisitor {
     final nextType = gql.getTypeByName(options.schema, onTypeName,
         context: 'inline fragment');
 
-    if (context.currentType.kind == GraphQLTypeKind.UNION) {
-      print(
-          'Fragment spread on ${nextType.name}, part of union ${context.currentType.name} (on ${context.className} context).');
+    print(
+        'Fragment spread on ${nextType.name} (on ${context.className} context).');
 
-      final visitor = _AB(
-        context: _Context(
-          className: '${context.className}\$${nextType.name}',
-          currentType: nextType,
-          ofUnion: context.currentType,
-          generatedClasses: context.generatedClasses,
-          inputsClasses: [],
-          fragments: [],
-        ),
-        options: options,
-      );
+    final visitor = _AB(
+      context: _Context(
+        className: '${context.className}\$${nextType.name}',
+        currentType: nextType,
+        ofUnion: context.currentType,
+        generatedClasses: context.generatedClasses,
+        inputsClasses: [],
+        fragments: [],
+      ),
+      options: options,
+    );
 
-      node.visitChildren(visitor);
-
-      return;
-    }
-
-    super.visitInlineFragmentNode(node);
+    node.visitChildren(visitor);
   }
 
   @override
@@ -426,8 +421,9 @@ Make sure your query is correct and your schema is updated.''');
     }
     final aliasAsClassName =
         node.alias?.value != null ? ReCase(node.alias?.value).pascalCase : null;
-    final nextType =
-        gql.getTypeByName(options.schema, gql.followType(field.type).name);
+    final nextType = gql.getTypeByName(
+        options.schema, gql.followType(field.type).name,
+        context: 'field node');
     final nextClassName =
         '${context.className}\$${aliasAsClassName ?? nextType.name}';
 
