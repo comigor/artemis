@@ -9,12 +9,13 @@ import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 import 'package:test/test.dart';
 
+const IS_DEBUG = true;
+
 String jsonFromSchema(GraphQLSchema schema) => json.encode({
       'data': {'__schema': schema.toJson()}
     });
 
 void debug(LogRecord log) {
-  const IS_DEBUG = false;
   if (IS_DEBUG) print(log);
 }
 
@@ -46,6 +47,7 @@ void testGenerator({
     }));
 
     anotherBuilder.onBuild = expectAsync1((definition) {
+      if (IS_DEBUG) print(definition);
       expect(definition, libraryDefinition);
     }, count: 1);
 
