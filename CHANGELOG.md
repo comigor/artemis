@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 3.1.0
+- Allow to dispose `ArtemisClient` underlining http client when possible
+
 ## 3.0.0
 - BREAKING: Marks non nullable input field as `@required` [#68](https://github.com/comigor/artemis/pull/68)
 
