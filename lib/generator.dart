@@ -39,7 +39,7 @@ You may want to do either:
   final basename = p.basenameWithoutExtension(path);
   final customImports = _extractCustomImports(schema.types, options);
   return LibraryDefinition(
-    basename,
+    basename: basename,
     queries: queriesDefinitions,
     customImports: customImports,
     customParserImport: options.customParserImport,
@@ -64,14 +64,16 @@ GraphQLType _unwrapToType(GraphQLSchema schema, TypeNode node) {
 /// Generate a query definition from a GraphQL schema and a query, given
 /// Artemis options and schema mappings.
 QueryDefinition generateQuery(
-    GraphQLSchema schema,
-    String path,
-    DocumentNode document,
-    GeneratorOptions options,
-    SchemaMap schemaMap,
-    List<FragmentDefinitionNode> fragmentsCommon) {
+  GraphQLSchema schema,
+  String path,
+  DocumentNode document,
+  GeneratorOptions options,
+  SchemaMap schemaMap,
+  List<FragmentDefinitionNode> fragmentsCommon,
+) {
   final operation =
       document.definitions.whereType<OperationDefinitionNode>().first;
+  document.definitions.addAll(fragmentsCommon ?? []);
 
   final basename = p.basenameWithoutExtension(path);
   final queryName = operation.name?.value ?? basename;
@@ -104,9 +106,9 @@ QueryDefinition generateQuery(
   document.accept(visitor);
 
   return QueryDefinition(
-    queryName,
-    parentType.name,
-    document,
+    queryName: queryName,
+    queryType: parentType.name,
+    document: document,
     classes: visitor.context.generatedClasses,
     inputs: visitor.context.inputsClasses,
     generateHelpers: options.generateHelpers,
@@ -173,7 +175,11 @@ ClassProperty _createClassProperty(
         'JsonKey(fromJson: fromGraphQL${graphqlTypeSafeStr}ToDart$dartTypeSafeStr, toJson: fromDart${dartTypeSafeStr}ToGraphQL$graphqlTypeSafeStr)';
   }
 
-  return ClassProperty(dartTypeStr, alias, annotation: annotation);
+  return ClassProperty(
+    type: dartTypeStr,
+    name: alias,
+    annotation: annotation,
+  );
 }
 
 class _InjectedOptions {
@@ -226,8 +232,8 @@ class _AB extends RecursiveVisitor {
     super.visitSelectionSetNode(node);
     print('Finish wrapping class ${context.className}.');
     context.generatedClasses.add(ClassDefinition(
-      context.className,
-      _classProperties,
+      name: context.className,
+      properties: _classProperties,
       mixins: _mixins,
       prefix: options.prefix,
     ));
@@ -240,8 +246,8 @@ class _AB extends RecursiveVisitor {
     if (currentType.kind == GraphQLTypeKind.ENUM) {
       context.generatedClasses.add(
         EnumDefinition(
-          currentType.name,
-          currentType.enumValues.map((eV) => eV.name).toList(),
+          name: currentType.name,
+          values: currentType.enumValues.map((eV) => eV.name).toList(),
         ),
       );
       return;
@@ -266,8 +272,8 @@ class _AB extends RecursiveVisitor {
     }).toList();
 
     context.generatedClasses.add(ClassDefinition(
-      type.name,
-      properties,
+      name: type.name,
+      properties: properties,
       prefix: options.prefix,
     ));
   }
@@ -277,8 +283,10 @@ class _AB extends RecursiveVisitor {
     final varType = _unwrapToType(options.schema, node.type);
     final dartTypeStr = gql.buildTypeString(varType, options.options,
         dartType: true, prefix: options.prefix);
-    context.inputsClasses
-        .add(QueryInput(dartTypeStr, node.variable.name.value));
+    context.inputsClasses.add(QueryInput(
+      type: dartTypeStr,
+      name: node.variable.name.value,
+    ));
 
     print('Found new input ${node.variable.name.value} (-> $dartTypeStr).');
 
@@ -314,8 +322,8 @@ class _AB extends RecursiveVisitor {
 
     context.generatedClasses.add(
       FragmentClassDefinition(
-        fragmentName,
-        visitor._classProperties,
+        name: fragmentName,
+        properties: visitor._classProperties,
       ),
     );
   }
@@ -346,8 +354,8 @@ Make sure your query is correct and your schema is updated.''');
     print('$fieldName GraphQL type is ${nextType.name} (-> $dartTypeStr).');
 
     _classProperties.add(ClassProperty(
-      dartTypeStr,
-      node.alias?.value ?? fieldName,
+      type: dartTypeStr,
+      name: node.alias?.value ?? fieldName,
     ));
 
     node.visitChildren(_AB(

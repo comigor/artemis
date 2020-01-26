@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
 import 'package:recase/recase.dart';
+import 'package:meta/meta.dart';
 
 import '../schema/graphql.dart';
 
@@ -13,6 +14,13 @@ typedef OnNewClassFoundCallback = void Function(
   String className,
   GraphQLType parentType,
 );
+
+bool hasValue(Object obj) {
+  if (obj is List) {
+    return obj != null && obj.isNotEmpty;
+  }
+  return obj != null && obj.toString().isNotEmpty;
+}
 
 /// Define a property (field) from a class.
 class ClassProperty extends Equatable {
@@ -29,15 +37,26 @@ class ClassProperty extends Equatable {
   final String annotation;
 
   /// Instantiate a property (field) from a class.
-  ClassProperty(this.type, this.name,
-      {this.isOverride = false, this.annotation});
+  ClassProperty({
+    @required this.type,
+    @required this.name,
+    this.isOverride = false,
+    this.annotation,
+  }) : assert(hasValue(type) && hasValue(name));
 
   /// Creates a copy of [ClassProperty] without modifying the original.
-  ClassProperty copyWith(
-          {String type, String name, bool isOverride, String annotation}) =>
-      ClassProperty(type ?? this.type, name ?? this.name,
-          isOverride: isOverride ?? this.isOverride,
-          annotation: annotation ?? this.annotation);
+  ClassProperty copyWith({
+    String type,
+    String name,
+    bool isOverride,
+    String annotation,
+  }) =>
+      ClassProperty(
+        type: type ?? this.type,
+        name: name ?? this.name,
+        isOverride: isOverride ?? this.isOverride,
+        annotation: annotation ?? this.annotation,
+      );
 
   @override
   String toString() =>
@@ -56,11 +75,8 @@ class QueryInput extends Equatable {
   final String name;
 
   /// Instantiate an input parameter.
-  QueryInput(this.type, this.name)
-      : assert(
-            type != null && type.isNotEmpty, 'Type can\'t be null nor empty.'),
-        assert(
-            name != null && name.isNotEmpty, 'Name can\'t be null nor empty.');
+  QueryInput({@required this.type, @required this.name})
+      : assert(hasValue(type) && hasValue(name));
 
   @override
   String toString() => 'QueryInput(\'$type\', \'$name\')';
@@ -75,9 +91,7 @@ abstract class Definition extends Equatable {
   final String name;
 
   /// Instantiate a definition.
-  Definition(this.name)
-      : assert(
-            name != null && name.isNotEmpty, 'Name can\'t be null nor empty.');
+  Definition({@required this.name}) : assert(hasValue(name));
 
   @override
   List get props => [name];
@@ -109,16 +123,17 @@ class ClassDefinition extends Definition {
   final String resolveTypeField;
 
   /// Instantiate a class definition.
-  ClassDefinition(
-    String name,
-    this.properties, {
+  ClassDefinition({
+    @required String name,
+    @required this.properties,
     this.prefix = '',
     this.extension,
     this.implementations = const [],
     this.mixins = const [],
     this.factoryPossibilities = const [],
     this.resolveTypeField = '__resolveType',
-  }) : super(name);
+  })  : assert(hasValue(name) && hasValue(properties)),
+        super(name: name);
 
   @override
   String toString() =>
@@ -143,10 +158,11 @@ class FragmentClassDefinition extends Definition {
   final Iterable<ClassProperty> properties;
 
   /// Instantiate a fragment class definition.
-  FragmentClassDefinition(
-    String name,
-    this.properties,
-  ) : super(name);
+  FragmentClassDefinition({
+    @required String name,
+    @required this.properties,
+  })  : assert(hasValue(name) && hasValue(properties)),
+        super(name: name);
 
   @override
   String toString() => 'FragmentClassDefinition(\'$name\', $properties)';
@@ -161,12 +177,11 @@ class EnumDefinition extends Definition {
   final Iterable<String> values;
 
   /// Instantiate an enum definition.
-  EnumDefinition(
+  EnumDefinition({
     String name,
     this.values,
-  )   : assert(values != null && values.isNotEmpty,
-            'An enum must have at least one possible value.'),
-        super(name);
+  })  : assert(hasValue(name) && hasValue(values)),
+        super(name: name);
 
   @override
   String toString() => 'EnumDefinition(\'$name\', $values)';
@@ -199,25 +214,14 @@ class QueryDefinition extends Equatable {
   String get className => ReCase(queryName).pascalCase;
 
   /// Instantiate a query definition.
-  QueryDefinition(
-    this.queryName,
-    this.queryType,
-    this.document, {
+  QueryDefinition({
+    @required this.queryName,
+    @required this.queryType,
+    @required this.document,
     this.classes = const [],
     this.inputs = const [],
     this.generateHelpers = false,
-  })  : assert(
-          queryName != null && queryName.isNotEmpty,
-          'Query name must not be null or empty.',
-        ),
-        assert(
-          queryType != null && queryType.isNotEmpty,
-          'Query type must not be null or empty.',
-        ),
-        assert(
-          document != null,
-          'Query must not be null or empty.',
-        );
+  }) : assert(hasValue(queryName) && hasValue(queryType) && hasValue(document));
 
   @override
   String toString() =>
@@ -244,13 +248,12 @@ class LibraryDefinition extends Equatable {
   final Iterable<String> customImports;
 
   /// Instantiate a library definition.
-  LibraryDefinition(
-    this.basename, {
+  LibraryDefinition({
+    @required this.basename,
     this.customParserImport,
     this.queries = const [],
     this.customImports = const [],
-  }) : assert(basename != null && basename.isNotEmpty,
-            'Basename must not be null or empty.');
+  }) : assert(hasValue(basename));
 
   @override
   String toString() =>

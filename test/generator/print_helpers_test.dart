@@ -6,21 +6,24 @@ import 'package:test/test.dart';
 void main() {
   group('On printCustomEnum', () {
     test('It will throw if name is null or empty.', () {
-      expect(() => enumDefinitionToSpec(EnumDefinition(null, [])),
+      expect(() => enumDefinitionToSpec(EnumDefinition(name: null, values: [])),
           throwsA(TypeMatcher<AssertionError>()));
-      expect(() => enumDefinitionToSpec(EnumDefinition('', [])),
+      expect(() => enumDefinitionToSpec(EnumDefinition(name: '', values: [])),
           throwsA(TypeMatcher<AssertionError>()));
     });
 
     test('It will throw if values is null or empty.', () {
-      expect(() => enumDefinitionToSpec(EnumDefinition('Name', null)),
+      expect(
+          () =>
+              enumDefinitionToSpec(EnumDefinition(name: 'Name', values: null)),
           throwsA(TypeMatcher<AssertionError>()));
-      expect(() => enumDefinitionToSpec(EnumDefinition('Name', [])),
+      expect(
+          () => enumDefinitionToSpec(EnumDefinition(name: 'Name', values: [])),
           throwsA(TypeMatcher<AssertionError>()));
     });
 
     test('It will generate an Enum declaration.', () {
-      final definition = EnumDefinition('Name', [
+      final definition = EnumDefinition(name: 'Name', values: [
         'Option',
         'anotherOption',
         'third_option',
@@ -39,7 +42,7 @@ void main() {
     });
 
     test('It will ignore duplicate options.', () {
-      final definition = EnumDefinition('Name', [
+      final definition = EnumDefinition(name: 'Name', values: [
         'Option',
         'AnotherOption',
         'Option',
@@ -59,19 +62,21 @@ void main() {
   group('On printCustomFragmentClass', () {
     test('It will throw if name is null or empty.', () {
       expect(
-          () =>
-              fragmentClassDefinitionToSpec(FragmentClassDefinition(null, [])),
+          () => fragmentClassDefinitionToSpec(
+              FragmentClassDefinition(name: null, properties: [])),
           throwsA(TypeMatcher<AssertionError>()));
       expect(
-          () => fragmentClassDefinitionToSpec(FragmentClassDefinition('', [])),
+          () => fragmentClassDefinitionToSpec(
+              FragmentClassDefinition(name: '', properties: [])),
           throwsA(TypeMatcher<AssertionError>()));
     });
 
     test('It will generate an Mixins declarations.', () {
-      final definition = FragmentClassDefinition('FragmentMixin', [
-        ClassProperty('Type', 'name'),
-        ClassProperty('Type', 'name', isOverride: true),
-        ClassProperty('Type', 'name', annotation: 'Test'),
+      final definition =
+          FragmentClassDefinition(name: 'FragmentMixin', properties: [
+        ClassProperty(type: 'Type', name: 'name'),
+        ClassProperty(type: 'Type', name: 'name', isOverride: true),
+        ClassProperty(type: 'Type', name: 'name', annotation: 'Test'),
       ]);
 
       final str = specToString(fragmentClassDefinitionToSpec(definition));
@@ -89,14 +94,18 @@ void main() {
 
   group('On printCustomClass', () {
     test('It will throw if name is null or empty.', () {
-      expect(() => classDefinitionToSpec(ClassDefinition(null, []), []),
+      expect(
+          () => classDefinitionToSpec(
+              ClassDefinition(name: null, properties: []), []),
           throwsA(TypeMatcher<AssertionError>()));
-      expect(() => classDefinitionToSpec(ClassDefinition('', []), []),
+      expect(
+          () => classDefinitionToSpec(
+              ClassDefinition(name: '', properties: []), []),
           throwsA(TypeMatcher<AssertionError>()));
     });
 
     test('It can generate a class without properties.', () {
-      final definition = ClassDefinition('AClass', []);
+      final definition = ClassDefinition(name: 'AClass', properties: []);
 
       final str = specToString(classDefinitionToSpec(definition, []));
 
@@ -114,8 +123,8 @@ class AClass with EquatableMixin {
     });
 
     test('"Mixins" will be included to class.', () {
-      final definition =
-          ClassDefinition('AClass', [], extension: 'AnotherClass');
+      final definition = ClassDefinition(
+          name: 'AClass', properties: [], extension: 'AnotherClass');
 
       final str = specToString(classDefinitionToSpec(definition, []));
 
@@ -136,8 +145,8 @@ class AClass extends AnotherClass with EquatableMixin {
         'factoryPossibilities and resolveTypeField are used to generated a branch factory.',
         () {
       final definition = ClassDefinition(
-        'AClass',
-        [],
+        name: 'AClass',
+        properties: [],
         factoryPossibilities: ['ASubClass', 'BSubClass'],
         resolveTypeField: '__resolveType',
       );
@@ -176,9 +185,9 @@ class AClass with EquatableMixin {
     });
 
     test('It can have properties.', () {
-      final definition = ClassDefinition('AClass', [
-        ClassProperty('Type', 'name'),
-        ClassProperty('AnotherType', 'anotherName'),
+      final definition = ClassDefinition(name: 'AClass', properties: [
+        ClassProperty(type: 'Type', name: 'name'),
+        ClassProperty(type: 'AnotherType', name: 'anotherName'),
       ]);
 
       final str = specToString(classDefinitionToSpec(definition, []));
@@ -203,12 +212,17 @@ class AClass with EquatableMixin {
     test(
         'Its properties can be an override or have a custom annotation, or both.',
         () {
-      final definition = ClassDefinition('AClass', [
-        ClassProperty('Type', 'name'),
-        ClassProperty('AnnotedProperty', 'name', annotation: 'Hey()'),
-        ClassProperty('OverridenProperty', 'name', isOverride: true),
-        ClassProperty('AllAtOnce', 'name',
-            isOverride: true, annotation: 'Ho()'),
+      final definition = ClassDefinition(name: 'AClass', properties: [
+        ClassProperty(type: 'Type', name: 'name'),
+        ClassProperty(
+            type: 'AnnotedProperty', name: 'name', annotation: 'Hey()'),
+        ClassProperty(
+            type: 'OverridenProperty', name: 'name', isOverride: true),
+        ClassProperty(
+            type: 'AllAtOnce',
+            name: 'name',
+            isOverride: true,
+            annotation: 'Ho()'),
       ]);
 
       final str = specToString(classDefinitionToSpec(definition, []));
@@ -241,12 +255,12 @@ class AClass with EquatableMixin {
     test(
         'Mixins can be included and its properties will be considered on props getter',
         () {
-      final definition =
-          ClassDefinition('AClass', [], mixins: ['FragmentMixin']);
+      final definition = ClassDefinition(
+          name: 'AClass', properties: [], mixins: ['FragmentMixin']);
 
       final str = specToString(classDefinitionToSpec(definition, [
-        FragmentClassDefinition('FragmentMixin', [
-          ClassProperty('Type', 'name'),
+        FragmentClassDefinition(name: 'FragmentMixin', properties: [
+          ClassProperty(type: 'Type', name: 'name'),
         ])
       ]));
 
@@ -266,22 +280,28 @@ class AClass with EquatableMixin, FragmentMixin {
 
   group('On generateQueryClassSpec', () {
     test('It will throw if basename is null or empty.', () {
-      expect(() => generateLibrarySpec(LibraryDefinition(null)),
+      expect(() => generateLibrarySpec(LibraryDefinition(basename: null)),
           throwsA(TypeMatcher<AssertionError>()));
-      expect(() => generateLibrarySpec(LibraryDefinition('')),
+      expect(() => generateLibrarySpec(LibraryDefinition(basename: '')),
           throwsA(TypeMatcher<AssertionError>()));
     });
 
     test('It will throw if name/type/query is null or empty.', () {
       expect(
         () => generateQueryClassSpec(
-          QueryDefinition(null, 'Type', parseString('query test_query {}')),
+          QueryDefinition(
+              queryName: null,
+              queryType: 'Type',
+              document: parseString('query test_query {}')),
         ),
         throwsA(TypeMatcher<AssertionError>()),
       );
       expect(
         () => generateQueryClassSpec(
-          QueryDefinition('', 'Type', parseString('query test_query {}')),
+          QueryDefinition(
+              queryName: '',
+              queryType: 'Type',
+              document: parseString('query test_query {}')),
         ),
         throwsA(
           TypeMatcher<AssertionError>(),
@@ -290,7 +310,9 @@ class AClass with EquatableMixin, FragmentMixin {
       expect(
         () => generateQueryClassSpec(
           QueryDefinition(
-              'test_query', null, parseString('query test_query {}')),
+              queryName: 'test_query',
+              queryType: null,
+              document: parseString('query test_query {}')),
         ),
         throwsA(
           TypeMatcher<AssertionError>(),
@@ -298,7 +320,10 @@ class AClass with EquatableMixin, FragmentMixin {
       );
       expect(
         () => generateQueryClassSpec(
-          QueryDefinition('test_query', '', parseString('query test_query {}')),
+          QueryDefinition(
+              queryName: 'test_query',
+              queryType: '',
+              document: parseString('query test_query {}')),
         ),
         throwsA(
           TypeMatcher<AssertionError>(),
@@ -306,7 +331,8 @@ class AClass with EquatableMixin, FragmentMixin {
       );
       expect(
         () => generateQueryClassSpec(
-          QueryDefinition('test_query', 'Type', null),
+          QueryDefinition(
+              queryName: 'test_query', queryType: 'Type', document: null),
         ),
         throwsA(
           TypeMatcher<AssertionError>(),
@@ -316,7 +342,7 @@ class AClass with EquatableMixin, FragmentMixin {
 
     test('It should generated an empty file by default.', () {
       final buffer = StringBuffer();
-      final definition = LibraryDefinition('test_query');
+      final definition = LibraryDefinition(basename: 'test_query');
 
       writeLibraryDefinitionToBuffer(buffer, definition);
 
@@ -331,8 +357,8 @@ part 'test_query.g.dart';
 
     test('When customParserImport is given, its import is included.', () {
       final buffer = StringBuffer();
-      final definition =
-          LibraryDefinition('test_query', customParserImport: 'some_file.dart');
+      final definition = LibraryDefinition(
+          basename: 'test_query', customParserImport: 'some_file.dart');
 
       writeLibraryDefinitionToBuffer(buffer, definition);
 
@@ -349,12 +375,12 @@ part 'test_query.g.dart';
     test('When generateHelpers is true, an execute fn is generated.', () {
       final buffer = StringBuffer();
       final definition = LibraryDefinition(
-        'test_query',
+        basename: 'test_query',
         queries: [
           QueryDefinition(
-            'test_query',
-            'TestQuery',
-            parseString('query test_query {}'),
+            queryName: 'test_query',
+            queryType: 'TestQuery',
+            document: parseString('query test_query {}'),
             generateHelpers: true,
           )
         ],
@@ -396,13 +422,13 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, JsonSerializable> {
 
     test('The generated execute fn could have input.', () {
       final buffer = StringBuffer();
-      final definition = LibraryDefinition('test_query', queries: [
+      final definition = LibraryDefinition(basename: 'test_query', queries: [
         QueryDefinition(
-          'test_query',
-          'TestQuery',
-          parseString('query test_query {}'),
+          queryName: 'test_query',
+          queryType: 'TestQuery',
+          document: parseString('query test_query {}'),
           generateHelpers: true,
-          inputs: [QueryInput('Type', 'name')],
+          inputs: [QueryInput(type: 'Type', name: 'name')],
         ),
       ]);
 
@@ -459,11 +485,11 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
 
     test('Will generate an Arguments class', () {
       final definition = QueryDefinition(
-        'test_query',
-        'TestQuery',
-        parseString('query test_query {}'),
+        queryName: 'test_query',
+        queryType: 'TestQuery',
+        document: parseString('query test_query {}'),
         generateHelpers: true,
-        inputs: [QueryInput('Type', 'name')],
+        inputs: [QueryInput(type: 'Type', name: 'name')],
       );
 
       final str = specToString(generateArgumentClassSpec(definition));
@@ -486,11 +512,11 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
 
     test('Will generate a Query Class', () {
       final definition = QueryDefinition(
-        'test_query',
-        'TestQuery',
-        parseString('query test_query {}'),
+        queryName: 'test_query',
+        queryType: 'TestQuery',
+        document: parseString('query test_query {}'),
         generateHelpers: true,
-        inputs: [QueryInput('Type', 'name')],
+        inputs: [QueryInput(type: 'Type', name: 'name')],
       );
 
       final str = specToString(generateQueryClassSpec(definition));
@@ -525,14 +551,14 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
 
     test('It will accept and write class/enum definitions.', () {
       final buffer = StringBuffer();
-      final definition = LibraryDefinition('test_query', queries: [
+      final definition = LibraryDefinition(basename: 'test_query', queries: [
         QueryDefinition(
-          'test_query',
-          'TestQuery',
-          parseString('query test_query {}'),
+          queryName: 'test_query',
+          queryType: 'TestQuery',
+          document: parseString('query test_query {}'),
           classes: [
-            EnumDefinition('Enum', ['Value']),
-            ClassDefinition('AClass', [])
+            EnumDefinition(name: 'Enum', values: ['Value']),
+            ClassDefinition(name: 'AClass', properties: [])
           ],
         ),
       ]);
