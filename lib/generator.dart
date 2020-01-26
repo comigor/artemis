@@ -47,6 +47,27 @@ You may want to:
   );
 }
 
+Set<FragmentDefinitionNode> _extractFragments(SelectionSetNode selectionSet,
+    List<FragmentDefinitionNode> fragmentsCommon) {
+  final result = <FragmentDefinitionNode>{};
+  if (selectionSet != null) {
+    selectionSet.selections.whereType<FieldNode>().forEach((selection) {
+      result.addAll(_extractFragments(selection.selectionSet, fragmentsCommon));
+    });
+    selectionSet.selections
+        .whereType<FragmentSpreadNode>()
+        .forEach((selection) {
+      final fragmentDefinition = fragmentsCommon.firstWhere(
+          (fragmentDifinition) =>
+              fragmentDifinition.name.value == selection.name.value);
+      result.add(fragmentDefinition);
+      result.addAll(
+          _extractFragments(fragmentDefinition.selectionSet, fragmentsCommon));
+    });
+  }
+  return result;
+}
+
 GraphQLType _unwrapToType(GraphQLSchema schema, TypeNode node) {
   final isList = node is ListTypeNode;
   final leafNode =
@@ -74,7 +95,17 @@ QueryDefinition generateQuery(
 ) {
   final operation =
       document.definitions.whereType<OperationDefinitionNode>().first;
-  document.definitions.addAll(fragmentsCommon ?? []);
+
+  final fragments = <FragmentDefinitionNode>[];
+
+  if (fragmentsCommon.isEmpty) {
+    fragments.addAll(document.definitions.whereType<FragmentDefinitionNode>());
+  } else {
+    final fragmentsOperation =
+        _extractFragments(operation.selectionSet, fragmentsCommon);
+    document.definitions.addAll(fragmentsOperation);
+    fragments.addAll(fragmentsOperation);
+  }
 
   final basename = p.basenameWithoutExtension(path);
   final queryName = operation.name?.value ?? basename;
@@ -93,7 +124,7 @@ QueryDefinition generateQuery(
       currentType: parentType,
       generatedClasses: [],
       inputsClasses: [],
-      fragments: [],
+      fragments: fragments,
     ),
     options: _InjectedOptions(
       schema: schema,
