@@ -90,7 +90,7 @@ QueryDefinition generateQuery(
 
   final visitor = _AB(
     context: _Context(
-      className: parentType.name,
+      className: '$className\$${parentType.name}',
       currentType: parentType,
       generatedClasses: [],
       inputsClasses: [],
@@ -107,7 +107,7 @@ QueryDefinition generateQuery(
 
   return QueryDefinition(
     queryName: queryName,
-    queryType: parentType.name,
+    queryType: '$className\$${parentType.name}',
     document: document,
     classes: visitor.context.generatedClasses,
     inputs: visitor.context.inputsClasses,
