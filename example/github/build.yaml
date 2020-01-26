@@ -1,0 +1,12 @@
+targets:
+  $default:
+    sources:
+      - lib/**
+      - github.schema.json
+    builders:
+      artemis:
+        options:
+          schema_mapping:
+            - schema: github.schema.json
+              queries_glob: lib/graphql/search_repositories.graphql
+              output: lib/graphql/search_repositories.dart

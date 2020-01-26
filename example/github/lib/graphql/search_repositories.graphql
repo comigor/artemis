@@ -1,0 +1,10 @@
+query search_repositories($query: String!) {
+  search(first: 10, type: REPOSITORY, query: $query) {
+    nodes {
+      __typename
+      ... on Repository {
+        name
+      }
+    }
+  }
+}
