@@ -207,6 +207,7 @@ ClassProperty _createClassProperty(
     type: dartTypeStr,
     name: alias,
     annotation: annotation,
+    isNonNull: graphQLInputValue?.type?.kind == GraphQLTypeKind.NON_NULL,
   );
 }
 
@@ -329,6 +330,7 @@ class _AB extends RecursiveVisitor {
     context.generatedClasses.add(ClassDefinition(
       name: type.name,
       properties: properties,
+      isInput: true,
     ));
   }
 
@@ -340,6 +342,7 @@ class _AB extends RecursiveVisitor {
     context.inputsClasses.add(QueryInput(
       type: dartTypeStr,
       name: node.variable.name.value,
+      isNonNull: node.type.isNonNull,
     ));
 
     print('Found new input ${node.variable.name.value} (-> $dartTypeStr).');
@@ -437,6 +440,7 @@ Make sure your query is correct and your schema is updated.''');
     _classProperties.add(ClassProperty(
       type: dartTypeStr,
       name: node.alias?.value ?? fieldName,
+      isNonNull: field.type.kind == GraphQLTypeKind.NON_NULL,
     ));
 
     node.visitChildren(_AB(

@@ -351,52 +351,69 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
             name: r'Custom$Query$Node$User',
             properties: [
               ClassProperty(
-                  type: r'String', name: r'username', isOverride: false)
+                  type: r'String',
+                  name: r'username',
+                  isOverride: false,
+                  isNonNull: true)
             ],
             extension: r'Custom$Query$Node',
             factoryPossibilities: {},
-            typeNameField: r'__typename'),
+            typeNameField: r'__typename',
+            isInput: false),
         ClassDefinition(
             name: r'Custom$Query$Node$ChatMessage',
             properties: [
               ClassProperty(
-                  type: r'String', name: r'message', isOverride: false)
+                  type: r'String',
+                  name: r'message',
+                  isOverride: false,
+                  isNonNull: true)
             ],
             extension: r'Custom$Query$Node',
             factoryPossibilities: {},
-            typeNameField: r'__typename'),
+            typeNameField: r'__typename',
+            isInput: false),
         ClassDefinition(
             name: r'Custom$Query$Node',
             properties: [
-              ClassProperty(type: r'String', name: r'id', isOverride: false),
+              ClassProperty(
+                  type: r'String',
+                  name: r'id',
+                  isOverride: false,
+                  isNonNull: true),
               ClassProperty(
                   type: r'String',
                   name: r'typeName',
                   isOverride: true,
-                  annotation: r'''JsonKey(name: '__typename')''')
+                  annotation: r'''JsonKey(name: '__typename')''',
+                  isNonNull: false)
             ],
             factoryPossibilities: {
               r'User': r'Custom$Query$Node$User',
               r'ChatMessage': r'Custom$Query$Node$ChatMessage'
             },
-            typeNameField: r'__typename'),
+            typeNameField: r'__typename',
+            isInput: false),
         ClassDefinition(
             name: r'Custom$Query',
             properties: [
               ClassProperty(
                   type: r'Custom$Query$Node',
                   name: r'nodeById',
-                  isOverride: false)
+                  isOverride: false,
+                  isNonNull: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename')
+            typeNameField: r'__typename',
+            isInput: false)
       ],
-      inputs: [QueryInput(type: r'String', name: r'id')],
+      inputs: [QueryInput(type: r'String', name: r'id', isNonNull: true)],
       generateHelpers: false)
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
+import 'package:meta/meta.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';

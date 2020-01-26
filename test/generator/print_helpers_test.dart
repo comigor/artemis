@@ -279,6 +279,37 @@ class AClass with EquatableMixin, FragmentMixin {
 }
 ''');
     });
+
+    test('It can be an input object (and have a named parameter constructor).',
+        () {
+      final definition = ClassDefinition(
+        name: 'AClass',
+        properties: [
+          ClassProperty(type: 'Type', name: 'name'),
+          ClassProperty(
+              type: 'AnotherType', name: 'anotherName', isNonNull: true),
+        ],
+        isInput: true,
+      );
+
+      final str = specToString(classDefinitionToSpec(definition, []));
+
+      expect(str, '''@JsonSerializable(explicitToJson: true)
+class AClass with EquatableMixin {
+  AClass({this.name, @required this.anotherName});
+
+  factory AClass.fromJson(Map<String, dynamic> json) => _\$AClassFromJson(json);
+
+  Type name;
+
+  AnotherType anotherName;
+
+  @override
+  List<Object> get props => [name, anotherName];
+  Map<String, dynamic> toJson() => _\$AClassToJson(this);
+}
+''');
+    });
   });
 
   group('On generateQueryClassSpec', () {

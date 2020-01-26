@@ -31,12 +31,16 @@ class ClassProperty extends Equatable with DataPrinter {
   /// Some other custom annotation.
   final String annotation;
 
+  /// Whether this parameter is required
+  final bool isNonNull;
+
   /// Instantiate a property (field) from a class.
   ClassProperty({
     @required this.type,
     @required this.name,
     this.isOverride = false,
     this.annotation,
+    this.isNonNull = false,
   }) : assert(hasValue(type) && hasValue(name));
 
   /// Creates a copy of [ClassProperty] without modifying the original.
@@ -45,12 +49,14 @@ class ClassProperty extends Equatable with DataPrinter {
     String name,
     bool isOverride,
     String annotation,
+    bool isNonNull,
   }) =>
       ClassProperty(
         type: type ?? this.type,
         name: name ?? this.name,
         isOverride: isOverride ?? this.isOverride,
         annotation: annotation ?? this.annotation,
+        isNonNull: isNonNull ?? this.isNonNull,
       );
 
   @override
@@ -59,6 +65,7 @@ class ClassProperty extends Equatable with DataPrinter {
         'name': name,
         'isOverride': isOverride,
         'annotation': annotation,
+        'isNonNull': isNonNull,
       };
 }
 
@@ -70,14 +77,18 @@ class QueryInput extends Equatable with DataPrinter {
   /// The input name.
   final String name;
 
+  /// Whether this parameter is required
+  final bool isNonNull;
+
   /// Instantiate an input parameter.
-  QueryInput({@required this.type, @required this.name})
+  QueryInput({@required this.type, @required this.name, this.isNonNull = false})
       : assert(hasValue(type) && hasValue(name));
 
   @override
   Map<String, Object> get namedProps => {
         'type': type,
         'name': name,
+        'isNonNull': isNonNull,
       };
 }
 
@@ -114,6 +125,9 @@ class ClassDefinition extends Definition with DataPrinter {
   /// The field name used to resolve this class type.
   final String typeNameField;
 
+  /// Wheter this is an input object or not.
+  final bool isInput;
+
   /// Instantiate a class definition.
   ClassDefinition({
     @required String name,
@@ -123,6 +137,7 @@ class ClassDefinition extends Definition with DataPrinter {
     this.mixins = const [],
     this.factoryPossibilities = const {},
     this.typeNameField = '__typename',
+    this.isInput = false,
   })  : assert(hasValue(name)),
         super(name: name);
 
@@ -135,6 +150,7 @@ class ClassDefinition extends Definition with DataPrinter {
         'mixins': mixins,
         'factoryPossibilities': factoryPossibilities,
         'typeNameField': typeNameField,
+        'isInput': isInput,
       };
 }
 

@@ -13,6 +13,7 @@ void main() {
       libraryDefinition: libraryDefinition,
       generatedFile: generatedFile,
       typedSchema: schema,
+      generateHelpers: true,
     );
   });
 }
@@ -31,7 +32,10 @@ final schema = GraphQLSchema(
         inputFields: [
           GraphQLInputValue(
               name: 's',
-              type: GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR)),
+              type: GraphQLType(
+                  kind: GraphQLTypeKind.NON_NULL,
+                  ofType: GraphQLType(
+                      name: 'String', kind: GraphQLTypeKind.SCALAR))),
           GraphQLInputValue(
               name: 'e',
               type: GraphQLType(name: 'MyEnum', kind: GraphQLTypeKind.ENUM)),
@@ -79,19 +83,28 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
         ClassDefinition(
             name: r'ComplexType',
             properties: [
-              ClassProperty(type: r'String', name: r's', isOverride: false),
+              ClassProperty(
+                  type: r'String',
+                  name: r's',
+                  isOverride: false,
+                  isNonNull: true),
               ClassProperty(type: r'MyEnum', name: r'e', isOverride: false),
               ClassProperty(
                   type: r'List<String>', name: r'ls', isOverride: false)
             ],
-            typeNameField: r'__typename')
+            typeNameField: r'__typename',
+            isInput: true)
       ],
-      inputs: [QueryInput(type: r'ComplexType', name: r'filter')],
-      generateHelpers: false)
+      inputs: [
+        QueryInput(type: r'ComplexType', name: r'filter', isNonNull: true)
+      ],
+      generateHelpers: true)
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
+import 'package:meta/meta.dart';
+import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
@@ -127,7 +140,7 @@ class SomeQuery$QueryRoot with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class ComplexType with EquatableMixin {
-  ComplexType();
+  ComplexType({@required this.s, this.e, this.ls});
 
   factory ComplexType.fromJson(Map<String, dynamic> json) =>
       _$ComplexTypeFromJson(json);
@@ -146,5 +159,71 @@ class ComplexType with EquatableMixin {
 enum MyEnum {
   value1,
   value2,
+}
+
+@JsonSerializable(explicitToJson: true)
+class SomeQueryArguments extends JsonSerializable with EquatableMixin {
+  SomeQueryArguments({@required this.filter});
+
+  factory SomeQueryArguments.fromJson(Map<String, dynamic> json) =>
+      _$SomeQueryArgumentsFromJson(json);
+
+  final ComplexType filter;
+
+  @override
+  List<Object> get props => [filter];
+  Map<String, dynamic> toJson() => _$SomeQueryArgumentsToJson(this);
+}
+
+class SomeQueryQuery
+    extends GraphQLQuery<SomeQuery$QueryRoot, SomeQueryArguments> {
+  SomeQueryQuery({this.variables});
+
+  @override
+  final DocumentNode document = DocumentNode(definitions: [
+    OperationDefinitionNode(
+        type: OperationType.query,
+        name: NameNode(value: 'some_query'),
+        variableDefinitions: [
+          VariableDefinitionNode(
+              variable: VariableNode(name: NameNode(value: 'filter')),
+              type: NamedTypeNode(
+                  name: NameNode(value: 'ComplexType'), isNonNull: true),
+              defaultValue: DefaultValueNode(value: null),
+              directives: [])
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+              name: NameNode(value: 'o'),
+              alias: null,
+              arguments: [
+                ArgumentNode(
+                    name: NameNode(value: 'filter'),
+                    value: VariableNode(name: NameNode(value: 'filter')))
+              ],
+              directives: [],
+              selectionSet: SelectionSetNode(selections: [
+                FieldNode(
+                    name: NameNode(value: 's'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null)
+              ]))
+        ]))
+  ]);
+
+  @override
+  final String operationName = 'some_query';
+
+  @override
+  final SomeQueryArguments variables;
+
+  @override
+  List<Object> get props => [document, operationName, variables];
+  @override
+  SomeQuery$QueryRoot parse(Map<String, dynamic> json) =>
+      SomeQuery$QueryRoot.fromJson(json);
 }
 ''';

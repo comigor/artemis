@@ -135,9 +135,16 @@ class SomeQuery$SomeObject with EquatableMixin {
     });
 
     test('A simple query with list input', () async {
+      var query = r'''
+        query some_query($intsNonNullable: [Int]!, $stringNullable: String) {
+          s,
+          i,
+          list(intsNonNullable: $intsNonNullable)
+        }
+      ''';
+
       final GraphQLQueryBuilder anotherBuilder =
           graphQLQueryBuilder(BuilderOptions({
-        'generate_helpers': false,
         'schema_mapping': [
           {
             'schema': 'api.schema.json',
@@ -146,6 +153,7 @@ class SomeQuery$SomeObject with EquatableMixin {
           }
         ]
       }));
+
       final GraphQLSchema schema = GraphQLSchema(
           queryType:
               GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT),
@@ -177,13 +185,22 @@ class SomeQuery$SomeObject with EquatableMixin {
                               name: 'Int', kind: GraphQLTypeKind.SCALAR)),
                       args: [
                         GraphQLInputValue(
-                          name: 'ints',
+                          name: 'intsNonNullable',
                           defaultValue: null,
                           type: GraphQLType(
-                              name: 'List',
-                              kind: GraphQLTypeKind.LIST,
+                              kind: GraphQLTypeKind.NON_NULL,
                               ofType: GraphQLType(
-                                  name: 'Int', kind: GraphQLTypeKind.SCALAR)),
+                                  name: 'List',
+                                  kind: GraphQLTypeKind.LIST,
+                                  ofType: GraphQLType(
+                                      name: 'Int',
+                                      kind: GraphQLTypeKind.SCALAR))),
+                        ),
+                        GraphQLInputValue(
+                          name: 'stringNullable',
+                          defaultValue: null,
+                          type: GraphQLType(
+                              name: 'String', kind: GraphQLTypeKind.SCALAR),
                         )
                       ]),
                 ]),
@@ -208,8 +225,14 @@ class SomeQuery$SomeObject with EquatableMixin {
                     ],
                     typeNameField: r'__typename')
               ],
-              inputs: [QueryInput(type: r'List<int>', name: r'ints')],
-              generateHelpers: false)
+              inputs: [
+                QueryInput(
+                    type: r'List<int>',
+                    name: r'intsNonNullable',
+                    isNonNull: true),
+                QueryInput(type: r'String', name: r'stringNullable')
+              ],
+              generateHelpers: true)
         ]);
         expect(definition, libraryDefinition);
       }, count: 1);
@@ -218,12 +241,13 @@ class SomeQuery$SomeObject with EquatableMixin {
         anotherBuilder,
         {
           'a|api.schema.json': jsonFromSchema(schema),
-          'a|some_query.query.graphql':
-              'query some_query(\$ints: [Int]!) { s, i, list(ints: \$ints) }',
+          'a|some_query.query.graphql': query,
         },
         outputs: {
           'a|lib/some_query.dart': r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
+import 'package:meta/meta.dart';
+import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
@@ -245,6 +269,88 @@ class SomeQuery$SomeObject with EquatableMixin {
   @override
   List<Object> get props => [s, i, list];
   Map<String, dynamic> toJson() => _$SomeQuery$SomeObjectToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class SomeQueryArguments extends JsonSerializable with EquatableMixin {
+  SomeQueryArguments({@required this.intsNonNullable, this.stringNullable});
+
+  factory SomeQueryArguments.fromJson(Map<String, dynamic> json) =>
+      _$SomeQueryArgumentsFromJson(json);
+
+  final List<int> intsNonNullable;
+
+  final String stringNullable;
+
+  @override
+  List<Object> get props => [intsNonNullable, stringNullable];
+  Map<String, dynamic> toJson() => _$SomeQueryArgumentsToJson(this);
+}
+
+class SomeQueryQuery
+    extends GraphQLQuery<SomeQuery$SomeObject, SomeQueryArguments> {
+  SomeQueryQuery({this.variables});
+
+  @override
+  final DocumentNode document = DocumentNode(definitions: [
+    OperationDefinitionNode(
+        type: OperationType.query,
+        name: NameNode(value: 'some_query'),
+        variableDefinitions: [
+          VariableDefinitionNode(
+              variable: VariableNode(name: NameNode(value: 'intsNonNullable')),
+              type: ListTypeNode(
+                  type: NamedTypeNode(
+                      name: NameNode(value: 'Int'), isNonNull: false),
+                  isNonNull: true),
+              defaultValue: DefaultValueNode(value: null),
+              directives: []),
+          VariableDefinitionNode(
+              variable: VariableNode(name: NameNode(value: 'stringNullable')),
+              type: NamedTypeNode(
+                  name: NameNode(value: 'String'), isNonNull: false),
+              defaultValue: DefaultValueNode(value: null),
+              directives: [])
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+              name: NameNode(value: 's'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null),
+          FieldNode(
+              name: NameNode(value: 'i'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null),
+          FieldNode(
+              name: NameNode(value: 'list'),
+              alias: null,
+              arguments: [
+                ArgumentNode(
+                    name: NameNode(value: 'intsNonNullable'),
+                    value:
+                        VariableNode(name: NameNode(value: 'intsNonNullable')))
+              ],
+              directives: [],
+              selectionSet: null)
+        ]))
+  ]);
+
+  @override
+  final String operationName = 'some_query';
+
+  @override
+  final SomeQueryArguments variables;
+
+  @override
+  List<Object> get props => [document, operationName, variables];
+  @override
+  SomeQuery$SomeObject parse(Map<String, dynamic> json) =>
+      SomeQuery$SomeObject.fromJson(json);
 }
 ''',
         },
@@ -516,7 +622,7 @@ class SomeQuery$Query with EquatableMixin {
     });
 
     test(
-        'When multiple fields use different versions of an object, aliasing them means we\'ll alias class name as well',
+        "When multiple fields use different versions of an object, aliasing them means we'll alias class name as well",
         () async {
       final GraphQLQueryBuilder anotherBuilder =
           graphQLQueryBuilder(BuilderOptions({

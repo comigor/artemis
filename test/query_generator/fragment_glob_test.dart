@@ -53,60 +53,86 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
         ClassDefinition(
             name: r'Query$Query$Pokemon$Pokemon',
             mixins: [r'PokemonMixin'],
-            typeNameField: r'__typename'),
+            factoryPossibilities: {},
+            typeNameField: r'__typename',
+            isInput: false),
         ClassDefinition(
             name: r'Query$Query$Pokemon',
             properties: [
               ClassProperty(
                   type: r'List<Query$Query$Pokemon$Pokemon>',
                   name: r'evolutions',
-                  isOverride: false)
+                  isOverride: false,
+                  isNonNull: false)
             ],
             mixins: [r'PokemonMixin'],
-            typeNameField: r'__typename'),
+            factoryPossibilities: {},
+            typeNameField: r'__typename',
+            isInput: false),
         ClassDefinition(
             name: r'Query$Query',
             properties: [
               ClassProperty(
                   type: r'Query$Query$Pokemon',
                   name: r'pokemon',
-                  isOverride: false)
+                  isOverride: false,
+                  isNonNull: false)
             ],
-            typeNameField: r'__typename'),
+            factoryPossibilities: {},
+            typeNameField: r'__typename',
+            isInput: false),
         ClassDefinition(
             name: r'PokemonMixin$PokemonDimension',
             mixins: [r'WeightMixin'],
-            typeNameField: r'__typename'),
+            factoryPossibilities: {},
+            typeNameField: r'__typename',
+            isInput: false),
         ClassDefinition(
             name: r'PokemonMixin$PokemonAttack',
             mixins: [r'PokemonAttackMixin'],
-            typeNameField: r'__typename'),
+            factoryPossibilities: {},
+            typeNameField: r'__typename',
+            isInput: false),
         FragmentClassDefinition(name: r'PokemonMixin', properties: [
-          ClassProperty(type: r'String', name: r'id', isOverride: false),
+          ClassProperty(
+              type: r'String', name: r'id', isOverride: false, isNonNull: true),
           ClassProperty(
               type: r'PokemonMixin$PokemonDimension',
               name: r'weight',
-              isOverride: false),
+              isOverride: false,
+              isNonNull: false),
           ClassProperty(
               type: r'PokemonMixin$PokemonAttack',
               name: r'attacks',
-              isOverride: false)
+              isOverride: false,
+              isNonNull: false)
         ]),
         FragmentClassDefinition(name: r'WeightMixin', properties: [
-          ClassProperty(type: r'String', name: r'minimum', isOverride: false)
+          ClassProperty(
+              type: r'String',
+              name: r'minimum',
+              isOverride: false,
+              isNonNull: false)
         ]),
         ClassDefinition(
             name: r'PokemonAttackMixin$Attack',
             mixins: [r'AttackMixin'],
-            typeNameField: r'__typename'),
+            factoryPossibilities: {},
+            typeNameField: r'__typename',
+            isInput: false),
         FragmentClassDefinition(name: r'PokemonAttackMixin', properties: [
           ClassProperty(
               type: r'List<PokemonAttackMixin$Attack>',
               name: r'special',
-              isOverride: false)
+              isOverride: false,
+              isNonNull: false)
         ]),
         FragmentClassDefinition(name: r'AttackMixin', properties: [
-          ClassProperty(type: r'String', name: r'name', isOverride: false)
+          ClassProperty(
+              type: r'String',
+              name: r'name',
+              isOverride: false,
+              isNonNull: false)
         ])
       ],
       generateHelpers: true)

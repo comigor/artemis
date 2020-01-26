@@ -7,12 +7,16 @@ using the implementation of visitor pattern provided by `gql`). On top of that,
 I've decided to do other major breaking changes to make code cleaner and more
 maintainable. Listed:
 - `add_query_prefix` doesn't exist anymore (it's now the default to generate
-  classes with its "path" from the query), e.g., this query's `user` field will
-  be typed as `Name$QueryRoot$User`:
+  classes with its "path" from the query), e.g., this query's `city` field will
+  be typed as `CityName$QueryRoot$User$Address$City`:
   ```graphql
-  query name {
+  query city_name {
     user {
-      name
+      address {
+        city {
+          name
+        }
+      }
     }
   }
   ```
@@ -32,6 +36,9 @@ TODO:
 - prefix every class with `$` (?)
 - refactor class naming variables
 - review readme
+
+## 3.0.0
+- BREAKING: Marks non nullable input field as `@required` [#68](https://github.com/comigor/artemis/pull/68)
 
 ## 2.2.2
 - Make lists as input objects work again
