@@ -26,11 +26,16 @@ maintainable. Listed:
   is the correct field name (by GraphQL spec).
 - Change pre-generation data classes constructors to named parameters, so if
   you're using `GraphQLQueryBuilder.onBuild`, it will break.
+
+And also:
 - Add more logs while generating code, to help debugging.
+- Added a GitHub example.
 
 TODO:
 - check scalars/scalarmap
-- review built-in scalars
+- review built-in scalars (if not declared on schema)
+- better error messages
+- call mutation mutation instead of query
 - useCustomParser
 - clean options?
 - prefix every class with `$` (?)
