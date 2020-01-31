@@ -36,7 +36,6 @@ And also:
 - Added a GitHub example.
 
 TODO:
-- call mutation mutation instead of query
 - clean options?
 - prefix every class with `$` (?)
 - refactor class naming variables
