@@ -102,7 +102,7 @@ Each `SchemaMap` is configured this way:
 | `queries_glob` |  | Glob that selects all query files to be used with this schema. |
 | `type_name_field` | `__typename` | The name of the field used to differentiatiate interfaces and union types (commonly `__typename` or `__resolveType`). Note that `__typename` field are not added automatically to the query. If you want interface/union type resolution, you need to manually add it there. |
 
-See [examples](./example) for more information and configuration options.
+See [examples](./examples) for more information and configuration options.
 
 ### **Custom scalars**
 If your schema uses custom scalars, they must be defined on `build.yaml`. If it needs a custom parser (to decode from/to json), the `custom_parser_import` path must be set and the file must implement both `fromGraphQL___ToDart___` and `fromDart___toGraphQL___` constant functions.
@@ -144,7 +144,7 @@ Each `ScalarMap` is configured this way:
 | `dart_type` |  | The Dart type this custom scalar should be converted from/to. |
 | `custom_parser_import` | `null` | Import path to the file implementing coercer functions for custom scalars. See [Custom scalars](#custom-scalars). |
 
-See [examples](./example) for more information and configuration options.
+See [examples](./examples) for more information and configuration options.
 
 ## **Articles and videos**
 
@@ -164,4 +164,4 @@ final response = await client.execute(gitHubReposQuery);
 `ArtemisClient` adds type-awareness around `Link` from [`package:gql/link`](https://pub.dev/packages/gql).
 You can create `ArtemisClient` from any `Link` using `ArtemisClient.fromLink`.
  
-Check the [examples](./example) to see how to use it in details.
+Check the [examples](./examples) to see how to use it in details.
