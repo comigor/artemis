@@ -277,7 +277,7 @@ Spec generateQueryClassSpec(QueryDefinition definition) {
 
   return Class(
     (b) => b
-      ..name = '${definition.className}Query'
+      ..name = '${definition.className}${definition.suffix}'
       ..extend = refer('GraphQLQuery<$typeDeclaration>')
       ..constructors.add(constructor)
       ..fields.addAll(fields)

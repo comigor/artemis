@@ -542,6 +542,7 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
         document: parseString('query test_query {}'),
         generateHelpers: true,
         inputs: [QueryInput(type: 'Type', name: 'name')],
+        suffix: 'Query',
       );
 
       final str = specToString(generateQueryClassSpec(definition));

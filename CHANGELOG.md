@@ -22,10 +22,12 @@ maintainable. Listed:
   ```
   This change was also done to tip users to NOT use those generated queries
   directly on their code, to avoid coupling them to your business logic.
-- `custom_parser_import` was moved to inside a ScalarMap, and `use_custom_parser`
-  was remove.
+- `custom_parser_import` was moved to inside a ScalarMap, and
+  `use_custom_parser` was removed.
 - `resolve_type_field` option was renamed to `type_name_field`, as `__typename`
   is the correct field name (by GraphQL spec).
+- Classes generated for mutation will have a `Mutation` suffix, as queries
+  already have `Query` suffix.
 - Change pre-generation data classes constructors to named parameters, so if
   you're using `GraphQLQueryBuilder.onBuild`, it will break.
 

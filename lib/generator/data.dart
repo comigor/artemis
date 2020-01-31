@@ -212,6 +212,9 @@ class QueryDefinition extends Equatable with DataPrinter {
   /// If instances of [GraphQLQuery] should be generated.
   final bool generateHelpers;
 
+  /// The suffix of generated [GraphQLQuery] classes.
+  final String suffix;
+
   /// The class name.
   String get className => ReCase(queryName).pascalCase;
 
@@ -223,6 +226,7 @@ class QueryDefinition extends Equatable with DataPrinter {
     this.classes = const [],
     this.inputs = const [],
     this.generateHelpers = false,
+    this.suffix = 'Query',
   }) : assert(hasValue(queryName) && hasValue(queryType));
 
   @override
@@ -232,6 +236,7 @@ class QueryDefinition extends Equatable with DataPrinter {
         'classes': classes,
         'inputs': inputs,
         'generateHelpers': generateHelpers,
+        'suffix': suffix,
       };
 }
 

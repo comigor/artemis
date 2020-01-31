@@ -110,12 +110,11 @@ QueryDefinition generateQuery(
   final queryName = operation.name?.value ?? basename;
   final className = ReCase(queryName).pascalCase;
 
-  var parentType =
-      gql.getTypeByName(schema, schema.queryType.name, context: 'query');
-  if (operation.type == OperationType.mutation) {
-    parentType = gql.getTypeByName(schema, schema.mutationType.name,
-        context: 'mutation');
-  }
+  final parentType = gql.getTypeByName(
+      schema, (schema.queryType ?? schema.mutationType)?.name,
+      context: 'query/mutation root');
+
+  final suffix = operation.type == OperationType.query ? 'Query' : 'Mutation';
 
   final visitor = _AB(
     context: _Context(
@@ -140,6 +139,7 @@ QueryDefinition generateQuery(
     classes: visitor.context.generatedClasses,
     inputs: visitor.context.inputsClasses,
     generateHelpers: options.generateHelpers,
+    suffix: suffix,
   );
 }
 
