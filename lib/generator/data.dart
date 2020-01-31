@@ -244,16 +244,12 @@ class LibraryDefinition extends Equatable with DataPrinter {
   /// A list of queries.
   final Iterable<QueryDefinition> queries;
 
-  /// An import for coercing custom scalars, defined in `build.yaml`.
-  final String customParserImport;
-
   /// Any other custom package imports, defined in `build.yaml`.
   final Iterable<String> customImports;
 
   /// Instantiate a library definition.
   LibraryDefinition({
     @required this.basename,
-    this.customParserImport,
     this.queries = const [],
     this.customImports = const [],
   }) : assert(hasValue(basename));
@@ -262,7 +258,6 @@ class LibraryDefinition extends Equatable with DataPrinter {
   Map<String, Object> get namedProps => {
         'basename': basename,
         'queries': queries,
-        'customParserImport': customParserImport,
         'customImports': customImports,
       };
 }

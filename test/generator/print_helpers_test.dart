@@ -380,10 +380,10 @@ part 'test_query.g.dart';
 ''');
     });
 
-    test('When customParserImport is given, its import is included.', () {
+    test('When there are custom imports, they are included.', () {
       final buffer = StringBuffer();
       final definition = LibraryDefinition(
-          basename: 'test_query', customParserImport: 'some_file.dart');
+          basename: 'test_query', customImports: ['some_file.dart']);
 
       writeLibraryDefinitionToBuffer(buffer, definition);
 

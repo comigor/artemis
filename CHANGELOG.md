@@ -22,6 +22,8 @@ maintainable. Listed:
   ```
   This change was also done to tip users to NOT use those generated queries
   directly on their code, to avoid coupling them to your business logic.
+- `custom_parser_import` was moved to inside a ScalarMap, and `use_custom_parser`
+  was remove.
 - `resolve_type_field` option was renamed to `type_name_field`, as `__typename`
   is the correct field name (by GraphQL spec).
 - Change pre-generation data classes constructors to named parameters, so if
@@ -32,11 +34,8 @@ And also:
 - Added a GitHub example.
 
 TODO:
-- check scalars/scalarmap
-- review built-in scalars (if not declared on schema)
 - better error messages
 - call mutation mutation instead of query
-- useCustomParser
 - clean options?
 - prefix every class with `$` (?)
 - refactor class naming variables

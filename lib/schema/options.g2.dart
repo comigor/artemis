@@ -8,7 +8,6 @@ part of 'options.dart';
 
 GeneratorOptions _$GeneratorOptionsFromJson(Map json) {
   return GeneratorOptions(
-    customParserImport: json['custom_parser_import'] as String,
     generateHelpers: json['generate_helpers'] as bool ?? true,
     scalarMapping: (json['scalar_mapping'] as List)
             ?.map((e) => e == null
@@ -18,6 +17,7 @@ GeneratorOptions _$GeneratorOptionsFromJson(Map json) {
                   )))
             ?.toList() ??
         [],
+    fragmentsGlob: json['fragments_glob'] as String,
     schemaMapping: (json['schema_mapping'] as List)
             ?.map((e) => e == null
                 ? null
@@ -26,17 +26,15 @@ GeneratorOptions _$GeneratorOptionsFromJson(Map json) {
                   )))
             ?.toList() ??
         [],
-    fragmentsGlob: json['fragments_glob'] as String,
   );
 }
 
 Map<String, dynamic> _$GeneratorOptionsToJson(GeneratorOptions instance) =>
     <String, dynamic>{
-      'custom_parser_import': instance.customParserImport,
       'generate_helpers': instance.generateHelpers,
       'scalar_mapping': instance.scalarMapping,
+      'fragments_glob': instance.fragmentsGlob,
       'schema_mapping': instance.schemaMapping,
-      'fragments_glob': instance.fragmentsGlob
     };
 
 DartType _$DartTypeFromJson(Map<String, dynamic> json) {
@@ -56,14 +54,14 @@ ScalarMap _$ScalarMapFromJson(Map<String, dynamic> json) {
     graphQLType: json['graphql_type'] as String,
     dartType:
         json['dart_type'] == null ? null : DartType.fromJson(json['dart_type']),
-    useCustomParser: json['use_custom_parser'] as bool ?? false,
+    customParserImport: json['custom_parser_import'] as String,
   );
 }
 
 Map<String, dynamic> _$ScalarMapToJson(ScalarMap instance) => <String, dynamic>{
       'graphql_type': instance.graphQLType,
       'dart_type': instance.dartType,
-      'use_custom_parser': instance.useCustomParser,
+      'custom_parser_import': instance.customParserImport,
     };
 
 SchemaMap _$SchemaMapFromJson(Map<String, dynamic> json) {
@@ -71,7 +69,7 @@ SchemaMap _$SchemaMapFromJson(Map<String, dynamic> json) {
     output: json['output'] as String,
     schema: json['schema'] as String,
     queriesGlob: json['queries_glob'] as String,
-    typeNameField: json['resolve_type_field'] as String ?? '__typename',
+    typeNameField: json['type_name_field'] as String ?? '__typename',
   );
 }
 
@@ -79,5 +77,5 @@ Map<String, dynamic> _$SchemaMapToJson(SchemaMap instance) => <String, dynamic>{
       'output': instance.output,
       'schema': instance.schema,
       'queries_glob': instance.queriesGlob,
-      'resolve_type_field': instance.typeNameField,
+      'type_name_field': instance.typeNameField,
     };

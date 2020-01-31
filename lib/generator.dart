@@ -43,7 +43,6 @@ You may want to:
     basename: basename,
     queries: queriesDefinitions,
     customImports: customImports,
-    customParserImport: options.customParserImport,
   );
 }
 
@@ -149,8 +148,11 @@ List<String> _extractCustomImports(
   GeneratorOptions options,
 ) =>
     types
-        .map((GraphQLType type) =>
-            gql.getSingleScalarMap(options, type).dartType.imports)
+        .map((GraphQLType type) {
+          final scalarMap = gql.getSingleScalarMap(options, type);
+          return scalarMap.dartType.imports.followedBy(
+              [scalarMap.customParserImport].where((c) => c != null));
+        })
         .expand((i) => i)
         .toSet()
         .toList();
@@ -194,7 +196,8 @@ ClassProperty _createClassProperty(
 
   // On custom scalars
   final scalar = gql.getSingleScalarMap(options, leafType);
-  if (leafType.kind == GraphQLTypeKind.SCALAR && scalar.useCustomParser) {
+  if (leafType.kind == GraphQLTypeKind.SCALAR &&
+      scalar.customParserImport != null) {
     final graphqlTypeSafeStr = gql
         .buildTypeString(selectedType, options, dartType: false)
         .replaceAll(RegExp(r'[<>]'), '');
@@ -437,9 +440,23 @@ Make sure your query is correct and your schema is updated.''');
 
     print('$fieldName GraphQL type is ${nextType.name} (-> $dartTypeStr).');
 
+    // On custom scalars
+    String annotation;
+    final scalar = gql.getSingleScalarMap(options.options, nextType);
+    if (nextType.kind == GraphQLTypeKind.SCALAR &&
+        scalar.customParserImport != null) {
+      final graphqlTypeSafeStr = gql
+          .buildTypeString(field.type, options.options, dartType: false)
+          .replaceAll(RegExp(r'[<>]'), '');
+      final dartTypeSafeStr = dartTypeStr.replaceAll(RegExp(r'[<>]'), '');
+      annotation =
+          'JsonKey(fromJson: fromGraphQL${dartTypeStr}ToDart$dartTypeSafeStr, toJson: fromDart${dartTypeSafeStr}ToGraphQL$graphqlTypeSafeStr)';
+    }
+
     _classProperties.add(ClassProperty(
       type: dartTypeStr,
       name: node.alias?.value ?? fieldName,
+      annotation: annotation,
       isNonNull: field.type.kind == GraphQLTypeKind.NON_NULL,
     ));
 

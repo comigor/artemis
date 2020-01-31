@@ -2,7 +2,7 @@ import 'package:artemis/generator/data.dart';
 import 'package:artemis/schema/graphql.dart';
 import 'package:test/test.dart';
 
-import '../helpers.dart';
+import '../../helpers.dart';
 
 void main() {
   group('On scalars', () {
@@ -26,9 +26,14 @@ void main() {
   });
 }
 
-final schemaWithoutScalars = GraphQLSchema(
+final schemaWithScalars = GraphQLSchema(
     queryType: GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT),
     types: [
+      GraphQLType(name: 'Int', kind: GraphQLTypeKind.SCALAR),
+      GraphQLType(name: 'Float', kind: GraphQLTypeKind.SCALAR),
+      GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR),
+      GraphQLType(name: 'Boolean', kind: GraphQLTypeKind.SCALAR),
+      GraphQLType(name: 'ID', kind: GraphQLTypeKind.SCALAR),
       GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT, fields: [
         GraphQLField(
           name: 'a',
@@ -53,14 +58,9 @@ final schemaWithoutScalars = GraphQLSchema(
       ]),
     ]);
 
-final schemaWithScalars = GraphQLSchema(
+final schemaWithoutScalars = GraphQLSchema(
     queryType: GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT),
     types: [
-      GraphQLType(name: 'Int', kind: GraphQLTypeKind.SCALAR),
-      GraphQLType(name: 'Float', kind: GraphQLTypeKind.SCALAR),
-      GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR),
-      GraphQLType(name: 'Boolean', kind: GraphQLTypeKind.SCALAR),
-      GraphQLType(name: 'ID', kind: GraphQLTypeKind.SCALAR),
       GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT, fields: [
         GraphQLField(
           name: 'a',

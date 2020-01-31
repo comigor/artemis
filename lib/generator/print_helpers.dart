@@ -328,10 +328,6 @@ Spec generateLibrarySpec(LibraryDefinition definition) {
     );
   }
 
-  if (definition.customParserImport != null) {
-    importDirectives.add(Directive.import(definition.customParserImport));
-  }
-
   importDirectives.addAll(definition.customImports
       .map((customImport) => Directive.import(customImport)));
 

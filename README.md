@@ -63,7 +63,6 @@ targets:
 | Option | Default value | Description |
 | - | - | - |
 | `generate_helpers` | `true` | If Artemis should generate query/mutation helper GraphQLQuery subclasses. |
-| `custom_parser_import` | `null` | Import path to the file implementing coercer functions for custom scalars. See [Custom scalars](#custom-scalars). |
 | `scalar_mapping` | `[]` | Mapping of GraphQL and Dart types. See [Custom scalars](#custom-scalars). |
 | `schema_mapping` | `[]` | Mapping of queries and which schemas they will use for code generation. See [Schema mapping](#schema-mapping). |
 | `fragments_glob` | `null` | Import path to the file implementing fragments for all queries mapped in schema_mapping. If it's assigned, fragments defined in schema_mapping will be ignored. |
@@ -114,9 +113,9 @@ targets:
     builders:
       artemis:
         options:
-          custom_parser_import: 'package:graphbrainz_example/coercers.dart'
           scalar_mapping:
-            - graphql_type: Date
+            - custom_parser_import: 'package:graphbrainz_example/coercers.dart'
+              graphql_type: Date
               dart_type: DateTime
 ```
 
@@ -128,9 +127,9 @@ targets:
     builders:
       artemis:
         options:
-          custom_parser_import: 'package:graphbrainz_example/coercers.dart'
           scalar_mapping:
-            - graphql_type: BigDecimal
+            - custom_parser_import: 'package:graphbrainz_example/coercers.dart'
+              graphql_type: BigDecimal
               dart_type:
                 name: Decimal
                 imports:
@@ -143,7 +142,7 @@ Each `ScalarMap` is configured this way:
 | - | - | - |
 | `graphql_type` |  | The GraphQL custom scalar name on schema. |
 | `dart_type` |  | The Dart type this custom scalar should be converted from/to. |
-| `use_custom_parser` | `false` | Wheter `custom_parser_import` should be imported on the beginning of the file. |
+| `custom_parser_import` | `null` | Import path to the file implementing coercer functions for custom scalars. See [Custom scalars](#custom-scalars). |
 
 See [examples](./example) for more information and configuration options.
 
