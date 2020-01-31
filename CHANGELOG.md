@@ -30,11 +30,10 @@ maintainable. Listed:
   you're using `GraphQLQueryBuilder.onBuild`, it will break.
 
 And also:
-- Add more logs while generating code, to help debugging.
+- Add more logs and errors while generating code, to help debugging.
 - Added a GitHub example.
 
 TODO:
-- better error messages
 - call mutation mutation instead of query
 - clean options?
 - prefix every class with `$` (?)

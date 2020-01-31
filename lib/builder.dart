@@ -16,12 +16,20 @@ import './schema/options.dart';
 GraphQLQueryBuilder graphQLQueryBuilder(BuilderOptions options) =>
     GraphQLQueryBuilder(options);
 
-List<String> _builderOptionsToExpectedOutputs(BuilderOptions builderOptions) =>
-    GeneratorOptions.fromJson(builderOptions.config)
-        .schemaMapping
-        .where((s) => s.output != null)
-        .map((s) => s.output.replaceAll(RegExp(r'^lib/'), ''))
-        .toList();
+List<String> _builderOptionsToExpectedOutputs(BuilderOptions builderOptions) {
+  final schemaMaps =
+      GeneratorOptions.fromJson(builderOptions.config).schemaMapping;
+
+  if (schemaMaps.any((s) => s.output == null)) {
+    throw Exception('''One or more SchemaMap configurations miss an output!
+Please check your build.yaml file.
+''');
+  }
+
+  return schemaMaps
+      .map((s) => s.output.replaceAll(RegExp(r'^lib/'), ''))
+      .toList();
+}
 
 /// Main Artemis builder.
 class GraphQLQueryBuilder implements Builder {
@@ -50,7 +58,11 @@ class GraphQLQueryBuilder implements Builder {
   Future<GraphQLSchema> _readSchemaFromPath(
       BuildStep buildStep, SchemaMap schemaMap) async {
     final assetStream = buildStep.findAssets(Glob(schemaMap.schema));
-    final schemaFile = await assetStream.single;
+    final schemaFile = await assetStream.single.catchError((e) {
+      throw Exception('''Schema `${schemaMap.schema}` was not found!
+Make sure the file exists and you've typed it conrrectly on build.yaml.
+''');
+    });
     return schemaFromJsonString(await buildStep.readAsString(schemaFile));
   }
 
@@ -71,15 +83,16 @@ class GraphQLQueryBuilder implements Builder {
     }
 
     for (final schemaMap in options.schemaMapping) {
-      if (schemaMap.output == null) {
-        throw Exception('Each schema mapping must specify an output path!');
-      }
-
       final buffer = StringBuffer();
       final outputFileId = AssetId(buildStep.inputId.package, schemaMap.output);
       final schema = await _readSchemaFromPath(buildStep, schemaMap);
 
       // Loop through all files in glob
+      if (schemaMap.queriesGlob == null) {
+        throw Exception('''No queries were considered on this generation!
+Make sure that `queries_glob` your build.yaml file include GraphQL queries files.
+''');
+      }
       final assetStream = buildStep.findAssets(Glob(schemaMap.queriesGlob));
       final gqlDocs = await assetStream
           .asyncMap(
