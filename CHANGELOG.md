@@ -30,7 +30,7 @@ maintainable. Listed:
   you're using `GraphQLQueryBuilder.onBuild`, it will break.
 
 And also:
-- Added more logs while generating code, to help debugging.
+- Add more logs while generating code, to help debugging.
 - Added a GitHub example.
 
 TODO:
