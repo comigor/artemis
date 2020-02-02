@@ -1,19 +1,21 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
+import 'package:meta/meta.dart';
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
 part 'fragment_query.g.dart';
 
-mixin PokemonPartsMixin {
+mixin FragmentQuery$PokemonPartsMixin {
   String number;
   String name;
   List<String> types;
 }
 
 @JsonSerializable(explicitToJson: true)
-class FragmentQuery$Query$Charmander with EquatableMixin, PokemonPartsMixin {
+class FragmentQuery$Query$Charmander
+    with EquatableMixin, FragmentQuery$PokemonPartsMixin {
   FragmentQuery$Query$Charmander();
 
   factory FragmentQuery$Query$Charmander.fromJson(Map<String, dynamic> json) =>
@@ -26,7 +28,7 @@ class FragmentQuery$Query$Charmander with EquatableMixin, PokemonPartsMixin {
 
 @JsonSerializable(explicitToJson: true)
 class FragmentQuery$Query$Pokemon$Evolutions
-    with EquatableMixin, PokemonPartsMixin {
+    with EquatableMixin, FragmentQuery$PokemonPartsMixin {
   FragmentQuery$Query$Pokemon$Evolutions();
 
   factory FragmentQuery$Query$Pokemon$Evolutions.fromJson(
@@ -40,7 +42,8 @@ class FragmentQuery$Query$Pokemon$Evolutions
 }
 
 @JsonSerializable(explicitToJson: true)
-class FragmentQuery$Query$Pokemon with EquatableMixin, PokemonPartsMixin {
+class FragmentQuery$Query$Pokemon
+    with EquatableMixin, FragmentQuery$PokemonPartsMixin {
   FragmentQuery$Query$Pokemon();
 
   factory FragmentQuery$Query$Pokemon.fromJson(Map<String, dynamic> json) =>
@@ -71,7 +74,7 @@ class FragmentQuery$Query with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class FragmentQueryArguments extends JsonSerializable with EquatableMixin {
-  FragmentQueryArguments({this.quantity});
+  FragmentQueryArguments({@required this.quantity});
 
   factory FragmentQueryArguments.fromJson(Map<String, dynamic> json) =>
       _$FragmentQueryArgumentsFromJson(json);

@@ -9,6 +9,18 @@ part of 'ed_sheeran.query.dart';
 EdSheeran$Query$Node$Artist$LifeSpan
     _$EdSheeran$Query$Node$Artist$LifeSpanFromJson(Map<String, dynamic> json) {
   return EdSheeran$Query$Node$Artist$LifeSpan()
+    ..id = json['id'] as String
+    ..typeName = json['__typename'] as String
+    ..mbid = json['mbid'] as String
+    ..name = json['name'] as String
+    ..lifeSpan = json['lifeSpan'] == null
+        ? null
+        : EdSheeran$Query$Node$Artist$LifeSpan.fromJson(
+            json['lifeSpan'] as Map<String, dynamic>)
+    ..spotify = json['spotify'] == null
+        ? null
+        : EdSheeran$Query$Node$Artist$SpotifyArtist.fromJson(
+            json['spotify'] as Map<String, dynamic>)
     ..begin =
         json['begin'] == null ? null : DateTime.parse(json['begin'] as String);
 }
@@ -16,6 +28,12 @@ EdSheeran$Query$Node$Artist$LifeSpan
 Map<String, dynamic> _$EdSheeran$Query$Node$Artist$LifeSpanToJson(
         EdSheeran$Query$Node$Artist$LifeSpan instance) =>
     <String, dynamic>{
+      'id': instance.id,
+      '__typename': instance.typeName,
+      'mbid': instance.mbid,
+      'name': instance.name,
+      'lifeSpan': instance.lifeSpan?.toJson(),
+      'spotify': instance.spotify?.toJson(),
       'begin': instance.begin?.toIso8601String(),
     };
 
@@ -23,12 +41,30 @@ EdSheeran$Query$Node$Artist$SpotifyArtist
     _$EdSheeran$Query$Node$Artist$SpotifyArtistFromJson(
         Map<String, dynamic> json) {
   return EdSheeran$Query$Node$Artist$SpotifyArtist()
+    ..id = json['id'] as String
+    ..typeName = json['__typename'] as String
+    ..mbid = json['mbid'] as String
+    ..name = json['name'] as String
+    ..lifeSpan = json['lifeSpan'] == null
+        ? null
+        : EdSheeran$Query$Node$Artist$LifeSpan.fromJson(
+            json['lifeSpan'] as Map<String, dynamic>)
+    ..spotify = json['spotify'] == null
+        ? null
+        : EdSheeran$Query$Node$Artist$SpotifyArtist.fromJson(
+            json['spotify'] as Map<String, dynamic>)
     ..href = json['href'] as String;
 }
 
 Map<String, dynamic> _$EdSheeran$Query$Node$Artist$SpotifyArtistToJson(
         EdSheeran$Query$Node$Artist$SpotifyArtist instance) =>
     <String, dynamic>{
+      'id': instance.id,
+      '__typename': instance.typeName,
+      'mbid': instance.mbid,
+      'name': instance.name,
+      'lifeSpan': instance.lifeSpan?.toJson(),
+      'spotify': instance.spotify?.toJson(),
       'href': instance.href,
     };
 

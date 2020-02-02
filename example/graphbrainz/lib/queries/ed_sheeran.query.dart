@@ -4,11 +4,11 @@ import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
-import 'package:graphbrainz_example/coercers.dart';
 part 'ed_sheeran.query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class EdSheeran$Query$Node$Artist$LifeSpan with EquatableMixin {
+class EdSheeran$Query$Node$Artist$LifeSpan extends EdSheeran$Query$Node$Artist
+    with EquatableMixin {
   EdSheeran$Query$Node$Artist$LifeSpan();
 
   factory EdSheeran$Query$Node$Artist$LifeSpan.fromJson(
@@ -24,7 +24,8 @@ class EdSheeran$Query$Node$Artist$LifeSpan with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class EdSheeran$Query$Node$Artist$SpotifyArtist with EquatableMixin {
+class EdSheeran$Query$Node$Artist$SpotifyArtist
+    extends EdSheeran$Query$Node$Artist with EquatableMixin {
   EdSheeran$Query$Node$Artist$SpotifyArtist();
 
   factory EdSheeran$Query$Node$Artist$SpotifyArtist.fromJson(
