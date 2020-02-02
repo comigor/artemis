@@ -219,7 +219,13 @@ Make sure your query is correct and your schema is updated.''');
 
   // On enums
   else if (nextType.kind == GraphQLTypeKind.ENUM) {
-    _generateEnumForType(context.same(nextType: nextType), options);
+    _generateEnumForType(
+      context.same(
+        nextType: nextType,
+        alias: aliasAsClassName,
+      ),
+      options,
+    );
   }
 
   return ClassProperty(
