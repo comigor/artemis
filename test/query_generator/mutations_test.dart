@@ -18,7 +18,7 @@ void main() {
 }
 
 const query = r'''
-mutation custom($input: String!) {
+mutation custom($input: Input!) {
   mut(input: $input) {
     s
   }
@@ -45,18 +45,29 @@ final schema = GraphQLSchema(
         fields: [
           GraphQLField(
               name: 'mut',
+              args: [
+                GraphQLInputValue(
+                  name: 'input',
+                  type: GraphQLType(
+                      kind: GraphQLTypeKind.NON_NULL,
+                      ofType: GraphQLType(
+                          name: 'Input', kind: GraphQLTypeKind.INPUT_OBJECT)),
+                ),
+              ],
               type: GraphQLType(
                   name: 'MutationResponse', kind: GraphQLTypeKind.OBJECT)),
         ],
+      ),
+      GraphQLType(
+        name: 'Input',
+        kind: GraphQLTypeKind.INPUT_OBJECT,
         inputFields: [
           GraphQLInputValue(
-            name: 'input',
-            defaultValue: null,
-            type: GraphQLType(
-                kind: GraphQLTypeKind.NON_NULL,
-                ofType:
-                    GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR)),
-          ),
+              name: 's',
+              type: GraphQLType(
+                  kind: GraphQLTypeKind.NON_NULL,
+                  ofType: GraphQLType(
+                      name: 'String', kind: GraphQLTypeKind.SCALAR))),
         ],
       ),
     ]);
@@ -89,9 +100,21 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
             ],
             factoryPossibilities: {},
             typeNameField: r'__typename',
-            isInput: false)
+            isInput: false),
+        ClassDefinition(
+            name: r'Input',
+            properties: [
+              ClassProperty(
+                  type: r'String',
+                  name: r's',
+                  isOverride: false,
+                  isNonNull: true)
+            ],
+            factoryPossibilities: {},
+            typeNameField: r'__typename',
+            isInput: true)
       ],
-      inputs: [QueryInput(type: r'String', name: r'input', isNonNull: true)],
+      inputs: [QueryInput(type: r'Input', name: r'input', isNonNull: true)],
       generateHelpers: true,
       suffix: r'Mutation')
 ]);
@@ -136,13 +159,26 @@ class Custom$MutationRoot with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
+class Input with EquatableMixin {
+  Input({@required this.s});
+
+  factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
+
+  String s;
+
+  @override
+  List<Object> get props => [s];
+  Map<String, dynamic> toJson() => _$InputToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class CustomArguments extends JsonSerializable with EquatableMixin {
   CustomArguments({@required this.input});
 
   factory CustomArguments.fromJson(Map<String, dynamic> json) =>
       _$CustomArgumentsFromJson(json);
 
-  final String input;
+  final Input input;
 
   @override
   List<Object> get props => [input];
@@ -162,7 +198,7 @@ class CustomMutation
           VariableDefinitionNode(
               variable: VariableNode(name: NameNode(value: 'input')),
               type: NamedTypeNode(
-                  name: NameNode(value: 'String'), isNonNull: true),
+                  name: NameNode(value: 'Input'), isNonNull: true),
               defaultValue: DefaultValueNode(value: null),
               directives: [])
         ],
