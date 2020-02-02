@@ -411,6 +411,18 @@ class _AB extends RecursiveVisitor {
     node.visitChildren(visitor);
   }
 
+  void _generateEnumForType(_Context context, GraphQLType type) {
+    final currentType =
+        gql.getTypeByName(options.schema, type.name, context: 'enum');
+
+    context.generatedClasses.add(
+      EnumDefinition(
+        name: context.className,
+        values: currentType.enumValues.map((eV) => eV.name).toList(),
+      ),
+    );
+  }
+
   @override
   void visitFieldNode(FieldNode node) {
     final fieldName = node.name.value;
@@ -459,6 +471,21 @@ Make sure your query is correct and your schema is updated.''');
       annotation: annotation,
       isNonNull: field.type.kind == GraphQLTypeKind.NON_NULL,
     ));
+
+    // On enums
+    if (nextType.kind == GraphQLTypeKind.ENUM) {
+      _generateEnumForType(
+        _Context(
+          className: nextClassName,
+          currentType: nextType,
+          generatedClasses: context.generatedClasses,
+          inputsClasses: context.inputsClasses,
+          fragments: context.fragments,
+        ),
+        nextType,
+      );
+      return;
+    }
 
     node.visitChildren(_AB(
       context: _Context(
