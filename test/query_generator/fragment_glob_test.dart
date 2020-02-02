@@ -52,7 +52,7 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
       classes: [
         ClassDefinition(
             name: r'Query$Query$Pokemon$Pokemon',
-            mixins: [r'PokemonMixin'],
+            mixins: [r'Query$PokemonMixin'],
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
@@ -65,7 +65,7 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
                   isOverride: false,
                   isNonNull: false)
             ],
-            mixins: [r'PokemonMixin'],
+            mixins: [r'Query$PokemonMixin'],
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
@@ -82,32 +82,32 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: r'PokemonMixin$PokemonDimension',
-            mixins: [r'WeightMixin'],
+            name: r'Query$Query$Pokemon$PokemonDimension',
+            mixins: [r'Query$WeightMixin'],
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: r'PokemonMixin$PokemonAttack',
-            mixins: [r'PokemonAttackMixin'],
+            name: r'Query$Query$Pokemon$PokemonAttack',
+            mixins: [r'Query$PokemonAttackMixin'],
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
-        FragmentClassDefinition(name: r'PokemonMixin', properties: [
+        FragmentClassDefinition(name: r'Query$PokemonMixin', properties: [
           ClassProperty(
               type: r'String', name: r'id', isOverride: false, isNonNull: true),
           ClassProperty(
-              type: r'PokemonMixin$PokemonDimension',
+              type: r'Query$Query$Pokemon$PokemonDimension',
               name: r'weight',
               isOverride: false,
               isNonNull: false),
           ClassProperty(
-              type: r'PokemonMixin$PokemonAttack',
+              type: r'Query$Query$Pokemon$PokemonAttack',
               name: r'attacks',
               isOverride: false,
               isNonNull: false)
         ]),
-        FragmentClassDefinition(name: r'WeightMixin', properties: [
+        FragmentClassDefinition(name: r'Query$WeightMixin', properties: [
           ClassProperty(
               type: r'String',
               name: r'minimum',
@@ -115,19 +115,19 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
               isNonNull: false)
         ]),
         ClassDefinition(
-            name: r'PokemonAttackMixin$Attack',
-            mixins: [r'AttackMixin'],
+            name: r'Query$Query$PokemonAttack$Attack',
+            mixins: [r'Query$AttackMixin'],
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
-        FragmentClassDefinition(name: r'PokemonAttackMixin', properties: [
+        FragmentClassDefinition(name: r'Query$PokemonAttackMixin', properties: [
           ClassProperty(
-              type: r'List<PokemonAttackMixin$Attack>',
+              type: r'List<Query$Query$PokemonAttack$Attack>',
               name: r'special',
               isOverride: false,
               isNonNull: false)
         ]),
-        FragmentClassDefinition(name: r'AttackMixin', properties: [
+        FragmentClassDefinition(name: r'Query$AttackMixin', properties: [
           ClassProperty(
               type: r'String',
               name: r'name',
@@ -135,7 +135,8 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
               isNonNull: false)
         ])
       ],
-      generateHelpers: true)
+      generateHelpers: true,
+      suffix: r'Query')
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
@@ -146,23 +147,23 @@ import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
 part 'query.g.dart';
 
-mixin PokemonMixin {
+mixin Query$PokemonMixin {
   String id;
-  PokemonMixin$PokemonDimension weight;
-  PokemonMixin$PokemonAttack attacks;
+  Query$Query$Pokemon$PokemonDimension weight;
+  Query$Query$Pokemon$PokemonAttack attacks;
 }
-mixin WeightMixin {
+mixin Query$WeightMixin {
   String minimum;
 }
-mixin PokemonAttackMixin {
-  List<PokemonAttackMixin$Attack> special;
+mixin Query$PokemonAttackMixin {
+  List<Query$Query$PokemonAttack$Attack> special;
 }
-mixin AttackMixin {
+mixin Query$AttackMixin {
   String name;
 }
 
 @JsonSerializable(explicitToJson: true)
-class Query$Query$Pokemon$Pokemon with EquatableMixin, PokemonMixin {
+class Query$Query$Pokemon$Pokemon with EquatableMixin, Query$PokemonMixin {
   Query$Query$Pokemon$Pokemon();
 
   factory Query$Query$Pokemon$Pokemon.fromJson(Map<String, dynamic> json) =>
@@ -174,7 +175,7 @@ class Query$Query$Pokemon$Pokemon with EquatableMixin, PokemonMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class Query$Query$Pokemon with EquatableMixin, PokemonMixin {
+class Query$Query$Pokemon with EquatableMixin, Query$PokemonMixin {
   Query$Query$Pokemon();
 
   factory Query$Query$Pokemon.fromJson(Map<String, dynamic> json) =>
@@ -202,39 +203,47 @@ class Query$Query with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class PokemonMixin$PokemonDimension with EquatableMixin, WeightMixin {
-  PokemonMixin$PokemonDimension();
+class Query$Query$Pokemon$PokemonDimension
+    with EquatableMixin, Query$WeightMixin {
+  Query$Query$Pokemon$PokemonDimension();
 
-  factory PokemonMixin$PokemonDimension.fromJson(Map<String, dynamic> json) =>
-      _$PokemonMixin$PokemonDimensionFromJson(json);
+  factory Query$Query$Pokemon$PokemonDimension.fromJson(
+          Map<String, dynamic> json) =>
+      _$Query$Query$Pokemon$PokemonDimensionFromJson(json);
 
   @override
   List<Object> get props => [minimum];
-  Map<String, dynamic> toJson() => _$PokemonMixin$PokemonDimensionToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$Query$Query$Pokemon$PokemonDimensionToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class PokemonMixin$PokemonAttack with EquatableMixin, PokemonAttackMixin {
-  PokemonMixin$PokemonAttack();
+class Query$Query$Pokemon$PokemonAttack
+    with EquatableMixin, Query$PokemonAttackMixin {
+  Query$Query$Pokemon$PokemonAttack();
 
-  factory PokemonMixin$PokemonAttack.fromJson(Map<String, dynamic> json) =>
-      _$PokemonMixin$PokemonAttackFromJson(json);
+  factory Query$Query$Pokemon$PokemonAttack.fromJson(
+          Map<String, dynamic> json) =>
+      _$Query$Query$Pokemon$PokemonAttackFromJson(json);
 
   @override
   List<Object> get props => [special];
-  Map<String, dynamic> toJson() => _$PokemonMixin$PokemonAttackToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$Query$Query$Pokemon$PokemonAttackToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class PokemonAttackMixin$Attack with EquatableMixin, AttackMixin {
-  PokemonAttackMixin$Attack();
+class Query$Query$PokemonAttack$Attack with EquatableMixin, Query$AttackMixin {
+  Query$Query$PokemonAttack$Attack();
 
-  factory PokemonAttackMixin$Attack.fromJson(Map<String, dynamic> json) =>
-      _$PokemonAttackMixin$AttackFromJson(json);
+  factory Query$Query$PokemonAttack$Attack.fromJson(
+          Map<String, dynamic> json) =>
+      _$Query$Query$PokemonAttack$AttackFromJson(json);
 
   @override
   List<Object> get props => [name];
-  Map<String, dynamic> toJson() => _$PokemonAttackMixin$AttackToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$Query$Query$PokemonAttack$AttackToJson(this);
 }
 
 class QueryQuery extends GraphQLQuery<Query$Query, JsonSerializable> {

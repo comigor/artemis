@@ -408,7 +408,8 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
             isInput: false)
       ],
       inputs: [QueryInput(type: r'String', name: r'id', isNonNull: true)],
-      generateHelpers: false)
+      generateHelpers: false,
+      suffix: r'Query')
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND

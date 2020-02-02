@@ -9,6 +9,14 @@ import './generator/helpers.dart';
 import './schema/graphql.dart';
 import './schema/options.dart';
 
+typedef _OnNewClassFoundCallback = void Function(
+  _Context context,
+);
+
+void _log(Object log, [int align = 2]) {
+  print('${List.filled(align, ' ').join()}${log.toString()}');
+}
+
 /// Generate queries definitions from a GraphQL schema and a list of queries,
 /// given Artemis options and schema mappings.
 LibraryDefinition generateLibrary(
@@ -28,7 +36,7 @@ LibraryDefinition generateLibrary(
       [], (defs, def) => defs.followedBy(def.classes.map((c) => c.name)));
 
   mergeDuplicatesBy(allClassesNames, (a) => a, (a, b) {
-    print(queriesDefinitions);
+    _log(queriesDefinitions);
 
     throw Exception('''Two classes were generated with the same name `$a`!
 You may want to:
@@ -118,7 +126,7 @@ QueryDefinition generateQuery(
 
   final visitor = _AB(
     context: _Context(
-      className: '$className\$${parentType.name}',
+      path: [className],
       currentType: parentType,
       generatedClasses: [],
       inputsClasses: [],
@@ -157,60 +165,68 @@ List<String> _extractCustomImports(
         .toSet()
         .toList();
 
-ClassProperty _createClassProperty(
-  String fieldName,
-  String alias,
-  String aliasClassName,
-  GraphQLSchema schema,
-  GraphQLType parentType,
-  GeneratorOptions options, {
-  OnNewClassFoundCallback onNewClassFound,
-  SelectionNode selection,
+ClassProperty _createClassProperty({
+  @required String fieldName,
+  String fieldAlias,
+  @required _Context context,
+  @required _InjectedOptions options,
+  _OnNewClassFoundCallback onNewClassFound,
 }) {
-  String annotation;
-  final graphQLField = parentType.fields
+  final inputField = context.currentType.inputFields
       .firstWhere((f) => f.name == fieldName, orElse: () => null);
-  final graphQLInputValue = parentType.inputFields
+  final regularField = context.currentType.fields
       .firstWhere((f) => f.name == fieldName, orElse: () => null);
 
-  final selectedType = graphQLField?.type ?? graphQLInputValue?.type;
-  if (selectedType == null) {
-    print(
-        'Could not find property "${fieldName}" of class "${parentType.name}". Moving on...');
-    return null;
+  final fieldType = regularField?.type ?? inputField?.type;
+
+  if (fieldType == null) {
+    throw Exception(
+        '''Field $fieldName was not found in GraphQL type ${context.currentType.name}.
+Make sure your query is correct and your schema is updated.''');
   }
+  final aliasAsClassName =
+      fieldAlias != null ? ReCase(fieldAlias).pascalCase : null;
+  final nextType =
+      fieldType.follow().upgrade(options.schema, context: 'field node');
+  final nextClassName = context.joinedName(aliasAsClassName ?? nextType.name);
 
-  final dartTypeStr = gql.buildTypeString(selectedType, options,
-      dartType: true, replaceLeafWith: aliasClassName);
+  final dartTypeStr = gql.buildTypeString(fieldType, options.options,
+      dartType: true, replaceLeafWith: nextClassName);
 
-  final leafType = gql.getTypeByName(schema, gql.followType(selectedType).name,
-      context: 'class property');
-  if (leafType.kind != GraphQLTypeKind.SCALAR && onNewClassFound != null) {
+  if (nextType.kind != GraphQLTypeKind.SCALAR &&
+      nextType.kind != GraphQLTypeKind.ENUM &&
+      onNewClassFound != null) {
     onNewClassFound(
-        selection != null && selection is FieldNode
-            ? selection.selectionSet
-            : null,
-        aliasClassName ?? leafType.name,
-        leafType);
+      context.same(
+        nextType: nextType,
+        alias: aliasAsClassName,
+      ),
+    );
   }
 
   // On custom scalars
-  final scalar = gql.getSingleScalarMap(options, leafType);
-  if (leafType.kind == GraphQLTypeKind.SCALAR &&
+  String annotation;
+  final scalar = gql.getSingleScalarMap(options.options, nextType);
+  if (nextType.kind == GraphQLTypeKind.SCALAR &&
       scalar.customParserImport != null) {
     final graphqlTypeSafeStr = gql
-        .buildTypeString(selectedType, options, dartType: false)
+        .buildTypeString(fieldType, options.options, dartType: false)
         .replaceAll(RegExp(r'[<>]'), '');
     final dartTypeSafeStr = dartTypeStr.replaceAll(RegExp(r'[<>]'), '');
     annotation =
-        'JsonKey(fromJson: fromGraphQL${graphqlTypeSafeStr}ToDart$dartTypeSafeStr, toJson: fromDart${dartTypeSafeStr}ToGraphQL$graphqlTypeSafeStr)';
+        'JsonKey(fromJson: fromGraphQL${dartTypeStr}ToDart$dartTypeSafeStr, toJson: fromDart${dartTypeSafeStr}ToGraphQL$graphqlTypeSafeStr)';
+  }
+
+  // On enums
+  else if (nextType.kind == GraphQLTypeKind.ENUM) {
+    _generateEnumForType(context.same(nextType: nextType), options);
   }
 
   return ClassProperty(
     type: dartTypeStr,
-    name: alias,
+    name: fieldAlias ?? fieldName,
     annotation: annotation,
-    isNonNull: graphQLInputValue?.type?.kind == GraphQLTypeKind.NON_NULL,
+    isNonNull: fieldType.kind == GraphQLTypeKind.NON_NULL,
   );
 }
 
@@ -228,21 +244,107 @@ class _InjectedOptions {
 
 class _Context {
   _Context({
-    @required this.className,
+    @required this.path,
     @required this.currentType,
+    this.alias,
     this.ofUnion,
     @required this.generatedClasses,
     @required this.inputsClasses,
     @required this.fragments,
   });
 
-  final String className;
+  final List<String> path;
   final GraphQLType currentType;
   final GraphQLType ofUnion;
+  final String alias;
 
   final List<Definition> generatedClasses;
   final List<QueryInput> inputsClasses;
   final List<FragmentDefinitionNode> fragments;
+
+  String joinedName([String name]) =>
+      '${path.join(r'$')}\$${name ?? alias ?? currentType.name}';
+
+  _Context same({
+    @required GraphQLType nextType,
+    GraphQLType ofUnion,
+    String alias,
+    List<Definition> generatedClasses,
+    List<QueryInput> inputsClasses,
+    List<FragmentDefinitionNode> fragments,
+  }) =>
+      _Context(
+        path: path,
+        currentType: nextType,
+        ofUnion: ofUnion ?? this.ofUnion,
+        alias: alias ?? this.alias,
+        generatedClasses: generatedClasses ?? this.generatedClasses,
+        inputsClasses: inputsClasses ?? this.inputsClasses,
+        fragments: fragments ?? this.fragments,
+      );
+
+  _Context next({
+    @required GraphQLType nextType,
+    GraphQLType ofUnion,
+    String alias,
+    List<Definition> generatedClasses,
+    List<QueryInput> inputsClasses,
+    List<FragmentDefinitionNode> fragments,
+  }) =>
+      _Context(
+        path: path.followedBy([alias ?? currentType.name]).toList(),
+        currentType: nextType,
+        ofUnion: ofUnion ?? this.ofUnion,
+        alias: alias ?? this.alias,
+        generatedClasses: generatedClasses ?? this.generatedClasses,
+        inputsClasses: inputsClasses ?? this.inputsClasses,
+        fragments: fragments ?? this.fragments,
+      );
+
+  _Context nextPath({
+    GraphQLType ofUnion,
+    String alias,
+    List<Definition> generatedClasses,
+    List<QueryInput> inputsClasses,
+    List<FragmentDefinitionNode> fragments,
+  }) =>
+      _Context(
+        path: path.followedBy([alias ?? currentType.name]).toList(),
+        currentType: currentType,
+        ofUnion: ofUnion ?? this.ofUnion,
+        alias: alias ?? this.alias,
+        generatedClasses: generatedClasses ?? this.generatedClasses,
+        inputsClasses: inputsClasses ?? this.inputsClasses,
+        fragments: fragments ?? this.fragments,
+      );
+
+  _Context firstPath({
+    GraphQLType ofUnion,
+    List<Definition> generatedClasses,
+    List<QueryInput> inputsClasses,
+    List<FragmentDefinitionNode> fragments,
+  }) =>
+      _Context(
+        path: [path.first],
+        currentType: currentType,
+        ofUnion: ofUnion ?? this.ofUnion,
+        generatedClasses: generatedClasses ?? this.generatedClasses,
+        inputsClasses: inputsClasses ?? this.inputsClasses,
+        fragments: fragments ?? this.fragments,
+      );
+}
+
+void _generateEnumForType(_Context context, _InjectedOptions options) {
+  final currentType =
+      context.currentType.upgrade(options.schema, context: 'enum');
+
+  _log('<- Generated enum ${context.joinedName()}', 0);
+  context.generatedClasses.add(
+    EnumDefinition(
+      name: context.joinedName(),
+      values: currentType.enumValues.map((eV) => eV.name).toList(),
+    ),
+  );
 }
 
 class _AB extends RecursiveVisitor {
@@ -260,11 +362,11 @@ class _AB extends RecursiveVisitor {
 
   @override
   void visitSelectionSetNode(SelectionSetNode node) {
-    print(
-        'Start wrapping class ${context.currentType.name} (-> ${context.className}).');
+    // _log(
+    //     'Start wrapping class ${context.currentType.name} (on ${context.contextName} context).');
     super.visitSelectionSetNode(node);
-    print(
-        'Finish wrapping class ${context.currentType.name} (-> ${context.className}).');
+    // _log(
+    //     'Finish wrapping class ${context.currentType.name} (on ${context.contextName} context).');
 
     final possibleTypes = <String, String>{};
     if (context.currentType.kind == GraphQLTypeKind.UNION ||
@@ -273,7 +375,7 @@ class _AB extends RecursiveVisitor {
       final keys = node.selections
           .whereType<InlineFragmentNode>()
           .map((n) => n.typeCondition.on.name.value);
-      final values = keys.map((t) => '${context.className}\$$t');
+      final values = keys.map((t) => context.nextPath().joinedName(t));
       possibleTypes.addAll(Map.fromIterables(keys, values));
       _classProperties.add(ClassProperty(
         type: 'String',
@@ -281,57 +383,38 @@ class _AB extends RecursiveVisitor {
         annotation: 'JsonKey(name: \'${options.schemaMap.typeNameField}\')',
         isOverride: true,
       ));
-      print('It is an union/interface of possible types $possibleTypes.');
+      _log('It is an union/interface of possible types $possibleTypes.');
     }
     final partOfUnion = context.ofUnion != null;
     if (partOfUnion) {
-      print('It is part of union ${context.ofUnion.name}.');
+      _log('It is part of union ${context.ofUnion.name}.');
     }
 
+    _log('<- Generated class ${context.joinedName()}.', 0);
     context.generatedClasses.add(ClassDefinition(
-      name: context.className,
+      name: context.joinedName(),
       properties: _classProperties,
       mixins: _mixins,
-      extension: partOfUnion
-          ? context.className.replaceAll('\$${context.currentType.name}', '')
-          : null,
+      extension: partOfUnion ? context.path.join(r'$') : null,
       factoryPossibilities: possibleTypes,
     ));
   }
 
-  void _generateInputObjectClassesByType(_Context context, GraphQLType type) {
-    final currentType =
-        gql.getTypeByName(options.schema, type.name, context: 'input object');
-
-    if (currentType.kind == GraphQLTypeKind.ENUM) {
-      context.generatedClasses.add(
-        EnumDefinition(
-          name: currentType.name,
-          values: currentType.enumValues.map((eV) => eV.name).toList(),
-        ),
-      );
-      return;
-    }
-
-    final properties = currentType.inputFields.map((i) {
-      final type = gql.getTypeByName(
-          options.schema, gql.followType(i.type).name,
-          context: 'input object/union');
+  void _generateInputObjectClassesByType(_Context context) {
+    final properties = context.currentType.inputFields.map((i) {
       return _createClassProperty(
-        i.name,
-        i.name,
-        type.name,
-        options.schema,
-        currentType,
-        options.options,
-        onNewClassFound: (selectionSet, className, type) {
-          _generateInputObjectClassesByType(context, type);
+        fieldName: i.name,
+        context: context.nextPath(),
+        options: options,
+        onNewClassFound: (nextContext) {
+          _generateInputObjectClassesByType(nextContext);
         },
       );
     }).toList();
 
+    _log('<- Generated input class ${context.joinedName()}.', 0);
     context.generatedClasses.add(ClassDefinition(
-      name: type.name,
+      name: context.joinedName(),
       properties: properties,
       isInput: true,
     ));
@@ -340,37 +423,40 @@ class _AB extends RecursiveVisitor {
   @override
   void visitVariableDefinitionNode(VariableDefinitionNode node) {
     final varType = _unwrapToType(options.schema, node.type);
-    final dartTypeStr =
-        gql.buildTypeString(varType, options.options, dartType: true);
+    final nextClassName = context.joinedName(varType.name);
+
+    final dartTypeStr = gql.buildTypeString(varType, options.options,
+        dartType: true, replaceLeafWith: nextClassName);
     context.inputsClasses.add(QueryInput(
       type: dartTypeStr,
       name: node.variable.name.value,
       isNonNull: node.type.isNonNull,
     ));
 
-    print('Found new input ${node.variable.name.value} (-> $dartTypeStr).');
+    _log('Found new input ${node.variable.name.value} (-> $dartTypeStr).');
 
-    final leafType = gql.followType(varType);
+    final leafType = varType.follow().upgrade(options.schema);
+    final nextContext = context.same(nextType: leafType);
     if (leafType.kind == GraphQLTypeKind.INPUT_OBJECT) {
-      _generateInputObjectClassesByType(context, leafType);
+      _generateInputObjectClassesByType(nextContext);
+    } else if (leafType.kind == GraphQLTypeKind.ENUM) {
+      _generateEnumForType(nextContext, options);
     }
   }
 
   @override
   void visitFragmentDefinitionNode(FragmentDefinitionNode node) {
     context.fragments.add(node);
-    final fragmentName = '${ReCase(node.name.value).pascalCase}Mixin';
-    print('Found new fragment ${node.name.value} (-> $fragmentName).');
+    final partName = '${ReCase(node.name.value).pascalCase}Mixin';
+    // _log('Found new fragment ${node.name.value} (-> $fragmentName).');
 
     final fragmentOnClassName = node.typeCondition.on.name.value;
     final nextType = gql.getTypeByName(options.schema, fragmentOnClassName,
         context: 'fragment definition');
 
     final visitor = _AB(
-      context: _Context(
-        className: fragmentName,
-        currentType: nextType,
-        generatedClasses: context.generatedClasses,
+      context: context.next(
+        nextType: nextType,
         inputsClasses: [],
         fragments: [],
       ),
@@ -379,9 +465,10 @@ class _AB extends RecursiveVisitor {
 
     node.selectionSet.visitChildren(visitor);
 
+    _log('<- Generated mixin ${context.joinedName(partName)}', 0);
     context.generatedClasses.add(
       FragmentClassDefinition(
-        name: fragmentName,
+        name: context.joinedName(partName),
         properties: visitor._classProperties,
       ),
     );
@@ -393,15 +480,12 @@ class _AB extends RecursiveVisitor {
     final nextType = gql.getTypeByName(options.schema, onTypeName,
         context: 'inline fragment');
 
-    print(
-        'Fragment spread on ${nextType.name} (on ${context.className} context).');
+    _log('Fragment spread on ${nextType.name} (context: ${context.path}).');
 
     final visitor = _AB(
-      context: _Context(
-        className: '${context.className}\$${nextType.name}',
-        currentType: nextType,
+      context: context.next(
+        nextType: nextType,
         ofUnion: context.currentType,
-        generatedClasses: context.generatedClasses,
         inputsClasses: [],
         fragments: [],
       ),
@@ -411,18 +495,6 @@ class _AB extends RecursiveVisitor {
     node.visitChildren(visitor);
   }
 
-  void _generateEnumForType(_Context context, GraphQLType type) {
-    final currentType =
-        gql.getTypeByName(options.schema, type.name, context: 'enum');
-
-    context.generatedClasses.add(
-      EnumDefinition(
-        name: context.className,
-        values: currentType.enumValues.map((eV) => eV.name).toList(),
-      ),
-    );
-  }
-
   @override
   void visitFieldNode(FieldNode node) {
     final fieldName = node.name.value;
@@ -430,80 +502,31 @@ class _AB extends RecursiveVisitor {
       return;
     }
 
-    final field = context.currentType.fields
-        .firstWhere((f) => f.name == fieldName, orElse: () => null);
-    print(
-        'Searching for field $fieldName in GraphQL type ${context.currentType.name} (on ${context.className} context)... ${field == null ? 'Not found' : 'Found'}.');
-    if (field == null) {
-      throw Exception(
-          '''Field $fieldName was not found in GraphQL type ${context.currentType.name}.
-Make sure your query is correct and your schema is updated.''');
-    }
-    final aliasAsClassName =
-        node.alias?.value != null ? ReCase(node.alias?.value).pascalCase : null;
-    final nextType = gql.getTypeByName(
-        options.schema, gql.followType(field.type).name,
-        context: 'field node');
-    final nextClassName =
-        '${context.className}\$${aliasAsClassName ?? nextType.name}';
+    _log(
+        'Visiting $fieldName ${node.alias?.value != null ? '(alias: ${node.alias.value})' : ''} on ${context.currentType.name} (context: ${context.path}).');
 
-    final dartTypeStr = gql.buildTypeString(field.type, options.options,
-        dartType: true, replaceLeafWith: nextClassName);
-
-    print('$fieldName GraphQL type is ${nextType.name} (-> $dartTypeStr).');
-
-    // On custom scalars
-    String annotation;
-    final scalar = gql.getSingleScalarMap(options.options, nextType);
-    if (nextType.kind == GraphQLTypeKind.SCALAR &&
-        scalar.customParserImport != null) {
-      final graphqlTypeSafeStr = gql
-          .buildTypeString(field.type, options.options, dartType: false)
-          .replaceAll(RegExp(r'[<>]'), '');
-      final dartTypeSafeStr = dartTypeStr.replaceAll(RegExp(r'[<>]'), '');
-      annotation =
-          'JsonKey(fromJson: fromGraphQL${dartTypeStr}ToDart$dartTypeSafeStr, toJson: fromDart${dartTypeSafeStr}ToGraphQL$graphqlTypeSafeStr)';
-    }
-
-    _classProperties.add(ClassProperty(
-      type: dartTypeStr,
-      name: node.alias?.value ?? fieldName,
-      annotation: annotation,
-      isNonNull: field.type.kind == GraphQLTypeKind.NON_NULL,
-    ));
-
-    // On enums
-    if (nextType.kind == GraphQLTypeKind.ENUM) {
-      _generateEnumForType(
-        _Context(
-          className: nextClassName,
-          currentType: nextType,
-          generatedClasses: context.generatedClasses,
-          inputsClasses: context.inputsClasses,
-          fragments: context.fragments,
-        ),
-        nextType,
-      );
-      return;
-    }
-
-    node.visitChildren(_AB(
-      context: _Context(
-        className: nextClassName,
-        currentType: nextType,
-        generatedClasses: context.generatedClasses,
-        inputsClasses: context.inputsClasses,
-        fragments: context.fragments,
-      ),
+    final property = _createClassProperty(
+      fieldName: fieldName,
+      fieldAlias: node.alias?.value,
+      context: context.nextPath(),
       options: options,
-    ));
+      onNewClassFound: (nextContext) {
+        node.visitChildren(_AB(
+          context: nextContext,
+          options: options,
+        ));
+      },
+    );
+    _classProperties.add(property);
   }
 
   @override
   void visitFragmentSpreadNode(FragmentSpreadNode node) {
-    final fragmentName = '${ReCase(node.name.value).pascalCase}Mixin';
-    print(
-        'Spreading fragment $fragmentName into GraphQL type ${context.currentType.name} (on ${context.className} context).');
+    final fragmentName = context
+        .firstPath()
+        .joinedName('${ReCase(node.name.value).pascalCase}Mixin');
+    _log(
+        'Spreading fragment $fragmentName into GraphQL type ${context.currentType.name} (context: ${context.path}).');
     _mixins.add(fragmentName);
   }
 }

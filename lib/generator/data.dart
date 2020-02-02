@@ -3,19 +3,11 @@ import 'package:gql/ast.dart';
 import 'package:recase/recase.dart';
 import 'package:meta/meta.dart';
 
-import '../schema/graphql.dart';
 import 'data_printer.dart';
 import 'helpers.dart';
 
 /// Callback fired when the generator processes a [LibraryDefinition].
 typedef OnBuildQuery = void Function(LibraryDefinition definition);
-
-/// Callback fired when a new class is found during schema parsing.
-typedef OnNewClassFoundCallback = void Function(
-  SelectionSetNode selectionSet,
-  String className,
-  GraphQLType parentType,
-);
 
 /// Define a property (field) from a class.
 class ClassProperty extends Equatable with DataPrinter {

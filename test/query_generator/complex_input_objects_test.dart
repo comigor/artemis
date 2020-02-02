@@ -67,38 +67,59 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
         ClassDefinition(
             name: r'SomeQuery$QueryRoot$SomeObject',
             properties: [
-              ClassProperty(type: r'String', name: r's', isOverride: false)
+              ClassProperty(
+                  type: r'String',
+                  name: r's',
+                  isOverride: false,
+                  isNonNull: false)
             ],
-            typeNameField: r'__typename'),
+            factoryPossibilities: {},
+            typeNameField: r'__typename',
+            isInput: false),
         ClassDefinition(
             name: r'SomeQuery$QueryRoot',
             properties: [
               ClassProperty(
                   type: r'SomeQuery$QueryRoot$SomeObject',
                   name: r'o',
-                  isOverride: false)
+                  isOverride: false,
+                  isNonNull: false)
             ],
-            typeNameField: r'__typename'),
-        EnumDefinition(name: r'MyEnum', values: [r'value1', r'value2']),
+            factoryPossibilities: {},
+            typeNameField: r'__typename',
+            isInput: false),
+        EnumDefinition(
+            name: r'SomeQuery$ComplexType$MyEnum',
+            values: [r'value1', r'value2']),
         ClassDefinition(
-            name: r'ComplexType',
+            name: r'SomeQuery$ComplexType',
             properties: [
               ClassProperty(
                   type: r'String',
                   name: r's',
                   isOverride: false,
                   isNonNull: true),
-              ClassProperty(type: r'MyEnum', name: r'e', isOverride: false),
               ClassProperty(
-                  type: r'List<String>', name: r'ls', isOverride: false)
+                  type: r'SomeQuery$ComplexType$MyEnum',
+                  name: r'e',
+                  isOverride: false,
+                  isNonNull: false),
+              ClassProperty(
+                  type: r'List<String>',
+                  name: r'ls',
+                  isOverride: false,
+                  isNonNull: false)
             ],
+            factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: true)
       ],
       inputs: [
-        QueryInput(type: r'ComplexType', name: r'filter', isNonNull: true)
+        QueryInput(
+            type: r'SomeQuery$ComplexType', name: r'filter', isNonNull: true)
       ],
-      generateHelpers: true)
+      generateHelpers: true,
+      suffix: r'Query')
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
@@ -139,24 +160,24 @@ class SomeQuery$QueryRoot with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class ComplexType with EquatableMixin {
-  ComplexType({@required this.s, this.e, this.ls});
+class SomeQuery$ComplexType with EquatableMixin {
+  SomeQuery$ComplexType({@required this.s, this.e, this.ls});
 
-  factory ComplexType.fromJson(Map<String, dynamic> json) =>
-      _$ComplexTypeFromJson(json);
+  factory SomeQuery$ComplexType.fromJson(Map<String, dynamic> json) =>
+      _$SomeQuery$ComplexTypeFromJson(json);
 
   String s;
 
-  MyEnum e;
+  SomeQuery$ComplexType$MyEnum e;
 
   List<String> ls;
 
   @override
   List<Object> get props => [s, e, ls];
-  Map<String, dynamic> toJson() => _$ComplexTypeToJson(this);
+  Map<String, dynamic> toJson() => _$SomeQuery$ComplexTypeToJson(this);
 }
 
-enum MyEnum {
+enum SomeQuery$ComplexType$MyEnum {
   value1,
   value2,
 }
@@ -168,7 +189,7 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
   factory SomeQueryArguments.fromJson(Map<String, dynamic> json) =>
       _$SomeQueryArgumentsFromJson(json);
 
-  final ComplexType filter;
+  final SomeQuery$ComplexType filter;
 
   @override
   List<Object> get props => [filter];

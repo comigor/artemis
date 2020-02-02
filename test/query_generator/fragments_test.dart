@@ -37,16 +37,26 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
       queryName: r'some_query',
       queryType: r'SomeQuery$SomeObject',
       classes: [
-        FragmentClassDefinition(name: r'MyFragmentMixin', properties: [
-          ClassProperty(type: r'String', name: r's', isOverride: false),
-          ClassProperty(type: r'int', name: r'i', isOverride: false)
-        ]),
+        FragmentClassDefinition(
+            name: r'SomeQuery$MyFragmentMixin',
+            properties: [
+              ClassProperty(
+                  type: r'String',
+                  name: r's',
+                  isOverride: false,
+                  isNonNull: false),
+              ClassProperty(
+                  type: r'int', name: r'i', isOverride: false, isNonNull: false)
+            ]),
         ClassDefinition(
             name: r'SomeQuery$SomeObject',
-            mixins: [r'MyFragmentMixin'],
-            typeNameField: r'__typename')
+            mixins: [r'SomeQuery$MyFragmentMixin'],
+            factoryPossibilities: {},
+            typeNameField: r'__typename',
+            isInput: false)
       ],
-      generateHelpers: false)
+      generateHelpers: false,
+      suffix: r'Query')
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
@@ -56,13 +66,13 @@ import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
 part 'query.g.dart';
 
-mixin MyFragmentMixin {
+mixin SomeQuery$MyFragmentMixin {
   String s;
   int i;
 }
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery$SomeObject with EquatableMixin, MyFragmentMixin {
+class SomeQuery$SomeObject with EquatableMixin, SomeQuery$MyFragmentMixin {
   SomeQuery$SomeObject();
 
   factory SomeQuery$SomeObject.fromJson(Map<String, dynamic> json) =>
