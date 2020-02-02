@@ -46,7 +46,7 @@ final schema = GraphQLSchema(
           GraphQLField(
               name: 'mut',
               type: GraphQLType(
-                  name: 'MutationResponse', kind: GraphQLTypeKind.SCALAR)),
+                  name: 'MutationResponse', kind: GraphQLTypeKind.OBJECT)),
         ],
         inputFields: [
           GraphQLInputValue(
@@ -82,7 +82,7 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
             name: r'Custom$MutationRoot',
             properties: [
               ClassProperty(
-                  type: r'MutationResponse',
+                  type: r'Custom$MutationRoot$MutationResponse',
                   name: r'mut',
                   isOverride: false,
                   isNonNull: false)
@@ -128,7 +128,7 @@ class Custom$MutationRoot with EquatableMixin {
   factory Custom$MutationRoot.fromJson(Map<String, dynamic> json) =>
       _$Custom$MutationRootFromJson(json);
 
-  MutationResponse mut;
+  Custom$MutationRoot$MutationResponse mut;
 
   @override
   List<Object> get props => [mut];
