@@ -3,15 +3,14 @@ import 'package:gql/ast.dart';
 import 'package:path/path.dart' as p;
 import 'package:recase/recase.dart';
 
+import './generator/ephemeral_data.dart';
 import './generator/data.dart';
 import './generator/graphql_helpers.dart' as gql;
 import './generator/helpers.dart';
 import './schema/graphql.dart';
 import './schema/options.dart';
 
-typedef _OnNewClassFoundCallback = void Function(
-  _Context context,
-);
+typedef _OnNewClassFoundCallback = void Function(Context context);
 
 void _log(Object log, [int align = 2]) {
   print('${List.filled(align, ' ').join()}${log.toString()}');
@@ -124,15 +123,15 @@ QueryDefinition generateQuery(
 
   final suffix = operation.type == OperationType.query ? 'Query' : 'Mutation';
 
-  final visitor = _AB(
-    context: _Context(
+  final visitor = _GeneratorVisitor(
+    context: Context(
       path: [className],
       currentType: parentType,
       generatedClasses: [],
       inputsClasses: [],
       fragments: fragments,
     ),
-    options: _InjectedOptions(
+    options: InjectedOptions(
       schema: schema,
       options: options,
       schemaMap: schemaMap,
@@ -168,8 +167,8 @@ List<String> _extractCustomImports(
 ClassProperty _createClassProperty({
   @required String fieldName,
   String fieldAlias,
-  @required _Context context,
-  @required _InjectedOptions options,
+  @required Context context,
+  @required InjectedOptions options,
   _OnNewClassFoundCallback onNewClassFound,
 }) {
   final inputField = context.currentType.inputFields
@@ -197,7 +196,7 @@ Make sure your query is correct and your schema is updated.''');
       nextType.kind != GraphQLTypeKind.ENUM &&
       onNewClassFound != null) {
     onNewClassFound(
-      context.same(
+      context.nextTypeWithSamePath(
         nextType: nextType,
         alias: aliasAsClassName,
       ),
@@ -220,7 +219,7 @@ Make sure your query is correct and your schema is updated.''');
   // On enums
   else if (nextType.kind == GraphQLTypeKind.ENUM) {
     _generateEnumForType(
-      context.same(
+      context.nextTypeWithSamePath(
         nextType: nextType,
         alias: aliasAsClassName,
       ),
@@ -236,111 +235,7 @@ Make sure your query is correct and your schema is updated.''');
   );
 }
 
-class _InjectedOptions {
-  _InjectedOptions({
-    @required this.schema,
-    @required this.options,
-    @required this.schemaMap,
-  });
-
-  final GraphQLSchema schema;
-  final GeneratorOptions options;
-  final SchemaMap schemaMap;
-}
-
-class _Context {
-  _Context({
-    @required this.path,
-    @required this.currentType,
-    this.alias,
-    this.ofUnion,
-    @required this.generatedClasses,
-    @required this.inputsClasses,
-    @required this.fragments,
-  });
-
-  final List<String> path;
-  final GraphQLType currentType;
-  final GraphQLType ofUnion;
-  final String alias;
-
-  final List<Definition> generatedClasses;
-  final List<QueryInput> inputsClasses;
-  final List<FragmentDefinitionNode> fragments;
-
-  String joinedName([String name]) =>
-      '${path.join(r'$')}\$${name ?? alias ?? currentType.name}';
-
-  _Context same({
-    @required GraphQLType nextType,
-    GraphQLType ofUnion,
-    String alias,
-    List<Definition> generatedClasses,
-    List<QueryInput> inputsClasses,
-    List<FragmentDefinitionNode> fragments,
-  }) =>
-      _Context(
-        path: path,
-        currentType: nextType,
-        ofUnion: ofUnion ?? this.ofUnion,
-        alias: alias ?? this.alias,
-        generatedClasses: generatedClasses ?? this.generatedClasses,
-        inputsClasses: inputsClasses ?? this.inputsClasses,
-        fragments: fragments ?? this.fragments,
-      );
-
-  _Context next({
-    @required GraphQLType nextType,
-    GraphQLType ofUnion,
-    String alias,
-    List<Definition> generatedClasses,
-    List<QueryInput> inputsClasses,
-    List<FragmentDefinitionNode> fragments,
-  }) =>
-      _Context(
-        path: path.followedBy([alias ?? currentType.name]).toList(),
-        currentType: nextType,
-        ofUnion: ofUnion ?? this.ofUnion,
-        alias: alias ?? this.alias,
-        generatedClasses: generatedClasses ?? this.generatedClasses,
-        inputsClasses: inputsClasses ?? this.inputsClasses,
-        fragments: fragments ?? this.fragments,
-      );
-
-  _Context nextPath({
-    GraphQLType ofUnion,
-    String alias,
-    List<Definition> generatedClasses,
-    List<QueryInput> inputsClasses,
-    List<FragmentDefinitionNode> fragments,
-  }) =>
-      _Context(
-        path: path.followedBy([alias ?? currentType.name]).toList(),
-        currentType: currentType,
-        ofUnion: ofUnion ?? this.ofUnion,
-        alias: alias ?? this.alias,
-        generatedClasses: generatedClasses ?? this.generatedClasses,
-        inputsClasses: inputsClasses ?? this.inputsClasses,
-        fragments: fragments ?? this.fragments,
-      );
-
-  _Context firstPath({
-    GraphQLType ofUnion,
-    List<Definition> generatedClasses,
-    List<QueryInput> inputsClasses,
-    List<FragmentDefinitionNode> fragments,
-  }) =>
-      _Context(
-        path: [path.first],
-        currentType: currentType,
-        ofUnion: ofUnion ?? this.ofUnion,
-        generatedClasses: generatedClasses ?? this.generatedClasses,
-        inputsClasses: inputsClasses ?? this.inputsClasses,
-        fragments: fragments ?? this.fragments,
-      );
-}
-
-void _generateEnumForType(_Context context, _InjectedOptions options) {
+void _generateEnumForType(Context context, InjectedOptions options) {
   final currentType =
       context.currentType.upgrade(options.schema, context: 'enum');
 
@@ -353,14 +248,14 @@ void _generateEnumForType(_Context context, _InjectedOptions options) {
   );
 }
 
-class _AB extends RecursiveVisitor {
-  _AB({
+class _GeneratorVisitor extends RecursiveVisitor {
+  _GeneratorVisitor({
     @required this.context,
     @required this.options,
   });
 
-  final _Context context;
-  final _InjectedOptions options;
+  final Context context;
+  final InjectedOptions options;
 
   SelectionSetNode selectionSetNode;
   final List<ClassProperty> _classProperties = [];
@@ -368,11 +263,7 @@ class _AB extends RecursiveVisitor {
 
   @override
   void visitSelectionSetNode(SelectionSetNode node) {
-    // _log(
-    //     'Start wrapping class ${context.currentType.name} (on ${context.contextName} context).');
     super.visitSelectionSetNode(node);
-    // _log(
-    //     'Finish wrapping class ${context.currentType.name} (on ${context.contextName} context).');
 
     final possibleTypes = <String, String>{};
     if (context.currentType.kind == GraphQLTypeKind.UNION ||
@@ -381,7 +272,8 @@ class _AB extends RecursiveVisitor {
       final keys = node.selections
           .whereType<InlineFragmentNode>()
           .map((n) => n.typeCondition.on.name.value);
-      final values = keys.map((t) => context.nextPath().joinedName(t));
+      final values =
+          keys.map((t) => context.sameTypeWithNextPath().joinedName(t));
       possibleTypes.addAll(Map.fromIterables(keys, values));
       _classProperties.add(ClassProperty(
         type: 'String',
@@ -406,11 +298,11 @@ class _AB extends RecursiveVisitor {
     ));
   }
 
-  void _generateInputObjectClassesByType(_Context context) {
+  void _generateInputObjectClassesByType(Context context) {
     final properties = context.currentType.inputFields.map((i) {
       return _createClassProperty(
         fieldName: i.name,
-        context: context.nextPath(),
+        context: context.sameTypeWithNextPath(),
         options: options,
         onNewClassFound: (nextContext) {
           _generateInputObjectClassesByType(nextContext);
@@ -442,7 +334,7 @@ class _AB extends RecursiveVisitor {
     _log('Found new input ${node.variable.name.value} (-> $dartTypeStr).');
 
     final leafType = varType.follow().upgrade(options.schema);
-    final nextContext = context.same(nextType: leafType);
+    final nextContext = context.nextTypeWithSamePath(nextType: leafType);
     if (leafType.kind == GraphQLTypeKind.INPUT_OBJECT) {
       _generateInputObjectClassesByType(nextContext);
     } else if (leafType.kind == GraphQLTypeKind.ENUM) {
@@ -454,13 +346,12 @@ class _AB extends RecursiveVisitor {
   void visitFragmentDefinitionNode(FragmentDefinitionNode node) {
     context.fragments.add(node);
     final partName = '${ReCase(node.name.value).pascalCase}Mixin';
-    // _log('Found new fragment ${node.name.value} (-> $fragmentName).');
 
     final fragmentOnClassName = node.typeCondition.on.name.value;
     final nextType = gql.getTypeByName(options.schema, fragmentOnClassName,
         context: 'fragment definition');
 
-    final visitor = _AB(
+    final visitor = _GeneratorVisitor(
       context: context.next(
         nextType: nextType,
         inputsClasses: [],
@@ -488,7 +379,7 @@ class _AB extends RecursiveVisitor {
 
     _log('Fragment spread on ${nextType.name} (context: ${context.path}).');
 
-    final visitor = _AB(
+    final visitor = _GeneratorVisitor(
       context: context.next(
         nextType: nextType,
         ofUnion: context.currentType,
@@ -514,10 +405,10 @@ class _AB extends RecursiveVisitor {
     final property = _createClassProperty(
       fieldName: fieldName,
       fieldAlias: node.alias?.value,
-      context: context.nextPath(),
+      context: context.sameTypeWithNextPath(),
       options: options,
       onNewClassFound: (nextContext) {
-        node.visitChildren(_AB(
+        node.visitChildren(_GeneratorVisitor(
           context: nextContext,
           options: options,
         ));
@@ -529,7 +420,7 @@ class _AB extends RecursiveVisitor {
   @override
   void visitFragmentSpreadNode(FragmentSpreadNode node) {
     final fragmentName = context
-        .firstPath()
+        .sameTypeWithFirstPath()
         .joinedName('${ReCase(node.name.value).pascalCase}Mixin');
     _log(
         'Spreading fragment $fragmentName into GraphQL type ${context.currentType.name} (context: ${context.path}).');
