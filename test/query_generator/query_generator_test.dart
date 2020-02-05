@@ -1099,6 +1099,7 @@ class SomeQuery with EquatableMixin {
                         ClassProperty('String', 'st', isOverride: true),
                         ClassProperty('List<SomeQueryAnotherObject>', 'ob'),
                         ClassProperty('String', 'resolveType',
+                            isResolveType: true,
                             annotation: 'JsonKey(name: \'__resolveType\')',
                             isOverride: true)
                       ],
@@ -1112,6 +1113,7 @@ class SomeQuery with EquatableMixin {
                       [
                         ClassProperty('String', 'st'),
                         ClassProperty('String', 'resolveType',
+                            isResolveType: true,
                             annotation: 'JsonKey(name: \'__resolveType\')')
                       ],
                       prefix: 'SomeQuery'),
@@ -1459,6 +1461,7 @@ class SomeQuery with EquatableMixin, MyFragmentMixin {
                   ClassDefinition('SomeUnion', [
                     ClassProperty('String', 'resolveType',
                         isOverride: true,
+                        isResolveType: true,
                         annotation: 'JsonKey(name: \'__resolveType\')'),
                   ], factoryPossibilities: [
                     'TypeA',
