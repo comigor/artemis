@@ -21,5 +21,4 @@ void main() async {
   final edSheeran = response.data.node as Artist;
   print(edSheeran.name);
   print(edSheeran.lifeSpan.begin);
-//  print(edSheeran.spotify.href);
 }
