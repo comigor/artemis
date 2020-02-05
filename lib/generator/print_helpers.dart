@@ -113,8 +113,8 @@ Spec classDefinitionToSpec(ClassDefinition definition) {
       ..constructors.add(Constructor((b) {
         b
           ..optionalParameters.addAll(definition.properties
-              .where((property) =>
-                  property.isOverride == false && property.annotation == null)
+              .where(
+                  (property) => !property.isOverride && !property.isResolveType)
               .map(
                 (property) => Parameter(
                   (p) {

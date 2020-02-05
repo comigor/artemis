@@ -8,6 +8,9 @@ import './generator/helpers.dart';
 import './schema/graphql.dart';
 import './schema/options.dart';
 
+/// Enum value for values not mapped in the GraphQL enum
+const ARTEMIS_UNKNOWN = 'ARTEMIS_UNKNOWN';
+
 /// Generate queries definitions from a GraphQL schema and a list of queries,
 /// given Artemis options and schema mappings.
 LibraryDefinition generateLibrary(
@@ -194,6 +197,9 @@ ClassProperty _createClassProperty(
     final dartTypeSafeStr = dartTypeStr.replaceAll(RegExp(r'[<>]'), '');
     annotation =
         'JsonKey(fromJson: fromGraphQL${graphqlTypeSafeStr}ToDart$dartTypeSafeStr, toJson: fromDart${dartTypeSafeStr}ToGraphQL$graphqlTypeSafeStr)';
+  } else if (leafType.kind == GraphQLTypeKind.ENUM) {
+    annotation =
+        'JsonKey(unknownEnumValue: ${leafType.name}.${ARTEMIS_UNKNOWN})';
   }
 
   return ClassProperty(
@@ -320,7 +326,8 @@ List<Definition> _extractClasses(
     return [
       EnumDefinition(
         prefix + currentType.name,
-        currentType.enumValues.map((eV) => eV.name).toList(),
+        currentType.enumValues.map((eV) => eV.name).toList()
+          ..add(ARTEMIS_UNKNOWN),
       ),
     ];
   }
@@ -483,6 +490,7 @@ List<Definition> _extractClasses(
     // If this is an interface, we must add resolveType
     if (currentType.kind == GraphQLTypeKind.INTERFACE) {
       classProperties.add(ClassProperty('String', 'resolveType',
+          isResolveType: true,
           annotation: 'JsonKey(name: \'${schemaMap.resolveTypeField}\')'));
     }
 
@@ -506,6 +514,7 @@ List<Definition> _extractClasses(
 
       classProperties.add(ClassProperty('String', 'resolveType',
           annotation: 'JsonKey(name: \'${schemaMap.resolveTypeField}\')',
+          isResolveType: true,
           isOverride: true));
 
       implementations.forEach((interfaceType) {

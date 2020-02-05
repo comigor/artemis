@@ -31,9 +31,14 @@ class ClassProperty extends Equatable {
   /// Whether this parameter is required
   final bool isNonNull;
 
+  final bool isResolveType;
+
   /// Instantiate a property (field) from a class.
   ClassProperty(this.type, this.name,
-      {this.isOverride = false, this.annotation, this.isNonNull = false});
+      {this.isOverride = false,
+      this.annotation,
+      this.isNonNull = false,
+      this.isResolveType = false});
 
   /// Creates a copy of [ClassProperty] without modifying the original.
   ClassProperty copyWith(
@@ -41,10 +46,12 @@ class ClassProperty extends Equatable {
           String name,
           bool isOverride,
           String annotation,
-          bool isNonNull}) =>
+          bool isNonNull,
+          bool isResolveType}) =>
       ClassProperty(
         type ?? this.type,
         name ?? this.name,
+        isResolveType: isResolveType ?? this.isResolveType,
         isOverride: isOverride ?? this.isOverride,
         annotation: annotation ?? this.annotation,
         isNonNull: isNonNull ?? this.isNonNull,
