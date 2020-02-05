@@ -31,6 +31,7 @@ class ClassProperty extends Equatable {
   /// Whether this parameter is required
   final bool isNonNull;
 
+  /// Whether this parameter corresponds to the __resolveType (or equivalent)
   final bool isResolveType;
 
   /// Instantiate a property (field) from a class.
