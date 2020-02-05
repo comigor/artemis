@@ -62,7 +62,8 @@ class ClassProperty extends Equatable {
   String toString() => props.toList().toString();
 
   @override
-  List get props => [type, name, isOverride, annotation, isNonNull];
+  List get props =>
+      [type, name, isOverride, annotation, isNonNull, isResolveType];
 }
 
 /// Define a query/mutation input parameter.
