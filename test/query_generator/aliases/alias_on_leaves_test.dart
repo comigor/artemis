@@ -56,7 +56,7 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
       classes: [
         EnumDefinition(
             name: r'SomeQuery$Query$SomeObject$ThisIsAnEnum',
-            values: [r'A', r'B']),
+            values: [r'A', r'B', r'ARTEMIS_UNKNOWN']),
         ClassDefinition(
             name: r'SomeQuery$Query$SomeObject',
             properties: [
@@ -64,7 +64,10 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
                   type: r'SomeQuery$Query$SomeObject$ThisIsAnEnum',
                   name: r'thisIsAnEnum',
                   isOverride: false,
-                  isNonNull: false)
+                  annotation:
+                      r'JsonKey(unknownEnumValue: SomeQuery$Query$SomeObject$ThisIsAnEnum.ARTEMIS_UNKNOWN)',
+                  isNonNull: false,
+                  isResolveType: false)
             ],
             factoryPossibilities: {},
             typeNameField: r'__typename',
@@ -76,12 +79,14 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
                   type: r'String',
                   name: r'thisIsAString',
                   isOverride: false,
-                  isNonNull: false),
+                  isNonNull: false,
+                  isResolveType: false),
               ClassProperty(
                   type: r'SomeQuery$Query$SomeObject',
                   name: r'o',
                   isOverride: false,
-                  isNonNull: false)
+                  isNonNull: false,
+                  isResolveType: false)
             ],
             factoryPossibilities: {},
             typeNameField: r'__typename',
@@ -105,6 +110,8 @@ class SomeQuery$Query$SomeObject with EquatableMixin {
   factory SomeQuery$Query$SomeObject.fromJson(Map<String, dynamic> json) =>
       _$SomeQuery$Query$SomeObjectFromJson(json);
 
+  @JsonKey(
+      unknownEnumValue: SomeQuery$Query$SomeObject$ThisIsAnEnum.ARTEMIS_UNKNOWN)
   SomeQuery$Query$SomeObject$ThisIsAnEnum thisIsAnEnum;
 
   @override
@@ -131,5 +138,6 @@ class SomeQuery$Query with EquatableMixin {
 enum SomeQuery$Query$SomeObject$ThisIsAnEnum {
   A,
   B,
+  ARTEMIS_UNKNOWN,
 }
 ''';

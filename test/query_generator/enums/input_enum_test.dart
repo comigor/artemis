@@ -98,7 +98,8 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
                   type: r'String',
                   name: r's',
                   isOverride: false,
-                  isNonNull: false)
+                  isNonNull: false,
+                  isResolveType: false)
             ],
             factoryPossibilities: {},
             typeNameField: r'__typename',
@@ -110,12 +111,15 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
                   type: r'Custom$QueryRoot$QueryResponse',
                   name: r'q',
                   isOverride: false,
-                  isNonNull: false)
+                  isNonNull: false,
+                  isResolveType: false)
             ],
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
-        EnumDefinition(name: r'Custom$Input$MyEnum', values: [r'A', r'B']),
+        EnumDefinition(
+            name: r'Custom$Input$MyEnum',
+            values: [r'A', r'B', r'ARTEMIS_UNKNOWN']),
         ClassDefinition(
             name: r'Custom$Input',
             properties: [
@@ -123,12 +127,17 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
                   type: r'Custom$Input$MyEnum',
                   name: r'e',
                   isOverride: false,
-                  isNonNull: true)
+                  annotation:
+                      r'JsonKey(unknownEnumValue: Custom$Input$MyEnum.ARTEMIS_UNKNOWN)',
+                  isNonNull: true,
+                  isResolveType: false)
             ],
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: true),
-        EnumDefinition(name: r'Custom$OtherEnum', values: [r'O1', r'O2'])
+        EnumDefinition(
+            name: r'Custom$OtherEnum',
+            values: [r'O1', r'O2', r'ARTEMIS_UNKNOWN'])
       ],
       inputs: [
         QueryInput(type: r'Custom$Input', name: r'input', isNonNull: true),
@@ -182,6 +191,7 @@ class Custom$Input with EquatableMixin {
   factory Custom$Input.fromJson(Map<String, dynamic> json) =>
       _$Custom$InputFromJson(json);
 
+  @JsonKey(unknownEnumValue: Custom$Input$MyEnum.ARTEMIS_UNKNOWN)
   Custom$Input$MyEnum e;
 
   @override
@@ -192,10 +202,12 @@ class Custom$Input with EquatableMixin {
 enum Custom$Input$MyEnum {
   A,
   B,
+  ARTEMIS_UNKNOWN,
 }
 enum Custom$OtherEnum {
   O1,
   O2,
+  ARTEMIS_UNKNOWN,
 }
 
 @JsonSerializable(explicitToJson: true)

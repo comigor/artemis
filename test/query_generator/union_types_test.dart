@@ -86,19 +86,31 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
         ClassDefinition(
             name: r'SomeQuery$SomeObject$SomeUnion$TypeA',
             properties: [
-              ClassProperty(type: r'int', name: r'a', isOverride: false)
+              ClassProperty(
+                  type: r'int',
+                  name: r'a',
+                  isOverride: false,
+                  isNonNull: false,
+                  isResolveType: false)
             ],
             extension: r'SomeQuery$SomeObject$SomeUnion',
             factoryPossibilities: {},
-            typeNameField: r'__typename'),
+            typeNameField: r'__typename',
+            isInput: false),
         ClassDefinition(
             name: r'SomeQuery$SomeObject$SomeUnion$TypeB',
             properties: [
-              ClassProperty(type: r'int', name: r'b', isOverride: false)
+              ClassProperty(
+                  type: r'int',
+                  name: r'b',
+                  isOverride: false,
+                  isNonNull: false,
+                  isResolveType: false)
             ],
             extension: r'SomeQuery$SomeObject$SomeUnion',
             factoryPossibilities: {},
-            typeNameField: r'__typename'),
+            typeNameField: r'__typename',
+            isInput: false),
         ClassDefinition(
             name: r'SomeQuery$SomeObject$SomeUnion',
             properties: [
@@ -106,25 +118,32 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
                   type: r'String',
                   name: r'typeName',
                   isOverride: true,
-                  annotation: r'''JsonKey(name: '__typename')''')
+                  annotation: r'''JsonKey(name: '__typename')''',
+                  isNonNull: false,
+                  isResolveType: true)
             ],
             factoryPossibilities: {
               r'TypeA': r'SomeQuery$SomeObject$SomeUnion$TypeA',
               r'TypeB': r'SomeQuery$SomeObject$SomeUnion$TypeB'
             },
-            typeNameField: r'__typename'),
+            typeNameField: r'__typename',
+            isInput: false),
         ClassDefinition(
             name: r'SomeQuery$SomeObject',
             properties: [
               ClassProperty(
                   type: r'SomeQuery$SomeObject$SomeUnion',
                   name: r'o',
-                  isOverride: false)
+                  isOverride: false,
+                  isNonNull: false,
+                  isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename')
+            typeNameField: r'__typename',
+            isInput: false)
       ],
-      generateHelpers: false)
+      generateHelpers: false,
+      suffix: r'Query')
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND

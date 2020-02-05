@@ -119,7 +119,7 @@ Spec classDefinitionToSpec(
           b
             ..optionalParameters.addAll(definition.properties
                 .where((property) =>
-                    property.isOverride == false && property.annotation == null)
+                    !property.isOverride && !property.isResolveType)
                 .map(
                   (property) => Parameter(
                     (p) {

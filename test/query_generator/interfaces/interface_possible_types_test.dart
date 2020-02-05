@@ -354,7 +354,8 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
                   type: r'String',
                   name: r'username',
                   isOverride: false,
-                  isNonNull: true)
+                  isNonNull: true,
+                  isResolveType: false)
             ],
             extension: r'Custom$Query$Node',
             factoryPossibilities: {},
@@ -367,7 +368,8 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
                   type: r'String',
                   name: r'message',
                   isOverride: false,
-                  isNonNull: true)
+                  isNonNull: true,
+                  isResolveType: false)
             ],
             extension: r'Custom$Query$Node',
             factoryPossibilities: {},
@@ -380,13 +382,15 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
                   type: r'String',
                   name: r'id',
                   isOverride: false,
-                  isNonNull: true),
+                  isNonNull: true,
+                  isResolveType: false),
               ClassProperty(
                   type: r'String',
                   name: r'typeName',
                   isOverride: true,
                   annotation: r'''JsonKey(name: '__typename')''',
-                  isNonNull: false)
+                  isNonNull: false,
+                  isResolveType: true)
             ],
             factoryPossibilities: {
               r'User': r'Custom$Query$Node$User',
@@ -401,7 +405,8 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
                   type: r'Custom$Query$Node',
                   name: r'nodeById',
                   isOverride: false,
-                  isNonNull: false)
+                  isNonNull: false,
+                  isResolveType: false)
             ],
             factoryPossibilities: {},
             typeNameField: r'__typename',

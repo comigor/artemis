@@ -16,6 +16,9 @@ void _log(Object log, [int align = 2]) {
   print('${List.filled(align, ' ').join()}${log.toString()}');
 }
 
+/// Enum value for values not mapped in the GraphQL enum
+const ARTEMIS_UNKNOWN = 'ARTEMIS_UNKNOWN';
+
 /// Generate queries definitions from a GraphQL schema and a list of queries,
 /// given Artemis options and schema mappings.
 LibraryDefinition generateLibrary(
@@ -225,6 +228,7 @@ Make sure your query is correct and your schema is updated.''');
       ),
       options,
     );
+    annotation = 'JsonKey(unknownEnumValue: $dartTypeStr.$ARTEMIS_UNKNOWN)';
   }
 
   return ClassProperty(
@@ -243,7 +247,8 @@ void _generateEnumForType(Context context, InjectedOptions options) {
   context.generatedClasses.add(
     EnumDefinition(
       name: context.joinedName(),
-      values: currentType.enumValues.map((eV) => eV.name).toList(),
+      values: currentType.enumValues.map((eV) => eV.name).toList()
+        ..add(ARTEMIS_UNKNOWN),
     ),
   );
 }
@@ -280,6 +285,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
         name: 'typeName',
         annotation: 'JsonKey(name: \'${options.schemaMap.typeNameField}\')',
         isOverride: true,
+        isResolveType: true,
       ));
       _log('It is an union/interface of possible types $possibleTypes.');
     }

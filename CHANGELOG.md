@@ -37,10 +37,18 @@ And also:
 - Add a GitHub example.
 
 TODO:
+- [ ] re-add more logs
 - [ ] clean options (?)
 - [ ] prefix every class with `$` (?)
 - [ ] refactor class naming variables
 - [ ] review readme and changelog
+
+## 3.2.0
+- Make enums loose. When unknown values are provided into an enum, it will fall back to a custom `ARTEMIS_UNKNOWN` value
+avoiding breaking/crashing the client.
+
+## 3.1.0
+- Allow to dispose `ArtemisClient` underlining http client when possible
 
 ## 3.0.0
 - BREAKING: Marks non nullable input field as `@required` [#68](https://github.com/comigor/artemis/pull/68)

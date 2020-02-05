@@ -7,6 +7,46 @@ import 'package:gql/ast.dart';
 part 'ed_sheeran.query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
+class EdSheeran$Query$Node$Artist$ReleaseConnection$Release
+    extends EdSheeran$Query$Node$Artist$ReleaseConnection with EquatableMixin {
+  EdSheeran$Query$Node$Artist$ReleaseConnection$Release();
+
+  factory EdSheeran$Query$Node$Artist$ReleaseConnection$Release.fromJson(
+          Map<String, dynamic> json) =>
+      _$EdSheeran$Query$Node$Artist$ReleaseConnection$ReleaseFromJson(json);
+
+  String id;
+
+  @JsonKey(
+      unknownEnumValue:
+          EdSheeran$Query$Node$Artist$ReleaseConnection$Release$ReleaseStatus
+              .ARTEMIS_UNKNOWN)
+  EdSheeran$Query$Node$Artist$ReleaseConnection$Release$ReleaseStatus status;
+
+  @override
+  List<Object> get props => [id, status];
+  Map<String, dynamic> toJson() =>
+      _$EdSheeran$Query$Node$Artist$ReleaseConnection$ReleaseToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class EdSheeran$Query$Node$Artist$ReleaseConnection
+    extends EdSheeran$Query$Node$Artist with EquatableMixin {
+  EdSheeran$Query$Node$Artist$ReleaseConnection();
+
+  factory EdSheeran$Query$Node$Artist$ReleaseConnection.fromJson(
+          Map<String, dynamic> json) =>
+      _$EdSheeran$Query$Node$Artist$ReleaseConnectionFromJson(json);
+
+  List<EdSheeran$Query$Node$Artist$ReleaseConnection$Release> nodes;
+
+  @override
+  List<Object> get props => [nodes];
+  Map<String, dynamic> toJson() =>
+      _$EdSheeran$Query$Node$Artist$ReleaseConnectionToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class EdSheeran$Query$Node$Artist$LifeSpan extends EdSheeran$Query$Node$Artist
     with EquatableMixin {
   EdSheeran$Query$Node$Artist$LifeSpan();
@@ -52,12 +92,14 @@ class EdSheeran$Query$Node$Artist extends EdSheeran$Query$Node
 
   String name;
 
+  EdSheeran$Query$Node$Artist$ReleaseConnection releases;
+
   EdSheeran$Query$Node$Artist$LifeSpan lifeSpan;
 
   EdSheeran$Query$Node$Artist$SpotifyArtist spotify;
 
   @override
-  List<Object> get props => [mbid, name, lifeSpan, spotify];
+  List<Object> get props => [mbid, name, releases, lifeSpan, spotify];
   Map<String, dynamic> toJson() => _$EdSheeran$Query$Node$ArtistToJson(this);
 }
 
@@ -104,6 +146,14 @@ class EdSheeran$Query with EquatableMixin {
   @override
   List<Object> get props => [node];
   Map<String, dynamic> toJson() => _$EdSheeran$QueryToJson(this);
+}
+
+enum EdSheeran$Query$Node$Artist$ReleaseConnection$Release$ReleaseStatus {
+  OFFICIAL,
+  PROMOTION,
+  BOOTLEG,
+  PSEUDORELEASE,
+  ARTEMIS_UNKNOWN,
 }
 
 class EdSheeranQuery extends GraphQLQuery<EdSheeran$Query, JsonSerializable> {
@@ -160,6 +210,32 @@ class EdSheeranQuery extends GraphQLQuery<EdSheeran$Query, JsonSerializable> {
                           arguments: [],
                           directives: [],
                           selectionSet: null),
+                      FieldNode(
+                          name: NameNode(value: 'releases'),
+                          alias: null,
+                          arguments: [],
+                          directives: [],
+                          selectionSet: SelectionSetNode(selections: [
+                            FieldNode(
+                                name: NameNode(value: 'nodes'),
+                                alias: null,
+                                arguments: [],
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
+                                  FieldNode(
+                                      name: NameNode(value: 'id'),
+                                      alias: null,
+                                      arguments: [],
+                                      directives: [],
+                                      selectionSet: null),
+                                  FieldNode(
+                                      name: NameNode(value: 'status'),
+                                      alias: null,
+                                      arguments: [],
+                                      directives: [],
+                                      selectionSet: null)
+                                ]))
+                          ])),
                       FieldNode(
                           name: NameNode(value: 'lifeSpan'),
                           alias: null,

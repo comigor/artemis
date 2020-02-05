@@ -1,10 +1,8 @@
-import 'dart:async';
-
 import 'package:artemis/artemis.dart';
 
 import 'queries/ed_sheeran.query.dart';
 
-Future<void> main() async {
+void main() async {
   final client = ArtemisClient(
     'https://graphbrainz.herokuapp.com/',
   );
@@ -23,5 +21,4 @@ Future<void> main() async {
   final edSheeran = response.data.node as EdSheeran$Query$Node$Artist;
   print(edSheeran.name);
   print(edSheeran.lifeSpan.begin);
-  print(edSheeran.spotify.href);
 }

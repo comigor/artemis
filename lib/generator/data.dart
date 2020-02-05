@@ -26,6 +26,9 @@ class ClassProperty extends Equatable with DataPrinter {
   /// Whether this parameter is required
   final bool isNonNull;
 
+  /// Whether this parameter corresponds to the __resolveType (or equivalent)
+  final bool isResolveType;
+
   /// Instantiate a property (field) from a class.
   ClassProperty({
     @required this.type,
@@ -33,6 +36,7 @@ class ClassProperty extends Equatable with DataPrinter {
     this.isOverride = false,
     this.annotation,
     this.isNonNull = false,
+    this.isResolveType = false,
   }) : assert(hasValue(type) && hasValue(name));
 
   /// Creates a copy of [ClassProperty] without modifying the original.
@@ -42,6 +46,7 @@ class ClassProperty extends Equatable with DataPrinter {
     bool isOverride,
     String annotation,
     bool isNonNull,
+    bool isResolveType,
   }) =>
       ClassProperty(
         type: type ?? this.type,
@@ -49,6 +54,7 @@ class ClassProperty extends Equatable with DataPrinter {
         isOverride: isOverride ?? this.isOverride,
         annotation: annotation ?? this.annotation,
         isNonNull: isNonNull ?? this.isNonNull,
+        isResolveType: isResolveType ?? this.isResolveType,
       );
 
   @override
@@ -58,6 +64,7 @@ class ClassProperty extends Equatable with DataPrinter {
         'isOverride': isOverride,
         'annotation': annotation,
         'isNonNull': isNonNull,
+        'isResolveType': isResolveType,
       };
 }
 

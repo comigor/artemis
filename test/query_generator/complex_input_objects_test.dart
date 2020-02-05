@@ -71,7 +71,8 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
                   type: r'String',
                   name: r's',
                   isOverride: false,
-                  isNonNull: false)
+                  isNonNull: false,
+                  isResolveType: false)
             ],
             factoryPossibilities: {},
             typeNameField: r'__typename',
@@ -83,14 +84,15 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
                   type: r'SomeQuery$QueryRoot$SomeObject',
                   name: r'o',
                   isOverride: false,
-                  isNonNull: false)
+                  isNonNull: false,
+                  isResolveType: false)
             ],
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
         EnumDefinition(
             name: r'SomeQuery$ComplexType$MyEnum',
-            values: [r'value1', r'value2']),
+            values: [r'value1', r'value2', r'ARTEMIS_UNKNOWN']),
         ClassDefinition(
             name: r'SomeQuery$ComplexType',
             properties: [
@@ -98,17 +100,22 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
                   type: r'String',
                   name: r's',
                   isOverride: false,
-                  isNonNull: true),
+                  isNonNull: true,
+                  isResolveType: false),
               ClassProperty(
                   type: r'SomeQuery$ComplexType$MyEnum',
                   name: r'e',
                   isOverride: false,
-                  isNonNull: false),
+                  annotation:
+                      r'JsonKey(unknownEnumValue: SomeQuery$ComplexType$MyEnum.ARTEMIS_UNKNOWN)',
+                  isNonNull: false,
+                  isResolveType: false),
               ClassProperty(
                   type: r'List<String>',
                   name: r'ls',
                   isOverride: false,
-                  isNonNull: false)
+                  isNonNull: false,
+                  isResolveType: false)
             ],
             factoryPossibilities: {},
             typeNameField: r'__typename',
@@ -168,6 +175,7 @@ class SomeQuery$ComplexType with EquatableMixin {
 
   String s;
 
+  @JsonKey(unknownEnumValue: SomeQuery$ComplexType$MyEnum.ARTEMIS_UNKNOWN)
   SomeQuery$ComplexType$MyEnum e;
 
   List<String> ls;
@@ -180,6 +188,7 @@ class SomeQuery$ComplexType with EquatableMixin {
 enum SomeQuery$ComplexType$MyEnum {
   value1,
   value2,
+  ARTEMIS_UNKNOWN,
 }
 
 @JsonSerializable(explicitToJson: true)

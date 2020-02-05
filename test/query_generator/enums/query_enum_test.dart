@@ -58,9 +58,8 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
       queryType: r'Custom$QueryRoot',
       classes: [
         EnumDefinition(
-          name: r'Custom$QueryRoot$QueryResponse$MyEnum',
-          values: ['A', 'B'],
-        ),
+            name: r'Custom$QueryRoot$QueryResponse$MyEnum',
+            values: [r'A', r'B', r'ARTEMIS_UNKNOWN']),
         ClassDefinition(
             name: r'Custom$QueryRoot$QueryResponse',
             properties: [
@@ -68,7 +67,10 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
                   type: r'Custom$QueryRoot$QueryResponse$MyEnum',
                   name: r'e',
                   isOverride: false,
-                  isNonNull: false)
+                  annotation:
+                      r'JsonKey(unknownEnumValue: Custom$QueryRoot$QueryResponse$MyEnum.ARTEMIS_UNKNOWN)',
+                  isNonNull: false,
+                  isResolveType: false)
             ],
             factoryPossibilities: {},
             typeNameField: r'__typename',
@@ -80,7 +82,8 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
                   type: r'Custom$QueryRoot$QueryResponse',
                   name: r'q',
                   isOverride: false,
-                  isNonNull: false)
+                  isNonNull: false,
+                  isResolveType: false)
             ],
             factoryPossibilities: {},
             typeNameField: r'__typename',
@@ -104,6 +107,8 @@ class Custom$QueryRoot$QueryResponse with EquatableMixin {
   factory Custom$QueryRoot$QueryResponse.fromJson(Map<String, dynamic> json) =>
       _$Custom$QueryRoot$QueryResponseFromJson(json);
 
+  @JsonKey(
+      unknownEnumValue: Custom$QueryRoot$QueryResponse$MyEnum.ARTEMIS_UNKNOWN)
   Custom$QueryRoot$QueryResponse$MyEnum e;
 
   @override
@@ -128,5 +133,6 @@ class Custom$QueryRoot with EquatableMixin {
 enum Custom$QueryRoot$QueryResponse$MyEnum {
   A,
   B,
+  ARTEMIS_UNKNOWN,
 }
 ''';

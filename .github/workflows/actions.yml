@@ -10,6 +10,8 @@ jobs:
       uses: actions/checkout@master
     - name: Run tests
       uses: comigor/actions/dart-test@master
+      env:
+        DTA_EXCLUDE_REGEX: example
   check-version-and-changelog:
     needs: test
     runs-on: ubuntu-latest
