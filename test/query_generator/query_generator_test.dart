@@ -1088,7 +1088,9 @@ class SomeQuery with EquatableMixin {
                       [
                         ClassProperty('String', 's'),
                         ClassProperty('SomeQuerySomeObject', 'o'),
-                        ClassProperty('SomeQueryMyEnum', 'e')
+                        ClassProperty('SomeQueryMyEnum', 'e',
+                            annotation:
+                                'JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)')
                       ],
                       prefix: 'SomeQuery'),
                   ClassDefinition(
@@ -1113,7 +1115,8 @@ class SomeQuery with EquatableMixin {
                             annotation: 'JsonKey(name: \'__resolveType\')')
                       ],
                       prefix: 'SomeQuery'),
-                  EnumDefinition('SomeQueryMyEnum', ['value1', 'value2']),
+                  EnumDefinition('SomeQueryMyEnum',
+                      ['value1', 'value2', 'ARTEMIS_UNKNOWN']),
                 ],
               ),
             ],
@@ -1143,6 +1146,7 @@ class SomeQuery with EquatableMixin {
 
   SomeQuerySomeObject o;
 
+  @JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)
   SomeQueryMyEnum e;
 
   @override
@@ -1205,6 +1209,7 @@ class SomeQueryAInterface with EquatableMixin {
 enum SomeQueryMyEnum {
   value1,
   value2,
+  ARTEMIS_UNKNOWN,
 }
 ''',
       });

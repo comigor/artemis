@@ -9,7 +9,7 @@ part 'ed_sheeran.query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class EdSheeran with EquatableMixin {
-  EdSheeran();
+  EdSheeran({this.node});
 
   factory EdSheeran.fromJson(Map<String, dynamic> json) =>
       _$EdSheeranFromJson(json);
@@ -23,7 +23,7 @@ class EdSheeran with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class Node with EquatableMixin {
-  Node();
+  Node({this.id});
 
   factory Node.fromJson(Map<String, dynamic> json) {
     switch (json['__typename'].toString()) {
@@ -53,13 +53,15 @@ class Node with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class Artist with EquatableMixin implements Node, Entity {
-  Artist();
+  Artist({this.mbid, this.name, this.releases, this.lifeSpan, this.spotify});
 
   factory Artist.fromJson(Map<String, dynamic> json) => _$ArtistFromJson(json);
 
   String mbid;
 
   String name;
+
+  ReleaseConnection releases;
 
   LifeSpan lifeSpan;
 
@@ -73,8 +75,59 @@ class Artist with EquatableMixin implements Node, Entity {
   String id;
 
   @override
-  List<Object> get props => [mbid, name, lifeSpan, spotify, resolveType, id];
+  List<Object> get props =>
+      [mbid, name, releases, lifeSpan, spotify, resolveType, id];
   Map<String, dynamic> toJson() => _$ArtistToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class ReleaseConnection with EquatableMixin {
+  ReleaseConnection({this.nodes});
+
+  factory ReleaseConnection.fromJson(Map<String, dynamic> json) =>
+      _$ReleaseConnectionFromJson(json);
+
+  List<Release> nodes;
+
+  @override
+  List<Object> get props => [nodes];
+  Map<String, dynamic> toJson() => _$ReleaseConnectionToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class Release with EquatableMixin implements Node, Entity {
+  Release();
+
+  factory Release.fromJson(Map<String, dynamic> json) =>
+      _$ReleaseFromJson(json);
+
+  @override
+  String id;
+
+  @JsonKey(unknownEnumValue: ReleaseStatus.ARTEMIS_UNKNOWN)
+  ReleaseStatus status;
+
+  @override
+  @JsonKey(name: '__typename')
+  String resolveType;
+
+  @override
+  List<Object> get props => [id, status, resolveType];
+  Map<String, dynamic> toJson() => _$ReleaseToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class Entity with EquatableMixin {
+  Entity();
+
+  factory Entity.fromJson(Map<String, dynamic> json) => _$EntityFromJson(json);
+
+  @JsonKey(name: '__typename')
+  String resolveType;
+
+  @override
+  List<Object> get props => [resolveType];
+  Map<String, dynamic> toJson() => _$EntityToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -96,7 +149,7 @@ class LifeSpan with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class SpotifyArtist with EquatableMixin {
-  SpotifyArtist();
+  SpotifyArtist({this.href});
 
   factory SpotifyArtist.fromJson(Map<String, dynamic> json) =>
       _$SpotifyArtistFromJson(json);
@@ -108,20 +161,12 @@ class SpotifyArtist with EquatableMixin {
   Map<String, dynamic> toJson() => _$SpotifyArtistToJson(this);
 }
 
-@JsonSerializable(explicitToJson: true)
-class Entity with EquatableMixin {
-  Entity();
-
-  factory Entity.fromJson(Map<String, dynamic> json) => _$EntityFromJson(json);
-
-  String mbid;
-
-  @JsonKey(name: '__typename')
-  String resolveType;
-
-  @override
-  List<Object> get props => [mbid, resolveType];
-  Map<String, dynamic> toJson() => _$EntityToJson(this);
+enum ReleaseStatus {
+  OFFICIAL,
+  PROMOTION,
+  BOOTLEG,
+  PSEUDORELEASE,
+  ARTEMIS_UNKNOWN,
 }
 
 class EdSheeranQuery extends GraphQLQuery<EdSheeran, JsonSerializable> {
@@ -178,6 +223,32 @@ class EdSheeranQuery extends GraphQLQuery<EdSheeran, JsonSerializable> {
                           arguments: [],
                           directives: [],
                           selectionSet: null),
+                      FieldNode(
+                          name: NameNode(value: 'releases'),
+                          alias: null,
+                          arguments: [],
+                          directives: [],
+                          selectionSet: SelectionSetNode(selections: [
+                            FieldNode(
+                                name: NameNode(value: 'nodes'),
+                                alias: null,
+                                arguments: [],
+                                directives: [],
+                                selectionSet: SelectionSetNode(selections: [
+                                  FieldNode(
+                                      name: NameNode(value: 'id'),
+                                      alias: null,
+                                      arguments: [],
+                                      directives: [],
+                                      selectionSet: null),
+                                  FieldNode(
+                                      name: NameNode(value: 'status'),
+                                      alias: null,
+                                      arguments: [],
+                                      directives: [],
+                                      selectionSet: null)
+                                ]))
+                          ])),
                       FieldNode(
                           name: NameNode(value: 'lifeSpan'),
                           alias: null,

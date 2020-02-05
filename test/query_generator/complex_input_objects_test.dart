@@ -87,10 +87,15 @@ void main() {
               ]),
               ClassDefinition('ComplexType', [
                 ClassProperty('String', 's', isNonNull: true),
-                ClassProperty('MyEnum', 'e'),
+                ClassProperty(
+                  'MyEnum',
+                  'e',
+                  annotation:
+                      'JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)',
+                ),
                 ClassProperty('List<String>', 'ls'),
               ]),
-              EnumDefinition('MyEnum', ['value1', 'value2']),
+              EnumDefinition('MyEnum', ['value1', 'value2', 'ARTEMIS_UNKNOWN']),
             ],
           ),
         ],
@@ -134,6 +139,7 @@ class ComplexType with EquatableMixin {
 
   String s;
 
+  @JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)
   MyEnum e;
 
   List<String> ls;
@@ -146,6 +152,7 @@ class ComplexType with EquatableMixin {
 enum MyEnum {
   value1,
   value2,
+  ARTEMIS_UNKNOWN,
 }
 
 @JsonSerializable(explicitToJson: true)

@@ -203,10 +203,10 @@ class AClass with EquatableMixin {
         'Its properties can be an override or have a custom annotation, or both.',
         () {
       final definition = ClassDefinition('AClass', [
-        ClassProperty('Type', 'name'),
-        ClassProperty('AnnotedProperty', 'name', annotation: 'Hey()'),
-        ClassProperty('OverridenProperty', 'name', isOverride: true),
-        ClassProperty('AllAtOnce', 'name',
+        ClassProperty('Type', 'name1'),
+        ClassProperty('AnnotedProperty', 'name2', annotation: 'Hey()'),
+        ClassProperty('OverridenProperty', 'name3', isOverride: true),
+        ClassProperty('AllAtOnce', 'name4',
             isOverride: true, annotation: 'Ho()'),
       ]);
 
@@ -214,24 +214,24 @@ class AClass with EquatableMixin {
 
       expect(str, '''@JsonSerializable(explicitToJson: true)
 class AClass with EquatableMixin {
-  AClass({this.name});
+  AClass({this.name1, this.name2});
 
   factory AClass.fromJson(Map<String, dynamic> json) => _\$AClassFromJson(json);
 
-  Type name;
+  Type name1;
 
   @Hey()
-  AnnotedProperty name;
+  AnnotedProperty name2;
 
   @override
-  OverridenProperty name;
+  OverridenProperty name3;
 
   @override
   @Ho()
-  AllAtOnce name;
+  AllAtOnce name4;
 
   @override
-  List<Object> get props => [name, name, name, name];
+  List<Object> get props => [name1, name2, name3, name4];
   Map<String, dynamic> toJson() => _\$AClassToJson(this);
 }
 ''');

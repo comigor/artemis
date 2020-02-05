@@ -5,6 +5,12 @@ query ed_sheeran {
     ... on Artist {
       mbid
       name
+      releases {
+        nodes {
+          id
+          status
+        }
+      }
       lifeSpan {
         begin
       }
