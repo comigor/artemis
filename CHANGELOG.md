@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 3.2.0
+- Make enums loose. When unknown values are provided into an enum, it will fall back to a custom `ARTEMIS_UNKNOWN` value
+avoiding breaking/crashing the client.
+
 ## 3.1.0
 - Allow to dispose `ArtemisClient` underlining http client when possible
 
