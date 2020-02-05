@@ -33,13 +33,14 @@ maintainable. Listed:
 
 And also:
 - Add more logs and errors while generating code, to help debugging.
-- Added a GitHub example.
+- Add more/refactor tests.
+- Add a GitHub example.
 
 TODO:
-- clean options?
-- prefix every class with `$` (?)
-- refactor class naming variables
-- review readme
+- [ ] clean options (?)
+- [ ] prefix every class with `$` (?)
+- [ ] refactor class naming variables
+- [ ] review readme and changelog
 
 ## 3.0.0
 - BREAKING: Marks non nullable input field as `@required` [#68](https://github.com/comigor/artemis/pull/68)
