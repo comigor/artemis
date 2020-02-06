@@ -199,7 +199,7 @@ ClassProperty _createClassProperty(
         'JsonKey(fromJson: fromGraphQL${graphqlTypeSafeStr}ToDart$dartTypeSafeStr, toJson: fromDart${dartTypeSafeStr}ToGraphQL$graphqlTypeSafeStr)';
   } else if (leafType.kind == GraphQLTypeKind.ENUM) {
     annotation =
-        'JsonKey(unknownEnumValue: ${leafType.name}.${ARTEMIS_UNKNOWN})';
+        'JsonKey(unknownEnumValue: $prefix${leafType.name}.${ARTEMIS_UNKNOWN})';
   }
 
   return ClassProperty(
