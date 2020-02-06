@@ -1090,7 +1090,7 @@ class SomeQuery with EquatableMixin {
                         ClassProperty('SomeQuerySomeObject', 'o'),
                         ClassProperty('SomeQueryMyEnum', 'e',
                             annotation:
-                                'JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)')
+                                'JsonKey(unknownEnumValue: SomeQueryMyEnum.ARTEMIS_UNKNOWN)')
                       ],
                       prefix: 'SomeQuery'),
                   ClassDefinition(
@@ -1148,7 +1148,7 @@ class SomeQuery with EquatableMixin {
 
   SomeQuerySomeObject o;
 
-  @JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)
+  @JsonKey(unknownEnumValue: SomeQueryMyEnum.ARTEMIS_UNKNOWN)
   SomeQueryMyEnum e;
 
   @override
