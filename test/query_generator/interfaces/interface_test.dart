@@ -5,12 +5,14 @@ import '../../helpers.dart';
 
 void main() {
   group('On interfaces', () {
-    testGenerator(
-      description: 'On interfaces',
-      query: query,
-      libraryDefinition: libraryDefinition,
-      generatedFile: generatedFile,
-      stringSchema: stringSchema,
+    test(
+      'On interfaces',
+      () async => testGenerator(
+        query: query,
+        libraryDefinition: libraryDefinition,
+        generatedFile: generatedFile,
+        stringSchema: stringSchema,
+      ),
     );
   });
 }

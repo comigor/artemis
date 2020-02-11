@@ -5,12 +5,14 @@ import '../../helpers.dart';
 
 void main() {
   group('On types not used by interfaces', () {
-    testGenerator(
-      description: 'Those other types are not considered nor generated',
-      query: query,
-      libraryDefinition: libraryDefinition,
-      generatedFile: generatedFile,
-      stringSchema: stringSchema,
+    test(
+      'Those other types are not considered nor generated',
+      () async => testGenerator(
+        query: query,
+        libraryDefinition: libraryDefinition,
+        generatedFile: generatedFile,
+        stringSchema: stringSchema,
+      ),
     );
   });
 }

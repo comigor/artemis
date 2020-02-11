@@ -6,13 +6,15 @@ import '../helpers.dart';
 
 void main() {
   group('On mutations', () {
-    testGenerator(
-      description: 'The mutation class will be suffixed as Mutation',
-      query: query,
-      libraryDefinition: libraryDefinition,
-      generatedFile: generatedFile,
-      typedSchema: schema,
-      generateHelpers: true,
+    test(
+      'The mutation class will be suffixed as Mutation',
+      () async => testGenerator(
+        query: query,
+        libraryDefinition: libraryDefinition,
+        generatedFile: generatedFile,
+        typedSchema: schema,
+        generateHelpers: true,
+      ),
     );
   });
 }

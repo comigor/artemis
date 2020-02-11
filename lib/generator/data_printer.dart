@@ -31,6 +31,6 @@ mixin DataPrinter on Equatable {
             hasValue(e.value) ? '${e.key}:${_formatPrint(e.value)}' : null)
         .where((o) => o != null)
         .join(', ');
-    return '${this.runtimeType}($params)';
+    return '${runtimeType}($params)';
   }
 }

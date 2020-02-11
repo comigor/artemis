@@ -6,15 +6,17 @@ import '../helpers.dart';
 
 void main() {
   group('On multiple queries', () {
-    testGenerator(
-      description: 'Header and part should only be included once',
-      query: r'query some_query { s, i }',
-      libraryDefinition: libraryDefinition,
-      generatedFile: generatedFile,
-      typedSchema: schema,
-      sourceAssetsMap: {
-        'a|another_query.graphql': 'query another_query { s }',
-      },
+    test(
+      'Header and part should only be included once',
+      () async => testGenerator(
+        query: r'query some_query { s, i }',
+        libraryDefinition: libraryDefinition,
+        generatedFile: generatedFile,
+        typedSchema: schema,
+        sourceAssetsMap: {
+          'a|another_query.graphql': 'query another_query { s }',
+        },
+      ),
     );
   });
 }

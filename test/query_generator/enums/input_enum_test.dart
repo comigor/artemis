@@ -6,13 +6,15 @@ import '../../helpers.dart';
 
 void main() {
   group('On enums', () {
-    testGenerator(
-      description: 'Enums can be part of input objects',
-      query: query,
-      libraryDefinition: libraryDefinition,
-      generatedFile: generatedFile,
-      typedSchema: schema,
-      generateHelpers: true,
+    test(
+      'Enums can be part of input objects',
+      () async => testGenerator(
+        query: query,
+        libraryDefinition: libraryDefinition,
+        generatedFile: generatedFile,
+        typedSchema: schema,
+        generateHelpers: true,
+      ),
     );
   });
 }

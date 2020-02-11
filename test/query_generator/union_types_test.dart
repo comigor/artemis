@@ -6,13 +6,15 @@ import '../helpers.dart';
 
 void main() {
   group('On union types', () {
-    testGenerator(
-      description: 'On union types',
-      query:
-          r'query some_query { o { __typename, ... on TypeA { a }, ... on TypeB { b } } }',
-      libraryDefinition: libraryDefinition,
-      generatedFile: generatedFile,
-      typedSchema: schema,
+    test(
+      'On union types',
+      () async => testGenerator(
+        query:
+            r'query some_query { o { __typename, ... on TypeA { a }, ... on TypeB { b } } }',
+        libraryDefinition: libraryDefinition,
+        generatedFile: generatedFile,
+        typedSchema: schema,
+      ),
     );
   });
 }

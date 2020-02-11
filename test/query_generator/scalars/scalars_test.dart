@@ -7,20 +7,24 @@ import '../../helpers.dart';
 void main() {
   group('On scalars', () {
     group('All default GraphQL scalars are parsed correctly', () {
-      testGenerator(
-        description: 'If they are defined on schema',
-        query: 'query query { a, b, c, d, e }',
-        libraryDefinition: libraryDefinition,
-        generatedFile: generatedFile,
-        typedSchema: schemaWithScalars,
+      test(
+        'If they are defined on schema',
+        () async => testGenerator(
+          query: 'query query { a, b, c, d, e }',
+          libraryDefinition: libraryDefinition,
+          generatedFile: generatedFile,
+          typedSchema: schemaWithScalars,
+        ),
       );
 
-      testGenerator(
-        description: 'If they are NOT explicitly defined on schema',
-        query: 'query query { a, b, c, d, e }',
-        libraryDefinition: libraryDefinition,
-        generatedFile: generatedFile,
-        typedSchema: schemaWithoutScalars,
+      test(
+        'If they are NOT explicitly defined on schema',
+        () async => testGenerator(
+          query: 'query query { a, b, c, d, e }',
+          libraryDefinition: libraryDefinition,
+          generatedFile: generatedFile,
+          typedSchema: schemaWithoutScalars,
+        ),
       );
     });
   });

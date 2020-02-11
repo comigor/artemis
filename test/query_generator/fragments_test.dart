@@ -6,13 +6,15 @@ import '../helpers.dart';
 
 void main() {
   group('On fragments', () {
-    testGenerator(
-      description: 'Fragments will have their own classes',
-      query:
-          'fragment myFragment on SomeObject { s, i }\nquery some_query { ...myFragment }',
-      libraryDefinition: libraryDefinition,
-      generatedFile: generatedFile,
-      typedSchema: schema,
+    test(
+      'Fragments will have their own classes',
+      () async => testGenerator(
+        query:
+            'fragment myFragment on SomeObject { s, i }\nquery some_query { ...myFragment }',
+        libraryDefinition: libraryDefinition,
+        generatedFile: generatedFile,
+        typedSchema: schema,
+      ),
     );
   });
 }

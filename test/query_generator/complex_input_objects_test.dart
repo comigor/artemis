@@ -6,14 +6,16 @@ import '../helpers.dart';
 
 void main() {
   group('On complex input objects', () {
-    testGenerator(
-      description: 'On complex input objects',
-      query:
-          r'query some_query($filter: ComplexType!) { o(filter: $filter) { s } }',
-      libraryDefinition: libraryDefinition,
-      generatedFile: generatedFile,
-      typedSchema: schema,
-      generateHelpers: true,
+    test(
+      'On complex input objects',
+      () async => testGenerator(
+        query:
+            r'query some_query($filter: ComplexType!) { o(filter: $filter) { s } }',
+        libraryDefinition: libraryDefinition,
+        generatedFile: generatedFile,
+        typedSchema: schema,
+        generateHelpers: true,
+      ),
     );
   });
 }

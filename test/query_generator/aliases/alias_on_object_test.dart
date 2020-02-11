@@ -6,12 +6,14 @@ import '../../helpers.dart';
 
 void main() {
   group('On aliases', () {
-    testGenerator(
-      description: 'Objects can be aliased',
-      query: query,
-      libraryDefinition: libraryDefinition,
-      generatedFile: generatedFile,
-      typedSchema: schema,
+    test(
+      'Objects can be aliased',
+      () async => testGenerator(
+        query: query,
+        libraryDefinition: libraryDefinition,
+        generatedFile: generatedFile,
+        typedSchema: schema,
+      ),
     );
   });
 }

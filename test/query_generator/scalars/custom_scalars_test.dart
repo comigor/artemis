@@ -7,58 +7,64 @@ import '../../helpers.dart';
 void main() {
   group('On scalars', () {
     group('On custom scalars', () {
-      testGenerator(
-        description: 'If they can be converted to a simple dart class',
+      test(
+        'If they can be converted to a simple dart class',
+        () async => testGenerator(
+          query: 'query query { a }',
+          libraryDefinition: libraryDefinition,
+          generatedFile: generatedFile,
+          typedSchema: schemaWithCustomScalar,
+          builderOptionsMap: {
+            'scalar_mapping': [
+              {
+                'graphql_type': 'MyUuid',
+                'dart_type': 'String',
+              },
+            ],
+          },
+        ),
+      );
+    });
+
+    test(
+      'When they need custom parser functions',
+      () async => testGenerator(
         query: 'query query { a }',
-        libraryDefinition: libraryDefinition,
-        generatedFile: generatedFile,
+        libraryDefinition: libraryDefinitionWithCustomParserFns,
+        generatedFile: generatedFileWithCustomParserFns,
         typedSchema: schemaWithCustomScalar,
         builderOptionsMap: {
           'scalar_mapping': [
             {
               'graphql_type': 'MyUuid',
-              'dart_type': 'String',
+              'custom_parser_import': 'package:example/src/custom_parser.dart',
+              'dart_type': 'MyUuid',
             },
           ],
         },
-      );
-    });
-
-    testGenerator(
-      description: 'When they need custom parser functions',
-      query: 'query query { a }',
-      libraryDefinition: libraryDefinitionWithCustomParserFns,
-      generatedFile: generatedFileWithCustomParserFns,
-      typedSchema: schemaWithCustomScalar,
-      builderOptionsMap: {
-        'scalar_mapping': [
-          {
-            'graphql_type': 'MyUuid',
-            'custom_parser_import': 'package:example/src/custom_parser.dart',
-            'dart_type': 'MyUuid',
-          },
-        ],
-      },
+      ),
     );
 
-    testGenerator(
-      description: 'When they need custom imports',
-      query: 'query query { a }',
-      libraryDefinition: libraryDefinitionWithCustomImports,
-      generatedFile: generatedFileWithCustomImports,
-      typedSchema: schemaWithCustomScalar,
-      builderOptionsMap: {
-        'scalar_mapping': [
-          {
-            'graphql_type': 'MyUuid',
-            'custom_parser_import': 'package:example/src/custom_parser.dart',
-            'dart_type': {
-              'name': 'MyUuid',
-              'imports': ['package:uuid/uuid.dart'],
-            }
-          },
-        ],
-      },
+    test(
+      'When they need custom imports',
+      () async => testGenerator(
+        query: 'query query { a }',
+        libraryDefinition: libraryDefinitionWithCustomImports,
+        generatedFile: generatedFileWithCustomImports,
+        typedSchema: schemaWithCustomScalar,
+        builderOptionsMap: {
+          'scalar_mapping': [
+            {
+              'graphql_type': 'MyUuid',
+              'custom_parser_import': 'package:example/src/custom_parser.dart',
+              'dart_type': {
+                'name': 'MyUuid',
+                'imports': ['package:uuid/uuid.dart'],
+              }
+            },
+          ],
+        },
+      ),
     );
   });
 }

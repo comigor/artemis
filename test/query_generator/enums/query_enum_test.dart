@@ -6,12 +6,14 @@ import '../../helpers.dart';
 
 void main() {
   group('On enums', () {
-    testGenerator(
-      description: 'Enums can be part of queries responses',
-      query: query,
-      libraryDefinition: libraryDefinition,
-      generatedFile: generatedFile,
-      typedSchema: schema,
+    test(
+      'Enums can be part of queries responses',
+      () async => testGenerator(
+        query: query,
+        libraryDefinition: libraryDefinition,
+        generatedFile: generatedFile,
+        typedSchema: schema,
+      ),
     );
   });
 }

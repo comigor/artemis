@@ -5,15 +5,17 @@ import '../helpers.dart';
 
 void main() {
   group('[Fragment generation]', () {
-    testGenerator(
-      description: 'Extracting',
-      query: queryString,
-      libraryDefinition: libraryDefinition,
-      generatedFile: generatedFile,
-      stringSchema: pokemonSchema,
-      builderOptionsMap: {'fragments_glob': '**.frag'},
-      sourceAssetsMap: {'a|fragment.frag': fragmentsString},
-      generateHelpers: true,
+    test(
+      'Extracting',
+      () async => testGenerator(
+        query: queryString,
+        libraryDefinition: libraryDefinition,
+        generatedFile: generatedFile,
+        stringSchema: pokemonSchema,
+        builderOptionsMap: {'fragments_glob': '**.frag'},
+        sourceAssetsMap: {'a|fragment.frag': fragmentsString},
+        generateHelpers: true,
+      ),
     );
   });
 }

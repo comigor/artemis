@@ -19,8 +19,7 @@ void debug(LogRecord log) {
   if (IS_DEBUG) print(log);
 }
 
-void testGenerator({
-  @required String description,
+Future testGenerator({
   @required String query,
   @required LibraryDefinition libraryDefinition,
   @required String generatedFile,
@@ -29,39 +28,37 @@ void testGenerator({
   bool generateHelpers = false,
   Map<String, dynamic> builderOptionsMap = const {},
   Map<String, dynamic> sourceAssetsMap = const {},
-}) {
+}) async {
   assert((typedSchema ?? stringSchema) != null);
   final schema = stringSchema ?? jsonFromSchema(typedSchema);
 
-  test(description, () async {
-    final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
-      if (!generateHelpers) 'generate_helpers': false,
-      'schema_mapping': [
-        {
-          'schema': 'api.schema.json',
-          'queries_glob': '**.graphql',
-          'output': 'lib/query.dart',
-        }
-      ],
-      ...builderOptionsMap,
-    }));
-
-    anotherBuilder.onBuild = expectAsync1((definition) {
-      if (IS_DEBUG) print(definition);
-      expect(definition, libraryDefinition);
-    }, count: 1);
-
-    await testBuilder(
-      anotherBuilder,
+  final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
+    if (!generateHelpers) 'generate_helpers': false,
+    'schema_mapping': [
       {
-        'a|api.schema.json': schema,
-        'a|query.graphql': query,
-        ...sourceAssetsMap,
-      },
-      outputs: {
-        'a|lib/query.dart': generatedFile,
-      },
-      onLog: debug,
-    );
-  });
+        'schema': 'api.schema.json',
+        'queries_glob': '**.graphql',
+        'output': 'lib/query.dart',
+      }
+    ],
+    ...builderOptionsMap,
+  }));
+
+  anotherBuilder.onBuild = expectAsync1((definition) {
+    if (IS_DEBUG) print(definition);
+    expect(definition, libraryDefinition);
+  }, count: 1);
+
+  return await testBuilder(
+    anotherBuilder,
+    {
+      'a|api.schema.json': schema,
+      'a|query.graphql': query,
+      ...sourceAssetsMap,
+    },
+    outputs: {
+      'a|lib/query.dart': generatedFile,
+    },
+    onLog: debug,
+  );
 }
