@@ -37,7 +37,7 @@ LibraryDefinition generateLibrary(
   final allClassesNames = queriesDefinitions.fold<Iterable<String>>(
       [], (defs, def) => defs.followedBy(def.classes.map((c) => c.name)));
 
-  mergeDuplicatesBy(allClassesNames, (a) => a, (a, b) {
+  allClassesNames.mergeDuplicatesBy((a) => a, (a, b) {
     _log(queriesDefinitions);
 
     throw Exception('''Two classes were generated with the same name `$a`!

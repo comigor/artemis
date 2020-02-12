@@ -10,7 +10,7 @@ void main() {
         {'a': 1},
         {'a': 2},
       ];
-      final anotherIt = removeDuplicatedBy(it, (i) => i['a']);
+      final anotherIt = it.removeDuplicatedBy((i) => i['a']);
 
       expect(anotherIt == it, false);
     });
@@ -23,7 +23,7 @@ void main() {
         {'a': 1},
       ];
       final copyOfIt = List.from(it);
-      removeDuplicatedBy(it, (i) => i['a']);
+      it.removeDuplicatedBy((i) => i['a']);
 
       expect(it, equals(copyOfIt));
     });
@@ -35,7 +35,7 @@ void main() {
         {'a': 2, 'first': false},
         {'a': 1, 'first': false},
       ];
-      final anotherIt = removeDuplicatedBy(it, (i) => i['a']);
+      final anotherIt = it.removeDuplicatedBy((i) => i['a']);
 
       expect(
           anotherIt,
@@ -52,9 +52,7 @@ void main() {
         {'a': 2, 'first': false},
         {'a': 1, 'first': false},
       ];
-      final anotherIt =
-          removeDuplicatedBy<Map<String, Object>, Map<String, Object>>(
-              it, (i) => i);
+      final anotherIt = it.removeDuplicatedBy((i) => i);
 
       expect(anotherIt, equals(it));
     });
@@ -66,7 +64,7 @@ void main() {
         {'a': 1},
         {'a': 2},
       ];
-      final anotherIt = mergeDuplicatesBy(it, (i) => i, (i, _) => i);
+      final anotherIt = it.mergeDuplicatesBy((i) => i, (i, _) => i);
 
       expect(anotherIt == it, false);
     });
@@ -78,7 +76,7 @@ void main() {
         {'a': 2, 'first': false},
         {'a': 1, 'first': false},
       ];
-      final anotherIt = mergeDuplicatesBy(it, (i) => i['a'], (i, _) => i);
+      final anotherIt = it.mergeDuplicatesBy((i) => i['a'], (i, _) => i);
 
       expect(
           anotherIt,
@@ -95,7 +93,7 @@ void main() {
         {'a': 2, 'last': true},
         {'a': 1, 'last': true},
       ];
-      final anotherIt = mergeDuplicatesBy(it, (i) => i['a'], (_, i) => i);
+      final anotherIt = it.mergeDuplicatesBy((i) => i['a'], (_, i) => i);
 
       expect(
           anotherIt,
