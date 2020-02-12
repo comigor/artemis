@@ -2,7 +2,7 @@ import 'package:artemis/generator/data.dart';
 import 'package:artemis/schema/graphql.dart';
 import 'package:test/test.dart';
 
-import '../helpers.dart';
+import '../../helpers.dart';
 
 void main() {
   group('On fragments', () {
