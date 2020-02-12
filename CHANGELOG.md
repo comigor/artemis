@@ -43,6 +43,9 @@ TODO:
 - [ ] refactor class naming variables
 - [ ] review readme and changelog
 
+## 3.2.1
+- Fix unknown enum: add prefix
+
 ## 3.2.0
 - Make enums loose. When unknown values are provided into an enum, it will fall back to a custom `ARTEMIS_UNKNOWN` value
 avoiding breaking/crashing the client.
