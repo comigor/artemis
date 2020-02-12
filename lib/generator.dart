@@ -368,11 +368,19 @@ class _GeneratorVisitor extends RecursiveVisitor {
 
     node.selectionSet.visitChildren(visitor);
 
+    final otherMixinsProps = context.generatedClasses
+        .whereType<FragmentClassDefinition>()
+        .where((def) => visitor._mixins.contains(def.name))
+        .map((def) => def.properties)
+        .expand((a) => a)
+        .mergeDuplicatesBy((a) => a.name, (a, b) => a);
+
     _log('<- Generated mixin ${context.joinedName(partName)}', 0);
     context.generatedClasses.add(
       FragmentClassDefinition(
         name: context.joinedName(partName),
-        properties: visitor._classProperties,
+        properties:
+            visitor._classProperties.followedBy(otherMixinsProps).toList(),
       ),
     );
   }
