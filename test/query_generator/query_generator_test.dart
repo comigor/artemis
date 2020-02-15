@@ -1,16 +1,11 @@
-import 'dart:convert';
-
 import 'package:artemis/builder.dart';
 import 'package:artemis/generator/data.dart';
 import 'package:artemis/schema/graphql.dart';
 import 'package:build/build.dart';
 import 'package:build_test/build_test.dart';
-import 'package:gql/language.dart';
 import 'package:test/test.dart';
 
-String jsonFromSchema(GraphQLSchema schema) => json.encode({
-      'data': {'__schema': schema.toJson()}
-    });
+import '../helpers.dart';
 
 void main() {
   group('On query generation', () {
@@ -40,10 +35,14 @@ void main() {
 
       anotherBuilder.onBuild = expectAsync1((_) {}, count: 0);
 
-      await testBuilder(anotherBuilder, {
-        'a|api.schema.json': jsonFromSchema(schema),
-        'a|some_query.query.graphql': 'query some_query { s, i }',
-      });
+      await testBuilder(
+        anotherBuilder,
+        {
+          'a|api.schema.json': jsonFromSchema(schema),
+          'a|some_query.query.graphql': 'query some_query { s, i }',
+        },
+        onLog: debug,
+      );
     });
 
     test('A simple query yields simple classes', () async {
@@ -80,31 +79,34 @@ void main() {
           ]);
 
       anotherBuilder.onBuild = expectAsync1((definition) {
-        expect(
-          definition,
-          LibraryDefinition(
-            'some_query',
-            queries: [
-              QueryDefinition(
-                'some_query',
-                parseString('query some_query { s, i }'),
-                classes: [
-                  ClassDefinition('SomeQuery', [
-                    ClassProperty('String', 's'),
-                    ClassProperty('int', 'i'),
-                  ])
-                ],
-              ),
-            ],
-          ),
-        );
+        final libraryDefinition =
+            LibraryDefinition(basename: r'some_query', queries: [
+          QueryDefinition(
+              queryName: r'some_query',
+              queryType: r'SomeQuery$SomeObject',
+              classes: [
+                ClassDefinition(
+                    name: r'SomeQuery$SomeObject',
+                    properties: [
+                      ClassProperty(
+                          type: r'String', name: r's', isOverride: false),
+                      ClassProperty(type: r'int', name: r'i', isOverride: false)
+                    ],
+                    typeNameField: r'__typename')
+              ],
+              generateHelpers: false)
+        ]);
+        expect(definition, libraryDefinition);
       }, count: 1);
 
-      await testBuilder(anotherBuilder, {
-        'a|api.schema.json': jsonFromSchema(schema),
-        'a|some_query.query.graphql': 'query some_query { s, i }',
-      }, outputs: {
-        'a|lib/some_query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
+      await testBuilder(
+        anotherBuilder,
+        {
+          'a|api.schema.json': jsonFromSchema(schema),
+          'a|some_query.query.graphql': 'query some_query { s, i }',
+        },
+        outputs: {
+          'a|lib/some_query.dart': r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -112,11 +114,11 @@ import 'package:gql/ast.dart';
 part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery with EquatableMixin {
-  SomeQuery({this.s, this.i});
+class SomeQuery$SomeObject with EquatableMixin {
+  SomeQuery$SomeObject();
 
-  factory SomeQuery.fromJson(Map<String, dynamic> json) =>
-      _\$SomeQueryFromJson(json);
+  factory SomeQuery$SomeObject.fromJson(Map<String, dynamic> json) =>
+      _$SomeQuery$SomeObjectFromJson(json);
 
   String s;
 
@@ -124,24 +126,25 @@ class SomeQuery with EquatableMixin {
 
   @override
   List<Object> get props => [s, i];
-  Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
+  Map<String, dynamic> toJson() => _$SomeQuery$SomeObjectToJson(this);
 }
 ''',
-      });
+        },
+        onLog: debug,
+      );
     });
 
     test('A simple query with list input', () async {
       var query = r'''
-        query some_query($intsNonNullable: [Int]!, $stringNullable: String) { 
-          s, 
-          i, 
-          list(intsNonNullable: $intsNonNullable) 
+        query some_query($intsNonNullable: [Int]!, $stringNullable: String) {
+          s,
+          i,
+          list(intsNonNullable: $intsNonNullable)
         }
       ''';
 
       final GraphQLQueryBuilder anotherBuilder =
           graphQLQueryBuilder(BuilderOptions({
-        'generate_helpers': false,
         'schema_mapping': [
           {
             'schema': 'api.schema.json',
@@ -185,10 +188,13 @@ class SomeQuery with EquatableMixin {
                           name: 'intsNonNullable',
                           defaultValue: null,
                           type: GraphQLType(
-                              name: 'List',
-                              kind: GraphQLTypeKind.LIST,
+                              kind: GraphQLTypeKind.NON_NULL,
                               ofType: GraphQLType(
-                                  name: 'Int', kind: GraphQLTypeKind.SCALAR)),
+                                  name: 'List',
+                                  kind: GraphQLTypeKind.LIST,
+                                  ofType: GraphQLType(
+                                      name: 'Int',
+                                      kind: GraphQLTypeKind.SCALAR))),
                         ),
                         GraphQLInputValue(
                           name: 'stringNullable',
@@ -201,47 +207,58 @@ class SomeQuery with EquatableMixin {
           ]);
 
       anotherBuilder.onBuild = expectAsync1((definition) {
-        final libraryDefinition = LibraryDefinition(
-          'some_query',
-          queries: [
-            QueryDefinition(
-              'some_query',
-              parseString(query),
-              inputs: [
-                QueryInput('List<int>', 'intsNonNullable', true),
-                QueryInput('String', 'stringNullable', false)
-              ],
+        final libraryDefinition =
+            LibraryDefinition(basename: r'some_query', queries: [
+          QueryDefinition(
+              queryName: r'some_query',
+              queryType: r'SomeQuery$SomeObject',
               classes: [
-                ClassDefinition('SomeQuery', [
-                  ClassProperty('String', 's'),
-                  ClassProperty('int', 'i'),
-                  ClassProperty('List<int>', 'list')
-                ])
+                ClassDefinition(
+                    name: r'SomeQuery$SomeObject',
+                    properties: [
+                      ClassProperty(
+                          type: r'String', name: r's', isOverride: false),
+                      ClassProperty(
+                          type: r'int', name: r'i', isOverride: false),
+                      ClassProperty(
+                          type: r'List<int>', name: r'list', isOverride: false)
+                    ],
+                    typeNameField: r'__typename')
               ],
-            ),
-          ],
-        );
+              inputs: [
+                QueryInput(
+                    type: r'List<int>',
+                    name: r'intsNonNullable',
+                    isNonNull: true),
+                QueryInput(type: r'String', name: r'stringNullable')
+              ],
+              generateHelpers: true)
+        ]);
         expect(definition, libraryDefinition);
       }, count: 1);
 
-      await testBuilder(anotherBuilder, {
-        'a|api.schema.json': jsonFromSchema(schema),
-        'a|some_query.query.graphql': query,
-      }, outputs: {
-        'a|lib/some_query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
+      await testBuilder(
+        anotherBuilder,
+        {
+          'a|api.schema.json': jsonFromSchema(schema),
+          'a|some_query.query.graphql': query,
+        },
+        outputs: {
+          'a|lib/some_query.dart': r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:meta/meta.dart';
+import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
 part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery with EquatableMixin {
-  SomeQuery({this.s, this.i, this.list});
+class SomeQuery$SomeObject with EquatableMixin {
+  SomeQuery$SomeObject();
 
-  factory SomeQuery.fromJson(Map<String, dynamic> json) =>
-      _\$SomeQueryFromJson(json);
+  factory SomeQuery$SomeObject.fromJson(Map<String, dynamic> json) =>
+      _$SomeQuery$SomeObjectFromJson(json);
 
   String s;
 
@@ -251,7 +268,7 @@ class SomeQuery with EquatableMixin {
 
   @override
   List<Object> get props => [s, i, list];
-  Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
+  Map<String, dynamic> toJson() => _$SomeQuery$SomeObjectToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -259,7 +276,7 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
   SomeQueryArguments({@required this.intsNonNullable, this.stringNullable});
 
   factory SomeQueryArguments.fromJson(Map<String, dynamic> json) =>
-      _\$SomeQueryArgumentsFromJson(json);
+      _$SomeQueryArgumentsFromJson(json);
 
   final List<int> intsNonNullable;
 
@@ -267,10 +284,78 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object> get props => [intsNonNullable, stringNullable];
-  Map<String, dynamic> toJson() => _\$SomeQueryArgumentsToJson(this);
+  Map<String, dynamic> toJson() => _$SomeQueryArgumentsToJson(this);
+}
+
+class SomeQueryQuery
+    extends GraphQLQuery<SomeQuery$SomeObject, SomeQueryArguments> {
+  SomeQueryQuery({this.variables});
+
+  @override
+  final DocumentNode document = DocumentNode(definitions: [
+    OperationDefinitionNode(
+        type: OperationType.query,
+        name: NameNode(value: 'some_query'),
+        variableDefinitions: [
+          VariableDefinitionNode(
+              variable: VariableNode(name: NameNode(value: 'intsNonNullable')),
+              type: ListTypeNode(
+                  type: NamedTypeNode(
+                      name: NameNode(value: 'Int'), isNonNull: false),
+                  isNonNull: true),
+              defaultValue: DefaultValueNode(value: null),
+              directives: []),
+          VariableDefinitionNode(
+              variable: VariableNode(name: NameNode(value: 'stringNullable')),
+              type: NamedTypeNode(
+                  name: NameNode(value: 'String'), isNonNull: false),
+              defaultValue: DefaultValueNode(value: null),
+              directives: [])
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+              name: NameNode(value: 's'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null),
+          FieldNode(
+              name: NameNode(value: 'i'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null),
+          FieldNode(
+              name: NameNode(value: 'list'),
+              alias: null,
+              arguments: [
+                ArgumentNode(
+                    name: NameNode(value: 'intsNonNullable'),
+                    value:
+                        VariableNode(name: NameNode(value: 'intsNonNullable')))
+              ],
+              directives: [],
+              selectionSet: null)
+        ]))
+  ]);
+
+  @override
+  final String operationName = 'some_query';
+
+  @override
+  final SomeQueryArguments variables;
+
+  @override
+  List<Object> get props => [document, operationName, variables];
+  @override
+  SomeQuery$SomeObject parse(Map<String, dynamic> json) =>
+      SomeQuery$SomeObject.fromJson(json);
 }
 ''',
-      });
+        },
+        onLog: debug,
+      );
     });
 
     test('The selection from query can nest', () async {
@@ -339,38 +424,56 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
         ''';
 
       anotherBuilder.onBuild = expectAsync1((definition) {
-        expect(
-          definition,
-          LibraryDefinition(
-            'some_query',
-            queries: [
-              QueryDefinition(
-                'some_query',
-                parseString(document),
-                classes: [
-                  ClassDefinition('SomeQuery', [
-                    ClassProperty('String', 's'),
-                    ClassProperty('SomeObject', 'o'),
-                  ]),
-                  ClassDefinition('SomeObject', [
-                    ClassProperty('String', 'st'),
-                    ClassProperty('List<AnotherObject>', 'ob'),
-                  ]),
-                  ClassDefinition('AnotherObject', [
-                    ClassProperty('String', 'str'),
-                  ]),
-                ],
-              ),
-            ],
-          ),
-        );
+        final libraryDefinition =
+            LibraryDefinition(basename: r'some_query', queries: [
+          QueryDefinition(
+              queryName: r'some_query',
+              queryType: r'SomeQuery$Query',
+              classes: [
+                ClassDefinition(
+                    name: r'SomeQuery$Query$SomeObject$AnotherObject',
+                    properties: [
+                      ClassProperty(
+                          type: r'String', name: r'str', isOverride: false)
+                    ],
+                    typeNameField: r'__typename'),
+                ClassDefinition(
+                    name: r'SomeQuery$Query$SomeObject',
+                    properties: [
+                      ClassProperty(
+                          type: r'String', name: r'st', isOverride: false),
+                      ClassProperty(
+                          type:
+                              r'List<SomeQuery$Query$SomeObject$AnotherObject>',
+                          name: r'ob',
+                          isOverride: false)
+                    ],
+                    typeNameField: r'__typename'),
+                ClassDefinition(
+                    name: r'SomeQuery$Query',
+                    properties: [
+                      ClassProperty(
+                          type: r'String', name: r's', isOverride: false),
+                      ClassProperty(
+                          type: r'SomeQuery$Query$SomeObject',
+                          name: r'o',
+                          isOverride: false)
+                    ],
+                    typeNameField: r'__typename')
+              ],
+              generateHelpers: false)
+        ]);
+        expect(definition, libraryDefinition);
       }, count: 1);
 
-      await testBuilder(anotherBuilder, {
-        'a|api.schema.json': jsonFromSchema(schema),
-        'a|some_query.graphql': document,
-      }, outputs: {
-        'a|lib/some_query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
+      await testBuilder(
+        anotherBuilder,
+        {
+          'a|api.schema.json': jsonFromSchema(schema),
+          'a|some_query.graphql': document,
+        },
+        outputs: {
+          'a|lib/some_query.dart': r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -378,52 +481,56 @@ import 'package:gql/ast.dart';
 part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery with EquatableMixin {
-  SomeQuery({this.s, this.o});
+class SomeQuery$Query$SomeObject$AnotherObject with EquatableMixin {
+  SomeQuery$Query$SomeObject$AnotherObject();
 
-  factory SomeQuery.fromJson(Map<String, dynamic> json) =>
-      _\$SomeQueryFromJson(json);
-
-  String s;
-
-  SomeObject o;
-
-  @override
-  List<Object> get props => [s, o];
-  Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class SomeObject with EquatableMixin {
-  SomeObject({this.st, this.ob});
-
-  factory SomeObject.fromJson(Map<String, dynamic> json) =>
-      _\$SomeObjectFromJson(json);
-
-  String st;
-
-  List<AnotherObject> ob;
-
-  @override
-  List<Object> get props => [st, ob];
-  Map<String, dynamic> toJson() => _\$SomeObjectToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class AnotherObject with EquatableMixin {
-  AnotherObject({this.str});
-
-  factory AnotherObject.fromJson(Map<String, dynamic> json) =>
-      _\$AnotherObjectFromJson(json);
+  factory SomeQuery$Query$SomeObject$AnotherObject.fromJson(
+          Map<String, dynamic> json) =>
+      _$SomeQuery$Query$SomeObject$AnotherObjectFromJson(json);
 
   String str;
 
   @override
   List<Object> get props => [str];
-  Map<String, dynamic> toJson() => _\$AnotherObjectToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$SomeQuery$Query$SomeObject$AnotherObjectToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class SomeQuery$Query$SomeObject with EquatableMixin {
+  SomeQuery$Query$SomeObject();
+
+  factory SomeQuery$Query$SomeObject.fromJson(Map<String, dynamic> json) =>
+      _$SomeQuery$Query$SomeObjectFromJson(json);
+
+  String st;
+
+  List<SomeQuery$Query$SomeObject$AnotherObject> ob;
+
+  @override
+  List<Object> get props => [st, ob];
+  Map<String, dynamic> toJson() => _$SomeQuery$Query$SomeObjectToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class SomeQuery$Query with EquatableMixin {
+  SomeQuery$Query();
+
+  factory SomeQuery$Query.fromJson(Map<String, dynamic> json) =>
+      _$SomeQuery$QueryFromJson(json);
+
+  String s;
+
+  SomeQuery$Query$SomeObject o;
+
+  @override
+  List<Object> get props => [s, o];
+  Map<String, dynamic> toJson() => _$SomeQuery$QueryToJson(this);
 }
 ''',
-      });
+        },
+        onLog: debug,
+      );
     });
 
     test('Query selections can be aliased', () async {
@@ -455,32 +562,38 @@ class AnotherObject with EquatableMixin {
           ]);
 
       anotherBuilder.onBuild = expectAsync1((definition) {
-        expect(
-          definition,
-          LibraryDefinition(
-            'some_query',
-            queries: [
-              QueryDefinition(
-                'some_query',
-                parseString('query some_query { firstName: s, lastName: st }'),
-                classes: [
-                  ClassDefinition('SomeQuery', [
-                    ClassProperty('String', 'firstName'),
-                    ClassProperty('String', 'lastName'),
-                  ]),
-                ],
-              ),
-            ],
-          ),
-        );
+        final libraryDefinition =
+            LibraryDefinition(basename: r'some_query', queries: [
+          QueryDefinition(
+              queryName: r'some_query',
+              queryType: r'SomeQuery$Query',
+              classes: [
+                ClassDefinition(
+                    name: r'SomeQuery$Query',
+                    properties: [
+                      ClassProperty(
+                          type: r'String',
+                          name: r'firstName',
+                          isOverride: false),
+                      ClassProperty(
+                          type: r'String', name: r'lastName', isOverride: false)
+                    ],
+                    typeNameField: r'__typename')
+              ],
+              generateHelpers: false)
+        ]);
+        expect(definition, libraryDefinition);
       }, count: 1);
 
-      await testBuilder(anotherBuilder, {
-        'a|api.schema.json': jsonFromSchema(schema),
-        'a|some_query.graphql':
-            'query some_query { firstName: s, lastName: st }',
-      }, outputs: {
-        'a|lib/some_query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
+      await testBuilder(
+        anotherBuilder,
+        {
+          'a|api.schema.json': jsonFromSchema(schema),
+          'a|some_query.graphql':
+              'query some_query { firstName: s, lastName: st }',
+        },
+        outputs: {
+          'a|lib/some_query.dart': r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -488,11 +601,11 @@ import 'package:gql/ast.dart';
 part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery with EquatableMixin {
-  SomeQuery({this.firstName, this.lastName});
+class SomeQuery$Query with EquatableMixin {
+  SomeQuery$Query();
 
-  factory SomeQuery.fromJson(Map<String, dynamic> json) =>
-      _\$SomeQueryFromJson(json);
+  factory SomeQuery$Query.fromJson(Map<String, dynamic> json) =>
+      _$SomeQuery$QueryFromJson(json);
 
   String firstName;
 
@@ -500,362 +613,12 @@ class SomeQuery with EquatableMixin {
 
   @override
   List<Object> get props => [firstName, lastName];
-  Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
+  Map<String, dynamic> toJson() => _$SomeQuery$QueryToJson(this);
 }
 ''',
-      });
-    });
-
-    test(
-        "When multiple fields use different versions of an object, aliasing them means we'll alias class name as well",
-        () async {
-      final GraphQLQueryBuilder anotherBuilder =
-          graphQLQueryBuilder(BuilderOptions({
-        'generate_helpers': false,
-        'schema_mapping': [
-          {
-            'schema': 'api.schema.json',
-            'queries_glob': '**.graphql',
-            'output': 'lib/some_query.dart',
-          }
-        ]
-      }));
-      final GraphQLSchema schema = GraphQLSchema(
-          queryType: GraphQLType(name: 'Query', kind: GraphQLTypeKind.OBJECT),
-          types: [
-            GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR),
-            GraphQLType(name: 'Query', kind: GraphQLTypeKind.OBJECT, fields: [
-              GraphQLField(
-                  name: 's',
-                  type: GraphQLType(
-                      name: 'String', kind: GraphQLTypeKind.SCALAR)),
-              GraphQLField(
-                  name: 'o',
-                  type: GraphQLType(
-                      name: 'SomeObject', kind: GraphQLTypeKind.OBJECT)),
-              GraphQLField(
-                  name: 'ob',
-                  type: GraphQLType(
-                      kind: GraphQLTypeKind.LIST,
-                      ofType: GraphQLType(
-                          name: 'SomeObject', kind: GraphQLTypeKind.OBJECT))),
-            ]),
-            GraphQLType(
-                name: 'SomeObject',
-                kind: GraphQLTypeKind.OBJECT,
-                fields: [
-                  GraphQLField(
-                      name: 'st',
-                      type: GraphQLType(
-                          name: 'String', kind: GraphQLTypeKind.SCALAR)),
-                  GraphQLField(
-                      name: 'str',
-                      type: GraphQLType(
-                          name: 'String', kind: GraphQLTypeKind.SCALAR)),
-                ]),
-          ]);
-
-      final document = '''
-        query some_query {
-          s
-          o {
-            st
-          }
-          anotherObject: ob {
-            str
-          }
-        }
-        ''';
-
-      anotherBuilder.onBuild = expectAsync1((definition) {
-        expect(
-          definition,
-          LibraryDefinition(
-            'some_query',
-            queries: [
-              QueryDefinition(
-                'some_query',
-                parseString(document),
-                classes: [
-                  ClassDefinition('SomeQuery', [
-                    ClassProperty('String', 's'),
-                    ClassProperty('SomeObject', 'o'),
-                    ClassProperty('List<AnotherObject>', 'anotherObject'),
-                  ]),
-                  ClassDefinition('SomeObject', [
-                    ClassProperty('String', 'st'),
-                  ]),
-                  ClassDefinition('AnotherObject', [
-                    ClassProperty('String', 'str'),
-                  ]),
-                ],
-              ),
-            ],
-          ),
-        );
-      }, count: 1);
-
-      await testBuilder(anotherBuilder, {
-        'a|api.schema.json': jsonFromSchema(schema),
-        'a|some_query.graphql': document,
-      }, outputs: {
-        'a|lib/some_query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
-
-import 'package:json_annotation/json_annotation.dart';
-import 'package:equatable/equatable.dart';
-import 'package:gql/ast.dart';
-part 'some_query.g.dart';
-
-@JsonSerializable(explicitToJson: true)
-class SomeQuery with EquatableMixin {
-  SomeQuery({this.s, this.o, this.anotherObject});
-
-  factory SomeQuery.fromJson(Map<String, dynamic> json) =>
-      _\$SomeQueryFromJson(json);
-
-  String s;
-
-  SomeObject o;
-
-  List<AnotherObject> anotherObject;
-
-  @override
-  List<Object> get props => [s, o, anotherObject];
-  Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class SomeObject with EquatableMixin {
-  SomeObject({this.st});
-
-  factory SomeObject.fromJson(Map<String, dynamic> json) =>
-      _\$SomeObjectFromJson(json);
-
-  String st;
-
-  @override
-  List<Object> get props => [st];
-  Map<String, dynamic> toJson() => _\$SomeObjectToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class AnotherObject with EquatableMixin {
-  AnotherObject({this.str});
-
-  factory AnotherObject.fromJson(Map<String, dynamic> json) =>
-      _\$AnotherObjectFromJson(json);
-
-  String str;
-
-  @override
-  List<Object> get props => [str];
-  Map<String, dynamic> toJson() => _\$AnotherObjectToJson(this);
-}
-''',
-      });
-    });
-
-    test('On helpers generation', () async {
-      final GraphQLQueryBuilder anotherBuilder =
-          graphQLQueryBuilder(BuilderOptions({
-        'schema_mapping': [
-          {
-            'schema': 'api.schema.json',
-            'queries_glob': '**.graphql',
-            'output': 'lib/some_query.dart',
-          }
-        ]
-      }));
-      final GraphQLSchema schema = GraphQLSchema(
-          queryType: GraphQLType(name: 'Query', kind: GraphQLTypeKind.OBJECT),
-          types: [
-            GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR),
-            GraphQLType(name: 'Query', kind: GraphQLTypeKind.OBJECT, fields: [
-              GraphQLField(
-                  name: 's',
-                  type: GraphQLType(
-                      name: 'String', kind: GraphQLTypeKind.SCALAR)),
-              GraphQLField(
-                  name: 'o',
-                  type: GraphQLType(
-                      name: 'SomeObject', kind: GraphQLTypeKind.OBJECT)),
-              GraphQLField(
-                  name: 'ob',
-                  type: GraphQLType(
-                      kind: GraphQLTypeKind.LIST,
-                      ofType: GraphQLType(
-                          name: 'SomeObject', kind: GraphQLTypeKind.OBJECT))),
-            ]),
-            GraphQLType(
-                name: 'SomeObject',
-                kind: GraphQLTypeKind.OBJECT,
-                fields: [
-                  GraphQLField(
-                      name: 'st',
-                      type: GraphQLType(
-                          name: 'String', kind: GraphQLTypeKind.SCALAR)),
-                  GraphQLField(
-                      name: 'str',
-                      type: GraphQLType(
-                          name: 'String', kind: GraphQLTypeKind.SCALAR)),
-                ]),
-          ]);
-
-      final document = '''
-        query some_query {
-          s
-          o {
-            st
-          }
-          anotherObject: ob {
-            str
-          }
-        }
-        ''';
-
-      anotherBuilder.onBuild = expectAsync1((definition) {
-        expect(
-          definition,
-          LibraryDefinition(
-            'some_query',
-            queries: [
-              QueryDefinition(
-                'some_query',
-                parseString(document),
-                classes: [
-                  ClassDefinition('SomeQuery', [
-                    ClassProperty('String', 's'),
-                    ClassProperty('SomeObject', 'o'),
-                    ClassProperty('List<AnotherObject>', 'anotherObject'),
-                  ]),
-                  ClassDefinition('SomeObject', [
-                    ClassProperty('String', 'st'),
-                  ]),
-                  ClassDefinition('AnotherObject', [
-                    ClassProperty('String', 'str'),
-                  ]),
-                ],
-                generateHelpers: true,
-              ),
-            ],
-          ),
-        );
-      }, count: 1);
-
-      await testBuilder(anotherBuilder, {
-        'a|api.schema.json': jsonFromSchema(schema),
-        'a|some_query.graphql': document,
-      }, outputs: {
-        'a|lib/some_query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
-
-import 'package:artemis/artemis.dart';
-import 'package:json_annotation/json_annotation.dart';
-import 'package:equatable/equatable.dart';
-import 'package:gql/ast.dart';
-part 'some_query.g.dart';
-
-@JsonSerializable(explicitToJson: true)
-class SomeQuery with EquatableMixin {
-  SomeQuery({this.s, this.o, this.anotherObject});
-
-  factory SomeQuery.fromJson(Map<String, dynamic> json) =>
-      _\$SomeQueryFromJson(json);
-
-  String s;
-
-  SomeObject o;
-
-  List<AnotherObject> anotherObject;
-
-  @override
-  List<Object> get props => [s, o, anotherObject];
-  Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class SomeObject with EquatableMixin {
-  SomeObject({this.st});
-
-  factory SomeObject.fromJson(Map<String, dynamic> json) =>
-      _\$SomeObjectFromJson(json);
-
-  String st;
-
-  @override
-  List<Object> get props => [st];
-  Map<String, dynamic> toJson() => _\$SomeObjectToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class AnotherObject with EquatableMixin {
-  AnotherObject({this.str});
-
-  factory AnotherObject.fromJson(Map<String, dynamic> json) =>
-      _\$AnotherObjectFromJson(json);
-
-  String str;
-
-  @override
-  List<Object> get props => [str];
-  Map<String, dynamic> toJson() => _\$AnotherObjectToJson(this);
-}
-
-class SomeQueryQuery extends GraphQLQuery<SomeQuery, JsonSerializable> {
-  SomeQueryQuery();
-
-  @override
-  final DocumentNode document = DocumentNode(definitions: [
-    OperationDefinitionNode(
-        type: OperationType.query,
-        name: NameNode(value: 'some_query'),
-        variableDefinitions: [],
-        directives: [],
-        selectionSet: SelectionSetNode(selections: [
-          FieldNode(
-              name: NameNode(value: 's'),
-              alias: null,
-              arguments: [],
-              directives: [],
-              selectionSet: null),
-          FieldNode(
-              name: NameNode(value: 'o'),
-              alias: null,
-              arguments: [],
-              directives: [],
-              selectionSet: SelectionSetNode(selections: [
-                FieldNode(
-                    name: NameNode(value: 'st'),
-                    alias: null,
-                    arguments: [],
-                    directives: [],
-                    selectionSet: null)
-              ])),
-          FieldNode(
-              name: NameNode(value: 'ob'),
-              alias: NameNode(value: 'anotherObject'),
-              arguments: [],
-              directives: [],
-              selectionSet: SelectionSetNode(selections: [
-                FieldNode(
-                    name: NameNode(value: 'str'),
-                    alias: null,
-                    arguments: [],
-                    directives: [],
-                    selectionSet: null)
-              ]))
-        ]))
-  ]);
-
-  @override
-  final String operationName = 'some_query';
-
-  @override
-  List<Object> get props => [document, operationName];
-  @override
-  SomeQuery parse(Map<String, dynamic> json) => SomeQuery.fromJson(json);
-}
-''',
-      });
+        },
+        onLog: debug,
+      );
     });
 
     test('Imports from the scalar mapping are included', () async {
@@ -923,34 +686,41 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery, JsonSerializable> {
           ]);
 
       anotherBuilder.onBuild = expectAsync1((definition) {
-        expect(
-          definition,
-          LibraryDefinition(
-            'some_query',
-            queries: [
-              QueryDefinition(
-                'some_query',
-                parseString('query some_query { bigDecimal, dateTime }'),
-                classes: [
-                  ClassDefinition('SomeQuery', [
-                    ClassProperty('Decimal', 'bigDecimal'),
-                    ClassProperty('DateTime', 'dateTime'),
-                  ])
-                ],
-              ),
-            ],
-            customImports: [
-              'package:decimal/decimal.dart',
-            ],
-          ),
-        );
+        final libraryDefinition =
+            LibraryDefinition(basename: r'some_query', queries: [
+          QueryDefinition(
+              queryName: r'some_query',
+              queryType: r'SomeQuery$SomeObject',
+              classes: [
+                ClassDefinition(
+                    name: r'SomeQuery$SomeObject',
+                    properties: [
+                      ClassProperty(
+                          type: r'Decimal',
+                          name: r'bigDecimal',
+                          isOverride: false),
+                      ClassProperty(
+                          type: r'DateTime',
+                          name: r'dateTime',
+                          isOverride: false)
+                    ],
+                    typeNameField: r'__typename')
+              ],
+              generateHelpers: false)
+        ], customImports: [
+          r'package:decimal/decimal.dart'
+        ]);
+        expect(definition, libraryDefinition);
       }, count: 1);
 
-      await testBuilder(anotherBuilder, {
-        'a|api.schema.json': jsonFromSchema(schema),
-        'a|some_query.graphql': 'query some_query { bigDecimal, dateTime }',
-      }, outputs: {
-        'a|lib/some_query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
+      await testBuilder(
+        anotherBuilder,
+        {
+          'a|api.schema.json': jsonFromSchema(schema),
+          'a|some_query.graphql': 'query some_query { bigDecimal, dateTime }',
+        },
+        outputs: {
+          'a|lib/some_query.dart': r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -959,11 +729,11 @@ import 'package:decimal/decimal.dart';
 part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery with EquatableMixin {
-  SomeQuery({this.bigDecimal, this.dateTime});
+class SomeQuery$SomeObject with EquatableMixin {
+  SomeQuery$SomeObject();
 
-  factory SomeQuery.fromJson(Map<String, dynamic> json) =>
-      _\$SomeQueryFromJson(json);
+  factory SomeQuery$SomeObject.fromJson(Map<String, dynamic> json) =>
+      _$SomeQuery$SomeObjectFromJson(json);
 
   Decimal bigDecimal;
 
@@ -971,250 +741,12 @@ class SomeQuery with EquatableMixin {
 
   @override
   List<Object> get props => [bigDecimal, dateTime];
-  Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
+  Map<String, dynamic> toJson() => _$SomeQuery$SomeObjectToJson(this);
 }
 ''',
-      });
-    });
-
-    test(
-        'If addQueryPrefix is true, all generated classes will have queryName as prefix',
-        () async {
-      final GraphQLQueryBuilder anotherBuilder =
-          graphQLQueryBuilder(BuilderOptions({
-        'generate_helpers': false,
-        'schema_mapping': [
-          {
-            'schema': 'api.schema.json',
-            'queries_glob': '**.graphql',
-            'output': 'lib/some_query.dart',
-            'add_query_prefix': true,
-          }
-        ]
-      }));
-      final GraphQLSchema schema = GraphQLSchema(
-          queryType: GraphQLType(name: 'Query', kind: GraphQLTypeKind.OBJECT),
-          types: [
-            GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR),
-            GraphQLType(
-                name: 'MyEnum',
-                kind: GraphQLTypeKind.ENUM,
-                enumValues: [
-                  GraphQLEnumValue(name: 'value1'),
-                  GraphQLEnumValue(name: 'value2'),
-                ]),
-            GraphQLType(name: 'Query', kind: GraphQLTypeKind.OBJECT, fields: [
-              GraphQLField(
-                  name: 's',
-                  type: GraphQLType(
-                      name: 'String', kind: GraphQLTypeKind.SCALAR)),
-              GraphQLField(
-                  name: 'o',
-                  type: GraphQLType(
-                      name: 'SomeObject', kind: GraphQLTypeKind.OBJECT)),
-              GraphQLField(
-                  name: 'e',
-                  type:
-                      GraphQLType(name: 'MyEnum', kind: GraphQLTypeKind.ENUM)),
-            ]),
-            GraphQLType(
-                name: 'SomeObject',
-                kind: GraphQLTypeKind.OBJECT,
-                interfaces: [
-                  GraphQLType(
-                      name: 'AInterface', kind: GraphQLTypeKind.INTERFACE),
-                ],
-                fields: [
-                  GraphQLField(
-                      name: 'st',
-                      type: GraphQLType(
-                          name: 'String', kind: GraphQLTypeKind.SCALAR)),
-                  GraphQLField(
-                      name: 'ob',
-                      type: GraphQLType(
-                          kind: GraphQLTypeKind.LIST,
-                          ofType: GraphQLType(
-                              name: 'AnotherObject',
-                              kind: GraphQLTypeKind.OBJECT))),
-                ]),
-            GraphQLType(
-                name: 'AInterface',
-                kind: GraphQLTypeKind.INTERFACE,
-                fields: [
-                  GraphQLField(
-                      name: 'st',
-                      type: GraphQLType(
-                          name: 'String', kind: GraphQLTypeKind.SCALAR)),
-                ],
-                possibleTypes: [
-                  GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT)
-                ]),
-            GraphQLType(
-                name: 'AnotherObject',
-                kind: GraphQLTypeKind.OBJECT,
-                fields: [
-                  GraphQLField(
-                      name: 'str',
-                      type: GraphQLType(
-                          name: 'String', kind: GraphQLTypeKind.SCALAR)),
-                ]),
-          ]);
-
-      final document = '''
-        query some_query {
-          s
-          o {
-            st
-            ob {
-              str
-            }
-          }
-          e
-        }
-        ''';
-
-      anotherBuilder.onBuild = expectAsync1((definition) {
-        expect(
-          definition,
-          LibraryDefinition(
-            'some_query',
-            queries: [
-              QueryDefinition(
-                'some_query',
-                parseString(document),
-                classes: [
-                  ClassDefinition(
-                      'SomeQuery',
-                      [
-                        ClassProperty('String', 's'),
-                        ClassProperty('SomeQuerySomeObject', 'o'),
-                        ClassProperty('SomeQueryMyEnum', 'e',
-                            annotation:
-                                'JsonKey(unknownEnumValue: SomeQueryMyEnum.ARTEMIS_UNKNOWN)')
-                      ],
-                      prefix: 'SomeQuery'),
-                  ClassDefinition(
-                      'SomeQuerySomeObject',
-                      [
-                        ClassProperty('String', 'st', isOverride: true),
-                        ClassProperty('List<SomeQueryAnotherObject>', 'ob'),
-                        ClassProperty('String', 'resolveType',
-                            isResolveType: true,
-                            annotation: 'JsonKey(name: \'__resolveType\')',
-                            isOverride: true)
-                      ],
-                      implementations: ['SomeQueryAInterface'],
-                      prefix: 'SomeQuery'),
-                  ClassDefinition('SomeQueryAnotherObject',
-                      [ClassProperty('String', 'str')],
-                      prefix: 'SomeQuery'),
-                  ClassDefinition(
-                      'SomeQueryAInterface',
-                      [
-                        ClassProperty('String', 'st'),
-                        ClassProperty('String', 'resolveType',
-                            isResolveType: true,
-                            annotation: 'JsonKey(name: \'__resolveType\')')
-                      ],
-                      prefix: 'SomeQuery'),
-                  EnumDefinition('SomeQueryMyEnum',
-                      ['value1', 'value2', 'ARTEMIS_UNKNOWN']),
-                ],
-              ),
-            ],
-          ),
-        );
-      }, count: 1);
-
-      await testBuilder(anotherBuilder, {
-        'a|api.schema.json': jsonFromSchema(schema),
-        'a|some_query.graphql': document,
-      }, outputs: {
-        'a|lib/some_query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
-
-import 'package:json_annotation/json_annotation.dart';
-import 'package:equatable/equatable.dart';
-import 'package:gql/ast.dart';
-part 'some_query.g.dart';
-
-@JsonSerializable(explicitToJson: true)
-class SomeQuery with EquatableMixin {
-  SomeQuery({this.s, this.o, this.e});
-
-  factory SomeQuery.fromJson(Map<String, dynamic> json) =>
-      _\$SomeQueryFromJson(json);
-
-  String s;
-
-  SomeQuerySomeObject o;
-
-  @JsonKey(unknownEnumValue: SomeQueryMyEnum.ARTEMIS_UNKNOWN)
-  SomeQueryMyEnum e;
-
-  @override
-  List<Object> get props => [s, o, e];
-  Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class SomeQuerySomeObject with EquatableMixin implements SomeQueryAInterface {
-  SomeQuerySomeObject({this.ob});
-
-  factory SomeQuerySomeObject.fromJson(Map<String, dynamic> json) =>
-      _\$SomeQuerySomeObjectFromJson(json);
-
-  @override
-  String st;
-
-  List<SomeQueryAnotherObject> ob;
-
-  @override
-  @JsonKey(name: '__resolveType')
-  String resolveType;
-
-  @override
-  List<Object> get props => [st, ob, resolveType];
-  Map<String, dynamic> toJson() => _\$SomeQuerySomeObjectToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class SomeQueryAnotherObject with EquatableMixin {
-  SomeQueryAnotherObject({this.str});
-
-  factory SomeQueryAnotherObject.fromJson(Map<String, dynamic> json) =>
-      _\$SomeQueryAnotherObjectFromJson(json);
-
-  String str;
-
-  @override
-  List<Object> get props => [str];
-  Map<String, dynamic> toJson() => _\$SomeQueryAnotherObjectToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class SomeQueryAInterface with EquatableMixin {
-  SomeQueryAInterface({this.st});
-
-  factory SomeQueryAInterface.fromJson(Map<String, dynamic> json) =>
-      _\$SomeQueryAInterfaceFromJson(json);
-
-  String st;
-
-  @JsonKey(name: '__resolveType')
-  String resolveType;
-
-  @override
-  List<Object> get props => [st, resolveType];
-  Map<String, dynamic> toJson() => _\$SomeQueryAInterfaceToJson(this);
-}
-
-enum SomeQueryMyEnum {
-  value1,
-  value2,
-  ARTEMIS_UNKNOWN,
-}
-''',
-      });
+        },
+        onLog: debug,
+      );
     });
 
     test('Query name (pascal casing)', () async {
@@ -1246,31 +778,35 @@ enum SomeQueryMyEnum {
           ]);
 
       anotherBuilder.onBuild = expectAsync1((definition) {
-        expect(
-          definition,
-          LibraryDefinition(
-            'pascal_casing_query',
-            queries: [
-              QueryDefinition(
-                'PascalCasingQuery',
-                parseString('query PascalCasingQuery { s }'),
-                classes: [
-                  ClassDefinition('PascalCasingQuery', [
-                    ClassProperty('String', 's'),
-                  ])
-                ],
-              ),
-            ],
-          ),
-        );
+        final libraryDefinition =
+            LibraryDefinition(basename: r'pascal_casing_query', queries: [
+          QueryDefinition(
+              queryName: r'PascalCasingQuery',
+              queryType: r'PascalCasingQuery$PascalCasingQuery',
+              classes: [
+                ClassDefinition(
+                    name: r'PascalCasingQuery$PascalCasingQuery',
+                    properties: [
+                      ClassProperty(
+                          type: r'String', name: r's', isOverride: false)
+                    ],
+                    typeNameField: r'__typename')
+              ],
+              generateHelpers: false)
+        ]);
+        expect(definition, libraryDefinition);
       }, count: 1);
 
-      await testBuilder(anotherBuilder, {
-        'a|api.schema.json': jsonFromSchema(schema),
-        'a|pascal_casing_query.query.graphql': 'query PascalCasingQuery { s }',
-      }, outputs: {
-        'a|lib/pascal_casing_query.dart':
-            '''// GENERATED CODE - DO NOT MODIFY BY HAND
+      await testBuilder(
+        anotherBuilder,
+        {
+          'a|api.schema.json': jsonFromSchema(schema),
+          'a|pascal_casing_query.query.graphql':
+              'query PascalCasingQuery { s }',
+        },
+        outputs: {
+          'a|lib/pascal_casing_query.dart':
+              r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -1278,292 +814,24 @@ import 'package:gql/ast.dart';
 part 'pascal_casing_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class PascalCasingQuery with EquatableMixin {
-  PascalCasingQuery({this.s});
+class PascalCasingQuery$PascalCasingQuery with EquatableMixin {
+  PascalCasingQuery$PascalCasingQuery();
 
-  factory PascalCasingQuery.fromJson(Map<String, dynamic> json) =>
-      _\$PascalCasingQueryFromJson(json);
+  factory PascalCasingQuery$PascalCasingQuery.fromJson(
+          Map<String, dynamic> json) =>
+      _$PascalCasingQuery$PascalCasingQueryFromJson(json);
 
   String s;
 
   @override
   List<Object> get props => [s];
-  Map<String, dynamic> toJson() => _\$PascalCasingQueryToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$PascalCasingQuery$PascalCasingQueryToJson(this);
 }
 ''',
-      });
-    });
-
-    test('Fragments will have their own classes', () async {
-      final GraphQLQueryBuilder anotherBuilder =
-          graphQLQueryBuilder(BuilderOptions({
-        'generate_helpers': false,
-        'schema_mapping': [
-          {
-            'schema': 'api.schema.json',
-            'queries_glob': '**.graphql',
-            'output': 'lib/some_query.dart',
-          }
-        ]
-      }));
-      final GraphQLSchema schema = GraphQLSchema(
-          queryType:
-              GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT),
-          types: [
-            GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR),
-            GraphQLType(name: 'Int', kind: GraphQLTypeKind.SCALAR),
-            GraphQLType(
-                name: 'SomeObject',
-                kind: GraphQLTypeKind.OBJECT,
-                fields: [
-                  GraphQLField(
-                      name: 's',
-                      type: GraphQLType(
-                          name: 'String', kind: GraphQLTypeKind.SCALAR)),
-                  GraphQLField(
-                      name: 'i',
-                      type: GraphQLType(
-                          name: 'Int', kind: GraphQLTypeKind.SCALAR)),
-                ]),
-          ]);
-
-      anotherBuilder.onBuild = expectAsync1((definition) {
-        expect(
-          definition,
-          LibraryDefinition(
-            'some_query',
-            queries: [
-              QueryDefinition(
-                'some_query',
-                parseString(
-                    'fragment myFragment on SomeQuery { s, i }\nquery some_query { ...myFragment }'),
-                classes: [
-                  ClassDefinition('SomeQuery', [], mixins: [
-                    FragmentClassDefinition('MyFragmentMixin', [
-                      ClassProperty('String', 's'),
-                      ClassProperty('int', 'i'),
-                    ]),
-                  ]),
-                  FragmentClassDefinition('MyFragmentMixin', [
-                    ClassProperty('String', 's'),
-                    ClassProperty('int', 'i'),
-                  ]),
-                ],
-              ),
-            ],
-          ),
-        );
-      }, count: 1);
-
-      await testBuilder(anotherBuilder, {
-        'a|api.schema.json': jsonFromSchema(schema),
-        'a|some_query.query.graphql':
-            'fragment myFragment on SomeQuery { s, i }\nquery some_query { ...myFragment }',
-      }, outputs: {
-        'a|lib/some_query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
-
-import 'package:json_annotation/json_annotation.dart';
-import 'package:equatable/equatable.dart';
-import 'package:gql/ast.dart';
-part 'some_query.g.dart';
-
-mixin MyFragmentMixin {
-  String s;
-  int i;
-}
-
-@JsonSerializable(explicitToJson: true)
-class SomeQuery with EquatableMixin, MyFragmentMixin {
-  SomeQuery();
-
-  factory SomeQuery.fromJson(Map<String, dynamic> json) =>
-      _\$SomeQueryFromJson(json);
-
-  @override
-  List<Object> get props => [s, i];
-  Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
-}
-''',
-      });
-    });
-
-    test('On union types', () async {
-      final GraphQLQueryBuilder anotherBuilder =
-          graphQLQueryBuilder(BuilderOptions({
-        'generate_helpers': false,
-        'schema_mapping': [
-          {
-            'schema': 'api.schema.json',
-            'queries_glob': '**.graphql',
-            'output': 'lib/some_query.dart',
-          }
-        ]
-      }));
-      final GraphQLSchema schema = GraphQLSchema(
-          queryType:
-              GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT),
-          types: [
-            GraphQLType(name: 'Int', kind: GraphQLTypeKind.SCALAR),
-            GraphQLType(
-              name: 'SomeObject',
-              kind: GraphQLTypeKind.OBJECT,
-              fields: [
-                GraphQLField(
-                    name: 'o',
-                    type: GraphQLType(
-                        name: 'SomeUnion', kind: GraphQLTypeKind.UNION)),
-              ],
-            ),
-            GraphQLType(
-              name: 'TypeA',
-              kind: GraphQLTypeKind.OBJECT,
-              fields: [
-                GraphQLField(
-                    name: 'a',
-                    type:
-                        GraphQLType(name: 'Int', kind: GraphQLTypeKind.SCALAR)),
-              ],
-            ),
-            GraphQLType(
-              name: 'TypeB',
-              kind: GraphQLTypeKind.OBJECT,
-              fields: [
-                GraphQLField(
-                    name: 'b',
-                    type:
-                        GraphQLType(name: 'Int', kind: GraphQLTypeKind.SCALAR)),
-              ],
-            ),
-            GraphQLType(
-              name: 'SomeUnion',
-              kind: GraphQLTypeKind.UNION,
-              possibleTypes: [
-                GraphQLType(name: 'TypeA', kind: GraphQLTypeKind.OBJECT),
-                GraphQLType(name: 'TypeB', kind: GraphQLTypeKind.OBJECT),
-              ],
-            ),
-          ]);
-
-      anotherBuilder.onBuild = expectAsync1((definition) {
-        expect(
-          definition,
-          LibraryDefinition(
-            'some_query',
-            queries: [
-              QueryDefinition(
-                'some_query',
-                parseString(
-                    'query some_query { o { __typename, ... on TypeA { a }, ... on TypeB { b } } }'),
-                classes: [
-                  ClassDefinition('SomeQuery', [
-                    ClassProperty('SomeUnion', 'o'),
-                  ]),
-                  ClassDefinition('SomeUnion', [
-                    ClassProperty('String', 'resolveType',
-                        isOverride: true,
-                        isResolveType: true,
-                        annotation: 'JsonKey(name: \'__resolveType\')'),
-                  ], factoryPossibilities: [
-                    'TypeA',
-                    'TypeB'
-                  ]),
-                  ClassDefinition('TypeA', [ClassProperty('int', 'a')],
-                      extension: 'SomeUnion'),
-                  ClassDefinition('TypeB', [ClassProperty('int', 'b')],
-                      extension: 'SomeUnion'),
-                ],
-              ),
-            ],
-          ),
-        );
-      }, count: 1);
-
-      await testBuilder(anotherBuilder, {
-        'a|api.schema.json': jsonFromSchema(schema),
-        'a|some_query.query.graphql':
-            'query some_query { o { __typename, ... on TypeA { a }, ... on TypeB { b } } }',
-      }, outputs: {
-        'a|lib/some_query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
-
-import 'package:json_annotation/json_annotation.dart';
-import 'package:equatable/equatable.dart';
-import 'package:gql/ast.dart';
-part 'some_query.g.dart';
-
-@JsonSerializable(explicitToJson: true)
-class SomeQuery with EquatableMixin {
-  SomeQuery({this.o});
-
-  factory SomeQuery.fromJson(Map<String, dynamic> json) =>
-      _\$SomeQueryFromJson(json);
-
-  SomeUnion o;
-
-  @override
-  List<Object> get props => [o];
-  Map<String, dynamic> toJson() => _\$SomeQueryToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class SomeUnion with EquatableMixin {
-  SomeUnion();
-
-  factory SomeUnion.fromJson(Map<String, dynamic> json) {
-    switch (json['__resolveType'].toString()) {
-      case 'TypeA':
-        return TypeA.fromJson(json);
-      case 'TypeB':
-        return TypeB.fromJson(json);
-      default:
-    }
-    return _\$SomeUnionFromJson(json);
-  }
-
-  @override
-  @JsonKey(name: '__resolveType')
-  String resolveType;
-
-  @override
-  List<Object> get props => [resolveType];
-  Map<String, dynamic> toJson() {
-    switch (resolveType) {
-      case 'TypeA':
-        return (this as TypeA).toJson();
-      case 'TypeB':
-        return (this as TypeB).toJson();
-      default:
-    }
-    return _\$SomeUnionToJson(this);
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class TypeA extends SomeUnion with EquatableMixin {
-  TypeA({this.a});
-
-  factory TypeA.fromJson(Map<String, dynamic> json) => _\$TypeAFromJson(json);
-
-  int a;
-
-  @override
-  List<Object> get props => [a];
-  Map<String, dynamic> toJson() => _\$TypeAToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class TypeB extends SomeUnion with EquatableMixin {
-  TypeB({this.b});
-
-  factory TypeB.fromJson(Map<String, dynamic> json) => _\$TypeBFromJson(json);
-
-  int b;
-
-  @override
-  List<Object> get props => [b];
-  Map<String, dynamic> toJson() => _\$TypeBToJson(this);
-}
-''',
-      });
+        },
+        onLog: debug,
+      );
     });
   });
 }

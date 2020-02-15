@@ -1,74 +1,80 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
+import 'package:meta/meta.dart';
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
 part 'fragment_query.g.dart';
 
-mixin PokemonPartsMixin {
+mixin FragmentQuery$PokemonPartsMixin {
   String number;
   String name;
   List<String> types;
 }
 
 @JsonSerializable(explicitToJson: true)
-class FragmentQuery with EquatableMixin {
-  FragmentQuery();
+class FragmentQuery$Query$Charmander
+    with EquatableMixin, FragmentQuery$PokemonPartsMixin {
+  FragmentQuery$Query$Charmander();
 
-  factory FragmentQuery.fromJson(Map<String, dynamic> json) =>
-      _$FragmentQueryFromJson(json);
-
-  Charmander charmander;
-
-  List<Pokemon> pokemons;
-
-  @override
-  List<Object> get props => [charmander, pokemons];
-  Map<String, dynamic> toJson() => _$FragmentQueryToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class Charmander with EquatableMixin, PokemonPartsMixin {
-  Charmander();
-
-  factory Charmander.fromJson(Map<String, dynamic> json) =>
-      _$CharmanderFromJson(json);
+  factory FragmentQuery$Query$Charmander.fromJson(Map<String, dynamic> json) =>
+      _$FragmentQuery$Query$CharmanderFromJson(json);
 
   @override
   List<Object> get props => [number, name, types];
-  Map<String, dynamic> toJson() => _$CharmanderToJson(this);
+  Map<String, dynamic> toJson() => _$FragmentQuery$Query$CharmanderToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class Pokemon with EquatableMixin, PokemonPartsMixin {
-  Pokemon();
+class FragmentQuery$Query$Pokemon$Evolutions
+    with EquatableMixin, FragmentQuery$PokemonPartsMixin {
+  FragmentQuery$Query$Pokemon$Evolutions();
 
-  factory Pokemon.fromJson(Map<String, dynamic> json) =>
-      _$PokemonFromJson(json);
+  factory FragmentQuery$Query$Pokemon$Evolutions.fromJson(
+          Map<String, dynamic> json) =>
+      _$FragmentQuery$Query$Pokemon$EvolutionsFromJson(json);
 
-  List<Evolutions> evolutions;
+  @override
+  List<Object> get props => [number, name, types];
+  Map<String, dynamic> toJson() =>
+      _$FragmentQuery$Query$Pokemon$EvolutionsToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class FragmentQuery$Query$Pokemon
+    with EquatableMixin, FragmentQuery$PokemonPartsMixin {
+  FragmentQuery$Query$Pokemon();
+
+  factory FragmentQuery$Query$Pokemon.fromJson(Map<String, dynamic> json) =>
+      _$FragmentQuery$Query$PokemonFromJson(json);
+
+  List<FragmentQuery$Query$Pokemon$Evolutions> evolutions;
 
   @override
   List<Object> get props => [number, name, types, evolutions];
-  Map<String, dynamic> toJson() => _$PokemonToJson(this);
+  Map<String, dynamic> toJson() => _$FragmentQuery$Query$PokemonToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class Evolutions with EquatableMixin, PokemonPartsMixin {
-  Evolutions();
+class FragmentQuery$Query with EquatableMixin {
+  FragmentQuery$Query();
 
-  factory Evolutions.fromJson(Map<String, dynamic> json) =>
-      _$EvolutionsFromJson(json);
+  factory FragmentQuery$Query.fromJson(Map<String, dynamic> json) =>
+      _$FragmentQuery$QueryFromJson(json);
+
+  FragmentQuery$Query$Charmander charmander;
+
+  List<FragmentQuery$Query$Pokemon> pokemons;
 
   @override
-  List<Object> get props => [number, name, types];
-  Map<String, dynamic> toJson() => _$EvolutionsToJson(this);
+  List<Object> get props => [charmander, pokemons];
+  Map<String, dynamic> toJson() => _$FragmentQuery$QueryToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
 class FragmentQueryArguments extends JsonSerializable with EquatableMixin {
-  FragmentQueryArguments({this.quantity});
+  FragmentQueryArguments({@required this.quantity});
 
   factory FragmentQueryArguments.fromJson(Map<String, dynamic> json) =>
       _$FragmentQueryArgumentsFromJson(json);
@@ -81,7 +87,7 @@ class FragmentQueryArguments extends JsonSerializable with EquatableMixin {
 }
 
 class FragmentQueryQuery
-    extends GraphQLQuery<FragmentQuery, FragmentQueryArguments> {
+    extends GraphQLQuery<FragmentQuery$Query, FragmentQueryArguments> {
   FragmentQueryQuery({this.variables});
 
   @override
@@ -172,6 +178,6 @@ class FragmentQueryQuery
   @override
   List<Object> get props => [document, operationName, variables];
   @override
-  FragmentQuery parse(Map<String, dynamic> json) =>
-      FragmentQuery.fromJson(json);
+  FragmentQuery$Query parse(Map<String, dynamic> json) =>
+      FragmentQuery$Query.fromJson(json);
 }

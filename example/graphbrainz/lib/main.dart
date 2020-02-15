@@ -17,8 +17,8 @@ void main() async {
     return print('Error: ${response.errors.map((e) => e.message).toList()}');
   }
 
-  print(response.data.node.resolveType);
-  final edSheeran = response.data.node as Artist;
+  print(response.data.node.typeName);
+  final edSheeran = response.data.node as EdSheeran$Query$Node$Artist;
   print(edSheeran.name);
   print(edSheeran.lifeSpan.begin);
 }

@@ -8,17 +8,17 @@ import '../generator/helpers.dart';
 /// Generates a [Spec] of a single enum definition.
 Spec enumDefinitionToSpec(EnumDefinition definition) =>
     CodeExpression(Code('''enum ${definition.name} {
-  ${removeDuplicatedBy(definition.values, (i) => i).map((v) => '$v, ').join()}
+  ${definition.values.removeDuplicatedBy((i) => i).map((v) => '$v, ').join()}
 }'''));
 
 String _fromJsonBody(ClassDefinition definition) {
   final buffer = StringBuffer();
-  buffer.writeln(
-      '''switch (json['${definition.resolveTypeField}'].toString()) {''');
+  buffer
+      .writeln('''switch (json['${definition.typeNameField}'].toString()) {''');
 
-  for (final p in definition.factoryPossibilities) {
-    buffer.writeln('''      case '$p':
-        return ${definition.prefix}$p.fromJson(json);''');
+  for (final p in definition.factoryPossibilities.entries) {
+    buffer.writeln('''      case r'${p.key}':
+        return ${p.value}.fromJson(json);''');
   }
 
   buffer.writeln('''      default:
@@ -29,11 +29,11 @@ String _fromJsonBody(ClassDefinition definition) {
 
 String _toJsonBody(ClassDefinition definition) {
   final buffer = StringBuffer();
-  buffer.writeln('''switch (resolveType) {''');
+  buffer.writeln('''switch (typeName) {''');
 
-  for (final p in definition.factoryPossibilities) {
-    buffer.writeln('''      case '$p':
-        return (this as ${definition.prefix}$p).toJson();''');
+  for (final p in definition.factoryPossibilities.entries) {
+    buffer.writeln('''      case r'${p.key}':
+        return (this as ${p.value}).toJson();''');
   }
 
   buffer.writeln('''      default:
@@ -53,7 +53,8 @@ Method _propsMethod(String body) {
 }
 
 /// Generates a [Spec] of a single class definition.
-Spec classDefinitionToSpec(ClassDefinition definition) {
+Spec classDefinitionToSpec(
+    ClassDefinition definition, Iterable<FragmentClassDefinition> fragments) {
   final fromJson = definition.factoryPossibilities.isNotEmpty
       ? Constructor(
           (b) => b
@@ -95,7 +96,10 @@ Spec classDefinitionToSpec(ClassDefinition definition) {
         );
 
   final props = definition.mixins
-      .map((i) => i.properties.map((p) => p.name))
+      .map((i) => fragments
+          .firstWhere((f) => f.name == i)
+          .properties
+          .map((p) => p.name))
       .expand((i) => i)
       .followedBy(definition.properties.map((p) => p.name));
 
@@ -105,30 +109,32 @@ Spec classDefinitionToSpec(ClassDefinition definition) {
           .add(CodeExpression(Code('JsonSerializable(explicitToJson: true)')))
       ..name = definition.name
       ..mixins.add(refer('EquatableMixin'))
-      ..mixins.addAll(definition.mixins.map((i) => refer(i.name)))
+      ..mixins.addAll(definition.mixins.map((i) => refer(i)))
       ..methods.add(_propsMethod('[${props.join(',')}]'))
       ..extend =
           definition.extension != null ? refer(definition.extension) : null
       ..implements.addAll(definition.implementations.map((i) => refer(i)))
       ..constructors.add(Constructor((b) {
-        b
-          ..optionalParameters.addAll(definition.properties
-              .where(
-                  (property) => !property.isOverride && !property.isResolveType)
-              .map(
-                (property) => Parameter(
-                  (p) {
-                    p
-                      ..name = property.name
-                      ..named = true
-                      ..toThis = true;
+        if (definition.isInput) {
+          b
+            ..optionalParameters.addAll(definition.properties
+                .where((property) =>
+                    !property.isOverride && !property.isResolveType)
+                .map(
+                  (property) => Parameter(
+                    (p) {
+                      p
+                        ..name = property.name
+                        ..named = true
+                        ..toThis = true;
 
-                    if (property.isNonNull) {
-                      p.annotations.add(refer('required'));
-                    }
-                  },
-                ),
-              ));
+                      if (property.isNonNull) {
+                        p.annotations.add(refer('required'));
+                      }
+                    },
+                  ),
+                ));
+        }
       }))
       ..constructors.add(fromJson)
       ..methods.add(toJson)
@@ -227,8 +233,8 @@ Spec generateArgumentClassSpec(QueryDefinition definition) {
 /// Generates a [Spec] of a query/mutation class.
 Spec generateQueryClassSpec(QueryDefinition definition) {
   final typeDeclaration = definition.inputs.isEmpty
-      ? '${definition.className}, JsonSerializable'
-      : '${definition.className}, ${definition.className}Arguments';
+      ? '${definition.queryType}, JsonSerializable'
+      : '${definition.queryType}, ${definition.className}Arguments';
 
   final constructor = definition.inputs.isEmpty
       ? Constructor()
@@ -271,7 +277,7 @@ Spec generateQueryClassSpec(QueryDefinition definition) {
 
   return Class(
     (b) => b
-      ..name = '${definition.className}Query'
+      ..name = '${definition.className}${definition.suffix}'
       ..extend = refer('GraphQLQuery<$typeDeclaration>')
       ..constructors.add(constructor)
       ..fields.addAll(fields)
@@ -280,7 +286,7 @@ Spec generateQueryClassSpec(QueryDefinition definition) {
       ..methods.add(Method(
         (m) => m
           ..annotations.add(CodeExpression(Code('override')))
-          ..returns = refer(definition.className)
+          ..returns = refer(definition.queryType)
           ..name = 'parse'
           ..requiredParameters.add(Parameter(
             (p) => p
@@ -288,7 +294,7 @@ Spec generateQueryClassSpec(QueryDefinition definition) {
               ..name = 'json',
           ))
           ..lambda = true
-          ..body = Code('${definition.className}.fromJson(json)'),
+          ..body = Code('${definition.queryType}.fromJson(json)'),
       )),
   );
 }
@@ -322,10 +328,6 @@ Spec generateLibrarySpec(LibraryDefinition definition) {
     );
   }
 
-  if (definition.customParserImport != null) {
-    importDirectives.add(Directive.import(definition.customParserImport));
-  }
-
   importDirectives.addAll(definition.customImports
       .map((customImport) => Directive.import(customImport)));
 
@@ -337,13 +339,13 @@ Spec generateLibrarySpec(LibraryDefinition definition) {
     bodyDirectives.addAll(queryDef.classes
         .whereType<FragmentClassDefinition>()
         .map(fragmentClassDefinitionToSpec));
-    bodyDirectives.addAll(queryDef.classes
-        .whereType<ClassDefinition>()
-        .map(classDefinitionToSpec));
+    bodyDirectives.addAll(queryDef.classes.whereType<ClassDefinition>().map(
+        (cDef) => classDefinitionToSpec(
+            cDef, queryDef.classes.whereType<FragmentClassDefinition>())));
     bodyDirectives.addAll(
         queryDef.classes.whereType<EnumDefinition>().map(enumDefinitionToSpec));
 
-    if (queryDef.inputs.isNotEmpty) {
+    if (queryDef.inputs.isNotEmpty && queryDef.generateHelpers) {
       bodyDirectives.add(generateArgumentClassSpec(queryDef));
     }
     if (queryDef.generateHelpers) {

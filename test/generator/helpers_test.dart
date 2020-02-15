@@ -10,7 +10,7 @@ void main() {
         {'a': 1},
         {'a': 2},
       ];
-      final anotherIt = removeDuplicatedBy(it, (i) => i['a']);
+      final anotherIt = it.removeDuplicatedBy((i) => i['a']);
 
       expect(anotherIt == it, false);
     });
@@ -23,7 +23,7 @@ void main() {
         {'a': 1},
       ];
       final copyOfIt = List.from(it);
-      removeDuplicatedBy(it, (i) => i['a']);
+      it.removeDuplicatedBy((i) => i['a']);
 
       expect(it, equals(copyOfIt));
     });
@@ -35,7 +35,7 @@ void main() {
         {'a': 2, 'first': false},
         {'a': 1, 'first': false},
       ];
-      final anotherIt = removeDuplicatedBy(it, (i) => i['a']);
+      final anotherIt = it.removeDuplicatedBy((i) => i['a']);
 
       expect(
           anotherIt,
@@ -52,9 +52,7 @@ void main() {
         {'a': 2, 'first': false},
         {'a': 1, 'first': false},
       ];
-      final anotherIt =
-          removeDuplicatedBy<Map<String, Object>, Map<String, Object>>(
-              it, (i) => i);
+      final anotherIt = it.removeDuplicatedBy((i) => i);
 
       expect(anotherIt, equals(it));
     });
@@ -66,7 +64,7 @@ void main() {
         {'a': 1},
         {'a': 2},
       ];
-      final anotherIt = mergeDuplicatesBy(it, (i) => i, (i, _) => i);
+      final anotherIt = it.mergeDuplicatesBy((i) => i, (i, _) => i);
 
       expect(anotherIt == it, false);
     });
@@ -78,7 +76,7 @@ void main() {
         {'a': 2, 'first': false},
         {'a': 1, 'first': false},
       ];
-      final anotherIt = mergeDuplicatesBy(it, (i) => i['a'], (i, _) => i);
+      final anotherIt = it.mergeDuplicatesBy((i) => i['a'], (i, _) => i);
 
       expect(
           anotherIt,
@@ -95,7 +93,7 @@ void main() {
         {'a': 2, 'last': true},
         {'a': 1, 'last': true},
       ];
-      final anotherIt = mergeDuplicatesBy(it, (i) => i['a'], (_, i) => i);
+      final anotherIt = it.mergeDuplicatesBy((i) => i['a'], (_, i) => i);
 
       expect(
           anotherIt,
@@ -117,14 +115,16 @@ void main() {
         () {
       var input = [
         QueryDefinition(
-          'some_query',
-          parseString('query some_query {}'),
-          inputs: [QueryInput('Type', 'name', true)],
+          queryName: 'some_query',
+          queryType: 'SomeQuery',
+          document: parseString('query some_query {}'),
+          inputs: [QueryInput(type: 'Type', name: 'name', isNonNull: true)],
         ),
         QueryDefinition(
-          'another_query',
-          parseString('query another_query {}'),
-          inputs: [QueryInput('Type', 'name', false)],
+          queryName: 'another_query',
+          queryType: 'AnotherQuery',
+          document: parseString('query another_query {}'),
+          inputs: [QueryInput(type: 'Type', name: 'name')],
         ),
       ];
       var result = hasNonNullableInput(input);
@@ -135,14 +135,16 @@ void main() {
     test('It will return `false` if there is no non nullable inputs', () {
       var input = [
         QueryDefinition(
-          'some_query',
-          parseString('query some_query {}'),
-          inputs: [QueryInput('Type', 'name', false)],
+          queryName: 'some_query',
+          queryType: 'SomeQuery',
+          document: parseString('query some_query {}'),
+          inputs: [QueryInput(type: 'Type', name: 'name')],
         ),
         QueryDefinition(
-          'another_query',
-          parseString('query another_query {}'),
-          inputs: [QueryInput('Type', 'name', false)],
+          queryName: 'another_query',
+          queryType: 'AnotherQuery',
+          document: parseString('query another_query {}'),
+          inputs: [QueryInput(type: 'Type', name: 'name')],
         ),
       ];
       var result = hasNonNullableInput(input);

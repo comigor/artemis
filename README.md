@@ -63,7 +63,6 @@ targets:
 | Option | Default value | Description |
 | - | - | - |
 | `generate_helpers` | `true` | If Artemis should generate query/mutation helper GraphQLQuery subclasses. |
-| `custom_parser_import` | `null` | Import path to the file implementing coercer functions for custom scalars. See [Custom scalars](#custom-scalars). |
 | `scalar_mapping` | `[]` | Mapping of GraphQL and Dart types. See [Custom scalars](#custom-scalars). |
 | `schema_mapping` | `[]` | Mapping of queries and which schemas they will use for code generation. See [Schema mapping](#schema-mapping). |
 | `fragments_glob` | `null` | Import path to the file implementing fragments for all queries mapped in schema_mapping. If it's assigned, fragments defined in schema_mapping will be ignored. |
@@ -101,8 +100,7 @@ Each `SchemaMap` is configured this way:
 | `output` |  | Relative path to output the generated code. |
 | `schema` |  | Relative path to the GraphQL schema. |
 | `queries_glob` |  | Glob that selects all query files to be used with this schema. |
-| `resolve_type_field` | `__resolveType` | The name of the field used to differentiatiate interfaces and union types (commonly `__resolveType` or `__typename`). Note that `__resolveType` field are not added automatically to the query. If you want interface/union type resolution, you need to manually add it to the query. |
-| `add_query_prefix` | `false` | Wheter to add the name of the query as a prefix for each dependent object of this query input or response. |
+| `type_name_field` | `__typename` | The name of the field used to differentiatiate interfaces and union types (commonly `__typename` or `__resolveType`). Note that `__typename` field are not added automatically to the query. If you want interface/union type resolution, you need to manually add it there. |
 
 See [examples](./example) for more information and configuration options.
 
@@ -115,9 +113,9 @@ targets:
     builders:
       artemis:
         options:
-          custom_parser_import: 'package:graphbrainz_example/coercers.dart'
           scalar_mapping:
-            - graphql_type: Date
+            - custom_parser_import: 'package:graphbrainz_example/coercers.dart'
+              graphql_type: Date
               dart_type: DateTime
 ```
 
@@ -129,9 +127,9 @@ targets:
     builders:
       artemis:
         options:
-          custom_parser_import: 'package:graphbrainz_example/coercers.dart'
           scalar_mapping:
-            - graphql_type: BigDecimal
+            - custom_parser_import: 'package:graphbrainz_example/coercers.dart'
+              graphql_type: BigDecimal
               dart_type:
                 name: Decimal
                 imports:
@@ -144,7 +142,7 @@ Each `ScalarMap` is configured this way:
 | - | - | - |
 | `graphql_type` |  | The GraphQL custom scalar name on schema. |
 | `dart_type` |  | The Dart type this custom scalar should be converted from/to. |
-| `use_custom_parser` | `false` | Wheter `custom_parser_import` should be imported on the beginning of the file. |
+| `custom_parser_import` | `null` | Import path to the file implementing coercer functions for custom scalars. See [Custom scalars](#custom-scalars). |
 
 See [examples](./example) for more information and configuration options.
 

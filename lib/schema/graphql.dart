@@ -1,3 +1,4 @@
+import 'package:artemis/generator/graphql_helpers.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 // I can't use the default json_serializable flow because the artemis generator
@@ -203,6 +204,13 @@ class GraphQLType {
 
   /// Convert this GraphQL type instance to JSON.
   Map<String, dynamic> toJson() => _$GraphQLTypeToJson(this);
+
+  /// Get this leaf type.
+  GraphQLType follow() => followType(this);
+
+  /// Upgrade this type to the full type definition from schema.
+  GraphQLType upgrade(GraphQLSchema schema, {String context}) =>
+      getTypeByName(schema, name, context: context);
 }
 
 /// Defines kinds of GraphQL types.

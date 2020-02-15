@@ -1,21 +1,16 @@
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
 import 'package:recase/recase.dart';
+import 'package:meta/meta.dart';
 
-import '../schema/graphql.dart';
+import 'data_printer.dart';
+import 'helpers.dart';
 
 /// Callback fired when the generator processes a [LibraryDefinition].
 typedef OnBuildQuery = void Function(LibraryDefinition definition);
 
-/// Callback fired when a new class is found during schema parsing.
-typedef OnNewClassFoundCallback = void Function(
-  SelectionSetNode selectionSet,
-  String className,
-  GraphQLType parentType,
-);
-
 /// Define a property (field) from a class.
-class ClassProperty extends Equatable {
+class ClassProperty extends Equatable with DataPrinter {
   /// The property type.
   final String type;
 
@@ -35,39 +30,46 @@ class ClassProperty extends Equatable {
   final bool isResolveType;
 
   /// Instantiate a property (field) from a class.
-  ClassProperty(this.type, this.name,
-      {this.isOverride = false,
-      this.annotation,
-      this.isNonNull = false,
-      this.isResolveType = false});
+  ClassProperty({
+    @required this.type,
+    @required this.name,
+    this.isOverride = false,
+    this.annotation,
+    this.isNonNull = false,
+    this.isResolveType = false,
+  }) : assert(hasValue(type) && hasValue(name));
 
   /// Creates a copy of [ClassProperty] without modifying the original.
-  ClassProperty copyWith(
-          {String type,
-          String name,
-          bool isOverride,
-          String annotation,
-          bool isNonNull,
-          bool isResolveType}) =>
+  ClassProperty copyWith({
+    String type,
+    String name,
+    bool isOverride,
+    String annotation,
+    bool isNonNull,
+    bool isResolveType,
+  }) =>
       ClassProperty(
-        type ?? this.type,
-        name ?? this.name,
-        isResolveType: isResolveType ?? this.isResolveType,
+        type: type ?? this.type,
+        name: name ?? this.name,
         isOverride: isOverride ?? this.isOverride,
         annotation: annotation ?? this.annotation,
         isNonNull: isNonNull ?? this.isNonNull,
+        isResolveType: isResolveType ?? this.isResolveType,
       );
 
   @override
-  String toString() => props.toList().toString();
-
-  @override
-  List get props =>
-      [type, name, isOverride, annotation, isNonNull, isResolveType];
+  Map<String, Object> get namedProps => {
+        'type': type,
+        'name': name,
+        'isOverride': isOverride,
+        'annotation': annotation,
+        'isNonNull': isNonNull,
+        'isResolveType': isResolveType,
+      };
 }
 
 /// Define a query/mutation input parameter.
-class QueryInput extends Equatable {
+class QueryInput extends Equatable with DataPrinter {
   /// The input type.
   final String type;
 
@@ -78,14 +80,15 @@ class QueryInput extends Equatable {
   final bool isNonNull;
 
   /// Instantiate an input parameter.
-  QueryInput(this.type, this.name, this.isNonNull)
-      : assert(
-            type != null && type.isNotEmpty, 'Type can\'t be null nor empty.'),
-        assert(
-            name != null && name.isNotEmpty, 'Name can\'t be null nor empty.');
+  QueryInput({@required this.type, @required this.name, this.isNonNull = false})
+      : assert(hasValue(type) && hasValue(name));
 
   @override
-  List get props => [type, name, isNonNull];
+  Map<String, Object> get namedProps => {
+        'type': type,
+        'name': name,
+        'isNonNull': isNonNull,
+      };
 }
 
 /// Abstract definition of an entity.
@@ -94,19 +97,14 @@ abstract class Definition extends Equatable {
   final String name;
 
   /// Instantiate a definition.
-  Definition(this.name)
-      : assert(
-            name != null && name.isNotEmpty, 'Name can\'t be null nor empty.');
-
-  @override
-  String toString() => props.toList().toString();
+  Definition({@required this.name}) : assert(hasValue(name));
 
   @override
   List get props => [name];
 }
 
 /// Define a Dart class parsed from GraphQL type.
-class ClassDefinition extends Definition {
+class ClassDefinition extends Definition with DataPrinter {
   /// The properties (fields) of the class.
   final Iterable<ClassProperty> properties;
 
@@ -117,89 +115,89 @@ class ClassDefinition extends Definition {
   final Iterable<String> implementations;
 
   /// The types this class mixins.
-  final Iterable<FragmentClassDefinition> mixins;
+  final Iterable<String> mixins;
 
-  /// The types possibilities the class implements, if it's part of an union
-  /// type or interface.
-  final Iterable<String> factoryPossibilities;
-
-  /// The prefix this class and its relations will use.
-  // TODO(igor): make everything use this prefix
-  final String prefix;
+  /// The types possibilities (GraphQL type -> class name) the class
+  /// implements, if it's part of an union type or interface.
+  final Map<String, String> factoryPossibilities;
 
   /// The field name used to resolve this class type.
-  final String resolveTypeField;
+  final String typeNameField;
+
+  /// Wheter this is an input object or not.
+  final bool isInput;
 
   /// Instantiate a class definition.
-  ClassDefinition(
-    String name,
-    this.properties, {
-    this.prefix = '',
+  ClassDefinition({
+    @required String name,
+    this.properties = const [],
     this.extension,
     this.implementations = const [],
     this.mixins = const [],
-    this.factoryPossibilities = const [],
-    this.resolveTypeField = '__resolveType',
-  }) : super(name);
+    this.factoryPossibilities = const {},
+    this.typeNameField = '__typename',
+    this.isInput = false,
+  })  : assert(hasValue(name)),
+        super(name: name);
 
   @override
-  String toString() => props.toList().toString();
-
-  @override
-  List get props => [
-        name,
-        properties,
-        prefix,
-        extension,
-        implementations,
-        mixins,
-        factoryPossibilities,
-        resolveTypeField,
-      ];
+  Map<String, Object> get namedProps => {
+        'name': name,
+        'properties': properties,
+        'extension': extension,
+        'implementations': implementations,
+        'mixins': mixins,
+        'factoryPossibilities': factoryPossibilities,
+        'typeNameField': typeNameField,
+        'isInput': isInput,
+      };
 }
 
 /// Define a Dart class parsed from GraphQL fragment.
-class FragmentClassDefinition extends Definition {
+class FragmentClassDefinition extends Definition with DataPrinter {
   /// The properties (fields) of the class.
   final Iterable<ClassProperty> properties;
 
   /// Instantiate a fragment class definition.
-  FragmentClassDefinition(
-    String name,
-    this.properties,
-  ) : super(name);
+  FragmentClassDefinition({
+    @required String name,
+    @required this.properties,
+  })  : assert(hasValue(name) && hasValue(properties)),
+        super(name: name);
 
   @override
-  String toString() => props.toList().toString();
-
-  @override
-  List get props => [name, properties];
+  Map<String, Object> get namedProps => {
+        'name': name,
+        'properties': properties,
+      };
 }
 
 /// Define a Dart enum parsed from GraphQL schema.
-class EnumDefinition extends Definition {
+class EnumDefinition extends Definition with DataPrinter {
   /// The possible values of this enum.
   final Iterable<String> values;
 
   /// Instantiate an enum definition.
-  EnumDefinition(
+  EnumDefinition({
     String name,
     this.values,
-  )   : assert(values != null && values.isNotEmpty,
-            'An enum must have at least one possible value.'),
-        super(name);
+  })  : assert(hasValue(name) && hasValue(values)),
+        super(name: name);
 
   @override
-  String toString() => props.toList().toString();
-
-  @override
-  List get props => [name, values];
+  Map<String, Object> get namedProps => {
+        'name': name,
+        'values': values,
+      };
 }
 
 /// Define a GraphQL query and its dependencies.
-class QueryDefinition extends Equatable {
+class QueryDefinition extends Equatable with DataPrinter {
   /// The query name.
   final String queryName;
+
+  /// The query type name.
+  final String queryType;
 
   /// The AST representation of GraphQL document.
   final DocumentNode document;
@@ -213,59 +211,57 @@ class QueryDefinition extends Equatable {
   /// If instances of [GraphQLQuery] should be generated.
   final bool generateHelpers;
 
+  /// The suffix of generated [GraphQLQuery] classes.
+  final String suffix;
+
   /// The class name.
   String get className => ReCase(queryName).pascalCase;
 
   /// Instantiate a query definition.
-  QueryDefinition(
-    this.queryName,
-    this.document, {
+  QueryDefinition({
+    @required this.queryName,
+    @required this.queryType,
+    this.document = const DocumentNode(),
     this.classes = const [],
     this.inputs = const [],
     this.generateHelpers = false,
-  })  : assert(
-          queryName != null && queryName.isNotEmpty,
-          'Query name must not be null or empty.',
-        ),
-        assert(
-          document != null,
-          'Query must not be null or empty.',
-        );
+    this.suffix = 'Query',
+  }) : assert(hasValue(queryName) && hasValue(queryType));
 
   @override
-  String toString() => props.toList().toString();
-
-  @override
-  List get props => [queryName, document, classes, inputs, generateHelpers];
+  Map<String, Object> get namedProps => {
+        'queryName': queryName,
+        'queryType': queryType,
+        'classes': classes,
+        'inputs': inputs,
+        'generateHelpers': generateHelpers,
+        'suffix': suffix,
+      };
 }
 
 /// Define a whole library file, the output of a single [SchemaMap] code
 /// generation.
-class LibraryDefinition extends Equatable {
+class LibraryDefinition extends Equatable with DataPrinter {
   /// The output file basename.
   final String basename;
 
   /// A list of queries.
   final Iterable<QueryDefinition> queries;
 
-  /// An import for coercing custom scalars, defined in `build.yaml`.
-  final String customParserImport;
-
   /// Any other custom package imports, defined in `build.yaml`.
   final Iterable<String> customImports;
 
   /// Instantiate a library definition.
-  LibraryDefinition(
-    this.basename, {
-    this.customParserImport,
+  LibraryDefinition({
+    @required this.basename,
     this.queries = const [],
     this.customImports = const [],
-  }) : assert(basename != null && basename.isNotEmpty,
-            'Basename must not be null or empty.');
+  }) : assert(hasValue(basename));
 
   @override
-  String toString() => props.toList().toString();
-
-  @override
-  List get props => [basename, queries, customParserImport, customImports];
+  Map<String, Object> get namedProps => {
+        'basename': basename,
+        'queries': queries,
+        'customImports': customImports,
+      };
 }

@@ -6,85 +6,112 @@ import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
 part 'fragments_glob.g.dart';
 
-mixin WeightMixin {
+mixin FragmentsGlob$PokemonMixin {
+  String id;
+  FragmentsGlob$Query$Pokemon$PokemonDimension weight;
+  FragmentsGlob$Query$Pokemon$PokemonAttack attacks;
+}
+mixin FragmentsGlob$WeightMixin {
   String minimum;
 }
-mixin AttackMixin {
+mixin FragmentsGlob$PokemonAttackMixin {
+  List<FragmentsGlob$Query$PokemonAttack$Attack> special;
+}
+mixin FragmentsGlob$AttackMixin {
   String name;
 }
-mixin PokemonAttackMixin {
-  List<Attack> special;
-}
-mixin PokemonMixin {
-  String id;
-  PokemonDimension weight;
-  PokemonAttack attacks;
-}
 
 @JsonSerializable(explicitToJson: true)
-class FragmentsGlob with EquatableMixin {
-  FragmentsGlob();
+class FragmentsGlob$Query$Pokemon$Pokemon
+    with EquatableMixin, FragmentsGlob$PokemonMixin {
+  FragmentsGlob$Query$Pokemon$Pokemon();
 
-  factory FragmentsGlob.fromJson(Map<String, dynamic> json) =>
-      _$FragmentsGlobFromJson(json);
-
-  Pokemon pokemon;
+  factory FragmentsGlob$Query$Pokemon$Pokemon.fromJson(
+          Map<String, dynamic> json) =>
+      _$FragmentsGlob$Query$Pokemon$PokemonFromJson(json);
 
   @override
-  List<Object> get props => [pokemon];
-  Map<String, dynamic> toJson() => _$FragmentsGlobToJson(this);
+  List<Object> get props => [id, weight, attacks];
+  Map<String, dynamic> toJson() =>
+      _$FragmentsGlob$Query$Pokemon$PokemonToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class Pokemon with EquatableMixin, PokemonMixin {
-  Pokemon();
+class FragmentsGlob$Query$Pokemon
+    with EquatableMixin, FragmentsGlob$PokemonMixin {
+  FragmentsGlob$Query$Pokemon();
 
-  factory Pokemon.fromJson(Map<String, dynamic> json) =>
-      _$PokemonFromJson(json);
+  factory FragmentsGlob$Query$Pokemon.fromJson(Map<String, dynamic> json) =>
+      _$FragmentsGlob$Query$PokemonFromJson(json);
 
-  List<Pokemon> evolutions;
+  List<FragmentsGlob$Query$Pokemon$Pokemon> evolutions;
 
   @override
   List<Object> get props => [id, weight, attacks, evolutions];
-  Map<String, dynamic> toJson() => _$PokemonToJson(this);
+  Map<String, dynamic> toJson() => _$FragmentsGlob$Query$PokemonToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class PokemonDimension with EquatableMixin, WeightMixin {
-  PokemonDimension();
+class FragmentsGlob$Query with EquatableMixin {
+  FragmentsGlob$Query();
 
-  factory PokemonDimension.fromJson(Map<String, dynamic> json) =>
-      _$PokemonDimensionFromJson(json);
+  factory FragmentsGlob$Query.fromJson(Map<String, dynamic> json) =>
+      _$FragmentsGlob$QueryFromJson(json);
+
+  FragmentsGlob$Query$Pokemon pokemon;
+
+  @override
+  List<Object> get props => [pokemon];
+  Map<String, dynamic> toJson() => _$FragmentsGlob$QueryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class FragmentsGlob$Query$Pokemon$PokemonDimension
+    with EquatableMixin, FragmentsGlob$WeightMixin {
+  FragmentsGlob$Query$Pokemon$PokemonDimension();
+
+  factory FragmentsGlob$Query$Pokemon$PokemonDimension.fromJson(
+          Map<String, dynamic> json) =>
+      _$FragmentsGlob$Query$Pokemon$PokemonDimensionFromJson(json);
 
   @override
   List<Object> get props => [minimum];
-  Map<String, dynamic> toJson() => _$PokemonDimensionToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$FragmentsGlob$Query$Pokemon$PokemonDimensionToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class PokemonAttack with EquatableMixin, PokemonAttackMixin {
-  PokemonAttack();
+class FragmentsGlob$Query$Pokemon$PokemonAttack
+    with EquatableMixin, FragmentsGlob$PokemonAttackMixin {
+  FragmentsGlob$Query$Pokemon$PokemonAttack();
 
-  factory PokemonAttack.fromJson(Map<String, dynamic> json) =>
-      _$PokemonAttackFromJson(json);
+  factory FragmentsGlob$Query$Pokemon$PokemonAttack.fromJson(
+          Map<String, dynamic> json) =>
+      _$FragmentsGlob$Query$Pokemon$PokemonAttackFromJson(json);
 
   @override
   List<Object> get props => [special];
-  Map<String, dynamic> toJson() => _$PokemonAttackToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$FragmentsGlob$Query$Pokemon$PokemonAttackToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class Attack with EquatableMixin, AttackMixin {
-  Attack();
+class FragmentsGlob$Query$PokemonAttack$Attack
+    with EquatableMixin, FragmentsGlob$AttackMixin {
+  FragmentsGlob$Query$PokemonAttack$Attack();
 
-  factory Attack.fromJson(Map<String, dynamic> json) => _$AttackFromJson(json);
+  factory FragmentsGlob$Query$PokemonAttack$Attack.fromJson(
+          Map<String, dynamic> json) =>
+      _$FragmentsGlob$Query$PokemonAttack$AttackFromJson(json);
 
   @override
   List<Object> get props => [name];
-  Map<String, dynamic> toJson() => _$AttackToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$FragmentsGlob$Query$PokemonAttack$AttackToJson(this);
 }
 
-class FragmentsGlobQuery extends GraphQLQuery<FragmentsGlob, JsonSerializable> {
+class FragmentsGlobQuery
+    extends GraphQLQuery<FragmentsGlob$Query, JsonSerializable> {
   FragmentsGlobQuery();
 
   @override
@@ -203,6 +230,6 @@ class FragmentsGlobQuery extends GraphQLQuery<FragmentsGlob, JsonSerializable> {
   @override
   List<Object> get props => [document, operationName];
   @override
-  FragmentsGlob parse(Map<String, dynamic> json) =>
-      FragmentsGlob.fromJson(json);
+  FragmentsGlob$Query parse(Map<String, dynamic> json) =>
+      FragmentsGlob$Query.fromJson(json);
 }

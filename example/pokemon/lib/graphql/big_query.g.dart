@@ -6,62 +6,74 @@ part of 'big_query.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-BigQuery _$BigQueryFromJson(Map<String, dynamic> json) {
-  return BigQuery()
-    ..charmander = json['charmander'] == null
-        ? null
-        : Charmander.fromJson(json['charmander'] as Map<String, dynamic>)
-    ..pokemons = (json['pokemons'] as List)
-        ?.map((e) =>
-            e == null ? null : Pokemon.fromJson(e as Map<String, dynamic>))
-        ?.toList();
-}
-
-Map<String, dynamic> _$BigQueryToJson(BigQuery instance) => <String, dynamic>{
-      'charmander': instance.charmander?.toJson(),
-      'pokemons': instance.pokemons?.map((e) => e?.toJson())?.toList(),
-    };
-
-Charmander _$CharmanderFromJson(Map<String, dynamic> json) {
-  return Charmander()
+BigQuery$Query$Charmander _$BigQuery$Query$CharmanderFromJson(
+    Map<String, dynamic> json) {
+  return BigQuery$Query$Charmander()
     ..number = json['number'] as String
     ..types = (json['types'] as List)?.map((e) => e as String)?.toList();
 }
 
-Map<String, dynamic> _$CharmanderToJson(Charmander instance) =>
+Map<String, dynamic> _$BigQuery$Query$CharmanderToJson(
+        BigQuery$Query$Charmander instance) =>
     <String, dynamic>{
       'number': instance.number,
       'types': instance.types,
     };
 
-Pokemon _$PokemonFromJson(Map<String, dynamic> json) {
-  return Pokemon()
+BigQuery$Query$Pokemon$Evolutions _$BigQuery$Query$Pokemon$EvolutionsFromJson(
+    Map<String, dynamic> json) {
+  return BigQuery$Query$Pokemon$Evolutions()
+    ..number = json['number'] as String
+    ..name = json['name'] as String;
+}
+
+Map<String, dynamic> _$BigQuery$Query$Pokemon$EvolutionsToJson(
+        BigQuery$Query$Pokemon$Evolutions instance) =>
+    <String, dynamic>{
+      'number': instance.number,
+      'name': instance.name,
+    };
+
+BigQuery$Query$Pokemon _$BigQuery$Query$PokemonFromJson(
+    Map<String, dynamic> json) {
+  return BigQuery$Query$Pokemon()
     ..number = json['number'] as String
     ..name = json['name'] as String
     ..types = (json['types'] as List)?.map((e) => e as String)?.toList()
     ..evolutions = (json['evolutions'] as List)
-        ?.map((e) =>
-            e == null ? null : Evolutions.fromJson(e as Map<String, dynamic>))
+        ?.map((e) => e == null
+            ? null
+            : BigQuery$Query$Pokemon$Evolutions.fromJson(
+                e as Map<String, dynamic>))
         ?.toList();
 }
 
-Map<String, dynamic> _$PokemonToJson(Pokemon instance) => <String, dynamic>{
+Map<String, dynamic> _$BigQuery$Query$PokemonToJson(
+        BigQuery$Query$Pokemon instance) =>
+    <String, dynamic>{
       'number': instance.number,
       'name': instance.name,
       'types': instance.types,
       'evolutions': instance.evolutions?.map((e) => e?.toJson())?.toList(),
     };
 
-Evolutions _$EvolutionsFromJson(Map<String, dynamic> json) {
-  return Evolutions()
-    ..number = json['number'] as String
-    ..name = json['name'] as String;
+BigQuery$Query _$BigQuery$QueryFromJson(Map<String, dynamic> json) {
+  return BigQuery$Query()
+    ..charmander = json['charmander'] == null
+        ? null
+        : BigQuery$Query$Charmander.fromJson(
+            json['charmander'] as Map<String, dynamic>)
+    ..pokemons = (json['pokemons'] as List)
+        ?.map((e) => e == null
+            ? null
+            : BigQuery$Query$Pokemon.fromJson(e as Map<String, dynamic>))
+        ?.toList();
 }
 
-Map<String, dynamic> _$EvolutionsToJson(Evolutions instance) =>
+Map<String, dynamic> _$BigQuery$QueryToJson(BigQuery$Query instance) =>
     <String, dynamic>{
-      'number': instance.number,
-      'name': instance.name,
+      'charmander': instance.charmander?.toJson(),
+      'pokemons': instance.pokemons?.map((e) => e?.toJson())?.toList(),
     };
 
 BigQueryArguments _$BigQueryArgumentsFromJson(Map<String, dynamic> json) {

@@ -1,144 +1,26 @@
-import 'package:build/build.dart';
-import 'package:build_test/build_test.dart';
-import 'package:gql/ast.dart';
+import 'package:artemis/generator/data.dart';
 import 'package:test/test.dart';
 
-import '../../lib/builder.dart';
+import '../../helpers.dart';
 
 void main() {
   group('[Fragment generation]', () {
-    test('Extracting', () async {
-      final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
-        'fragments_glob': '**.frag',
-        'schema_mapping': [
-          {
-            'schema': 'pokemon.schema.json',
-            'queries_glob': '**.graphql',
-            'output': 'lib/query.dart',
-          }
-        ]
-      }));
+    test(
+      'Extracting',
+      () async => testGenerator(
+        query: queryString,
+        libraryDefinition: libraryDefinition,
+        generatedFile: generatedFile,
+        stringSchema: pokemonSchema,
+        builderOptionsMap: {'fragments_glob': '**.frag'},
+        sourceAssetsMap: {'a|fragment.frag': fragmentsString},
+        generateHelpers: true,
+      ),
+    );
+  });
+}
 
-      anotherBuilder.onBuild = expectAsync1((definition) {
-        expect(
-            definition.queries.first.document,
-            DocumentNode(definitions: [
-              OperationDefinitionNode(
-                  type: OperationType.query,
-                  name: null,
-                  variableDefinitions: [],
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FieldNode(
-                        name: NameNode(value: 'pokemon'),
-                        alias: null,
-                        arguments: [
-                          ArgumentNode(
-                              name: NameNode(value: 'name'),
-                              value: StringValueNode(
-                                  value: 'Pikachu', isBlock: false))
-                        ],
-                        directives: [],
-                        selectionSet: SelectionSetNode(selections: [
-                          FragmentSpreadNode(
-                              name: NameNode(value: 'Pokemon'), directives: []),
-                          FieldNode(
-                              name: NameNode(value: 'evolutions'),
-                              alias: null,
-                              arguments: [],
-                              directives: [],
-                              selectionSet: SelectionSetNode(selections: [
-                                FragmentSpreadNode(
-                                    name: NameNode(value: 'Pokemon'),
-                                    directives: [])
-                              ]))
-                        ]))
-                  ])),
-              FragmentDefinitionNode(
-                  name: NameNode(value: 'Pokemon'),
-                  typeCondition: TypeConditionNode(
-                      on: NamedTypeNode(
-                          name: NameNode(value: 'Pokemon'), isNonNull: false)),
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FieldNode(
-                        name: NameNode(value: 'id'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null),
-                    FieldNode(
-                        name: NameNode(value: 'weight'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: SelectionSetNode(selections: [
-                          FragmentSpreadNode(
-                              name: NameNode(value: 'weight'), directives: [])
-                        ])),
-                    FieldNode(
-                        name: NameNode(value: 'attacks'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: SelectionSetNode(selections: [
-                          FragmentSpreadNode(
-                              name: NameNode(value: 'pokemonAttack'),
-                              directives: [])
-                        ]))
-                  ])),
-              FragmentDefinitionNode(
-                  name: NameNode(value: 'weight'),
-                  typeCondition: TypeConditionNode(
-                      on: NamedTypeNode(
-                          name: NameNode(value: 'PokemonDimension'),
-                          isNonNull: false)),
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FieldNode(
-                        name: NameNode(value: 'minimum'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null)
-                  ])),
-              FragmentDefinitionNode(
-                  name: NameNode(value: 'pokemonAttack'),
-                  typeCondition: TypeConditionNode(
-                      on: NamedTypeNode(
-                          name: NameNode(value: 'PokemonAttack'),
-                          isNonNull: false)),
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FieldNode(
-                        name: NameNode(value: 'special'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: SelectionSetNode(selections: [
-                          FragmentSpreadNode(
-                              name: NameNode(value: 'attack'), directives: [])
-                        ]))
-                  ])),
-              FragmentDefinitionNode(
-                  name: NameNode(value: 'attack'),
-                  typeCondition: TypeConditionNode(
-                      on: NamedTypeNode(
-                          name: NameNode(value: 'Attack'), isNonNull: false)),
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FieldNode(
-                        name: NameNode(value: 'name'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null)
-                  ]))
-            ]));
-      }, count: 1);
-
-      await testBuilder(anotherBuilder, {
-        'a|fragment.frag': '''
+const fragmentsString = '''
       fragment Pokemon on Pokemon {
             id
             weight {
@@ -153,9 +35,9 @@ void main() {
         special { ...attack }
       }
       fragment attack on Attack { name }
-        ''',
-        'a|pokemon.schema.json': pokemonSchema,
-        'a|query.graphql': '''
+        ''';
+
+const queryString = '''
       {
           pokemon(name: "Pikachu") {
             ...Pokemon
@@ -163,10 +45,103 @@ void main() {
               ...Pokemon
             }
           }
-      }
-        ''',
-      }, outputs: {
-        'a|lib/query.dart': '''// GENERATED CODE - DO NOT MODIFY BY HAND
+      }''';
+
+final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
+  QueryDefinition(
+      queryName: r'query',
+      queryType: r'Query$Query',
+      classes: [
+        ClassDefinition(
+            name: r'Query$Query$Pokemon$Pokemon',
+            mixins: [r'Query$PokemonMixin'],
+            factoryPossibilities: {},
+            typeNameField: r'__typename',
+            isInput: false),
+        ClassDefinition(
+            name: r'Query$Query$Pokemon',
+            properties: [
+              ClassProperty(
+                  type: r'List<Query$Query$Pokemon$Pokemon>',
+                  name: r'evolutions',
+                  isOverride: false,
+                  isNonNull: false)
+            ],
+            mixins: [r'Query$PokemonMixin'],
+            factoryPossibilities: {},
+            typeNameField: r'__typename',
+            isInput: false),
+        ClassDefinition(
+            name: r'Query$Query',
+            properties: [
+              ClassProperty(
+                  type: r'Query$Query$Pokemon',
+                  name: r'pokemon',
+                  isOverride: false,
+                  isNonNull: false)
+            ],
+            factoryPossibilities: {},
+            typeNameField: r'__typename',
+            isInput: false),
+        ClassDefinition(
+            name: r'Query$Query$Pokemon$PokemonDimension',
+            mixins: [r'Query$WeightMixin'],
+            factoryPossibilities: {},
+            typeNameField: r'__typename',
+            isInput: false),
+        ClassDefinition(
+            name: r'Query$Query$Pokemon$PokemonAttack',
+            mixins: [r'Query$PokemonAttackMixin'],
+            factoryPossibilities: {},
+            typeNameField: r'__typename',
+            isInput: false),
+        FragmentClassDefinition(name: r'Query$PokemonMixin', properties: [
+          ClassProperty(
+              type: r'String', name: r'id', isOverride: false, isNonNull: true),
+          ClassProperty(
+              type: r'Query$Query$Pokemon$PokemonDimension',
+              name: r'weight',
+              isOverride: false,
+              isNonNull: false),
+          ClassProperty(
+              type: r'Query$Query$Pokemon$PokemonAttack',
+              name: r'attacks',
+              isOverride: false,
+              isNonNull: false)
+        ]),
+        FragmentClassDefinition(name: r'Query$WeightMixin', properties: [
+          ClassProperty(
+              type: r'String',
+              name: r'minimum',
+              isOverride: false,
+              isNonNull: false)
+        ]),
+        ClassDefinition(
+            name: r'Query$Query$PokemonAttack$Attack',
+            mixins: [r'Query$AttackMixin'],
+            factoryPossibilities: {},
+            typeNameField: r'__typename',
+            isInput: false),
+        FragmentClassDefinition(name: r'Query$PokemonAttackMixin', properties: [
+          ClassProperty(
+              type: r'List<Query$Query$PokemonAttack$Attack>',
+              name: r'special',
+              isOverride: false,
+              isNonNull: false)
+        ]),
+        FragmentClassDefinition(name: r'Query$AttackMixin', properties: [
+          ClassProperty(
+              type: r'String',
+              name: r'name',
+              isOverride: false,
+              isNonNull: false)
+        ])
+      ],
+      generateHelpers: true,
+      suffix: r'Query')
+]);
+
+const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -174,84 +149,106 @@ import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
 part 'query.g.dart';
 
-mixin WeightMixin {
+mixin Query$PokemonMixin {
+  String id;
+  Query$Query$Pokemon$PokemonDimension weight;
+  Query$Query$Pokemon$PokemonAttack attacks;
+}
+mixin Query$WeightMixin {
   String minimum;
 }
-mixin AttackMixin {
+mixin Query$PokemonAttackMixin {
+  List<Query$Query$PokemonAttack$Attack> special;
+}
+mixin Query$AttackMixin {
   String name;
 }
-mixin PokemonAttackMixin {
-  List<Attack> special;
-}
-mixin PokemonMixin {
-  String id;
-  PokemonDimension weight;
-  PokemonAttack attacks;
-}
 
 @JsonSerializable(explicitToJson: true)
-class Query with EquatableMixin {
-  Query({this.pokemon});
+class Query$Query$Pokemon$Pokemon with EquatableMixin, Query$PokemonMixin {
+  Query$Query$Pokemon$Pokemon();
 
-  factory Query.fromJson(Map<String, dynamic> json) => _\$QueryFromJson(json);
-
-  Pokemon pokemon;
+  factory Query$Query$Pokemon$Pokemon.fromJson(Map<String, dynamic> json) =>
+      _$Query$Query$Pokemon$PokemonFromJson(json);
 
   @override
-  List<Object> get props => [pokemon];
-  Map<String, dynamic> toJson() => _\$QueryToJson(this);
+  List<Object> get props => [id, weight, attacks];
+  Map<String, dynamic> toJson() => _$Query$Query$Pokemon$PokemonToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class Pokemon with EquatableMixin, PokemonMixin {
-  Pokemon({this.evolutions});
+class Query$Query$Pokemon with EquatableMixin, Query$PokemonMixin {
+  Query$Query$Pokemon();
 
-  factory Pokemon.fromJson(Map<String, dynamic> json) =>
-      _\$PokemonFromJson(json);
+  factory Query$Query$Pokemon.fromJson(Map<String, dynamic> json) =>
+      _$Query$Query$PokemonFromJson(json);
 
-  List<Pokemon> evolutions;
+  List<Query$Query$Pokemon$Pokemon> evolutions;
 
   @override
   List<Object> get props => [id, weight, attacks, evolutions];
-  Map<String, dynamic> toJson() => _\$PokemonToJson(this);
+  Map<String, dynamic> toJson() => _$Query$Query$PokemonToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class PokemonDimension with EquatableMixin, WeightMixin {
-  PokemonDimension();
+class Query$Query with EquatableMixin {
+  Query$Query();
 
-  factory PokemonDimension.fromJson(Map<String, dynamic> json) =>
-      _\$PokemonDimensionFromJson(json);
+  factory Query$Query.fromJson(Map<String, dynamic> json) =>
+      _$Query$QueryFromJson(json);
+
+  Query$Query$Pokemon pokemon;
+
+  @override
+  List<Object> get props => [pokemon];
+  Map<String, dynamic> toJson() => _$Query$QueryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class Query$Query$Pokemon$PokemonDimension
+    with EquatableMixin, Query$WeightMixin {
+  Query$Query$Pokemon$PokemonDimension();
+
+  factory Query$Query$Pokemon$PokemonDimension.fromJson(
+          Map<String, dynamic> json) =>
+      _$Query$Query$Pokemon$PokemonDimensionFromJson(json);
 
   @override
   List<Object> get props => [minimum];
-  Map<String, dynamic> toJson() => _\$PokemonDimensionToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$Query$Query$Pokemon$PokemonDimensionToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class PokemonAttack with EquatableMixin, PokemonAttackMixin {
-  PokemonAttack();
+class Query$Query$Pokemon$PokemonAttack
+    with EquatableMixin, Query$PokemonAttackMixin {
+  Query$Query$Pokemon$PokemonAttack();
 
-  factory PokemonAttack.fromJson(Map<String, dynamic> json) =>
-      _\$PokemonAttackFromJson(json);
+  factory Query$Query$Pokemon$PokemonAttack.fromJson(
+          Map<String, dynamic> json) =>
+      _$Query$Query$Pokemon$PokemonAttackFromJson(json);
 
   @override
   List<Object> get props => [special];
-  Map<String, dynamic> toJson() => _\$PokemonAttackToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$Query$Query$Pokemon$PokemonAttackToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class Attack with EquatableMixin, AttackMixin {
-  Attack();
+class Query$Query$PokemonAttack$Attack with EquatableMixin, Query$AttackMixin {
+  Query$Query$PokemonAttack$Attack();
 
-  factory Attack.fromJson(Map<String, dynamic> json) => _\$AttackFromJson(json);
+  factory Query$Query$PokemonAttack$Attack.fromJson(
+          Map<String, dynamic> json) =>
+      _$Query$Query$PokemonAttack$AttackFromJson(json);
 
   @override
   List<Object> get props => [name];
-  Map<String, dynamic> toJson() => _\$AttackToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$Query$Query$PokemonAttack$AttackToJson(this);
 }
 
-class QueryQuery extends GraphQLQuery<Query, JsonSerializable> {
+class QueryQuery extends GraphQLQuery<Query$Query, JsonSerializable> {
   QueryQuery();
 
   @override
@@ -370,15 +367,11 @@ class QueryQuery extends GraphQLQuery<Query, JsonSerializable> {
   @override
   List<Object> get props => [document, operationName];
   @override
-  Query parse(Map<String, dynamic> json) => Query.fromJson(json);
+  Query$Query parse(Map<String, dynamic> json) => Query$Query.fromJson(json);
 }
-'''
-      });
-    });
-  });
-}
+''';
 
-const String pokemonSchema = '''
+const pokemonSchema = '''
 {
   "data": {
     "__schema": {

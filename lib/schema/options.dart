@@ -7,9 +7,6 @@ part 'options.g2.dart';
 /// This generator options, gathered from `build.yaml` file.
 @JsonSerializable(fieldRename: FieldRename.snake, anyMap: true)
 class GeneratorOptions {
-  /// A custom import for this query, defined in `build.yaml`.
-  final String customParserImport;
-
   /// If instances of [GraphQLQuery] should be generated.
   @JsonKey(defaultValue: true)
   final bool generateHelpers;
@@ -27,7 +24,6 @@ class GeneratorOptions {
 
   /// Instantiate generator options.
   GeneratorOptions({
-    this.customParserImport,
     this.generateHelpers = true,
     this.scalarMapping = const [],
     this.fragmentsGlob,
@@ -82,16 +78,15 @@ class ScalarMap {
 
   /// The Dart type linked to this GraphQL type.
   final DartType dartType;
-  @JsonKey(defaultValue: false)
 
   /// If custom parser would be used.
-  final bool useCustomParser;
+  final String customParserImport;
 
   /// Instatiates a scalar mapping.
   ScalarMap({
     this.graphQLType,
     this.dartType,
-    this.useCustomParser = false,
+    this.customParserImport,
   });
 
   /// Build a scalar mapping from a JSON map.
@@ -115,25 +110,15 @@ class SchemaMap {
   final String queriesGlob;
 
   /// The resolve type field used on this schema.
-  @JsonKey(defaultValue: '__resolveType')
-  final String resolveTypeField;
-
-  /// Wheter to add the name of the query as a prefix for each dependent object
-  /// of this query input or response.
-  ///
-  /// This is useful when [queriesGlob] from a single [SchemaMap] references
-  /// more than one query with the same input or output objects, so their
-  /// properties won't conflict.
-  @JsonKey(defaultValue: false)
-  final bool addQueryPrefix;
+  @JsonKey(defaultValue: '__typename')
+  final String typeNameField;
 
   /// Instatiates a schema mapping.
   SchemaMap({
     this.output,
     this.schema,
     this.queriesGlob,
-    this.resolveTypeField = '__resolveType',
-    this.addQueryPrefix = false,
+    this.typeNameField = '__typename',
   });
 
   /// Build a schema mapping from a JSON map.
