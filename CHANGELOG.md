@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## Next
+## 4.0.0
 **MAJOR BREAKING CHANGE**
 This version completely refactors how Artemis generate code (by finally
 using the implementation of visitor pattern provided by `gql`). On top of that,
