@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 5.0.0-beta.0
+**MAJOR BREAKING CHANGE**
+In this version we moved from `json` to `graphql` schema parsing.
+This allowed us to get rid off ±1200 lines of code which makes the  
+project support much easier. The test files with schema definitions
+became more clear and human readable.
+
 ## 4.0.1
 - Look at mutation root when generating a mutation
 

@@ -7,9 +7,7 @@ import 'package:gql/language.dart';
 
 import './generator.dart';
 import './generator/data.dart';
-import './generator/graphql_helpers.dart';
 import './generator/print_helpers.dart';
-import './schema/graphql.dart';
 import './schema/options.dart';
 
 /// [GraphQLQueryBuilder] instance, to be used by `build_runner`.
@@ -55,17 +53,6 @@ class GraphQLQueryBuilder implements Builder {
         r'$lib$': expectedOutputs,
       };
 
-  Future<GraphQLSchema> _readSchemaFromPath(
-      BuildStep buildStep, SchemaMap schemaMap) async {
-    final assetStream = buildStep.findAssets(Glob(schemaMap.schema));
-    final schemaFile = await assetStream.single.catchError((e) {
-      throw Exception('''Schema `${schemaMap.schema}` was not found!
-Make sure the file exists and you've typed it conrrectly on build.yaml.
-''');
-    });
-    return schemaFromJsonString(await buildStep.readAsString(schemaFile));
-  }
-
   @override
   Future<void> build(BuildStep buildStep) async {
     if (options.fragmentsGlob != null) {
@@ -85,7 +72,6 @@ Make sure the file exists and you've typed it conrrectly on build.yaml.
     for (final schemaMap in options.schemaMapping) {
       final buffer = StringBuffer();
       final outputFileId = AssetId(buildStep.inputId.package, schemaMap.output);
-      final schema = await _readSchemaFromPath(buildStep, schemaMap);
 
       // Loop through all files in glob
       if (schemaMap.queriesGlob == null) {
@@ -103,8 +89,27 @@ Make sure that `queries_glob` your build.yaml file include GraphQL queries files
           )
           .toList();
 
-      final libDefinition = generateLibrary(schema, schemaMap.output, gqlDocs,
-          options, schemaMap, fragmentsCommon);
+      final schemaAssetStream = buildStep.findAssets(Glob(schemaMap.schema));
+
+      DocumentNode gqlSchema;
+
+      try {
+        gqlSchema = await schemaAssetStream
+            .asyncMap(
+              (asset) async => parseString(
+                await buildStep.readAsString(asset),
+                url: asset.path,
+              ),
+            )
+            .first;
+      } catch (e) {
+        throw Exception('''Schema `${schemaMap.schema}` was not found!
+Make sure the file exists and you've typed it conrrectly on build.yaml.
+''');
+      }
+
+      final libDefinition = generateLibrary(schemaMap.output, gqlDocs, options,
+          schemaMap, fragmentsCommon, gqlSchema);
       if (onBuild != null) {
         onBuild(libDefinition);
       }

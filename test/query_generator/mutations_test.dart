@@ -1,5 +1,4 @@
 import 'package:artemis/generator/data.dart';
-import 'package:artemis/schema/graphql.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -10,9 +9,25 @@ void main() {
       'The mutation class will be suffixed as Mutation',
       () async => testGenerator(
         query: query,
+        schema: r'''
+          schema {
+            mutation: MutationRoot
+          }
+          
+          type MutationRoot {
+            mut(input: Input!): MutationResponse
+          }
+          
+          type MutationResponse {
+            s: String
+          }
+          
+          type Input {
+            s: String!
+          }
+        ''',
         libraryDefinition: libraryDefinition,
         generatedFile: generatedFile,
-        typedSchema: schema,
         generateHelpers: true,
       ),
     );
@@ -27,54 +42,8 @@ mutation custom($input: Input!) {
 }
 ''';
 
-final schema = GraphQLSchema(
-    mutationType:
-        GraphQLType(name: 'MutationRoot', kind: GraphQLTypeKind.OBJECT),
-    types: [
-      GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR),
-      GraphQLType(
-        name: 'MutationResponse',
-        kind: GraphQLTypeKind.OBJECT,
-        fields: [
-          GraphQLField(
-              name: 's',
-              type: GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR)),
-        ],
-      ),
-      GraphQLType(
-        name: 'MutationRoot',
-        kind: GraphQLTypeKind.OBJECT,
-        fields: [
-          GraphQLField(
-              name: 'mut',
-              args: [
-                GraphQLInputValue(
-                  name: 'input',
-                  type: GraphQLType(
-                      kind: GraphQLTypeKind.NON_NULL,
-                      ofType: GraphQLType(
-                          name: 'Input', kind: GraphQLTypeKind.INPUT_OBJECT)),
-                ),
-              ],
-              type: GraphQLType(
-                  name: 'MutationResponse', kind: GraphQLTypeKind.OBJECT)),
-        ],
-      ),
-      GraphQLType(
-        name: 'Input',
-        kind: GraphQLTypeKind.INPUT_OBJECT,
-        inputFields: [
-          GraphQLInputValue(
-              name: 's',
-              type: GraphQLType(
-                  kind: GraphQLTypeKind.NON_NULL,
-                  ofType: GraphQLType(
-                      name: 'String', kind: GraphQLTypeKind.SCALAR))),
-        ],
-      ),
-    ]);
-
-final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
+final LibraryDefinition libraryDefinition =
+    LibraryDefinition(basename: r'query', queries: [
   QueryDefinition(
       queryName: r'custom',
       queryType: r'Custom$MutationRoot',

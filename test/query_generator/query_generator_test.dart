@@ -1,8 +1,8 @@
 import 'package:artemis/builder.dart';
 import 'package:artemis/generator/data.dart';
-import 'package:artemis/schema/graphql.dart';
 import 'package:build/build.dart';
 import 'package:build_test/build_test.dart';
+import 'package:gql/language.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -10,35 +10,12 @@ import '../helpers.dart';
 void main() {
   group('On query generation', () {
     test('When not configured, nothing will be generated', () async {
-      final GraphQLQueryBuilder anotherBuilder =
-          graphQLQueryBuilder(BuilderOptions({}));
-      final GraphQLSchema schema = GraphQLSchema(
-          queryType:
-              GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT),
-          types: [
-            GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR),
-            GraphQLType(name: 'Int', kind: GraphQLTypeKind.SCALAR),
-            GraphQLType(
-                name: 'SomeObject',
-                kind: GraphQLTypeKind.OBJECT,
-                fields: [
-                  GraphQLField(
-                      name: 's',
-                      type: GraphQLType(
-                          name: 'String', kind: GraphQLTypeKind.SCALAR)),
-                  GraphQLField(
-                      name: 'i',
-                      type: GraphQLType(
-                          name: 'Int', kind: GraphQLTypeKind.SCALAR)),
-                ]),
-          ]);
-
-      anotherBuilder.onBuild = expectAsync1((_) {}, count: 0);
+      final anotherBuilder = graphQLQueryBuilder(BuilderOptions({}));
 
       await testBuilder(
         anotherBuilder,
         {
-          'a|api.schema.json': jsonFromSchema(schema),
+          'a|api.schema.graphql': '',
           'a|some_query.query.graphql': 'query some_query { s, i }',
         },
         onLog: debug,
@@ -46,37 +23,16 @@ void main() {
     });
 
     test('A simple query yields simple classes', () async {
-      final GraphQLQueryBuilder anotherBuilder =
-          graphQLQueryBuilder(BuilderOptions({
+      final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
         'generate_helpers': false,
         'schema_mapping': [
           {
-            'schema': 'api.schema.json',
-            'queries_glob': '**.graphql',
+            'schema': 'api.schema.graphql',
+            'queries_glob': 'queries/**.graphql',
             'output': 'lib/some_query.dart',
           }
         ]
       }));
-      final GraphQLSchema schema = GraphQLSchema(
-          queryType:
-              GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT),
-          types: [
-            GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR),
-            GraphQLType(name: 'Int', kind: GraphQLTypeKind.SCALAR),
-            GraphQLType(
-                name: 'SomeObject',
-                kind: GraphQLTypeKind.OBJECT,
-                fields: [
-                  GraphQLField(
-                      name: 's',
-                      type: GraphQLType(
-                          name: 'String', kind: GraphQLTypeKind.SCALAR)),
-                  GraphQLField(
-                      name: 'i',
-                      type: GraphQLType(
-                          name: 'Int', kind: GraphQLTypeKind.SCALAR)),
-                ]),
-          ]);
 
       anotherBuilder.onBuild = expectAsync1((definition) {
         final libraryDefinition =
@@ -102,8 +58,21 @@ void main() {
       await testBuilder(
         anotherBuilder,
         {
-          'a|api.schema.json': jsonFromSchema(schema),
-          'a|some_query.query.graphql': 'query some_query { s, i }',
+          'a|api.schema.graphql': r'''
+          schema {
+            query: Query
+          }
+          
+          type Query {
+            some_query: SomeObject
+          }
+          
+          type SomeObject {
+            s: String
+            i: Int
+          }
+        ''',
+          'a|queries/some_query.graphql': 'query some_query { s, i }',
         },
         outputs: {
           'a|lib/some_query.dart': r'''// GENERATED CODE - DO NOT MODIFY BY HAND
@@ -135,6 +104,16 @@ class SomeQuery$SomeObject with EquatableMixin {
     });
 
     test('A simple query with list input', () async {
+      final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
+        'schema_mapping': [
+          {
+            'schema': 'api.schema.grqphql',
+            'queries_glob': 'queries/**.graphql',
+            'output': 'lib/some_query.dart',
+          }
+        ]
+      }));
+
       var query = r'''
         query some_query($intsNonNullable: [Int]!, $stringNullable: String) {
           s,
@@ -143,73 +122,11 @@ class SomeQuery$SomeObject with EquatableMixin {
         }
       ''';
 
-      final GraphQLQueryBuilder anotherBuilder =
-          graphQLQueryBuilder(BuilderOptions({
-        'schema_mapping': [
-          {
-            'schema': 'api.schema.json',
-            'queries_glob': '**.graphql',
-            'output': 'lib/some_query.dart',
-          }
-        ]
-      }));
-
-      final GraphQLSchema schema = GraphQLSchema(
-          queryType:
-              GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT),
-          types: [
-            GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR),
-            GraphQLType(name: 'Int', kind: GraphQLTypeKind.SCALAR),
-            GraphQLType(
-                name: 'List',
-                kind: GraphQLTypeKind.LIST,
-                ofType: GraphQLType(name: 'Int', kind: GraphQLTypeKind.SCALAR)),
-            GraphQLType(
-                name: 'SomeObject',
-                kind: GraphQLTypeKind.OBJECT,
-                fields: [
-                  GraphQLField(
-                      name: 's',
-                      type: GraphQLType(
-                          name: 'String', kind: GraphQLTypeKind.SCALAR)),
-                  GraphQLField(
-                      name: 'i',
-                      type: GraphQLType(
-                          name: 'Int', kind: GraphQLTypeKind.SCALAR)),
-                  GraphQLField(
-                      name: 'list',
-                      type: GraphQLType(
-                          name: 'List',
-                          kind: GraphQLTypeKind.LIST,
-                          ofType: GraphQLType(
-                              name: 'Int', kind: GraphQLTypeKind.SCALAR)),
-                      args: [
-                        GraphQLInputValue(
-                          name: 'intsNonNullable',
-                          defaultValue: null,
-                          type: GraphQLType(
-                              kind: GraphQLTypeKind.NON_NULL,
-                              ofType: GraphQLType(
-                                  name: 'List',
-                                  kind: GraphQLTypeKind.LIST,
-                                  ofType: GraphQLType(
-                                      name: 'Int',
-                                      kind: GraphQLTypeKind.SCALAR))),
-                        ),
-                        GraphQLInputValue(
-                          name: 'stringNullable',
-                          defaultValue: null,
-                          type: GraphQLType(
-                              name: 'String', kind: GraphQLTypeKind.SCALAR),
-                        )
-                      ]),
-                ]),
-          ]);
-
       anotherBuilder.onBuild = expectAsync1((definition) {
         final libraryDefinition =
             LibraryDefinition(basename: r'some_query', queries: [
           QueryDefinition(
+              document: parseString(query),
               queryName: r'some_query',
               queryType: r'SomeQuery$SomeObject',
               classes: [
@@ -221,7 +138,10 @@ class SomeQuery$SomeObject with EquatableMixin {
                       ClassProperty(
                           type: r'int', name: r'i', isOverride: false),
                       ClassProperty(
-                          type: r'List<int>', name: r'list', isOverride: false)
+                          type: r'List<int>',
+                          name: r'list',
+                          isOverride: false,
+                          isNonNull: true)
                     ],
                     typeNameField: r'__typename')
               ],
@@ -240,8 +160,22 @@ class SomeQuery$SomeObject with EquatableMixin {
       await testBuilder(
         anotherBuilder,
         {
-          'a|api.schema.json': jsonFromSchema(schema),
-          'a|some_query.query.graphql': query,
+          'a|api.schema.grqphql': r'''
+            schema {
+              query: Query
+            }
+  
+            type Query {
+              some_query(intsNonNullable: [Int]!, stringNullable: String): SomeObject
+            }
+  
+            type SomeObject {
+              s: String
+              i: Int
+              list(intsNonNullable: [Int]!): [Int]!
+            }
+          ''',
+          'a|queries/some_query.graphql': query
         },
         outputs: {
           'a|lib/some_query.dart': r'''// GENERATED CODE - DO NOT MODIFY BY HAND
@@ -359,57 +293,59 @@ class SomeQueryQuery
     });
 
     test('The selection from query can nest', () async {
-      final GraphQLQueryBuilder anotherBuilder =
-          graphQLQueryBuilder(BuilderOptions({
+      final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
         'generate_helpers': false,
         'schema_mapping': [
           {
-            'schema': 'api.schema.json',
-            'queries_glob': '**.graphql',
+            'schema': 'api.schema.grqphql',
+            'queries_glob': 'queries/**.graphql',
             'output': 'lib/some_query.dart',
           }
         ]
       }));
-      final GraphQLSchema schema = GraphQLSchema(
-          queryType: GraphQLType(name: 'Query', kind: GraphQLTypeKind.OBJECT),
-          types: [
-            GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR),
-            GraphQLType(name: 'Query', kind: GraphQLTypeKind.OBJECT, fields: [
-              GraphQLField(
-                  name: 's',
-                  type: GraphQLType(
-                      name: 'String', kind: GraphQLTypeKind.SCALAR)),
-              GraphQLField(
-                  name: 'o',
-                  type: GraphQLType(
-                      name: 'SomeObject', kind: GraphQLTypeKind.OBJECT)),
-            ]),
-            GraphQLType(
-                name: 'SomeObject',
-                kind: GraphQLTypeKind.OBJECT,
-                fields: [
-                  GraphQLField(
-                      name: 'st',
-                      type: GraphQLType(
-                          name: 'String', kind: GraphQLTypeKind.SCALAR)),
-                  GraphQLField(
-                      name: 'ob',
-                      type: GraphQLType(
-                          kind: GraphQLTypeKind.LIST,
-                          ofType: GraphQLType(
-                              name: 'AnotherObject',
-                              kind: GraphQLTypeKind.OBJECT))),
-                ]),
-            GraphQLType(
-                name: 'AnotherObject',
-                kind: GraphQLTypeKind.OBJECT,
-                fields: [
-                  GraphQLField(
-                      name: 'str',
-                      type: GraphQLType(
-                          name: 'String', kind: GraphQLTypeKind.SCALAR)),
-                ]),
-          ]);
+
+      anotherBuilder.onBuild = expectAsync1((definition) {
+        final libraryDefinition =
+            LibraryDefinition(basename: r'some_query', queries: [
+          QueryDefinition(
+              queryName: r'some_query',
+              queryType: r'SomeQuery$Result',
+              classes: [
+                ClassDefinition(
+                    name: r'SomeQuery$Result$SomeObject$AnotherObject',
+                    properties: [
+                      ClassProperty(
+                          type: r'String', name: r'str', isOverride: false)
+                    ],
+                    typeNameField: r'__typename'),
+                ClassDefinition(
+                    name: r'SomeQuery$Result$SomeObject',
+                    properties: [
+                      ClassProperty(
+                          type: r'String', name: r'st', isOverride: false),
+                      ClassProperty(
+                          type:
+                              r'List<SomeQuery$Result$SomeObject$AnotherObject>',
+                          name: r'ob',
+                          isOverride: false)
+                    ],
+                    typeNameField: r'__typename'),
+                ClassDefinition(
+                    name: r'SomeQuery$Result',
+                    properties: [
+                      ClassProperty(
+                          type: r'String', name: r's', isOverride: false),
+                      ClassProperty(
+                          type: r'SomeQuery$Result$SomeObject',
+                          name: r'o',
+                          isOverride: false)
+                    ],
+                    typeNameField: r'__typename')
+              ],
+              generateHelpers: false)
+        ]);
+        expect(definition, libraryDefinition);
+      }, count: 1);
 
       final document = '''
         query some_query {
@@ -423,54 +359,33 @@ class SomeQueryQuery
         }
         ''';
 
-      anotherBuilder.onBuild = expectAsync1((definition) {
-        final libraryDefinition =
-            LibraryDefinition(basename: r'some_query', queries: [
-          QueryDefinition(
-              queryName: r'some_query',
-              queryType: r'SomeQuery$Query',
-              classes: [
-                ClassDefinition(
-                    name: r'SomeQuery$Query$SomeObject$AnotherObject',
-                    properties: [
-                      ClassProperty(
-                          type: r'String', name: r'str', isOverride: false)
-                    ],
-                    typeNameField: r'__typename'),
-                ClassDefinition(
-                    name: r'SomeQuery$Query$SomeObject',
-                    properties: [
-                      ClassProperty(
-                          type: r'String', name: r'st', isOverride: false),
-                      ClassProperty(
-                          type:
-                              r'List<SomeQuery$Query$SomeObject$AnotherObject>',
-                          name: r'ob',
-                          isOverride: false)
-                    ],
-                    typeNameField: r'__typename'),
-                ClassDefinition(
-                    name: r'SomeQuery$Query',
-                    properties: [
-                      ClassProperty(
-                          type: r'String', name: r's', isOverride: false),
-                      ClassProperty(
-                          type: r'SomeQuery$Query$SomeObject',
-                          name: r'o',
-                          isOverride: false)
-                    ],
-                    typeNameField: r'__typename')
-              ],
-              generateHelpers: false)
-        ]);
-        expect(definition, libraryDefinition);
-      }, count: 1);
-
       await testBuilder(
         anotherBuilder,
         {
-          'a|api.schema.json': jsonFromSchema(schema),
-          'a|some_query.graphql': document,
+          'a|api.schema.grqphql': r'''
+            schema {
+              query: Query
+            }
+  
+            type Query {
+              some_query: Result
+            }
+            
+            type Result {
+              s: String
+              o: SomeObject
+            }
+  
+            type SomeObject {
+              st: String
+              ob: [AnotherObject]
+            }
+            
+            type AnotherObject {
+              str: String
+            }
+          ''',
+          'a|queries/some_query.graphql': document,
         },
         outputs: {
           'a|lib/some_query.dart': r'''// GENERATED CODE - DO NOT MODIFY BY HAND
@@ -481,51 +396,51 @@ import 'package:gql/ast.dart';
 part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery$Query$SomeObject$AnotherObject with EquatableMixin {
-  SomeQuery$Query$SomeObject$AnotherObject();
+class SomeQuery$Result$SomeObject$AnotherObject with EquatableMixin {
+  SomeQuery$Result$SomeObject$AnotherObject();
 
-  factory SomeQuery$Query$SomeObject$AnotherObject.fromJson(
+  factory SomeQuery$Result$SomeObject$AnotherObject.fromJson(
           Map<String, dynamic> json) =>
-      _$SomeQuery$Query$SomeObject$AnotherObjectFromJson(json);
+      _$SomeQuery$Result$SomeObject$AnotherObjectFromJson(json);
 
   String str;
 
   @override
   List<Object> get props => [str];
   Map<String, dynamic> toJson() =>
-      _$SomeQuery$Query$SomeObject$AnotherObjectToJson(this);
+      _$SomeQuery$Result$SomeObject$AnotherObjectToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery$Query$SomeObject with EquatableMixin {
-  SomeQuery$Query$SomeObject();
+class SomeQuery$Result$SomeObject with EquatableMixin {
+  SomeQuery$Result$SomeObject();
 
-  factory SomeQuery$Query$SomeObject.fromJson(Map<String, dynamic> json) =>
-      _$SomeQuery$Query$SomeObjectFromJson(json);
+  factory SomeQuery$Result$SomeObject.fromJson(Map<String, dynamic> json) =>
+      _$SomeQuery$Result$SomeObjectFromJson(json);
 
   String st;
 
-  List<SomeQuery$Query$SomeObject$AnotherObject> ob;
+  List<SomeQuery$Result$SomeObject$AnotherObject> ob;
 
   @override
   List<Object> get props => [st, ob];
-  Map<String, dynamic> toJson() => _$SomeQuery$Query$SomeObjectToJson(this);
+  Map<String, dynamic> toJson() => _$SomeQuery$Result$SomeObjectToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery$Query with EquatableMixin {
-  SomeQuery$Query();
+class SomeQuery$Result with EquatableMixin {
+  SomeQuery$Result();
 
-  factory SomeQuery$Query.fromJson(Map<String, dynamic> json) =>
-      _$SomeQuery$QueryFromJson(json);
+  factory SomeQuery$Result.fromJson(Map<String, dynamic> json) =>
+      _$SomeQuery$ResultFromJson(json);
 
   String s;
 
-  SomeQuery$Query$SomeObject o;
+  SomeQuery$Result$SomeObject o;
 
   @override
   List<Object> get props => [s, o];
-  Map<String, dynamic> toJson() => _$SomeQuery$QueryToJson(this);
+  Map<String, dynamic> toJson() => _$SomeQuery$ResultToJson(this);
 }
 ''',
         },
@@ -534,42 +449,26 @@ class SomeQuery$Query with EquatableMixin {
     });
 
     test('Query selections can be aliased', () async {
-      final GraphQLQueryBuilder anotherBuilder =
-          graphQLQueryBuilder(BuilderOptions({
+      final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
         'generate_helpers': false,
         'schema_mapping': [
           {
-            'schema': 'api.schema.json',
-            'queries_glob': '**.graphql',
+            'schema': 'api.schema.graphql',
+            'queries_glob': 'queries/**.graphql',
             'output': 'lib/some_query.dart',
           }
         ]
       }));
-      final GraphQLSchema schema = GraphQLSchema(
-          queryType: GraphQLType(name: 'Query', kind: GraphQLTypeKind.OBJECT),
-          types: [
-            GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR),
-            GraphQLType(name: 'Query', kind: GraphQLTypeKind.OBJECT, fields: [
-              GraphQLField(
-                  name: 's',
-                  type: GraphQLType(
-                      name: 'String', kind: GraphQLTypeKind.SCALAR)),
-              GraphQLField(
-                  name: 'st',
-                  type: GraphQLType(
-                      name: 'String', kind: GraphQLTypeKind.SCALAR)),
-            ]),
-          ]);
 
       anotherBuilder.onBuild = expectAsync1((definition) {
         final libraryDefinition =
             LibraryDefinition(basename: r'some_query', queries: [
           QueryDefinition(
               queryName: r'some_query',
-              queryType: r'SomeQuery$Query',
+              queryType: r'SomeQuery$Result',
               classes: [
                 ClassDefinition(
-                    name: r'SomeQuery$Query',
+                    name: r'SomeQuery$Result',
                     properties: [
                       ClassProperty(
                           type: r'String',
@@ -588,8 +487,27 @@ class SomeQuery$Query with EquatableMixin {
       await testBuilder(
         anotherBuilder,
         {
-          'a|api.schema.json': jsonFromSchema(schema),
-          'a|some_query.graphql':
+          'a|api.schema.graphql': r'''
+            schema {
+              query: Query
+            }
+  
+            type Query {
+              some_query: Result
+            }
+            
+            type Result {
+              s: String
+              st: String
+            }
+          ''',
+          'a|queries/some_query.graphql': r'''
+            query some_query { 
+              firstName: s, 
+              lastName: st 
+              }
+          ''',
+          'a|queries/some_query.graphql':
               'query some_query { firstName: s, lastName: st }',
         },
         outputs: {
@@ -601,11 +519,11 @@ import 'package:gql/ast.dart';
 part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery$Query with EquatableMixin {
-  SomeQuery$Query();
+class SomeQuery$Result with EquatableMixin {
+  SomeQuery$Result();
 
-  factory SomeQuery$Query.fromJson(Map<String, dynamic> json) =>
-      _$SomeQuery$QueryFromJson(json);
+  factory SomeQuery$Result.fromJson(Map<String, dynamic> json) =>
+      _$SomeQuery$ResultFromJson(json);
 
   String firstName;
 
@@ -613,7 +531,7 @@ class SomeQuery$Query with EquatableMixin {
 
   @override
   List<Object> get props => [firstName, lastName];
-  Map<String, dynamic> toJson() => _$SomeQuery$QueryToJson(this);
+  Map<String, dynamic> toJson() => _$SomeQuery$ResultToJson(this);
 }
 ''',
         },
@@ -626,8 +544,8 @@ class SomeQuery$Query with EquatableMixin {
         'generate_helpers': false,
         'schema_mapping': [
           {
-            'schema': 'api.schema.json',
-            'queries_glob': '**.graphql',
+            'schema': 'api.schema.graphql',
+            'queries_glob': 'queries/**.graphql',
             'output': 'lib/some_query.dart',
           },
         ],
@@ -646,44 +564,7 @@ class SomeQuery$Query with EquatableMixin {
         ],
       });
 
-      final GraphQLQueryBuilder anotherBuilder =
-          graphQLQueryBuilder(builderOptions);
-
-      final GraphQLSchema schema = GraphQLSchema(
-          queryType: GraphQLType(
-            name: 'SomeObject',
-            kind: GraphQLTypeKind.OBJECT,
-          ),
-          types: [
-            GraphQLType(
-              name: 'BigDecimal',
-              kind: GraphQLTypeKind.SCALAR,
-            ),
-            GraphQLType(
-              name: 'DateTime',
-              kind: GraphQLTypeKind.SCALAR,
-            ),
-            GraphQLType(
-              name: 'SomeObject',
-              kind: GraphQLTypeKind.OBJECT,
-              fields: [
-                GraphQLField(
-                  name: 'bigDecimal',
-                  type: GraphQLType(
-                    name: 'BigDecimal',
-                    kind: GraphQLTypeKind.SCALAR,
-                  ),
-                ),
-                GraphQLField(
-                  name: 'dateTime',
-                  type: GraphQLType(
-                    name: 'DateTime',
-                    kind: GraphQLTypeKind.SCALAR,
-                  ),
-                ),
-              ],
-            ),
-          ]);
+      final anotherBuilder = graphQLQueryBuilder(builderOptions);
 
       anotherBuilder.onBuild = expectAsync1((definition) {
         final libraryDefinition =
@@ -716,8 +597,24 @@ class SomeQuery$Query with EquatableMixin {
       await testBuilder(
         anotherBuilder,
         {
-          'a|api.schema.json': jsonFromSchema(schema),
-          'a|some_query.graphql': 'query some_query { bigDecimal, dateTime }',
+          'a|api.schema.graphql': r'''
+            scalar BigDecimal
+            
+            schema {
+              query: Query
+            }
+
+            type Query {
+              some_query: SomeObject
+            }
+
+            type SomeObject {
+              bigDecimal: BigDecimal
+              dateTime: DateTime
+            }
+          ''',
+          'a|queries/some_query.graphql':
+              'query some_query { bigDecimal, dateTime }',
         },
         outputs: {
           'a|lib/some_query.dart': r'''// GENERATED CODE - DO NOT MODIFY BY HAND
@@ -750,32 +647,16 @@ class SomeQuery$SomeObject with EquatableMixin {
     });
 
     test('Query name (pascal casing)', () async {
-      final GraphQLQueryBuilder anotherBuilder =
-          graphQLQueryBuilder(BuilderOptions({
+      final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
         'generate_helpers': false,
         'schema_mapping': [
           {
-            'schema': 'api.schema.json',
-            'queries_glob': '**.graphql',
+            'schema': 'api.schema.graphql',
+            'queries_glob': 'queries/**.graphql',
             'output': 'lib/pascal_casing_query.dart',
           }
         ]
       }));
-      final GraphQLSchema schema = GraphQLSchema(
-          queryType: GraphQLType(
-              name: 'PascalCasingQuery', kind: GraphQLTypeKind.OBJECT),
-          types: [
-            GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR),
-            GraphQLType(
-                name: 'PascalCasingQuery',
-                kind: GraphQLTypeKind.OBJECT,
-                fields: [
-                  GraphQLField(
-                      name: 's',
-                      type: GraphQLType(
-                          name: 'String', kind: GraphQLTypeKind.SCALAR)),
-                ]),
-          ]);
 
       anotherBuilder.onBuild = expectAsync1((definition) {
         final libraryDefinition =
@@ -800,8 +681,20 @@ class SomeQuery$SomeObject with EquatableMixin {
       await testBuilder(
         anotherBuilder,
         {
-          'a|api.schema.json': jsonFromSchema(schema),
-          'a|pascal_casing_query.query.graphql':
+          'a|api.schema.graphql': r'''
+            schema {
+              query: Query
+            }
+
+            type Query {
+              PascalCasingQuery: PascalCasingQuery
+            }
+
+            type PascalCasingQuery {
+              s: String
+            }
+          ''',
+          'a|queries/pascal_casing_query.graphql':
               'query PascalCasingQuery { s }',
         },
         outputs: {

@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:artemis/builder.dart';
 import 'package:artemis/generator/data.dart';
-import 'package:artemis/schema/graphql.dart';
 import 'package:build/build.dart';
 import 'package:build_test/build_test.dart';
 import 'package:logging/logging.dart';
@@ -10,10 +7,6 @@ import 'package:meta/meta.dart';
 import 'package:test/test.dart';
 
 const IS_DEBUG = true;
-
-String jsonFromSchema(GraphQLSchema schema) => json.encode({
-      'data': {'__schema': schema.toJson()}
-    });
 
 void debug(LogRecord log) {
   if (IS_DEBUG) print(log);
@@ -23,21 +16,19 @@ Future testGenerator({
   @required String query,
   @required LibraryDefinition libraryDefinition,
   @required String generatedFile,
-  GraphQLSchema typedSchema,
-  String stringSchema,
+  @required String schema,
   bool generateHelpers = false,
   Map<String, dynamic> builderOptionsMap = const {},
   Map<String, dynamic> sourceAssetsMap = const {},
 }) async {
-  assert((typedSchema ?? stringSchema) != null);
-  final schema = stringSchema ?? jsonFromSchema(typedSchema);
+  assert((schema) != null);
 
   final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
     if (!generateHelpers) 'generate_helpers': false,
     'schema_mapping': [
       {
-        'schema': 'api.schema.json',
-        'queries_glob': '**.graphql',
+        'schema': 'api.schema.graphql',
+        'queries_glob': 'queries/**.graphql',
         'output': 'lib/query.dart',
       }
     ],
@@ -52,8 +43,8 @@ Future testGenerator({
   return await testBuilder(
     anotherBuilder,
     {
-      'a|api.schema.json': schema,
-      'a|query.graphql': query,
+      'a|api.schema.graphql': schema,
+      'a|queries/query.graphql': query,
       ...sourceAssetsMap,
     },
     outputs: {
