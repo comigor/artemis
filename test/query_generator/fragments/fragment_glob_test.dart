@@ -9,9 +9,36 @@ void main() {
       'Extracting',
       () async => testGenerator(
         query: queryString,
+        schema: r'''
+          schema {
+            query: Query
+          }
+
+          type Query {
+            pokemon(id: String, name: String): Pokemon
+          }
+
+          type Pokemon {
+            id: String!
+            name: String
+            evolutions: [Pokemon]
+            attacks: PokemonAttack
+            weight: PokemonDimension
+          }
+          
+          type PokemonAttack {
+            special: [Attack]
+          }
+          
+          type PokemonDimension {
+            minimum: String
+          }
+          type Attack {
+            name: String
+          }
+        ''',
         libraryDefinition: libraryDefinition,
         generatedFile: generatedFile,
-        stringSchema: pokemonSchema,
         builderOptionsMap: {'fragments_glob': '**.frag'},
         sourceAssetsMap: {'a|fragment.frag': fragmentsString},
         generateHelpers: true,
@@ -21,33 +48,44 @@ void main() {
 }
 
 const fragmentsString = '''
-      fragment Pokemon on Pokemon {
-            id
-            weight {
-              ...weight
-            }
-            attacks {
-              ...pokemonAttack
-            }
-      }
-      fragment weight on PokemonDimension { minimum }
-      fragment pokemonAttack on PokemonAttack {
-        special { ...attack }
-      }
-      fragment attack on Attack { name }
-        ''';
+  fragment Pokemon on Pokemon {
+    id
+    weight {
+      ...weight
+    }
+    attacks {
+      ...pokemonAttack
+    }
+  }
+  
+  fragment weight on PokemonDimension { 
+    minimum 
+  }
+  
+  fragment pokemonAttack on PokemonAttack {
+    special { 
+      ...attack 
+    }
+  }
+  
+  fragment attack on Attack { 
+    name 
+  }
+''';
 
 const queryString = '''
-      {
-          pokemon(name: "Pikachu") {
-            ...Pokemon
-            evolutions {
-              ...Pokemon
-            }
-          }
-      }''';
+  {
+      pokemon(name: "Pikachu") {
+        ...Pokemon
+        evolutions {
+          ...Pokemon
+        }
+      }
+  }
+''';
 
-final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
+final LibraryDefinition libraryDefinition =
+    LibraryDefinition(basename: r'query', queries: [
   QueryDefinition(
       queryName: r'query',
       queryType: r'Query$Query',
@@ -368,145 +406,5 @@ class QueryQuery extends GraphQLQuery<Query$Query, JsonSerializable> {
   List<Object> get props => [document, operationName];
   @override
   Query$Query parse(Map<String, dynamic> json) => Query$Query.fromJson(json);
-}
-''';
-
-const pokemonSchema = '''
-{
-  "data": {
-    "__schema": {
-      "queryType": {
-        "name": "Query"
-      },
-      "types": [
-        {
-          "kind": "OBJECT",
-          "name": "Query",
-          "fields": [
-            {
-              "name": "query",
-              "type": {
-                "kind": "OBJECT",
-                "name": "Query"
-              }
-            },
-            {
-              "name": "pokemon",
-              "args": [
-                {
-                  "name": "id",
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String"
-                  }
-                },
-                {
-                  "name": "name",
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String"
-                  }
-                }
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Pokemon"
-              }
-            }
-          ]
-        },
-        {
-          "kind": "OBJECT",
-          "name": "Pokemon",
-          "fields": [
-            {
-              "name": "id",
-              "type": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID"
-                }
-              }
-            },
-            {
-              "name": "weight",
-              "type": {
-                "kind": "OBJECT",
-                "name": "PokemonDimension"
-              }
-            },
-            {
-              "name": "attacks",
-              "type": {
-                "kind": "OBJECT",
-                "name": "PokemonAttack"
-              }
-            },
-            {
-              "name": "evolutions",
-              "type": {
-                "kind": "LIST",
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Pokemon"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "kind": "SCALAR",
-          "name": "ID"
-        },
-        {
-          "kind": "OBJECT",
-          "name": "PokemonDimension",
-          "fields": [
-            {
-              "name": "minimum",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String"
-              }
-            }
-          ]
-        },
-        {
-          "kind": "OBJECT",
-          "name": "PokemonAttack",
-          "fields": [
-            {
-              "name": "special",
-              "type": {
-                "kind": "LIST",
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Attack"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "kind": "SCALAR",
-          "name": "String"
-        },
-        {
-          "kind": "OBJECT",
-          "name": "Attack",
-          "fields": [
-            {
-              "name": "name",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String"
-              }
-            }
-          ]
-        }
-      ]
-    }
-  }
 }
 ''';

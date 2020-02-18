@@ -1,5 +1,5 @@
 import 'package:artemis/generator/data.dart';
-import 'package:artemis/schema/graphql.dart';
+import 'package:gql/language.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -9,79 +9,57 @@ void main() {
     test(
       'On union types',
       () async => testGenerator(
-        query:
-            r'query some_query { o { __typename, ... on TypeA { a }, ... on TypeB { b } } }',
+        query: query,
+        schema: graphQLSchema,
         libraryDefinition: libraryDefinition,
         generatedFile: generatedFile,
-        typedSchema: schema,
       ),
     );
   });
 }
 
-final graphQLSchema = '''
-schema {
-  query: SomeObject
-}
-
-type SomeObject {
-  o: SomeUnion!
-}
-
-union SomeUnion = TypeA | TypeB
-
-type TypeA {
-  a: Int
-}
-
-type TypeB {
-  b: Int
-}
+final String query = r'''
+  query some_query { 
+    o { 
+      __typename, 
+      ... on TypeA { 
+        a 
+      }, 
+      ... on TypeB { 
+        b 
+      } 
+    } 
+  }
 ''';
-final schema = GraphQLSchema(
-    queryType: GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT),
-    types: [
-      GraphQLType(name: 'Int', kind: GraphQLTypeKind.SCALAR),
-      GraphQLType(
-        name: 'SomeObject',
-        kind: GraphQLTypeKind.OBJECT,
-        fields: [
-          GraphQLField(
-              name: 'o',
-              type:
-                  GraphQLType(name: 'SomeUnion', kind: GraphQLTypeKind.UNION)),
-        ],
-      ),
-      GraphQLType(
-        name: 'TypeA',
-        kind: GraphQLTypeKind.OBJECT,
-        fields: [
-          GraphQLField(
-              name: 'a',
-              type: GraphQLType(name: 'Int', kind: GraphQLTypeKind.SCALAR)),
-        ],
-      ),
-      GraphQLType(
-        name: 'TypeB',
-        kind: GraphQLTypeKind.OBJECT,
-        fields: [
-          GraphQLField(
-              name: 'b',
-              type: GraphQLType(name: 'Int', kind: GraphQLTypeKind.SCALAR)),
-        ],
-      ),
-      GraphQLType(
-        name: 'SomeUnion',
-        kind: GraphQLTypeKind.UNION,
-        possibleTypes: [
-          GraphQLType(name: 'TypeA', kind: GraphQLTypeKind.OBJECT),
-          GraphQLType(name: 'TypeB', kind: GraphQLTypeKind.OBJECT),
-        ],
-      ),
-    ]);
 
-final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
+final String graphQLSchema = '''
+  schema {
+    query: Query
+  }
+
+  type Query {
+    some_query: SomeObject
+  }
+  
+  type SomeObject {
+    o: SomeUnion
+  }
+  
+  union SomeUnion = TypeA | TypeB
+  
+  type TypeA {
+    a: Int
+  }
+  
+  type TypeB {
+    b: Int
+  }
+''';
+
+final LibraryDefinition libraryDefinition =
+    LibraryDefinition(basename: r'query', queries: [
   QueryDefinition(
+      document: parseString(query),
       queryName: r'some_query',
       queryType: r'SomeQuery$SomeObject',
       classes: [

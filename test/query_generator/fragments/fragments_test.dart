@@ -1,5 +1,4 @@
 import 'package:artemis/generator/data.dart';
-import 'package:artemis/schema/graphql.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
@@ -9,32 +8,38 @@ void main() {
     test(
       'Fragments will have their own classes',
       () async => testGenerator(
-        query:
-            'fragment myFragment on SomeObject { s, i }\nquery some_query { ...myFragment }',
+        query: r'''
+          fragment myFragment on SomeObject { 
+            s, i 
+          }
+          
+          query some_query { 
+            ...myFragment 
+          }
+        ''',
+        schema: r'''
+         schema {
+            query: Query
+          }
+
+          type Query {
+            some_query: SomeObject
+          }
+
+          type SomeObject {
+            s: String
+            i: Int
+          }
+        ''',
         libraryDefinition: libraryDefinition,
         generatedFile: generatedFile,
-        typedSchema: schema,
       ),
     );
   });
 }
 
-final schema = GraphQLSchema(
-    queryType: GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT),
-    types: [
-      GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR),
-      GraphQLType(name: 'Int', kind: GraphQLTypeKind.SCALAR),
-      GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT, fields: [
-        GraphQLField(
-            name: 's',
-            type: GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR)),
-        GraphQLField(
-            name: 'i',
-            type: GraphQLType(name: 'Int', kind: GraphQLTypeKind.SCALAR)),
-      ]),
-    ]);
-
-final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
+final LibraryDefinition libraryDefinition =
+    LibraryDefinition(basename: r'query', queries: [
   QueryDefinition(
       queryName: r'some_query',
       queryType: r'SomeQuery$SomeObject',
