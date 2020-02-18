@@ -1,47 +1,66 @@
-import 'dart:convert';
-import '../schema/graphql.dart';
+import 'package:artemis/visitor.dart';
+import 'package:gql/ast.dart';
+
 import '../schema/options.dart';
 
-/// Get a full [GraphQLType] from its canonical name.
-GraphQLType getTypeByName(GraphQLSchema schema, String name, {String context}) {
-  if (_defaultScalarMapping.containsKey(name)) {
-    return GraphQLType(
-      name: name,
-      kind: GraphQLTypeKind.SCALAR,
-    );
+/// Get a full [TypeDefinitionNode] from its name.
+TypeDefinitionNode getTypeByName(DocumentNode schema, Node name,
+    {String context}) {
+  NamedTypeNode namedNode;
+
+  if (name is NamedTypeNode) {
+    namedNode = name;
   }
-  return schema.types.firstWhere((t) => t.name == name,
-      orElse: () => throw Exception(
-          'Type $name not found on schema (on `$context` context).'));
+
+  if (name is ListTypeNode) {
+    namedNode = name.type as NamedTypeNode;
+  }
+
+  final typeVisitor = TypeDefinitionNodeVisitor();
+  schema.accept(typeVisitor);
+
+  final type = typeVisitor.getByName(namedNode.name.value);
+
+  return type;
 }
 
-/// "Follow" a type to find the leaf scalar or type.
-GraphQLType followType(GraphQLType type) {
-  switch (type.kind) {
-    case GraphQLTypeKind.LIST:
-    case GraphQLTypeKind.NON_NULL:
-      return followType(type.ofType);
-    default:
-      return type;
-  }
-}
+/// Build a string representing a Dart type, given a GraphQL type.
+String buildTypeString(
+  Node node,
+  GeneratorOptions options, {
+  bool dartType = true,
+  String replaceLeafWith,
+  String prefix = '',
+  DocumentNode schema,
+}) {
+  if (node is NamedTypeNode) {
+    final typeVisitor = TypeDefinitionNodeVisitor();
+    schema.accept(typeVisitor);
+    final type = typeVisitor.getByName(node.name.value);
 
-/// Build a string repesenting a Dart type, given a GraphQL type.
-String buildTypeString(GraphQLType type, GeneratorOptions options,
-    {bool dartType = true, String replaceLeafWith}) {
-  switch (type.kind) {
-    case GraphQLTypeKind.LIST:
-      return 'List<${buildTypeString(type.ofType, options, dartType: dartType, replaceLeafWith: replaceLeafWith)}>';
-    case GraphQLTypeKind.NON_NULL:
-      return buildTypeString(type.ofType, options,
-          dartType: dartType, replaceLeafWith: replaceLeafWith);
-    case GraphQLTypeKind.SCALAR:
-      final scalar = getSingleScalarMap(options, type);
-      return dartType ? scalar.dartType.name : scalar.graphQLType;
-    default:
-      if (replaceLeafWith != null) return replaceLeafWith;
-      return type.name;
+    final scalar = getSingleScalarMap(options, node.name.value);
+    final dartTypeValue = dartType ? scalar.dartType.name : scalar.graphQLType;
+
+    if (type != null) {
+      if (type is ScalarTypeDefinitionNode) {
+        return dartTypeValue;
+      }
+
+      if (replaceLeafWith != null) {
+        return '$prefix$replaceLeafWith';
+      } else {
+        return '$prefix${type.name.value}';
+      }
+    }
+
+    return dartTypeValue;
   }
+
+  if (node is ListTypeNode) {
+    return 'List<${buildTypeString(node.type, options, dartType: dartType, replaceLeafWith: replaceLeafWith, prefix: prefix, schema: schema)}>';
+  }
+
+  throw Exception('Unable to build type string');
 }
 
 Map<String, ScalarMap> _defaultScalarMapping = {
@@ -56,15 +75,11 @@ Map<String, ScalarMap> _defaultScalarMapping = {
 };
 
 /// Retrieve a scalar mapping of a type.
-ScalarMap getSingleScalarMap(GeneratorOptions options, GraphQLType type) =>
+ScalarMap getSingleScalarMap(GeneratorOptions options, String type) =>
     options.scalarMapping
         .followedBy(_defaultScalarMapping.values)
-        .firstWhere((m) => m.graphQLType == type.name,
+        .firstWhere((m) => m.graphQLType == type,
             orElse: () => ScalarMap(
-                  graphQLType: type.name,
-                  dartType: DartType(name: type.name),
+                  graphQLType: type,
+                  dartType: DartType(name: type),
                 ));
-
-/// Instantiates a schema from a JSON string.
-GraphQLSchema schemaFromJsonString(String jsonS) =>
-    GraphQLSchema.fromJson(json.decode(jsonS) as Map<String, dynamic>);

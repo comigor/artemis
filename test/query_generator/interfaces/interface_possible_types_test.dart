@@ -9,342 +9,64 @@ void main() {
       'Those other types are not considered nor generated',
       () async => testGenerator(
         query: query,
+        schema: graphQLSchema,
         libraryDefinition: libraryDefinition,
         generatedFile: generatedFile,
-        stringSchema: stringSchema,
       ),
     );
   });
 }
 
 const query = r'''
-query custom($id: ID!) {
-  nodeById(id: $id) {
-    id
-    ... on User {
-      username
-    }
-    ... on ChatMessage {
-      message
+  query custom($id: ID!) {
+    nodeById(id: $id) {
+      id
+      ... on User {
+        username
+      }
+      ... on ChatMessage {
+        message
+      }
     }
   }
-}
 ''';
 
 // https://graphql-code-generator.com/#live-demo
-final graphQLSchema = '''
-scalar String
-scalar ID
-
-schema {
-  query: Query
-}
-
-type Query {
-  nodeById(id: ID!): Node
-}
-
-interface Node {
-  id: ID!
-}
-
-type User implements Node {
-  id: ID!
-  username: String!
-}
-
-type OtherEntity implements Node {
-  id: ID!
-  test: String!
-}
-
-type ChatMessage implements Node {
-  id: ID!
-  message: String!
-  user: User!
-}
+const graphQLSchema = '''
+  scalar String
+  scalar ID
+  
+  schema {
+    query: Query
+  }
+  
+  type Query {
+    nodeById(id: ID!): Node
+  }
+  
+  interface Node {
+    id: ID!
+  }
+  
+  type User implements Node {
+    id: ID!
+    username: String!
+  }
+  
+  type OtherEntity implements Node {
+    id: ID!
+    test: String!
+  }
+  
+  type ChatMessage implements Node {
+    id: ID!
+    message: String!
+    user: User!
+  }
 ''';
 
-const stringSchema = r'''
-{
-    "__schema": {
-        "queryType": {
-            "name": "Query"
-        },
-        "mutationType": null,
-        "subscriptionType": null,
-        "types": [
-            {
-                "kind": "OBJECT",
-                "name": "Query",
-                "description": null,
-                "fields": [
-                    {
-                        "name": "nodeById",
-                        "description": null,
-                        "args": [
-                            {
-                                "name": "id",
-                                "description": null,
-                                "type": {
-                                    "kind": "NON_NULL",
-                                    "name": null,
-                                    "ofType": {
-                                        "kind": "SCALAR",
-                                        "name": "ID",
-                                        "ofType": null
-                                    }
-                                },
-                                "defaultValue": null
-                            }
-                        ],
-                        "type": {
-                            "kind": "INTERFACE",
-                            "name": "Node",
-                            "ofType": null
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    }
-                ],
-                "inputFields": null,
-                "interfaces": [],
-                "enumValues": null,
-                "possibleTypes": null
-            },
-            {
-                "kind": "INTERFACE",
-                "name": "Node",
-                "description": null,
-                "fields": [
-                    {
-                        "name": "id",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "ID",
-                                "ofType": null
-                            }
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    }
-                ],
-                "inputFields": null,
-                "interfaces": null,
-                "enumValues": null,
-                "possibleTypes": [
-                    {
-                        "kind": "OBJECT",
-                        "name": "User",
-                        "ofType": null
-                    },
-                    {
-                        "kind": "OBJECT",
-                        "name": "ChatMessage",
-                        "ofType": null
-                    },
-                    {
-                        "kind": "OBJECT",
-                        "name": "OtherEntity",
-                        "ofType": null
-                    }
-                ]
-            },
-            {
-                "kind": "OBJECT",
-                "name": "User",
-                "description": null,
-                "fields": [
-                    {
-                        "name": "id",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "ID",
-                                "ofType": null
-                            }
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "username",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            }
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    }
-                ],
-                "inputFields": null,
-                "interfaces": [
-                    {
-                        "kind": "INTERFACE",
-                        "name": "Node",
-                        "ofType": null
-                    }
-                ],
-                "enumValues": null,
-                "possibleTypes": null
-            },
-            {
-                "kind": "OBJECT",
-                "name": "OtherEntity",
-                "description": null,
-                "fields": [
-                    {
-                        "name": "id",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "ID",
-                                "ofType": null
-                            }
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "test",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            }
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    }
-                ],
-                "inputFields": null,
-                "interfaces": [
-                    {
-                        "kind": "INTERFACE",
-                        "name": "Node",
-                        "ofType": null
-                    }
-                ],
-                "enumValues": null,
-                "possibleTypes": null
-            },
-            {
-                "kind": "OBJECT",
-                "name": "ChatMessage",
-                "description": null,
-                "fields": [
-                    {
-                        "name": "id",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "ID",
-                                "ofType": null
-                            }
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "message",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            }
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "user",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "OBJECT",
-                                "name": "User",
-                                "ofType": null
-                            }
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    }
-                ],
-                "inputFields": null,
-                "interfaces": [
-                    {
-                        "kind": "INTERFACE",
-                        "name": "Node",
-                        "ofType": null
-                    }
-                ],
-                "enumValues": null,
-                "possibleTypes": null
-            },
-            {
-                "kind": "SCALAR",
-                "name": "String",
-                "description": "The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.",
-                "fields": null,
-                "inputFields": null,
-                "interfaces": null,
-                "enumValues": null,
-                "possibleTypes": null
-            },
-            {
-                "kind": "SCALAR",
-                "name": "ID",
-                "description": "The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"4\"`) or integer (such as `4`) input value will be accepted as an ID.",
-                "fields": null,
-                "inputFields": null,
-                "interfaces": null,
-                "enumValues": null,
-                "possibleTypes": null
-            }
-        ],
-        "directives": []
-    }
-}
-''';
-
-final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
+final LibraryDefinition libraryDefinition =
+    LibraryDefinition(basename: r'query', queries: [
   QueryDefinition(
       queryName: r'custom',
       queryType: r'Custom$Query',

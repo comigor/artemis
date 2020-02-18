@@ -9,7 +9,7 @@
 [![Pub Package](https://img.shields.io/pub/v/artemis.svg)](https://pub.dev/packages/artemis)
 [![GitHub Actions](https://github.com/comigor/artemis/workflows/test/badge.svg)](https://github.com/comigor/artemis/actions)
 
-Artemis is a code generator that looks for `schema.json` (GraphQL Introspection Query response data) and `*.graphql` files and builds `.dart` files typing that query, based on the schema. That's similar to what [Apollo](https://github.com/apollographql/apollo-client) does (Artemis is his sister anyway).
+Artemis is a code generator that looks for `schema.graphql` (GraphQL Introspection Query response data) and `*.graphql` files and builds `.dart` files typing that query, based on the schema. That's similar to what [Apollo](https://github.com/apollographql/apollo-client) does (Artemis is his sister anyway).
 
 ---
 
@@ -75,7 +75,7 @@ targets:
       - lib/**
       - graphql/**
       - data/**
-      - schema.json
+      - schema.graphql
 ```
 
 ### **Schema mapping**
@@ -89,7 +89,7 @@ targets:
         options:
           schema_mapping:
             - output: lib/graphql_api.dart
-              schema: lib/my_graphql_schema.json
+              schema: lib/my_graphql_schema.graphql
               queries_glob: lib/**.graphql
 ```
 

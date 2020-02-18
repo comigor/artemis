@@ -1,5 +1,4 @@
 import 'package:artemis/generator/data.dart';
-import 'package:artemis/schema/graphql.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -9,59 +8,46 @@ void main() {
     test(
       'On complex input objects',
       () async => testGenerator(
-        query:
-            r'query some_query($filter: ComplexType!) { o(filter: $filter) { s } }',
+        query: r'''
+          query some_query($filter: ComplexType!) { 
+            o(filter: $filter) { 
+              s 
+            } 
+          }''',
+        schema: r'''
+          schema {
+            query: QueryRoot
+          }
+          
+          type QueryRoot {
+            o(filter: ComplexType!): SomeObject
+          }
+          
+          type ComplexType {
+            s: String!
+            e: MyEnum
+            ls: [String]
+          }
+          
+          type SomeObject {
+            s: String
+          }
+          
+          enum MyEnum {
+            value1
+            value2
+          }
+        ''',
         libraryDefinition: libraryDefinition,
         generatedFile: generatedFile,
-        typedSchema: schema,
         generateHelpers: true,
       ),
     );
   });
 }
 
-final schema = GraphQLSchema(
-  queryType: GraphQLType(name: 'QueryRoot', kind: GraphQLTypeKind.OBJECT),
-  types: [
-    GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR),
-    GraphQLType(name: 'MyEnum', kind: GraphQLTypeKind.ENUM, enumValues: [
-      GraphQLEnumValue(name: 'value1'),
-      GraphQLEnumValue(name: 'value2'),
-    ]),
-    GraphQLType(
-        name: 'ComplexType',
-        kind: GraphQLTypeKind.INPUT_OBJECT,
-        inputFields: [
-          GraphQLInputValue(
-              name: 's',
-              type: GraphQLType(
-                  kind: GraphQLTypeKind.NON_NULL,
-                  ofType: GraphQLType(
-                      name: 'String', kind: GraphQLTypeKind.SCALAR))),
-          GraphQLInputValue(
-              name: 'e',
-              type: GraphQLType(name: 'MyEnum', kind: GraphQLTypeKind.ENUM)),
-          GraphQLInputValue(
-              name: 'ls',
-              type: GraphQLType(
-                  kind: GraphQLTypeKind.LIST,
-                  ofType: GraphQLType(
-                      name: 'String', kind: GraphQLTypeKind.SCALAR))),
-        ]),
-    GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT, fields: [
-      GraphQLField(
-          name: 's',
-          type: GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR)),
-    ]),
-    GraphQLType(name: 'QueryRoot', kind: GraphQLTypeKind.OBJECT, fields: [
-      GraphQLField(
-          name: 'o',
-          type: GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT)),
-    ]),
-  ],
-);
-
-final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
+final LibraryDefinition libraryDefinition =
+    LibraryDefinition(basename: r'query', queries: [
   QueryDefinition(
       queryName: r'some_query',
       queryType: r'SomeQuery$QueryRoot',
