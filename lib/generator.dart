@@ -119,10 +119,12 @@ QueryDefinition generateQuery(
   final basename = p.basenameWithoutExtension(path);
   final queryName = operation.name?.value ?? basename;
   final className = ReCase(queryName).pascalCase;
+  final queryType = operation.type == OperationType.query
+      ? schema.queryType.name
+      : schema.mutationType.name;
 
-  final parentType = gql.getTypeByName(
-      schema, (schema.queryType ?? schema.mutationType)?.name,
-      context: 'query/mutation root');
+  final parentType =
+      gql.getTypeByName(schema, queryType, context: 'query/mutation root');
 
   final suffix = operation.type == OperationType.query ? 'Query' : 'Mutation';
 

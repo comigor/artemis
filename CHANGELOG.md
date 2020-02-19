@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 4.0.1
+- Look at mutation root when generating a mutation
+
 ## 4.0.0
 **MAJOR BREAKING CHANGE**
 This version completely refactors how Artemis generate code (by finally
