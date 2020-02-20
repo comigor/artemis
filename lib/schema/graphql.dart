@@ -208,6 +208,9 @@ class GraphQLType {
   /// Get this leaf type.
   GraphQLType follow() => followType(this);
 
+  /// Get if this type is a list.
+  bool isList() => isEventuallyList(this);
+
   /// Upgrade this type to the full type definition from schema.
   GraphQLType upgrade(GraphQLSchema schema, {String context}) =>
       getTypeByName(schema, name, context: context);

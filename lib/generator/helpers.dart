@@ -40,6 +40,13 @@ extension ExtensionsOnIterable<T, U> on Iterable<T> {
 /// checks if the passed queries contain at least one non nullable field
 bool hasNonNullableInput(Iterable<QueryDefinition> queries) {
   for (final query in queries) {
+    for (final clazz in query.classes.whereType<ClassDefinition>()) {
+      for (final property in clazz.properties) {
+        if (property.isNonNull) {
+          return true;
+        }
+      }
+    }
     for (final input in query.inputs) {
       if (input.isNonNull) {
         return true;
