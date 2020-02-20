@@ -1,3 +1,4 @@
+import 'package:gql/language.dart';
 import 'package:meta/meta.dart';
 import 'package:gql/ast.dart';
 import 'package:path/path.dart' as p;
@@ -23,7 +24,7 @@ const ARTEMIS_UNKNOWN = 'ARTEMIS_UNKNOWN';
 /// given Artemis options and schema mappings.
 LibraryDefinition generateLibrary(
   String path,
-  List<DocumentNode> gqlDocs,
+  List<String> gqlDocs,
   GeneratorOptions options,
   SchemaMap schemaMap,
   List<FragmentDefinitionNode> fragmentDefinitionNode,
@@ -89,11 +90,13 @@ Set<FragmentDefinitionNode> _extractFragments(SelectionSetNode selectionSet,
 QueryDefinition generateQuery(
   DocumentNode schema,
   String path,
-  DocumentNode document,
+  String doc,
   GeneratorOptions options,
   SchemaMap schemaMap,
   List<FragmentDefinitionNode> fragmentsCommon,
 ) {
+  final document = parseString(doc);
+
   final operation =
       document.definitions.whereType<OperationDefinitionNode>().first;
 
@@ -154,7 +157,7 @@ QueryDefinition generateQuery(
   return QueryDefinition(
     queryName: queryName,
     queryType: '$className\$${parentType.name.value}',
-    document: document,
+    document: doc,
     classes: visitor.context.generatedClasses,
     inputs: visitor.context.inputsClasses,
     generateHelpers: options.generateHelpers,

@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:gql/ast.dart';
 import 'package:recase/recase.dart';
 import 'package:meta/meta.dart';
 
@@ -200,7 +199,7 @@ class QueryDefinition extends Equatable with DataPrinter {
   final String queryType;
 
   /// The AST representation of GraphQL document.
-  final DocumentNode document;
+  final String document;
 
   /// A list of classes related to this query.
   final Iterable<Definition> classes;
@@ -221,7 +220,7 @@ class QueryDefinition extends Equatable with DataPrinter {
   QueryDefinition({
     @required this.queryName,
     @required this.queryType,
-    this.document = const DocumentNode(),
+    this.document = '',
     this.classes = const [],
     this.inputs = const [],
     this.generateHelpers = false,

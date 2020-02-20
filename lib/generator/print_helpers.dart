@@ -1,6 +1,5 @@
 import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
-import 'package:gql_code_gen/gql_code_gen.dart' as dart;
 
 import '../generator/data.dart';
 import '../generator/helpers.dart';
@@ -253,7 +252,8 @@ Spec generateQueryClassSpec(QueryDefinition definition) {
         ..modifier = FieldModifier.final$
         ..type = refer('DocumentNode', 'package:gql/ast.dart')
         ..name = 'document'
-        ..assignment = dart.fromNode(definition.document).code,
+        ..assignment =
+            Code("parseString(r'''${definition.document.trim()}''')"),
     ),
     Field(
       (f) => f
@@ -306,6 +306,7 @@ Spec generateLibrarySpec(LibraryDefinition definition) {
     Directive.import('package:json_annotation/json_annotation.dart'),
     Directive.import('package:equatable/equatable.dart'),
     Directive.import('package:gql/ast.dart'),
+    Directive.import('package:gql/language.dart'),
   ];
 
   if (definition.queries.any((q) => q.generateHelpers)) {

@@ -2,7 +2,6 @@ import 'package:artemis/builder.dart';
 import 'package:artemis/generator/data.dart';
 import 'package:build/build.dart';
 import 'package:build_test/build_test.dart';
-import 'package:gql/language.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -126,7 +125,7 @@ class SomeQuery$SomeObject with EquatableMixin {
         final libraryDefinition =
             LibraryDefinition(basename: r'some_query', queries: [
           QueryDefinition(
-              document: parseString(query),
+              document: "parseString('$query')",
               queryName: r'some_query',
               queryType: r'SomeQuery$SomeObject',
               classes: [
@@ -226,53 +225,12 @@ class SomeQueryQuery
   SomeQueryQuery({this.variables});
 
   @override
-  final DocumentNode document = DocumentNode(definitions: [
-    OperationDefinitionNode(
-        type: OperationType.query,
-        name: NameNode(value: 'some_query'),
-        variableDefinitions: [
-          VariableDefinitionNode(
-              variable: VariableNode(name: NameNode(value: 'intsNonNullable')),
-              type: ListTypeNode(
-                  type: NamedTypeNode(
-                      name: NameNode(value: 'Int'), isNonNull: false),
-                  isNonNull: true),
-              defaultValue: DefaultValueNode(value: null),
-              directives: []),
-          VariableDefinitionNode(
-              variable: VariableNode(name: NameNode(value: 'stringNullable')),
-              type: NamedTypeNode(
-                  name: NameNode(value: 'String'), isNonNull: false),
-              defaultValue: DefaultValueNode(value: null),
-              directives: [])
-        ],
-        directives: [],
-        selectionSet: SelectionSetNode(selections: [
-          FieldNode(
-              name: NameNode(value: 's'),
-              alias: null,
-              arguments: [],
-              directives: [],
-              selectionSet: null),
-          FieldNode(
-              name: NameNode(value: 'i'),
-              alias: null,
-              arguments: [],
-              directives: [],
-              selectionSet: null),
-          FieldNode(
-              name: NameNode(value: 'list'),
-              alias: null,
-              arguments: [
-                ArgumentNode(
-                    name: NameNode(value: 'intsNonNullable'),
-                    value:
-                        VariableNode(name: NameNode(value: 'intsNonNullable')))
-              ],
-              directives: [],
-              selectionSet: null)
-        ]))
-  ]);
+  final String document = parseString(
+      r'''
+              "'''"
+              '''${query.trim()}'''
+              "'''"
+              r''');
 
   @override
   final String operationName = 'some_query';

@@ -82,10 +82,7 @@ Make sure that `queries_glob` your build.yaml file include GraphQL queries files
       final assetStream = buildStep.findAssets(Glob(schemaMap.queriesGlob));
       final gqlDocs = await assetStream
           .asyncMap(
-            (asset) async => parseString(
-              await buildStep.readAsString(asset),
-              url: asset.path,
-            ),
+            (asset) async => await buildStep.readAsString(asset),
           )
           .toList();
 
