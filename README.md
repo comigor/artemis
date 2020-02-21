@@ -11,7 +11,7 @@
 
 Check the [**beta**](https://github.com/comigor/artemis/tree/beta) branch for the bleeding edge (and breaking) stuff.
 
-Artemis is a code generator that looks for `schema.graphql` (GraphQL SDL - Schema Definition Language) and `*.graphql` files and builds `.dart` files typing that query, based on the schema. That's similar to what [Apollo](https://github.com/apollographql/apollo-client) does (Artemis is his sister anyway).
+Artemis is a code generator that looks for `schema.graphql` (GraphQL SDL - Schema Definition Language) and `*.graphql` files and builds `.graphql.dart` files typing that query, based on the schema. That's similar to what [Apollo](https://github.com/apollographql/apollo-client) does (Artemis is his sister anyway).
 
 ---
 
@@ -99,7 +99,7 @@ Each `SchemaMap` is configured this way:
 
 | Option | Default value | Description |
 | - | - | - |
-| `output` |  | Relative path to output the generated code. |
+| `output` |  | Relative path to output the generated code. It should end with `.graphql.dart` or else the  generator will need to generate one more file. |
 | `schema` |  | Relative path to the GraphQL schema. |
 | `queries_glob` |  | Glob that selects all query files to be used with this schema. |
 | `type_name_field` | `__typename` | The name of the field used to differentiatiate interfaces and union types (commonly `__typename` or `__resolveType`). Note that `__typename` field are not added automatically to the query. If you want interface/union type resolution, you need to manually add it there. |
