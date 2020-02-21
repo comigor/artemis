@@ -343,20 +343,6 @@ class _GeneratorVisitor extends RecursiveVisitor {
   }
 
   void _generateInputObjectClassesByType(Context context) {
-
-    if (context.currentType is ObjectTypeDefinitionNode) {
-      properties =
-          (context.currentType as ObjectTypeDefinitionNode).fields.map((i) {
-        return _createClassProperty(
-          fieldName: i.name.value,
-          context: context.sameTypeWithNextPath(),
-          options: options,
-          onNewClassFound: (nextContext) {
-            _generateInputObjectClassesByType(nextContext);
-          },
-        );
-      }).toList();
-    }
     final properties = <ClassProperty>[];
 
     if (context.currentType is InputObjectTypeDefinitionNode) {
