@@ -1,5 +1,5 @@
 import 'package:artemis/generator/data.dart';
-import 'package:artemis/schema/graphql.dart';
+import 'package:gql/language.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
@@ -10,96 +10,71 @@ void main() {
       test(
         'If they are defined on schema',
         () async => testGenerator(
-          query: 'query query { a, b, c, d, e }',
+          schema: r'''
+            scalar Int
+            scalar Float
+            scalar String
+            scalar Boolean
+            scalar ID
+            
+            schema {
+              query: SomeObject
+            }
+            
+            type SomeObject {
+              i: Int
+              f: Float
+              s: String
+              b: Boolean
+              id: ID
+            }
+          ''',
+          query: 'query some_query { i, f, s, b, id }',
           libraryDefinition: libraryDefinition,
           generatedFile: generatedFile,
-          typedSchema: schemaWithScalars,
         ),
       );
 
       test(
         'If they are NOT explicitly defined on schema',
         () async => testGenerator(
-          query: 'query query { a, b, c, d, e }',
+          schema: r'''
+            schema {
+              query: SomeObject
+            }
+            
+            type SomeObject {
+              i: Int
+              f: Float
+              s: String
+              b: Boolean
+              id: ID
+            }
+          ''',
+          query: query,
           libraryDefinition: libraryDefinition,
           generatedFile: generatedFile,
-          typedSchema: schemaWithoutScalars,
         ),
       );
     });
   });
 }
 
-final schemaWithScalars = GraphQLSchema(
-    queryType: GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT),
-    types: [
-      GraphQLType(name: 'Int', kind: GraphQLTypeKind.SCALAR),
-      GraphQLType(name: 'Float', kind: GraphQLTypeKind.SCALAR),
-      GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR),
-      GraphQLType(name: 'Boolean', kind: GraphQLTypeKind.SCALAR),
-      GraphQLType(name: 'ID', kind: GraphQLTypeKind.SCALAR),
-      GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT, fields: [
-        GraphQLField(
-          name: 'a',
-          type: GraphQLType(name: 'Int', kind: GraphQLTypeKind.SCALAR),
-        ),
-        GraphQLField(
-          name: 'b',
-          type: GraphQLType(name: 'Float', kind: GraphQLTypeKind.SCALAR),
-        ),
-        GraphQLField(
-          name: 'c',
-          type: GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR),
-        ),
-        GraphQLField(
-          name: 'd',
-          type: GraphQLType(name: 'Boolean', kind: GraphQLTypeKind.SCALAR),
-        ),
-        GraphQLField(
-          name: 'e',
-          type: GraphQLType(name: 'ID', kind: GraphQLTypeKind.SCALAR),
-        ),
-      ]),
-    ]);
+final String query = 'query some_query { i, f, s, b, id }';
 
-final schemaWithoutScalars = GraphQLSchema(
-    queryType: GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT),
-    types: [
-      GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT, fields: [
-        GraphQLField(
-          name: 'a',
-          type: GraphQLType(name: 'Int', kind: GraphQLTypeKind.SCALAR),
-        ),
-        GraphQLField(
-          name: 'b',
-          type: GraphQLType(name: 'Float', kind: GraphQLTypeKind.SCALAR),
-        ),
-        GraphQLField(
-          name: 'c',
-          type: GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR),
-        ),
-        GraphQLField(
-          name: 'd',
-          type: GraphQLType(name: 'Boolean', kind: GraphQLTypeKind.SCALAR),
-        ),
-        GraphQLField(
-          name: 'e',
-          type: GraphQLType(name: 'ID', kind: GraphQLTypeKind.SCALAR),
-        ),
-      ]),
-    ]);
-
-final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
+final LibraryDefinition libraryDefinition =
+    LibraryDefinition(basename: r'query', queries: [
   QueryDefinition(
-    queryName: r'query',
-    queryType: r'Query$SomeObject',
+    document: parseString(query),
+    queryName: r'some_query',
+    queryType: r'SomeQuery$SomeObject',
     classes: [
-      ClassDefinition(name: r'Query$SomeObject', properties: [
-        ClassProperty(type: 'int', name: 'a'),
-        ClassProperty(type: 'double', name: 'b'),
-        ClassProperty(type: 'String', name: 'c'),
-        ClassProperty(type: 'bool', name: 'd'),
-        ClassProperty(type: 'String', name: 'e'),
+      ClassDefinition(name: r'SomeQuery$SomeObject', properties: [
+        ClassProperty(type: 'int', name: 'i'),
+        ClassProperty(type: 'double', name: 'f'),
+        ClassProperty(type: 'String', name: 's'),
+        ClassProperty(type: 'bool', name: 'b'),
+        ClassProperty(type: 'String', name: 'id'),
       ]),
     ],
   )
@@ -113,24 +88,24 @@ import 'package:gql/ast.dart';
 part 'query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class Query$SomeObject with EquatableMixin {
-  Query$SomeObject();
+class SomeQuery$SomeObject with EquatableMixin {
+  SomeQuery$SomeObject();
 
-  factory Query$SomeObject.fromJson(Map<String, dynamic> json) =>
-      _$Query$SomeObjectFromJson(json);
+  factory SomeQuery$SomeObject.fromJson(Map<String, dynamic> json) =>
+      _$SomeQuery$SomeObjectFromJson(json);
 
-  int a;
+  int i;
 
-  double b;
+  double f;
 
-  String c;
+  String s;
 
-  bool d;
+  bool b;
 
-  String e;
+  String id;
 
   @override
-  List<Object> get props => [a, b, c, d, e];
-  Map<String, dynamic> toJson() => _$Query$SomeObjectToJson(this);
+  List<Object> get props => [i, f, s, b, id];
+  Map<String, dynamic> toJson() => _$SomeQuery$SomeObjectToJson(this);
 }
 ''';

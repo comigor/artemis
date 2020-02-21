@@ -1,5 +1,4 @@
 import 'package:artemis/generator/data.dart';
-import 'package:artemis/schema/graphql.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -10,33 +9,28 @@ void main() {
       'Header and part should only be included once',
       () async => testGenerator(
         query: r'query some_query { s, i }',
+        schema: r'''
+            schema {
+              query: SomeObject
+            }
+            
+            type SomeObject {
+              s: String
+              i: Int
+            }
+          ''',
         libraryDefinition: libraryDefinition,
         generatedFile: generatedFile,
-        typedSchema: schema,
         sourceAssetsMap: {
-          'a|another_query.graphql': 'query another_query { s }',
+          'a|queries/another_query.graphql': 'query another_query { s }',
         },
       ),
     );
   });
 }
 
-final schema = GraphQLSchema(
-    queryType: GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT),
-    types: [
-      GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR),
-      GraphQLType(name: 'Int', kind: GraphQLTypeKind.SCALAR),
-      GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT, fields: [
-        GraphQLField(
-            name: 's',
-            type: GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR)),
-        GraphQLField(
-            name: 'i',
-            type: GraphQLType(name: 'Int', kind: GraphQLTypeKind.SCALAR)),
-      ]),
-    ]);
-
-final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
+final LibraryDefinition libraryDefinition =
+    LibraryDefinition(basename: r'query', queries: [
   QueryDefinition(
       queryName: r'some_query',
       queryType: r'SomeQuery$SomeObject',

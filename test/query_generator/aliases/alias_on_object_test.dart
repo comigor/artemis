@@ -1,5 +1,5 @@
 import 'package:artemis/generator/data.dart';
-import 'package:artemis/schema/graphql.dart';
+import 'package:gql/language.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
@@ -10,62 +10,50 @@ void main() {
       'Objects can be aliased',
       () async => testGenerator(
         query: query,
+        schema: r'''
+          schema {
+            query: QueryResponse
+          }
+
+          type QueryResponse {
+            s: String
+            o: SomeObject
+            ob: [SomeObject]
+          }
+
+          type SomeObject {
+            st: String
+            str: String
+          }
+        ''',
         libraryDefinition: libraryDefinition,
         generatedFile: generatedFile,
-        typedSchema: schema,
       ),
     );
   });
 }
 
 const query = r'''
-        query some_query {
-          s
-          o {
-            st
-          }
-          anotherObject: ob {
-            str
-          }
-        }
-        ''';
+  query some_query {
+    s
+    o {
+      st
+    }
+    anotherObject: ob {
+      str
+    }
+  }
+''';
 
-final schema = GraphQLSchema(
-    queryType: GraphQLType(name: 'Query', kind: GraphQLTypeKind.OBJECT),
-    types: [
-      GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR),
-      GraphQLType(name: 'Query', kind: GraphQLTypeKind.OBJECT, fields: [
-        GraphQLField(
-            name: 's',
-            type: GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR)),
-        GraphQLField(
-            name: 'o',
-            type:
-                GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT)),
-        GraphQLField(
-            name: 'ob',
-            type: GraphQLType(
-                kind: GraphQLTypeKind.LIST,
-                ofType: GraphQLType(
-                    name: 'SomeObject', kind: GraphQLTypeKind.OBJECT))),
-      ]),
-      GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT, fields: [
-        GraphQLField(
-            name: 'st',
-            type: GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR)),
-        GraphQLField(
-            name: 'str',
-            type: GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR)),
-      ]),
-    ]);
-
-final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
+final LibraryDefinition libraryDefinition =
+    LibraryDefinition(basename: r'query', queries: [
   QueryDefinition(
+      document: parseString(query),
       queryName: r'some_query',
-      queryType: r'SomeQuery$Query',
+      queryType: r'SomeQuery$QueryResponse',
       classes: [
         ClassDefinition(
-            name: r'SomeQuery$Query$SomeObject',
+            name: r'SomeQuery$QueryResponse$SomeObject',
             properties: [
               ClassProperty(
                   type: r'String',
@@ -77,7 +65,7 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: r'SomeQuery$Query$AnotherObject',
+            name: r'SomeQuery$QueryResponse$AnotherObject',
             properties: [
               ClassProperty(
                   type: r'String',
@@ -89,7 +77,7 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: r'SomeQuery$Query',
+            name: r'SomeQuery$QueryResponse',
             properties: [
               ClassProperty(
                   type: r'String',
@@ -97,12 +85,12 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
                   isOverride: false,
                   isNonNull: false),
               ClassProperty(
-                  type: r'SomeQuery$Query$SomeObject',
+                  type: r'SomeQuery$QueryResponse$SomeObject',
                   name: r'o',
                   isOverride: false,
                   isNonNull: false),
               ClassProperty(
-                  type: r'List<SomeQuery$Query$AnotherObject>',
+                  type: r'List<SomeQuery$QueryResponse$AnotherObject>',
                   name: r'anotherObject',
                   isOverride: false,
                   isNonNull: false)
@@ -123,48 +111,52 @@ import 'package:gql/ast.dart';
 part 'query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery$Query$SomeObject with EquatableMixin {
-  SomeQuery$Query$SomeObject();
+class SomeQuery$QueryResponse$SomeObject with EquatableMixin {
+  SomeQuery$QueryResponse$SomeObject();
 
-  factory SomeQuery$Query$SomeObject.fromJson(Map<String, dynamic> json) =>
-      _$SomeQuery$Query$SomeObjectFromJson(json);
+  factory SomeQuery$QueryResponse$SomeObject.fromJson(
+          Map<String, dynamic> json) =>
+      _$SomeQuery$QueryResponse$SomeObjectFromJson(json);
 
   String st;
 
   @override
   List<Object> get props => [st];
-  Map<String, dynamic> toJson() => _$SomeQuery$Query$SomeObjectToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$SomeQuery$QueryResponse$SomeObjectToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery$Query$AnotherObject with EquatableMixin {
-  SomeQuery$Query$AnotherObject();
+class SomeQuery$QueryResponse$AnotherObject with EquatableMixin {
+  SomeQuery$QueryResponse$AnotherObject();
 
-  factory SomeQuery$Query$AnotherObject.fromJson(Map<String, dynamic> json) =>
-      _$SomeQuery$Query$AnotherObjectFromJson(json);
+  factory SomeQuery$QueryResponse$AnotherObject.fromJson(
+          Map<String, dynamic> json) =>
+      _$SomeQuery$QueryResponse$AnotherObjectFromJson(json);
 
   String str;
 
   @override
   List<Object> get props => [str];
-  Map<String, dynamic> toJson() => _$SomeQuery$Query$AnotherObjectToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$SomeQuery$QueryResponse$AnotherObjectToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery$Query with EquatableMixin {
-  SomeQuery$Query();
+class SomeQuery$QueryResponse with EquatableMixin {
+  SomeQuery$QueryResponse();
 
-  factory SomeQuery$Query.fromJson(Map<String, dynamic> json) =>
-      _$SomeQuery$QueryFromJson(json);
+  factory SomeQuery$QueryResponse.fromJson(Map<String, dynamic> json) =>
+      _$SomeQuery$QueryResponseFromJson(json);
 
   String s;
 
-  SomeQuery$Query$SomeObject o;
+  SomeQuery$QueryResponse$SomeObject o;
 
-  List<SomeQuery$Query$AnotherObject> anotherObject;
+  List<SomeQuery$QueryResponse$AnotherObject> anotherObject;
 
   @override
   List<Object> get props => [s, o, anotherObject];
-  Map<String, dynamic> toJson() => _$SomeQuery$QueryToJson(this);
+  Map<String, dynamic> toJson() => _$SomeQuery$QueryResponseToJson(this);
 }
 ''';

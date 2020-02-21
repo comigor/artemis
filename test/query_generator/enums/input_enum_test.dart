@@ -1,5 +1,4 @@
 import 'package:artemis/generator/data.dart';
-import 'package:artemis/schema/graphql.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
@@ -10,9 +9,35 @@ void main() {
       'Enums can be part of input objects',
       () async => testGenerator(
         query: query,
+        schema: r'''
+          schema {
+            query: QueryRoot
+          }
+          
+          type QueryRoot {
+            q(input: Input!, o: OtherEnum!): QueryResponse
+          }
+          
+          type QueryResponse {
+            s: String
+          }
+          
+          type Input {
+            e: MyEnum!
+          }
+          
+          enum MyEnum {
+            A
+            B
+          }
+          
+          enum OtherEnum {
+            O1
+            O2
+          }
+        ''',
         libraryDefinition: libraryDefinition,
         generatedFile: generatedFile,
-        typedSchema: schema,
         generateHelpers: true,
       ),
     );
@@ -20,75 +45,15 @@ void main() {
 }
 
 const query = r'''
-query custom($input: Input!, $o: OtherEnum!) {
-  q(input: $input, o: $o) {
-    s
+  query custom($input: Input!, $o: OtherEnum!) {
+    q(input: $input, o: $o) {
+      s
+    }
   }
-}
 ''';
 
-final schema = GraphQLSchema(
-    queryType: GraphQLType(name: 'QueryRoot', kind: GraphQLTypeKind.OBJECT),
-    types: [
-      GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR),
-      GraphQLType(
-        name: 'Input',
-        kind: GraphQLTypeKind.INPUT_OBJECT,
-        inputFields: [
-          GraphQLInputValue(
-              name: 'e',
-              type: GraphQLType(
-                  kind: GraphQLTypeKind.NON_NULL,
-                  ofType:
-                      GraphQLType(name: 'MyEnum', kind: GraphQLTypeKind.ENUM))),
-        ],
-      ),
-      GraphQLType(name: 'MyEnum', kind: GraphQLTypeKind.ENUM, enumValues: [
-        GraphQLEnumValue(name: 'A'),
-        GraphQLEnumValue(name: 'B'),
-      ]),
-      GraphQLType(name: 'OtherEnum', kind: GraphQLTypeKind.ENUM, enumValues: [
-        GraphQLEnumValue(name: 'O1'),
-        GraphQLEnumValue(name: 'O2'),
-      ]),
-      GraphQLType(
-        name: 'QueryResponse',
-        kind: GraphQLTypeKind.OBJECT,
-        fields: [
-          GraphQLField(
-              name: 's',
-              type: GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR)),
-        ],
-      ),
-      GraphQLType(
-        name: 'QueryRoot',
-        kind: GraphQLTypeKind.OBJECT,
-        fields: [
-          GraphQLField(
-              name: 'q',
-              args: [
-                GraphQLInputValue(
-                  name: 'input',
-                  type: GraphQLType(
-                      kind: GraphQLTypeKind.NON_NULL,
-                      ofType: GraphQLType(
-                          name: 'Input', kind: GraphQLTypeKind.INPUT_OBJECT)),
-                ),
-                GraphQLInputValue(
-                  name: 'o',
-                  type: GraphQLType(
-                      kind: GraphQLTypeKind.NON_NULL,
-                      ofType: GraphQLType(
-                          name: 'OtherEnum', kind: GraphQLTypeKind.ENUM)),
-                ),
-              ],
-              type: GraphQLType(
-                  name: 'QueryResponse', kind: GraphQLTypeKind.OBJECT)),
-        ],
-      ),
-    ]);
-
-final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
+final LibraryDefinition libraryDefinition =
+    LibraryDefinition(basename: r'query', queries: [
   QueryDefinition(
       queryName: r'custom',
       queryType: r'Custom$QueryRoot',

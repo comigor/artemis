@@ -113,7 +113,7 @@ class SchemaMap {
   @JsonKey(defaultValue: '__typename')
   final String typeNameField;
 
-  /// Instatiates a schema mapping.
+  /// Instantiates a schema mapping.
   SchemaMap({
     this.output,
     this.schema,

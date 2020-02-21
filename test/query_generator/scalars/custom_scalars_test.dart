@@ -1,5 +1,4 @@
 import 'package:artemis/generator/data.dart';
-import 'package:artemis/schema/graphql.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
@@ -11,9 +10,19 @@ void main() {
         'If they can be converted to a simple dart class',
         () async => testGenerator(
           query: 'query query { a }',
+          schema: r'''
+            scalar MyUuid
+            
+            schema {
+              query: SomeObject
+            }
+            
+            type SomeObject {
+              a: MyUuid
+            }
+          ''',
           libraryDefinition: libraryDefinition,
           generatedFile: generatedFile,
-          typedSchema: schemaWithCustomScalar,
           builderOptionsMap: {
             'scalar_mapping': [
               {
@@ -30,9 +39,19 @@ void main() {
       'When they need custom parser functions',
       () async => testGenerator(
         query: 'query query { a }',
+        schema: r'''
+          scalar MyUuid
+
+          schema {
+            query: SomeObject
+          }
+
+          type SomeObject {
+            a: MyUuid
+          }
+        ''',
         libraryDefinition: libraryDefinitionWithCustomParserFns,
         generatedFile: generatedFileWithCustomParserFns,
-        typedSchema: schemaWithCustomScalar,
         builderOptionsMap: {
           'scalar_mapping': [
             {
@@ -49,9 +68,19 @@ void main() {
       'When they need custom imports',
       () async => testGenerator(
         query: 'query query { a }',
+        schema: r'''
+          scalar MyUuid
+
+          schema {
+            query: SomeObject
+          }
+
+          type SomeObject {
+            a: MyUuid
+          }
+        ''',
         libraryDefinition: libraryDefinitionWithCustomImports,
         generatedFile: generatedFileWithCustomImports,
-        typedSchema: schemaWithCustomScalar,
         builderOptionsMap: {
           'scalar_mapping': [
             {
@@ -69,19 +98,8 @@ void main() {
   });
 }
 
-final schemaWithCustomScalar = GraphQLSchema(
-    queryType: GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT),
-    types: [
-      GraphQLType(name: 'MyUuid', kind: GraphQLTypeKind.SCALAR),
-      GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT, fields: [
-        GraphQLField(
-          name: 'a',
-          type: GraphQLType(name: 'MyUuid', kind: GraphQLTypeKind.SCALAR),
-        ),
-      ]),
-    ]);
-
-final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
+final LibraryDefinition libraryDefinition =
+    LibraryDefinition(basename: r'query', queries: [
   QueryDefinition(
       queryName: r'query',
       queryType: r'Query$SomeObject',
@@ -102,7 +120,7 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
       generateHelpers: false)
 ]);
 
-final libraryDefinitionWithCustomParserFns =
+final LibraryDefinition libraryDefinitionWithCustomParserFns =
     LibraryDefinition(basename: r'query', queries: [
   QueryDefinition(
       queryName: r'query',
@@ -128,7 +146,7 @@ final libraryDefinitionWithCustomParserFns =
   r'package:example/src/custom_parser.dart'
 ]);
 
-final libraryDefinitionWithCustomImports =
+final LibraryDefinition libraryDefinitionWithCustomImports =
     LibraryDefinition(basename: r'query', queries: [
   QueryDefinition(
       queryName: r'query',

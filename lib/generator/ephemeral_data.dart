@@ -2,7 +2,6 @@ import 'package:meta/meta.dart';
 import 'package:gql/ast.dart';
 
 import './data.dart';
-import '../schema/graphql.dart';
 import '../schema/options.dart';
 
 /// References options while on [_GeneratorVisitor] iterations.
@@ -14,8 +13,8 @@ class InjectedOptions {
     @required this.schemaMap,
   });
 
-  /// The [GraphQLSchema] parsed from `build.yaml` configuration.
-  final GraphQLSchema schema;
+  /// The [DocumentNode] parsed from `build.yaml` configuration.
+  final DocumentNode schema;
 
   /// Other options parsed from `build.yaml` configuration.
   final GeneratorOptions options;
@@ -40,11 +39,11 @@ class Context {
   /// The path of data we're currently processing.
   final List<String> path;
 
-  /// The [GraphQLType] we're currently processing.
-  final GraphQLType currentType;
+  /// The [TypeDefinitionNode] we're currently processing.
+  final TypeDefinitionNode currentType;
 
-  /// If part of an union type, which [GraphQLType] it represents.
-  final GraphQLType ofUnion;
+  /// If part of an union type, which [TypeDefinitionNode] it represents.
+  final TypeDefinitionNode ofUnion;
 
   /// A string to replace the current class name.
   final String alias;
@@ -60,12 +59,12 @@ class Context {
 
   /// Returns the full class name with joined path.
   String joinedName([String name]) =>
-      '${path.join(r'$')}\$${name ?? alias ?? currentType.name}';
+      '${path.join(r'$')}\$${name ?? alias ?? currentType.name.value}';
 
   /// Returns a copy of this context, on the same path, but with a new type.
   Context nextTypeWithSamePath({
-    @required GraphQLType nextType,
-    GraphQLType ofUnion,
+    @required TypeDefinitionNode nextType,
+    TypeDefinitionNode ofUnion,
     String alias,
     List<Definition> generatedClasses,
     List<QueryInput> inputsClasses,
@@ -83,15 +82,15 @@ class Context {
 
   /// Returns a copy of this context, with a new type on a new path.
   Context next({
-    @required GraphQLType nextType,
-    GraphQLType ofUnion,
+    @required TypeDefinitionNode nextType,
+    TypeDefinitionNode ofUnion,
     String alias,
     List<Definition> generatedClasses,
     List<QueryInput> inputsClasses,
     List<FragmentDefinitionNode> fragments,
   }) =>
       Context(
-        path: path.followedBy([alias ?? currentType.name]).toList(),
+        path: path.followedBy([alias ?? currentType.name.value]).toList(),
         currentType: nextType,
         ofUnion: ofUnion ?? this.ofUnion,
         alias: alias ?? this.alias,
@@ -102,14 +101,14 @@ class Context {
 
   /// Returns a copy of this context, with the same type, but on a new path.
   Context sameTypeWithNextPath({
-    GraphQLType ofUnion,
+    TypeDefinitionNode ofUnion,
     String alias,
     List<Definition> generatedClasses,
     List<QueryInput> inputsClasses,
     List<FragmentDefinitionNode> fragments,
   }) =>
       Context(
-        path: path.followedBy([alias ?? currentType.name]).toList(),
+        path: path.followedBy([alias ?? currentType.name.value]).toList(),
         currentType: currentType,
         ofUnion: ofUnion ?? this.ofUnion,
         alias: alias ?? this.alias,
@@ -120,7 +119,7 @@ class Context {
 
   /// Returns a copy of this context, with the same type, but on the first path.
   Context sameTypeWithFirstPath({
-    GraphQLType ofUnion,
+    TypeDefinitionNode ofUnion,
     List<Definition> generatedClasses,
     List<QueryInput> inputsClasses,
     List<FragmentDefinitionNode> fragments,

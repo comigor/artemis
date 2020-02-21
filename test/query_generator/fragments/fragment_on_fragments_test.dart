@@ -9,9 +9,23 @@ void main() {
       'Properties will be merged',
       () async => testGenerator(
         query: queryString,
+        schema: r'''
+          schema {
+            query: Query
+          }
+
+          type Query {
+            pokemon(id: String, name: String): Pokemon
+          }
+
+          type Pokemon {
+            id: String!
+            name: String
+            number: String
+          }
+        ''',
         libraryDefinition: libraryDefinition,
         generatedFile: generatedFile,
-        stringSchema: pokemonSchema,
         builderOptionsMap: {'fragments_glob': '**.frag'},
         sourceAssetsMap: {'a|fragment.frag': fragmentsString},
       ),
@@ -20,24 +34,27 @@ void main() {
 }
 
 const fragmentsString = '''
-      fragment PokemonParts on Pokemon {
-        number
-        name
-      }
-      fragment Pokemon on Pokemon {
-        id
-        ...PokemonParts
-      }
-        ''';
+  fragment PokemonParts on Pokemon {
+    number
+    name
+  }
+  
+  fragment Pokemon on Pokemon {
+    id
+    ...PokemonParts
+  }
+''';
 
 const queryString = '''
-      {
-          pokemon(name: "Pikachu") {
-            ...Pokemon
-          }
-      }''';
+  {
+      pokemon(name: "Pikachu") {
+        ...Pokemon
+      }
+  }
+''';
 
-final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
+final LibraryDefinition libraryDefinition =
+    LibraryDefinition(basename: r'query', queries: [
   QueryDefinition(
       queryName: r'query',
       queryType: r'Query$Query',
@@ -127,93 +144,5 @@ class Query$Query with EquatableMixin {
   @override
   List<Object> get props => [pokemon];
   Map<String, dynamic> toJson() => _$Query$QueryToJson(this);
-}
-''';
-
-const pokemonSchema = '''
-{
-  "data": {
-    "__schema": {
-      "queryType": {
-        "name": "Query"
-      },
-      "types": [
-        {
-          "kind": "OBJECT",
-          "name": "Query",
-          "fields": [
-            {
-              "name": "query",
-              "type": {
-                "kind": "OBJECT",
-                "name": "Query"
-              }
-            },
-            {
-              "name": "pokemon",
-              "args": [
-                {
-                  "name": "id",
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String"
-                  }
-                },
-                {
-                  "name": "name",
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String"
-                  }
-                }
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Pokemon"
-              }
-            }
-          ]
-        },
-        {
-          "kind": "OBJECT",
-          "name": "Pokemon",
-          "fields": [
-            {
-              "name": "id",
-              "type": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID"
-                }
-              }
-            },
-            {
-              "name": "number",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String"
-              }
-            },
-            {
-              "name": "name",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String"
-              }
-            }
-          ]
-        },
-        {
-          "kind": "SCALAR",
-          "name": "ID"
-        },
-        {
-          "kind": "SCALAR",
-          "name": "String"
-        }
-      ]
-    }
-  }
 }
 ''';

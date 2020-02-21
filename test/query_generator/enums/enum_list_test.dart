@@ -1,5 +1,4 @@
 import 'package:artemis/generator/data.dart';
-import 'package:artemis/schema/graphql.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
@@ -12,7 +11,23 @@ void main() {
         query: query,
         libraryDefinition: libraryDefinition,
         generatedFile: generatedFile,
-        typedSchema: schema,
+        schema: r'''
+          schema {
+            query: QueryRoot
+          }
+          
+          type QueryRoot {
+            q: QueryResponse
+          }
+          
+          type QueryResponse {
+            le: [MyEnum]
+          }
+          
+          enum MyEnum {
+            A
+            B
+          }''',
       ),
     );
   });
@@ -26,38 +41,8 @@ query custom {
 }
 ''';
 
-final schema = GraphQLSchema(
-    queryType: GraphQLType(name: 'QueryRoot', kind: GraphQLTypeKind.OBJECT),
-    types: [
-      GraphQLType(name: 'MyEnum', kind: GraphQLTypeKind.ENUM, enumValues: [
-        GraphQLEnumValue(name: 'A'),
-        GraphQLEnumValue(name: 'B'),
-      ]),
-      GraphQLType(
-        name: 'QueryResponse',
-        kind: GraphQLTypeKind.OBJECT,
-        fields: [
-          GraphQLField(
-              name: 'le',
-              type: GraphQLType(
-                  kind: GraphQLTypeKind.LIST,
-                  ofType:
-                      GraphQLType(name: 'MyEnum', kind: GraphQLTypeKind.ENUM))),
-        ],
-      ),
-      GraphQLType(
-        name: 'QueryRoot',
-        kind: GraphQLTypeKind.OBJECT,
-        fields: [
-          GraphQLField(
-              name: 'q',
-              type: GraphQLType(
-                  name: 'QueryResponse', kind: GraphQLTypeKind.OBJECT)),
-        ],
-      ),
-    ]);
-
-final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
+final LibraryDefinition libraryDefinition =
+    LibraryDefinition(basename: r'query', queries: [
   QueryDefinition(
       queryName: r'custom',
       queryType: r'Custom$QueryRoot',

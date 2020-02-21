@@ -1,5 +1,5 @@
 import 'package:artemis/generator/data.dart';
-import 'package:artemis/schema/graphql.dart';
+import 'package:gql/language.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
@@ -10,9 +10,28 @@ void main() {
       'Leaves can be aliased',
       () async => testGenerator(
         query: query,
+        schema: r'''
+          schema {
+            query: Response
+          }
+
+          type Response {
+            s: String
+            o: SomeObject
+            ob: [SomeObject]
+          }
+
+          type SomeObject {
+            e: MyEnum
+          }
+          
+          enum MyEnum {
+            A
+            B
+          }
+        ''',
         libraryDefinition: libraryDefinition,
         generatedFile: generatedFile,
-        typedSchema: schema,
       ),
     );
   });
@@ -27,47 +46,25 @@ const query = r'''
         }
         ''';
 
-final schema = GraphQLSchema(
-    queryType: GraphQLType(name: 'Query', kind: GraphQLTypeKind.OBJECT),
-    types: [
-      GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR),
-      GraphQLType(name: 'MyEnum', kind: GraphQLTypeKind.ENUM, enumValues: [
-        GraphQLEnumValue(name: 'A'),
-        GraphQLEnumValue(name: 'B'),
-      ]),
-      GraphQLType(name: 'Query', kind: GraphQLTypeKind.OBJECT, fields: [
-        GraphQLField(
-            name: 's',
-            type: GraphQLType(name: 'String', kind: GraphQLTypeKind.SCALAR)),
-        GraphQLField(
-            name: 'o',
-            type:
-                GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT)),
-      ]),
-      GraphQLType(name: 'SomeObject', kind: GraphQLTypeKind.OBJECT, fields: [
-        GraphQLField(
-            name: 'e',
-            type: GraphQLType(name: 'MyEnum', kind: GraphQLTypeKind.ENUM)),
-      ]),
-    ]);
-
-final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
+final LibraryDefinition libraryDefinition =
+    LibraryDefinition(basename: r'query', queries: [
   QueryDefinition(
+      document: parseString(query),
       queryName: r'some_query',
-      queryType: r'SomeQuery$Query',
+      queryType: r'SomeQuery$Response',
       classes: [
         EnumDefinition(
-            name: r'SomeQuery$Query$SomeObject$ThisIsAnEnum',
+            name: r'SomeQuery$Response$SomeObject$ThisIsAnEnum',
             values: [r'A', r'B', r'ARTEMIS_UNKNOWN']),
         ClassDefinition(
-            name: r'SomeQuery$Query$SomeObject',
+            name: r'SomeQuery$Response$SomeObject',
             properties: [
               ClassProperty(
-                  type: r'SomeQuery$Query$SomeObject$ThisIsAnEnum',
+                  type: r'SomeQuery$Response$SomeObject$ThisIsAnEnum',
                   name: r'thisIsAnEnum',
                   isOverride: false,
                   annotation:
-                      r'JsonKey(unknownEnumValue: SomeQuery$Query$SomeObject$ThisIsAnEnum.ARTEMIS_UNKNOWN)',
+                      r'JsonKey(unknownEnumValue: SomeQuery$Response$SomeObject$ThisIsAnEnum.ARTEMIS_UNKNOWN)',
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -75,7 +72,7 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: r'SomeQuery$Query',
+            name: r'SomeQuery$Response',
             properties: [
               ClassProperty(
                   type: r'String',
@@ -84,7 +81,7 @@ final libraryDefinition = LibraryDefinition(basename: r'query', queries: [
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
-                  type: r'SomeQuery$Query$SomeObject',
+                  type: r'SomeQuery$Response$SomeObject',
                   name: r'o',
                   isOverride: false,
                   isNonNull: false,
@@ -106,38 +103,39 @@ import 'package:gql/ast.dart';
 part 'query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery$Query$SomeObject with EquatableMixin {
-  SomeQuery$Query$SomeObject();
+class SomeQuery$Response$SomeObject with EquatableMixin {
+  SomeQuery$Response$SomeObject();
 
-  factory SomeQuery$Query$SomeObject.fromJson(Map<String, dynamic> json) =>
-      _$SomeQuery$Query$SomeObjectFromJson(json);
+  factory SomeQuery$Response$SomeObject.fromJson(Map<String, dynamic> json) =>
+      _$SomeQuery$Response$SomeObjectFromJson(json);
 
   @JsonKey(
-      unknownEnumValue: SomeQuery$Query$SomeObject$ThisIsAnEnum.ARTEMIS_UNKNOWN)
-  SomeQuery$Query$SomeObject$ThisIsAnEnum thisIsAnEnum;
+      unknownEnumValue:
+          SomeQuery$Response$SomeObject$ThisIsAnEnum.ARTEMIS_UNKNOWN)
+  SomeQuery$Response$SomeObject$ThisIsAnEnum thisIsAnEnum;
 
   @override
   List<Object> get props => [thisIsAnEnum];
-  Map<String, dynamic> toJson() => _$SomeQuery$Query$SomeObjectToJson(this);
+  Map<String, dynamic> toJson() => _$SomeQuery$Response$SomeObjectToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery$Query with EquatableMixin {
-  SomeQuery$Query();
+class SomeQuery$Response with EquatableMixin {
+  SomeQuery$Response();
 
-  factory SomeQuery$Query.fromJson(Map<String, dynamic> json) =>
-      _$SomeQuery$QueryFromJson(json);
+  factory SomeQuery$Response.fromJson(Map<String, dynamic> json) =>
+      _$SomeQuery$ResponseFromJson(json);
 
   String thisIsAString;
 
-  SomeQuery$Query$SomeObject o;
+  SomeQuery$Response$SomeObject o;
 
   @override
   List<Object> get props => [thisIsAString, o];
-  Map<String, dynamic> toJson() => _$SomeQuery$QueryToJson(this);
+  Map<String, dynamic> toJson() => _$SomeQuery$ResponseToJson(this);
 }
 
-enum SomeQuery$Query$SomeObject$ThisIsAnEnum {
+enum SomeQuery$Response$SomeObject$ThisIsAnEnum {
   A,
   B,
   ARTEMIS_UNKNOWN,
