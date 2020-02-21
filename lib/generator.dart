@@ -224,6 +224,7 @@ Make sure your query is correct and your schema is updated.''');
       dartType: true, replaceLeafWith: nextClassName, schema: options.schema);
 
   if ((nextType is ObjectTypeDefinitionNode ||
+          nextType is InputObjectTypeDefinitionNode ||
           nextType is UnionTypeDefinitionNode ||
           nextType is InterfaceTypeDefinitionNode) &&
       onNewClassFound != null) {
@@ -342,24 +343,10 @@ class _GeneratorVisitor extends RecursiveVisitor {
   }
 
   void _generateInputObjectClassesByType(Context context) {
-    var properties = [];
-
-    if (context.currentType is ObjectTypeDefinitionNode) {
-      properties =
-          (context.currentType as ObjectTypeDefinitionNode).fields.map((i) {
-        return _createClassProperty(
-          fieldName: i.name.value,
-          context: context.sameTypeWithNextPath(),
-          options: options,
-          onNewClassFound: (nextContext) {
-            _generateInputObjectClassesByType(nextContext);
-          },
-        );
-      }).toList();
-    }
+    final properties = <ClassProperty>[];
 
     if (context.currentType is InputObjectTypeDefinitionNode) {
-      properties = (context.currentType as InputObjectTypeDefinitionNode)
+      properties.addAll((context.currentType as InputObjectTypeDefinitionNode)
           .fields
           .map((i) {
         return _createClassProperty(
@@ -370,13 +357,13 @@ class _GeneratorVisitor extends RecursiveVisitor {
             _generateInputObjectClassesByType(nextContext);
           },
         );
-      }).toList();
+      }));
     }
 
     _log('<- Generated input class ${context.joinedName()}.', 0);
     context.generatedClasses.add(ClassDefinition(
       name: context.joinedName(),
-      properties: properties as List<ClassProperty>,
+      properties: properties,
       isInput: true,
     ));
   }

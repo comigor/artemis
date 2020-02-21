@@ -23,7 +23,7 @@ void main() {
             o(filter: ComplexType!): SomeObject
           }
           
-          type ComplexType {
+          input ComplexType {
             s: String!
             e: MyEnum
             ls: [String]

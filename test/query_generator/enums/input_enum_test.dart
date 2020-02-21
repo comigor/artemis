@@ -22,7 +22,7 @@ void main() {
             s: String
           }
           
-          type Input {
+          input Input {
             e: MyEnum!
           }
           

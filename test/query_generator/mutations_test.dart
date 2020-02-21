@@ -22,7 +22,7 @@ void main() {
             s: String
           }
           
-          type Input {
+          input Input {
             s: String!
           }
         ''',
