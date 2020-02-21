@@ -112,26 +112,26 @@ QueryDefinition generateQuery(
   final queryName = operation.name?.value ?? basename;
   final className = ReCase(queryName).pascalCase;
 
+  final schemaVisitor = SchemaDefinitionVisitor();
   final fieldVisitor = FieldDefinitionVisitor();
   final objectVisitor = ObjectTypeDefinitionVisitor();
 
-  schema.accept(fieldVisitor);
+  schema.accept(schemaVisitor);
   schema.accept(objectVisitor);
+  schema.accept(fieldVisitor);
 
-  var fieldType = fieldVisitor.getByName(queryName);
+  final rootTypeName = schemaVisitor.schemaDefinitionNode.operationTypes
+      .firstWhere((e) => e.operation == operation.type, orElse: () => null)
+      ?.type
+      ?.name
+      ?.value;
 
-  TypeDefinitionNode parentType;
-
-  if (fieldType != null) {
-    parentType =
-        objectVisitor.getByName((fieldType.type as NamedTypeNode).name.value);
-  } else {
-    final operationVisitor = OperationTypeDefinitionNodeVisitor();
-    schema.accept(operationVisitor);
-
-    parentType = objectVisitor
-        .getByName(operationVisitor.getByType(operation.type).type.name.value);
+  if (rootTypeName == null) {
+    throw Exception(
+        '''No root type was found for ${operation.type} $queryName.''');
   }
+
+  final TypeDefinitionNode parentType = objectVisitor.getByName(rootTypeName);
 
   final suffix = operation.type == OperationType.query ? 'Query' : 'Mutation';
 
