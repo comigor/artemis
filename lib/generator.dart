@@ -343,7 +343,6 @@ class _GeneratorVisitor extends RecursiveVisitor {
   }
 
   void _generateInputObjectClassesByType(Context context) {
-    var properties = [];
 
     if (context.currentType is ObjectTypeDefinitionNode) {
       properties =
@@ -358,9 +357,10 @@ class _GeneratorVisitor extends RecursiveVisitor {
         );
       }).toList();
     }
+    final properties = <ClassProperty>[];
 
     if (context.currentType is InputObjectTypeDefinitionNode) {
-      properties = (context.currentType as InputObjectTypeDefinitionNode)
+      properties.addAll((context.currentType as InputObjectTypeDefinitionNode)
           .fields
           .map((i) {
         return _createClassProperty(
@@ -371,13 +371,13 @@ class _GeneratorVisitor extends RecursiveVisitor {
             _generateInputObjectClassesByType(nextContext);
           },
         );
-      }).toList();
+      }));
     }
 
     _log('<- Generated input class ${context.joinedName()}.', 0);
     context.generatedClasses.add(ClassDefinition(
       name: context.joinedName(),
-      properties: properties as List<ClassProperty>,
+      properties: properties,
       isInput: true,
     ));
   }
