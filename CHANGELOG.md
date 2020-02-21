@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 4.0.2
+- Only add unknownEnumValue on non-list enums
+- Consider all classes to include reference to meta package
+
 ## 4.0.1
 - Look at mutation root when generating a mutation
 

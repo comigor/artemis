@@ -26,6 +26,18 @@ GraphQLType followType(GraphQLType type) {
   }
 }
 
+/// Find if this type is eventually a list.
+bool isEventuallyList(GraphQLType type) {
+  switch (type.kind) {
+    case GraphQLTypeKind.LIST:
+      return true;
+    case GraphQLTypeKind.NON_NULL:
+      return isEventuallyList(type.ofType);
+    default:
+      return false;
+  }
+}
+
 /// Build a string repesenting a Dart type, given a GraphQL type.
 String buildTypeString(GraphQLType type, GeneratorOptions options,
     {bool dartType = true, String replaceLeafWith}) {

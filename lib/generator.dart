@@ -230,7 +230,9 @@ Make sure your query is correct and your schema is updated.''');
       ),
       options,
     );
-    annotation = 'JsonKey(unknownEnumValue: $dartTypeStr.$ARTEMIS_UNKNOWN)';
+    if (!fieldType.isList()) {
+      annotation = 'JsonKey(unknownEnumValue: $dartTypeStr.$ARTEMIS_UNKNOWN)';
+    }
   }
 
   return ClassProperty(
