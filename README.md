@@ -9,7 +9,7 @@
 [![Pub Package](https://img.shields.io/pub/v/artemis.svg)](https://pub.dev/packages/artemis)
 [![GitHub Actions](https://github.com/comigor/artemis/workflows/test/badge.svg)](https://github.com/comigor/artemis/actions)
 
-Artemis is a code generator that looks for `schema.graphql` (GraphQL Introspection Query response data) and `*.graphql` files and builds `.dart` files typing that query, based on the schema. That's similar to what [Apollo](https://github.com/apollographql/apollo-client) does (Artemis is his sister anyway).
+Artemis is a code generator that looks for `schema.graphql` (GraphQL SDL - Schema Definition Language) and `*.graphql` files and builds `.dart` files typing that query, based on the schema. That's similar to what [Apollo](https://github.com/apollographql/apollo-client) does (Artemis is his sister anyway).
 
 ---
 
@@ -17,14 +17,14 @@ Artemis is a code generator that looks for `schema.graphql` (GraphQL Introspecti
 Add the following to your `pubspec.yaml` file to be able to do code generation:
 ```yaml
 dev_dependencies:
-  artemis: '>=2.0.0 <3.0.0'
+  artemis: '>=5.0.0 <6.0.0'
   build_runner: ^1.5.0
   json_serializable: ^3.0.0
 ```
 The generated code uses the following packages in run-time:
 ```yaml
 dependencies:
-  artemis: '>=2.0.0 <3.0.0' # only if you're using ArtemisClient!
+  artemis: '>=5.0.0 <6.0.0' # only if you're using ArtemisClient!
   json_serializable: ^3.0.0
   equatable: ^0.6.1
   meta: '>=1.0.0 <2.0.0' # only if you have non nullable fields

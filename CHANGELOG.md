@@ -1,11 +1,16 @@
 # CHANGELOG
 
-## 5.0.0-beta.0
+## 5.0.0
 **MAJOR BREAKING CHANGE**
-In this version we moved from `json` to `graphql` schema parsing.
+In this version we moved from `json` to `graphql` (SDL) schema parsing.
 This allowed us to get rid off ±1200 lines of code which makes the  
 project support much easier. The test files with schema definitions
 became more clear and human readable.
+
+If you already have your schema in SDL format, just point to it in `build.yaml`.
+If not, use this [snippet][introspection-to-sdl-snippet]
+(from [this Apollo article][apollo-3-ways-schema]) or online helpers like
+[this one][introspection-to-sdl-online] to convert from one to another.
 
 ## 4.0.2
 - Only add unknownEnumValue on non-list enums
@@ -68,7 +73,7 @@ avoiding breaking/crashing the client.
 - Allow to dispose `ArtemisClient` underlining http client when possible
 
 ## 3.0.0
-- BREAKING: Marks non nullable input field as `@required` [#68](https://github.com/comigor/artemis/pull/68)
+- BREAKING: Marks non nullable input field as `@required` [#68][pr-68]
 
 ## 2.2.2
 - Make lists as input objects work again
@@ -80,7 +85,7 @@ avoiding breaking/crashing the client.
 - Add "Articles and videos" category on README
 
 ## 2.2.0
-- Share fragments between queries and schemas (see `fragments_glob`) [#65](https://github.com/comigor/artemis/pull/65)
+- Share fragments between queries and schemas (see `fragments_glob`) [#65][pr-65]
 
 ## 2.1.4
 - Add missing prefix to generated enums
@@ -196,7 +201,7 @@ Set HTTP headers only when using default HTTP client.
 ## 0.2.0 BREAKING
 Completely overhaul how this works.
 
-Artemis won't generate a full schema typing anymore. Instead, it will use the schema to generate typings from a specific query or mutation. It will also create helper functions to execute those queries. See [README](./README.md) for more info.
+Artemis won't generate a full schema typing anymore. Instead, it will use the schema to generate typings from a specific query or mutation. It will also create helper functions to execute those queries. See [README][readme] for more info.
 
 This is totally a breaking change but as this library is still on alpha, I should keep it under 1.0.
 
@@ -225,3 +230,10 @@ This is totally a breaking change but as this library is still on alpha, I shoul
 - Consider custom scalars
 - Not even compile from scratch
 - Lot of bugs
+
+[readme]: ./README.md
+[pr-65]: https://github.com/comigor/artemis/pull/65
+[pr-68]: https://github.com/comigor/artemis/pull/68
+[apollo-3-ways-schema]: https://blog.apollographql.com/three-ways-to-represent-your-graphql-schema-a41f4175100d
+[introspection-to-sdl-snippet]: https://gist.github.com/stubailo/041999ba5b8b15cede60b93ff9a38f53
+[introspection-to-sdl-online]: https://codesandbox.io/s/pnmoxolx4

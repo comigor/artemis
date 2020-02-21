@@ -104,7 +104,7 @@ Make sure that `queries_glob` your build.yaml file include GraphQL queries files
             .first;
       } catch (e) {
         throw Exception('''Schema `${schemaMap.schema}` was not found!
-Make sure the file exists and you've typed it conrrectly on build.yaml.
+Make sure the file exists and you've typed it correctly on build.yaml.
 ''');
       }
 
