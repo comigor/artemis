@@ -14,6 +14,13 @@ import './schema/options.dart';
 GraphQLQueryBuilder graphQLQueryBuilder(BuilderOptions options) =>
     GraphQLQueryBuilder(options);
 
+String _addGraphQLExtensionToPathIfNeeded(String path) {
+  if (!path.endsWith('.graphql.dart')) {
+    return path.replaceAll(RegExp(r'\.dart$'), '.graphql.dart');
+  }
+  return path;
+}
+
 List<String> _builderOptionsToExpectedOutputs(BuilderOptions builderOptions) {
   final schemaMaps =
       GeneratorOptions.fromJson(builderOptions.config).schemaMapping;
@@ -25,7 +32,15 @@ Please check your build.yaml file.
   }
 
   return schemaMaps
-      .map((s) => s.output.replaceAll(RegExp(r'^lib/'), ''))
+      .map((s) {
+        final outputWithoutLib = s.output.replaceAll(RegExp(r'^lib/'), '');
+
+        return {
+          outputWithoutLib,
+          _addGraphQLExtensionToPathIfNeeded(outputWithoutLib),
+        }.toList();
+      })
+      .expand((e) => e)
       .toList();
 }
 
@@ -71,7 +86,8 @@ class GraphQLQueryBuilder implements Builder {
 
     for (final schemaMap in options.schemaMapping) {
       final buffer = StringBuffer();
-      final outputFileId = AssetId(buildStep.inputId.package, schemaMap.output);
+      final outputFileId = AssetId(buildStep.inputId.package,
+          _addGraphQLExtensionToPathIfNeeded(schemaMap.output));
 
       // Loop through all files in glob
       if (schemaMap.queriesGlob == null) {
@@ -110,14 +126,27 @@ ${e}
 ''');
       }
 
-      final libDefinition = generateLibrary(schemaMap.output, gqlDocs, options,
-          schemaMap, fragmentsCommon, gqlSchema);
+      final libDefinition = generateLibrary(
+        _addGraphQLExtensionToPathIfNeeded(schemaMap.output),
+        gqlDocs,
+        options,
+        schemaMap,
+        fragmentsCommon,
+        gqlSchema,
+      );
       if (onBuild != null) {
         onBuild(libDefinition);
       }
       writeLibraryDefinitionToBuffer(buffer, libDefinition);
 
       await buildStep.writeAsString(outputFileId, buffer.toString());
+
+      if (!schemaMap.output.endsWith('.graphql.dart')) {
+        final forwarderOutputFileId =
+            AssetId(buildStep.inputId.package, schemaMap.output);
+        await buildStep.writeAsString(
+            forwarderOutputFileId, writeLibraryForwarder(libDefinition));
+      }
     }
   }
 }

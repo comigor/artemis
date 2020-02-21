@@ -371,3 +371,9 @@ void writeLibraryDefinitionToBuffer(
   buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND\n');
   buffer.write(specToString(generateLibrarySpec(definition)));
 }
+
+/// Generate an empty file just exporting the library. This is used to avoid
+/// a breaking change on file generation.
+String writeLibraryForwarder(LibraryDefinition definition) =>
+    '''// GENERATED CODE - DO NOT MODIFY BY HAND
+export '${definition.basename}.dart';''';
