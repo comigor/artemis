@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 5.0.1
+- Fix generation of recursive input objects introduced by 5.0.0.
+
 ## 5.0.0
 **MAJOR BREAKING CHANGE**
 In this version we moved from `json` to `graphql` (SDL) schema parsing.
