@@ -11,12 +11,7 @@ void main() {
         query: r'query some_query { s, i }',
         schema: r'''
             schema {
-              query: Query
-            }
-            
-            type Query {
-              some_query: SomeObject
-              another_query: SomeObject
+              query: SomeObject
             }
             
             type SomeObject {

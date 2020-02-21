@@ -14,10 +14,6 @@ void main() {
             scalar MyUuid
             
             schema {
-              query: Query
-            }
-            
-            type Query {
               query: SomeObject
             }
             
@@ -47,10 +43,6 @@ void main() {
           scalar MyUuid
 
           schema {
-            query: Query
-          }
-
-          type Query {
             query: SomeObject
           }
 
@@ -80,10 +72,6 @@ void main() {
           scalar MyUuid
 
           schema {
-            query: Query
-          }
-
-          type Query {
             query: SomeObject
           }
 

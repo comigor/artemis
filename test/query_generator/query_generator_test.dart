@@ -60,11 +60,7 @@ void main() {
         {
           'a|api.schema.graphql': r'''
           schema {
-            query: Query
-          }
-          
-          type Query {
-            some_query: SomeObject
+            query: SomeObject
           }
           
           type SomeObject {
@@ -116,9 +112,11 @@ class SomeQuery$SomeObject with EquatableMixin {
 
       var query = r'''
         query some_query($intsNonNullable: [Int]!, $stringNullable: String) {
-          s,
-          i,
-          list(intsNonNullable: $intsNonNullable)
+          someQuery(intsNonNullable: $intsNonNullable, stringNullable: $stringNullable) {
+            s
+            i
+            list(intsNonNullable: $intsNonNullable)
+          }
         }
       ''';
 
@@ -126,33 +124,58 @@ class SomeQuery$SomeObject with EquatableMixin {
         final libraryDefinition =
             LibraryDefinition(basename: r'some_query', queries: [
           QueryDefinition(
-              document: parseString(query),
               queryName: r'some_query',
-              queryType: r'SomeQuery$SomeObject',
+              queryType: r'SomeQuery$Query',
               classes: [
                 ClassDefinition(
-                    name: r'SomeQuery$SomeObject',
+                    name: r'SomeQuery$Query$SomeObject',
                     properties: [
                       ClassProperty(
-                          type: r'String', name: r's', isOverride: false),
+                          type: r'String',
+                          name: r's',
+                          isOverride: false,
+                          isNonNull: false,
+                          isResolveType: false),
                       ClassProperty(
-                          type: r'int', name: r'i', isOverride: false),
+                          type: r'int',
+                          name: r'i',
+                          isOverride: false,
+                          isNonNull: false,
+                          isResolveType: false),
                       ClassProperty(
                           type: r'List<int>',
                           name: r'list',
                           isOverride: false,
-                          isNonNull: true)
+                          isNonNull: true,
+                          isResolveType: false)
                     ],
-                    typeNameField: r'__typename')
+                    factoryPossibilities: {},
+                    typeNameField: r'__typename',
+                    isInput: false),
+                ClassDefinition(
+                    name: r'SomeQuery$Query',
+                    properties: [
+                      ClassProperty(
+                          type: r'SomeQuery$Query$SomeObject',
+                          name: r'someQuery',
+                          isOverride: false,
+                          isNonNull: false,
+                          isResolveType: false)
+                    ],
+                    factoryPossibilities: {},
+                    typeNameField: r'__typename',
+                    isInput: false)
               ],
               inputs: [
                 QueryInput(
                     type: r'List<int>',
                     name: r'intsNonNullable',
                     isNonNull: true),
-                QueryInput(type: r'String', name: r'stringNullable')
+                QueryInput(
+                    type: r'String', name: r'stringNullable', isNonNull: false)
               ],
-              generateHelpers: true)
+              generateHelpers: true,
+              suffix: r'Query')
         ]);
         expect(definition, libraryDefinition);
       }, count: 1);
@@ -166,7 +189,7 @@ class SomeQuery$SomeObject with EquatableMixin {
             }
   
             type Query {
-              some_query(intsNonNullable: [Int]!, stringNullable: String): SomeObject
+              someQuery(intsNonNullable: [Int]!, stringNullable: String): SomeObject
             }
   
             type SomeObject {
@@ -188,11 +211,11 @@ import 'package:gql/ast.dart';
 part 'some_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery$SomeObject with EquatableMixin {
-  SomeQuery$SomeObject();
+class SomeQuery$Query$SomeObject with EquatableMixin {
+  SomeQuery$Query$SomeObject();
 
-  factory SomeQuery$SomeObject.fromJson(Map<String, dynamic> json) =>
-      _$SomeQuery$SomeObjectFromJson(json);
+  factory SomeQuery$Query$SomeObject.fromJson(Map<String, dynamic> json) =>
+      _$SomeQuery$Query$SomeObjectFromJson(json);
 
   String s;
 
@@ -202,7 +225,21 @@ class SomeQuery$SomeObject with EquatableMixin {
 
   @override
   List<Object> get props => [s, i, list];
-  Map<String, dynamic> toJson() => _$SomeQuery$SomeObjectToJson(this);
+  Map<String, dynamic> toJson() => _$SomeQuery$Query$SomeObjectToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class SomeQuery$Query with EquatableMixin {
+  SomeQuery$Query();
+
+  factory SomeQuery$Query.fromJson(Map<String, dynamic> json) =>
+      _$SomeQuery$QueryFromJson(json);
+
+  SomeQuery$Query$SomeObject someQuery;
+
+  @override
+  List<Object> get props => [someQuery];
+  Map<String, dynamic> toJson() => _$SomeQuery$QueryToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -221,8 +258,7 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$SomeQueryArgumentsToJson(this);
 }
 
-class SomeQueryQuery
-    extends GraphQLQuery<SomeQuery$SomeObject, SomeQueryArguments> {
+class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
   SomeQueryQuery({this.variables});
 
   @override
@@ -249,28 +285,44 @@ class SomeQueryQuery
         directives: [],
         selectionSet: SelectionSetNode(selections: [
           FieldNode(
-              name: NameNode(value: 's'),
-              alias: null,
-              arguments: [],
-              directives: [],
-              selectionSet: null),
-          FieldNode(
-              name: NameNode(value: 'i'),
-              alias: null,
-              arguments: [],
-              directives: [],
-              selectionSet: null),
-          FieldNode(
-              name: NameNode(value: 'list'),
+              name: NameNode(value: 'someQuery'),
               alias: null,
               arguments: [
                 ArgumentNode(
                     name: NameNode(value: 'intsNonNullable'),
                     value:
-                        VariableNode(name: NameNode(value: 'intsNonNullable')))
+                        VariableNode(name: NameNode(value: 'intsNonNullable'))),
+                ArgumentNode(
+                    name: NameNode(value: 'stringNullable'),
+                    value:
+                        VariableNode(name: NameNode(value: 'stringNullable')))
               ],
               directives: [],
-              selectionSet: null)
+              selectionSet: SelectionSetNode(selections: [
+                FieldNode(
+                    name: NameNode(value: 's'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null),
+                FieldNode(
+                    name: NameNode(value: 'i'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null),
+                FieldNode(
+                    name: NameNode(value: 'list'),
+                    alias: null,
+                    arguments: [
+                      ArgumentNode(
+                          name: NameNode(value: 'intsNonNullable'),
+                          value: VariableNode(
+                              name: NameNode(value: 'intsNonNullable')))
+                    ],
+                    directives: [],
+                    selectionSet: null)
+              ]))
         ]))
   ]);
 
@@ -283,8 +335,8 @@ class SomeQueryQuery
   @override
   List<Object> get props => [document, operationName, variables];
   @override
-  SomeQuery$SomeObject parse(Map<String, dynamic> json) =>
-      SomeQuery$SomeObject.fromJson(json);
+  SomeQuery$Query parse(Map<String, dynamic> json) =>
+      SomeQuery$Query.fromJson(json);
 }
 ''',
         },
@@ -364,13 +416,9 @@ class SomeQueryQuery
         {
           'a|api.schema.grqphql': r'''
             schema {
-              query: Query
+              query: Result
             }
   
-            type Query {
-              some_query: Result
-            }
-            
             type Result {
               s: String
               o: SomeObject
@@ -489,13 +537,9 @@ class SomeQuery$Result with EquatableMixin {
         {
           'a|api.schema.graphql': r'''
             schema {
-              query: Query
+              query: Result
             }
   
-            type Query {
-              some_query: Result
-            }
-            
             type Result {
               s: String
               st: String
@@ -601,11 +645,7 @@ class SomeQuery$Result with EquatableMixin {
             scalar BigDecimal
             
             schema {
-              query: Query
-            }
-
-            type Query {
-              some_query: SomeObject
+              query: SomeObject
             }
 
             type SomeObject {
@@ -683,11 +723,7 @@ class SomeQuery$SomeObject with EquatableMixin {
         {
           'a|api.schema.graphql': r'''
             schema {
-              query: Query
-            }
-
-            type Query {
-              PascalCasingQuery: PascalCasingQuery
+              query: PascalCasingQuery
             }
 
             type PascalCasingQuery {

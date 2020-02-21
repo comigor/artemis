@@ -34,13 +34,9 @@ final String query = r'''
 
 final String graphQLSchema = '''
   schema {
-    query: Query
+    query: SomeObject
   }
 
-  type Query {
-    some_query: SomeObject
-  }
-  
   type SomeObject {
     o: SomeUnion
   }

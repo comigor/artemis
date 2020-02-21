@@ -18,11 +18,7 @@ void main() {
             scalar ID
             
             schema {
-              query: Query
-            }
-            
-            type Query {
-              some_query: SomeObject
+              query: SomeObject
             }
             
             type SomeObject {
@@ -44,11 +40,7 @@ void main() {
         () async => testGenerator(
           schema: r'''
             schema {
-              query: Query
-            }
-            
-            type Query {
-              some_query: SomeObject
+              query: SomeObject
             }
             
             type SomeObject {

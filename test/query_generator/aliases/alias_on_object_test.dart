@@ -12,11 +12,7 @@ void main() {
         query: query,
         schema: r'''
           schema {
-            query: Query
-          }
-
-          type Query {
-            some_query: QueryResponse
+            query: QueryResponse
           }
 
           type QueryResponse {

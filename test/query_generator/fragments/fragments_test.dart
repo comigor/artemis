@@ -19,11 +19,7 @@ void main() {
         ''',
         schema: r'''
          schema {
-            query: Query
-          }
-
-          type Query {
-            some_query: SomeObject
+            query: SomeObject
           }
 
           type SomeObject {
