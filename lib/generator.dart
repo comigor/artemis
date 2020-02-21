@@ -113,12 +113,10 @@ QueryDefinition generateQuery(
   final className = ReCase(queryName).pascalCase;
 
   final schemaVisitor = SchemaDefinitionVisitor();
-  final fieldVisitor = FieldDefinitionVisitor();
   final objectVisitor = ObjectTypeDefinitionVisitor();
 
   schema.accept(schemaVisitor);
   schema.accept(objectVisitor);
-  schema.accept(fieldVisitor);
 
   final rootTypeName = schemaVisitor.schemaDefinitionNode.operationTypes
       .firstWhere((e) => e.operation == operation.type, orElse: () => null)

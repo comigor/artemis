@@ -1,30 +1,5 @@
 import 'package:gql/ast.dart';
 
-/// Visits all field definition nodes recursively
-class FieldDefinitionVisitor extends RecursiveVisitor {
-  /// Stores all field definition nodes
-  Iterable<FieldDefinitionNode> types = [];
-
-  @override
-  void visitFieldDefinitionNode(
-    FieldDefinitionNode node,
-  ) {
-    types = types.followedBy([node]);
-    super.visitFieldDefinitionNode(node);
-  }
-
-  /// Gets object field definition node by operation name
-  FieldDefinitionNode getByName(String name) {
-    final type = types.where((type) => type.name.value == name);
-
-    if (type.isNotEmpty) {
-      return type.first;
-    }
-
-    return null;
-  }
-}
-
 /// Visits all object definition nodes recursively
 class ObjectTypeDefinitionVisitor extends RecursiveVisitor {
   /// Stores all object definition nodes
