@@ -367,7 +367,7 @@ class AClass with EquatableMixin {
 
     test('It should generated an empty file by default.', () {
       final buffer = StringBuffer();
-      final definition = LibraryDefinition(basename: 'test_query');
+      final definition = LibraryDefinition(basename: r'test_query.graphql');
 
       writeLibraryDefinitionToBuffer(buffer, definition);
 
@@ -376,14 +376,14 @@ class AClass with EquatableMixin {
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
-part 'test_query.g.dart';
+part 'test_query.graphql.g.dart';
 ''');
     });
 
     test('When there are custom imports, they are included.', () {
       final buffer = StringBuffer();
       final definition = LibraryDefinition(
-          basename: 'test_query', customImports: ['some_file.dart']);
+          basename: r'test_query.graphql', customImports: ['some_file.dart']);
 
       writeLibraryDefinitionToBuffer(buffer, definition);
 
@@ -393,14 +393,14 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
 import 'some_file.dart';
-part 'test_query.g.dart';
+part 'test_query.graphql.g.dart';
 ''');
     });
 
     test('When generateHelpers is true, an execute fn is generated.', () {
       final buffer = StringBuffer();
       final definition = LibraryDefinition(
-        basename: 'test_query',
+        basename: r'test_query.graphql',
         queries: [
           QueryDefinition(
             queryName: 'test_query',
@@ -419,7 +419,7 @@ import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
-part 'test_query.g.dart';
+part 'test_query.graphql.g.dart';
 
 class TestQueryQuery extends GraphQLQuery<TestQuery, JsonSerializable> {
   TestQueryQuery();
@@ -447,7 +447,8 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, JsonSerializable> {
 
     test('The generated execute fn could have input.', () {
       final buffer = StringBuffer();
-      final definition = LibraryDefinition(basename: 'test_query', queries: [
+      final definition =
+          LibraryDefinition(basename: r'test_query.graphql', queries: [
         QueryDefinition(
           queryName: 'test_query',
           queryType: 'TestQuery',
@@ -465,7 +466,7 @@ import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
-part 'test_query.g.dart';
+part 'test_query.graphql.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class TestQueryArguments extends JsonSerializable with EquatableMixin {
@@ -577,7 +578,8 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
 
     test('It will accept and write class/enum definitions.', () {
       final buffer = StringBuffer();
-      final definition = LibraryDefinition(basename: 'test_query', queries: [
+      final definition =
+          LibraryDefinition(basename: r'test_query.graphql', queries: [
         QueryDefinition(
           queryName: 'test_query',
           queryType: 'TestQuery',
@@ -596,7 +598,7 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
-part 'test_query.g.dart';
+part 'test_query.graphql.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class AClass with EquatableMixin {
