@@ -224,6 +224,7 @@ Make sure your query is correct and your schema is updated.''');
       dartType: true, replaceLeafWith: nextClassName, schema: options.schema);
 
   if ((nextType is ObjectTypeDefinitionNode ||
+          nextType is InputObjectTypeDefinitionNode ||
           nextType is UnionTypeDefinitionNode ||
           nextType is InterfaceTypeDefinitionNode) &&
       onNewClassFound != null) {
