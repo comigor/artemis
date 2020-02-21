@@ -218,8 +218,12 @@ Make sure your query is correct and your schema is updated.''');
   final nextType = gql.getTypeByName(options.schema, fieldType as Node,
       context: 'field node');
 
-  final nextClassName =
+  var nextClassName =
       context.joinedName(aliasAsClassName ?? nextType?.name?.value);
+
+  if (nextType is EnumTypeDefinitionNode) {
+    nextClassName = nextType.name.value;
+  }
 
   final dartTypeStr = gql.buildTypeString(
       fieldType as TypeNode, options.options,
@@ -277,13 +281,19 @@ void _generateEnumForType(Context context, InjectedOptions options) {
   final enumType = context.currentType as EnumTypeDefinitionNode;
 
   _log('<- Generated enum ${context.joinedName()}', 0);
-  context.generatedClasses.add(
-    EnumDefinition(
-      name: context.joinedName(),
-      values: enumType.values.map((eV) => eV.name.value).toList()
-        ..add(ARTEMIS_UNKNOWN),
-    ),
+
+  var enumDefinition = EnumDefinition(
+    name: enumType.name.value,
+    values: enumType.values.map((eV) => eV.name.value).toList()
+      ..add(ARTEMIS_UNKNOWN),
   );
+
+  var duplicates = context.generatedClasses
+      .where((element) => element.name == enumDefinition.name);
+
+  if (duplicates.isEmpty) {
+    context.generatedClasses.add(enumDefinition);
+  }
 }
 
 class _GeneratorVisitor extends RecursiveVisitor {
@@ -387,8 +397,16 @@ class _GeneratorVisitor extends RecursiveVisitor {
         ? null
         : (node.type as NamedTypeNode).name.value);
 
-    final dartTypeStr = gql.buildTypeString(node.type, options.options,
+    final typeVisitor = TypeDefinitionNodeVisitor();
+    options.schema.accept(typeVisitor);
+    final type = typeVisitor.getByName((node.type as NamedTypeNode).name.value);
+
+    var dartTypeStr = gql.buildTypeString(node.type, options.options,
         dartType: true, replaceLeafWith: nextClassName, schema: options.schema);
+
+    if (type is EnumTypeDefinitionNode) {
+      dartTypeStr = type.name.value;
+    }
 
     context.inputsClasses.add(QueryInput(
       type: dartTypeStr,

@@ -61,6 +61,9 @@ class Context {
   String joinedName([String name]) =>
       '${path.join(r'$')}\$${name ?? alias ?? currentType.name.value}';
 
+  /// Returns the full class name with joined path.
+  String name([String name]) => name ?? alias ?? currentType.name.value;
+
   /// Returns a copy of this context, on the same path, but with a new type.
   Context nextTypeWithSamePath({
     @required TypeDefinitionNode nextType,
