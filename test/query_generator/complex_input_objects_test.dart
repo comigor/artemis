@@ -79,7 +79,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         EnumDefinition(
-            name: r'SomeQuery$ComplexType$MyEnum',
+            name: r'MyEnum',
             values: [r'value1', r'value2', r'ARTEMIS_UNKNOWN']),
         ClassDefinition(
             name: r'SomeQuery$ComplexType',
@@ -91,11 +91,11 @@ final LibraryDefinition libraryDefinition =
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: r'SomeQuery$ComplexType$MyEnum',
+                  type: r'MyEnum',
                   name: r'e',
                   isOverride: false,
                   annotation:
-                      r'JsonKey(unknownEnumValue: SomeQuery$ComplexType$MyEnum.ARTEMIS_UNKNOWN)',
+                      r'JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)',
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
@@ -163,8 +163,8 @@ class SomeQuery$ComplexType with EquatableMixin {
 
   String s;
 
-  @JsonKey(unknownEnumValue: SomeQuery$ComplexType$MyEnum.ARTEMIS_UNKNOWN)
-  SomeQuery$ComplexType$MyEnum e;
+  @JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)
+  MyEnum e;
 
   List<String> ls;
 
@@ -173,7 +173,7 @@ class SomeQuery$ComplexType with EquatableMixin {
   Map<String, dynamic> toJson() => _$SomeQuery$ComplexTypeToJson(this);
 }
 
-enum SomeQuery$ComplexType$MyEnum {
+enum MyEnum {
   value1,
   value2,
   ARTEMIS_UNKNOWN,

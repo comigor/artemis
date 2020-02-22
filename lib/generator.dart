@@ -278,14 +278,19 @@ Make sure your query is correct and your schema is updated.''');
 void _generateEnumForType(Context context, InjectedOptions options) {
   final enumType = context.currentType as EnumTypeDefinitionNode;
 
-  _log('<- Generated enum ${context.joinedName()}', 0);
-  context.generatedClasses.add(
-    EnumDefinition(
-      name: context.joinedName(),
-      values: enumType.values.map((eV) => eV.name.value).toList()
-        ..add(ARTEMIS_UNKNOWN),
-    ),
+  final enumDefinition = EnumDefinition(
+    name: enumType.name.value,
+    values: enumType.values.map((eV) => eV.name.value).toList()
+      ..add(ARTEMIS_UNKNOWN),
   );
+
+  _log('<- Generated enum ${enumType.name.value}', 0);
+  var duplicates = context.generatedClasses
+      .where((element) => element.name == enumDefinition.name);
+
+  if (duplicates.isEmpty) {
+    context.generatedClasses.add(enumDefinition);
+  }
 }
 
 class _GeneratorVisitor extends RecursiveVisitor {
