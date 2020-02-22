@@ -46,6 +46,10 @@ String buildTypeString(
         return dartTypeValue;
       }
 
+      if (type is EnumTypeDefinitionNode) {
+        return type.name.value;
+      }
+
       if (replaceLeafWith != null) {
         return '$prefix$replaceLeafWith';
       } else {
