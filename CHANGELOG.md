@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 5.0.2
+- Use default names for query/mutation root when SDL does not declare `schema`.
+
 ## 5.0.1
 - Fix generation of recursive input objects introduced by 5.0.0.
 
