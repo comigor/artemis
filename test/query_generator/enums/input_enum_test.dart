@@ -20,6 +20,8 @@ void main() {
           
           type QueryResponse {
             s: String
+            my: MyEnum
+            other: OtherEnum
           }
           
           input Input {
@@ -48,6 +50,8 @@ const query = r'''
   query custom($input: Input!, $o: OtherEnum!) {
     q(input: $input, o: $o) {
       s
+      my
+      other
     }
   }
 ''';
@@ -58,6 +62,10 @@ final LibraryDefinition libraryDefinition =
       queryName: r'custom',
       queryType: r'Custom$QueryRoot',
       classes: [
+        EnumDefinition(
+            name: r'MyEnum', values: [r'A', r'B', r'ARTEMIS_UNKNOWN']),
+        EnumDefinition(
+            name: r'OtherEnum', values: [r'O1', r'O2', r'ARTEMIS_UNKNOWN']),
         ClassDefinition(
             name: r'Custom$QueryRoot$QueryResponse',
             properties: [
@@ -65,6 +73,22 @@ final LibraryDefinition libraryDefinition =
                   type: r'String',
                   name: r's',
                   isOverride: false,
+                  isNonNull: false,
+                  isResolveType: false),
+              ClassProperty(
+                  type: r'MyEnum',
+                  name: r'my',
+                  isOverride: false,
+                  annotation:
+                      r'JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)',
+                  isNonNull: false,
+                  isResolveType: false),
+              ClassProperty(
+                  type: r'OtherEnum',
+                  name: r'other',
+                  isOverride: false,
+                  annotation:
+                      r'JsonKey(unknownEnumValue: OtherEnum.ARTEMIS_UNKNOWN)',
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -84,31 +108,25 @@ final LibraryDefinition libraryDefinition =
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
-        EnumDefinition(
-            name: r'Custom$Input$MyEnum',
-            values: [r'A', r'B', r'ARTEMIS_UNKNOWN']),
         ClassDefinition(
             name: r'Custom$Input',
             properties: [
               ClassProperty(
-                  type: r'Custom$Input$MyEnum',
+                  type: r'MyEnum',
                   name: r'e',
                   isOverride: false,
                   annotation:
-                      r'JsonKey(unknownEnumValue: Custom$Input$MyEnum.ARTEMIS_UNKNOWN)',
+                      r'JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)',
                   isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
             typeNameField: r'__typename',
-            isInput: true),
-        EnumDefinition(
-            name: r'Custom$OtherEnum',
-            values: [r'O1', r'O2', r'ARTEMIS_UNKNOWN'])
+            isInput: true)
       ],
       inputs: [
         QueryInput(type: r'Custom$Input', name: r'input', isNonNull: true),
-        QueryInput(type: r'Custom$OtherEnum', name: r'o', isNonNull: true)
+        QueryInput(type: r'OtherEnum', name: r'o', isNonNull: true)
       ],
       generateHelpers: true,
       suffix: r'Query')
@@ -132,8 +150,14 @@ class Custom$QueryRoot$QueryResponse with EquatableMixin {
 
   String s;
 
+  @JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)
+  MyEnum my;
+
+  @JsonKey(unknownEnumValue: OtherEnum.ARTEMIS_UNKNOWN)
+  OtherEnum other;
+
   @override
-  List<Object> get props => [s];
+  List<Object> get props => [s, my, other];
   Map<String, dynamic> toJson() => _$Custom$QueryRoot$QueryResponseToJson(this);
 }
 
@@ -158,20 +182,20 @@ class Custom$Input with EquatableMixin {
   factory Custom$Input.fromJson(Map<String, dynamic> json) =>
       _$Custom$InputFromJson(json);
 
-  @JsonKey(unknownEnumValue: Custom$Input$MyEnum.ARTEMIS_UNKNOWN)
-  Custom$Input$MyEnum e;
+  @JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)
+  MyEnum e;
 
   @override
   List<Object> get props => [e];
   Map<String, dynamic> toJson() => _$Custom$InputToJson(this);
 }
 
-enum Custom$Input$MyEnum {
+enum MyEnum {
   A,
   B,
   ARTEMIS_UNKNOWN,
 }
-enum Custom$OtherEnum {
+enum OtherEnum {
   O1,
   O2,
   ARTEMIS_UNKNOWN,
@@ -186,7 +210,7 @@ class CustomArguments extends JsonSerializable with EquatableMixin {
 
   final Custom$Input input;
 
-  final Custom$OtherEnum o;
+  final OtherEnum o;
 
   @override
   List<Object> get props => [input, o];
@@ -232,6 +256,18 @@ class CustomQuery extends GraphQLQuery<Custom$QueryRoot, CustomArguments> {
               selectionSet: SelectionSetNode(selections: [
                 FieldNode(
                     name: NameNode(value: 's'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null),
+                FieldNode(
+                    name: NameNode(value: 'my'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null),
+                FieldNode(
+                    name: NameNode(value: 'other'),
                     alias: null,
                     arguments: [],
                     directives: [],

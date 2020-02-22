@@ -49,22 +49,20 @@ const query = r'''
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query', queries: [
   QueryDefinition(
-      document: parseString(query),
       queryName: r'some_query',
       queryType: r'SomeQuery$Response',
       classes: [
         EnumDefinition(
-            name: r'SomeQuery$Response$SomeObject$ThisIsAnEnum',
-            values: [r'A', r'B', r'ARTEMIS_UNKNOWN']),
+            name: r'MyEnum', values: [r'A', r'B', r'ARTEMIS_UNKNOWN']),
         ClassDefinition(
             name: r'SomeQuery$Response$SomeObject',
             properties: [
               ClassProperty(
-                  type: r'SomeQuery$Response$SomeObject$ThisIsAnEnum',
+                  type: r'MyEnum',
                   name: r'thisIsAnEnum',
                   isOverride: false,
                   annotation:
-                      r'JsonKey(unknownEnumValue: SomeQuery$Response$SomeObject$ThisIsAnEnum.ARTEMIS_UNKNOWN)',
+                      r'JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)',
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -109,10 +107,8 @@ class SomeQuery$Response$SomeObject with EquatableMixin {
   factory SomeQuery$Response$SomeObject.fromJson(Map<String, dynamic> json) =>
       _$SomeQuery$Response$SomeObjectFromJson(json);
 
-  @JsonKey(
-      unknownEnumValue:
-          SomeQuery$Response$SomeObject$ThisIsAnEnum.ARTEMIS_UNKNOWN)
-  SomeQuery$Response$SomeObject$ThisIsAnEnum thisIsAnEnum;
+  @JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)
+  MyEnum thisIsAnEnum;
 
   @override
   List<Object> get props => [thisIsAnEnum];
@@ -135,7 +131,7 @@ class SomeQuery$Response with EquatableMixin {
   Map<String, dynamic> toJson() => _$SomeQuery$ResponseToJson(this);
 }
 
-enum SomeQuery$Response$SomeObject$ThisIsAnEnum {
+enum MyEnum {
   A,
   B,
   ARTEMIS_UNKNOWN,
