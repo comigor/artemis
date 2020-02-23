@@ -365,9 +365,9 @@ class _GeneratorVisitor extends RecursiveVisitor {
       }));
     }
 
-    _log('<- Generated input class ${context.joinedName()}.', 0);
+    _log('<- Generated input class ${context.currentType.name.value}.', 0);
     context.generatedClasses.add(ClassDefinition(
-      name: context.joinedName(),
+      name: context.currentType.name.value,
       properties: properties,
       isInput: true,
     ));

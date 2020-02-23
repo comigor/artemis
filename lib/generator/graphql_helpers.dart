@@ -46,7 +46,8 @@ String buildTypeString(
         return dartTypeValue;
       }
 
-      if (type is EnumTypeDefinitionNode) {
+      if (type is EnumTypeDefinitionNode ||
+          type is InputObjectTypeDefinitionNode) {
         return type.name.value;
       }
 
