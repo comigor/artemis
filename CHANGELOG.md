@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 5.0.3
+- Update examples to match latest changes.
+
 ## 5.0.2
 - Use default names for query/mutation root when SDL does not declare `schema`.
 
@@ -240,6 +243,6 @@ This is totally a breaking change but as this library is still on alpha, I shoul
 [readme]: ./README.md
 [pr-65]: https://github.com/comigor/artemis/pull/65
 [pr-68]: https://github.com/comigor/artemis/pull/68
-[apollo-3-ways-schema]: https://blog.apollographql.com/three-ways-to-represent-your-graphql-schema-a41f4175100d
+[apollo-3-ways-schema]: https://blog.apollographql.com/three-ways-to-represent-your-graphql-schema-a41f4175100d#:~:text=Introspection%20query%20result%20to%20SDL
 [introspection-to-sdl-snippet]: https://gist.github.com/stubailo/041999ba5b8b15cede60b93ff9a38f53
-[introspection-to-sdl-online]: https://codesandbox.io/s/pnmoxolx4
+[introspection-to-sdl-online]: https://codesandbox.io/s/graphql-introspection-sdl-svlx2

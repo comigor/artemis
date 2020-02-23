@@ -4,10 +4,9 @@ targets:
       artemis:
         options:
           schema_mapping:
-            - schema: lib/graphbrainz.schema.json
+            - schema: lib/graphbrainz.schema.graphql
               queries_glob: lib/queries/ed_sheeran.query.graphql
               output: lib/queries/ed_sheeran.query.dart
-              resolve_type_field: __typename
           custom_parser_import: 'package:graphbrainz_example/coercers.dart'
           scalar_mapping:
           - graphql_type: Date
