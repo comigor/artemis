@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 5.0.3
+- Update examples to match latest changes.
+
 ## 5.0.2
 - Use default names for query/mutation root when SDL does not declare `schema`.
 
