@@ -2,7 +2,7 @@ targets:
   $default:
     sources:
       - lib/**
-      - github.schema.json
+      - github.schema.graphql
     builders:
       artemis:
         options:
