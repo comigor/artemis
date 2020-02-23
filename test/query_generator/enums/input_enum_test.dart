@@ -109,7 +109,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: r'Custom$Input',
+            name: r'Input',
             properties: [
               ClassProperty(
                   type: r'MyEnum',
@@ -125,7 +125,7 @@ final LibraryDefinition libraryDefinition =
             isInput: true)
       ],
       inputs: [
-        QueryInput(type: r'Custom$Input', name: r'input', isNonNull: true),
+        QueryInput(type: r'Input', name: r'input', isNonNull: true),
         QueryInput(type: r'OtherEnum', name: r'o', isNonNull: true)
       ],
       generateHelpers: true,
@@ -176,18 +176,17 @@ class Custom$QueryRoot with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class Custom$Input with EquatableMixin {
-  Custom$Input({@required this.e});
+class Input with EquatableMixin {
+  Input({@required this.e});
 
-  factory Custom$Input.fromJson(Map<String, dynamic> json) =>
-      _$Custom$InputFromJson(json);
+  factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
 
   @JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)
   MyEnum e;
 
   @override
   List<Object> get props => [e];
-  Map<String, dynamic> toJson() => _$Custom$InputToJson(this);
+  Map<String, dynamic> toJson() => _$InputToJson(this);
 }
 
 enum MyEnum {
@@ -208,7 +207,7 @@ class CustomArguments extends JsonSerializable with EquatableMixin {
   factory CustomArguments.fromJson(Map<String, dynamic> json) =>
       _$CustomArgumentsFromJson(json);
 
-  final Custom$Input input;
+  final Input input;
 
   final OtherEnum o;
 
