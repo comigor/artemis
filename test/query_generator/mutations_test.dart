@@ -55,7 +55,8 @@ final LibraryDefinition libraryDefinition =
                   type: r'String',
                   name: r's',
                   isOverride: false,
-                  isNonNull: false)
+                  isNonNull: false,
+                  isResolveType: false)
             ],
             factoryPossibilities: {},
             typeNameField: r'__typename',
@@ -67,27 +68,27 @@ final LibraryDefinition libraryDefinition =
                   type: r'Custom$MutationRoot$MutationResponse',
                   name: r'mut',
                   isOverride: false,
-                  isNonNull: false)
+                  isNonNull: false,
+                  isResolveType: false)
             ],
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: r'Custom$Input',
+            name: r'Input',
             properties: [
               ClassProperty(
                   type: r'String',
                   name: r's',
                   isOverride: false,
-                  isNonNull: true)
+                  isNonNull: true,
+                  isResolveType: false)
             ],
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: true)
       ],
-      inputs: [
-        QueryInput(type: r'Custom$Input', name: r'input', isNonNull: true)
-      ],
+      inputs: [QueryInput(type: r'Input', name: r'input', isNonNull: true)],
       generateHelpers: true,
       suffix: r'Mutation')
 ]);
@@ -132,17 +133,16 @@ class Custom$MutationRoot with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class Custom$Input with EquatableMixin {
-  Custom$Input({@required this.s});
+class Input with EquatableMixin {
+  Input({@required this.s});
 
-  factory Custom$Input.fromJson(Map<String, dynamic> json) =>
-      _$Custom$InputFromJson(json);
+  factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
 
   String s;
 
   @override
   List<Object> get props => [s];
-  Map<String, dynamic> toJson() => _$Custom$InputToJson(this);
+  Map<String, dynamic> toJson() => _$InputToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -152,7 +152,7 @@ class CustomArguments extends JsonSerializable with EquatableMixin {
   factory CustomArguments.fromJson(Map<String, dynamic> json) =>
       _$CustomArgumentsFromJson(json);
 
-  final Custom$Input input;
+  final Input input;
 
   @override
   List<Object> get props => [input];

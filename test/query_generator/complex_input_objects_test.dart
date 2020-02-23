@@ -9,7 +9,7 @@ void main() {
       'On complex input objects',
       () async => testGenerator(
         query: r'''
-          query some_query($filter: ComplexType!) { 
+          query some_query($filter: ComplexInput!) {
             o(filter: $filter) { 
               s 
             } 
@@ -20,10 +20,10 @@ void main() {
           }
           
           type QueryRoot {
-            o(filter: ComplexType!): SomeObject
+            o(filter: ComplexInput!): SomeObject
           }
           
-          input ComplexType {
+          input ComplexInput {
             s: String!
             e: MyEnum
             ls: [String]
@@ -82,7 +82,7 @@ final LibraryDefinition libraryDefinition =
             name: r'MyEnum',
             values: [r'value1', r'value2', r'ARTEMIS_UNKNOWN']),
         ClassDefinition(
-            name: r'SomeQuery$ComplexType',
+            name: r'ComplexInput',
             properties: [
               ClassProperty(
                   type: r'String',
@@ -110,8 +110,7 @@ final LibraryDefinition libraryDefinition =
             isInput: true)
       ],
       inputs: [
-        QueryInput(
-            type: r'SomeQuery$ComplexType', name: r'filter', isNonNull: true)
+        QueryInput(type: r'ComplexInput', name: r'filter', isNonNull: true)
       ],
       generateHelpers: true,
       suffix: r'Query')
@@ -155,11 +154,11 @@ class SomeQuery$QueryRoot with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery$ComplexType with EquatableMixin {
-  SomeQuery$ComplexType({@required this.s, this.e, this.ls});
+class ComplexInput with EquatableMixin {
+  ComplexInput({@required this.s, this.e, this.ls});
 
-  factory SomeQuery$ComplexType.fromJson(Map<String, dynamic> json) =>
-      _$SomeQuery$ComplexTypeFromJson(json);
+  factory ComplexInput.fromJson(Map<String, dynamic> json) =>
+      _$ComplexInputFromJson(json);
 
   String s;
 
@@ -170,7 +169,7 @@ class SomeQuery$ComplexType with EquatableMixin {
 
   @override
   List<Object> get props => [s, e, ls];
-  Map<String, dynamic> toJson() => _$SomeQuery$ComplexTypeToJson(this);
+  Map<String, dynamic> toJson() => _$ComplexInputToJson(this);
 }
 
 enum MyEnum {
@@ -186,7 +185,7 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
   factory SomeQueryArguments.fromJson(Map<String, dynamic> json) =>
       _$SomeQueryArgumentsFromJson(json);
 
-  final SomeQuery$ComplexType filter;
+  final ComplexInput filter;
 
   @override
   List<Object> get props => [filter];
@@ -206,7 +205,7 @@ class SomeQueryQuery
           VariableDefinitionNode(
               variable: VariableNode(name: NameNode(value: 'filter')),
               type: NamedTypeNode(
-                  name: NameNode(value: 'ComplexType'), isNonNull: true),
+                  name: NameNode(value: 'ComplexInput'), isNonNull: true),
               defaultValue: DefaultValueNode(value: null),
               directives: [])
         ],

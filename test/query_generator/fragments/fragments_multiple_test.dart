@@ -184,7 +184,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: r'VoyagesData$PaginationInput',
+            name: r'PaginationInput',
             properties: [
               ClassProperty(
                   type: r'int',
@@ -204,10 +204,7 @@ final LibraryDefinition libraryDefinition =
             isInput: true)
       ],
       inputs: [
-        QueryInput(
-            type: r'VoyagesData$PaginationInput',
-            name: r'input',
-            isNonNull: true)
+        QueryInput(type: r'PaginationInput', name: r'input', isNonNull: true)
       ],
       generateHelpers: true,
       suffix: r'Query')
@@ -299,11 +296,11 @@ class VoyagesData$Query with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class VoyagesData$PaginationInput with EquatableMixin {
-  VoyagesData$PaginationInput({@required this.limit, @required this.offset});
+class PaginationInput with EquatableMixin {
+  PaginationInput({@required this.limit, @required this.offset});
 
-  factory VoyagesData$PaginationInput.fromJson(Map<String, dynamic> json) =>
-      _$VoyagesData$PaginationInputFromJson(json);
+  factory PaginationInput.fromJson(Map<String, dynamic> json) =>
+      _$PaginationInputFromJson(json);
 
   int limit;
 
@@ -311,7 +308,7 @@ class VoyagesData$PaginationInput with EquatableMixin {
 
   @override
   List<Object> get props => [limit, offset];
-  Map<String, dynamic> toJson() => _$VoyagesData$PaginationInputToJson(this);
+  Map<String, dynamic> toJson() => _$PaginationInputToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -321,7 +318,7 @@ class VoyagesDataArguments extends JsonSerializable with EquatableMixin {
   factory VoyagesDataArguments.fromJson(Map<String, dynamic> json) =>
       _$VoyagesDataArgumentsFromJson(json);
 
-  final VoyagesData$PaginationInput input;
+  final PaginationInput input;
 
   @override
   List<Object> get props => [input];
