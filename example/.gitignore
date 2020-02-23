@@ -1,2 +1,4 @@
-nubank
-*.ast.g.*
+*
+!github
+!graphqlbrainz
+!pokemon
