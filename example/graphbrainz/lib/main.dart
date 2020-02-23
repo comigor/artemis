@@ -10,6 +10,7 @@ void main() async {
   final query = EdSheeranQuery();
   final query2 = EdSheeranQuery();
   final response = await client.execute(query);
+  client.dispose();
 
   print('Equality works: ${query == query2}');
 

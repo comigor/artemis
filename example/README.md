@@ -12,4 +12,4 @@ A more complex example, for [graphbrainz](https://graphbrainz.herokuapp.com) (a 
 
 ## [**github**](./github)
 
-Even simpler example, for [GitHub GraphQL API](https://graphbrainz.herokuapp.com). I didn't commit the schema because it's too big (~3MB), so provide your own if you're running the example.
+Even simpler example, for [GitHub GraphQL API](https://graphbrainz.herokuapp.com). I didn't commit the schema because it's too big (~3MB), so provide your own if you're running the example: https://github.com/octokit/graphql-schema
