@@ -7,6 +7,6 @@ targets:
       artemis:
         options:
           schema_mapping:
-            - schema: github.schema.json
+            - schema: github.schema.graphql
               queries_glob: lib/graphql/search_repositories.graphql
               output: lib/graphql/search_repositories.dart
