@@ -16,11 +16,11 @@ dependencies:
   code_builder: ^3.2.0
   equatable: ^1.0.1
   gql_code_gen: ^0.1.5
-  gql_dedupe_link: ^1.0.8
-  gql_exec: ^0.2.0
-  gql_http_link: ^0.2.6
-  gql_link: ^0.2.2
-  gql: ^0.12.0
+  gql_dedupe_link: ^1.0.9
+  gql_exec: ^0.2.2
+  gql_http_link: ^0.2.7
+  gql_link: ^0.2.3
+  gql: ^0.12.2
   http: ^0.12.0+2
   json_annotation: ^3.0.0
   meta: ^1.1.7
