@@ -32,10 +32,10 @@ jobs:
         echo "GITHUB EVENT PATH: ${{ github.event_path }}"
         cat "${{ github.event_path }}" || true
 
-        if test "${{ github.event_name }}" == "pull_request"; then
+        if test "${{ github.event_name }}" = "pull_request"; then
           echo "On pull_request"
           echo "Merging ${{ github.head_ref }} into ${{ github.base_ref }}"
-        elif test "${{ github.event_name }}" == "push"; then
+        elif test "${{ github.event_name }}" = "push"; then
           echo "On push"
           echo "On ref ${{ github.ref }}"
         fi
