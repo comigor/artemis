@@ -59,7 +59,7 @@ Future testGenerator({
 Future testNaming({
   @required String query,
   @required String schema,
-  @required LibraryDefinition libraryDefinition,
+  @required List<String> expectedNames,
   Map<String, dynamic> builderOptionsMap = const {},
 }) async {
   assert((schema) != null);
@@ -77,8 +77,9 @@ Future testNaming({
   }));
 
   anotherBuilder.onBuild = expectAsync1((definition) {
-    if (IS_DEBUG) print(definition);
-    expect(definition, libraryDefinition);
+    final names = definition.queries.first.classes.map((e) => e.name).toSet();
+    if (IS_DEBUG) print(names);
+    expect(names, equals(expectedNames));
   }, count: 1);
 
   return await testBuilder(
