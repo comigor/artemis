@@ -111,10 +111,11 @@ class SomeQuery$SomeObject with EquatableMixin {
       }));
 
       var query = r'''
-        query some_query($intsNonNullable: [Int]!, $stringNullable: String) {
+        query some_query($intsNonNullable: [Int]!, $stringNullable: String, $widthDimm: DimmentionInput!, $heightDimm: DimmentionInput!) {
           someQuery(intsNonNullable: $intsNonNullable, stringNullable: $stringNullable) {
             s
-            i
+            width(dimm: $widthDimm)
+            height(dimm: $heightDimm)
             list(intsNonNullable: $intsNonNullable)
           }
         }
@@ -138,7 +139,13 @@ class SomeQuery$SomeObject with EquatableMixin {
                           isResolveType: false),
                       ClassProperty(
                           type: r'int',
-                          name: r'i',
+                          name: r'width',
+                          isOverride: false,
+                          isNonNull: false,
+                          isResolveType: false),
+                      ClassProperty(
+                          type: r'int',
+                          name: r'height',
                           isOverride: false,
                           isNonNull: false,
                           isResolveType: false),
@@ -164,7 +171,25 @@ class SomeQuery$SomeObject with EquatableMixin {
                     ],
                     factoryPossibilities: {},
                     typeNameField: r'__typename',
-                    isInput: false)
+                    isInput: false),
+                EnumDefinition(
+                    name: r'DimmentionEnum',
+                    values: [r'meters', r'feet', r'ARTEMIS_UNKNOWN']),
+                ClassDefinition(
+                    name: r'DimmentionInput',
+                    properties: [
+                      ClassProperty(
+                          type: r'DimmentionEnum',
+                          name: r'unit',
+                          isOverride: false,
+                          annotation:
+                              r'JsonKey(unknownEnumValue: DimmentionEnum.ARTEMIS_UNKNOWN)',
+                          isNonNull: false,
+                          isResolveType: false)
+                    ],
+                    factoryPossibilities: {},
+                    typeNameField: r'__typename',
+                    isInput: true)
               ],
               inputs: [
                 QueryInput(
@@ -172,7 +197,15 @@ class SomeQuery$SomeObject with EquatableMixin {
                     name: r'intsNonNullable',
                     isNonNull: true),
                 QueryInput(
-                    type: r'String', name: r'stringNullable', isNonNull: false)
+                    type: r'String', name: r'stringNullable', isNonNull: false),
+                QueryInput(
+                    type: r'DimmentionInput',
+                    name: r'widthDimm',
+                    isNonNull: true),
+                QueryInput(
+                    type: r'DimmentionInput',
+                    name: r'heightDimm',
+                    isNonNull: true)
               ],
               generateHelpers: true,
               suffix: r'Query')
@@ -194,8 +227,18 @@ class SomeQuery$SomeObject with EquatableMixin {
   
             type SomeObject {
               s: String
-              i: Int
+              width(dimm: DimmentionInput!): Int
+              height(dimm: DimmentionInput!): Int
               list(intsNonNullable: [Int]!): [Int]!
+            }
+            
+            input DimmentionInput {
+              unit: DimmentionEnum
+            }
+            
+            enum DimmentionEnum {
+              meters
+              feet
             }
           ''',
           'a|queries/some_query.graphql': query
@@ -219,12 +262,14 @@ class SomeQuery$Query$SomeObject with EquatableMixin {
 
   String s;
 
-  int i;
+  int width;
+
+  int height;
 
   List<int> list;
 
   @override
-  List<Object> get props => [s, i, list];
+  List<Object> get props => [s, width, height, list];
   Map<String, dynamic> toJson() => _$SomeQuery$Query$SomeObjectToJson(this);
 }
 
@@ -243,8 +288,33 @@ class SomeQuery$Query with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
+class DimmentionInput with EquatableMixin {
+  DimmentionInput({this.unit});
+
+  factory DimmentionInput.fromJson(Map<String, dynamic> json) =>
+      _$DimmentionInputFromJson(json);
+
+  @JsonKey(unknownEnumValue: DimmentionEnum.ARTEMIS_UNKNOWN)
+  DimmentionEnum unit;
+
+  @override
+  List<Object> get props => [unit];
+  Map<String, dynamic> toJson() => _$DimmentionInputToJson(this);
+}
+
+enum DimmentionEnum {
+  meters,
+  feet,
+  ARTEMIS_UNKNOWN,
+}
+
+@JsonSerializable(explicitToJson: true)
 class SomeQueryArguments extends JsonSerializable with EquatableMixin {
-  SomeQueryArguments({@required this.intsNonNullable, this.stringNullable});
+  SomeQueryArguments(
+      {@required this.intsNonNullable,
+      this.stringNullable,
+      @required this.widthDimm,
+      @required this.heightDimm});
 
   factory SomeQueryArguments.fromJson(Map<String, dynamic> json) =>
       _$SomeQueryArgumentsFromJson(json);
@@ -253,8 +323,13 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
 
   final String stringNullable;
 
+  final DimmentionInput widthDimm;
+
+  final DimmentionInput heightDimm;
+
   @override
-  List<Object> get props => [intsNonNullable, stringNullable];
+  List<Object> get props =>
+      [intsNonNullable, stringNullable, widthDimm, heightDimm];
   Map<String, dynamic> toJson() => _$SomeQueryArgumentsToJson(this);
 }
 
@@ -279,6 +354,18 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
               variable: VariableNode(name: NameNode(value: 'stringNullable')),
               type: NamedTypeNode(
                   name: NameNode(value: 'String'), isNonNull: false),
+              defaultValue: DefaultValueNode(value: null),
+              directives: []),
+          VariableDefinitionNode(
+              variable: VariableNode(name: NameNode(value: 'widthDimm')),
+              type: NamedTypeNode(
+                  name: NameNode(value: 'DimmentionInput'), isNonNull: true),
+              defaultValue: DefaultValueNode(value: null),
+              directives: []),
+          VariableDefinitionNode(
+              variable: VariableNode(name: NameNode(value: 'heightDimm')),
+              type: NamedTypeNode(
+                  name: NameNode(value: 'DimmentionInput'), isNonNull: true),
               defaultValue: DefaultValueNode(value: null),
               directives: [])
         ],
@@ -306,9 +393,25 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
                     directives: [],
                     selectionSet: null),
                 FieldNode(
-                    name: NameNode(value: 'i'),
+                    name: NameNode(value: 'width'),
                     alias: null,
-                    arguments: [],
+                    arguments: [
+                      ArgumentNode(
+                          name: NameNode(value: 'dimm'),
+                          value:
+                              VariableNode(name: NameNode(value: 'widthDimm')))
+                    ],
+                    directives: [],
+                    selectionSet: null),
+                FieldNode(
+                    name: NameNode(value: 'height'),
+                    alias: null,
+                    arguments: [
+                      ArgumentNode(
+                          name: NameNode(value: 'dimm'),
+                          value:
+                              VariableNode(name: NameNode(value: 'heightDimm')))
+                    ],
                     directives: [],
                     selectionSet: null),
                 FieldNode(

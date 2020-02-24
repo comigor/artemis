@@ -283,11 +283,11 @@ void _generateEnumForType(Context context, InjectedOptions options) {
       ..add(ARTEMIS_UNKNOWN),
   );
 
-  _log('<- Generated enum ${enumType.name.value}', 0);
   var duplicates = context.generatedClasses
       .where((element) => element.name == enumDefinition.name);
 
   if (duplicates.isEmpty) {
+    _log('<- Generated enum ${enumType.name.value}', 0);
     context.generatedClasses.add(enumDefinition);
   }
 }
@@ -365,12 +365,19 @@ class _GeneratorVisitor extends RecursiveVisitor {
       }));
     }
 
-    _log('<- Generated input class ${context.currentType.name.value}.', 0);
-    context.generatedClasses.add(ClassDefinition(
+    final inputDefinition = ClassDefinition(
       name: context.currentType.name.value,
       properties: properties,
       isInput: true,
-    ));
+    );
+
+    var duplicates = context.generatedClasses
+        .where((element) => element.name == inputDefinition.name);
+
+    if (duplicates.isEmpty) {
+      _log('<- Generated input class ${context.currentType.name.value}.', 0);
+      context.generatedClasses.add(inputDefinition);
+    }
   }
 
   @override
