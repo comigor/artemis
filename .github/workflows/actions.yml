@@ -23,16 +23,8 @@ jobs:
         cd "$GITHUB_WORKSPACE"
     - name: Check if version on pubspec.yaml was changed and if there's an entry for this new version on CHANGELOG
       run: |
-        git fetch --prune --unshallow
-        if test "${{ github.ref }}" = "refs/heads/master"; then
-          where=HEAD~$(gojq '.commits | length' "${GITHUB_EVENT_PATH}")
-        else
-          where=origin/master
-        fi
-        diff=$(git diff $where pubspec.yaml)
-        echo "$diff" | grep -E '\+.*version'
+        echo "::debug::GITHUB REF: ${{ github.ref }}"
         mkdir -p artifacts
-        git diff -U0 $where CHANGELOG.md | grep '^\+' | grep -Ev '^(--- a/|\+\+\+ b/)' | sed -E 's/^\+(.*)/\1/g' > artifacts/changelog
         package_version=$(cat pubspec.yaml | gojq --yaml-input -r '.version')
         cat CHANGELOG.md | grep "$package_version"
         echo "$package_version" > artifacts/version
@@ -52,7 +44,6 @@ jobs:
     - id: vars
       run: |
         echo "::set-output name=package_version::v$(cat package_data/version)"
-        echo "::set-output name=changelog::$(cat package_data/changelog)"
     - name: Push tag
       uses: anothrNick/github-tag-action@master
       env:
@@ -65,7 +56,6 @@ jobs:
       with:
         tag_name: ${{ steps.vars.outputs.package_version }}
         release_name: Release ${{ steps.vars.outputs.package_version }}
-        body: ${{ steps.vars.outputs.changelog }}
   deploy:
     needs: create-tag-and-release
     runs-on: ubuntu-latest
