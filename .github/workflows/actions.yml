@@ -29,23 +29,20 @@ jobs:
         echo "GITHUB HEAD REF: ${{ github.head_ref }}"
         echo "GITHUB BASE REF: ${{ github.base_ref }}"
 
-        is_pull_request=$(test "${{ github.event_name }}" = "pull_request")
-        is_push=$(test "${{ github.event_name }}" = "push")
-        
-        base_ref_is_beta=$(test "${{ github.base_ref }}" = "beta")
-        ref_is_heads_beta=$(test "${{ github.ref }}" = "refs/heads/beta")
-        
-        should_be_beta=$(($is_pull_request && $base_ref_is_beta) || ($is_push && $ref_is_heads_beta))
-
-        echo "is_pull_request: $is_pull_request"
-        echo "base_ref_is_beta: $base_ref_is_beta"
-        echo "is_push: $is_push"
-        echo "ref_is_heads_beta: $ref_is_heads_beta"
-        echo "should_be_beta: $should_be_beta"
-        
         package_version=$(cat pubspec.yaml | gojq --yaml-input -r '.version')
-        if $should_be_beta; then
-          echo "$package_version" | grep beta || { >&2 echo "No beta on version" && exit 1 }
+
+        # If we are pointing the PR to master OR have merged on master branch
+        if [ "${{ github.event_name }}" = "pull_request" -a "${{ github.base_ref }}" = "master" ] || \
+        [ "${{ github.event_name }}" = "push" -a "${{ github.ref }}" = "refs/heads/master" ]; then
+          # Package name must NOT contains "beta" word
+          echo "$package_version" | grep beta && { >&2 echo "Version cant contain beta" && exit 1 }
+        fi
+        
+        # If we are pointing the PR to beta OR have merged on beta branch
+        if [ "${{ github.event_name }}" = "pull_request" -a "${{ github.base_ref }}" = "beta" ] || \
+          [ "${{ github.event_name }}" = "push" -a "${{ github.ref }}" = "refs/heads/beta" ]; then
+          # Package name must contains "beta" word
+          echo "$package_version" | grep beta || { >&2 echo "Missing beta on version" && exit 1 }
         fi
 
         cat CHANGELOG.md | grep "$package_version"
@@ -58,7 +55,7 @@ jobs:
   create-tag-and-release:
     needs: check-version-and-changelog
     runs-on: ubuntu-latest
-    if: contains(github.ref, 'master')
+    if: github.ref == "refs/heads/master" || github.ref == "refs/heads/beta"
     steps:
     - uses: actions/checkout@master
     - uses: actions/download-artifact@v1
@@ -82,7 +79,7 @@ jobs:
   deploy:
     needs: create-tag-and-release
     runs-on: ubuntu-latest
-    if: contains(github.ref, 'master')
+    if: github.ref == "refs/heads/master" || github.ref == "refs/heads/beta"
     steps:
     - uses: actions/checkout@master
     - name: Publish to pub.dev
