@@ -32,16 +32,12 @@ jobs:
         package_version=$(cat pubspec.yaml | gojq --yaml-input -r '.version')
 
         # If we are pointing the PR to master OR have merged on master branch
-        if [ "${{ github.event_name }}" = "pull_request" -a "${{ github.base_ref }}" = "master" ] || \
-        [ "${{ github.event_name }}" = "push" -a "${{ github.ref }}" = "refs/heads/master" ]; then
-          # Package name must NOT contains "beta" word
+        if [ "${{ github.event_name }}" = "pull_request" -a "${{ github.base_ref }}" = "master" ] || [ "${{ github.event_name }}" = "push" -a "${{ github.ref }}" = "refs/heads/master" ]; then
           echo "$package_version" | grep beta && { echo "Version cant contain beta" && exit 1 }
         fi
         
         # If we are pointing the PR to beta OR have merged on beta branch
-        if [ "${{ github.event_name }}" = "pull_request" -a "${{ github.base_ref }}" = "beta" ] || \
-          [ "${{ github.event_name }}" = "push" -a "${{ github.ref }}" = "refs/heads/beta" ]; then
-          # Package name must contains "beta" word
+        if [ "${{ github.event_name }}" = "pull_request" -a "${{ github.base_ref }}" = "beta" ] || [ "${{ github.event_name }}" = "push" -a "${{ github.ref }}" = "refs/heads/beta" ]; then
           echo "$package_version" | grep beta || { echo "Missing beta on version" && exit 1 }
         fi
 
