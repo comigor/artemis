@@ -29,6 +29,15 @@ jobs:
         echo "GITHUB HEAD REF: ${{ github.head_ref }}"
         echo "GITHUB BASE REF: ${{ github.base_ref }}"
 
+        git fetch --prune --unshallow
+        if [ "${{ github.ref }}" = "refs/heads/master" -o "${{ github.ref }}" = "refs/heads/beta" ]; then
+          where=HEAD~$(gojq '.commits | length' "${GITHUB_EVENT_PATH}")
+        else
+          where="origin/${{ github.base_ref }}"
+        fi
+        diff=$(git diff $where pubspec.yaml)
+        echo "$diff" | grep -E '\+.*version'
+
         package_version=$(cat pubspec.yaml | gojq --yaml-input -r '.version')
 
         # If we are pointing the PR to master OR have merged on master branch
