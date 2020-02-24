@@ -3,17 +3,17 @@ on: [push, pull_request]
 name: CI
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Clone repository
-      uses: actions/checkout@master
-    - name: Run tests
-      uses: comigor/actions/dart-test@master
-      env:
-        DTA_EXCLUDE_REGEX: example
+  # test:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Clone repository
+  #     uses: actions/checkout@master
+  #   - name: Run tests
+  #     uses: comigor/actions/dart-test@master
+  #     env:
+  #       DTA_EXCLUDE_REGEX: example
   check-version-and-changelog:
-    needs: test
+    # needs: test
     runs-on: ubuntu-latest
     container: golang
     steps:
@@ -31,6 +31,7 @@ jobs:
         echo "${{ github.event }}" | gojq . || true
         echo "::debug::GITHUB EVENT PATH: ${{ github.event_path }}"
         cat "${{ github.event_path }}" | gojq . || true
+        exit 0
         mkdir -p artifacts
         package_version=$(cat pubspec.yaml | gojq --yaml-input -r '.version')
         cat CHANGELOG.md | grep "$package_version"
