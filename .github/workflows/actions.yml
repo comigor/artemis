@@ -23,12 +23,23 @@ jobs:
         cd "$GITHUB_WORKSPACE"
     - name: Check if version on pubspec.yaml was changed and if there's an entry for this new version on CHANGELOG
       run: |
+        echo "GITHUB EVENT NAME: ${{ github.event_name }}"
         echo "GITHUB REF: $GITHUB_REF"
         echo "GITHUB REF: ${{ github.ref }}"
         echo "GITHUB HEAD REF: ${{ github.head_ref }}"
         echo "GITHUB BASE REF: ${{ github.base_ref }}"
         echo "GITHUB EVENT: ${{ github.event }}"
         echo "GITHUB EVENT PATH: ${{ github.event_path }}"
+        cat "${{ github.event_path }}" || true
+
+        if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+          echo "On pull_request"
+          echo "Merging ${{ github.head_ref }} into ${{ github.base_ref }}"
+        elif [[ "${{ github.event_name }}" == "push" ]]; then
+          echo "On push"
+          echo "On ref ${{ github.ref }}"
+        fi
+
         exit 0
         mkdir -p artifacts
         package_version=$(cat pubspec.yaml | gojq --yaml-input -r '.version')
