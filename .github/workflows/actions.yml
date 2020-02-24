@@ -28,9 +28,7 @@ jobs:
         echo "::debug::GITHUB HEAD REF: ${{ github.head_ref }}"
         echo "::debug::GITHUB BASE REF: ${{ github.base_ref }}"
         echo "::debug::GITHUB EVENT: ${{ github.event }}"
-        echo "${{ github.event }}" | gojq . || true
         echo "::debug::GITHUB EVENT PATH: ${{ github.event_path }}"
-        cat "${{ github.event_path }}" | gojq . || true
         exit 0
         mkdir -p artifacts
         package_version=$(cat pubspec.yaml | gojq --yaml-input -r '.version')
