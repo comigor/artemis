@@ -28,7 +28,6 @@ jobs:
         echo "GITHUB REF: ${{ github.ref }}"
         echo "GITHUB HEAD REF: ${{ github.head_ref }}"
         echo "GITHUB BASE REF: ${{ github.base_ref }}"
-        # echo "GITHUB EVENT: ${{ toJson(github.event) }}"
 
         is_pull_request=$(test "${{ github.event_name }}" = "pull_request")
         is_push=$(test "${{ github.event_name }}" = "push")
@@ -49,8 +48,8 @@ jobs:
           echo "$package_version" | grep beta || { >&2 echo "No beta on version" && exit 1 }
         fi
 
-        mkdir -p artifacts
         cat CHANGELOG.md | grep "$package_version"
+        mkdir -p artifacts
         echo "$package_version" > artifacts/version
     - uses: actions/upload-artifact@v1
       with:
