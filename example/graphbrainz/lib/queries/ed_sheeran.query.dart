@@ -18,11 +18,8 @@ class EdSheeran$Query$Node$Artist$ReleaseConnection$Release
 
   String id;
 
-  @JsonKey(
-      unknownEnumValue:
-          EdSheeran$Query$Node$Artist$ReleaseConnection$Release$ReleaseStatus
-              .ARTEMIS_UNKNOWN)
-  EdSheeran$Query$Node$Artist$ReleaseConnection$Release$ReleaseStatus status;
+  @JsonKey(unknownEnumValue: ReleaseStatus.ARTEMIS_UNKNOWN)
+  ReleaseStatus status;
 
   @override
   List<Object> get props => [id, status];
@@ -149,7 +146,7 @@ class EdSheeran$Query with EquatableMixin {
   Map<String, dynamic> toJson() => _$EdSheeran$QueryToJson(this);
 }
 
-enum EdSheeran$Query$Node$Artist$ReleaseConnection$Release$ReleaseStatus {
+enum ReleaseStatus {
   OFFICIAL,
   PROMOTION,
   BOOTLEG,
