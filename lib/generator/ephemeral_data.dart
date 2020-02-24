@@ -4,13 +4,20 @@ import 'package:gql/ast.dart';
 import './data.dart';
 import '../schema/options.dart';
 
-/// References options while on [_GeneratorVisitor] iterations.
-class InjectedOptions {
-  /// Instantiates options for [_GeneratorVisitor] iterations.
-  InjectedOptions({
+/// Holds context between [_GeneratorVisitor] iterations.
+class Context {
+  /// Instantiates context for [_GeneratorVisitor] iterations.
+  Context({
     @required this.schema,
     @required this.options,
     @required this.schemaMap,
+    @required this.path,
+    @required this.currentType,
+    this.alias,
+    this.ofUnion,
+    @required this.generatedClasses,
+    @required this.inputsClasses,
+    @required this.fragments,
   });
 
   /// The [DocumentNode] parsed from `build.yaml` configuration.
@@ -21,20 +28,6 @@ class InjectedOptions {
 
   /// The [SchemaMap] being used on this iteration.
   final SchemaMap schemaMap;
-}
-
-/// Holds context between [_GeneratorVisitor] iterations.
-class Context {
-  /// Instantiates context for [_GeneratorVisitor] iterations.
-  Context({
-    @required this.path,
-    @required this.currentType,
-    this.alias,
-    this.ofUnion,
-    @required this.generatedClasses,
-    @required this.inputsClasses,
-    @required this.fragments,
-  });
 
   /// The path of data we're currently processing.
   final List<String> path;
@@ -71,6 +64,9 @@ class Context {
     List<FragmentDefinitionNode> fragments,
   }) =>
       Context(
+        schema: this.schema,
+        options: this.options,
+        schemaMap: this.schemaMap,
         path: path,
         currentType: nextType,
         ofUnion: ofUnion ?? this.ofUnion,
@@ -90,6 +86,9 @@ class Context {
     List<FragmentDefinitionNode> fragments,
   }) =>
       Context(
+        schema: this.schema,
+        options: this.options,
+        schemaMap: this.schemaMap,
         path: path.followedBy([alias ?? currentType.name.value]).toList(),
         currentType: nextType,
         ofUnion: ofUnion ?? this.ofUnion,
@@ -108,6 +107,9 @@ class Context {
     List<FragmentDefinitionNode> fragments,
   }) =>
       Context(
+        schema: this.schema,
+        options: this.options,
+        schemaMap: this.schemaMap,
         path: path.followedBy([alias ?? currentType.name.value]).toList(),
         currentType: currentType,
         ofUnion: ofUnion ?? this.ofUnion,
@@ -125,6 +127,9 @@ class Context {
     List<FragmentDefinitionNode> fragments,
   }) =>
       Context(
+        schema: this.schema,
+        options: this.options,
+        schemaMap: this.schemaMap,
         path: [path.first],
         currentType: currentType,
         ofUnion: ofUnion ?? this.ofUnion,

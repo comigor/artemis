@@ -136,16 +136,14 @@ QueryDefinition generateQuery(
 
   final visitor = _GeneratorVisitor(
     context: Context(
+      schema: schema,
+      options: options,
+      schemaMap: schemaMap,
       path: [className],
       currentType: parentType,
       generatedClasses: [],
       inputsClasses: [],
       fragments: fragments,
-    ),
-    options: InjectedOptions(
-      schema: schema,
-      options: options,
-      schemaMap: schemaMap,
     ),
   );
   document.accept(visitor);
@@ -184,7 +182,6 @@ ClassProperty _createClassProperty({
   @required String fieldName,
   String fieldAlias,
   @required Context context,
-  @required InjectedOptions options,
   _OnNewClassFoundCallback onNewClassFound,
 }) {
   var finalFields = [];
@@ -214,15 +211,15 @@ Make sure your query is correct and your schema is updated.''');
   final aliasAsClassName =
       fieldAlias != null ? ReCase(fieldAlias).pascalCase : null;
 
-  final nextType = gql.getTypeByName(options.schema, fieldType as Node,
+  final nextType = gql.getTypeByName(context.schema, fieldType as Node,
       context: 'field node');
 
   final nextClassName =
       context.joinedName(aliasAsClassName ?? nextType?.name?.value);
 
   final dartTypeStr = gql.buildTypeString(
-      fieldType as TypeNode, options.options,
-      dartType: true, replaceLeafWith: nextClassName, schema: options.schema);
+      fieldType as TypeNode, context.options,
+      dartType: true, replaceLeafWith: nextClassName, schema: context.schema);
 
   if ((nextType is ObjectTypeDefinitionNode ||
           nextType is InputObjectTypeDefinitionNode ||
@@ -240,14 +237,14 @@ Make sure your query is correct and your schema is updated.''');
   // On custom scalars
   String annotation;
   if (nextType is ScalarTypeDefinitionNode) {
-    final scalar = gql.getSingleScalarMap(options.options, nextType.name.value);
+    final scalar = gql.getSingleScalarMap(context.options, nextType.name.value);
 
     if (scalar.customParserImport != null &&
         nextType is ScalarTypeDefinitionNode &&
         nextType.name.value == scalar.graphQLType) {
       final graphqlTypeSafeStr = gql
-          .buildTypeString(fieldType as TypeNode, options.options,
-              dartType: false, schema: options.schema)
+          .buildTypeString(fieldType as TypeNode, context.options,
+              dartType: false, schema: context.schema)
           .replaceAll(RegExp(r'[<>]'), '');
       final dartTypeSafeStr = dartTypeStr.replaceAll(RegExp(r'[<>]'), '');
       annotation =
@@ -260,7 +257,6 @@ Make sure your query is correct and your schema is updated.''');
         nextType: nextType,
         alias: aliasAsClassName,
       ),
-      options,
     );
     if (fieldType is! ListTypeNode) {
       annotation = 'JsonKey(unknownEnumValue: $dartTypeStr.$ARTEMIS_UNKNOWN)';
@@ -275,7 +271,7 @@ Make sure your query is correct and your schema is updated.''');
   );
 }
 
-void _generateEnumForType(Context context, InjectedOptions options) {
+void _generateEnumForType(Context context) {
   final enumType = context.currentType as EnumTypeDefinitionNode;
 
   final enumDefinition = EnumDefinition(
@@ -296,11 +292,9 @@ void _generateEnumForType(Context context, InjectedOptions options) {
 class _GeneratorVisitor extends RecursiveVisitor {
   _GeneratorVisitor({
     @required this.context,
-    @required this.options,
   });
 
   final Context context;
-  final InjectedOptions options;
 
   SelectionSetNode selectionSetNode;
   final List<ClassProperty> _classProperties = [];
@@ -326,7 +320,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
       _classProperties.add(ClassProperty(
         type: 'String',
         name: 'typeName',
-        annotation: 'JsonKey(name: \'${options.schemaMap.typeNameField}\')',
+        annotation: 'JsonKey(name: \'${context.schemaMap.typeNameField}\')',
         isOverride: true,
         isResolveType: true,
       ));
@@ -358,7 +352,6 @@ class _GeneratorVisitor extends RecursiveVisitor {
         return _createClassProperty(
           fieldName: i.name.value,
           context: context.sameTypeWithNextPath(),
-          options: options,
           onNewClassFound: (nextContext) {
             _generateInputObjectClassesByType(nextContext);
           },
@@ -380,8 +373,8 @@ class _GeneratorVisitor extends RecursiveVisitor {
         ? null
         : (node.type as NamedTypeNode).name.value);
 
-    final dartTypeStr = gql.buildTypeString(node.type, options.options,
-        dartType: true, replaceLeafWith: nextClassName, schema: options.schema);
+    final dartTypeStr = gql.buildTypeString(node.type, context.options,
+        dartType: true, replaceLeafWith: nextClassName, schema: context.schema);
 
     context.inputsClasses.add(QueryInput(
       type: dartTypeStr,
@@ -392,7 +385,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
     _log('Found new input ${node.variable.name.value} (-> $dartTypeStr).');
 
     final leafType =
-        gql.getTypeByName(options.schema, node.type, context: 'field node');
+        gql.getTypeByName(context.schema, node.type, context: 'field node');
 
     if (leafType is TypeDefinitionNode) {
       final nextContext = context.nextTypeWithSamePath(nextType: leafType);
@@ -401,7 +394,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
           leafType is InputObjectTypeDefinitionNode) {
         _generateInputObjectClassesByType(nextContext);
       } else if (leafType is EnumTypeDefinitionNode) {
-        _generateEnumForType(nextContext, options);
+        _generateEnumForType(nextContext);
       }
     }
   }
@@ -411,7 +404,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
     context.fragments.add(node);
     final partName = '${ReCase(node.name.value).pascalCase}Mixin';
 
-    final nextType = gql.getTypeByName(options.schema, node.typeCondition.on,
+    final nextType = gql.getTypeByName(context.schema, node.typeCondition.on,
         context: 'fragment definition');
 
     final visitor = _GeneratorVisitor(
@@ -420,7 +413,6 @@ class _GeneratorVisitor extends RecursiveVisitor {
         inputsClasses: [],
         fragments: [],
       ),
-      options: options,
     );
 
     node.selectionSet.visitChildren(visitor);
@@ -444,7 +436,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
 
   @override
   void visitInlineFragmentNode(InlineFragmentNode node) {
-    final nextType = gql.getTypeByName(options.schema, node.typeCondition.on,
+    final nextType = gql.getTypeByName(context.schema, node.typeCondition.on,
         context: 'inline fragment');
 
     _log(
@@ -457,7 +449,6 @@ class _GeneratorVisitor extends RecursiveVisitor {
         inputsClasses: [],
         fragments: [],
       ),
-      options: options,
     );
 
     node.visitChildren(visitor);
@@ -466,7 +457,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
   @override
   void visitFieldNode(FieldNode node) {
     final fieldName = node.name.value;
-    if (fieldName == options.schemaMap.typeNameField) {
+    if (fieldName == context.schemaMap.typeNameField) {
       return;
     }
 
@@ -477,11 +468,9 @@ class _GeneratorVisitor extends RecursiveVisitor {
       fieldName: fieldName,
       fieldAlias: node.alias?.value,
       context: context.sameTypeWithNextPath(),
-      options: options,
       onNewClassFound: (nextContext) {
         node.visitChildren(_GeneratorVisitor(
           context: nextContext,
-          options: options,
         ));
       },
     );
