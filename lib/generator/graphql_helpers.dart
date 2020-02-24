@@ -4,7 +4,7 @@ import 'package:gql/ast.dart';
 import '../schema/options.dart';
 
 /// Get a full [TypeDefinitionNode] from its name.
-TypeDefinitionNode getTypeByName(DocumentNode schema, Node name,
+TypeDefinitionNode getTypeByName(DocumentNode schema, TypeNode name,
     {String context}) {
   NamedTypeNode namedNode;
 

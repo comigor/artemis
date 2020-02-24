@@ -134,17 +134,19 @@ QueryDefinition generateQuery(
 
   final TypeDefinitionNode parentType = objectVisitor.getByName(rootTypeName);
 
+  final context = Context(
+    schema: schema,
+    options: options,
+    schemaMap: schemaMap,
+    path: [className],
+    currentType: parentType,
+    currentFieldName: className,
+    generatedClasses: [],
+    inputsClasses: [],
+    fragments: fragments,
+  );
   final visitor = _GeneratorVisitor(
-    context: Context(
-      schema: schema,
-      options: options,
-      schemaMap: schemaMap,
-      path: [className],
-      currentType: parentType,
-      generatedClasses: [],
-      inputsClasses: [],
-      fragments: fragments,
-    ),
+    context: context,
   );
   document.accept(visitor);
 
@@ -184,7 +186,7 @@ ClassProperty _createClassProperty({
   @required Context context,
   _OnNewClassFoundCallback onNewClassFound,
 }) {
-  var finalFields = [];
+  List<Node> finalFields = [];
 
   if (context.currentType is ObjectTypeDefinitionNode) {
     finalFields = (context.currentType as ObjectTypeDefinitionNode).fields;
@@ -198,10 +200,14 @@ ClassProperty _createClassProperty({
     finalFields = (context.currentType as InputObjectTypeDefinitionNode).fields;
   }
 
-  final regularField = finalFields.firstWhere((f) => f.name.value == fieldName,
-      orElse: () => null);
+  final regularField = finalFields
+      .whereType<FieldDefinitionNode>()
+      .firstWhere((f) => f.name.value == fieldName, orElse: () => null);
+  final regularInputField = finalFields
+      .whereType<InputValueDefinitionNode>()
+      .firstWhere((f) => f.name.value == fieldName, orElse: () => null);
 
-  final fieldType = regularField?.type;
+  final fieldType = regularField?.type ?? regularInputField?.type;
 
   if (fieldType == null) {
     throw Exception(
@@ -211,14 +217,17 @@ Make sure your query is correct and your schema is updated.''');
   final aliasAsClassName =
       fieldAlias != null ? ReCase(fieldAlias).pascalCase : null;
 
-  final nextType = gql.getTypeByName(context.schema, fieldType as Node,
-      context: 'field node');
+  final nextType =
+      gql.getTypeByName(context.schema, fieldType, context: 'field node');
 
-  final nextClassName =
-      context.joinedName(aliasAsClassName ?? nextType?.name?.value);
+  final nextClassName = context
+      .sameTypeWithNextPath(
+        nextFieldName: fieldName,
+        alias: fieldAlias,
+      )
+      .joinedName();
 
-  final dartTypeStr = gql.buildTypeString(
-      fieldType as TypeNode, context.options,
+  final dartTypeStr = gql.buildTypeString(fieldType, context.options,
       dartType: true, replaceLeafWith: nextClassName, schema: context.schema);
 
   if ((nextType is ObjectTypeDefinitionNode ||
@@ -229,6 +238,8 @@ Make sure your query is correct and your schema is updated.''');
     onNewClassFound(
       context.nextTypeWithSamePath(
         nextType: nextType,
+        nextFieldName:
+            regularField?.name?.value ?? regularInputField?.name?.value,
         alias: aliasAsClassName,
       ),
     );
@@ -243,7 +254,7 @@ Make sure your query is correct and your schema is updated.''');
         nextType is ScalarTypeDefinitionNode &&
         nextType.name.value == scalar.graphQLType) {
       final graphqlTypeSafeStr = gql
-          .buildTypeString(fieldType as TypeNode, context.options,
+          .buildTypeString(fieldType, context.options,
               dartType: false, schema: context.schema)
           .replaceAll(RegExp(r'[<>]'), '');
       final dartTypeSafeStr = dartTypeStr.replaceAll(RegExp(r'[<>]'), '');
@@ -255,6 +266,8 @@ Make sure your query is correct and your schema is updated.''');
     _generateEnumForType(
       context.nextTypeWithSamePath(
         nextType: nextType,
+        nextFieldName:
+            regularField?.name?.value ?? regularInputField?.name?.value,
         alias: aliasAsClassName,
       ),
     );
@@ -267,7 +280,7 @@ Make sure your query is correct and your schema is updated.''');
     type: dartTypeStr,
     name: fieldAlias ?? fieldName,
     annotation: annotation,
-    isNonNull: (fieldType as TypeNode).isNonNull,
+    isNonNull: fieldType.isNonNull,
   );
 }
 
@@ -314,7 +327,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
           .map((n) => n.typeCondition.on.name.value);
 
       final values =
-          keys.map((t) => context.sameTypeWithNextPath().joinedName(t));
+          keys.map((t) => context.sameTypeWithNextPath(alias: t).joinedName());
 
       possibleTypes.addAll(Map.fromIterables(keys, values));
       _classProperties.add(ClassProperty(
@@ -369,9 +382,12 @@ class _GeneratorVisitor extends RecursiveVisitor {
 
   @override
   void visitVariableDefinitionNode(VariableDefinitionNode node) {
-    final nextClassName = context.joinedName((node.type is ListTypeNode)
-        ? null
-        : (node.type as NamedTypeNode).name.value);
+    final nextClassName = context
+        .sameTypeWithNextPath(
+            nextFieldName: (node.type is ListTypeNode)
+                ? null
+                : (node.type as NamedTypeNode).name.value)
+        .joinedName();
 
     final dartTypeStr = gql.buildTypeString(node.type, context.options,
         dartType: true, replaceLeafWith: nextClassName, schema: context.schema);
@@ -388,7 +404,10 @@ class _GeneratorVisitor extends RecursiveVisitor {
         gql.getTypeByName(context.schema, node.type, context: 'field node');
 
     if (leafType is TypeDefinitionNode) {
-      final nextContext = context.nextTypeWithSamePath(nextType: leafType);
+      final nextContext = context.nextTypeWithSamePath(
+        nextType: leafType,
+        nextFieldName: node?.variable?.name?.value,
+      );
 
       if (leafType is ObjectTypeDefinitionNode ||
           leafType is InputObjectTypeDefinitionNode) {
@@ -410,6 +429,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
     final visitor = _GeneratorVisitor(
       context: context.next(
         nextType: nextType,
+        nextFieldName: partName,
         inputsClasses: [],
         fragments: [],
       ),
@@ -424,10 +444,12 @@ class _GeneratorVisitor extends RecursiveVisitor {
         .expand((a) => a)
         .mergeDuplicatesBy((a) => a.name, (a, b) => a);
 
-    _log('<- Generated mixin ${context.joinedName(partName)}', 0);
+    final name = context.sameTypeWithNextPath(alias: partName).joinedName();
+
+    _log('<- Generated mixin $name', 0);
     context.generatedClasses.add(
       FragmentClassDefinition(
-        name: context.joinedName(partName),
+        name: name,
         properties:
             visitor._classProperties.followedBy(otherMixinsProps).toList(),
       ),
@@ -445,6 +467,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
     final visitor = _GeneratorVisitor(
       context: context.next(
         nextType: nextType,
+        nextFieldName: null,
         ofUnion: context.currentType,
         inputsClasses: [],
         fragments: [],
@@ -461,13 +484,13 @@ class _GeneratorVisitor extends RecursiveVisitor {
       return;
     }
 
-    _log(
-        'Visiting $fieldName ${node.alias?.value != null ? '(alias: ${node.alias.value})' : ''} on ${context.currentType.name.value} (context: ${context.path}).');
-
     final property = _createClassProperty(
       fieldName: fieldName,
       fieldAlias: node.alias?.value,
-      context: context.sameTypeWithNextPath(),
+      context: context.sameTypeWithNextPath(
+        nextFieldName: fieldName,
+        alias: node.alias?.value,
+      ),
       onNewClassFound: (nextContext) {
         node.visitChildren(_GeneratorVisitor(
           context: nextContext,
@@ -475,13 +498,17 @@ class _GeneratorVisitor extends RecursiveVisitor {
       },
     );
     _classProperties.add(property);
+
+    _log(
+        'Visiting $fieldName ${node.alias?.value != null ? '(alias: ${node.alias.value}) ' : ''}on ${context.currentType.name.value} (context: ${context.path}). -> ${property.type} ${property.name}');
   }
 
   @override
   void visitFragmentSpreadNode(FragmentSpreadNode node) {
     final fragmentName = context
-        .sameTypeWithFirstPath()
-        .joinedName('${ReCase(node.name.value).pascalCase}Mixin');
+        .sameTypeWithFirstPath(
+            alias: '${ReCase(node.name.value).pascalCase}Mixin')
+        .joinedName();
     _log(
         'Spreading fragment $fragmentName into GraphQL type ${context.currentType.name.value} (context: ${context.path}).');
     _mixins.add(fragmentName);
