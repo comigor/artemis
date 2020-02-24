@@ -55,7 +55,7 @@ jobs:
   create-tag-and-release:
     needs: check-version-and-changelog
     runs-on: ubuntu-latest
-    if: github.ref == "refs/heads/master" || github.ref == "refs/heads/beta"
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/beta'
     steps:
     - uses: actions/checkout@master
     - uses: actions/download-artifact@v1
@@ -79,7 +79,7 @@ jobs:
   deploy:
     needs: create-tag-and-release
     runs-on: ubuntu-latest
-    if: github.ref == "refs/heads/master" || github.ref == "refs/heads/beta"
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/beta'
     steps:
     - uses: actions/checkout@master
     - name: Publish to pub.dev
