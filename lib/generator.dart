@@ -118,11 +118,14 @@ QueryDefinition generateQuery(
   schema.accept(schemaVisitor);
   schema.accept(objectVisitor);
 
-  final rootTypeName = schemaVisitor.schemaDefinitionNode.operationTypes
-      .firstWhere((e) => e.operation == operation.type, orElse: () => null)
-      ?.type
-      ?.name
-      ?.value;
+  final suffix = operation.type == OperationType.query ? 'Query' : 'Mutation';
+  final rootTypeName = (schemaVisitor.schemaDefinitionNode?.operationTypes ??
+              [])
+          .firstWhere((e) => e.operation == operation.type, orElse: () => null)
+          ?.type
+          ?.name
+          ?.value ??
+      suffix;
 
   if (rootTypeName == null) {
     throw Exception(
@@ -130,8 +133,6 @@ QueryDefinition generateQuery(
   }
 
   final TypeDefinitionNode parentType = objectVisitor.getByName(rootTypeName);
-
-  final suffix = operation.type == OperationType.query ? 'Query' : 'Mutation';
 
   final visitor = _GeneratorVisitor(
     context: Context(
