@@ -53,3 +53,39 @@ Future testGenerator({
     onLog: debug,
   );
 }
+
+Future testNaming({
+  @required String query,
+  @required String schema,
+  @required List<String> expectedNames,
+  Map<String, dynamic> builderOptionsMap = const {},
+}) async {
+  assert((schema) != null);
+
+  final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
+    'generate_helpers': false,
+    'schema_mapping': [
+      {
+        'schema': 'api.schema.graphql',
+        'queries_glob': 'queries/**.graphql',
+        'output': 'lib/query.dart',
+      }
+    ],
+    ...builderOptionsMap,
+  }));
+
+  anotherBuilder.onBuild = expectAsync1((definition) {
+    final names = definition.queries.first.classes.map((e) => e.name).toSet();
+    if (IS_DEBUG) print(names);
+    expect(names, equals(expectedNames));
+  }, count: 1);
+
+  return await testBuilder(
+    anotherBuilder,
+    {
+      'a|api.schema.graphql': schema,
+      'a|queries/query.graphql': query,
+    },
+    onLog: debug,
+  );
+}
