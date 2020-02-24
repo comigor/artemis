@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 5.0.4-beta.1
+## 5.0.4
 - Update CI to include beta branch.
 
 ## 5.0.3
