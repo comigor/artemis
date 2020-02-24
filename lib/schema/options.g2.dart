@@ -70,6 +70,9 @@ SchemaMap _$SchemaMapFromJson(Map<String, dynamic> json) {
     schema: json['schema'] as String,
     queriesGlob: json['queries_glob'] as String,
     typeNameField: json['type_name_field'] as String ?? '__typename',
+    namingScheme: _$enumDecodeNullable(
+        _$NamingSchemeEnumMap, json['naming_scheme'],
+        unknownValue: NamingScheme.pathedWithClassNames),
   );
 }
 
@@ -78,4 +81,43 @@ Map<String, dynamic> _$SchemaMapToJson(SchemaMap instance) => <String, dynamic>{
       'schema': instance.schema,
       'queries_glob': instance.queriesGlob,
       'type_name_field': instance.typeNameField,
+      'naming_scheme': _$NamingSchemeEnumMap[instance.namingScheme],
     };
+
+T _$enumDecode<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    throw ArgumentError('A value must be provided. Supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+
+  final value = enumValues.entries
+      .singleWhere((e) => e.value == source, orElse: () => null)
+      ?.key;
+
+  if (value == null && unknownValue == null) {
+    throw ArgumentError('`$source` is not one of the supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+  return value ?? unknownValue;
+}
+
+T _$enumDecodeNullable<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+}
+
+const _$NamingSchemeEnumMap = {
+  NamingScheme.pathedWithClassNames: 'pathedWithClassNames',
+  NamingScheme.pathedWithFieldNames: 'pathedWithFieldNames',
+  NamingScheme.simple: 'simple',
+};

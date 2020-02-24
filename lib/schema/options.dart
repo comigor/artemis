@@ -97,6 +97,20 @@ class ScalarMap {
   Map<String, dynamic> toJson() => _$ScalarMapToJson(this);
 }
 
+/// The naming scheme to be used on generated classes names.
+enum NamingScheme {
+  /// Default, where the names of previous classes are used to generate the
+  /// prefix.
+  pathedWithClassNames,
+
+  /// The field names are joined together to generate the path.
+  pathedWithFieldNames,
+
+  /// Considers only the actual GraphQL class name. This will probably lead to
+  /// duplication and an Artemis error unless you use aliases.
+  simple,
+}
+
 /// Maps a GraphQL schema to queries files.
 @JsonSerializable(fieldRename: FieldRename.snake)
 class SchemaMap {
@@ -113,12 +127,25 @@ class SchemaMap {
   @JsonKey(defaultValue: '__typename')
   final String typeNameField;
 
+  /// The naming scheme to be used.
+  ///
+  /// - [NamingScheme.pathedWithClassNames]: default, where the names of
+  /// previous classes are used to generate the prefix.
+  /// - [NamingScheme.pathedWithFieldNames]: the field names are joined
+  /// together to generate the path.
+  /// - [NamingScheme.simple]: considers only the actual GraphQL class name.
+  /// This will probably lead to duplication and an Artemis error unless you
+  /// use aliases.
+  @JsonKey(unknownEnumValue: NamingScheme.pathedWithClassNames)
+  final NamingScheme namingScheme;
+
   /// Instantiates a schema mapping.
   SchemaMap({
     this.output,
     this.schema,
     this.queriesGlob,
     this.typeNameField = '__typename',
+    this.namingScheme = NamingScheme.pathedWithClassNames,
   });
 
   /// Build a schema mapping from a JSON map.
