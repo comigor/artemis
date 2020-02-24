@@ -35,14 +35,14 @@ jobs:
         if [ "${{ github.event_name }}" = "pull_request" -a "${{ github.base_ref }}" = "master" ] || \
         [ "${{ github.event_name }}" = "push" -a "${{ github.ref }}" = "refs/heads/master" ]; then
           # Package name must NOT contains "beta" word
-          echo "$package_version" | grep beta && { >&2 echo "Version cant contain beta" && exit 1 }
+          echo "$package_version" | grep beta && { echo "Version cant contain beta" && exit 1 }
         fi
         
         # If we are pointing the PR to beta OR have merged on beta branch
         if [ "${{ github.event_name }}" = "pull_request" -a "${{ github.base_ref }}" = "beta" ] || \
           [ "${{ github.event_name }}" = "push" -a "${{ github.ref }}" = "refs/heads/beta" ]; then
           # Package name must contains "beta" word
-          echo "$package_version" | grep beta || { >&2 echo "Missing beta on version" && exit 1 }
+          echo "$package_version" | grep beta || { echo "Missing beta on version" && exit 1 }
         fi
 
         cat CHANGELOG.md | grep "$package_version"
