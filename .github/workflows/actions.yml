@@ -28,7 +28,7 @@ jobs:
         echo "GITHUB REF: ${{ github.ref }}"
         echo "GITHUB HEAD REF: ${{ github.head_ref }}"
         echo "GITHUB BASE REF: ${{ github.base_ref }}"
-        echo "GITHUB EVENT: ${{ toJson(github.event) }}"
+        # echo "GITHUB EVENT: ${{ toJson(github.event) }}"
 
         is_pull_request=$(test "${{ github.event_name }}" = "pull_request")
         is_push=$(test "${{ github.event_name }}" = "push")
