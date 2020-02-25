@@ -7,13 +7,18 @@ void main() {
   group('On naming', () {
     test(
       'On pathedWithTypes naming scheme',
-      () async => testNaming(
-        query: query,
-        schema: schema,
-        expectedNames: expectedNames,
-        builderOptionsMap: {
-          'naming_scheme': 'pathedWithTypes',
+      () async => expect(
+        () {
+          testNaming(
+            query: query,
+            schema: schema,
+            expectedNames: expectedNames,
+            builderOptionsMap: {
+              'naming_scheme': 'pathedWithTypes',
+            },
+          );
         },
+        throwsA(predicate((e) => e is Exception)),
       ),
     );
   });
@@ -26,11 +31,13 @@ const expectedNames = [
   r'BigQuery$Query',
   r'BigQuery$Query$Thing',
   r'BigQuery$Query$Thing$Thing',
-  r'BigQuery$Query$Thing$AliasOnNextThing',
+  r'BigQuery$Query$Thing$Thing',
+  r'BigQuery$Query$Thing$AliasOnAThing',
   r'BigQuery$Query$AliasOnThing',
   r'BigQuery$Query$AliasOnThing$Thing',
-  r'BigQuery$Query$AliasOnThing$AliasOnNextThing',
+  r'BigQuery$Query$AliasOnThing$Thing',
+  r'BigQuery$Query$AliasOnThing$AliasOnAThing',
   r'BigQuery$PartsMixin',
   r'BigQuery$PartsMixin$Thing',
-  r'BigQuery$PartsMixin$AliasOnNextThingOnFragment',
+  r'BigQuery$PartsMixin$AliasOnFThing',
 ];

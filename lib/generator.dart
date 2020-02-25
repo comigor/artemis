@@ -44,7 +44,7 @@ LibraryDefinition generateLibrary(
       [], (defs, def) => defs.followedBy(def.classes.map((c) => c.name)));
 
   allClassesNames.mergeDuplicatesBy((a) => a, (a, b) {
-    _log(queriesDefinitions);
+    _log(queriesDefinitions.first.classes.map((e) => e.name).join('\n'));
 
     throw Exception('''Two classes were generated with the same name `$a`!
 You may want to:
