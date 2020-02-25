@@ -61,7 +61,8 @@ Future testNaming({
   @required String schema,
   @required List<String> expectedNames,
   Map<String, dynamic> builderOptionsMap = const {},
-}) async {
+  bool shouldFail = false,
+}) {
   assert((schema) != null);
 
   final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
@@ -76,13 +77,15 @@ Future testNaming({
     ...builderOptionsMap,
   }));
 
-  anotherBuilder.onBuild = expectAsync1((definition) {
-    final names = definition.queries.first.classes.map((e) => e.name).toSet();
-    if (IS_DEBUG) print(names);
-    expect(names.toSet(), equals(expectedNames.toSet()));
-  }, count: 1);
+  if (!shouldFail) {
+    anotherBuilder.onBuild = expectAsync1((definition) {
+      final names = definition.queries.first.classes.map((e) => e.name).toSet();
+      if (IS_DEBUG) print(names);
+      expect(names.toSet(), equals(expectedNames.toSet()));
+    }, count: 1);
+  }
 
-  return await testBuilder(
+  return testBuilder(
     anotherBuilder,
     {
       'a|api.schema.graphql': schema,

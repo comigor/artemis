@@ -5,6 +5,7 @@ import 'package:recase/recase.dart';
 
 import './generator/ephemeral_data.dart';
 import './generator/data.dart';
+import './generator/errors.dart';
 import './generator/graphql_helpers.dart' as gql;
 import './generator/helpers.dart';
 import './schema/options.dart';
@@ -40,18 +41,14 @@ LibraryDefinition generateLibrary(
           ))
       .toList();
 
-  final allClassesNames = queriesDefinitions.fold<Iterable<String>>(
-      [], (defs, def) => defs.followedBy(def.classes.map((c) => c.name)));
+  final allClassesNames = queriesDefinitions
+      .map((def) => def.classes.map((c) => c.name))
+      .expand((e) => e)
+      .toList();
 
-//   allClassesNames.mergeDuplicatesBy((a) => a, (a, b) {
-//     _log(allClassesNames.join('\n'));
-
-//     throw Exception('''Two classes were generated with the same name `$a`!
-// You may want to:
-// - Make queries_glob stricter, to gather less .graphql files on a single output
-// - Use alias on one of the places a field of type `$a` is requested
-// - File a bug on artemis (https://is.gd/YLSfC2)''');
-//   });
+  allClassesNames.mergeDuplicatesBy((a) => a, (a, b) {
+    throw DuplicatedClassesException(allClassesNames, a);
+  });
 
   final basename = p.basenameWithoutExtension(path);
 
