@@ -1,3 +1,4 @@
+import 'package:artemis/generator/errors.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
@@ -7,26 +8,17 @@ void main() {
   group('On naming', () {
     test(
       'On simple naming scheme',
-      // () async => testNaming(
-      //   query: query,
-      //   schema: schema,
-      //   expectedNames: expectedNames,
-      //   builderOptionsMap: {
-      //     'naming_scheme': 'simple',
-      //   },
-      // ),
-      () async => expect(
-        () {
-          testNaming(
-            query: query,
-            schema: schema,
-            expectedNames: expectedNames,
-            builderOptionsMap: {
-              'naming_scheme': 'simple',
-            },
-          );
-        },
-        throwsA(predicate((e) => e is Exception)),
+      () => expect(
+        testNaming(
+          query: query,
+          schema: schema,
+          expectedNames: expectedNames,
+          namingScheme: 'simple',
+          shouldFail: true,
+        ),
+        throwsA(predicate((e) =>
+            e is DuplicatedClassesException &&
+            listEquals(e.allClassesNames, expectedNames))),
       ),
     );
   });
@@ -38,12 +30,14 @@ const expectedNames = [
   r'SubInput',
   r'Query',
   r'Thing',
+  r'Thing',
+  r'Thing',
+  r'AliasOnAThing',
   r'AliasOnThing',
   r'Thing',
-  r'AliasOnNextThing',
   r'Thing',
-  r'AliasOnNextThing',
+  r'AliasOnAThing',
   r'PartsMixin',
   r'Thing',
-  r'AliasOnNextThingOnFragment',
+  r'AliasOnFThing',
 ];

@@ -11,9 +11,7 @@ void main() {
         query: query,
         schema: schema,
         expectedNames: expectedNames,
-        builderOptionsMap: {
-          'naming_scheme': 'pathedWithFields',
-        },
+        namingScheme: 'pathedWithFields',
       ),
     );
   });

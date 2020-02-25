@@ -1,12 +1,8 @@
 import 'package:artemis/generator/errors.dart';
 import 'package:test/test.dart';
-import 'package:collection/collection.dart';
 
 import '../../helpers.dart';
 import 'common.dart';
-
-final bool Function(Iterable, Iterable) _listEquals =
-    const DeepCollectionEquality.unordered().equals;
 
 void main() {
   group('On naming', () {
@@ -17,14 +13,12 @@ void main() {
           query: query,
           schema: schema,
           expectedNames: expectedNames,
-          builderOptionsMap: {
-            'naming_scheme': 'pathedWithTypes',
-          },
+          namingScheme: 'pathedWithTypes',
           shouldFail: true,
         ),
         throwsA(predicate((e) =>
             e is DuplicatedClassesException &&
-            _listEquals(e.allClassesNames, expectedNames))),
+            listEquals(e.allClassesNames, expectedNames))),
       ),
     );
   });

@@ -5,6 +5,10 @@ import 'package:build_test/build_test.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 import 'package:test/test.dart';
+import 'package:collection/collection.dart';
+
+final bool Function(Iterable, Iterable) listEquals =
+    const DeepCollectionEquality.unordered().equals;
 
 const IS_DEBUG = true;
 
@@ -60,7 +64,7 @@ Future testNaming({
   @required String query,
   @required String schema,
   @required List<String> expectedNames,
-  Map<String, dynamic> builderOptionsMap = const {},
+  @required String namingScheme,
   bool shouldFail = false,
 }) {
   assert((schema) != null);
@@ -72,9 +76,9 @@ Future testNaming({
         'schema': 'api.schema.graphql',
         'queries_glob': 'queries/**.graphql',
         'output': 'lib/query.dart',
+        'naming_scheme': namingScheme,
       }
     ],
-    ...builderOptionsMap,
   }));
 
   if (!shouldFail) {
