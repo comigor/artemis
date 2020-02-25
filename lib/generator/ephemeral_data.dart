@@ -119,33 +119,35 @@ class Context {
   /// Returns a copy of this context, with a new type on a new path.
   Context next({
     @required TypeDefinitionNode nextType,
-    @required String nextFieldName,
-    @required String nextClassName,
-    TypeDefinitionNode ofUnion,
+    String nextFieldName,
+    String nextClassName,
     String alias,
+    TypeDefinitionNode ofUnion,
     List<Definition> generatedClasses,
     List<QueryInput> inputsClasses,
     List<FragmentDefinitionNode> fragments,
-  }) =>
-      Context(
-        schema: this.schema,
-        options: this.options,
-        schemaMap: this.schemaMap,
-        path: path.followedBy([
-          _stringForNaming(
-            alias ?? nextFieldName,
-            alias ?? nextClassName,
-          )
-        ]).toList(),
-        currentType: nextType,
-        currentFieldName: nextFieldName,
-        currentClassName: nextClassName,
-        ofUnion: ofUnion ?? this.ofUnion,
-        generatedClasses: generatedClasses ?? this.generatedClasses,
-        inputsClasses: inputsClasses ?? this.inputsClasses,
-        fragments: fragments ?? this.fragments,
-        align: this.align + 1,
-      );
+  }) {
+    assert(alias != null || (nextFieldName != null && nextClassName != null));
+    return Context(
+      schema: this.schema,
+      options: this.options,
+      schemaMap: this.schemaMap,
+      path: path.followedBy([
+        _stringForNaming(
+          alias ?? nextFieldName,
+          alias ?? nextClassName,
+        )
+      ]).toList(),
+      currentType: nextType,
+      currentFieldName: nextFieldName,
+      currentClassName: nextClassName,
+      ofUnion: ofUnion ?? this.ofUnion,
+      generatedClasses: generatedClasses ?? this.generatedClasses,
+      inputsClasses: inputsClasses ?? this.inputsClasses,
+      fragments: fragments ?? this.fragments,
+      align: this.align + 1,
+    );
+  }
 
   /// Returns a copy of this context, with the same type and path.
   Context withAlias({
@@ -159,10 +161,10 @@ class Context {
         schemaMap: this.schemaMap,
         path: this.path,
         currentType: this.currentType,
-        currentFieldName: nextFieldName ?? this.currentFieldName,
-        currentClassName: nextClassName ?? this.currentClassName,
+        currentFieldName: nextFieldName,
+        currentClassName: nextClassName,
         ofUnion: this.ofUnion,
-        alias: alias ?? this.alias,
+        alias: alias,
         generatedClasses: this.generatedClasses,
         inputsClasses: this.inputsClasses,
         fragments: this.fragments,
@@ -204,10 +206,8 @@ class Context {
 
   /// Returns a copy of this context, with the same type, but on the first path.
   Context sameTypeWithNoPath({
-    String nextFieldName,
-    String nextClassName,
-    TypeDefinitionNode ofUnion,
     String alias,
+    TypeDefinitionNode ofUnion,
     List<Definition> generatedClasses,
     List<QueryInput> inputsClasses,
     List<FragmentDefinitionNode> fragments,
@@ -217,9 +217,9 @@ class Context {
         options: this.options,
         schemaMap: this.schemaMap,
         path: [],
-        currentType: currentType,
-        currentFieldName: nextFieldName,
-        currentClassName: nextClassName,
+        currentType: this.currentType,
+        currentFieldName: this.currentFieldName,
+        currentClassName: this.currentClassName,
         ofUnion: ofUnion ?? this.ofUnion,
         alias: alias ?? this.alias,
         generatedClasses: generatedClasses ?? this.generatedClasses,

@@ -32,7 +32,7 @@ const expectedNames = [
   r'BigQuery$Query$AliasOnThing$Thing',
   r'BigQuery$Query$AliasOnThing$Thing',
   r'BigQuery$Query$AliasOnThing$AliasOnAThing',
-  r'BigQuery$PartsMixin',
-  r'BigQuery$PartsMixin$Thing',
-  r'BigQuery$PartsMixin$AliasOnFThing',
+  r'PartsMixin',
+  r'PartsMixin$Thing',
+  r'PartsMixin$AliasOnFThing',
 ];
