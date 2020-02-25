@@ -42,7 +42,7 @@ Future testGenerator({
 
   anotherBuilder.onBuild = expectAsync1((definition) {
     if (IS_DEBUG) print(definition);
-    expect(definition, libraryDefinition);
+    expect(definition, equals(libraryDefinition));
   }, count: 1);
 
   return await testBuilder(

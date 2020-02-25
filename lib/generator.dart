@@ -159,9 +159,9 @@ QueryDefinition generateQuery(
     queryType: '$className\$${parentType.name.value}',
     document: document,
     classes: [
+      ...canonicalVisitor.enums,
       ...visitor.context.generatedClasses,
       ...canonicalVisitor.inputObjects,
-      ...canonicalVisitor.enums,
     ],
     inputs: visitor.context.inputsClasses,
     generateHelpers: options.generateHelpers,
