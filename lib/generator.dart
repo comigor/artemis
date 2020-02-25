@@ -366,18 +366,31 @@ class _GeneratorVisitor extends RecursiveVisitor {
     final nextType = gql.getTypeByName(context.schema, node.typeCondition.on,
         context: 'inline fragment');
 
-    final visitor = _GeneratorVisitor(
-      context: context.next(
-        nextType: nextType,
-        nextClassName: nextType.name.value,
-        nextFieldName: nextType.name.value,
-        ofUnion: context.currentType,
-        inputsClasses: [],
-        fragments: [],
-      ),
-    );
-
-    node.visitChildren(visitor);
+    if (nextType.name.value == context.currentType.name.value) {
+      final visitor = _GeneratorVisitor(
+        context: context.nextTypeWithSamePath(
+          nextType: nextType,
+          nextClassName: null,
+          nextFieldName: null,
+          ofUnion: context.currentType,
+          inputsClasses: [],
+          fragments: [],
+        ),
+      );
+      node.selectionSet.visitChildren(visitor);
+    } else {
+      final visitor = _GeneratorVisitor(
+        context: context.next(
+          nextType: nextType,
+          nextClassName: nextType.name.value,
+          nextFieldName: nextType.name.value,
+          ofUnion: context.currentType,
+          inputsClasses: [],
+          fragments: [],
+        ),
+      );
+      node.visitChildren(visitor);
+    }
   }
 
   @override
