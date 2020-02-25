@@ -17,8 +17,9 @@ input SubInput {
 type Thing {
   id: String
   e: Enum
-  nextThing: Thing
-  nextThingOnFragment: Thing
+  aThing: Thing
+  bThing: Thing
+  fThing: Thing
 }
 
 type Query {
@@ -30,21 +31,33 @@ const query = r'''
 query big_query($input: Input!) {
   thing(input: $input) {
     e
-    ...parts
-    nextThing {
+    ... on Thing {
       id
     }
-    aliasOnNextThing: nextThing {
+    ...parts
+    aThing {
+      id
+    }
+    bThing {
+      id
+    }
+    aliasOnAThing: aThing {
       id
     }
   }
   aliasOnThing: thing(input: $input) {
     e
-    ...parts
-    nextThing {
+    ... on Thing {
       id
     }
-    aliasOnNextThing: nextThing {
+    ...parts
+    aThing {
+      id
+    }
+    bThing {
+      id
+    }
+    aliasOnAThing: aThing {
       id
     }
   }
@@ -52,10 +65,10 @@ query big_query($input: Input!) {
 
 fragment parts on Thing {
   id
-  nextThingOnFragment {
+  fThing {
     id
   }
-  aliasOnNextThingOnFragment: nextThingOnFragment {
+  aliasOnFThing: fThing {
     id
   }
 }

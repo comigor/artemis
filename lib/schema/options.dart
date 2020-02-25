@@ -99,15 +99,15 @@ class ScalarMap {
 
 /// The naming scheme to be used on generated classes names.
 enum NamingScheme {
-  /// Default, where the names of previous classes are used to generate the
-  /// prefix.
-  pathedWithClassNames,
+  /// Default, where the names of previous types are used as prefix of the
+  /// next class. This can generate duplication on certain schemas.
+  pathedWithTypes,
 
-  /// The field names are joined together to generate the path.
-  pathedWithFieldNames,
+  /// The names of previous fields are used as prefix of the next class.
+  pathedWithFields,
 
   /// Considers only the actual GraphQL class name. This will probably lead to
-  /// duplication and an Artemis error unless you use aliases.
+  /// duplication and an Artemis error unless user uses aliases.
   simple,
 }
 
@@ -129,14 +129,14 @@ class SchemaMap {
 
   /// The naming scheme to be used.
   ///
-  /// - [NamingScheme.pathedWithClassNames]: default, where the names of
+  /// - [NamingScheme.pathedWithTypes]: default, where the names of
   /// previous classes are used to generate the prefix.
-  /// - [NamingScheme.pathedWithFieldNames]: the field names are joined
+  /// - [NamingScheme.pathedWithFields]: the field names are joined
   /// together to generate the path.
   /// - [NamingScheme.simple]: considers only the actual GraphQL class name.
   /// This will probably lead to duplication and an Artemis error unless you
   /// use aliases.
-  @JsonKey(unknownEnumValue: NamingScheme.pathedWithClassNames)
+  @JsonKey(unknownEnumValue: NamingScheme.pathedWithTypes)
   final NamingScheme namingScheme;
 
   /// Instantiates a schema mapping.
@@ -145,7 +145,7 @@ class SchemaMap {
     this.schema,
     this.queriesGlob,
     this.typeNameField = '__typename',
-    this.namingScheme = NamingScheme.pathedWithClassNames,
+    this.namingScheme = NamingScheme.pathedWithTypes,
   });
 
   /// Build a schema mapping from a JSON map.

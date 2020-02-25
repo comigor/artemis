@@ -72,7 +72,7 @@ SchemaMap _$SchemaMapFromJson(Map<String, dynamic> json) {
     typeNameField: json['type_name_field'] as String ?? '__typename',
     namingScheme: _$enumDecodeNullable(
         _$NamingSchemeEnumMap, json['naming_scheme'],
-        unknownValue: NamingScheme.pathedWithClassNames),
+        unknownValue: NamingScheme.pathedWithTypes),
   );
 }
 
@@ -117,7 +117,7 @@ T _$enumDecodeNullable<T>(
 }
 
 const _$NamingSchemeEnumMap = {
-  NamingScheme.pathedWithClassNames: 'pathedWithClassNames',
-  NamingScheme.pathedWithFieldNames: 'pathedWithFieldNames',
+  NamingScheme.pathedWithTypes: 'pathedWithTypes',
+  NamingScheme.pathedWithFields: 'pathedWithFields',
   NamingScheme.simple: 'simple',
 };

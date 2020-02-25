@@ -6,13 +6,13 @@ import 'common.dart';
 void main() {
   group('On naming', () {
     test(
-      'On pathedWithClassNames naming scheme',
+      'On pathedWithFields naming scheme',
       () async => testNaming(
         query: query,
         schema: schema,
         expectedNames: expectedNames,
         builderOptionsMap: {
-          'naming_scheme': 'pathedWithClassNames',
+          'naming_scheme': 'pathedWithFields',
         },
       ),
     );
@@ -25,12 +25,14 @@ const expectedNames = [
   r'SubInput',
   r'BigQuery$Query',
   r'BigQuery$Query$Thing',
-  r'BigQuery$Query$Thing$Thing',
-  r'BigQuery$Query$Thing$AliasOnNextThing',
+  r'BigQuery$Query$Thing$AThing',
+  r'BigQuery$Query$Thing$AliasOnAThing',
+  r'BigQuery$Query$Thing$BThing',
   r'BigQuery$Query$AliasOnThing',
-  r'BigQuery$Query$AliasOnThing$Thing',
-  r'BigQuery$Query$AliasOnThing$AliasOnNextThing',
+  r'BigQuery$Query$AliasOnThing$AThing',
+  r'BigQuery$Query$AliasOnThing$AliasOnAThing',
+  r'BigQuery$Query$AliasOnThing$BThing',
   r'BigQuery$PartsMixin',
-  r'BigQuery$PartsMixin$Thing',
-  r'BigQuery$PartsMixin$AliasOnNextThingOnFragment',
+  r'BigQuery$PartsMixin$FThing',
+  r'BigQuery$PartsMixin$AliasOnFThing',
 ];

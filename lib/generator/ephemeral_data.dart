@@ -56,7 +56,7 @@ class Context {
   final List<FragmentDefinitionNode> fragments;
 
   String _stringForNaming(String withFieldNames, String withClassNames) =>
-      schemaMap.namingScheme == NamingScheme.pathedWithFieldNames
+      schemaMap.namingScheme == NamingScheme.pathedWithFields
           ? withFieldNames
           : withClassNames;
 
@@ -68,9 +68,9 @@ class Context {
     switch (schemaMap.namingScheme) {
       case NamingScheme.simple:
         return className;
-      case NamingScheme.pathedWithFieldNames:
+      case NamingScheme.pathedWithFields:
         return '${path.map((e) => ReCase(e).pascalCase).join(r'$')}\$$fieldName';
-      case NamingScheme.pathedWithClassNames:
+      case NamingScheme.pathedWithTypes:
       default:
         return '${path.map((e) => ReCase(e).pascalCase).join(r'$')}\$$className';
     }
