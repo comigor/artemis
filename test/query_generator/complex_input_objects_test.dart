@@ -52,6 +52,9 @@ final LibraryDefinition libraryDefinition =
       queryName: r'some_query',
       queryType: r'SomeQuery$QueryRoot',
       classes: [
+        EnumDefinition(
+            name: r'MyEnum',
+            values: [r'value1', r'value2', r'ARTEMIS_UNKNOWN']),
         ClassDefinition(
             name: r'SomeQuery$QueryRoot$SomeObject',
             properties: [
@@ -78,9 +81,6 @@ final LibraryDefinition libraryDefinition =
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
-        EnumDefinition(
-            name: r'MyEnum',
-            values: [r'value1', r'value2', r'ARTEMIS_UNKNOWN']),
         ClassDefinition(
             name: r'ComplexInput',
             properties: [
