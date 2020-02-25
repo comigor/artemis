@@ -204,6 +204,25 @@ class Context {
     );
   }
 
+  /// Returns a copy of this context, rolling back a item on path.
+  Context rollbackPath() {
+    return Context(
+      schema: this.schema,
+      options: this.options,
+      schemaMap: this.schemaMap,
+      path: [...path]..removeLast(),
+      currentType: this.currentType,
+      currentFieldName: this.currentFieldName,
+      currentClassName: this.currentClassName,
+      ofUnion: this.ofUnion,
+      alias: this.alias,
+      generatedClasses: this.generatedClasses,
+      inputsClasses: this.inputsClasses,
+      fragments: this.fragments,
+      align: this.align - 1,
+    );
+  }
+
   /// Returns a copy of this context, with the same type, but on the first path.
   Context sameTypeWithNoPath({
     String alias,

@@ -311,8 +311,8 @@ class _GeneratorVisitor extends RecursiveVisitor {
           .whereType<InlineFragmentNode>()
           .map((n) => n.typeCondition.on.name.value);
 
-      final values = keys
-          .map((t) => nextContext.sameTypeWithNextPath(alias: t).joinedName());
+      final values =
+          keys.map((t) => nextContext.withAlias(alias: t).joinedName());
 
       possibleTypes.addAll(Map.fromIterables(keys, values));
       _classProperties.add(ClassProperty(
@@ -334,7 +334,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
       name: nextContext.joinedName(),
       properties: _classProperties,
       mixins: _mixins,
-      extension: partOfUnion ? nextContext.path.join(r'$') : null,
+      extension: partOfUnion ? nextContext.rollbackPath().joinedName() : null,
       factoryPossibilities: possibleTypes,
     ));
   }
@@ -361,27 +361,29 @@ class _GeneratorVisitor extends RecursiveVisitor {
 
   @override
   void visitInlineFragmentNode(InlineFragmentNode node) {
-    _log(context.align + 1, '${context.path}: ...');
+    _log(context.align + 1,
+        '${context.path}: ... on ${node.typeCondition.on.name.value}');
     final nextType = gql.getTypeByName(context.schema, node.typeCondition.on,
         context: 'inline fragment');
 
     final visitor = _GeneratorVisitor(
-      context: context.nextTypeWithSamePath(
+      context: context.next(
         nextType: nextType,
-        nextClassName: null,
-        nextFieldName: null,
+        nextClassName: nextType.name.value,
+        nextFieldName: nextType.name.value,
         ofUnion: context.currentType,
         inputsClasses: [],
         fragments: [],
       ),
     );
 
-    node.selectionSet.visitChildren(visitor);
+    node.visitChildren(visitor);
   }
 
   @override
   void visitFragmentSpreadNode(FragmentSpreadNode node) {
-    _log(context.align + 1, '${context.path}: ... ${node.name.value}');
+    _log(
+        context.align + 1, '${context.path}: ... expanding ${node.name.value}');
     final fragmentName = context
         .sameTypeWithNoPath(alias: '${ReCase(node.name.value).pascalCase}Mixin')
         .joinedName();
