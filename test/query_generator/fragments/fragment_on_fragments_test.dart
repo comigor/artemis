@@ -61,7 +61,7 @@ final LibraryDefinition libraryDefinition =
       classes: [
         ClassDefinition(
             name: r'Query$Query$Pokemon',
-            mixins: [r'Query$PokemonMixin'],
+            mixins: [r'PokemonMixin'],
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
@@ -78,7 +78,7 @@ final LibraryDefinition libraryDefinition =
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
-        FragmentClassDefinition(name: r'Query$PokemonMixin', properties: [
+        FragmentClassDefinition(name: r'PokemonMixin', properties: [
           ClassProperty(
               type: r'String',
               name: r'id',
@@ -86,7 +86,7 @@ final LibraryDefinition libraryDefinition =
               isNonNull: true,
               isResolveType: false)
         ]),
-        FragmentClassDefinition(name: r'Query$PokemonPartsMixin', properties: [
+        FragmentClassDefinition(name: r'PokemonPartsMixin', properties: [
           ClassProperty(
               type: r'String',
               name: r'number',
@@ -112,16 +112,16 @@ import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
 
-mixin Query$PokemonMixin {
+mixin PokemonMixin {
   String id;
 }
-mixin Query$PokemonPartsMixin {
+mixin PokemonPartsMixin {
   String number;
   String name;
 }
 
 @JsonSerializable(explicitToJson: true)
-class Query$Query$Pokemon with EquatableMixin, Query$PokemonMixin {
+class Query$Query$Pokemon with EquatableMixin, PokemonMixin {
   Query$Query$Pokemon();
 
   factory Query$Query$Pokemon.fromJson(Map<String, dynamic> json) =>
