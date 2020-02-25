@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 5.0.4
+- Update CI to include beta branch.
+
 ## 5.0.3
 - Update examples to match latest changes.
 
