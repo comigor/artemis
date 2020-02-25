@@ -215,7 +215,7 @@ ClassProperty _createClassProperty({
 
   if (fieldType == null) {
     throw Exception(
-        '''Field $fieldName was not found in GraphQL type ${context.currentType.name.value}.
+        '''Field $fieldName was not found in GraphQL type ${context.currentType?.name?.value}.
 Make sure your query is correct and your schema is updated.''');
   }
   final aliasAsClassName =
@@ -297,6 +297,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
   void visitSelectionSetNode(SelectionSetNode node) {
     final nextContext = context.withAlias();
 
+    _log(nextContext.align, '-> Class');
     _log(nextContext.align,
         '┌ ${nextContext.path}[${nextContext.currentType.name.value}][${nextContext.currentClassName} ${nextContext.currentFieldName}] (${nextContext.alias != null ? nextContext.alias : ''})');
     super.visitSelectionSetNode(node);
@@ -415,6 +416,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
     final partName = '${ReCase(node.name.value).pascalCase}Mixin';
     final nextContext = context.sameTypeWithNoPath(alias: partName);
 
+    _log(nextContext.align, '-> Fragment');
     _log(nextContext.align, '┌ ${nextContext.path}[${node.name.value}]');
     nextContext.fragments.add(node);
 
@@ -474,6 +476,7 @@ class _CanonicalVisitor extends RecursiveVisitor {
   @override
   void visitEnumTypeDefinitionNode(EnumTypeDefinitionNode node) {
     final nextContext = context.sameTypeWithNoPath(alias: node.name.value);
+    _log(nextContext.align, '-> Enum');
     _log(nextContext.align, '<- Generated enum ${nextContext.joinedName()}.');
 
     enums.add(EnumDefinition(
@@ -487,6 +490,7 @@ class _CanonicalVisitor extends RecursiveVisitor {
   void visitInputObjectTypeDefinitionNode(InputObjectTypeDefinitionNode node) {
     final nextContext = context.sameTypeWithNoPath(alias: node.name.value);
 
+    _log(nextContext.align, '-> Input class');
     _log(nextContext.align, '┌ ${nextContext.path}[${node.name.value}]');
     final properties = <ClassProperty>[];
 

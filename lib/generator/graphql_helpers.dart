@@ -21,6 +21,11 @@ TypeDefinitionNode getTypeByName(DocumentNode schema, TypeNode typeNode,
 
   final type = typeVisitor.getByName(namedNode.name.value);
 
+  if (type == null) {
+    throw Exception('''Type ${namedNode.name.value} was not found in schema.
+Make sure your query is correct and your schema is updated.''');
+  }
+
   return type;
 }
 

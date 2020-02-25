@@ -37,6 +37,8 @@ void main() {
             query: Query
           }
 
+          scalar DateTime
+
           type Query {
             voyages(pagination: PaginationInput!): VoyageList!
           }
@@ -83,7 +85,7 @@ final LibraryDefinition libraryDefinition =
       queryName: r'VoyagesData',
       queryType: r'VoyagesData$Query',
       classes: [
-        FragmentClassDefinition(name: r'VoyagesData$DstMixin', properties: [
+        FragmentClassDefinition(name: r'DstMixin', properties: [
           ClassProperty(
               type: r'String',
               name: r'id',
@@ -97,16 +99,14 @@ final LibraryDefinition libraryDefinition =
               isNonNull: true,
               isResolveType: false)
         ]),
-        FragmentClassDefinition(
-            name: r'VoyagesData$DepartureMixin',
-            properties: [
-              ClassProperty(
-                  type: r'String',
-                  name: r'id',
-                  isOverride: false,
-                  isNonNull: true,
-                  isResolveType: false)
-            ]),
+        FragmentClassDefinition(name: r'DepartureMixin', properties: [
+          ClassProperty(
+              type: r'String',
+              name: r'id',
+              isOverride: false,
+              isNonNull: true,
+              isResolveType: false)
+        ]),
         ClassDefinition(
             name: r'VoyagesData$Query$VoyageList$VoyageDetails$Voyage',
             properties: [
@@ -219,11 +219,11 @@ import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
 
-mixin VoyagesData$DstMixin {
+mixin DstMixin {
   String id;
   String name;
 }
-mixin VoyagesData$DepartureMixin {
+mixin DepartureMixin {
   String id;
 }
 
