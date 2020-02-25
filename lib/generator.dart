@@ -12,7 +12,7 @@ import 'visitor.dart';
 
 typedef _OnNewClassFoundCallback = void Function(Context context);
 
-void _log(Object log, [int align = 2]) {
+void _log(Object log, [int align = 0]) {
   // print('${List.filled(align, ' ').join()}${log.toString()}');
 }
 
@@ -263,7 +263,6 @@ Make sure your query is correct and your schema is updated.''');
     final scalar = gql.getSingleScalarMap(context.options, nextType.name.value);
 
     if (scalar.customParserImport != null &&
-        nextType is ScalarTypeDefinitionNode &&
         nextType.name.value == scalar.graphQLType) {
       final graphqlTypeSafeStr = gql
           .buildTypeString(fieldType, context.options,
@@ -274,19 +273,8 @@ Make sure your query is correct and your schema is updated.''');
           'JsonKey(fromJson: fromGraphQL${dartTypeStr}ToDart$dartTypeSafeStr, toJson: fromDart${dartTypeSafeStr}ToGraphQL$graphqlTypeSafeStr)';
     }
   } // On enums
-  else if (nextType is EnumTypeDefinitionNode) {
-    _generateEnumForType(
-      context.nextTypeWithSamePath(
-        nextType: nextType,
-        nextFieldName:
-            regularField?.name?.value ?? regularInputField?.name?.value,
-        nextClassName: nextType.name.value,
-        alias: aliasAsClassName,
-      ),
-    );
-    if (fieldType is! ListTypeNode) {
-      annotation = 'JsonKey(unknownEnumValue: $dartTypeStr.$ARTEMIS_UNKNOWN)';
-    }
+  else if (nextType is EnumTypeDefinitionNode && fieldType is! ListTypeNode) {
+    annotation = 'JsonKey(unknownEnumValue: $dartTypeStr.$ARTEMIS_UNKNOWN)';
   }
 
   return ClassProperty(
@@ -295,24 +283,6 @@ Make sure your query is correct and your schema is updated.''');
     annotation: annotation,
     isNonNull: fieldType.isNonNull,
   );
-}
-
-void _generateEnumForType(Context context) {
-  final enumType = context.currentType as EnumTypeDefinitionNode;
-
-  final enumDefinition = EnumDefinition(
-    name: enumType.name.value,
-    values: enumType.values.map((eV) => eV.name.value).toList()
-      ..add(ARTEMIS_UNKNOWN),
-  );
-
-  _log('<- Generated enum ${enumType.name.value}', 0);
-  var duplicates = context.generatedClasses
-      .where((element) => element.name == enumDefinition.name);
-
-  if (duplicates.isEmpty) {
-    context.generatedClasses.add(enumDefinition);
-  }
 }
 
 class _GeneratorVisitor extends RecursiveVisitor {
@@ -354,13 +324,10 @@ class _GeneratorVisitor extends RecursiveVisitor {
         isOverride: true,
         isResolveType: true,
       ));
-      _log('It is an union/interface of possible types $possibleTypes.');
     }
 
     final partOfUnion = nextContext.ofUnion != null;
-    if (partOfUnion) {
-      _log('It is part of union ${nextContext.ofUnion.name}.');
-    }
+    if (partOfUnion) {}
 
     print(
         '${List.filled(nextContext.align, '| ').join()}└ ${nextContext.path}[${nextContext.currentType.name.value}][${nextContext.currentClassName} ${nextContext.currentFieldName}] (${nextContext.alias != null ? nextContext.alias : ''})');
