@@ -43,15 +43,15 @@ LibraryDefinition generateLibrary(
   final allClassesNames = queriesDefinitions.fold<Iterable<String>>(
       [], (defs, def) => defs.followedBy(def.classes.map((c) => c.name)));
 
-  allClassesNames.mergeDuplicatesBy((a) => a, (a, b) {
-    _log(queriesDefinitions.first.classes.map((e) => e.name).join('\n'));
+//   allClassesNames.mergeDuplicatesBy((a) => a, (a, b) {
+//     _log(allClassesNames.join('\n'));
 
-    throw Exception('''Two classes were generated with the same name `$a`!
-You may want to:
-- Make queries_glob stricter, to gather less .graphql files on a single output
-- Use alias on one of the places a field of type `$a` is requested
-- File a bug on artemis (https://is.gd/YLSfC2)''');
-  });
+//     throw Exception('''Two classes were generated with the same name `$a`!
+// You may want to:
+// - Make queries_glob stricter, to gather less .graphql files on a single output
+// - Use alias on one of the places a field of type `$a` is requested
+// - File a bug on artemis (https://is.gd/YLSfC2)''');
+//   });
 
   final basename = p.basenameWithoutExtension(path);
 

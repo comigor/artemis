@@ -79,7 +79,7 @@ Future testNaming({
   anotherBuilder.onBuild = expectAsync1((definition) {
     final names = definition.queries.first.classes.map((e) => e.name).toSet();
     if (IS_DEBUG) print(names);
-    expect(names, equals(expectedNames));
+    expect(names.toSet(), equals(expectedNames.toSet()));
   }, count: 1);
 
   return await testBuilder(

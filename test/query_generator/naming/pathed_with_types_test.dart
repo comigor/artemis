@@ -7,18 +7,13 @@ void main() {
   group('On naming', () {
     test(
       'On pathedWithTypes naming scheme',
-      () async => expect(
-        () {
-          testNaming(
-            query: query,
-            schema: schema,
-            expectedNames: expectedNames,
-            builderOptionsMap: {
-              'naming_scheme': 'pathedWithTypes',
-            },
-          );
+      () async => testNaming(
+        query: query,
+        schema: schema,
+        expectedNames: expectedNames,
+        builderOptionsMap: {
+          'naming_scheme': 'pathedWithTypes',
         },
-        throwsA(predicate((e) => e is Exception)),
       ),
     );
   });

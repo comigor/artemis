@@ -7,6 +7,14 @@ void main() {
   group('On naming', () {
     test(
       'On simple naming scheme',
+      // () async => testNaming(
+      //   query: query,
+      //   schema: schema,
+      //   expectedNames: expectedNames,
+      //   builderOptionsMap: {
+      //     'naming_scheme': 'simple',
+      //   },
+      // ),
       () async => expect(
         () {
           testNaming(
