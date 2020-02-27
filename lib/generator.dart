@@ -108,7 +108,7 @@ QueryDefinition generateQuery(
     fragments.addAll(fragmentsOperation);
   }
 
-  final basename = p.basenameWithoutExtension(path);
+  final basename = p.basenameWithoutExtension(path).split('.').first;
   final queryName = operation.name?.value ?? basename;
   final className = ReCase(queryName).pascalCase;
 

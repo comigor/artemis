@@ -1,28 +1,45 @@
 import 'package:artemis/generator/data.dart';
 import 'package:test/test.dart';
 
-import '../../helpers.dart';
+import '../helpers.dart';
 
 void main() {
-  group('On AST schema', () {
+  group('On forwarder', () {
     test(
-      'When schema declaration is missing',
+      'Forwarder are created if output file does not end with .graphql.dart',
       () async => testGenerator(
         query: query,
-        schema: r'''
-          type Query {
-            a: String
-          }
-        ''',
         libraryDefinition: libraryDefinition,
         generatedFile: generatedFile,
+        schema: r'''
+          schema {
+            query: QueryRoot
+          }
+
+          type QueryRoot {
+            a: String
+          }''',
+        builderOptionsMap: {
+          'schema_mapping': [
+            {
+              'schema': 'api.schema.graphql',
+              'queries_glob': 'queries/**.graphql',
+              'output': 'lib/query.dart',
+            }
+          ],
+        },
+        outputsMap: {
+          'a|lib/query.graphql.dart': generatedFile,
+          'a|lib/query.dart': r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+export 'query.graphql.dart';''',
+        },
       ),
     );
   });
 }
 
 const query = r'''
-query {
+query custom {
   a
 }
 ''';
@@ -30,11 +47,11 @@ query {
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      queryName: r'query',
-      queryType: r'Query$Query',
+      queryName: r'custom',
+      queryType: r'Custom$QueryRoot',
       classes: [
         ClassDefinition(
-            name: r'Query$Query',
+            name: r'Custom$QueryRoot',
             properties: [
               ClassProperty(
                   type: r'String',
@@ -59,16 +76,16 @@ import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class Query$Query with EquatableMixin {
-  Query$Query();
+class Custom$QueryRoot with EquatableMixin {
+  Custom$QueryRoot();
 
-  factory Query$Query.fromJson(Map<String, dynamic> json) =>
-      _$Query$QueryFromJson(json);
+  factory Custom$QueryRoot.fromJson(Map<String, dynamic> json) =>
+      _$Custom$QueryRootFromJson(json);
 
   String a;
 
   @override
   List<Object> get props => [a];
-  Map<String, dynamic> toJson() => _$Query$QueryToJson(this);
+  Map<String, dynamic> toJson() => _$Custom$QueryRootToJson(this);
 }
 ''';

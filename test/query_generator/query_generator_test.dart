@@ -2,7 +2,6 @@ import 'package:artemis/builder.dart';
 import 'package:artemis/generator/data.dart';
 import 'package:build/build.dart';
 import 'package:build_test/build_test.dart';
-import 'package:gql/language.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -29,14 +28,14 @@ void main() {
           {
             'schema': 'api.schema.graphql',
             'queries_glob': 'queries/**.graphql',
-            'output': 'lib/some_query.dart',
+            'output': 'lib/some_query.graphql.dart',
           }
         ]
       }));
 
       anotherBuilder.onBuild = expectAsync1((definition) {
         final libraryDefinition =
-            LibraryDefinition(basename: r'some_query', queries: [
+            LibraryDefinition(basename: r'some_query.graphql', queries: [
           QueryDefinition(
               queryName: r'some_query',
               queryType: r'SomeQuery$SomeObject',
@@ -71,12 +70,13 @@ void main() {
           'a|queries/some_query.graphql': 'query some_query { s, i }',
         },
         outputs: {
-          'a|lib/some_query.dart': r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+          'a|lib/some_query.graphql.dart':
+              r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
-part 'some_query.g.dart';
+part 'some_query.graphql.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class SomeQuery$SomeObject with EquatableMixin {
@@ -105,7 +105,7 @@ class SomeQuery$SomeObject with EquatableMixin {
           {
             'schema': 'api.schema.grqphql',
             'queries_glob': 'queries/**.graphql',
-            'output': 'lib/some_query.dart',
+            'output': 'lib/some_query.graphql.dart',
           }
         ]
       }));
@@ -122,7 +122,7 @@ class SomeQuery$SomeObject with EquatableMixin {
 
       anotherBuilder.onBuild = expectAsync1((definition) {
         final libraryDefinition =
-            LibraryDefinition(basename: r'some_query', queries: [
+            LibraryDefinition(basename: r'some_query.graphql', queries: [
           QueryDefinition(
               queryName: r'some_query',
               queryType: r'SomeQuery$Query',
@@ -201,14 +201,15 @@ class SomeQuery$SomeObject with EquatableMixin {
           'a|queries/some_query.graphql': query
         },
         outputs: {
-          'a|lib/some_query.dart': r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+          'a|lib/some_query.graphql.dart':
+              r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:meta/meta.dart';
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
-part 'some_query.g.dart';
+part 'some_query.graphql.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class SomeQuery$Query$SomeObject with EquatableMixin {
@@ -351,14 +352,14 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
           {
             'schema': 'api.schema.grqphql',
             'queries_glob': 'queries/**.graphql',
-            'output': 'lib/some_query.dart',
+            'output': 'lib/some_query.graphql.dart',
           }
         ]
       }));
 
       anotherBuilder.onBuild = expectAsync1((definition) {
         final libraryDefinition =
-            LibraryDefinition(basename: r'some_query', queries: [
+            LibraryDefinition(basename: r'some_query.graphql', queries: [
           QueryDefinition(
               queryName: r'some_query',
               queryType: r'SomeQuery$Result',
@@ -436,12 +437,13 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
           'a|queries/some_query.graphql': document,
         },
         outputs: {
-          'a|lib/some_query.dart': r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+          'a|lib/some_query.graphql.dart':
+              r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
-part 'some_query.g.dart';
+part 'some_query.graphql.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class SomeQuery$Result$SomeObject$AnotherObject with EquatableMixin {
@@ -503,14 +505,14 @@ class SomeQuery$Result with EquatableMixin {
           {
             'schema': 'api.schema.graphql',
             'queries_glob': 'queries/**.graphql',
-            'output': 'lib/some_query.dart',
+            'output': 'lib/some_query.graphql.dart',
           }
         ]
       }));
 
       anotherBuilder.onBuild = expectAsync1((definition) {
         final libraryDefinition =
-            LibraryDefinition(basename: r'some_query', queries: [
+            LibraryDefinition(basename: r'some_query.graphql', queries: [
           QueryDefinition(
               queryName: r'some_query',
               queryType: r'SomeQuery$Result',
@@ -555,12 +557,13 @@ class SomeQuery$Result with EquatableMixin {
               'query some_query { firstName: s, lastName: st }',
         },
         outputs: {
-          'a|lib/some_query.dart': r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+          'a|lib/some_query.graphql.dart':
+              r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
-part 'some_query.g.dart';
+part 'some_query.graphql.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class SomeQuery$Result with EquatableMixin {
@@ -590,7 +593,7 @@ class SomeQuery$Result with EquatableMixin {
           {
             'schema': 'api.schema.graphql',
             'queries_glob': 'queries/**.graphql',
-            'output': 'lib/some_query.dart',
+            'output': 'lib/some_query.graphql.dart',
           },
         ],
         'scalar_mapping': [
@@ -612,7 +615,7 @@ class SomeQuery$Result with EquatableMixin {
 
       anotherBuilder.onBuild = expectAsync1((definition) {
         final libraryDefinition =
-            LibraryDefinition(basename: r'some_query', queries: [
+            LibraryDefinition(basename: r'some_query.graphql', queries: [
           QueryDefinition(
               queryName: r'some_query',
               queryType: r'SomeQuery$SomeObject',
@@ -657,13 +660,14 @@ class SomeQuery$Result with EquatableMixin {
               'query some_query { bigDecimal, dateTime }',
         },
         outputs: {
-          'a|lib/some_query.dart': r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+          'a|lib/some_query.graphql.dart':
+              r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
 import 'package:decimal/decimal.dart';
-part 'some_query.g.dart';
+part 'some_query.graphql.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class SomeQuery$SomeObject with EquatableMixin {
@@ -693,28 +697,29 @@ class SomeQuery$SomeObject with EquatableMixin {
           {
             'schema': 'api.schema.graphql',
             'queries_glob': 'queries/**.graphql',
-            'output': 'lib/pascal_casing_query.dart',
+            'output': 'lib/pascal_casing_query.graphql.dart',
           }
-        ]
+        ],
       }));
 
       anotherBuilder.onBuild = expectAsync1((definition) {
-        final libraryDefinition =
-            LibraryDefinition(basename: r'pascal_casing_query', queries: [
-          QueryDefinition(
-              queryName: r'PascalCasingQuery',
-              queryType: r'PascalCasingQuery$PascalCasingQuery',
-              classes: [
-                ClassDefinition(
-                    name: r'PascalCasingQuery$PascalCasingQuery',
-                    properties: [
-                      ClassProperty(
-                          type: r'String', name: r's', isOverride: false)
-                    ],
-                    typeNameField: r'__typename')
-              ],
-              generateHelpers: false)
-        ]);
+        final libraryDefinition = LibraryDefinition(
+            basename: r'pascal_casing_query.graphql',
+            queries: [
+              QueryDefinition(
+                  queryName: r'PascalCasingQuery',
+                  queryType: r'PascalCasingQuery$PascalCasingQuery',
+                  classes: [
+                    ClassDefinition(
+                        name: r'PascalCasingQuery$PascalCasingQuery',
+                        properties: [
+                          ClassProperty(
+                              type: r'String', name: r's', isOverride: false)
+                        ],
+                        typeNameField: r'__typename')
+                  ],
+                  generateHelpers: false)
+            ]);
         expect(definition, libraryDefinition);
       }, count: 1);
 
@@ -734,13 +739,13 @@ class SomeQuery$SomeObject with EquatableMixin {
               'query PascalCasingQuery { s }',
         },
         outputs: {
-          'a|lib/pascal_casing_query.dart':
+          'a|lib/pascal_casing_query.graphql.dart':
               r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
-part 'pascal_casing_query.g.dart';
+part 'pascal_casing_query.graphql.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class PascalCasingQuery$PascalCasingQuery with EquatableMixin {

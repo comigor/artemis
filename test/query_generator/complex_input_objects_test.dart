@@ -47,7 +47,7 @@ void main() {
 }
 
 final LibraryDefinition libraryDefinition =
-    LibraryDefinition(basename: r'query', queries: [
+    LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       queryName: r'some_query',
       queryType: r'SomeQuery$QueryRoot',
@@ -124,7 +124,7 @@ import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
-part 'query.g.dart';
+part 'query.graphql.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class SomeQuery$QueryRoot$SomeObject with EquatableMixin {

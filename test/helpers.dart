@@ -20,6 +20,7 @@ Future testGenerator({
   bool generateHelpers = false,
   Map<String, dynamic> builderOptionsMap = const {},
   Map<String, dynamic> sourceAssetsMap = const {},
+  Map<String, dynamic> outputsMap = const {},
 }) async {
   assert((schema) != null);
 
@@ -29,7 +30,7 @@ Future testGenerator({
       {
         'schema': 'api.schema.graphql',
         'queries_glob': 'queries/**.graphql',
-        'output': 'lib/query.dart',
+        'output': 'lib/query.graphql.dart',
       }
     ],
     ...builderOptionsMap,
@@ -48,7 +49,8 @@ Future testGenerator({
       ...sourceAssetsMap,
     },
     outputs: {
-      'a|lib/query.dart': generatedFile,
+      'a|lib/query.graphql.dart': generatedFile,
+      ...outputsMap,
     },
     onLog: debug,
   );
