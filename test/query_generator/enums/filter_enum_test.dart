@@ -15,7 +15,11 @@ void main() {
           }
 
           type QueryRoot {
-            q(e: InputEnum!): QueryResponse
+            q(e: InputEnum!, i: Input!): QueryResponse
+          }
+
+          input Input {
+            e: InputInputEnum
           }
 
           type QueryResponse {
@@ -32,9 +36,22 @@ void main() {
             D
           }
 
-          enum UnusedEnum {
+          enum InputInputEnum {
             E
             F
+          }
+
+          type UnusedObject {
+            e: UnusedEnum
+          }
+
+          input UnusedInput {
+            u: UnusedEnum
+          }
+
+          enum UnusedEnum {
+            G
+            H
           }
         ''',
         libraryDefinition: libraryDefinition,
@@ -45,8 +62,8 @@ void main() {
 }
 
 const query = r'''
-  query custom($e: InputEnum!) {
-    q(e: $e) {
+  query custom($e: InputEnum!, $i: Input!) {
+    q(e: $e, i: $i) {
       e
     }
   }
@@ -62,6 +79,8 @@ final LibraryDefinition libraryDefinition =
             name: r'MyEnum', values: [r'A', r'B', r'ARTEMIS_UNKNOWN']),
         EnumDefinition(
             name: r'InputEnum', values: [r'C', r'D', r'ARTEMIS_UNKNOWN']),
+        EnumDefinition(
+            name: r'InputInputEnum', values: [r'E', r'F', r'ARTEMIS_UNKNOWN']),
         ClassDefinition(
             name: r'Custom$QueryRoot$QueryResponse',
             properties: [
@@ -89,9 +108,27 @@ final LibraryDefinition libraryDefinition =
             ],
             factoryPossibilities: {},
             typeNameField: r'__typename',
-            isInput: false)
+            isInput: false),
+        ClassDefinition(
+            name: r'Input',
+            properties: [
+              ClassProperty(
+                  type: r'InputInputEnum',
+                  name: r'e',
+                  isOverride: false,
+                  annotation:
+                      r'JsonKey(unknownEnumValue: InputInputEnum.ARTEMIS_UNKNOWN)',
+                  isNonNull: false,
+                  isResolveType: false)
+            ],
+            factoryPossibilities: {},
+            typeNameField: r'__typename',
+            isInput: true)
       ],
-      inputs: [QueryInput(type: r'InputEnum', name: r'e', isNonNull: true)],
+      inputs: [
+        QueryInput(type: r'InputEnum', name: r'e', isNonNull: true),
+        QueryInput(type: r'Input', name: r'i', isNonNull: true)
+      ],
       generateHelpers: false,
       suffix: r'Query')
 ]);

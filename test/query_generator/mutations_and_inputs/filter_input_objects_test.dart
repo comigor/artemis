@@ -33,6 +33,11 @@ void main() {
 
           input UnusedInput {
             a: String
+            u: UnusedSubInput
+          }
+
+          input UnusedSubInput {
+            a: String
           }
 
           type SomeObject {
