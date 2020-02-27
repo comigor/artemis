@@ -142,6 +142,8 @@ QueryDefinition generateQuery(
     generatedClasses: [],
     inputsClasses: [],
     fragments: fragments,
+    usedEnums: {},
+    usedInputObjects: {},
   );
 
   final visitor = _GeneratorVisitor(
@@ -159,9 +161,11 @@ QueryDefinition generateQuery(
     queryType: '$className\$${parentType.name.value}',
     document: document,
     classes: [
-      ...canonicalVisitor.enums,
+      ...canonicalVisitor.enums
+          .where((e) => context.usedEnums.contains(e.name)),
       ...visitor.context.generatedClasses,
-      ...canonicalVisitor.inputObjects,
+      ...canonicalVisitor.inputObjects
+          .where((i) => context.usedInputObjects.contains(i.name)),
     ],
     inputs: visitor.context.inputsClasses,
     generateHelpers: options.generateHelpers,
@@ -238,6 +242,9 @@ Make sure your query is correct and your schema is updated.''');
   _log(aliasedContext.align + 1,
       '${aliasedContext.path}[${aliasedContext.currentType.name.value}][${aliasedContext.currentClassName} ${aliasedContext.currentFieldName}] ${fieldAlias == null ? '' : '(${fieldAlias}) '}-> $dartTypeStr');
 
+  if (nextType is InputObjectTypeDefinitionNode) {
+    context.usedInputObjects.add(nextType.name.value);
+  }
   if ((nextType is ObjectTypeDefinitionNode ||
           nextType is InputObjectTypeDefinitionNode ||
           nextType is UnionTypeDefinitionNode ||
@@ -270,8 +277,12 @@ Make sure your query is correct and your schema is updated.''');
           'JsonKey(fromJson: fromGraphQL${dartTypeStr}ToDart$dartTypeSafeStr, toJson: fromDart${dartTypeSafeStr}ToGraphQL$graphqlTypeSafeStr)';
     }
   } // On enums
-  else if (nextType is EnumTypeDefinitionNode && fieldType is! ListTypeNode) {
-    annotation = 'JsonKey(unknownEnumValue: $dartTypeStr.$ARTEMIS_UNKNOWN)';
+  else if (nextType is EnumTypeDefinitionNode) {
+    context.usedEnums.add(nextType.name.value);
+
+    if (fieldType is! ListTypeNode) {
+      annotation = 'JsonKey(unknownEnumValue: $dartTypeStr.$ARTEMIS_UNKNOWN)';
+    }
   }
 
   return ClassProperty(
@@ -419,6 +430,12 @@ class _GeneratorVisitor extends RecursiveVisitor {
     final dartTypeStr = gql.buildTypeString(node.type, context.options,
         dartType: true, replaceLeafWith: nextClassName, schema: context.schema);
 
+    if (leafType is EnumTypeDefinitionNode) {
+      context.usedEnums.add(leafType.name.value);
+    } else if (leafType is InputObjectTypeDefinitionNode) {
+      context.usedInputObjects.add(leafType.name.value);
+    }
+
     context.inputsClasses.add(QueryInput(
       type: dartTypeStr,
       name: node.variable.name.value,
@@ -451,6 +468,8 @@ class _GeneratorVisitor extends RecursiveVisitor {
       generatedClasses: nextContext.generatedClasses,
       inputsClasses: [],
       fragments: [],
+      usedEnums: nextContext.usedEnums,
+      usedInputObjects: nextContext.usedInputObjects,
     );
 
     final visitor = _GeneratorVisitor(

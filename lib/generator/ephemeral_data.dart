@@ -21,6 +21,8 @@ class Context {
     @required this.generatedClasses,
     @required this.inputsClasses,
     @required this.fragments,
+    this.usedEnums = const {},
+    this.usedInputObjects = const {},
     this.align = 0,
   });
 
@@ -60,7 +62,14 @@ class Context {
   /// The current fragments considered in this visitor.
   final List<FragmentDefinitionNode> fragments;
 
+  /// The identation used to debugging purposes.
   final int align;
+
+  /// A list of used enums (to filtered on generation).
+  final Set<String> usedEnums;
+
+  /// A list of used input objects (to filtered on generation).
+  final Set<String> usedInputObjects;
 
   String _stringForNaming(String withFieldNames, String withClassNames) =>
       schemaMap.namingScheme == NamingScheme.pathedWithFields
@@ -114,6 +123,8 @@ class Context {
         inputsClasses: inputsClasses ?? this.inputsClasses,
         fragments: fragments ?? this.fragments,
         align: this.align,
+        usedEnums: this.usedEnums,
+        usedInputObjects: this.usedInputObjects,
       );
 
   /// Returns a copy of this context, with a new type on a new path.
@@ -146,6 +157,8 @@ class Context {
       inputsClasses: inputsClasses ?? this.inputsClasses,
       fragments: fragments ?? this.fragments,
       align: this.align + 1,
+      usedEnums: this.usedEnums,
+      usedInputObjects: this.usedInputObjects,
     );
   }
 
@@ -169,6 +182,8 @@ class Context {
         inputsClasses: this.inputsClasses,
         fragments: this.fragments,
         align: this.align,
+        usedEnums: this.usedEnums,
+        usedInputObjects: this.usedInputObjects,
       );
 
   /// Returns a copy of this context, with the same type, but on a new path.
@@ -201,6 +216,8 @@ class Context {
       inputsClasses: inputsClasses ?? this.inputsClasses,
       fragments: fragments ?? this.fragments,
       align: this.align + 1,
+      usedEnums: this.usedEnums,
+      usedInputObjects: this.usedInputObjects,
     );
   }
 
@@ -220,6 +237,8 @@ class Context {
       inputsClasses: this.inputsClasses,
       fragments: this.fragments,
       align: this.align - 1,
+      usedEnums: this.usedEnums,
+      usedInputObjects: this.usedInputObjects,
     );
   }
 
@@ -245,6 +264,8 @@ class Context {
         inputsClasses: inputsClasses ?? this.inputsClasses,
         fragments: fragments ?? this.fragments,
         align: this.align,
+        usedEnums: this.usedEnums,
+        usedInputObjects: this.usedInputObjects,
       );
 
   /// Returns a copy of this context, with next type, but on the first path.
@@ -272,5 +293,7 @@ class Context {
         inputsClasses: inputsClasses ?? this.inputsClasses,
         fragments: fragments ?? this.fragments,
         align: 0,
+        usedEnums: this.usedEnums,
+        usedInputObjects: this.usedInputObjects,
       );
 }
