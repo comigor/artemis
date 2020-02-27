@@ -1,7 +1,7 @@
 import 'package:artemis/generator/data.dart';
 import 'package:test/test.dart';
 
-import '../helpers.dart';
+import '../../helpers.dart';
 
 void main() {
   group('On mutations', () {
@@ -13,15 +13,15 @@ void main() {
           schema {
             mutation: MutationRoot
           }
-          
+
           type MutationRoot {
             mut(input: Input!): MutationResponse
           }
-          
+
           type MutationResponse {
             s: String
           }
-          
+
           input Input {
             s: String!
           }

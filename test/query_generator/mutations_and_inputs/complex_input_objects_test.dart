@@ -1,7 +1,7 @@
 import 'package:artemis/generator/data.dart';
 import 'package:test/test.dart';
 
-import '../helpers.dart';
+import '../../helpers.dart';
 
 void main() {
   group('On complex input objects', () {
@@ -10,29 +10,29 @@ void main() {
       () async => testGenerator(
         query: r'''
           query some_query($filter: ComplexInput!) {
-            o(filter: $filter) { 
-              s 
-            } 
+            o(filter: $filter) {
+              s
+            }
           }''',
         schema: r'''
           schema {
             query: QueryRoot
           }
-          
+
           type QueryRoot {
             o(filter: ComplexInput!): SomeObject
           }
-          
+
           input ComplexInput {
             s: String!
             e: MyEnum
             ls: [String]
           }
-          
+
           type SomeObject {
             s: String
           }
-          
+
           enum MyEnum {
             value1
             value2
