@@ -170,6 +170,20 @@ class Custom$QueryRoot with EquatableMixin {
   Map<String, dynamic> toJson() => _$Custom$QueryRootToJson(this);
 }
 
+@JsonSerializable(explicitToJson: true)
+class Input with EquatableMixin {
+  Input({this.e});
+
+  factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
+
+  @JsonKey(unknownEnumValue: InputInputEnum.ARTEMIS_UNKNOWN)
+  InputInputEnum e;
+
+  @override
+  List<Object> get props => [e];
+  Map<String, dynamic> toJson() => _$InputToJson(this);
+}
+
 enum MyEnum {
   A,
   B,
@@ -178,6 +192,11 @@ enum MyEnum {
 enum InputEnum {
   C,
   D,
+  ARTEMIS_UNKNOWN,
+}
+enum InputInputEnum {
+  E,
+  F,
   ARTEMIS_UNKNOWN,
 }
 ''';

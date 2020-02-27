@@ -156,6 +156,9 @@ QueryDefinition generateQuery(
   document.accept(visitor);
   schema.accept(canonicalVisitor);
 
+  print(context.usedEnums);
+  print(context.usedInputObjects);
+
   return QueryDefinition(
     queryName: queryName,
     queryType: '$className\$${parentType.name.value}',
@@ -197,6 +200,7 @@ ClassProperty _createClassProperty({
   String fieldAlias,
   @required Context context,
   _OnNewClassFoundCallback onNewClassFound,
+  bool markAsUsed = true,
 }) {
   List<Node> finalFields = [];
 
@@ -242,11 +246,7 @@ Make sure your query is correct and your schema is updated.''');
   _log(aliasedContext.align + 1,
       '${aliasedContext.path}[${aliasedContext.currentType.name.value}][${aliasedContext.currentClassName} ${aliasedContext.currentFieldName}] ${fieldAlias == null ? '' : '(${fieldAlias}) '}-> $dartTypeStr');
 
-  if (nextType is InputObjectTypeDefinitionNode) {
-    context.usedInputObjects.add(nextType.name.value);
-  }
   if ((nextType is ObjectTypeDefinitionNode ||
-          nextType is InputObjectTypeDefinitionNode ||
           nextType is UnionTypeDefinitionNode ||
           nextType is InterfaceTypeDefinitionNode) &&
       onNewClassFound != null) {
@@ -278,7 +278,9 @@ Make sure your query is correct and your schema is updated.''');
     }
   } // On enums
   else if (nextType is EnumTypeDefinitionNode) {
-    context.usedEnums.add(nextType.name.value);
+    if (markAsUsed) {
+      context.usedEnums.add(nextType.name.value);
+    }
 
     if (fieldType is! ListTypeNode) {
       annotation = 'JsonKey(unknownEnumValue: $dartTypeStr.$ARTEMIS_UNKNOWN)';
@@ -404,14 +406,17 @@ class _GeneratorVisitor extends RecursiveVisitor {
     }
   }
 
-  @override
-  void visitFragmentSpreadNode(FragmentSpreadNode node) {
-    _log(
-        context.align + 1, '${context.path}: ... expanding ${node.name.value}');
-    final fragmentName = context
-        .sameTypeWithNoPath(alias: '${ReCase(node.name.value).pascalCase}Mixin')
-        .joinedName();
-    _mixins.add(fragmentName);
+  void addUsedInputObjectsAndEnums(InputObjectTypeDefinitionNode node) {
+    context.usedInputObjects.add(node.name.value);
+
+    for (final field in node.fields) {
+      final type = gql.getTypeByName(context.schema, field.type);
+      if (type is InputObjectTypeDefinitionNode) {
+        addUsedInputObjectsAndEnums(type);
+      } else if (type is EnumTypeDefinitionNode) {
+        context.usedEnums.add(type.name.value);
+      }
+    }
   }
 
   @override
@@ -433,7 +438,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
     if (leafType is EnumTypeDefinitionNode) {
       context.usedEnums.add(leafType.name.value);
     } else if (leafType is InputObjectTypeDefinitionNode) {
-      context.usedInputObjects.add(leafType.name.value);
+      addUsedInputObjectsAndEnums(leafType);
     }
 
     context.inputsClasses.add(QueryInput(
@@ -441,6 +446,16 @@ class _GeneratorVisitor extends RecursiveVisitor {
       name: node.variable.name.value,
       isNonNull: node.type.isNonNull,
     ));
+  }
+
+  @override
+  void visitFragmentSpreadNode(FragmentSpreadNode node) {
+    _log(
+        context.align + 1, '${context.path}: ... expanding ${node.name.value}');
+    final fragmentName = context
+        .sameTypeWithNoPath(alias: '${ReCase(node.name.value).pascalCase}Mixin')
+        .joinedName();
+    _mixins.add(fragmentName);
   }
 
   @override
@@ -537,6 +552,7 @@ class _CanonicalVisitor extends RecursiveVisitor {
           nextClassName: nextType.name.value,
           nextFieldName: i.name.value,
         ),
+        markAsUsed: false,
       );
     }));
 
