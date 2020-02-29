@@ -1,7 +1,7 @@
 import 'package:artemis/generator/data.dart';
 import 'package:test/test.dart';
 
-import '../helpers.dart';
+import '../../helpers.dart';
 
 void main() {
   group('On complex input objects', () {
@@ -9,30 +9,30 @@ void main() {
       'On complex input objects',
       () async => testGenerator(
         query: r'''
-          query some_query($filter: ComplexType!) { 
-            o(filter: $filter) { 
-              s 
-            } 
+          query some_query($filter: ComplexInput!) {
+            o(filter: $filter) {
+              s
+            }
           }''',
         schema: r'''
           schema {
             query: QueryRoot
           }
-          
+
           type QueryRoot {
-            o(filter: ComplexType!): SomeObject
+            o(filter: ComplexInput!): SomeObject
           }
-          
-          input ComplexType {
+
+          input ComplexInput {
             s: String!
             e: MyEnum
             ls: [String]
           }
-          
+
           type SomeObject {
             s: String
           }
-          
+
           enum MyEnum {
             value1
             value2
@@ -52,6 +52,9 @@ final LibraryDefinition libraryDefinition =
       queryName: r'some_query',
       queryType: r'SomeQuery$QueryRoot',
       classes: [
+        EnumDefinition(
+            name: r'MyEnum',
+            values: [r'value1', r'value2', r'ARTEMIS_UNKNOWN']),
         ClassDefinition(
             name: r'SomeQuery$QueryRoot$SomeObject',
             properties: [
@@ -78,11 +81,8 @@ final LibraryDefinition libraryDefinition =
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
-        EnumDefinition(
-            name: r'SomeQuery$ComplexType$MyEnum',
-            values: [r'value1', r'value2', r'ARTEMIS_UNKNOWN']),
         ClassDefinition(
-            name: r'SomeQuery$ComplexType',
+            name: r'ComplexInput',
             properties: [
               ClassProperty(
                   type: r'String',
@@ -91,11 +91,11 @@ final LibraryDefinition libraryDefinition =
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: r'SomeQuery$ComplexType$MyEnum',
+                  type: r'MyEnum',
                   name: r'e',
                   isOverride: false,
                   annotation:
-                      r'JsonKey(unknownEnumValue: SomeQuery$ComplexType$MyEnum.ARTEMIS_UNKNOWN)',
+                      r'JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)',
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
@@ -110,8 +110,7 @@ final LibraryDefinition libraryDefinition =
             isInput: true)
       ],
       inputs: [
-        QueryInput(
-            type: r'SomeQuery$ComplexType', name: r'filter', isNonNull: true)
+        QueryInput(type: r'ComplexInput', name: r'filter', isNonNull: true)
       ],
       generateHelpers: true,
       suffix: r'Query')
@@ -155,25 +154,25 @@ class SomeQuery$QueryRoot with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery$ComplexType with EquatableMixin {
-  SomeQuery$ComplexType({@required this.s, this.e, this.ls});
+class ComplexInput with EquatableMixin {
+  ComplexInput({@required this.s, this.e, this.ls});
 
-  factory SomeQuery$ComplexType.fromJson(Map<String, dynamic> json) =>
-      _$SomeQuery$ComplexTypeFromJson(json);
+  factory ComplexInput.fromJson(Map<String, dynamic> json) =>
+      _$ComplexInputFromJson(json);
 
   String s;
 
-  @JsonKey(unknownEnumValue: SomeQuery$ComplexType$MyEnum.ARTEMIS_UNKNOWN)
-  SomeQuery$ComplexType$MyEnum e;
+  @JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)
+  MyEnum e;
 
   List<String> ls;
 
   @override
   List<Object> get props => [s, e, ls];
-  Map<String, dynamic> toJson() => _$SomeQuery$ComplexTypeToJson(this);
+  Map<String, dynamic> toJson() => _$ComplexInputToJson(this);
 }
 
-enum SomeQuery$ComplexType$MyEnum {
+enum MyEnum {
   value1,
   value2,
   ARTEMIS_UNKNOWN,
@@ -186,7 +185,7 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
   factory SomeQueryArguments.fromJson(Map<String, dynamic> json) =>
       _$SomeQueryArgumentsFromJson(json);
 
-  final SomeQuery$ComplexType filter;
+  final ComplexInput filter;
 
   @override
   List<Object> get props => [filter];
@@ -206,7 +205,7 @@ class SomeQueryQuery
           VariableDefinitionNode(
               variable: VariableNode(name: NameNode(value: 'filter')),
               type: NamedTypeNode(
-                  name: NameNode(value: 'ComplexType'), isNonNull: true),
+                  name: NameNode(value: 'ComplexInput'), isNonNull: true),
               defaultValue: DefaultValueNode(value: null),
               directives: [])
         ],

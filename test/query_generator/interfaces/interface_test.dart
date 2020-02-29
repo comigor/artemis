@@ -77,14 +77,14 @@ final LibraryDefinition libraryDefinition =
         ClassDefinition(
             name: r'Custom$Query$Node$User',
             extension: r'Custom$Query$Node',
-            mixins: [r'Custom$UserFragMixin'],
+            mixins: [r'UserFragMixin'],
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
             name: r'Custom$Query$Node$ChatMessage$User',
             extension: r'Custom$Query$Node$ChatMessage',
-            mixins: [r'Custom$UserFragMixin'],
+            mixins: [r'UserFragMixin'],
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
@@ -144,7 +144,7 @@ final LibraryDefinition libraryDefinition =
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
-        FragmentClassDefinition(name: r'Custom$UserFragMixin', properties: [
+        FragmentClassDefinition(name: r'UserFragMixin', properties: [
           ClassProperty(
               type: r'String',
               name: r'id',
@@ -172,14 +172,14 @@ import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
 
-mixin Custom$UserFragMixin {
+mixin UserFragMixin {
   String id;
   String username;
 }
 
 @JsonSerializable(explicitToJson: true)
 class Custom$Query$Node$User extends Custom$Query$Node
-    with EquatableMixin, Custom$UserFragMixin {
+    with EquatableMixin, UserFragMixin {
   Custom$Query$Node$User();
 
   factory Custom$Query$Node$User.fromJson(Map<String, dynamic> json) =>
@@ -192,7 +192,7 @@ class Custom$Query$Node$User extends Custom$Query$Node
 
 @JsonSerializable(explicitToJson: true)
 class Custom$Query$Node$ChatMessage$User extends Custom$Query$Node$ChatMessage
-    with EquatableMixin, Custom$UserFragMixin {
+    with EquatableMixin, UserFragMixin {
   Custom$Query$Node$ChatMessage$User();
 
   factory Custom$Query$Node$ChatMessage$User.fromJson(

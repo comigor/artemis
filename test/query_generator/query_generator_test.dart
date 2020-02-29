@@ -646,6 +646,7 @@ class SomeQuery$Result with EquatableMixin {
         {
           'a|api.schema.graphql': r'''
             scalar BigDecimal
+            scalar DateTime
             
             schema {
               query: SomeObject

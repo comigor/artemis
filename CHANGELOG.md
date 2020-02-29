@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## 6.0.0-beta.1
+**MAJOR BREAKING CHANGE**
+
+- Generate canonical objects (enums and input objects) with their original
+names on GraphQL. Fragments are also generated with their own names (plus the `Mixin` prefix, for now).
+- Make it possible to select a naming scheme to be used for generate the class
+names. `pathedWithTypes` is the default for retrocompatibility, where the names
+of previous types are used as prefix of the next class. This can generate
+duplication on certain schemas. With `pathedWithFields`, the names of previous
+fields are used as prefix of the next class and with `simple`, only the actual
+GraphQL class nameis considered. See discussion on [#90][pr-90] and [#96][pr-96]
+for more information.
+
 ## 5.1.0
 - Add `.graphql.` to outputted files path, in a non-breaking change way: a
 "forwarder" file will be generated to make it retro-compatible when a
@@ -19,6 +32,7 @@ configurated output doesn't end with `.graphql.dart`.
 
 ## 5.0.0
 **MAJOR BREAKING CHANGE**
+
 In this version we moved from `json` to `graphql` (SDL) schema parsing.
 This allowed us to get rid off ±1200 lines of code which makes the  
 project support much easier. The test files with schema definitions
@@ -38,6 +52,7 @@ If not, use this [snippet][introspection-to-sdl-snippet]
 
 ## 4.0.0
 **MAJOR BREAKING CHANGE**
+
 This version completely refactors how Artemis generate code (by finally
 using the implementation of visitor pattern provided by `gql`). On top of that,
 I've decided to do other major breaking changes to make code cleaner and more
@@ -254,3 +269,5 @@ This is totally a breaking change but as this library is still on alpha, I shoul
 [apollo-3-ways-schema]: https://blog.apollographql.com/three-ways-to-represent-your-graphql-schema-a41f4175100d#:~:text=Introspection%20query%20result%20to%20SDL
 [introspection-to-sdl-snippet]: https://gist.github.com/stubailo/041999ba5b8b15cede60b93ff9a38f53
 [introspection-to-sdl-online]: https://codesandbox.io/s/graphql-introspection-sdl-svlx2
+[pr-90]: https://github.com/comigor/artemis/pull/90
+[pr-96]: https://github.com/comigor/artemis/pull/96

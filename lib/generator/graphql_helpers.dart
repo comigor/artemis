@@ -3,23 +3,28 @@ import 'package:gql/ast.dart';
 
 import '../schema/options.dart';
 
-/// Get a full [TypeDefinitionNode] from its name.
-TypeDefinitionNode getTypeByName(DocumentNode schema, Node name,
+/// Get a full [TypeDefinitionNode] from a type node.
+TypeDefinitionNode getTypeByName(DocumentNode schema, TypeNode typeNode,
     {String context}) {
   NamedTypeNode namedNode;
 
-  if (name is NamedTypeNode) {
-    namedNode = name;
+  if (typeNode is NamedTypeNode) {
+    namedNode = typeNode;
   }
 
-  if (name is ListTypeNode) {
-    namedNode = name.type as NamedTypeNode;
+  if (typeNode is ListTypeNode) {
+    namedNode = typeNode.type as NamedTypeNode;
   }
 
   final typeVisitor = TypeDefinitionNodeVisitor();
   schema.accept(typeVisitor);
 
   final type = typeVisitor.getByName(namedNode.name.value);
+
+  if (type == null) {
+    throw Exception('''Type ${namedNode.name.value} was not found in schema.
+Make sure your query is correct and your schema is updated.''');
+  }
 
   return type;
 }
@@ -44,6 +49,11 @@ String buildTypeString(
     if (type != null) {
       if (type is ScalarTypeDefinitionNode) {
         return dartTypeValue;
+      }
+
+      if (type is EnumTypeDefinitionNode ||
+          type is InputObjectTypeDefinitionNode) {
+        return type.name.value;
       }
 
       if (replaceLeafWith != null) {
