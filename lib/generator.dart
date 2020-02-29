@@ -202,7 +202,7 @@ ClassProperty _createClassProperty({
   _OnNewClassFoundCallback onNewClassFound,
   bool markAsUsed = true,
 }) {
-  List<Node> finalFields = [];
+  var finalFields = <Node>[];
 
   if (context.currentType is ObjectTypeDefinitionNode) {
     finalFields = (context.currentType as ObjectTypeDefinitionNode).fields;
