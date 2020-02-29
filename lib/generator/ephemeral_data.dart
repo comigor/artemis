@@ -111,9 +111,9 @@ class Context {
     List<FragmentDefinitionNode> fragments,
   }) =>
       Context(
-        schema: this.schema,
-        options: this.options,
-        schemaMap: this.schemaMap,
+        schema: schema,
+        options: options,
+        schemaMap: schemaMap,
         path: path,
         currentType: nextType,
         currentFieldName: nextFieldName,
@@ -122,9 +122,9 @@ class Context {
         generatedClasses: generatedClasses ?? this.generatedClasses,
         inputsClasses: inputsClasses ?? this.inputsClasses,
         fragments: fragments ?? this.fragments,
-        align: this.align,
-        usedEnums: this.usedEnums,
-        usedInputObjects: this.usedInputObjects,
+        align: align,
+        usedEnums: usedEnums,
+        usedInputObjects: usedInputObjects,
       );
 
   /// Returns a copy of this context, with a new type on a new path.
@@ -140,9 +140,9 @@ class Context {
   }) {
     assert(alias != null || (nextFieldName != null && nextClassName != null));
     return Context(
-      schema: this.schema,
-      options: this.options,
-      schemaMap: this.schemaMap,
+      schema: schema,
+      options: options,
+      schemaMap: schemaMap,
       path: path.followedBy([
         _stringForNaming(
           alias ?? nextFieldName,
@@ -156,9 +156,9 @@ class Context {
       generatedClasses: generatedClasses ?? this.generatedClasses,
       inputsClasses: inputsClasses ?? this.inputsClasses,
       fragments: fragments ?? this.fragments,
-      align: this.align + 1,
-      usedEnums: this.usedEnums,
-      usedInputObjects: this.usedInputObjects,
+      align: align + 1,
+      usedEnums: usedEnums,
+      usedInputObjects: usedInputObjects,
     );
   }
 
@@ -169,21 +169,21 @@ class Context {
     String alias,
   }) =>
       Context(
-        schema: this.schema,
-        options: this.options,
-        schemaMap: this.schemaMap,
-        path: this.path,
-        currentType: this.currentType,
+        schema: schema,
+        options: options,
+        schemaMap: schemaMap,
+        path: path,
+        currentType: currentType,
         currentFieldName: nextFieldName,
         currentClassName: nextClassName,
-        ofUnion: this.ofUnion,
+        ofUnion: ofUnion,
         alias: alias,
-        generatedClasses: this.generatedClasses,
-        inputsClasses: this.inputsClasses,
-        fragments: this.fragments,
-        align: this.align,
-        usedEnums: this.usedEnums,
-        usedInputObjects: this.usedInputObjects,
+        generatedClasses: generatedClasses,
+        inputsClasses: inputsClasses,
+        fragments: fragments,
+        align: align,
+        usedEnums: usedEnums,
+        usedInputObjects: usedInputObjects,
       );
 
   /// Returns a copy of this context, with the same type, but on a new path.
@@ -198,9 +198,9 @@ class Context {
   }) {
     assert(alias != null || (nextFieldName != null && nextClassName != null));
     return Context(
-      schema: this.schema,
-      options: this.options,
-      schemaMap: this.schemaMap,
+      schema: schema,
+      options: options,
+      schemaMap: schemaMap,
       path: path.followedBy([
         _stringForNaming(
           alias ?? nextFieldName,
@@ -215,30 +215,30 @@ class Context {
       generatedClasses: generatedClasses ?? this.generatedClasses,
       inputsClasses: inputsClasses ?? this.inputsClasses,
       fragments: fragments ?? this.fragments,
-      align: this.align + 1,
-      usedEnums: this.usedEnums,
-      usedInputObjects: this.usedInputObjects,
+      align: align + 1,
+      usedEnums: usedEnums,
+      usedInputObjects: usedInputObjects,
     );
   }
 
   /// Returns a copy of this context, rolling back a item on path.
   Context rollbackPath() {
     return Context(
-      schema: this.schema,
-      options: this.options,
-      schemaMap: this.schemaMap,
+      schema: schema,
+      options: options,
+      schemaMap: schemaMap,
       path: [...path]..removeLast(),
-      currentType: this.currentType,
-      currentFieldName: this.currentFieldName,
-      currentClassName: this.currentClassName,
-      ofUnion: this.ofUnion,
-      alias: this.alias,
-      generatedClasses: this.generatedClasses,
-      inputsClasses: this.inputsClasses,
-      fragments: this.fragments,
-      align: this.align - 1,
-      usedEnums: this.usedEnums,
-      usedInputObjects: this.usedInputObjects,
+      currentType: currentType,
+      currentFieldName: currentFieldName,
+      currentClassName: currentClassName,
+      ofUnion: ofUnion,
+      alias: alias,
+      generatedClasses: generatedClasses,
+      inputsClasses: inputsClasses,
+      fragments: fragments,
+      align: align - 1,
+      usedEnums: usedEnums,
+      usedInputObjects: usedInputObjects,
     );
   }
 
@@ -251,21 +251,21 @@ class Context {
     List<FragmentDefinitionNode> fragments,
   }) =>
       Context(
-        schema: this.schema,
-        options: this.options,
-        schemaMap: this.schemaMap,
+        schema: schema,
+        options: options,
+        schemaMap: schemaMap,
         path: [],
-        currentType: this.currentType,
-        currentFieldName: this.currentFieldName,
-        currentClassName: this.currentClassName,
+        currentType: currentType,
+        currentFieldName: currentFieldName,
+        currentClassName: currentClassName,
         ofUnion: ofUnion ?? this.ofUnion,
         alias: alias ?? this.alias,
         generatedClasses: generatedClasses ?? this.generatedClasses,
         inputsClasses: inputsClasses ?? this.inputsClasses,
         fragments: fragments ?? this.fragments,
-        align: this.align,
-        usedEnums: this.usedEnums,
-        usedInputObjects: this.usedInputObjects,
+        align: align,
+        usedEnums: usedEnums,
+        usedInputObjects: usedInputObjects,
       );
 
   /// Returns a copy of this context, with next type, but on the first path.
@@ -280,9 +280,9 @@ class Context {
     List<FragmentDefinitionNode> fragments,
   }) =>
       Context(
-        schema: this.schema,
-        options: this.options,
-        schemaMap: this.schemaMap,
+        schema: schema,
+        options: options,
+        schemaMap: schemaMap,
         path: [],
         currentType: nextType,
         currentFieldName: nextFieldName,
@@ -293,7 +293,7 @@ class Context {
         inputsClasses: inputsClasses ?? this.inputsClasses,
         fragments: fragments ?? this.fragments,
         align: 0,
-        usedEnums: this.usedEnums,
-        usedInputObjects: this.usedInputObjects,
+        usedEnums: usedEnums,
+        usedInputObjects: usedInputObjects,
       );
 }

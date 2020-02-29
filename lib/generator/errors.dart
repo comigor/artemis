@@ -1,12 +1,18 @@
+/// Define an exception thrown when duplicated classes names were generated.
 class DuplicatedClassesException implements Exception {
+  /// Define an exception thrown when duplicated classes names were generated.
   const DuplicatedClassesException(
     this.allClassesNames,
     this.duplicatedClassName,
   );
 
+  /// The list of all generated classes names.
   final Iterable<String> allClassesNames;
+
+  /// The name of the first class with duplicated name.
   final String duplicatedClassName;
 
+  @override
   String toString() =>
       '''Two classes were generated with the same name `$duplicatedClassName`!
 You may want to:

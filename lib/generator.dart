@@ -312,7 +312,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
 
     _log(nextContext.align, '-> Class');
     _log(nextContext.align,
-        '┌ ${nextContext.path}[${nextContext.currentType.name.value}][${nextContext.currentClassName} ${nextContext.currentFieldName}] (${nextContext.alias != null ? nextContext.alias : ''})');
+        '┌ ${nextContext.path}[${nextContext.currentType.name.value}][${nextContext.currentClassName} ${nextContext.currentFieldName}] (${nextContext.alias ?? ''})');
     super.visitSelectionSetNode(node);
 
     final possibleTypes = <String, String>{};
@@ -341,7 +341,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
     if (partOfUnion) {}
 
     _log(nextContext.align,
-        '└ ${nextContext.path}[${nextContext.currentType.name.value}][${nextContext.currentClassName} ${nextContext.currentFieldName}] (${nextContext.alias != null ? nextContext.alias : ''})');
+        '└ ${nextContext.path}[${nextContext.currentType.name.value}][${nextContext.currentClassName} ${nextContext.currentFieldName}] (${nextContext.alias ?? ''})');
     _log(nextContext.align, '<- Generated class ${nextContext.joinedName()}.');
     nextContext.generatedClasses.add(ClassDefinition(
       name: nextContext.joinedName(),
