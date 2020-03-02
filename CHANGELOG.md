@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.0.1-beta.1
+- End forwarder file with a newline.
+
 ## 6.0.0-beta.1
 **MAJOR BREAKING CHANGE**
 

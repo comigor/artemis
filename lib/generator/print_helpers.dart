@@ -376,4 +376,5 @@ void writeLibraryDefinitionToBuffer(
 /// a breaking change on file generation.
 String writeLibraryForwarder(LibraryDefinition definition) =>
     '''// GENERATED CODE - DO NOT MODIFY BY HAND
-export '${definition.basename}.dart';''';
+export '${definition.basename}.dart';
+''';
