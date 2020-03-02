@@ -156,9 +156,6 @@ QueryDefinition generateQuery(
   document.accept(visitor);
   schema.accept(canonicalVisitor);
 
-  print(context.usedEnums);
-  print(context.usedInputObjects);
-
   return QueryDefinition(
     queryName: queryName,
     queryType: '$className\$${parentType.name.value}',

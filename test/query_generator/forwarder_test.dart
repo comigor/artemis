@@ -31,7 +31,8 @@ void main() {
         outputsMap: {
           'a|lib/query.graphql.dart': generatedFile,
           'a|lib/query.dart': r'''// GENERATED CODE - DO NOT MODIFY BY HAND
-export 'query.graphql.dart';''',
+export 'query.graphql.dart';
+''',
         },
       ),
     );
