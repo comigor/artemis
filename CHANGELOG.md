@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.0.2-beta.1
+- Fix invalid reference to class on Query generations.
+
 ## 6.0.1-beta.1
 - End forwarder file with a newline.
 
