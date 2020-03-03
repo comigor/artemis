@@ -156,12 +156,10 @@ QueryDefinition generateQuery(
   document.accept(visitor);
   schema.accept(canonicalVisitor);
 
-  print(context.usedEnums);
-  print(context.usedInputObjects);
-
   return QueryDefinition(
     queryName: queryName,
-    queryType: '$className\$${parentType.name.value}',
+    queryType: createJoinedName(
+        [className, parentType.name.value], schemaMap.namingScheme),
     document: document,
     classes: [
       ...canonicalVisitor.enums

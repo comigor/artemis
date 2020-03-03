@@ -5,6 +5,30 @@ import 'package:recase/recase.dart';
 import './data.dart';
 import '../schema/options.dart';
 
+/// Returns the full class name with joined path.
+String createJoinedName(List<String> path, NamingScheme namingScheme,
+    [String currentClassName, String currentFieldName, String alias]) {
+  final fieldName = alias ?? currentFieldName;
+  final className = alias ?? currentClassName;
+
+  List<String> fullPath;
+
+  switch (namingScheme) {
+    case NamingScheme.simple:
+      fullPath = [className ?? path.last];
+      break;
+    case NamingScheme.pathedWithFields:
+      fullPath = [...path, if (fieldName != null) fieldName];
+      break;
+    case NamingScheme.pathedWithTypes:
+    default:
+      fullPath = [...path, if (className != null) className];
+      break;
+  }
+
+  return fullPath.map((e) => ReCase(e).pascalCase).join(r'$');
+}
+
 /// Holds context between [_GeneratorVisitor] iterations.
 class Context {
   /// Instantiates context for [_GeneratorVisitor] iterations.
@@ -77,27 +101,8 @@ class Context {
           : withClassNames;
 
   /// Returns the full class name with joined path.
-  String joinedName() {
-    final fieldName = alias ?? currentFieldName;
-    final className = alias ?? currentClassName;
-
-    List<String> fullPath;
-
-    switch (schemaMap.namingScheme) {
-      case NamingScheme.simple:
-        fullPath = [className ?? path.last];
-        break;
-      case NamingScheme.pathedWithFields:
-        fullPath = [...path, if (fieldName != null) fieldName];
-        break;
-      case NamingScheme.pathedWithTypes:
-      default:
-        fullPath = [...path, if (className != null) className];
-        break;
-    }
-
-    return fullPath.map((e) => ReCase(e).pascalCase).join(r'$');
-  }
+  String joinedName() => createJoinedName(
+      path, schemaMap.namingScheme, currentClassName, currentFieldName, alias);
 
   /// Returns a copy of this context, on the same path, but with a new type.
   Context nextTypeWithSamePath({
