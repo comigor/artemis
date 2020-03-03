@@ -51,6 +51,13 @@ or
 flutter pub run build_runner build
 ```
 
+do not forget to exclude the generated files form [analysis_options.yaml](https://dart.dev/guides/language/analysis-options#the-analysis-options-file) if you use one
+
+```yaml
+analyzer:
+  exclude: [lib/path/to/output_files]
+```
+
 ## **Configuration**
 Artemis offers some configuration options to generate code. All options should be included on `build.yaml` file on the root of the project:
 ```yaml
