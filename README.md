@@ -51,11 +51,11 @@ or
 flutter pub run build_runner build
 ```
 
-do not forget to exclude the generated files form [analysis_options.yaml](https://dart.dev/guides/language/analysis-options#the-analysis-options-file) if you use one
+Do not forget to exclude the generated files form [analysis_options.yaml](https://dart.dev/guides/language/analysis-options#the-analysis-options-file) if you use one:
 
 ```yaml
 analyzer:
-  exclude: [lib/path/to/output_files]
+  exclude: [lib/**/*.graphql.dart, lib/**/*.graphql.g.dart]
 ```
 
 ## **Configuration**
