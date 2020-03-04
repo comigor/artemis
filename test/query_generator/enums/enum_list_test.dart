@@ -8,7 +8,10 @@ void main() {
     test(
       'Enums as lists are generated correctly',
       () async => testGenerator(
-        query: query,
+        sourceAssetsMap: {
+          'a|queries/query.graphql': query,
+          'a|queries/query2.graphql': query2,
+        },
         libraryDefinition: libraryDefinition,
         generatedFile: generatedFile,
         schema: r'''
@@ -41,6 +44,14 @@ query custom {
 }
 ''';
 
+const query2 = r'''
+query custom2 {
+  q {
+    le
+  }
+}
+''';
+
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
@@ -67,6 +78,41 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'Custom$QueryRoot$QueryResponse',
+                  name: r'q',
+                  isOverride: false,
+                  isNonNull: false,
+                  isResolveType: false)
+            ],
+            factoryPossibilities: {},
+            typeNameField: r'__typename',
+            isInput: false)
+      ],
+      generateHelpers: false,
+      suffix: r'Query'),
+  QueryDefinition(
+      queryName: r'custom2',
+      queryType: r'Custom2$QueryRoot',
+      classes: [
+        EnumDefinition(
+            name: r'MyEnum', values: [r'A', r'B', r'ARTEMIS_UNKNOWN']),
+        ClassDefinition(
+            name: r'Custom2$QueryRoot$QueryResponse',
+            properties: [
+              ClassProperty(
+                  type: r'List<MyEnum>',
+                  name: r'le',
+                  isOverride: false,
+                  isNonNull: false,
+                  isResolveType: false)
+            ],
+            factoryPossibilities: {},
+            typeNameField: r'__typename',
+            isInput: false),
+        ClassDefinition(
+            name: r'Custom2$QueryRoot',
+            properties: [
+              ClassProperty(
+                  type: r'Custom2$QueryRoot$QueryResponse',
                   name: r'q',
                   isOverride: false,
                   isNonNull: false,
