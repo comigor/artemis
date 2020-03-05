@@ -90,7 +90,7 @@ targets:
       artemis:
         options:
           schema_mapping:
-            - output: lib/graphql_api.dart
+            - output: lib/graphql_api.graphql.dart
               schema: lib/my_graphql_schema.graphql
               queries_glob: lib/**.graphql
 ```
