@@ -272,7 +272,7 @@ Make sure your query is correct and your schema is updated.''');
           .replaceAll(RegExp(r'[<>]'), '');
       final dartTypeSafeStr = dartTypeStr.replaceAll(RegExp(r'[<>]'), '');
       annotation =
-          'JsonKey(fromJson: fromGraphQL${dartTypeStr}ToDart$dartTypeSafeStr, toJson: fromDart${dartTypeSafeStr}ToGraphQL$graphqlTypeSafeStr)';
+          'JsonKey(fromJson: fromGraphQL${graphqlTypeSafeStr}ToDart$dartTypeSafeStr, toJson: fromDart${dartTypeSafeStr}ToGraphQL$graphqlTypeSafeStr,)';
     }
   } // On enums
   else if (nextType is EnumTypeDefinitionNode) {
