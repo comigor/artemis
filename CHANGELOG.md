@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.0.3-beta.1
+- Fix generation of custom scalars and its functions.
+
 ## 6.0.2-beta.1
 - Fix invalid reference to class on Query generations.
 

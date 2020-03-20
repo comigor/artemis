@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:yaml/yaml.dart';
 
 // I can't use the default json_serializable flow because the artemis generator
 // would crash when importing options.dart file.
@@ -60,8 +61,13 @@ class DartType {
       return DartType(name: json);
     } else if (json is Map<String, dynamic>) {
       return _$DartTypeFromJson(json);
+    } else if (json is YamlMap) {
+      return _$DartTypeFromJson({
+        'name': json['name'],
+        'imports': (json['imports'] as YamlList).map((s) => s).toList(),
+      });
     } else {
-      throw 'Invalid json: $json';
+      throw 'Invalid YAML: $json';
     }
   }
 
