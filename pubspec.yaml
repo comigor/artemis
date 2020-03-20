@@ -27,6 +27,7 @@ dependencies:
   path: ^1.6.2
   recase: ^2.0.1
   source_gen: ^0.9.4+2
+  yaml: ^2.2.0
 
 dev_dependencies:
   args: ^1.5.2
