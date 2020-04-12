@@ -37,3 +37,11 @@ $ pub run build_runner build --verbose
 # or a minimum reproducible schema of the bug.
 ```
 </details>
+<details>
+<summary>GraphQL query:</summary>
+
+```graphql
+# If possible, please paste your GraphQL query file,
+# or a minimum reproducible query of the bug.
+```
+</details>
