@@ -61,7 +61,7 @@ final LibraryDefinition libraryDefinition =
       classes: [
         ClassDefinition(
             name: r'Query$Query$Pokemon',
-            mixins: [r'PokemonMixin'],
+            mixins: [r'PokemonMixin', r'PokemonPartsMixin'],
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
@@ -121,14 +121,14 @@ mixin PokemonPartsMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class Query$Query$Pokemon with EquatableMixin, PokemonMixin {
+class Query$Query$Pokemon with EquatableMixin, PokemonMixin, PokemonPartsMixin {
   Query$Query$Pokemon();
 
   factory Query$Query$Pokemon.fromJson(Map<String, dynamic> json) =>
       _$Query$Query$PokemonFromJson(json);
 
   @override
-  List<Object> get props => [id];
+  List<Object> get props => [id, evolution, number, name];
   Map<String, dynamic> toJson() => _$Query$Query$PokemonToJson(this);
 }
 
