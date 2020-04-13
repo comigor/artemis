@@ -13,7 +13,8 @@ import 'visitor.dart';
 
 typedef _OnNewClassFoundCallback = void Function(Context context);
 
-void _log(int align, Object log) {
+void _log(Context context, int align, Object log) {
+  if (!context.log) return;
   print('${List.filled(align, '|   ').join()}${log.toString()}');
 }
 
@@ -241,7 +242,7 @@ Make sure your query is correct and your schema is updated.''');
   final dartTypeStr = gql.buildTypeString(fieldType, context.options,
       dartType: true, replaceLeafWith: nextClassName, schema: context.schema);
 
-  _log(aliasedContext.align + 1,
+  _log(context, aliasedContext.align + 1,
       '${aliasedContext.path}[${aliasedContext.currentType.name.value}][${aliasedContext.currentClassName} ${aliasedContext.currentFieldName}] ${fieldAlias == null ? '' : '(${fieldAlias}) '}-> $dartTypeStr');
 
   if ((nextType is ObjectTypeDefinitionNode ||
@@ -308,8 +309,8 @@ class _GeneratorVisitor extends RecursiveVisitor {
   void visitSelectionSetNode(SelectionSetNode node) {
     final nextContext = context.withAlias();
 
-    _log(nextContext.align, '-> Class');
-    _log(nextContext.align,
+    _log(context, nextContext.align, '-> Class');
+    _log(context, nextContext.align,
         '┌ ${nextContext.path}[${nextContext.currentType.name.value}][${nextContext.currentClassName} ${nextContext.currentFieldName}] (${nextContext.alias ?? ''})');
     super.visitSelectionSetNode(node);
 
@@ -338,9 +339,10 @@ class _GeneratorVisitor extends RecursiveVisitor {
     final partOfUnion = nextContext.ofUnion != null;
     if (partOfUnion) {}
 
-    _log(nextContext.align,
+    _log(context, nextContext.align,
         '└ ${nextContext.path}[${nextContext.currentType.name.value}][${nextContext.currentClassName} ${nextContext.currentFieldName}] (${nextContext.alias ?? ''})');
-    _log(nextContext.align, '<- Generated class ${nextContext.joinedName()}.');
+    _log(context, nextContext.align,
+        '<- Generated class ${nextContext.joinedName()}.');
     nextContext.generatedClasses.add(ClassDefinition(
       name: nextContext.joinedName(),
       properties: _classProperties,
@@ -372,7 +374,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
 
   @override
   void visitInlineFragmentNode(InlineFragmentNode node) {
-    _log(context.align + 1,
+    _log(context, context.align + 1,
         '${context.path}: ... on ${node.typeCondition.on.name.value}');
     final nextType = gql.getTypeByName(context.schema, node.typeCondition.on,
         context: 'inline fragment');
@@ -448,8 +450,8 @@ class _GeneratorVisitor extends RecursiveVisitor {
 
   @override
   void visitFragmentSpreadNode(FragmentSpreadNode node) {
-    _log(
-        context.align + 1, '${context.path}: ... expanding ${node.name.value}');
+    _log(context, context.align + 1,
+        '${context.path}: ... expanding ${node.name.value}');
     final fragmentName = context
         .sameTypeWithNoPath(alias: '${ReCase(node.name.value).pascalCase}Mixin')
         .joinedName();
@@ -458,6 +460,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
       context: context.sameTypeWithNextPath(
         alias: fragmentName,
         generatedClasses: [],
+        log: false,
       ),
     );
     final fragmentDef = context.fragments.firstWhere(
@@ -475,8 +478,9 @@ class _GeneratorVisitor extends RecursiveVisitor {
     final partName = '${ReCase(node.name.value).pascalCase}Mixin';
     final nextContext = context.sameTypeWithNoPath(alias: partName);
 
-    _log(nextContext.align, '-> Fragment');
-    _log(nextContext.align, '┌ ${nextContext.path}[${node.name.value}]');
+    _log(context, nextContext.align, '-> Fragment');
+    _log(context, nextContext.align,
+        '┌ ${nextContext.path}[${node.name.value}]');
     nextContext.fragments.add(node);
 
     final nextType = gql.getTypeByName(
@@ -512,8 +516,9 @@ class _GeneratorVisitor extends RecursiveVisitor {
         .expand((a) => a)
         .mergeDuplicatesBy((a) => a.name, (a, b) => a);
 
-    _log(nextContext.align, '└ ${nextContext.path}[${node.name.value}]');
-    _log(nextContext.align,
+    _log(context, nextContext.align,
+        '└ ${nextContext.path}[${node.name.value}]');
+    _log(context, nextContext.align,
         '<- Generated fragment ${nextContext.joinedName()}.');
     nextContext.generatedClasses.add(
       FragmentClassDefinition(
@@ -537,8 +542,9 @@ class _CanonicalVisitor extends RecursiveVisitor {
   @override
   void visitEnumTypeDefinitionNode(EnumTypeDefinitionNode node) {
     final nextContext = context.sameTypeWithNoPath(alias: node.name.value);
-    _log(nextContext.align, '-> Enum');
-    _log(nextContext.align, '<- Generated enum ${nextContext.joinedName()}.');
+    _log(context, nextContext.align, '-> Enum');
+    _log(context, nextContext.align,
+        '<- Generated enum ${nextContext.joinedName()}.');
 
     enums.add(EnumDefinition(
       name: nextContext.joinedName(),
@@ -551,8 +557,9 @@ class _CanonicalVisitor extends RecursiveVisitor {
   void visitInputObjectTypeDefinitionNode(InputObjectTypeDefinitionNode node) {
     final nextContext = context.sameTypeWithNoPath(alias: node.name.value);
 
-    _log(nextContext.align, '-> Input class');
-    _log(nextContext.align, '┌ ${nextContext.path}[${node.name.value}]');
+    _log(context, nextContext.align, '-> Input class');
+    _log(context, nextContext.align,
+        '┌ ${nextContext.path}[${node.name.value}]');
     final properties = <ClassProperty>[];
 
     properties.addAll(node.fields.map((i) {
@@ -568,8 +575,9 @@ class _CanonicalVisitor extends RecursiveVisitor {
       );
     }));
 
-    _log(nextContext.align, '└ ${nextContext.path}[${node.name.value}]');
-    _log(nextContext.align,
+    _log(context, nextContext.align,
+        '└ ${nextContext.path}[${node.name.value}]');
+    _log(context, nextContext.align,
         '<- Generated input class ${nextContext.joinedName()}.');
 
     inputObjects.add(ClassDefinition(
