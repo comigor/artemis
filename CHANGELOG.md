@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.0.4-beta.1
+- Properly consider "sub-fragments" on class generation.
+
 ## 6.0.3-beta.1
 - Fix generation of custom scalars and its functions.
 
