@@ -453,7 +453,21 @@ class _GeneratorVisitor extends RecursiveVisitor {
     final fragmentName = context
         .sameTypeWithNoPath(alias: '${ReCase(node.name.value).pascalCase}Mixin')
         .joinedName();
-    _mixins.add(fragmentName);
+
+    final visitor = _GeneratorVisitor(
+      context: context.sameTypeWithNextPath(
+        alias: fragmentName,
+        generatedClasses: [],
+      ),
+    );
+    final fragmentDef = context.fragments.firstWhere(
+        (fragment) => fragment.name.value == node.name.value,
+        orElse: () => null);
+    fragmentDef?.visitChildren(visitor);
+
+    _mixins
+      ..add(fragmentName)
+      ..addAll(visitor._mixins);
   }
 
   @override
