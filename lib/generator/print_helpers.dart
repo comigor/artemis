@@ -145,11 +145,6 @@ Spec classDefinitionToSpec(
           annotations.add(CodeExpression(Code(p.annotation)));
         }
 
-        // TODO: move upper to annotations
-        if (p.type == 'File' || p.type == 'List<File>') {
-          annotations.add(CodeExpression(Code('JsonKey(ignore: true)')));
-        }
-
         final field = Field(
           (f) => f
             ..name = p.name
@@ -344,6 +339,8 @@ Spec generateLibrarySpec(LibraryDefinition definition) {
     CodeExpression(Code('part \'${definition.basename}.g.dart\';')),
   ];
 
+  final bodyDirectivesDedup = <Spec>[];
+
   for (final queryDef in definition.queries) {
     bodyDirectives.addAll(queryDef.classes
         .whereType<FragmentClassDefinition>()
@@ -362,8 +359,20 @@ Spec generateLibrarySpec(LibraryDefinition definition) {
     }
   }
 
+  final t = bodyDirectives.where((dir) {
+    return bodyDirectivesDedup.where((element) {
+      return (dir is Class && element is Class && dir.name == element.name) ||
+          (dir is CodeExpression &&
+              element is CodeExpression &&
+              dir.code.toString() == element.code.toString());
+    }).isEmpty;
+  });
+  bodyDirectivesDedup.addAll(t);
+
   return Library(
-    (b) => b..directives.addAll(importDirectives)..body.addAll(bodyDirectives),
+    (b) => b
+      ..directives.addAll(importDirectives)
+      ..body.addAll(bodyDirectivesDedup),
   );
 }
 

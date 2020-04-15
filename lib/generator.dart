@@ -48,9 +48,9 @@ LibraryDefinition generateLibrary(
       .expand((e) => e)
       .toList();
 
-  allClassesNames.mergeDuplicatesBy((a) => a, (a, b) {
-    throw DuplicatedClassesException(allClassesNames, a);
-  });
+//  allClassesNames.mergeDuplicatesBy((a) => a, (a, b) {
+//    throw DuplicatedClassesException(allClassesNames, a);
+//  });
 
   final basename = p.basenameWithoutExtension(path);
 
