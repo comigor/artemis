@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 6.0.5-beta.1
+- Prevent from failing on schema contains `Upload` type.
+See [here](https://github.com/zino-app/graphql-flutter/tree/master/packages/graphql_flutter#graphql-upload)
+for more details
+
 ## 6.0.4-beta.1
 - Properly consider "sub-fragments" on class generation.
 
