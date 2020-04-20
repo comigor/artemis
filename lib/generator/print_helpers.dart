@@ -144,6 +144,12 @@ Spec classDefinitionToSpec(
         if (p.annotation != null) {
           annotations.add(CodeExpression(Code(p.annotation)));
         }
+
+        // TODO: move upper to annotations
+        if (p.type == 'File' || p.type == 'List<File>') {
+          annotations.add(CodeExpression(Code('JsonKey(ignore: true)')));
+        }
+
         final field = Field(
           (f) => f
             ..name = p.name
