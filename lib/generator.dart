@@ -435,16 +435,32 @@ class _GeneratorVisitor extends RecursiveVisitor {
     final dartTypeStr = gql.buildTypeString(node.type, context.options,
         dartType: true, replaceLeafWith: nextClassName, schema: context.schema);
 
+    String annotation;
     if (leafType is EnumTypeDefinitionNode) {
       context.usedEnums.add(leafType.name.value);
     } else if (leafType is InputObjectTypeDefinitionNode) {
       addUsedInputObjectsAndEnums(leafType);
+    } else if (leafType is ScalarTypeDefinitionNode) {
+      final scalar =
+          gql.getSingleScalarMap(context.options, leafType.name.value);
+
+      if (scalar.customParserImport != null &&
+          leafType.name.value == scalar.graphQLType) {
+        final graphqlTypeSafeStr = gql
+            .buildTypeString(node.type, context.options,
+                dartType: false, schema: context.schema)
+            .replaceAll(RegExp(r'[<>]'), '');
+        final dartTypeSafeStr = dartTypeStr.replaceAll(RegExp(r'[<>]'), '');
+        annotation =
+            'JsonKey(fromJson: fromGraphQL${graphqlTypeSafeStr}ToDart$dartTypeSafeStr, toJson: fromDart${dartTypeSafeStr}ToGraphQL$graphqlTypeSafeStr,)';
+      }
     }
 
     context.inputsClasses.add(QueryInput(
       type: dartTypeStr,
       name: node.variable.name.value,
       isNonNull: node.type.isNonNull,
+      annotation: annotation,
     ));
   }
 
