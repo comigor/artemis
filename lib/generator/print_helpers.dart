@@ -224,7 +224,10 @@ Spec generateArgumentClassSpec(QueryDefinition definition) {
           (f) => f
             ..name = p.name
             ..type = refer(p.type)
-            ..modifier = FieldModifier.final$,
+            ..modifier = FieldModifier.final$
+            ..annotations.addAll([
+              if (p.annotation != null) CodeExpression(Code(p.annotation)),
+            ]),
         ),
       )),
   );

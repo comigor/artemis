@@ -126,7 +126,11 @@ final LibraryDefinition libraryDefinition =
       ],
       inputs: [
         QueryInput(type: r'Input', name: r'input', isNonNull: true),
-        QueryInput(type: r'OtherEnum', name: r'o', isNonNull: true)
+        QueryInput(
+            type: r'OtherEnum',
+            name: r'o',
+            isNonNull: true,
+            annotation: r'JsonKey(unknownEnumValue: OtherEnum.ARTEMIS_UNKNOWN)')
       ],
       generateHelpers: true,
       suffix: r'Query')
@@ -209,6 +213,7 @@ class CustomArguments extends JsonSerializable with EquatableMixin {
 
   final Input input;
 
+  @JsonKey(unknownEnumValue: OtherEnum.ARTEMIS_UNKNOWN)
   final OtherEnum o;
 
   @override
