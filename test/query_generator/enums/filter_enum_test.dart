@@ -126,7 +126,12 @@ final LibraryDefinition libraryDefinition =
             isInput: true)
       ],
       inputs: [
-        QueryInput(type: r'InputEnum', name: r'e', isNonNull: true),
+        QueryInput(
+            type: r'InputEnum',
+            name: r'e',
+            isNonNull: true,
+            annotation:
+                r'JsonKey(unknownEnumValue: InputEnum.ARTEMIS_UNKNOWN)'),
         QueryInput(type: r'Input', name: r'i', isNonNull: true)
       ],
       generateHelpers: false,

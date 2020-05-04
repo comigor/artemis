@@ -79,15 +79,23 @@ class QueryInput extends Equatable with DataPrinter {
   /// Whether this parameter is required
   final bool isNonNull;
 
+  /// Some other custom annotation.
+  final String annotation;
+
   /// Instantiate an input parameter.
-  QueryInput({@required this.type, @required this.name, this.isNonNull = false})
-      : assert(hasValue(type) && hasValue(name));
+  QueryInput({
+    @required this.type,
+    @required this.name,
+    this.isNonNull = false,
+    this.annotation,
+  }) : assert(hasValue(type) && hasValue(name));
 
   @override
   Map<String, Object> get namedProps => {
         'type': type,
         'name': name,
         'isNonNull': isNonNull,
+        'annotation': annotation,
       };
 }
 

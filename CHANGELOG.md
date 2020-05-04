@@ -3,6 +3,9 @@
 ## 6.0.6-beta.1
 - Hide build logs under `--verbose` flag
 
+## 6.0.5-beta.1
+- Include coercers annotations on custom scalars on input objects.
+
 ## 6.0.4-beta.1
 - Properly consider "sub-fragments" on class generation.
 
