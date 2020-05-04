@@ -17,7 +17,7 @@ jobs:
         uses: comigor/actions/dart-test@master
         env:
           DTA_EXCLUDE_REGEX: example
-  check-version-and-changelog:
+  create-tag-and-release:
     needs: test
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/beta'
@@ -28,38 +28,18 @@ jobs:
         uses: ./.github/actions/check-version-and-changelog
         with:
           base_ref: "${{ github.ref }}"
-      - shell: /bin/ash
-        run: |
-          mkdir -p artifacts
-          echo "${{ steps.check_version_and_changelog.outputs.package_version }}" > artifacts/version
-      - uses: actions/upload-artifact@v1
-        with:
-          name: package_data
-          path: artifacts
-  create-tag-and-release:
-    needs: check-version-and-changelog
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/beta'
-    steps:
-      - uses: actions/checkout@master
-      - uses: actions/download-artifact@v1
-        with:
-          name: package_data
-      - id: vars
-        run: |
-          echo "::set-output name=package_version::v$(cat package_data/version)"
       - name: Push tag
         uses: anothrNick/github-tag-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CUSTOM_TAG: ${{ steps.vars.outputs.package_version }}
+          CUSTOM_TAG: "v${{ steps.check_version_and_changelog.outputs.package_version }}"
       - name: Create release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.vars.outputs.package_version }}
-          release_name: Release ${{ steps.vars.outputs.package_version }}
+          tag_name: "v${{ steps.check_version_and_changelog.outputs.package_version }}"
+          release_name: "Release v${{ steps.check_version_and_changelog.outputs.package_version }}"
   deploy:
     needs: create-tag-and-release
     runs-on: ubuntu-latest
