@@ -1,11 +1,14 @@
 import 'package:artemis/builder.dart';
 import 'package:build/build.dart';
 import 'package:build_test/build_test.dart';
+import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
 
 void main() {
+  Logger.root.level = Level.ALL;
+
   group('On errors', () {
     test('When the schema file is not found', () async {
       final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
@@ -29,7 +32,7 @@ void main() {
                 'a|api.schema.grqphql': '',
                 'a|some_query.query.graphql': 'query some_query { s }',
               },
-              onLog: debug),
+              onLog: print),
           throwsA(predicate((e) => e is Exception)));
     });
 
@@ -69,7 +72,7 @@ void main() {
               {
                 'a|some_query.query.graphql': 'query some_query { s }',
               },
-              onLog: debug),
+              onLog: print),
           throwsA(predicate((e) => e is Exception)));
     });
   });

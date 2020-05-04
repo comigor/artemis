@@ -10,12 +10,6 @@ import 'package:collection/collection.dart';
 final bool Function(Iterable, Iterable) listEquals =
     const DeepCollectionEquality.unordered().equals;
 
-const IS_DEBUG = true;
-
-void debug(LogRecord log) {
-  if (IS_DEBUG) print(log);
-}
-
 Future testGenerator({
   @required String query,
   @required LibraryDefinition libraryDefinition,
@@ -26,6 +20,8 @@ Future testGenerator({
   Map<String, dynamic> sourceAssetsMap = const {},
   Map<String, dynamic> outputsMap = const {},
 }) async {
+  Logger.root.level = Level.ALL;
+
   assert((schema) != null);
 
   final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
@@ -41,8 +37,8 @@ Future testGenerator({
   }));
 
   anotherBuilder.onBuild = expectAsync1((definition) {
-    if (IS_DEBUG) print(definition);
-    expect(definition, equals(libraryDefinition));
+    log.fine(definition);
+    expect(definition, libraryDefinition);
   }, count: 1);
 
   return await testBuilder(
@@ -56,7 +52,7 @@ Future testGenerator({
       'a|lib/query.graphql.dart': generatedFile,
       ...outputsMap,
     },
-    onLog: debug,
+    onLog: print,
   );
 }
 
@@ -68,6 +64,7 @@ Future testNaming({
   bool shouldFail = false,
 }) {
   assert((schema) != null);
+  Logger.root.level = Level.ALL;
 
   final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
     'generate_helpers': false,
@@ -84,7 +81,7 @@ Future testNaming({
   if (!shouldFail) {
     anotherBuilder.onBuild = expectAsync1((definition) {
       final names = definition.queries.first.classes.map((e) => e.name).toSet();
-      if (IS_DEBUG) print(names);
+      log.fine(names);
       expect(names.toSet(), equals(expectedNames.toSet()));
     }, count: 1);
   }
@@ -95,6 +92,6 @@ Future testNaming({
       'a|api.schema.graphql': schema,
       'a|queries/query.graphql': query,
     },
-    onLog: debug,
+    onLog: print,
   );
 }
