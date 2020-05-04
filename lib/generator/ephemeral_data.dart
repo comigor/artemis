@@ -87,7 +87,7 @@ class Context {
   /// The current fragments considered in this visitor.
   final List<FragmentDefinitionNode> fragments;
 
-  /// The identation used to debugging purposes.
+  /// The indentation used to debugging purposes.
   final int align;
 
   /// If debug log should be printed.

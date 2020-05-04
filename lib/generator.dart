@@ -1,3 +1,4 @@
+import 'package:build/build.dart';
 import 'package:meta/meta.dart';
 import 'package:gql/ast.dart';
 import 'package:path/path.dart' as p;
@@ -13,9 +14,9 @@ import 'visitor.dart';
 
 typedef _OnNewClassFoundCallback = void Function(Context context);
 
-void _log(Context context, int align, Object log) {
+void _log(Context context, int align, Object logObject) {
   if (!context.log) return;
-  print('${List.filled(align, '|   ').join()}${log.toString()}');
+  log.fine('${List.filled(align, '|   ').join()}${logObject.toString()}');
 }
 
 /// Enum value for values not mapped in the GraphQL enum
