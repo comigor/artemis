@@ -12,48 +12,11 @@ jobs:
         uses: comigor/actions/dart-test@master
         env:
           DTA_EXCLUDE_REGEX: example
-  check-version-and-changelog:
+  check-version-and-changelog2:
     needs: test
     runs-on: ubuntu-latest
-    container: makocchi/alpine-git-curl-jq
     steps:
       - uses: actions/checkout@master
-      - shell: /bin/ash
-        run: |
-          cd "$GITHUB_WORKSPACE"
-          export OQ_VERSION=1.1.0
-          curl -L https://github.com/Blacksmoke16/oq/releases/download/v${OQ_VERSION}/oq-v${OQ_VERSION}-linux-x86_64 > /usr/local/bin/oq && chmod +x /usr/local/bin/oq
-      - shell: /bin/ash
-        name: Check if version on pubspec.yaml was changed and if there's an entry for this new version on CHANGELOG
-        run: |
-          echo "GITHUB EVENT NAME: ${{ github.event_name }}"
-          echo "GITHUB REF: $GITHUB_REF"
-          echo "GITHUB REF: ${{ github.ref }}"
-          echo "GITHUB HEAD REF: ${{ github.head_ref }}"
-          echo "GITHUB BASE REF: ${{ github.base_ref }}"
-
-          git fetch --prune --unshallow
-          where="origin/${{ github.base_ref }}"
-
-          diff=$(git diff $where pubspec.yaml)
-          echo "$diff" | grep -E '\+.*version' || {
-            echo "Version not bumped on pubspec"
-            exit 1
-          }
-
-          package_version=$(cat pubspec.yaml | oq -i YAML -r '.version')
-
-          # If are on master or beta
-          if [ "${{ github.base_ref }}" = "master" ]; then
-            echo "$package_version" | grep beta && {
-              echo "Version cant contain beta"
-              exit 1
-            }
-          elif [ "${{ github.base_ref }}" = "beta" ]; then
-            echo "$package_version" | grep beta || {
-              echo "Missing beta on version"
-              exit 1
-            }
-          fi
-
-          cat CHANGELOG.md | grep "$package_version"
+      - uses: ./.github/actions/check-version-and-changelog
+        with:
+          base_ref: "${{ github.base_ref }}"
