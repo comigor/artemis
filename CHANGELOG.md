@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.0.7-beta.1
+- Fix for the interfaces which uses fragments from fragments_glob
+
 ## 6.0.6-beta.1
 - Hide build logs under `--verbose` flag
 

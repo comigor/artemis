@@ -69,6 +69,13 @@ Set<FragmentDefinitionNode> _extractFragments(SelectionSetNode selectionSet,
     selectionSet.selections.whereType<FieldNode>().forEach((selection) {
       result.addAll(_extractFragments(selection.selectionSet, fragmentsCommon));
     });
+
+    selectionSet.selections
+        .whereType<InlineFragmentNode>()
+        .forEach((selection) {
+      result.addAll(_extractFragments(selection.selectionSet, fragmentsCommon));
+    });
+
     selectionSet.selections
         .whereType<FragmentSpreadNode>()
         .forEach((selection) {

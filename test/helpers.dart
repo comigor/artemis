@@ -15,6 +15,7 @@ Future testGenerator({
   @required LibraryDefinition libraryDefinition,
   @required String generatedFile,
   @required String schema,
+  String namingScheme = 'pathedWithTypes',
   bool generateHelpers = false,
   Map<String, dynamic> builderOptionsMap = const {},
   Map<String, dynamic> sourceAssetsMap = const {},
@@ -31,6 +32,7 @@ Future testGenerator({
         'schema': 'api.schema.graphql',
         'queries_glob': 'queries/**.graphql',
         'output': 'lib/query.graphql.dart',
+        'naming_scheme': namingScheme,
       }
     ],
     ...builderOptionsMap,
