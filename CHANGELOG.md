@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.0.9-beta.1
+- Added the exception for the case when `fragment_glob` leads to query files fragments ignore.
+
 ## 6.0.8-beta.1
 - Adapt Artemis to subscriptions and create an example
 

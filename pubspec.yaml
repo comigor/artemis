@@ -1,5 +1,8 @@
 name: artemis
-version: 6.0.8-beta.1
+version: 6.0.9-beta.1
+
+authors:
+  - Igor Borges <igor@borges.dev>
 
 description: Build dart types from GraphQL schemas and queries (using Introspection Query).
 homepage: https://github.com/comigor/artemis
