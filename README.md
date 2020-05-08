@@ -6,8 +6,30 @@
 **Build dart types from GraphQL schemas and queries**
 
 <!-- Badges -->
-[![Pub Package](https://img.shields.io/pub/v/artemis.svg)](https://pub.dev/packages/artemis)
-[![GitHub Actions](https://github.com/comigor/artemis/workflows/test/badge.svg)](https://github.com/comigor/artemis/actions)
+[![View at pub.dev][pub-badge]][pub-link]
+[![Test][actions-badge]][actions-link]
+[![PRs Welcome][prs-badge]][prs-link]
+[![Star on GitHub][github-star-badge]][github-star-link]
+[![Fork on GitHub][github-forks-badge]][github-forks-link]
+[![Discord][discord-badge]][discord-link]
+
+[pub-badge]: https://img.shields.io/pub/v/artemis?include_prereleases&style=for-the-badge
+[pub-link]: https://pub.dev/packages/artemis
+
+[actions-badge]: https://img.shields.io/github/workflow/status/comigor/artemis/test?style=for-the-badge
+[actions-link]: https://github.com/comigor/artemis/actions
+
+[prs-badge]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=for-the-badge
+[prs-link]: https://github.com/comigor/artemis/issues
+
+[github-star-badge]: https://img.shields.io/github/stars/comigor/artemis.svg?style=for-the-badge&logo=github&logoColor=ffffff
+[github-star-link]: https://github.com/comigor/artemis/stargazers
+
+[github-forks-badge]: https://img.shields.io/github/forks/comigor/artemis.svg?style=for-the-badge&logo=github&logoColor=ffffff
+[github-forks-link]: https://github.com/comigor/artemis/network/members
+
+[discord-badge]: https://img.shields.io/discord/559455668810153989.svg?style=for-the-badge&logo=discord&logoColor=ffffff
+[discord-link]: https://discord.gg/2Y4wdE4
 
 Check the [**beta**](https://github.com/comigor/artemis/tree/beta) branch for the bleeding edge (and breaking) stuff.
 
