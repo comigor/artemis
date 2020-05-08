@@ -29,7 +29,7 @@ LibraryDefinition generateLibrary(
   List<DocumentNode> gqlDocs,
   GeneratorOptions options,
   SchemaMap schemaMap,
-  List<FragmentDefinitionNode> fragmentDefinitionNode,
+  List<FragmentDefinitionNode> fragmentsCommon,
   DocumentNode schema,
 ) {
   final queriesDefinitions = gqlDocs
@@ -39,7 +39,7 @@ LibraryDefinition generateLibrary(
             doc,
             options,
             schemaMap,
-            fragmentDefinitionNode,
+            fragmentsCommon,
           ))
       .toList();
 
@@ -105,8 +105,15 @@ QueryDefinition generateQuery(
 
   final fragments = <FragmentDefinitionNode>[];
 
+  final documentFragments =
+      document.definitions.whereType<FragmentDefinitionNode>();
+
+  if (documentFragments.isNotEmpty && fragmentsCommon.isNotEmpty) {
+    throw FragmentIgnoreException();
+  }
+
   if (fragmentsCommon.isEmpty) {
-    fragments.addAll(document.definitions.whereType<FragmentDefinitionNode>());
+    fragments.addAll(documentFragments);
   } else {
     final fragmentsOperation =
         _extractFragments(operation.selectionSet, fragmentsCommon);

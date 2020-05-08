@@ -1,4 +1,5 @@
 import 'package:artemis/builder.dart';
+import 'package:artemis/generator/errors.dart';
 import 'package:build/build.dart';
 import 'package:build_test/build_test.dart';
 import 'package:logging/logging.dart';
@@ -53,15 +54,17 @@ void main() {
       );
     });
 
-    test('When queries_glob is not configured', () async {
+    test('When fragments_glob meets local fragments', () async {
       final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
         'generate_helpers': false,
         'schema_mapping': [
           {
             'schema': 'api.schema.graphql',
             'output': 'lib/some_query.dart',
+            'queries_glob': 'queries/**.graphql',
           },
         ],
+        'fragments_glob': '**.frag',
       }));
 
       anotherBuilder.onBuild = expectAsync1((_) => null, count: 0);
@@ -70,10 +73,36 @@ void main() {
           () => testBuilder(
               anotherBuilder,
               {
-                'a|some_query.query.graphql': 'query some_query { s }',
+                'a|api.schema.graphql': '''
+                schema {
+                  query: Query
+                }
+      
+                type Query {
+                  pokemon: Pokemon
+                }
+      
+                type Pokemon {
+                  id: String!
+                }
+                ''',
+                'a|queries/query.graphql': '''
+                  {
+                      pokemon {
+                        ...Pokemon
+                      }
+                  }
+                  
+                  fragment Pokemon on Pokemon {
+                    id
+                  }
+                ''',
+                'a|fragment.frag': '''fragment Pokemon on Pokemon {
+                  id
+                }'''
               },
               onLog: print),
-          throwsA(predicate((e) => e is Exception)));
+          throwsA(predicate((e) => e is FragmentIgnoreException)));
     });
   });
 }
