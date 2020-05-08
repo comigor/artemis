@@ -19,7 +19,7 @@ dependencies:
   gql_dedupe_link: ^1.0.9
   gql_exec: ^0.2.2
   gql_http_link: ^0.2.7
-  gql_link: ^0.2.3
+  gql_link: ^0.3.1-alpha
   gql: ^0.12.2
   http: ^0.12.0+2
   json_annotation: ^3.0.0
