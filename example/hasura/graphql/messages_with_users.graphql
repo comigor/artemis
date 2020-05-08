@@ -1,0 +1,10 @@
+subscription messages_with_users {
+  messages {
+    id
+    message
+    profile {
+      id
+      name
+    }
+  }
+}
