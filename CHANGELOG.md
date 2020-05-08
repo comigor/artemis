@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.0.8-beta.1
+- Adapt Artemis to subscriptions and create an example
+
 ## 6.0.7-beta.1
 - Fix for the interfaces which uses fragments from fragments_glob
 
