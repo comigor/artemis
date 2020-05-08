@@ -1,0 +1,1020 @@
+schema {
+  query: query_root
+  mutation: mutation_root
+  subscription: subscription_root
+}
+
+"""
+expression to compare columns of type Int. All fields are combined with logical 'AND'.
+"""
+input Int_comparison_exp {
+  _eq: Int
+  _gt: Int
+  _gte: Int
+  _in: [Int!]
+  _is_null: Boolean
+  _lt: Int
+  _lte: Int
+  _neq: Int
+  _nin: [Int!]
+}
+
+"""
+columns and relationships of "messages"
+"""
+type messages {
+  id: Int!
+  message: String!
+
+  """An object relationship"""
+  profile: profile!
+  profile_id: Int!
+}
+
+"""
+aggregated selection of "messages"
+"""
+type messages_aggregate {
+  aggregate: messages_aggregate_fields
+  nodes: [messages!]!
+}
+
+"""
+aggregate fields of "messages"
+"""
+type messages_aggregate_fields {
+  avg: messages_avg_fields
+  count(columns: [messages_select_column!], distinct: Boolean): Int
+  max: messages_max_fields
+  min: messages_min_fields
+  stddev: messages_stddev_fields
+  stddev_pop: messages_stddev_pop_fields
+  stddev_samp: messages_stddev_samp_fields
+  sum: messages_sum_fields
+  var_pop: messages_var_pop_fields
+  var_samp: messages_var_samp_fields
+  variance: messages_variance_fields
+}
+
+"""
+order by aggregate values of table "messages"
+"""
+input messages_aggregate_order_by {
+  avg: messages_avg_order_by
+  count: order_by
+  max: messages_max_order_by
+  min: messages_min_order_by
+  stddev: messages_stddev_order_by
+  stddev_pop: messages_stddev_pop_order_by
+  stddev_samp: messages_stddev_samp_order_by
+  sum: messages_sum_order_by
+  var_pop: messages_var_pop_order_by
+  var_samp: messages_var_samp_order_by
+  variance: messages_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "messages"
+"""
+input messages_arr_rel_insert_input {
+  data: [messages_insert_input!]!
+  on_conflict: messages_on_conflict
+}
+
+"""aggregate avg on columns"""
+type messages_avg_fields {
+  id: Float
+  profile_id: Float
+}
+
+"""
+order by avg() on columns of table "messages"
+"""
+input messages_avg_order_by {
+  id: order_by
+  profile_id: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "messages". All fields are combined with a logical 'AND'.
+"""
+input messages_bool_exp {
+  _and: [messages_bool_exp]
+  _not: messages_bool_exp
+  _or: [messages_bool_exp]
+  id: Int_comparison_exp
+  message: String_comparison_exp
+  profile: profile_bool_exp
+  profile_id: Int_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "messages"
+"""
+enum messages_constraint {
+  """unique or primary key constraint"""
+  messages_pkey
+}
+
+"""
+input type for incrementing integer column in table "messages"
+"""
+input messages_inc_input {
+  id: Int
+  profile_id: Int
+}
+
+"""
+input type for inserting data into table "messages"
+"""
+input messages_insert_input {
+  id: Int
+  message: String
+  profile: profile_obj_rel_insert_input
+  profile_id: Int
+}
+
+"""aggregate max on columns"""
+type messages_max_fields {
+  id: Int
+  message: String
+  profile_id: Int
+}
+
+"""
+order by max() on columns of table "messages"
+"""
+input messages_max_order_by {
+  id: order_by
+  message: order_by
+  profile_id: order_by
+}
+
+"""aggregate min on columns"""
+type messages_min_fields {
+  id: Int
+  message: String
+  profile_id: Int
+}
+
+"""
+order by min() on columns of table "messages"
+"""
+input messages_min_order_by {
+  id: order_by
+  message: order_by
+  profile_id: order_by
+}
+
+"""
+response of any mutation on the table "messages"
+"""
+type messages_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [messages!]!
+}
+
+"""
+input type for inserting object relation for remote table "messages"
+"""
+input messages_obj_rel_insert_input {
+  data: messages_insert_input!
+  on_conflict: messages_on_conflict
+}
+
+"""
+on conflict condition type for table "messages"
+"""
+input messages_on_conflict {
+  constraint: messages_constraint!
+  update_columns: [messages_update_column!]!
+  where: messages_bool_exp
+}
+
+"""
+ordering options when selecting data from "messages"
+"""
+input messages_order_by {
+  id: order_by
+  message: order_by
+  profile: profile_order_by
+  profile_id: order_by
+}
+
+"""
+primary key columns input for table: "messages"
+"""
+input messages_pk_columns_input {
+  id: Int!
+}
+
+"""
+select columns of table "messages"
+"""
+enum messages_select_column {
+  """column name"""
+  id
+
+  """column name"""
+  message
+
+  """column name"""
+  profile_id
+}
+
+"""
+input type for updating data in table "messages"
+"""
+input messages_set_input {
+  id: Int
+  message: String
+  profile_id: Int
+}
+
+"""aggregate stddev on columns"""
+type messages_stddev_fields {
+  id: Float
+  profile_id: Float
+}
+
+"""
+order by stddev() on columns of table "messages"
+"""
+input messages_stddev_order_by {
+  id: order_by
+  profile_id: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type messages_stddev_pop_fields {
+  id: Float
+  profile_id: Float
+}
+
+"""
+order by stddev_pop() on columns of table "messages"
+"""
+input messages_stddev_pop_order_by {
+  id: order_by
+  profile_id: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type messages_stddev_samp_fields {
+  id: Float
+  profile_id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "messages"
+"""
+input messages_stddev_samp_order_by {
+  id: order_by
+  profile_id: order_by
+}
+
+"""aggregate sum on columns"""
+type messages_sum_fields {
+  id: Int
+  profile_id: Int
+}
+
+"""
+order by sum() on columns of table "messages"
+"""
+input messages_sum_order_by {
+  id: order_by
+  profile_id: order_by
+}
+
+"""
+update columns of table "messages"
+"""
+enum messages_update_column {
+  """column name"""
+  id
+
+  """column name"""
+  message
+
+  """column name"""
+  profile_id
+}
+
+"""aggregate var_pop on columns"""
+type messages_var_pop_fields {
+  id: Float
+  profile_id: Float
+}
+
+"""
+order by var_pop() on columns of table "messages"
+"""
+input messages_var_pop_order_by {
+  id: order_by
+  profile_id: order_by
+}
+
+"""aggregate var_samp on columns"""
+type messages_var_samp_fields {
+  id: Float
+  profile_id: Float
+}
+
+"""
+order by var_samp() on columns of table "messages"
+"""
+input messages_var_samp_order_by {
+  id: order_by
+  profile_id: order_by
+}
+
+"""aggregate variance on columns"""
+type messages_variance_fields {
+  id: Float
+  profile_id: Float
+}
+
+"""
+order by variance() on columns of table "messages"
+"""
+input messages_variance_order_by {
+  id: order_by
+  profile_id: order_by
+}
+
+"""mutation root"""
+type mutation_root {
+  """
+  delete data from the table: "messages"
+  """
+  delete_messages(
+    """filter the rows which have to be deleted"""
+    where: messages_bool_exp!
+  ): messages_mutation_response
+
+  """
+  delete single row from the table: "messages"
+  """
+  delete_messages_by_pk(id: Int!): messages
+
+  """
+  delete data from the table: "profile"
+  """
+  delete_profile(
+    """filter the rows which have to be deleted"""
+    where: profile_bool_exp!
+  ): profile_mutation_response
+
+  """
+  delete single row from the table: "profile"
+  """
+  delete_profile_by_pk(id: Int!): profile
+
+  """
+  insert data into the table: "messages"
+  """
+  insert_messages(
+    """the rows to be inserted"""
+    objects: [messages_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: messages_on_conflict
+  ): messages_mutation_response
+
+  """
+  insert a single row into the table: "messages"
+  """
+  insert_messages_one(
+    """the row to be inserted"""
+    object: messages_insert_input!
+
+    """on conflict condition"""
+    on_conflict: messages_on_conflict
+  ): messages
+
+  """
+  insert data into the table: "profile"
+  """
+  insert_profile(
+    """the rows to be inserted"""
+    objects: [profile_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: profile_on_conflict
+  ): profile_mutation_response
+
+  """
+  insert a single row into the table: "profile"
+  """
+  insert_profile_one(
+    """the row to be inserted"""
+    object: profile_insert_input!
+
+    """on conflict condition"""
+    on_conflict: profile_on_conflict
+  ): profile
+
+  """
+  update data of the table: "messages"
+  """
+  update_messages(
+    """increments the integer columns with given value of the filtered values"""
+    _inc: messages_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: messages_set_input
+
+    """filter the rows which have to be updated"""
+    where: messages_bool_exp!
+  ): messages_mutation_response
+
+  """
+  update single row of the table: "messages"
+  """
+  update_messages_by_pk(
+    """increments the integer columns with given value of the filtered values"""
+    _inc: messages_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: messages_set_input
+    pk_columns: messages_pk_columns_input!
+  ): messages
+
+  """
+  update data of the table: "profile"
+  """
+  update_profile(
+    """increments the integer columns with given value of the filtered values"""
+    _inc: profile_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: profile_set_input
+
+    """filter the rows which have to be updated"""
+    where: profile_bool_exp!
+  ): profile_mutation_response
+
+  """
+  update single row of the table: "profile"
+  """
+  update_profile_by_pk(
+    """increments the integer columns with given value of the filtered values"""
+    _inc: profile_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: profile_set_input
+    pk_columns: profile_pk_columns_input!
+  ): profile
+}
+
+"""column ordering options"""
+enum order_by {
+  """in the ascending order, nulls last"""
+  asc
+
+  """in the ascending order, nulls first"""
+  asc_nulls_first
+
+  """in the ascending order, nulls last"""
+  asc_nulls_last
+
+  """in the descending order, nulls first"""
+  desc
+
+  """in the descending order, nulls first"""
+  desc_nulls_first
+
+  """in the descending order, nulls last"""
+  desc_nulls_last
+}
+
+"""
+columns and relationships of "profile"
+"""
+type profile {
+  id: Int!
+
+  """An array relationship"""
+  messages(
+    """distinct select on columns"""
+    distinct_on: [messages_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [messages_order_by!]
+
+    """filter the rows returned"""
+    where: messages_bool_exp
+  ): [messages!]!
+
+  """An aggregated array relationship"""
+  messages_aggregate(
+    """distinct select on columns"""
+    distinct_on: [messages_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [messages_order_by!]
+
+    """filter the rows returned"""
+    where: messages_bool_exp
+  ): messages_aggregate!
+  name: String!
+}
+
+"""
+aggregated selection of "profile"
+"""
+type profile_aggregate {
+  aggregate: profile_aggregate_fields
+  nodes: [profile!]!
+}
+
+"""
+aggregate fields of "profile"
+"""
+type profile_aggregate_fields {
+  avg: profile_avg_fields
+  count(columns: [profile_select_column!], distinct: Boolean): Int
+  max: profile_max_fields
+  min: profile_min_fields
+  stddev: profile_stddev_fields
+  stddev_pop: profile_stddev_pop_fields
+  stddev_samp: profile_stddev_samp_fields
+  sum: profile_sum_fields
+  var_pop: profile_var_pop_fields
+  var_samp: profile_var_samp_fields
+  variance: profile_variance_fields
+}
+
+"""
+order by aggregate values of table "profile"
+"""
+input profile_aggregate_order_by {
+  avg: profile_avg_order_by
+  count: order_by
+  max: profile_max_order_by
+  min: profile_min_order_by
+  stddev: profile_stddev_order_by
+  stddev_pop: profile_stddev_pop_order_by
+  stddev_samp: profile_stddev_samp_order_by
+  sum: profile_sum_order_by
+  var_pop: profile_var_pop_order_by
+  var_samp: profile_var_samp_order_by
+  variance: profile_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "profile"
+"""
+input profile_arr_rel_insert_input {
+  data: [profile_insert_input!]!
+  on_conflict: profile_on_conflict
+}
+
+"""aggregate avg on columns"""
+type profile_avg_fields {
+  id: Float
+}
+
+"""
+order by avg() on columns of table "profile"
+"""
+input profile_avg_order_by {
+  id: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "profile". All fields are combined with a logical 'AND'.
+"""
+input profile_bool_exp {
+  _and: [profile_bool_exp]
+  _not: profile_bool_exp
+  _or: [profile_bool_exp]
+  id: Int_comparison_exp
+  messages: messages_bool_exp
+  name: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "profile"
+"""
+enum profile_constraint {
+  """unique or primary key constraint"""
+  profile_pkey
+}
+
+"""
+input type for incrementing integer column in table "profile"
+"""
+input profile_inc_input {
+  id: Int
+}
+
+"""
+input type for inserting data into table "profile"
+"""
+input profile_insert_input {
+  id: Int
+  messages: messages_arr_rel_insert_input
+  name: String
+}
+
+"""aggregate max on columns"""
+type profile_max_fields {
+  id: Int
+  name: String
+}
+
+"""
+order by max() on columns of table "profile"
+"""
+input profile_max_order_by {
+  id: order_by
+  name: order_by
+}
+
+"""aggregate min on columns"""
+type profile_min_fields {
+  id: Int
+  name: String
+}
+
+"""
+order by min() on columns of table "profile"
+"""
+input profile_min_order_by {
+  id: order_by
+  name: order_by
+}
+
+"""
+response of any mutation on the table "profile"
+"""
+type profile_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [profile!]!
+}
+
+"""
+input type for inserting object relation for remote table "profile"
+"""
+input profile_obj_rel_insert_input {
+  data: profile_insert_input!
+  on_conflict: profile_on_conflict
+}
+
+"""
+on conflict condition type for table "profile"
+"""
+input profile_on_conflict {
+  constraint: profile_constraint!
+  update_columns: [profile_update_column!]!
+  where: profile_bool_exp
+}
+
+"""
+ordering options when selecting data from "profile"
+"""
+input profile_order_by {
+  id: order_by
+  messages_aggregate: messages_aggregate_order_by
+  name: order_by
+}
+
+"""
+primary key columns input for table: "profile"
+"""
+input profile_pk_columns_input {
+  id: Int!
+}
+
+"""
+select columns of table "profile"
+"""
+enum profile_select_column {
+  """column name"""
+  id
+
+  """column name"""
+  name
+}
+
+"""
+input type for updating data in table "profile"
+"""
+input profile_set_input {
+  id: Int
+  name: String
+}
+
+"""aggregate stddev on columns"""
+type profile_stddev_fields {
+  id: Float
+}
+
+"""
+order by stddev() on columns of table "profile"
+"""
+input profile_stddev_order_by {
+  id: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type profile_stddev_pop_fields {
+  id: Float
+}
+
+"""
+order by stddev_pop() on columns of table "profile"
+"""
+input profile_stddev_pop_order_by {
+  id: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type profile_stddev_samp_fields {
+  id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "profile"
+"""
+input profile_stddev_samp_order_by {
+  id: order_by
+}
+
+"""aggregate sum on columns"""
+type profile_sum_fields {
+  id: Int
+}
+
+"""
+order by sum() on columns of table "profile"
+"""
+input profile_sum_order_by {
+  id: order_by
+}
+
+"""
+update columns of table "profile"
+"""
+enum profile_update_column {
+  """column name"""
+  id
+
+  """column name"""
+  name
+}
+
+"""aggregate var_pop on columns"""
+type profile_var_pop_fields {
+  id: Float
+}
+
+"""
+order by var_pop() on columns of table "profile"
+"""
+input profile_var_pop_order_by {
+  id: order_by
+}
+
+"""aggregate var_samp on columns"""
+type profile_var_samp_fields {
+  id: Float
+}
+
+"""
+order by var_samp() on columns of table "profile"
+"""
+input profile_var_samp_order_by {
+  id: order_by
+}
+
+"""aggregate variance on columns"""
+type profile_variance_fields {
+  id: Float
+}
+
+"""
+order by variance() on columns of table "profile"
+"""
+input profile_variance_order_by {
+  id: order_by
+}
+
+"""query root"""
+type query_root {
+  """
+  fetch data from the table: "messages"
+  """
+  messages(
+    """distinct select on columns"""
+    distinct_on: [messages_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [messages_order_by!]
+
+    """filter the rows returned"""
+    where: messages_bool_exp
+  ): [messages!]!
+
+  """
+  fetch aggregated fields from the table: "messages"
+  """
+  messages_aggregate(
+    """distinct select on columns"""
+    distinct_on: [messages_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [messages_order_by!]
+
+    """filter the rows returned"""
+    where: messages_bool_exp
+  ): messages_aggregate!
+
+  """fetch data from the table: "messages" using primary key columns"""
+  messages_by_pk(id: Int!): messages
+
+  """
+  fetch data from the table: "profile"
+  """
+  profile(
+    """distinct select on columns"""
+    distinct_on: [profile_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [profile_order_by!]
+
+    """filter the rows returned"""
+    where: profile_bool_exp
+  ): [profile!]!
+
+  """
+  fetch aggregated fields from the table: "profile"
+  """
+  profile_aggregate(
+    """distinct select on columns"""
+    distinct_on: [profile_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [profile_order_by!]
+
+    """filter the rows returned"""
+    where: profile_bool_exp
+  ): profile_aggregate!
+
+  """fetch data from the table: "profile" using primary key columns"""
+  profile_by_pk(id: Int!): profile
+}
+
+"""
+expression to compare columns of type String. All fields are combined with logical 'AND'.
+"""
+input String_comparison_exp {
+  _eq: String
+  _gt: String
+  _gte: String
+  _ilike: String
+  _in: [String!]
+  _is_null: Boolean
+  _like: String
+  _lt: String
+  _lte: String
+  _neq: String
+  _nilike: String
+  _nin: [String!]
+  _nlike: String
+  _nsimilar: String
+  _similar: String
+}
+
+"""subscription root"""
+type subscription_root {
+  """
+  fetch data from the table: "messages"
+  """
+  messages(
+    """distinct select on columns"""
+    distinct_on: [messages_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [messages_order_by!]
+
+    """filter the rows returned"""
+    where: messages_bool_exp
+  ): [messages!]!
+
+  """
+  fetch aggregated fields from the table: "messages"
+  """
+  messages_aggregate(
+    """distinct select on columns"""
+    distinct_on: [messages_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [messages_order_by!]
+
+    """filter the rows returned"""
+    where: messages_bool_exp
+  ): messages_aggregate!
+
+  """fetch data from the table: "messages" using primary key columns"""
+  messages_by_pk(id: Int!): messages
+
+  """
+  fetch data from the table: "profile"
+  """
+  profile(
+    """distinct select on columns"""
+    distinct_on: [profile_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [profile_order_by!]
+
+    """filter the rows returned"""
+    where: profile_bool_exp
+  ): [profile!]!
+
+  """
+  fetch aggregated fields from the table: "profile"
+  """
+  profile_aggregate(
+    """distinct select on columns"""
+    distinct_on: [profile_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [profile_order_by!]
+
+    """filter the rows returned"""
+    where: profile_bool_exp
+  ): profile_aggregate!
+
+  """fetch data from the table: "profile" using primary key columns"""
+  profile_by_pk(id: Int!): profile
+}
