@@ -124,7 +124,20 @@ QueryDefinition generateQuery(
   schema.accept(schemaVisitor);
   schema.accept(objectVisitor);
 
-  final suffix = operation.type == OperationType.query ? 'Query' : 'Mutation';
+  String suffix;
+  switch (operation.type) {
+    case OperationType.subscription:
+      suffix = 'Subscription';
+      break;
+    case OperationType.mutation:
+      suffix = 'Mutation';
+      break;
+    case OperationType.query:
+    default:
+      suffix = 'Query';
+      break;
+  }
+
   final rootTypeName = (schemaVisitor.schemaDefinitionNode?.operationTypes ??
               [])
           .firstWhere((e) => e.operation == operation.type, orElse: () => null)
