@@ -21,6 +21,7 @@ void main() {
           ''',
         libraryDefinition: libraryDefinition,
         generatedFile: generatedFile,
+        generatedCanonicalFile: generatedCanonicalFile,
         sourceAssetsMap: {
           'a|queries/another_query.graphql': 'query another_query { s }',
         },
@@ -57,6 +58,10 @@ final LibraryDefinition libraryDefinition =
       ],
       generateHelpers: false)
 ]);
+
+const generatedCanonicalFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+
+''';
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 

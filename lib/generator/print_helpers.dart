@@ -340,13 +340,9 @@ Spec generateLibrarySpec(LibraryDefinition definition) {
 
   for (final queryDef in definition.queries) {
     bodyDirectives.addAll(queryDef.classes
-        .whereType<FragmentClassDefinition>()
-        .map(fragmentClassDefinitionToSpec));
-    bodyDirectives.addAll(queryDef.classes.whereType<ClassDefinition>().map(
-        (cDef) => classDefinitionToSpec(
-            cDef, queryDef.classes.whereType<FragmentClassDefinition>())));
-    bodyDirectives.addAll(
-        queryDef.classes.whereType<EnumDefinition>().map(enumDefinitionToSpec));
+        .where((e) => e is ClassDefinition && !e.isInput)
+        .map((cDef) => classDefinitionToSpec(cDef as ClassDefinition,
+            queryDef.classes.whereType<FragmentClassDefinition>())));
 
     if (queryDef.inputs.isNotEmpty && queryDef.generateHelpers) {
       bodyDirectives.add(generateArgumentClassSpec(queryDef));
@@ -355,6 +351,40 @@ Spec generateLibrarySpec(LibraryDefinition definition) {
       bodyDirectives.add(generateQueryClassSpec(queryDef));
     }
   }
+
+  return Library(
+    (b) => b..directives.addAll(importDirectives)..body.addAll(bodyDirectives),
+  );
+}
+
+/// Gathers and generates a [Spec] of a whole query/mutation and its
+/// dependencies into a single library file.
+Spec generateCanonicalSpec(Map<String, Definition> definition) {
+  final importDirectives = [
+    Directive.import('package:json_annotation/json_annotation.dart'),
+    Directive.import('package:equatable/equatable.dart'),
+    Directive.import('package:gql/ast.dart'),
+  ];
+
+  final bodyDirectives = <Spec>[
+    CodeExpression(Code('part \'canonical.graphql.g.dart\';')),
+  ];
+
+  final fragments = definition.values.whereType<FragmentClassDefinition>();
+
+  definition.forEach((key, value) {
+    if (value is FragmentClassDefinition) {
+      bodyDirectives.add(fragmentClassDefinitionToSpec(value));
+    }
+
+    if (value is ClassDefinition && value.isInput) {
+      bodyDirectives.add(classDefinitionToSpec(value, fragments));
+    }
+
+    if (value is EnumDefinition) {
+      bodyDirectives.add(enumDefinitionToSpec(value));
+    }
+  });
 
   return Library(
     (b) => b..directives.addAll(importDirectives)..body.addAll(bodyDirectives),
@@ -373,6 +403,14 @@ void writeLibraryDefinitionToBuffer(
     StringBuffer buffer, LibraryDefinition definition) {
   buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND\n');
   buffer.write(specToString(generateLibrarySpec(definition)));
+}
+
+/// Generate Dart code typings from a query or mutation and its response from
+/// a [QueryDefinition] into a buffer.
+void writeCanonicalDefinitionToBuffer(
+    StringBuffer buffer, Map<String, Definition> definition) {
+  buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND\n');
+  buffer.write(specToString(generateCanonicalSpec(definition)));
 }
 
 /// Generate an empty file just exporting the library. This is used to avoid

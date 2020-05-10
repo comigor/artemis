@@ -14,6 +14,7 @@ Future testGenerator({
   @required String query,
   @required LibraryDefinition libraryDefinition,
   @required String generatedFile,
+  @required String generatedCanonicalFile,
   @required String schema,
   String namingScheme = 'pathedWithTypes',
   bool generateHelpers = false,
@@ -52,6 +53,7 @@ Future testGenerator({
     },
     outputs: {
       'a|lib/query.graphql.dart': generatedFile,
+      'a|lib/canonical.graphql.dart': generatedCanonicalFile,
       ...outputsMap,
     },
     onLog: print,

@@ -27,6 +27,7 @@ void main() {
           }
         ''',
         libraryDefinition: libraryDefinition,
+        generatedCanonicalFile: generatedCanonicalFile,
         generatedFile: generatedFile,
         generateHelpers: true,
       ),
@@ -92,6 +93,10 @@ final LibraryDefinition libraryDefinition =
       generateHelpers: true,
       suffix: r'Mutation')
 ]);
+
+const generatedCanonicalFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+
+''';
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 

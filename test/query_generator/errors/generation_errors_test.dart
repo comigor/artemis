@@ -105,4 +105,66 @@ void main() {
           throwsA(predicate((e) => e is FragmentIgnoreException)));
     });
   });
+
+  test('Fragments with same name but with different selection set', () async {
+    final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
+      'generate_helpers': false,
+      'schema_mapping': [
+        {
+          'schema': 'api.schema.graphql',
+          'output': 'lib/some_query.dart',
+          'queries_glob': 'queries/**.graphql',
+        },
+      ],
+//      'fragments_glob': '**.frag',
+    }));
+
+    anotherBuilder.onBuild = expectAsync1((_) => null, count: 0);
+
+    expect(
+        () => testBuilder(
+            anotherBuilder,
+            {
+              'a|api.schema.graphql': '''
+                schema {
+                  query: Query
+                }
+      
+                type Query {
+                  pokemon: Pokemon
+                }
+      
+                type Pokemon {
+                  id: String!
+                  name: String!
+                }
+                ''',
+              'a|queries/query.graphql': '''
+                  {
+                      pokemon {
+                        ...Pokemon
+                      }
+                  }
+                  
+                  fragment Pokemon on Pokemon {
+                    id
+                  }
+                ''',
+              'a|queries/anotherQuery.graphql': '''
+                  {
+                      pokemon {
+                        ...Pokemon
+                      }
+                  }
+                  
+                  fragment Pokemon on Pokemon {
+                    id
+                    name
+                  }
+                ''',
+            },
+            onLog: print),
+        throwsA(predicate(
+            (e) => e is DuplicatedNameDifferentContentClassesException)));
+  });
 }

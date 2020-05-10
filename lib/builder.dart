@@ -21,6 +21,14 @@ String _addGraphQLExtensionToPathIfNeeded(String path) {
   return path;
 }
 
+String _canonicalPath(String outputPath) {
+  final outputParts = outputPath.split('/');
+  outputParts.removeLast();
+  outputParts.add('canonical.graphql.dart');
+
+  return outputParts.join('/');
+}
+
 List<String> _builderOptionsToExpectedOutputs(BuilderOptions builderOptions) {
   final schemaMaps =
       GeneratorOptions.fromJson(builderOptions.config).schemaMapping;
@@ -38,6 +46,7 @@ Please check your build.yaml file.
         return {
           outputWithoutLib,
           _addGraphQLExtensionToPathIfNeeded(outputWithoutLib),
+          _canonicalPath(outputWithoutLib)
         }.toList();
       })
       .expand((e) => e)
@@ -83,6 +92,10 @@ class GraphQLQueryBuilder implements Builder {
       fDocs.forEach((fDoc) => fragmentsCommon.addAll(
           fDoc.definitions.whereType<FragmentDefinitionNode>().toList()));
     }
+
+    final canonicalOutputFileId = AssetId(buildStep.inputId.package,
+        _canonicalPath(options.schemaMapping[0].output));
+    final canonicalDefinition = <String, Definition>{};
 
     for (final schemaMap in options.schemaMapping) {
       final buffer = StringBuffer();
@@ -134,9 +147,29 @@ ${e}
         fragmentsCommon,
         gqlSchema,
       );
+
       if (onBuild != null) {
         onBuild(libDefinition);
       }
+
+      final queryCanonical = <String, Definition>{};
+      libDefinition.queries
+          .map((e) => e.classes.map((e) => e))
+          .expand((e) => e)
+          .where((element) =>
+              element is EnumDefinition ||
+              (element is ClassDefinition && element.isInput) ||
+              element is FragmentClassDefinition)
+          .forEach((element) {
+        queryCanonical[element.name] = element;
+      });
+
+      if (queryCanonical.isNotEmpty) {
+        libDefinition.customImports.add('canonical.graphql.dart');
+      }
+
+      canonicalDefinition.addAll(queryCanonical);
+
       writeLibraryDefinitionToBuffer(buffer, libDefinition);
 
       await buildStep.writeAsString(outputFileId, buffer.toString());
@@ -148,5 +181,11 @@ ${e}
             forwarderOutputFileId, writeLibraryForwarder(libDefinition));
       }
     }
+
+    final canonicalBuffer = StringBuffer();
+    writeCanonicalDefinitionToBuffer(canonicalBuffer, canonicalDefinition);
+
+    await buildStep.writeAsString(
+        canonicalOutputFileId, canonicalBuffer.toString());
   }
 }

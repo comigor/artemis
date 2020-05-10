@@ -257,7 +257,7 @@ class LibraryDefinition extends Equatable with DataPrinter {
   final Iterable<QueryDefinition> queries;
 
   /// Any other custom package imports, defined in `build.yaml`.
-  final Iterable<String> customImports;
+  final List<String> customImports;
 
   /// Instantiate a library definition.
   LibraryDefinition({
