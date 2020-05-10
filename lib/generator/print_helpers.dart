@@ -340,7 +340,7 @@ Spec generateLibrarySpec(LibraryDefinition definition) {
 
   for (final queryDef in definition.queries) {
     bodyDirectives.addAll(queryDef.classes
-        .where((e) => e is ClassDefinition && !e.isInput)
+        .where((e) => e is ClassDefinition && !e.isInput && e.mixins.length < 2)
         .map((cDef) => classDefinitionToSpec(cDef as ClassDefinition,
             queryDef.classes.whereType<FragmentClassDefinition>())));
 
@@ -377,7 +377,7 @@ Spec generateCanonicalSpec(Map<String, Definition> definition) {
       bodyDirectives.add(fragmentClassDefinitionToSpec(value));
     }
 
-    if (value is ClassDefinition && value.isInput) {
+    if (value is ClassDefinition) {
       bodyDirectives.add(classDefinitionToSpec(value, fragments));
     }
 

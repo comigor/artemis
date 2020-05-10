@@ -159,6 +159,7 @@ ${e}
           .where((element) =>
               element is EnumDefinition ||
               (element is ClassDefinition && element.isInput) ||
+              (element is ClassDefinition && element.mixins.length > 1) ||
               element is FragmentClassDefinition)
           .forEach((element) {
         queryCanonical[element.name] = element;

@@ -306,6 +306,11 @@ class PokemonMixin$Evolution with EquatableMixin, PokemonNameMixin {
 
 String generatedCanonicalFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
+import 'package:json_annotation/json_annotation.dart';
+import 'package:equatable/equatable.dart';
+import 'package:gql/ast.dart';
+part 'canonical.graphql.g.dart';
+
 mixin PokemonMixin {
   String id;
   PokemonMixin$Evolution evolution;
