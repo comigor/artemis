@@ -44,12 +44,16 @@ LibraryDefinition generateLibrary(
       .toList();
 
   final allClassesNames = queriesDefinitions
-      .map((def) => def.classes.map((c) => c.name))
+      .map((def) => def.classes.map((c) => c))
       .expand((e) => e)
       .toList();
 
-  allClassesNames.mergeDuplicatesBy((a) => a, (a, b) {
-    throw DuplicatedClassesException(allClassesNames, a);
+  allClassesNames.mergeDuplicatesBy((a) => a.name, (a, b) {
+    if (a.name == b.name && a != b) {
+      throw DuplicatedClassesException(a, b);
+    }
+
+    return a;
   });
 
   final basename = p.basenameWithoutExtension(path);
