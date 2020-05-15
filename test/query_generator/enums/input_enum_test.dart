@@ -72,23 +72,22 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'String',
                   name: r's',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: r'MyEnum',
                   name: r'my',
-                  isOverride: false,
-                  annotation:
-                      r'JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)',
+                  annotations: [
+                    r'JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)'
+                  ],
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: r'OtherEnum',
                   name: r'other',
-                  isOverride: false,
-                  annotation:
-                      r'JsonKey(unknownEnumValue: OtherEnum.ARTEMIS_UNKNOWN)',
+                  annotations: [
+                    r'JsonKey(unknownEnumValue: OtherEnum.ARTEMIS_UNKNOWN)'
+                  ],
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -101,7 +100,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'Custom$QueryRoot$QueryResponse',
                   name: r'q',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -114,9 +112,9 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'MyEnum',
                   name: r'e',
-                  isOverride: false,
-                  annotation:
-                      r'JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)',
+                  annotations: [
+                    r'JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)'
+                  ],
                   isNonNull: true,
                   isResolveType: false)
             ],
@@ -130,7 +128,9 @@ final LibraryDefinition libraryDefinition =
             type: r'OtherEnum',
             name: r'o',
             isNonNull: true,
-            annotation: r'JsonKey(unknownEnumValue: OtherEnum.ARTEMIS_UNKNOWN)')
+            annotations: [
+              r'JsonKey(unknownEnumValue: OtherEnum.ARTEMIS_UNKNOWN)'
+            ])
       ],
       generateHelpers: true,
       suffix: r'Query')

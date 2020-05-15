@@ -68,7 +68,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'String',
                   name: r's',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -81,7 +80,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'Custom$MutationRoot$MutationResponse',
                   name: r'mut',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -94,9 +92,9 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'MyUuid',
                   name: r'id',
-                  isOverride: false,
-                  annotation:
-                      r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid,)',
+                  annotations: [
+                    r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid,)'
+                  ],
                   isNonNull: true,
                   isResolveType: false)
             ],
@@ -110,14 +108,16 @@ final LibraryDefinition libraryDefinition =
             type: r'MyUuid',
             name: r'previousId',
             isNonNull: false,
-            annotation:
-                r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid,)'),
+            annotations: [
+              r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid,)'
+            ]),
         QueryInput(
             type: r'List<MyUuid>',
             name: r'listIds',
             isNonNull: false,
-            annotation:
-                r'JsonKey(fromJson: fromGraphQLListMyUuidToDartListMyUuid, toJson: fromDartListMyUuidToGraphQLListMyUuid,)')
+            annotations: [
+              r'JsonKey(fromJson: fromGraphQLListMyUuidToDartListMyUuid, toJson: fromDartListMyUuidToGraphQLListMyUuid,)'
+            ])
       ],
       generateHelpers: true,
       suffix: r'Mutation')

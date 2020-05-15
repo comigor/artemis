@@ -59,9 +59,9 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'MyEnum',
                   name: r'thisIsAnEnum',
-                  isOverride: false,
-                  annotation:
-                      r'JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)',
+                  annotations: [
+                    r'JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)'
+                  ],
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -74,13 +74,11 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'String',
                   name: r'thisIsAString',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: r'SomeQuery$Response$SomeObject',
                   name: r'o',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false)
             ],

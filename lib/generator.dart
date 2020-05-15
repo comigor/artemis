@@ -293,7 +293,7 @@ Make sure your query is correct and your schema is updated.''');
   }
 
   // On custom scalars
-  String annotation;
+  final annotations = <String>[];
   if (nextType is ScalarTypeDefinitionNode) {
     final scalar = gql.getSingleScalarMap(context.options, nextType.name.value);
 
@@ -304,8 +304,8 @@ Make sure your query is correct and your schema is updated.''');
               dartType: false, schema: context.schema)
           .replaceAll(RegExp(r'[<>]'), '');
       final dartTypeSafeStr = dartTypeStr.replaceAll(RegExp(r'[<>]'), '');
-      annotation =
-          'JsonKey(fromJson: fromGraphQL${graphqlTypeSafeStr}ToDart$dartTypeSafeStr, toJson: fromDart${dartTypeSafeStr}ToGraphQL$graphqlTypeSafeStr,)';
+      annotations.add(
+          'JsonKey(fromJson: fromGraphQL${graphqlTypeSafeStr}ToDart$dartTypeSafeStr, toJson: fromDart${dartTypeSafeStr}ToGraphQL$graphqlTypeSafeStr,)');
     }
   } // On enums
   else if (nextType is EnumTypeDefinitionNode) {
@@ -314,14 +314,15 @@ Make sure your query is correct and your schema is updated.''');
     }
 
     if (fieldType is! ListTypeNode) {
-      annotation = 'JsonKey(unknownEnumValue: $dartTypeStr.$ARTEMIS_UNKNOWN)';
+      annotations
+          .add('JsonKey(unknownEnumValue: $dartTypeStr.$ARTEMIS_UNKNOWN)');
     }
   }
 
   return ClassProperty(
     type: dartTypeStr,
     name: fieldAlias ?? fieldName,
-    annotation: annotation,
+    annotations: annotations,
     isNonNull: fieldType.isNonNull,
   );
 }
@@ -362,8 +363,10 @@ class _GeneratorVisitor extends RecursiveVisitor {
       _classProperties.add(ClassProperty(
         type: 'String',
         name: 'typeName',
-        annotation: 'JsonKey(name: \'${nextContext.schemaMap.typeNameField}\')',
-        isOverride: true,
+        annotations: [
+          'override',
+          'JsonKey(name: \'${nextContext.schemaMap.typeNameField}\')'
+        ],
         isResolveType: true,
       ));
     }
@@ -467,11 +470,12 @@ class _GeneratorVisitor extends RecursiveVisitor {
     final dartTypeStr = gql.buildTypeString(node.type, context.options,
         dartType: true, replaceLeafWith: nextClassName, schema: context.schema);
 
-    String annotation;
+    final annotations = <String>[];
     if (leafType is EnumTypeDefinitionNode) {
       context.usedEnums.add(leafType.name.value);
       if (leafType is! ListTypeNode) {
-        annotation = 'JsonKey(unknownEnumValue: $dartTypeStr.$ARTEMIS_UNKNOWN)';
+        annotations
+            .add('JsonKey(unknownEnumValue: $dartTypeStr.$ARTEMIS_UNKNOWN)');
       }
     } else if (leafType is InputObjectTypeDefinitionNode) {
       addUsedInputObjectsAndEnums(leafType);
@@ -486,8 +490,8 @@ class _GeneratorVisitor extends RecursiveVisitor {
                 dartType: false, schema: context.schema)
             .replaceAll(RegExp(r'[<>]'), '');
         final dartTypeSafeStr = dartTypeStr.replaceAll(RegExp(r'[<>]'), '');
-        annotation =
-            'JsonKey(fromJson: fromGraphQL${graphqlTypeSafeStr}ToDart$dartTypeSafeStr, toJson: fromDart${dartTypeSafeStr}ToGraphQL$graphqlTypeSafeStr,)';
+        annotations.add(
+            'JsonKey(fromJson: fromGraphQL${graphqlTypeSafeStr}ToDart$dartTypeSafeStr, toJson: fromDart${dartTypeSafeStr}ToGraphQL$graphqlTypeSafeStr,)');
       }
     }
 
@@ -495,7 +499,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
       type: dartTypeStr,
       name: node.variable.name.value,
       isNonNull: node.type.isNonNull,
-      annotation: annotation,
+      annotations: annotations,
     ));
   }
 

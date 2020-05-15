@@ -55,11 +55,7 @@ final LibraryDefinition libraryDefinition =
         ClassDefinition(
             name: r'SomeQuery$QueryResponse$SomeObject',
             properties: [
-              ClassProperty(
-                  type: r'String',
-                  name: r'st',
-                  isOverride: false,
-                  isNonNull: false)
+              ClassProperty(type: r'String', name: r'st', isNonNull: false)
             ],
             factoryPossibilities: {},
             typeNameField: r'__typename',
@@ -67,11 +63,7 @@ final LibraryDefinition libraryDefinition =
         ClassDefinition(
             name: r'SomeQuery$QueryResponse$AnotherObject',
             properties: [
-              ClassProperty(
-                  type: r'String',
-                  name: r'str',
-                  isOverride: false,
-                  isNonNull: false)
+              ClassProperty(type: r'String', name: r'str', isNonNull: false)
             ],
             factoryPossibilities: {},
             typeNameField: r'__typename',
@@ -79,20 +71,14 @@ final LibraryDefinition libraryDefinition =
         ClassDefinition(
             name: r'SomeQuery$QueryResponse',
             properties: [
-              ClassProperty(
-                  type: r'String',
-                  name: r's',
-                  isOverride: false,
-                  isNonNull: false),
+              ClassProperty(type: r'String', name: r's', isNonNull: false),
               ClassProperty(
                   type: r'SomeQuery$QueryResponse$SomeObject',
                   name: r'o',
-                  isOverride: false,
                   isNonNull: false),
               ClassProperty(
                   type: r'List<SomeQuery$QueryResponse$AnotherObject>',
                   name: r'anotherObject',
-                  isOverride: false,
                   isNonNull: false)
             ],
             factoryPossibilities: {},

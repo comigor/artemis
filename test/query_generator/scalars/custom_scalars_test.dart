@@ -107,11 +107,7 @@ final LibraryDefinition libraryDefinition =
         ClassDefinition(
             name: r'Query$SomeObject',
             properties: [
-              ClassProperty(
-                  type: r'String',
-                  name: r'a',
-                  isOverride: false,
-                  isNonNull: false)
+              ClassProperty(type: r'String', name: r'a', isNonNull: false)
             ],
             factoryPossibilities: {},
             typeNameField: r'__typename',
@@ -132,9 +128,9 @@ final LibraryDefinition libraryDefinitionWithCustomParserFns =
               ClassProperty(
                   type: r'MyDartUuid',
                   name: r'a',
-                  isOverride: false,
-                  annotation:
-                      r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyDartUuid, toJson: fromDartMyDartUuidToGraphQLMyUuid,)',
+                  annotations: [
+                    r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyDartUuid, toJson: fromDartMyDartUuidToGraphQLMyUuid,)'
+                  ],
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -160,9 +156,9 @@ final LibraryDefinition libraryDefinitionWithCustomImports =
               ClassProperty(
                   type: r'MyUuid',
                   name: r'a',
-                  isOverride: false,
-                  annotation:
-                      r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid,)',
+                  annotations: [
+                    r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid,)'
+                  ],
                   isNonNull: false,
                   isResolveType: false)
             ],

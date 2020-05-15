@@ -139,16 +139,13 @@ Spec classDefinitionToSpec(
       ..constructors.add(fromJson)
       ..methods.add(toJson)
       ..fields.addAll(definition.properties.map((p) {
-        final annotations = <CodeExpression>[];
-        if (p.isOverride) annotations.add(CodeExpression(Code('override')));
-        if (p.annotation != null) {
-          annotations.add(CodeExpression(Code(p.annotation)));
-        }
         final field = Field(
           (f) => f
             ..name = p.name
             ..type = refer(p.type)
-            ..annotations.addAll(annotations),
+            ..annotations.addAll(
+              p.annotations.map((e) => CodeExpression(Code(e))),
+            ),
         );
         return field;
       })),
@@ -159,10 +156,7 @@ Spec classDefinitionToSpec(
 Spec fragmentClassDefinitionToSpec(FragmentClassDefinition definition) {
   final fields = (definition.properties ?? []).map((p) {
     final lines = <String>[];
-    if (p.isOverride) lines.add('@override');
-    if (p.annotation != null) {
-      lines.add('@${p.annotation}');
-    }
+    lines.addAll(p.annotations.map((e) => '@${e}'));
     lines.add('${p.type} ${p.name};');
     return lines.join('\n');
   });
@@ -225,9 +219,8 @@ Spec generateArgumentClassSpec(QueryDefinition definition) {
             ..name = p.name
             ..type = refer(p.type)
             ..modifier = FieldModifier.final$
-            ..annotations.addAll([
-              if (p.annotation != null) CodeExpression(Code(p.annotation)),
-            ]),
+            ..annotations
+                .addAll(p.annotations.map((e) => CodeExpression(Code(e)))),
         ),
       )),
   );

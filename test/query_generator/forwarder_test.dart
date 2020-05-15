@@ -57,7 +57,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'String',
                   name: r'a',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false)
             ],

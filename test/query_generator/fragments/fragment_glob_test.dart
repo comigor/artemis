@@ -102,7 +102,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'List<Query$Query$Pokemon$Pokemon>',
                   name: r'evolutions',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -116,7 +115,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'Query$Query$Pokemon',
                   name: r'pokemon',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -139,19 +137,16 @@ final LibraryDefinition libraryDefinition =
           ClassProperty(
               type: r'String',
               name: r'id',
-              isOverride: false,
               isNonNull: true,
               isResolveType: false),
           ClassProperty(
               type: r'PokemonMixin$PokemonDimension',
               name: r'weight',
-              isOverride: false,
               isNonNull: false,
               isResolveType: false),
           ClassProperty(
               type: r'PokemonMixin$PokemonAttack',
               name: r'attacks',
-              isOverride: false,
               isNonNull: false,
               isResolveType: false)
         ]),
@@ -159,7 +154,6 @@ final LibraryDefinition libraryDefinition =
           ClassProperty(
               type: r'String',
               name: r'minimum',
-              isOverride: false,
               isNonNull: false,
               isResolveType: false)
         ]),
@@ -173,7 +167,6 @@ final LibraryDefinition libraryDefinition =
           ClassProperty(
               type: r'List<PokemonAttackMixin$Attack>',
               name: r'special',
-              isOverride: false,
               isNonNull: false,
               isResolveType: false)
         ]),
@@ -181,7 +174,6 @@ final LibraryDefinition libraryDefinition =
           ClassProperty(
               type: r'String',
               name: r'name',
-              isOverride: false,
               isNonNull: false,
               isResolveType: false)
         ])
