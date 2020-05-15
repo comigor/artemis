@@ -19,7 +19,7 @@ void main() {
           }
 
           input Input {
-            e: InputInputEnum
+            e: _InputInputEnum
           }
 
           type QueryResponse {
@@ -36,9 +36,11 @@ void main() {
             D
           }
 
-          enum InputInputEnum {
-            E
-            F
+          enum _InputInputEnum {
+            _E
+            _F
+            _new
+            new
           }
 
           type UnusedObject {
@@ -80,7 +82,8 @@ final LibraryDefinition libraryDefinition =
         EnumDefinition(
             name: r'InputEnum', values: [r'C', r'D', r'ARTEMIS_UNKNOWN']),
         EnumDefinition(
-            name: r'InputInputEnum', values: [r'E', r'F', r'ARTEMIS_UNKNOWN']),
+            name: r'$InputInputEnum',
+            values: [r'$E', r'$F', r'$new', r'kw$new', r'ARTEMIS_UNKNOWN']),
         ClassDefinition(
             name: r'Custom$QueryRoot$QueryResponse',
             properties: [
@@ -102,7 +105,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'Custom$QueryRoot$QueryResponse',
                   name: r'q',
-                  annotations: [],
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -113,10 +115,10 @@ final LibraryDefinition libraryDefinition =
             name: r'Input',
             properties: [
               ClassProperty(
-                  type: r'InputInputEnum',
+                  type: r'$InputInputEnum',
                   name: r'e',
                   annotations: [
-                    r'JsonKey(unknownEnumValue: InputInputEnum.ARTEMIS_UNKNOWN)'
+                    r'JsonKey(unknownEnumValue: $InputInputEnum.ARTEMIS_UNKNOWN)'
                   ],
                   isNonNull: false,
                   isResolveType: false)
@@ -133,7 +135,7 @@ final LibraryDefinition libraryDefinition =
             annotations: [
               r'JsonKey(unknownEnumValue: InputEnum.ARTEMIS_UNKNOWN)'
             ]),
-        QueryInput(type: r'Input', name: r'i', isNonNull: true, annotations: [])
+        QueryInput(type: r'Input', name: r'i', isNonNull: true)
       ],
       generateHelpers: false,
       suffix: r'Query')
@@ -182,8 +184,8 @@ class Input with EquatableMixin {
 
   factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
 
-  @JsonKey(unknownEnumValue: InputInputEnum.ARTEMIS_UNKNOWN)
-  InputInputEnum e;
+  @JsonKey(unknownEnumValue: $InputInputEnum.ARTEMIS_UNKNOWN)
+  $InputInputEnum e;
 
   @override
   List<Object> get props => [e];
@@ -200,9 +202,11 @@ enum InputEnum {
   D,
   ARTEMIS_UNKNOWN,
 }
-enum InputInputEnum {
-  E,
-  F,
+enum $InputInputEnum {
+  $E,
+  $F,
+  $new,
+  kw$new,
   ARTEMIS_UNKNOWN,
 }
 ''';

@@ -21,6 +21,7 @@ const query = r'''
   query custom($id: ID!) {
     nodeById(id: $id) {
       id
+      __typename
       ... on User {
         username
       }
@@ -107,7 +108,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false),
               ClassProperty(
                   type: r'String',
-                  name: r'typeName',
+                  name: r'$$typename',
                   annotations: [
                     r'override',
                     r'''JsonKey(name: '__typename')'''
@@ -195,12 +196,12 @@ class Custom$Query$Node with EquatableMixin {
 
   @override
   @JsonKey(name: '__typename')
-  String typeName;
+  String $$typename;
 
   @override
-  List<Object> get props => [id, typeName];
+  List<Object> get props => [id, $$typename];
   Map<String, dynamic> toJson() {
-    switch (typeName) {
+    switch ($$typename) {
       case r'User':
         return (this as Custom$Query$Node$User).toJson();
       case r'ChatMessage':
