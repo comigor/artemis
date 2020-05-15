@@ -29,7 +29,8 @@ String _fromJsonBody(ClassDefinition definition) {
 
 String _toJsonBody(ClassDefinition definition) {
   final buffer = StringBuffer();
-  buffer.writeln('''switch (typeName) {''');
+  final typeName = normalizeName(definition.typeNameField);
+  buffer.writeln('''switch ($typeName) {''');
 
   for (final p in definition.factoryPossibilities.entries) {
     buffer.writeln('''      case r'${p.key}':

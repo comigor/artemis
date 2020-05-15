@@ -219,7 +219,7 @@ class QueryDefinition extends Equatable with DataPrinter {
   final String suffix;
 
   /// The class name.
-  String get className => ReCase(queryName).pascalCase;
+  String get className => ReCase(normalizeName(queryName)).pascalCase;
 
   /// Instantiate a query definition.
   QueryDefinition({

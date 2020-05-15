@@ -156,7 +156,7 @@ class AClass extends AnotherClass with EquatableMixin {
 
       final str = specToString(classDefinitionToSpec(definition, []));
 
-      expect(str, '''@JsonSerializable(explicitToJson: true)
+      expect(str, r'''@JsonSerializable(explicitToJson: true)
 class AClass with EquatableMixin {
   AClass();
 
@@ -168,20 +168,20 @@ class AClass with EquatableMixin {
         return BSubClass.fromJson(json);
       default:
     }
-    return _\$AClassFromJson(json);
+    return _$AClassFromJson(json);
   }
 
   @override
   List<Object> get props => [];
   Map<String, dynamic> toJson() {
-    switch (typeName) {
+    switch ($$typename) {
       case r'ASubClass':
         return (this as ASubClass).toJson();
       case r'BSubClass':
         return (this as BSubClass).toJson();
       default:
     }
-    return _\$AClassToJson(this);
+    return _$AClassToJson(this);
   }
 }
 ''');

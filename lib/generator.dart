@@ -127,7 +127,7 @@ QueryDefinition generateQuery(
 
   final basename = p.basenameWithoutExtension(path).split('.').first;
   final queryName = operation.name?.value ?? basename;
-  final className = ReCase(queryName).pascalCase;
+  final className = ReCase(normalizeName(queryName)).pascalCase;
 
   final schemaVisitor = SchemaDefinitionVisitor();
   final objectVisitor = ObjectTypeDefinitionVisitor();
@@ -234,6 +234,18 @@ ClassProperty _createClassProperty({
   _OnNewClassFoundCallback onNewClassFound,
   bool markAsUsed = true,
 }) {
+  if (fieldName == context.schemaMap.typeNameField) {
+    return ClassProperty(
+      type: 'String',
+      name: normalizeName(fieldName),
+      annotations: [
+        'override',
+        'JsonKey(name: \'${context.schemaMap.typeNameField}\')'
+      ],
+      isResolveType: true,
+    );
+  }
+
   var finalFields = <Node>[];
 
   if (context.currentType is ObjectTypeDefinitionNode) {
@@ -259,7 +271,7 @@ ClassProperty _createClassProperty({
 Make sure your query is correct and your schema is updated.''');
   }
   final aliasAsClassName =
-      fieldAlias != null ? ReCase(fieldAlias).pascalCase : null;
+      fieldAlias != null ? ReCase(normalizeName(fieldAlias)).pascalCase : null;
 
   final nextType =
       gql.getTypeByName(context.schema, fieldType, context: 'field node');
@@ -272,8 +284,10 @@ Make sure your query is correct and your schema is updated.''');
 
   final nextClassName = aliasedContext.joinedName();
 
-  final dartTypeStr = gql.buildTypeString(fieldType, context.options,
-      dartType: true, replaceLeafWith: nextClassName, schema: context.schema);
+  final dartTypeStr = normalizeName(
+    gql.buildTypeString(fieldType, context.options,
+        dartType: true, replaceLeafWith: nextClassName, schema: context.schema),
+  );
 
   _log(context, aliasedContext.align + 1,
       '${aliasedContext.path}[${aliasedContext.currentType.name.value}][${aliasedContext.currentClassName} ${aliasedContext.currentFieldName}] ${fieldAlias == null ? '' : '(${fieldAlias}) '}-> $dartTypeStr');
@@ -311,7 +325,7 @@ Make sure your query is correct and your schema is updated.''');
   } // On enums
   else if (nextType is EnumTypeDefinitionNode) {
     if (markAsUsed) {
-      context.usedEnums.add(nextType.name.value);
+      context.usedEnums.add(normalizeName(nextType.name.value));
     }
 
     if (fieldType is! ListTypeNode) {
@@ -320,9 +334,16 @@ Make sure your query is correct and your schema is updated.''');
     }
   }
 
+  final name = fieldAlias ?? fieldName;
+  final normalizedName = normalizeName(name);
+
+  if (normalizedName != name) {
+    annotations.add('JsonKey(name: \'$name\')');
+  }
+
   return ClassProperty(
-    type: dartTypeStr,
-    name: fieldAlias ?? fieldName,
+    type: normalizeName(dartTypeStr),
+    name: normalizedName,
     annotations: annotations,
     isNonNull: fieldType.isNonNull,
   );
@@ -361,15 +382,6 @@ class _GeneratorVisitor extends RecursiveVisitor {
           keys.map((t) => nextContext.withAlias(alias: t).joinedName());
 
       possibleTypes.addAll(Map.fromIterables(keys, values));
-      _classProperties.add(ClassProperty(
-        type: 'String',
-        name: 'typeName',
-        annotations: [
-          'override',
-          'JsonKey(name: \'${nextContext.schemaMap.typeNameField}\')'
-        ],
-        isResolveType: true,
-      ));
     }
 
     final partOfUnion = nextContext.ofUnion != null;
@@ -391,9 +403,6 @@ class _GeneratorVisitor extends RecursiveVisitor {
   @override
   void visitFieldNode(FieldNode node) {
     final fieldName = node.name.value;
-    if (fieldName == context.schemaMap.typeNameField) {
-      return;
-    }
 
     final property = _createClassProperty(
       fieldName: fieldName,
@@ -446,14 +455,14 @@ class _GeneratorVisitor extends RecursiveVisitor {
     if (context.usedInputObjects.contains(node.name.value)) {
       return;
     }
-    context.usedInputObjects.add(node.name.value);
+    context.usedInputObjects.add(normalizeName(node.name.value));
 
     for (final field in node.fields) {
       final type = gql.getTypeByName(context.schema, field.type);
       if (type is InputObjectTypeDefinitionNode) {
         addUsedInputObjectsAndEnums(type);
       } else if (type is EnumTypeDefinitionNode) {
-        context.usedEnums.add(type.name.value);
+        context.usedEnums.add(normalizeName(type.name.value));
       }
     }
   }
@@ -500,8 +509,8 @@ class _GeneratorVisitor extends RecursiveVisitor {
     }
 
     context.inputsClasses.add(QueryInput(
-      type: dartTypeStr,
-      name: node.variable.name.value,
+      type: normalizeName(dartTypeStr),
+      name: normalizeName(node.variable.name.value),
       isNonNull: node.type.isNonNull,
       annotations: annotations,
     ));
@@ -512,7 +521,8 @@ class _GeneratorVisitor extends RecursiveVisitor {
     _log(context, context.align + 1,
         '${context.path}: ... expanding ${node.name.value}');
     final fragmentName = context
-        .sameTypeWithNoPath(alias: '${ReCase(node.name.value).pascalCase}Mixin')
+        .sameTypeWithNoPath(
+            alias: '${ReCase(normalizeName(node.name.value)).pascalCase}Mixin')
         .joinedName();
 
     final visitor = _GeneratorVisitor(
@@ -534,7 +544,8 @@ class _GeneratorVisitor extends RecursiveVisitor {
 
   @override
   void visitFragmentDefinitionNode(FragmentDefinitionNode node) {
-    final partName = '${ReCase(node.name.value).pascalCase}Mixin';
+    final partName =
+        '${ReCase(normalizeName(node.name.value)).pascalCase}Mixin';
     final nextContext = context.sameTypeWithNoPath(alias: partName);
 
     _log(context, nextContext.align, '-> Fragment');
@@ -607,7 +618,7 @@ class _CanonicalVisitor extends RecursiveVisitor {
 
     enums.add(EnumDefinition(
       name: nextContext.joinedName(),
-      values: node.values.map((eV) => eV.name.value).toList()
+      values: node.values.map((eV) => normalizeName(eV.name.value)).toList()
         ..add(ARTEMIS_UNKNOWN),
     ));
   }

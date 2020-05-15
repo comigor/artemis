@@ -22,10 +22,20 @@ final String query = r'''
     o { 
       __typename, 
       ... on TypeA { 
-        a 
+        a
+        _
+        _a
+        _a_a
+        _a_a_
+        _new
       }, 
       ... on TypeB { 
-        b 
+        b
+        _
+        _b
+        _b_b
+        _b_b_
+        new
       } 
     } 
   }
@@ -44,10 +54,20 @@ final String graphQLSchema = '''
   
   type TypeA {
     a: Int
+    _: String
+    _a: String
+    _a_a: String
+    _a_a_: String
+    _new: String    
   }
   
   type TypeB {
     b: Int
+    _: String
+    _b: String
+    _b_b: String
+    _b_b_: String
+    new: String
   }
 ''';
 
@@ -64,6 +84,36 @@ final LibraryDefinition libraryDefinition =
                   type: r'int',
                   name: r'a',
                   isNonNull: false,
+                  isResolveType: false),
+              ClassProperty(
+                  type: r'String',
+                  name: r'$',
+                  annotations: [r'''JsonKey(name: '_')'''],
+                  isNonNull: false,
+                  isResolveType: false),
+              ClassProperty(
+                  type: r'String',
+                  name: r'$a',
+                  annotations: [r'''JsonKey(name: '_a')'''],
+                  isNonNull: false,
+                  isResolveType: false),
+              ClassProperty(
+                  type: r'String',
+                  name: r'$a_a',
+                  annotations: [r'''JsonKey(name: '_a_a')'''],
+                  isNonNull: false,
+                  isResolveType: false),
+              ClassProperty(
+                  type: r'String',
+                  name: r'$a_a_',
+                  annotations: [r'''JsonKey(name: '_a_a_')'''],
+                  isNonNull: false,
+                  isResolveType: false),
+              ClassProperty(
+                  type: r'String',
+                  name: r'$new',
+                  annotations: [r'''JsonKey(name: '_new')'''],
+                  isNonNull: false,
                   isResolveType: false)
             ],
             extension: r'SomeQuery$SomeObject$SomeUnion',
@@ -77,6 +127,36 @@ final LibraryDefinition libraryDefinition =
                   type: r'int',
                   name: r'b',
                   isNonNull: false,
+                  isResolveType: false),
+              ClassProperty(
+                  type: r'String',
+                  name: r'$',
+                  annotations: [r'''JsonKey(name: '_')'''],
+                  isNonNull: false,
+                  isResolveType: false),
+              ClassProperty(
+                  type: r'String',
+                  name: r'$b',
+                  annotations: [r'''JsonKey(name: '_b')'''],
+                  isNonNull: false,
+                  isResolveType: false),
+              ClassProperty(
+                  type: r'String',
+                  name: r'$b_b',
+                  annotations: [r'''JsonKey(name: '_b_b')'''],
+                  isNonNull: false,
+                  isResolveType: false),
+              ClassProperty(
+                  type: r'String',
+                  name: r'$b_b_',
+                  annotations: [r'''JsonKey(name: '_b_b_')'''],
+                  isNonNull: false,
+                  isResolveType: false),
+              ClassProperty(
+                  type: r'String',
+                  name: r'kw$new',
+                  annotations: [r'''JsonKey(name: 'new')'''],
+                  isNonNull: false,
                   isResolveType: false)
             ],
             extension: r'SomeQuery$SomeObject$SomeUnion',
@@ -88,7 +168,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: r'typeName',
+                  name: r'$$typename',
                   annotations: [
                     r'override',
                     r'''JsonKey(name: '__typename')'''
@@ -137,8 +217,23 @@ class SomeQuery$SomeObject$SomeUnion$TypeA
 
   int a;
 
+  @JsonKey(name: '_')
+  String $;
+
+  @JsonKey(name: '_a')
+  String $a;
+
+  @JsonKey(name: '_a_a')
+  String $a_a;
+
+  @JsonKey(name: '_a_a_')
+  String $a_a_;
+
+  @JsonKey(name: '_new')
+  String $new;
+
   @override
-  List<Object> get props => [a];
+  List<Object> get props => [a, $, $a, $a_a, $a_a_, $new];
   Map<String, dynamic> toJson() =>
       _$SomeQuery$SomeObject$SomeUnion$TypeAToJson(this);
 }
@@ -154,8 +249,23 @@ class SomeQuery$SomeObject$SomeUnion$TypeB
 
   int b;
 
+  @JsonKey(name: '_')
+  String $;
+
+  @JsonKey(name: '_b')
+  String $b;
+
+  @JsonKey(name: '_b_b')
+  String $b_b;
+
+  @JsonKey(name: '_b_b_')
+  String $b_b_;
+
+  @JsonKey(name: 'new')
+  String kw$new;
+
   @override
-  List<Object> get props => [b];
+  List<Object> get props => [b, $, $b, $b_b, $b_b_, kw$new];
   Map<String, dynamic> toJson() =>
       _$SomeQuery$SomeObject$SomeUnion$TypeBToJson(this);
 }
@@ -177,12 +287,12 @@ class SomeQuery$SomeObject$SomeUnion with EquatableMixin {
 
   @override
   @JsonKey(name: '__typename')
-  String typeName;
+  String $$typename;
 
   @override
-  List<Object> get props => [typeName];
+  List<Object> get props => [$$typename];
   Map<String, dynamic> toJson() {
-    switch (typeName) {
+    switch ($$typename) {
       case r'TypeA':
         return (this as SomeQuery$SomeObject$SomeUnion$TypeA).toJson();
       case r'TypeB':

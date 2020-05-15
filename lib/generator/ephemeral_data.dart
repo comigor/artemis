@@ -4,6 +4,7 @@ import 'package:recase/recase.dart';
 
 import './data.dart';
 import '../schema/options.dart';
+import 'helpers.dart';
 
 /// Returns the full class name with joined path.
 String createJoinedName(List<String> path, NamingScheme namingScheme,
@@ -26,7 +27,8 @@ String createJoinedName(List<String> path, NamingScheme namingScheme,
       break;
   }
 
-  return fullPath.map((e) => ReCase(e).pascalCase).join(r'$');
+  // normalize before re-case cause it removes starting underscore
+  return fullPath.map((e) => ReCase(normalizeName(e)).pascalCase).join(r'$');
 }
 
 /// Holds context between [_GeneratorVisitor] iterations.
