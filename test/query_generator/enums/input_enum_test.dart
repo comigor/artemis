@@ -1,4 +1,4 @@
-import 'package:artemis/generator/data.dart';
+import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
@@ -59,77 +59,86 @@ const query = r'''
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      queryName: r'custom',
-      queryType: r'Custom$QueryRoot',
+      name: QueryName(name: r'custom$_QueryRoot'),
+      operationName: r'custom',
       classes: [
-        EnumDefinition(
-            name: r'MyEnum', values: [r'A', r'B', r'ARTEMIS_UNKNOWN']),
-        EnumDefinition(
-            name: r'OtherEnum', values: [r'O1', r'O2', r'ARTEMIS_UNKNOWN']),
+        EnumDefinition(name: EnumName(name: r'MyEnum'), values: [
+          EnumValue(name: r'A'),
+          EnumValue(name: r'B'),
+          EnumValue(name: r'ARTEMIS_UNKNOWN')
+        ]),
+        EnumDefinition(name: EnumName(name: r'OtherEnum'), values: [
+          EnumValue(name: r'O1'),
+          EnumValue(name: r'O2'),
+          EnumValue(name: r'ARTEMIS_UNKNOWN')
+        ]),
         ClassDefinition(
-            name: r'Custom$QueryRoot$QueryResponse',
+            name: ClassName(name: r'custom$_QueryRoot$_QueryResponse'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r's',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r's'),
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
-                  type: r'MyEnum',
-                  name: r'my',
+                  type: TypeName(name: r'MyEnum'),
+                  name: ClassPropertyName(name: r'my'),
                   annotations: [
-                    r'JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)'
+                    r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
                   ],
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
-                  type: r'OtherEnum',
-                  name: r'other',
+                  type: TypeName(name: r'OtherEnum'),
+                  name: ClassPropertyName(name: r'other'),
                   annotations: [
-                    r'JsonKey(unknownEnumValue: OtherEnum.ARTEMIS_UNKNOWN)'
+                    r'JsonKey(unknownEnumValue: OtherEnum.artemisUnknown)'
                   ],
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'Custom$QueryRoot',
+            name: ClassName(name: r'custom$_QueryRoot'),
             properties: [
               ClassProperty(
-                  type: r'Custom$QueryRoot$QueryResponse',
-                  name: r'q',
+                  type: TypeName(name: r'Custom$QueryRoot$QueryResponse'),
+                  name: ClassPropertyName(name: r'q'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'Input',
+            name: ClassName(name: r'Input'),
             properties: [
               ClassProperty(
-                  type: r'MyEnum',
-                  name: r'e',
+                  type: TypeName(name: r'MyEnum'),
+                  name: ClassPropertyName(name: r'e'),
                   annotations: [
-                    r'JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)'
+                    r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
                   ],
                   isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: r'__typename'),
             isInput: true)
       ],
       inputs: [
-        QueryInput(type: r'Input', name: r'input', isNonNull: true),
         QueryInput(
-            type: r'OtherEnum',
-            name: r'o',
+            type: TypeName(name: r'Input'),
+            name: QueryInputName(name: r'input'),
+            isNonNull: true),
+        QueryInput(
+            type: TypeName(name: r'OtherEnum'),
+            name: QueryInputName(name: r'o'),
             isNonNull: true,
             annotations: [
-              r'JsonKey(unknownEnumValue: OtherEnum.ARTEMIS_UNKNOWN)'
+              r'JsonKey(unknownEnumValue: OtherEnum.artemisUnknown)'
             ])
       ],
       generateHelpers: true,
@@ -154,10 +163,10 @@ class Custom$QueryRoot$QueryResponse with EquatableMixin {
 
   String s;
 
-  @JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)
+  @JsonKey(unknownEnumValue: MyEnum.artemisUnknown)
   MyEnum my;
 
-  @JsonKey(unknownEnumValue: OtherEnum.ARTEMIS_UNKNOWN)
+  @JsonKey(unknownEnumValue: OtherEnum.artemisUnknown)
   OtherEnum other;
 
   @override
@@ -185,7 +194,7 @@ class Input with EquatableMixin {
 
   factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
 
-  @JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)
+  @JsonKey(unknownEnumValue: MyEnum.artemisUnknown)
   MyEnum e;
 
   @override
@@ -194,14 +203,20 @@ class Input with EquatableMixin {
 }
 
 enum MyEnum {
-  A,
-  B,
-  ARTEMIS_UNKNOWN,
+  @JsonValue("A")
+  a,
+  @JsonValue("B")
+  b,
+  @JsonValue("ARTEMIS_UNKNOWN")
+  artemisUnknown,
 }
 enum OtherEnum {
-  O1,
-  O2,
-  ARTEMIS_UNKNOWN,
+  @JsonValue("O1")
+  o1,
+  @JsonValue("O2")
+  o2,
+  @JsonValue("ARTEMIS_UNKNOWN")
+  artemisUnknown,
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -213,7 +228,7 @@ class CustomArguments extends JsonSerializable with EquatableMixin {
 
   final Input input;
 
-  @JsonKey(unknownEnumValue: OtherEnum.ARTEMIS_UNKNOWN)
+  @JsonKey(unknownEnumValue: OtherEnum.artemisUnknown)
   final OtherEnum o;
 
   @override

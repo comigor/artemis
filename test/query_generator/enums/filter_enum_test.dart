@@ -1,4 +1,4 @@
-import 'package:artemis/generator/data.dart';
+import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
@@ -74,68 +74,81 @@ const query = r'''
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      queryName: r'custom',
-      queryType: r'Custom$QueryRoot',
+      name: QueryName(name: r'custom$_QueryRoot'),
+      operationName: r'custom',
       classes: [
-        EnumDefinition(
-            name: r'MyEnum', values: [r'A', r'B', r'ARTEMIS_UNKNOWN']),
-        EnumDefinition(
-            name: r'InputEnum', values: [r'C', r'D', r'ARTEMIS_UNKNOWN']),
-        EnumDefinition(
-            name: r'$InputInputEnum',
-            values: [r'$E', r'$F', r'$new', r'kw$new', r'ARTEMIS_UNKNOWN']),
+        EnumDefinition(name: EnumName(name: r'MyEnum'), values: [
+          EnumValue(name: r'A'),
+          EnumValue(name: r'B'),
+          EnumValue(name: r'ARTEMIS_UNKNOWN')
+        ]),
+        EnumDefinition(name: EnumName(name: r'InputEnum'), values: [
+          EnumValue(name: r'C'),
+          EnumValue(name: r'D'),
+          EnumValue(name: r'ARTEMIS_UNKNOWN')
+        ]),
+        EnumDefinition(name: EnumName(name: r'_InputInputEnum'), values: [
+          EnumValue(name: r'_E'),
+          EnumValue(name: r'_F'),
+          EnumValue(name: r'_new'),
+          EnumValue(name: r'new'),
+          EnumValue(name: r'ARTEMIS_UNKNOWN')
+        ]),
         ClassDefinition(
-            name: r'Custom$QueryRoot$QueryResponse',
+            name: ClassName(name: r'custom$_QueryRoot$_QueryResponse'),
             properties: [
               ClassProperty(
-                  type: r'MyEnum',
-                  name: r'e',
+                  type: TypeName(name: r'MyEnum'),
+                  name: ClassPropertyName(name: r'e'),
                   annotations: [
-                    r'JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)'
+                    r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
                   ],
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'Custom$QueryRoot',
+            name: ClassName(name: r'custom$_QueryRoot'),
             properties: [
               ClassProperty(
-                  type: r'Custom$QueryRoot$QueryResponse',
-                  name: r'q',
+                  type: TypeName(name: r'Custom$QueryRoot$QueryResponse'),
+                  name: ClassPropertyName(name: r'q'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'Input',
+            name: ClassName(name: r'Input'),
             properties: [
               ClassProperty(
-                  type: r'$InputInputEnum',
-                  name: r'e',
+                  type: TypeName(name: r'_InputInputEnum'),
+                  name: ClassPropertyName(name: r'e'),
                   annotations: [
-                    r'JsonKey(unknownEnumValue: $InputInputEnum.ARTEMIS_UNKNOWN)'
+                    r'JsonKey(unknownEnumValue: $InputInputEnum.artemisUnknown)'
                   ],
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: true)
       ],
       inputs: [
         QueryInput(
-            type: r'InputEnum',
-            name: r'e',
+            type: TypeName(name: r'InputEnum'),
+            name: QueryInputName(name: r'e'),
             isNonNull: true,
             annotations: [
-              r'JsonKey(unknownEnumValue: InputEnum.ARTEMIS_UNKNOWN)'
+              r'JsonKey(unknownEnumValue: InputEnum.artemisUnknown)'
             ]),
-        QueryInput(type: r'Input', name: r'i', isNonNull: true)
+        QueryInput(
+            type: TypeName(name: r'Input'),
+            name: QueryInputName(name: r'i'),
+            isNonNull: true)
       ],
       generateHelpers: false,
       suffix: r'Query')
@@ -156,7 +169,7 @@ class Custom$QueryRoot$QueryResponse with EquatableMixin {
   factory Custom$QueryRoot$QueryResponse.fromJson(Map<String, dynamic> json) =>
       _$Custom$QueryRoot$QueryResponseFromJson(json);
 
-  @JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)
+  @JsonKey(unknownEnumValue: MyEnum.artemisUnknown)
   MyEnum e;
 
   @override
@@ -184,7 +197,7 @@ class Input with EquatableMixin {
 
   factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
 
-  @JsonKey(unknownEnumValue: $InputInputEnum.ARTEMIS_UNKNOWN)
+  @JsonKey(unknownEnumValue: $InputInputEnum.artemisUnknown)
   $InputInputEnum e;
 
   @override
@@ -193,20 +206,31 @@ class Input with EquatableMixin {
 }
 
 enum MyEnum {
-  A,
-  B,
-  ARTEMIS_UNKNOWN,
+  @JsonValue("A")
+  a,
+  @JsonValue("B")
+  b,
+  @JsonValue("ARTEMIS_UNKNOWN")
+  artemisUnknown,
 }
 enum InputEnum {
-  C,
-  D,
-  ARTEMIS_UNKNOWN,
+  @JsonValue("C")
+  c,
+  @JsonValue("D")
+  d,
+  @JsonValue("ARTEMIS_UNKNOWN")
+  artemisUnknown,
 }
 enum $InputInputEnum {
-  $E,
-  $F,
+  @JsonValue("_E")
+  $e,
+  @JsonValue("_F")
+  $f,
+  @JsonValue("_new")
   $new,
+  @JsonValue("new")
   kw$new,
-  ARTEMIS_UNKNOWN,
+  @JsonValue("ARTEMIS_UNKNOWN")
+  artemisUnknown,
 }
 ''';

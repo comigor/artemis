@@ -1,4 +1,4 @@
-import 'package:artemis/generator/data.dart';
+import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
@@ -58,92 +58,100 @@ mutation customList($input: [Input!]!) {
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      queryName: r'custom',
-      queryType: r'Custom$Mutation',
+      name: QueryName(name: r'custom$_Mutation'),
+      operationName: r'custom',
       classes: [
         ClassDefinition(
-            name: r'Custom$Mutation$Mut',
+            name: ClassName(name: r'custom$_Mutation$_mut'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r's',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r's'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'Custom$Mutation',
+            name: ClassName(name: r'custom$_Mutation'),
             properties: [
               ClassProperty(
-                  type: r'Custom$Mutation$Mut',
-                  name: r'mut',
+                  type: TypeName(name: r'Custom$Mutation$Mut'),
+                  name: ClassPropertyName(name: r'mut'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'Input',
+            name: ClassName(name: r'Input'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r's',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r's'),
                   isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
-            isInput: true)
-      ],
-      inputs: [QueryInput(type: r'Input', name: r'input', isNonNull: true)],
-      generateHelpers: true,
-      suffix: r'Mutation'),
-  QueryDefinition(
-      queryName: r'customList',
-      queryType: r'CustomList$Mutation',
-      classes: [
-        ClassDefinition(
-            name: r'CustomList$Mutation$MutList',
-            properties: [
-              ClassProperty(
-                  type: r'String',
-                  name: r's',
-                  isNonNull: false,
-                  isResolveType: false)
-            ],
-            factoryPossibilities: {},
-            typeNameField: r'__typename',
-            isInput: false),
-        ClassDefinition(
-            name: r'CustomList$Mutation',
-            properties: [
-              ClassProperty(
-                  type: r'CustomList$Mutation$MutList',
-                  name: r'mutList',
-                  isNonNull: false,
-                  isResolveType: false)
-            ],
-            factoryPossibilities: {},
-            typeNameField: r'__typename',
-            isInput: false),
-        ClassDefinition(
-            name: r'Input',
-            properties: [
-              ClassProperty(
-                  type: r'String',
-                  name: r's',
-                  isNonNull: true,
-                  isResolveType: false)
-            ],
-            factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: true)
       ],
       inputs: [
-        QueryInput(type: r'List<Input>', name: r'input', isNonNull: true)
+        QueryInput(
+            type: TypeName(name: r'Input'),
+            name: QueryInputName(name: r'input'),
+            isNonNull: true)
+      ],
+      generateHelpers: true,
+      suffix: r'Mutation'),
+  QueryDefinition(
+      name: QueryName(name: r'customList$_Mutation'),
+      operationName: r'customList',
+      classes: [
+        ClassDefinition(
+            name: ClassName(name: r'customList$_Mutation$_mutList'),
+            properties: [
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r's'),
+                  isNonNull: false,
+                  isResolveType: false)
+            ],
+            factoryPossibilities: {},
+            typeNameField: TypeName(name: '__typename'),
+            isInput: false),
+        ClassDefinition(
+            name: ClassName(name: r'customList$_Mutation'),
+            properties: [
+              ClassProperty(
+                  type: TypeName(name: r'CustomList$Mutation$MutList'),
+                  name: ClassPropertyName(name: r'mutList'),
+                  isNonNull: false,
+                  isResolveType: false)
+            ],
+            factoryPossibilities: {},
+            typeNameField: TypeName(name: '__typename'),
+            isInput: false),
+        ClassDefinition(
+            name: ClassName(name: r'Input'),
+            properties: [
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r's'),
+                  isNonNull: true,
+                  isResolveType: false)
+            ],
+            factoryPossibilities: {},
+            typeNameField: TypeName(name: '__typename'),
+            isInput: true)
+      ],
+      inputs: [
+        QueryInput(
+            type: TypeName(name: r'List<Input>'),
+            name: QueryInputName(name: r'input'),
+            isNonNull: true)
       ],
       generateHelpers: true,
       suffix: r'Mutation')

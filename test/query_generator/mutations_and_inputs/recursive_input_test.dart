@@ -1,4 +1,4 @@
-import 'package:artemis/generator/data.dart';
+import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
@@ -6,7 +6,7 @@ import '../../helpers.dart';
 void main() {
   group('Recursive input objects', () {
     test(
-      'Artemis won\'t StackOverflow on recursive input objects',
+      r'''Artemis won't StackOverflow on recursive input objects''',
       () async => testGenerator(
         query: query,
         schema: r'''
@@ -35,40 +35,45 @@ mutation custom($input: Input!) {
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      queryName: r'custom',
-      queryType: r'Custom$Mutation',
+      name: QueryName(name: r'custom$_Mutation'),
+      operationName: r'custom',
       classes: [
         ClassDefinition(
-            name: r'Custom$Mutation',
+            name: ClassName(name: r'custom$_Mutation'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r'mut',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'mut'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'Input',
+            name: ClassName(name: r'Input'),
             properties: [
               ClassProperty(
-                  type: r'Input',
-                  name: r'and',
+                  type: TypeName(name: r'Input'),
+                  name: ClassPropertyName(name: r'and'),
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
-                  type: r'Input',
-                  name: r'or',
+                  type: TypeName(name: r'Input'),
+                  name: ClassPropertyName(name: r'or'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: r'__typename'),
             isInput: true)
       ],
-      inputs: [QueryInput(type: r'Input', name: r'input', isNonNull: true)],
+      inputs: [
+        QueryInput(
+            type: TypeName(name: r'Input'),
+            name: QueryInputName(name: r'input'),
+            isNonNull: true)
+      ],
       generateHelpers: false,
       suffix: r'Mutation')
 ]);

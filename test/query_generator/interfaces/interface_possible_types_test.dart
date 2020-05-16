@@ -1,4 +1,4 @@
-import 'package:artemis/generator/data.dart';
+import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
@@ -69,46 +69,46 @@ const graphQLSchema = '''
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      queryName: r'custom',
-      queryType: r'Custom$Query',
+      name: QueryName(name: r'custom$_Query'),
+      operationName: r'custom',
       classes: [
         ClassDefinition(
-            name: r'Custom$Query$Node$User',
+            name: ClassName(name: r'custom$_Query$_Node$_User'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r'username',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'username'),
                   isNonNull: true,
                   isResolveType: false)
             ],
             extension: r'Custom$Query$Node',
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'Custom$Query$Node$ChatMessage',
+            name: ClassName(name: r'custom$_Query$_Node$_ChatMessage'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r'message',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'message'),
                   isNonNull: true,
                   isResolveType: false)
             ],
             extension: r'Custom$Query$Node',
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'Custom$Query$Node',
+            name: ClassName(name: r'custom$_Query$_Node'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r'id',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'id'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: r'String',
-                  name: r'$$typename',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'__typename'),
                   annotations: [
                     r'override',
                     r'''JsonKey(name: '__typename')'''
@@ -120,22 +120,27 @@ final LibraryDefinition libraryDefinition =
               r'User': r'Custom$Query$Node$User',
               r'ChatMessage': r'Custom$Query$Node$ChatMessage'
             },
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'Custom$Query',
+            name: ClassName(name: r'custom$_Query'),
             properties: [
               ClassProperty(
-                  type: r'Custom$Query$Node',
-                  name: r'nodeById',
+                  type: TypeName(name: r'Custom$Query$Node'),
+                  name: ClassPropertyName(name: r'nodeById'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false)
       ],
-      inputs: [QueryInput(type: r'String', name: r'id', isNonNull: true)],
+      inputs: [
+        QueryInput(
+            type: TypeName(name: r'String'),
+            name: QueryInputName(name: r'id'),
+            isNonNull: true)
+      ],
       generateHelpers: false,
       suffix: r'Query')
 ]);

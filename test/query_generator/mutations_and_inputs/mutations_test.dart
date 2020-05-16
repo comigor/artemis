@@ -1,4 +1,4 @@
-import 'package:artemis/generator/data.dart';
+import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
@@ -65,94 +65,105 @@ mutation _custom($input: _Input!) {
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      queryName: r'custom',
-      queryType: r'Custom$MutationRoot',
+      name: QueryName(name: r'custom$_MutationRoot'),
+      operationName: r'custom',
       classes: [
         ClassDefinition(
-            name: r'Custom$MutationRoot$MutationResponse',
+            name: ClassName(name: r'custom$_MutationRoot$_MutationResponse'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r's',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r's'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'Custom$MutationRoot',
+            name: ClassName(name: r'custom$_MutationRoot'),
             properties: [
               ClassProperty(
-                  type: r'Custom$MutationRoot$MutationResponse',
-                  name: r'mut',
+                  type: TypeName(name: r'Custom$MutationRoot$MutationResponse'),
+                  name: ClassPropertyName(name: r'mut'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'Input',
+            name: ClassName(name: r'Input'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r's',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r's'),
                   isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: true)
       ],
-      inputs: [QueryInput(type: r'Input', name: r'input', isNonNull: true)],
+      inputs: [
+        QueryInput(
+            type: TypeName(name: r'Input'),
+            name: QueryInputName(name: r'input'),
+            isNonNull: true)
+      ],
       generateHelpers: true,
       suffix: r'Mutation'),
   QueryDefinition(
-      queryName: r'_custom',
-      queryType: r'$custom$MutationRoot',
+      name: QueryName(name: r'_custom$_MutationRoot'),
+      operationName: r'_custom',
       classes: [
         ClassDefinition(
-            name: r'$custom$MutationRoot$$MutationResponse',
+            name: ClassName(name: r'_custom$_MutationRoot$__MutationResponse'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r'$s',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'_s'),
                   annotations: [r'''JsonKey(name: '_s')'''],
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'$custom$MutationRoot',
+            name: ClassName(name: r'_custom$_MutationRoot'),
             properties: [
               ClassProperty(
-                  type: r'$custom$MutationRoot$$MutationResponse',
-                  name: r'$mut',
+                  type:
+                      TypeName(name: r'$custom$MutationRoot$$MutationResponse'),
+                  name: ClassPropertyName(name: r'_mut'),
                   annotations: [r'''JsonKey(name: '_mut')'''],
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'$Input',
+            name: ClassName(name: r'_Input'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r'$s',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'_s'),
                   annotations: [r'''JsonKey(name: '_s')'''],
                   isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: true)
       ],
-      inputs: [QueryInput(type: r'$Input', name: r'input', isNonNull: true)],
+      inputs: [
+        QueryInput(
+            type: TypeName(name: r'_Input'),
+            name: QueryInputName(name: r'input'),
+            isNonNull: true)
+      ],
       generateHelpers: true,
       suffix: r'Mutation')
 ]);
@@ -207,6 +218,52 @@ class Input with EquatableMixin {
   @override
   List<Object> get props => [s];
   Map<String, dynamic> toJson() => _$InputToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class $custom$MutationRoot$MutationResponse with EquatableMixin {
+  $custom$MutationRoot$MutationResponse();
+
+  factory $custom$MutationRoot$MutationResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$$custom$MutationRoot$MutationResponseFromJson(json);
+
+  @JsonKey(name: '_s')
+  String $s;
+
+  @override
+  List<Object> get props => [$s];
+  Map<String, dynamic> toJson() =>
+      _$$custom$MutationRoot$MutationResponseToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class $custom$MutationRoot with EquatableMixin {
+  $custom$MutationRoot();
+
+  factory $custom$MutationRoot.fromJson(Map<String, dynamic> json) =>
+      _$$custom$MutationRootFromJson(json);
+
+  @JsonKey(name: '_mut')
+  $custom$MutationRoot$$MutationResponse $mut;
+
+  @override
+  List<Object> get props => [$mut];
+  Map<String, dynamic> toJson() => _$$custom$MutationRootToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class $Input with EquatableMixin {
+  $Input({@required this.$s});
+
+  factory $Input.fromJson(Map<String, dynamic> json) => _$$InputFromJson(json);
+
+  @JsonKey(name: '_s')
+  String $s;
+
+  @override
+  List<Object> get props => [$s];
+  Map<String, dynamic> toJson() => _$$InputToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -273,52 +330,6 @@ class CustomMutation
   @override
   Custom$MutationRoot parse(Map<String, dynamic> json) =>
       Custom$MutationRoot.fromJson(json);
-}
-
-@JsonSerializable(explicitToJson: true)
-class $custom$MutationRoot$$MutationResponse with EquatableMixin {
-  $custom$MutationRoot$$MutationResponse();
-
-  factory $custom$MutationRoot$$MutationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$$custom$MutationRoot$$MutationResponseFromJson(json);
-
-  @JsonKey(name: '_s')
-  String $s;
-
-  @override
-  List<Object> get props => [$s];
-  Map<String, dynamic> toJson() =>
-      _$$custom$MutationRoot$$MutationResponseToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class $custom$MutationRoot with EquatableMixin {
-  $custom$MutationRoot();
-
-  factory $custom$MutationRoot.fromJson(Map<String, dynamic> json) =>
-      _$$custom$MutationRootFromJson(json);
-
-  @JsonKey(name: '_mut')
-  $custom$MutationRoot$$MutationResponse $mut;
-
-  @override
-  List<Object> get props => [$mut];
-  Map<String, dynamic> toJson() => _$$custom$MutationRootToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class $Input with EquatableMixin {
-  $Input({@required this.$s});
-
-  factory $Input.fromJson(Map<String, dynamic> json) => _$$InputFromJson(json);
-
-  @JsonKey(name: '_s')
-  String $s;
-
-  @override
-  List<Object> get props => [$s];
-  Map<String, dynamic> toJson() => _$$InputToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)

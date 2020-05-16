@@ -1,4 +1,4 @@
-import 'package:artemis/generator/data.dart';
+import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
@@ -58,73 +58,79 @@ const anotherQuery = r'''
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      queryName: r'custom',
-      queryType: r'Custom$Query',
+      name: QueryName(name: r'custom$_Query'),
+      operationName: r'custom',
       classes: [
-        EnumDefinition(
-            name: r'MyEnum', values: [r'A', r'B', r'ARTEMIS_UNKNOWN']),
+        EnumDefinition(name: EnumName(name: r'MyEnum'), values: [
+          EnumValue(name: r'A'),
+          EnumValue(name: r'B'),
+          EnumValue(name: r'ARTEMIS_UNKNOWN')
+        ]),
         ClassDefinition(
-            name: r'Custom$Query$Q',
+            name: ClassName(name: r'custom$_Query$_q'),
             properties: [
               ClassProperty(
-                  type: r'MyEnum',
-                  name: r'e',
+                  type: TypeName(name: r'MyEnum'),
+                  name: ClassPropertyName(name: r'e'),
                   annotations: [
-                    r'JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)'
+                    r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
                   ],
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'Custom$Query',
+            name: ClassName(name: r'custom$_Query'),
             properties: [
               ClassProperty(
-                  type: r'Custom$Query$Q',
-                  name: r'q',
+                  type: TypeName(name: r'Custom$Query$Q'),
+                  name: ClassPropertyName(name: r'q'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false)
       ],
       generateHelpers: false,
       suffix: r'Query'),
   QueryDefinition(
-      queryName: r'customList',
-      queryType: r'CustomList$Query',
+      name: QueryName(name: r'customList$_Query'),
+      operationName: r'customList',
       classes: [
-        EnumDefinition(
-            name: r'MyEnum', values: [r'A', r'B', r'ARTEMIS_UNKNOWN']),
+        EnumDefinition(name: EnumName(name: r'MyEnum'), values: [
+          EnumValue(name: r'A'),
+          EnumValue(name: r'B'),
+          EnumValue(name: r'ARTEMIS_UNKNOWN')
+        ]),
         ClassDefinition(
-            name: r'CustomList$Query$QList',
+            name: ClassName(name: r'customList$_Query$_qList'),
             properties: [
               ClassProperty(
-                  type: r'MyEnum',
-                  name: r'e',
+                  type: TypeName(name: r'MyEnum'),
+                  name: ClassPropertyName(name: r'e'),
                   annotations: [
-                    r'JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)'
+                    r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
                   ],
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'CustomList$Query',
+            name: ClassName(name: r'customList$_Query'),
             properties: [
               ClassProperty(
-                  type: r'List<CustomList$Query$QList>',
-                  name: r'qList',
+                  type: TypeName(name: r'List<CustomList$Query$QList>'),
+                  name: ClassPropertyName(name: r'qList'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false)
       ],
       generateHelpers: false,
@@ -145,7 +151,7 @@ class Custom$Query$Q with EquatableMixin {
   factory Custom$Query$Q.fromJson(Map<String, dynamic> json) =>
       _$Custom$Query$QFromJson(json);
 
-  @JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)
+  @JsonKey(unknownEnumValue: MyEnum.artemisUnknown)
   MyEnum e;
 
   @override
@@ -174,7 +180,7 @@ class CustomList$Query$QList with EquatableMixin {
   factory CustomList$Query$QList.fromJson(Map<String, dynamic> json) =>
       _$CustomList$Query$QListFromJson(json);
 
-  @JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)
+  @JsonKey(unknownEnumValue: MyEnum.artemisUnknown)
   MyEnum e;
 
   @override
@@ -197,8 +203,11 @@ class CustomList$Query with EquatableMixin {
 }
 
 enum MyEnum {
-  A,
-  B,
-  ARTEMIS_UNKNOWN,
+  @JsonValue("A")
+  a,
+  @JsonValue("B")
+  b,
+  @JsonValue("ARTEMIS_UNKNOWN")
+  artemisUnknown,
 }
 ''';

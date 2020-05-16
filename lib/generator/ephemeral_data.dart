@@ -1,8 +1,8 @@
+import 'package:artemis/generator/data/data.dart';
 import 'package:meta/meta.dart';
 import 'package:gql/ast.dart';
 import 'package:recase/recase.dart';
 
-import './data.dart';
 import '../schema/options.dart';
 import 'helpers.dart';
 
@@ -29,6 +29,30 @@ String createJoinedName(List<String> path, NamingScheme namingScheme,
 
   // normalize before re-case cause it removes starting underscore
   return fullPath.map((e) => ReCase(normalizeName(e)).pascalCase).join(r'$');
+}
+
+/// Returns the full class name with joined path.
+List<String> createPathName(List<String> path, NamingScheme namingScheme,
+    [String currentClassName, String currentFieldName, String alias]) {
+  final fieldName = alias ?? currentFieldName;
+  final className = alias ?? currentClassName;
+
+  List<String> fullPath;
+
+  switch (namingScheme) {
+    case NamingScheme.simple:
+      fullPath = [className ?? path.last];
+      break;
+    case NamingScheme.pathedWithFields:
+      fullPath = [...path, if (fieldName != null) fieldName];
+      break;
+    case NamingScheme.pathedWithTypes:
+    default:
+      fullPath = [...path, if (className != null) className];
+      break;
+  }
+
+  return fullPath;
 }
 
 /// Holds context between [_GeneratorVisitor] iterations.
@@ -96,10 +120,10 @@ class Context {
   final bool log;
 
   /// A list of used enums (to filtered on generation).
-  final Set<String> usedEnums;
+  final Set<EnumName> usedEnums;
 
   /// A list of used input objects (to filtered on generation).
-  final Set<String> usedInputObjects;
+  final Set<ClassName> usedInputObjects;
 
   String _stringForNaming(String withFieldNames, String withClassNames) =>
       schemaMap.namingScheme == NamingScheme.pathedWithFields
@@ -108,6 +132,10 @@ class Context {
 
   /// Returns the full class name with joined path.
   String joinedName() => createJoinedName(
+      path, schemaMap.namingScheme, currentClassName, currentFieldName, alias);
+
+  ///
+  List<String> fullPathName() => createPathName(
       path, schemaMap.namingScheme, currentClassName, currentFieldName, alias);
 
   /// Returns a copy of this context, on the same path, but with a new type.

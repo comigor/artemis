@@ -1,4 +1,4 @@
-import 'package:artemis/generator/data.dart';
+import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -74,101 +74,101 @@ final String graphQLSchema = '''
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      queryName: r'some_query',
-      queryType: r'SomeQuery$SomeObject',
+      name: QueryName(name: r'some_query$_SomeObject'),
+      operationName: r'some_query',
       classes: [
         ClassDefinition(
-            name: r'SomeQuery$SomeObject$SomeUnion$TypeA',
+            name: ClassName(name: r'some_query$_SomeObject$_SomeUnion$_TypeA'),
             properties: [
               ClassProperty(
-                  type: r'int',
-                  name: r'a',
+                  type: TypeName(name: r'int'),
+                  name: ClassPropertyName(name: r'a'),
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
-                  type: r'String',
-                  name: r'$',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'_'),
                   annotations: [r'''JsonKey(name: '_')'''],
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
-                  type: r'String',
-                  name: r'$a',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'_a'),
                   annotations: [r'''JsonKey(name: '_a')'''],
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
-                  type: r'String',
-                  name: r'$a_a',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'_a_a'),
                   annotations: [r'''JsonKey(name: '_a_a')'''],
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
-                  type: r'String',
-                  name: r'$a_a_',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'_a_a_'),
                   annotations: [r'''JsonKey(name: '_a_a_')'''],
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
-                  type: r'String',
-                  name: r'$new',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'_new'),
                   annotations: [r'''JsonKey(name: '_new')'''],
                   isNonNull: false,
                   isResolveType: false)
             ],
             extension: r'SomeQuery$SomeObject$SomeUnion',
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'SomeQuery$SomeObject$SomeUnion$TypeB',
+            name: ClassName(name: r'some_query$_SomeObject$_SomeUnion$_TypeB'),
             properties: [
               ClassProperty(
-                  type: r'int',
-                  name: r'b',
+                  type: TypeName(name: r'int'),
+                  name: ClassPropertyName(name: r'b'),
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
-                  type: r'String',
-                  name: r'$',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'_'),
                   annotations: [r'''JsonKey(name: '_')'''],
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
-                  type: r'String',
-                  name: r'$b',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'_b'),
                   annotations: [r'''JsonKey(name: '_b')'''],
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
-                  type: r'String',
-                  name: r'$b_b',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'_b_b'),
                   annotations: [r'''JsonKey(name: '_b_b')'''],
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
-                  type: r'String',
-                  name: r'$b_b_',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'_b_b_'),
                   annotations: [r'''JsonKey(name: '_b_b_')'''],
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
-                  type: r'String',
-                  name: r'kw$new',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'new'),
                   annotations: [r'''JsonKey(name: 'new')'''],
                   isNonNull: false,
                   isResolveType: false)
             ],
             extension: r'SomeQuery$SomeObject$SomeUnion',
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'SomeQuery$SomeObject$SomeUnion',
+            name: ClassName(name: r'some_query$_SomeObject$_SomeUnion'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r'$$typename',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'__typename'),
                   annotations: [
                     r'override',
                     r'''JsonKey(name: '__typename')'''
@@ -180,19 +180,19 @@ final LibraryDefinition libraryDefinition =
               r'TypeA': r'SomeQuery$SomeObject$SomeUnion$TypeA',
               r'TypeB': r'SomeQuery$SomeObject$SomeUnion$TypeB'
             },
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'SomeQuery$SomeObject',
+            name: ClassName(name: r'some_query$_SomeObject'),
             properties: [
               ClassProperty(
-                  type: r'SomeQuery$SomeObject$SomeUnion',
-                  name: r'o',
+                  type: TypeName(name: r'SomeQuery$SomeObject$SomeUnion'),
+                  name: ClassPropertyName(name: r'o'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false)
       ],
       generateHelpers: false,

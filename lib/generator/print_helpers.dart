@@ -1,20 +1,20 @@
+import 'package:artemis/generator/data/data.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:gql_code_gen/gql_code_gen.dart' as dart;
 
-import '../generator/data.dart';
 import '../generator/helpers.dart';
 
 /// Generates a [Spec] of a single enum definition.
 Spec enumDefinitionToSpec(EnumDefinition definition) =>
-    CodeExpression(Code('''enum ${definition.name} {
-  ${definition.values.removeDuplicatedBy((i) => i).map((v) => '$v, ').join()}
+    CodeExpression(Code('''enum ${definition.name.namePrintable} {
+  ${definition.values.removeDuplicatedBy((i) => i).map((v) => '@JsonValue("${v.name}")${v.namePrintable}, ').join()}
 }'''));
 
 String _fromJsonBody(ClassDefinition definition) {
   final buffer = StringBuffer();
-  buffer
-      .writeln('''switch (json['${definition.typeNameField}'].toString()) {''');
+  buffer.writeln(
+      '''switch (json['${definition.typeNameField.name}'].toString()) {''');
 
   for (final p in definition.factoryPossibilities.entries) {
     buffer.writeln('''      case r'${p.key}':
@@ -23,13 +23,13 @@ String _fromJsonBody(ClassDefinition definition) {
 
   buffer.writeln('''      default:
     }
-    return _\$${definition.name}FromJson(json);''');
+    return _\$${definition.name.namePrintable}FromJson(json);''');
   return buffer.toString();
 }
 
 String _toJsonBody(ClassDefinition definition) {
   final buffer = StringBuffer();
-  final typeName = normalizeName(definition.typeNameField);
+  final typeName = definition.typeNameField.namePrintable;
   buffer.writeln('''switch ($typeName) {''');
 
   for (final p in definition.factoryPossibilities.entries) {
@@ -39,7 +39,7 @@ String _toJsonBody(ClassDefinition definition) {
 
   buffer.writeln('''      default:
     }
-    return _\$${definition.name}ToJson(this);''');
+    return _\$${definition.name.namePrintable}ToJson(this);''');
   return buffer.toString();
 }
 
@@ -78,7 +78,7 @@ Spec classDefinitionToSpec(
                 ..type = refer('Map<String, dynamic>')
                 ..name = 'json',
             ))
-            ..body = Code('_\$${definition.name}FromJson(json)'),
+            ..body = Code('_\$${definition.name.namePrintable}FromJson(json)'),
         );
 
   final toJson = definition.factoryPossibilities.isNotEmpty
@@ -93,22 +93,26 @@ Spec classDefinitionToSpec(
             ..name = 'toJson'
             ..lambda = true
             ..returns = refer('Map<String, dynamic>')
-            ..body = Code('_\$${definition.name}ToJson(this)'),
+            ..body = Code('_\$${definition.name.namePrintable}ToJson(this)'),
         );
 
   final props = definition.mixins
-      .map((i) => fragments
-          .firstWhere((f) => f.name == i)
-          .properties
-          .map((p) => p.name))
+      .map((i) {
+        return fragments
+            .firstWhere((f) {
+              return f.name.name == i;
+            })
+            .properties
+            .map((p) => p.name.namePrintable);
+      })
       .expand((i) => i)
-      .followedBy(definition.properties.map((p) => p.name));
+      .followedBy(definition.properties.map((p) => p.name.namePrintable));
 
   return Class(
     (b) => b
       ..annotations
           .add(CodeExpression(Code('JsonSerializable(explicitToJson: true)')))
-      ..name = definition.name
+      ..name = definition.name.namePrintable
       ..mixins.add(refer('EquatableMixin'))
       ..mixins.addAll(definition.mixins.map((i) => refer(i)))
       ..methods.add(_propsMethod('[${props.join(',')}]'))
@@ -125,7 +129,7 @@ Spec classDefinitionToSpec(
                   (property) => Parameter(
                     (p) {
                       p
-                        ..name = property.name
+                        ..name = property.name.namePrintable
                         ..named = true
                         ..toThis = true;
 
@@ -142,8 +146,8 @@ Spec classDefinitionToSpec(
       ..fields.addAll(definition.properties.map((p) {
         final field = Field(
           (f) => f
-            ..name = p.name
-            ..type = refer(p.type)
+            ..name = p.name.namePrintable
+            ..type = refer(p.type.namePrintable)
             ..annotations.addAll(
               p.annotations.map((e) => CodeExpression(Code(e))),
             ),
@@ -158,11 +162,11 @@ Spec fragmentClassDefinitionToSpec(FragmentClassDefinition definition) {
   final fields = (definition.properties ?? []).map((p) {
     final lines = <String>[];
     lines.addAll(p.annotations.map((e) => '@${e}'));
-    lines.add('${p.type} ${p.name};');
+    lines.add('${p.type.namePrintable} ${p.name.namePrintable};');
     return lines.join('\n');
   });
 
-  return CodeExpression(Code('''mixin ${definition.name} {
+  return CodeExpression(Code('''mixin ${definition.name.namePrintable} {
   ${fields.join('\n')}
 }'''));
 }
@@ -177,14 +181,14 @@ Spec generateArgumentClassSpec(QueryDefinition definition) {
       ..extend = refer('JsonSerializable')
       ..mixins.add(refer('EquatableMixin'))
       ..methods.add(_propsMethod(
-          '[${definition.inputs.map((input) => input.name).join(',')}]'))
+          '[${definition.inputs.map((input) => input.name.namePrintable).join(',')}]'))
       ..constructors.add(Constructor(
         (b) => b
           ..optionalParameters.addAll(definition.inputs.map(
             (input) => Parameter(
               (p) {
                 p
-                  ..name = input.name
+                  ..name = input.name.namePrintable
                   ..named = true
                   ..toThis = true;
 
@@ -217,8 +221,8 @@ Spec generateArgumentClassSpec(QueryDefinition definition) {
       ..fields.addAll(definition.inputs.map(
         (p) => Field(
           (f) => f
-            ..name = p.name
-            ..type = refer(p.type)
+            ..name = p.name.namePrintable
+            ..type = refer(p.type.namePrintable)
             ..modifier = FieldModifier.final$
             ..annotations
                 .addAll(p.annotations.map((e) => CodeExpression(Code(e)))),
@@ -230,8 +234,8 @@ Spec generateArgumentClassSpec(QueryDefinition definition) {
 /// Generates a [Spec] of a query/mutation class.
 Spec generateQueryClassSpec(QueryDefinition definition) {
   final typeDeclaration = definition.inputs.isEmpty
-      ? '${definition.queryType}, JsonSerializable'
-      : '${definition.queryType}, ${definition.className}Arguments';
+      ? '${definition.name.namePrintable}, JsonSerializable'
+      : '${definition.name.namePrintable}, ${definition.className}Arguments';
 
   final constructor = definition.inputs.isEmpty
       ? Constructor()
@@ -258,7 +262,7 @@ Spec generateQueryClassSpec(QueryDefinition definition) {
         ..modifier = FieldModifier.final$
         ..type = refer('String')
         ..name = 'operationName'
-        ..assignment = Code('\'${definition.queryName}\''),
+        ..assignment = Code('\'${definition.operationName}\''),
     ),
   ];
 
@@ -283,7 +287,7 @@ Spec generateQueryClassSpec(QueryDefinition definition) {
       ..methods.add(Method(
         (m) => m
           ..annotations.add(CodeExpression(Code('override')))
-          ..returns = refer(definition.queryType)
+          ..returns = refer(definition.name.namePrintable)
           ..name = 'parse'
           ..requiredParameters.add(Parameter(
             (p) => p
@@ -291,7 +295,7 @@ Spec generateQueryClassSpec(QueryDefinition definition) {
               ..name = 'json',
           ))
           ..lambda = true
-          ..body = Code('${definition.queryType}.fromJson(json)'),
+          ..body = Code('${definition.name.namePrintable}.fromJson(json)'),
       )),
   );
 }
@@ -336,7 +340,7 @@ Spec generateLibrarySpec(LibraryDefinition definition) {
       .map((e) => e.classes.map((e) => e))
       .expand((e) => e)
       .fold<Map<String, Definition>>(<String, Definition>{}, (acc, element) {
-    acc[element.name] = element;
+    acc[element.name.name] = element;
 
     return acc;
   }).values;

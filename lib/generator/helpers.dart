@@ -1,4 +1,4 @@
-import 'data.dart';
+import 'package:artemis/generator/data/data.dart';
 
 typedef _IterableFunction<T, U> = U Function(T i);
 typedef _MergeableFunction<T> = T Function(T oldT, T newT);
@@ -86,7 +86,7 @@ String normalizeName(String name) {
     return name;
   }
 
-  final regExp = RegExp(r'^(_+)(\w*)$');
+  final regExp = RegExp(r'^(_+)([\w$]*)$');
   var matches = regExp.allMatches(name);
 
   if (matches.isNotEmpty) {

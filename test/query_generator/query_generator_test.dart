@@ -1,5 +1,5 @@
 import 'package:artemis/builder.dart';
-import 'package:artemis/generator/data.dart';
+import 'package:artemis/generator/data/data.dart';
 import 'package:build/build.dart';
 import 'package:build_test/build_test.dart';
 import 'package:test/test.dart';
@@ -37,25 +37,25 @@ void main() {
             libraryDefinition:
                 LibraryDefinition(basename: r'query.graphql', queries: [
               QueryDefinition(
-                  queryName: r'some_query',
-                  queryType: r'SomeQuery$SomeObject',
+                  name: QueryName(name: r'some_query$_SomeObject'),
+                  operationName: r'some_query',
                   classes: [
                     ClassDefinition(
-                        name: r'SomeQuery$SomeObject',
+                        name: ClassName(name: r'some_query$_SomeObject'),
                         properties: [
                           ClassProperty(
-                              type: r'String',
-                              name: r's',
+                              type: TypeName(name: r'String'),
+                              name: ClassPropertyName(name: r's'),
                               isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
-                              type: r'int',
-                              name: r'i',
+                              type: TypeName(name: r'int'),
+                              name: ClassPropertyName(name: r'i'),
                               isNonNull: false,
                               isResolveType: false)
                         ],
                         factoryPossibilities: {},
-                        typeNameField: r'__typename',
+                        typeNameField: TypeName(name: '__typename'),
                         isInput: false)
                   ],
                   generateHelpers: false,
@@ -116,52 +116,53 @@ class SomeQuery$SomeObject with EquatableMixin {
             libraryDefinition:
                 LibraryDefinition(basename: r'query.graphql', queries: [
               QueryDefinition(
-                  queryName: r'some_query',
-                  queryType: r'SomeQuery$Query',
+                  name: QueryName(name: r'some_query$_Query'),
+                  operationName: r'some_query',
                   classes: [
                     ClassDefinition(
-                        name: r'SomeQuery$Query$SomeObject',
+                        name: ClassName(name: r'some_query$_Query$_SomeObject'),
                         properties: [
                           ClassProperty(
-                              type: r'String',
-                              name: r's',
+                              type: TypeName(name: r'String'),
+                              name: ClassPropertyName(name: r's'),
                               isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
-                              type: r'int',
-                              name: r'i',
+                              type: TypeName(name: r'int'),
+                              name: ClassPropertyName(name: r'i'),
                               isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
-                              type: r'List<int>',
-                              name: r'list',
+                              type: TypeName(name: r'List<int>'),
+                              name: ClassPropertyName(name: r'list'),
                               isNonNull: true,
                               isResolveType: false)
                         ],
                         factoryPossibilities: {},
-                        typeNameField: r'__typename',
+                        typeNameField: TypeName(name: '__typename'),
                         isInput: false),
                     ClassDefinition(
-                        name: r'SomeQuery$Query',
+                        name: ClassName(name: r'some_query$_Query'),
                         properties: [
                           ClassProperty(
-                              type: r'SomeQuery$Query$SomeObject',
-                              name: r'someQuery',
+                              type:
+                                  TypeName(name: r'SomeQuery$Query$SomeObject'),
+                              name: ClassPropertyName(name: r'someQuery'),
                               isNonNull: false,
                               isResolveType: false)
                         ],
                         factoryPossibilities: {},
-                        typeNameField: r'__typename',
+                        typeNameField: TypeName(name: '__typename'),
                         isInput: false)
                   ],
                   inputs: [
                     QueryInput(
-                        type: r'List<int>',
-                        name: r'intsNonNullable',
+                        type: TypeName(name: r'List<int>'),
+                        name: QueryInputName(name: r'intsNonNullable'),
                         isNonNull: true),
                     QueryInput(
-                        type: r'String',
-                        name: r'stringNullable',
+                        type: TypeName(name: r'String'),
+                        name: QueryInputName(name: r'stringNullable'),
                         isNonNull: false)
                   ],
                   generateHelpers: true,
@@ -343,55 +344,60 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
             libraryDefinition:
                 LibraryDefinition(basename: r'query.graphql', queries: [
               QueryDefinition(
-                  queryName: r'some_query',
-                  queryType: r'SomeQuery$Result',
+                  name: QueryName(name: r'some_query$_Result'),
+                  operationName: r'some_query',
                   classes: [
                     ClassDefinition(
-                        name: r'SomeQuery$Result$SomeObject$AnotherObject',
+                        name: ClassName(
+                            name:
+                                r'some_query$_Result$_SomeObject$_AnotherObject'),
                         properties: [
                           ClassProperty(
-                              type: r'String',
-                              name: r'str',
+                              type: TypeName(name: r'String'),
+                              name: ClassPropertyName(name: r'str'),
                               isNonNull: false,
                               isResolveType: false)
                         ],
                         factoryPossibilities: {},
-                        typeNameField: r'__typename',
+                        typeNameField: TypeName(name: '__typename'),
                         isInput: false),
                     ClassDefinition(
-                        name: r'SomeQuery$Result$SomeObject',
+                        name:
+                            ClassName(name: r'some_query$_Result$_SomeObject'),
                         properties: [
                           ClassProperty(
-                              type: r'String',
-                              name: r'st',
+                              type: TypeName(name: r'String'),
+                              name: ClassPropertyName(name: r'st'),
                               isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
-                              type:
-                                  r'List<SomeQuery$Result$SomeObject$AnotherObject>',
-                              name: r'ob',
+                              type: TypeName(
+                                  name:
+                                      r'List<SomeQuery$Result$SomeObject$AnotherObject>'),
+                              name: ClassPropertyName(name: r'ob'),
                               isNonNull: false,
                               isResolveType: false)
                         ],
                         factoryPossibilities: {},
-                        typeNameField: r'__typename',
+                        typeNameField: TypeName(name: '__typename'),
                         isInput: false),
                     ClassDefinition(
-                        name: r'SomeQuery$Result',
+                        name: ClassName(name: r'some_query$_Result'),
                         properties: [
                           ClassProperty(
-                              type: r'String',
-                              name: r's',
+                              type: TypeName(name: r'String'),
+                              name: ClassPropertyName(name: r's'),
                               isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
-                              type: r'SomeQuery$Result$SomeObject',
-                              name: r'o',
+                              type: TypeName(
+                                  name: r'SomeQuery$Result$SomeObject'),
+                              name: ClassPropertyName(name: r'o'),
                               isNonNull: false,
                               isResolveType: false)
                         ],
                         factoryPossibilities: {},
-                        typeNameField: r'__typename',
+                        typeNameField: TypeName(name: '__typename'),
                         isInput: false)
                   ],
                   generateHelpers: false,
@@ -471,25 +477,25 @@ class SomeQuery$Result with EquatableMixin {
             libraryDefinition:
                 LibraryDefinition(basename: r'query.graphql', queries: [
               QueryDefinition(
-                  queryName: r'some_query',
-                  queryType: r'SomeQuery$Result',
+                  name: QueryName(name: r'some_query$_Result'),
+                  operationName: r'some_query',
                   classes: [
                     ClassDefinition(
-                        name: r'SomeQuery$Result',
+                        name: ClassName(name: r'some_query$_Result'),
                         properties: [
                           ClassProperty(
-                              type: r'String',
-                              name: r'firstName',
+                              type: TypeName(name: r'String'),
+                              name: ClassPropertyName(name: r'firstName'),
                               isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
-                              type: r'String',
-                              name: r'lastName',
+                              type: TypeName(name: r'String'),
+                              name: ClassPropertyName(name: r'lastName'),
                               isNonNull: false,
                               isResolveType: false)
                         ],
                         factoryPossibilities: {},
-                        typeNameField: r'__typename',
+                        typeNameField: TypeName(name: '__typename'),
                         isInput: false)
                   ],
                   generateHelpers: false,
@@ -555,25 +561,25 @@ class SomeQuery$Result with EquatableMixin {
             libraryDefinition:
                 LibraryDefinition(basename: r'query.graphql', queries: [
               QueryDefinition(
-                  queryName: r'some_query',
-                  queryType: r'SomeQuery$SomeObject',
+                  name: QueryName(name: r'some_query$_SomeObject'),
+                  operationName: r'some_query',
                   classes: [
                     ClassDefinition(
-                        name: r'SomeQuery$SomeObject',
+                        name: ClassName(name: r'some_query$_SomeObject'),
                         properties: [
                           ClassProperty(
-                              type: r'Decimal',
-                              name: r'bigDecimal',
+                              type: TypeName(name: r'Decimal'),
+                              name: ClassPropertyName(name: r'bigDecimal'),
                               isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
-                              type: r'DateTime',
-                              name: r'dateTime',
+                              type: TypeName(name: r'DateTime'),
+                              name: ClassPropertyName(name: r'dateTime'),
                               isNonNull: false,
                               isResolveType: false)
                         ],
                         factoryPossibilities: {},
-                        typeNameField: r'__typename',
+                        typeNameField: TypeName(name: '__typename'),
                         isInput: false)
                   ],
                   generateHelpers: false,
@@ -623,20 +629,22 @@ class SomeQuery$SomeObject with EquatableMixin {
             libraryDefinition:
                 LibraryDefinition(basename: r'query.graphql', queries: [
               QueryDefinition(
-                  queryName: r'PascalCasingQuery',
-                  queryType: r'PascalCasingQuery$PascalCasingQuery',
+                  name:
+                      QueryName(name: r'PascalCasingQuery$_PascalCasingQuery'),
+                  operationName: r'PascalCasingQuery',
                   classes: [
                     ClassDefinition(
-                        name: r'PascalCasingQuery$PascalCasingQuery',
+                        name: ClassName(
+                            name: r'PascalCasingQuery$_PascalCasingQuery'),
                         properties: [
                           ClassProperty(
-                              type: r'String',
-                              name: r's',
+                              type: TypeName(name: r'String'),
+                              name: ClassPropertyName(name: r's'),
                               isNonNull: false,
                               isResolveType: false)
                         ],
                         factoryPossibilities: {},
-                        typeNameField: r'__typename',
+                        typeNameField: TypeName(name: '__typename'),
                         isInput: false)
                   ],
                   generateHelpers: false,

@@ -1,4 +1,4 @@
-import 'package:artemis/generator/data.dart';
+import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
@@ -37,23 +37,28 @@ void main() {
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      queryName: r'some_query',
-      queryType: r'SomeQuery$SomeObject',
+      name: QueryName(name: r'some_query$_SomeObject'),
+      operationName: r'some_query',
       classes: [
-        FragmentClassDefinition(name: r'MyFragmentMixin', properties: [
-          ClassProperty(
-              type: r'String',
-              name: r's',
-              isNonNull: false,
-              isResolveType: false),
-          ClassProperty(
-              type: r'int', name: r'i', isNonNull: false, isResolveType: false)
-        ]),
+        FragmentClassDefinition(
+            name: ClassName(name: r'MyFragmentMixin'),
+            properties: [
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r's'),
+                  isNonNull: false,
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(name: r'int'),
+                  name: ClassPropertyName(name: r'i'),
+                  isNonNull: false,
+                  isResolveType: false)
+            ]),
         ClassDefinition(
-            name: r'SomeQuery$SomeObject',
+            name: ClassName(name: r'some_query$_SomeObject'),
             mixins: [r'MyFragmentMixin'],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false)
       ],
       generateHelpers: false,

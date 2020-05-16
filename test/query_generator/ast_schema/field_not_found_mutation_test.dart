@@ -1,4 +1,4 @@
-import 'package:artemis/generator/data.dart';
+import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
@@ -53,72 +53,77 @@ mutation createThing($createThingInput: CreateThingInput) {
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      queryName: r'createThing',
-      queryType: r'CreateThing$MutationRoot',
+      name: QueryName(name: r'createThing$_MutationRoot'),
+      operationName: r'createThing',
       classes: [
         ClassDefinition(
-            name: r'CreateThing$MutationRoot$CreateThingResponse$Thing',
+            name: ClassName(
+                name: r'createThing$_MutationRoot$_CreateThingResponse$_Thing'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r'id',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'id'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: r'String',
-                  name: r'message',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'message'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'CreateThing$MutationRoot$CreateThingResponse',
+            name: ClassName(
+                name: r'createThing$_MutationRoot$_CreateThingResponse'),
             properties: [
               ClassProperty(
-                  type: r'CreateThing$MutationRoot$CreateThingResponse$Thing',
-                  name: r'thing',
+                  type: TypeName(
+                      name:
+                          r'CreateThing$MutationRoot$CreateThingResponse$Thing'),
+                  name: ClassPropertyName(name: r'thing'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'CreateThing$MutationRoot',
+            name: ClassName(name: r'createThing$_MutationRoot'),
             properties: [
               ClassProperty(
-                  type: r'CreateThing$MutationRoot$CreateThingResponse',
-                  name: r'createThing',
+                  type: TypeName(
+                      name: r'CreateThing$MutationRoot$CreateThingResponse'),
+                  name: ClassPropertyName(name: r'createThing'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'CreateThingInput',
+            name: ClassName(name: r'CreateThingInput'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r'clientId',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'clientId'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: r'String',
-                  name: r'message',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'message'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: true)
       ],
       inputs: [
         QueryInput(
-            type: r'CreateThingInput',
-            name: r'createThingInput',
+            type: TypeName(name: r'CreateThingInput'),
+            name: QueryInputName(name: r'createThingInput'),
             isNonNull: false)
       ],
       generateHelpers: false,

@@ -1,5 +1,5 @@
 import 'package:artemis/builder.dart';
-import 'package:artemis/generator/data.dart';
+import 'package:artemis/generator/data/data.dart';
 import 'package:build/build.dart';
 import 'package:build_test/build_test.dart';
 import 'package:logging/logging.dart';
@@ -82,7 +82,9 @@ Future testNaming({
 
   if (!shouldFail) {
     anotherBuilder.onBuild = expectAsync1((definition) {
-      final names = definition.queries.first.classes.map((e) => e.name).toSet();
+      final names = definition.queries.first.classes
+          .map((e) => e.name.namePrintable)
+          .toSet();
       log.fine(names);
       expect(names.toSet(), equals(expectedNames.toSet()));
     }, count: 1);

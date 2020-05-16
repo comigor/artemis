@@ -1,4 +1,4 @@
-import 'package:artemis/generator/data.dart';
+import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
@@ -49,64 +49,69 @@ void main() {
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      queryName: r'some_query',
-      queryType: r'SomeQuery$QueryRoot',
+      name: QueryName(name: r'some_query$_QueryRoot'),
+      operationName: r'some_query',
       classes: [
-        EnumDefinition(
-            name: r'MyEnum',
-            values: [r'value1', r'value2', r'ARTEMIS_UNKNOWN']),
+        EnumDefinition(name: EnumName(name: r'MyEnum'), values: [
+          EnumValue(name: r'value1'),
+          EnumValue(name: r'value2'),
+          EnumValue(name: r'ARTEMIS_UNKNOWN')
+        ]),
         ClassDefinition(
-            name: r'SomeQuery$QueryRoot$SomeObject',
+            name: ClassName(name: r'some_query$_QueryRoot$_SomeObject'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r's',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r's'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'SomeQuery$QueryRoot',
+            name: ClassName(name: r'some_query$_QueryRoot'),
             properties: [
               ClassProperty(
-                  type: r'SomeQuery$QueryRoot$SomeObject',
-                  name: r'o',
+                  type: TypeName(name: r'SomeQuery$QueryRoot$SomeObject'),
+                  name: ClassPropertyName(name: r'o'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'ComplexInput',
+            name: ClassName(name: r'ComplexInput'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r's',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r's'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: r'MyEnum',
-                  name: r'e',
+                  type: TypeName(name: r'MyEnum'),
+                  name: ClassPropertyName(name: r'e'),
                   annotations: [
-                    r'JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)'
+                    r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
                   ],
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
-                  type: r'List<String>',
-                  name: r'ls',
+                  type: TypeName(name: r'List<String>'),
+                  name: ClassPropertyName(name: r'ls'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: true)
       ],
       inputs: [
-        QueryInput(type: r'ComplexInput', name: r'filter', isNonNull: true)
+        QueryInput(
+            type: TypeName(name: r'ComplexInput'),
+            name: QueryInputName(name: r'filter'),
+            isNonNull: true)
       ],
       generateHelpers: true,
       suffix: r'Query')
@@ -158,7 +163,7 @@ class ComplexInput with EquatableMixin {
 
   String s;
 
-  @JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)
+  @JsonKey(unknownEnumValue: MyEnum.artemisUnknown)
   MyEnum e;
 
   List<String> ls;
@@ -169,9 +174,12 @@ class ComplexInput with EquatableMixin {
 }
 
 enum MyEnum {
+  @JsonValue("value1")
   value1,
+  @JsonValue("value2")
   value2,
-  ARTEMIS_UNKNOWN,
+  @JsonValue("ARTEMIS_UNKNOWN")
+  artemisUnknown,
 }
 
 @JsonSerializable(explicitToJson: true)
