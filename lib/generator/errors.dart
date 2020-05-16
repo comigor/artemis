@@ -1,26 +1,27 @@
+import 'package:artemis/generator/data.dart';
+
 /// Define an exception thrown when duplicated classes names were generated.
 class DuplicatedClassesException implements Exception {
   /// Define an exception thrown when duplicated classes names were generated.
-  const DuplicatedClassesException(
-    this.allClassesNames,
-    this.duplicatedClassName,
-  );
+  const DuplicatedClassesException(this.a, this.b);
 
-  /// The list of all generated classes names.
-  final Iterable<String> allClassesNames;
+  /// First duplicated class.
+  final Definition a;
 
-  /// The name of the first class with duplicated name.
-  final String duplicatedClassName;
+  /// Second duplicated class.
+  final Definition b;
 
   @override
   String toString() =>
-      '''Two classes were generated with the same name `$duplicatedClassName`!
-You may want to:
-- Make queries_glob stricter, to gather less .graphql files on a single output
-- Use alias on one of the places a field of type `$duplicatedClassName` is requested
-- Change naming_scheme to `pathedWithFields` to avoid duplication
+      '''Two classes were generated with the same name `${a.name}` 
+but with different selection set.
 
-Classes: ${allClassesNames.join('\n')}''';
+Class A
+${a.toString()}
+
+Class B
+${b.toString()}
+''';
 }
 
 /// Define an exception thrown when `fragments_glob` used with the fragments inside query files

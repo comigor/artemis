@@ -338,16 +338,25 @@ Spec generateLibrarySpec(LibraryDefinition definition) {
     CodeExpression(Code('part \'${definition.basename}.g.dart\';')),
   ];
 
-  for (final queryDef in definition.queries) {
-    bodyDirectives.addAll(queryDef.classes
-        .whereType<FragmentClassDefinition>()
-        .map(fragmentClassDefinitionToSpec));
-    bodyDirectives.addAll(queryDef.classes.whereType<ClassDefinition>().map(
-        (cDef) => classDefinitionToSpec(
-            cDef, queryDef.classes.whereType<FragmentClassDefinition>())));
-    bodyDirectives.addAll(
-        queryDef.classes.whereType<EnumDefinition>().map(enumDefinitionToSpec));
+  final uniqueDefinitions = definition.queries
+      .map((e) => e.classes.map((e) => e))
+      .expand((e) => e)
+      .fold<Map<String, Definition>>(<String, Definition>{}, (acc, element) {
+    acc[element.name] = element;
 
+    return acc;
+  }).values;
+
+  final fragments = uniqueDefinitions.whereType<FragmentClassDefinition>();
+  final classes = uniqueDefinitions.whereType<ClassDefinition>();
+  final enums = uniqueDefinitions.whereType<EnumDefinition>();
+
+  bodyDirectives.addAll(fragments.map(fragmentClassDefinitionToSpec));
+  bodyDirectives
+      .addAll(classes.map((cDef) => classDefinitionToSpec(cDef, fragments)));
+  bodyDirectives.addAll(enums.map(enumDefinitionToSpec));
+
+  for (final queryDef in definition.queries) {
     if (queryDef.inputs.isNotEmpty && queryDef.generateHelpers) {
       bodyDirectives.add(generateArgumentClassSpec(queryDef));
     }
