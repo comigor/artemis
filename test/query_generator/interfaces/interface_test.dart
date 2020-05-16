@@ -75,30 +75,30 @@ final LibraryDefinition libraryDefinition =
       queryType: r'Custom$Query',
       classes: [
         ClassDefinition(
-            name: r'Custom$Query$Node$User',
+            name: TempName(name: r'Custom$Query$Node$User'),
             extension: r'Custom$Query$Node',
             mixins: [r'UserFragMixin'],
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: r'Custom$Query$Node$ChatMessage$User',
+            name: TempName(name: r'Custom$Query$Node$ChatMessage$User'),
             extension: r'Custom$Query$Node$ChatMessage',
             mixins: [r'UserFragMixin'],
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: r'Custom$Query$Node$ChatMessage',
+            name: TempName(name: r'Custom$Query$Node$ChatMessage'),
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: r'message',
+                  name: TempName(name: r'message'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: r'Custom$Query$Node$ChatMessage$User',
-                  name: r'user',
+                  name: TempName(name: r'user'),
                   isNonNull: true,
                   isResolveType: false)
             ],
@@ -107,16 +107,16 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: r'Custom$Query$Node',
+            name: TempName(name: r'Custom$Query$Node'),
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: r'id',
+                  name: TempName(name: r'id'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: r'String',
-                  name: r'typeName',
+                  name: TempName(name: r'typeName'),
                   annotations: [
                     r'override',
                     r'''JsonKey(name: '__typename')'''
@@ -131,31 +131,36 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: r'Custom$Query',
+            name: TempName(name: r'Custom$Query'),
             properties: [
               ClassProperty(
                   type: r'Custom$Query$Node',
-                  name: r'nodeById',
+                  name: TempName(name: r'nodeById'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
-        FragmentClassDefinition(name: r'UserFragMixin', properties: [
-          ClassProperty(
-              type: r'String',
-              name: r'id',
-              isNonNull: true,
-              isResolveType: false),
-          ClassProperty(
-              type: r'String',
-              name: r'username',
-              isNonNull: true,
-              isResolveType: false)
-        ])
+        FragmentClassDefinition(
+            name: TempName(name: r'UserFragMixin'),
+            properties: [
+              ClassProperty(
+                  type: r'String',
+                  name: TempName(name: r'id'),
+                  isNonNull: true,
+                  isResolveType: false),
+              ClassProperty(
+                  type: r'String',
+                  name: TempName(name: r'username'),
+                  isNonNull: true,
+                  isResolveType: false)
+            ])
       ],
-      inputs: [QueryInput(type: r'String', name: r'id', isNonNull: true)],
+      inputs: [
+        QueryInput(
+            type: r'String', name: TempName(name: r'id'), isNonNull: true)
+      ],
       generateHelpers: false,
       suffix: r'Query')
 ]);

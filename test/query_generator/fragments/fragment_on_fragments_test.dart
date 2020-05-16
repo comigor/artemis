@@ -68,17 +68,17 @@ final LibraryDefinition libraryDefinition =
       queryType: r'Query$Query',
       classes: [
         ClassDefinition(
-            name: r'Query$Query$Pokemon',
+            name: TempName(name: r'Query$Query$Pokemon'),
             mixins: [r'PokemonMixin', r'PokemonPartsMixin'],
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: r'Query$Query',
+            name: TempName(name: r'Query$Query'),
             properties: [
               ClassProperty(
                   type: r'Query$Query$Pokemon',
-                  name: r'pokemon',
+                  name: TempName(name: r'pokemon'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -86,42 +86,48 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: r'PokemonMixin$Pokemon',
+            name: TempName(name: r'PokemonMixin$Pokemon'),
             mixins: [r'PokemonNameMixin'],
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
-        FragmentClassDefinition(name: r'PokemonMixin', properties: [
-          ClassProperty(
-              type: r'String',
-              name: r'id',
-              isNonNull: true,
-              isResolveType: false),
-          ClassProperty(
-              type: r'PokemonMixin$Pokemon',
-              name: r'evolution',
-              isNonNull: false,
-              isResolveType: false)
-        ]),
-        FragmentClassDefinition(name: r'PokemonNameMixin', properties: [
-          ClassProperty(
-              type: r'String',
-              name: r'name',
-              isNonNull: false,
-              isResolveType: false)
-        ]),
-        FragmentClassDefinition(name: r'PokemonPartsMixin', properties: [
-          ClassProperty(
-              type: r'String',
-              name: r'number',
-              isNonNull: false,
-              isResolveType: false),
-          ClassProperty(
-              type: r'String',
-              name: r'name',
-              isNonNull: false,
-              isResolveType: false)
-        ])
+        FragmentClassDefinition(
+            name: TempName(name: r'PokemonMixin'),
+            properties: [
+              ClassProperty(
+                  type: r'String',
+                  name: TempName(name: r'id'),
+                  isNonNull: true,
+                  isResolveType: false),
+              ClassProperty(
+                  type: r'PokemonMixin$Pokemon',
+                  name: TempName(name: r'evolution'),
+                  isNonNull: false,
+                  isResolveType: false)
+            ]),
+        FragmentClassDefinition(
+            name: TempName(name: r'PokemonNameMixin'),
+            properties: [
+              ClassProperty(
+                  type: r'String',
+                  name: TempName(name: r'name'),
+                  isNonNull: false,
+                  isResolveType: false)
+            ]),
+        FragmentClassDefinition(
+            name: TempName(name: r'PokemonPartsMixin'),
+            properties: [
+              ClassProperty(
+                  type: r'String',
+                  name: TempName(name: r'number'),
+                  isNonNull: false,
+                  isResolveType: false),
+              ClassProperty(
+                  type: r'String',
+                  name: TempName(name: r'name'),
+                  isNonNull: false,
+                  isResolveType: false)
+            ])
       ],
       generateHelpers: false,
       suffix: r'Query')

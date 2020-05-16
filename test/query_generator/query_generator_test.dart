@@ -41,16 +41,16 @@ void main() {
                   queryType: r'SomeQuery$SomeObject',
                   classes: [
                     ClassDefinition(
-                        name: r'SomeQuery$SomeObject',
+                        name: TempName(name: r'SomeQuery$SomeObject'),
                         properties: [
                           ClassProperty(
                               type: r'String',
-                              name: r's',
+                              name: TempName(name: r's'),
                               isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
                               type: r'int',
-                              name: r'i',
+                              name: TempName(name: r'i'),
                               isNonNull: false,
                               isResolveType: false)
                         ],
@@ -120,21 +120,21 @@ class SomeQuery$SomeObject with EquatableMixin {
                   queryType: r'SomeQuery$Query',
                   classes: [
                     ClassDefinition(
-                        name: r'SomeQuery$Query$SomeObject',
+                        name: TempName(name: r'SomeQuery$Query$SomeObject'),
                         properties: [
                           ClassProperty(
                               type: r'String',
-                              name: r's',
+                              name: TempName(name: r's'),
                               isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
                               type: r'int',
-                              name: r'i',
+                              name: TempName(name: r'i'),
                               isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
                               type: r'List<int>',
-                              name: r'list',
+                              name: TempName(name: r'list'),
                               isNonNull: true,
                               isResolveType: false)
                         ],
@@ -142,11 +142,11 @@ class SomeQuery$SomeObject with EquatableMixin {
                         typeNameField: r'__typename',
                         isInput: false),
                     ClassDefinition(
-                        name: r'SomeQuery$Query',
+                        name: TempName(name: r'SomeQuery$Query'),
                         properties: [
                           ClassProperty(
                               type: r'SomeQuery$Query$SomeObject',
-                              name: r'someQuery',
+                              name: TempName(name: r'someQuery'),
                               isNonNull: false,
                               isResolveType: false)
                         ],
@@ -157,11 +157,11 @@ class SomeQuery$SomeObject with EquatableMixin {
                   inputs: [
                     QueryInput(
                         type: r'List<int>',
-                        name: r'intsNonNullable',
+                        name: TempName(name: r'intsNonNullable'),
                         isNonNull: true),
                     QueryInput(
                         type: r'String',
-                        name: r'stringNullable',
+                        name: TempName(name: r'stringNullable'),
                         isNonNull: false)
                   ],
                   generateHelpers: true,
@@ -347,11 +347,12 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
                   queryType: r'SomeQuery$Result',
                   classes: [
                     ClassDefinition(
-                        name: r'SomeQuery$Result$SomeObject$AnotherObject',
+                        name: TempName(
+                            name: r'SomeQuery$Result$SomeObject$AnotherObject'),
                         properties: [
                           ClassProperty(
                               type: r'String',
-                              name: r'str',
+                              name: TempName(name: r'str'),
                               isNonNull: false,
                               isResolveType: false)
                         ],
@@ -359,17 +360,17 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
                         typeNameField: r'__typename',
                         isInput: false),
                     ClassDefinition(
-                        name: r'SomeQuery$Result$SomeObject',
+                        name: TempName(name: r'SomeQuery$Result$SomeObject'),
                         properties: [
                           ClassProperty(
                               type: r'String',
-                              name: r'st',
+                              name: TempName(name: r'st'),
                               isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
                               type:
                                   r'List<SomeQuery$Result$SomeObject$AnotherObject>',
-                              name: r'ob',
+                              name: TempName(name: r'ob'),
                               isNonNull: false,
                               isResolveType: false)
                         ],
@@ -377,16 +378,16 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
                         typeNameField: r'__typename',
                         isInput: false),
                     ClassDefinition(
-                        name: r'SomeQuery$Result',
+                        name: TempName(name: r'SomeQuery$Result'),
                         properties: [
                           ClassProperty(
                               type: r'String',
-                              name: r's',
+                              name: TempName(name: r's'),
                               isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
                               type: r'SomeQuery$Result$SomeObject',
-                              name: r'o',
+                              name: TempName(name: r'o'),
                               isNonNull: false,
                               isResolveType: false)
                         ],
@@ -475,16 +476,16 @@ class SomeQuery$Result with EquatableMixin {
                   queryType: r'SomeQuery$Result',
                   classes: [
                     ClassDefinition(
-                        name: r'SomeQuery$Result',
+                        name: TempName(name: r'SomeQuery$Result'),
                         properties: [
                           ClassProperty(
                               type: r'String',
-                              name: r'firstName',
+                              name: TempName(name: r'firstName'),
                               isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
                               type: r'String',
-                              name: r'lastName',
+                              name: TempName(name: r'lastName'),
                               isNonNull: false,
                               isResolveType: false)
                         ],
@@ -559,16 +560,16 @@ class SomeQuery$Result with EquatableMixin {
                   queryType: r'SomeQuery$SomeObject',
                   classes: [
                     ClassDefinition(
-                        name: r'SomeQuery$SomeObject',
+                        name: TempName(name: r'SomeQuery$SomeObject'),
                         properties: [
                           ClassProperty(
                               type: r'Decimal',
-                              name: r'bigDecimal',
+                              name: TempName(name: r'bigDecimal'),
                               isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
                               type: r'DateTime',
-                              name: r'dateTime',
+                              name: TempName(name: r'dateTime'),
                               isNonNull: false,
                               isResolveType: false)
                         ],
@@ -627,11 +628,12 @@ class SomeQuery$SomeObject with EquatableMixin {
                   queryType: r'PascalCasingQuery$PascalCasingQuery',
                   classes: [
                     ClassDefinition(
-                        name: r'PascalCasingQuery$PascalCasingQuery',
+                        name: TempName(
+                            name: r'PascalCasingQuery$PascalCasingQuery'),
                         properties: [
                           ClassProperty(
                               type: r'String',
-                              name: r's',
+                              name: TempName(name: r's'),
                               isNonNull: false,
                               isResolveType: false)
                         ],

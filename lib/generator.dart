@@ -310,7 +310,7 @@ Make sure your query is correct and your schema is updated.''');
   } // On enums
   else if (nextType is EnumTypeDefinitionNode) {
     if (markAsUsed) {
-      context.usedEnums.add(nextType.name.value);
+      context.usedEnums.add(EnumName(name: nextType.name.value));
     }
 
     if (fieldType is! ListTypeNode) {
@@ -321,7 +321,7 @@ Make sure your query is correct and your schema is updated.''');
 
   return ClassProperty(
     type: dartTypeStr,
-    name: fieldAlias ?? fieldName,
+    name: TempName(name: fieldAlias ?? fieldName),
     annotations: annotations,
     isNonNull: fieldType.isNonNull,
   );
@@ -362,7 +362,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
       possibleTypes.addAll(Map.fromIterables(keys, values));
       _classProperties.add(ClassProperty(
         type: 'String',
-        name: 'typeName',
+        name: TempName(name: 'typeName'),
         annotations: [
           'override',
           'JsonKey(name: \'${nextContext.schemaMap.typeNameField}\')'
@@ -379,7 +379,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
     _log(context, nextContext.align,
         '<- Generated class ${nextContext.joinedName()}.');
     nextContext.generatedClasses.add(ClassDefinition(
-      name: nextContext.joinedName(),
+      name: TempName(name: nextContext.joinedName()),
       properties: _classProperties,
       mixins: _mixins,
       extension: partOfUnion ? nextContext.rollbackPath().joinedName() : null,
@@ -442,17 +442,17 @@ class _GeneratorVisitor extends RecursiveVisitor {
   }
 
   void addUsedInputObjectsAndEnums(InputObjectTypeDefinitionNode node) {
-    if (context.usedInputObjects.contains(node.name.value)) {
+    if (context.usedInputObjects.contains(TempName(name: node.name.value))) {
       return;
     }
-    context.usedInputObjects.add(node.name.value);
+    context.usedInputObjects.add(TempName(name: node.name.value));
 
     for (final field in node.fields) {
       final type = gql.getTypeByName(context.schema, field.type);
       if (type is InputObjectTypeDefinitionNode) {
         addUsedInputObjectsAndEnums(type);
       } else if (type is EnumTypeDefinitionNode) {
-        context.usedEnums.add(type.name.value);
+        context.usedEnums.add(EnumName(name: type.name.value));
       }
     }
   }
@@ -475,7 +475,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
 
     final annotations = <String>[];
     if (leafType is EnumTypeDefinitionNode) {
-      context.usedEnums.add(leafType.name.value);
+      context.usedEnums.add(EnumName(name: leafType.name.value));
       if (leafType is! ListTypeNode) {
         annotations.add(
             'JsonKey(unknownEnumValue: $dartTypeStr.${ReCase(ARTEMIS_UNKNOWN).camelCase})');
@@ -500,7 +500,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
 
     context.inputsClasses.add(QueryInput(
       type: dartTypeStr,
-      name: node.variable.name.value,
+      name: TempName(name: node.variable.name.value),
       isNonNull: node.type.isNonNull,
       annotations: annotations,
     ));
@@ -580,7 +580,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
         '<- Generated fragment ${nextContext.joinedName()}.');
     nextContext.generatedClasses.add(
       FragmentClassDefinition(
-        name: nextContext.joinedName(),
+        name: TempName(name: nextContext.joinedName()),
         properties:
             visitor._classProperties.followedBy(otherMixinsProps).toList(),
       ),
@@ -605,7 +605,7 @@ class _CanonicalVisitor extends RecursiveVisitor {
         '<- Generated enum ${nextContext.joinedName()}.');
 
     enums.add(EnumDefinition(
-      name: nextContext.joinedName(),
+      name: EnumName(name: nextContext.joinedName()),
       values: node.values.map((eV) => ReCase(eV.name.value).camelCase).toList()
         ..add(ReCase(ARTEMIS_UNKNOWN).camelCase),
     ));
@@ -640,7 +640,7 @@ class _CanonicalVisitor extends RecursiveVisitor {
 
     inputObjects.add(ClassDefinition(
       isInput: true,
-      name: nextContext.joinedName(),
+      name: TempName(name: nextContext.joinedName()),
       properties: properties,
     ));
   }

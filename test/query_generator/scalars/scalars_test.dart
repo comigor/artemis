@@ -69,13 +69,15 @@ final LibraryDefinition libraryDefinition =
     queryName: r'some_query',
     queryType: r'SomeQuery$SomeObject',
     classes: [
-      ClassDefinition(name: r'SomeQuery$SomeObject', properties: [
-        ClassProperty(type: 'int', name: 'i'),
-        ClassProperty(type: 'double', name: 'f'),
-        ClassProperty(type: 'String', name: 's'),
-        ClassProperty(type: 'bool', name: 'b'),
-        ClassProperty(type: 'String', name: 'id'),
-      ]),
+      ClassDefinition(
+          name: TempName(name: r'SomeQuery$SomeObject'),
+          properties: [
+            ClassProperty(type: 'int', name: TempName(name: 'i')),
+            ClassProperty(type: 'double', name: TempName(name: 'f')),
+            ClassProperty(type: 'String', name: TempName(name: 's')),
+            ClassProperty(type: 'bool', name: TempName(name: 'b')),
+            ClassProperty(type: 'String', name: TempName(name: 'id')),
+          ]),
     ],
   )
 ]);

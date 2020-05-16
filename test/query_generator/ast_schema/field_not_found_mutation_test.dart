@@ -57,16 +57,17 @@ final LibraryDefinition libraryDefinition =
       queryType: r'CreateThing$MutationRoot',
       classes: [
         ClassDefinition(
-            name: r'CreateThing$MutationRoot$CreateThingResponse$Thing',
+            name: TempName(
+                name: r'CreateThing$MutationRoot$CreateThingResponse$Thing'),
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: r'id',
+                  name: TempName(name: r'id'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: r'String',
-                  name: r'message',
+                  name: TempName(name: r'message'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -74,11 +75,12 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: r'CreateThing$MutationRoot$CreateThingResponse',
+            name:
+                TempName(name: r'CreateThing$MutationRoot$CreateThingResponse'),
             properties: [
               ClassProperty(
                   type: r'CreateThing$MutationRoot$CreateThingResponse$Thing',
-                  name: r'thing',
+                  name: TempName(name: r'thing'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -86,11 +88,11 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: r'CreateThing$MutationRoot',
+            name: TempName(name: r'CreateThing$MutationRoot'),
             properties: [
               ClassProperty(
                   type: r'CreateThing$MutationRoot$CreateThingResponse',
-                  name: r'createThing',
+                  name: TempName(name: r'createThing'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -98,16 +100,16 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: r'CreateThingInput',
+            name: TempName(name: r'CreateThingInput'),
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: r'clientId',
+                  name: TempName(name: r'clientId'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: r'String',
-                  name: r'message',
+                  name: TempName(name: r'message'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -118,7 +120,7 @@ final LibraryDefinition libraryDefinition =
       inputs: [
         QueryInput(
             type: r'CreateThingInput',
-            name: r'createThingInput',
+            name: TempName(name: r'createThingInput'),
             isNonNull: false)
       ],
       generateHelpers: false,

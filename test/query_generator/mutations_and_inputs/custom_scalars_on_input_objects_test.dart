@@ -63,11 +63,11 @@ final LibraryDefinition libraryDefinition =
       queryType: r'Custom$MutationRoot',
       classes: [
         ClassDefinition(
-            name: r'Custom$MutationRoot$MutationResponse',
+            name: TempName(name: r'Custom$MutationRoot$MutationResponse'),
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: r's',
+                  name: TempName(name: r's'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -75,11 +75,11 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: r'Custom$MutationRoot',
+            name: TempName(name: r'Custom$MutationRoot'),
             properties: [
               ClassProperty(
                   type: r'Custom$MutationRoot$MutationResponse',
-                  name: r'mut',
+                  name: TempName(name: r'mut'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -87,11 +87,11 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: r'Input',
+            name: TempName(name: r'Input'),
             properties: [
               ClassProperty(
                   type: r'MyUuid',
-                  name: r'id',
+                  name: TempName(name: r'id'),
                   annotations: [
                     r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid,)'
                   ],
@@ -103,17 +103,18 @@ final LibraryDefinition libraryDefinition =
             isInput: true)
       ],
       inputs: [
-        QueryInput(type: r'Input', name: r'input', isNonNull: true),
+        QueryInput(
+            type: r'Input', name: TempName(name: r'input'), isNonNull: true),
         QueryInput(
             type: r'MyUuid',
-            name: r'previousId',
+            name: TempName(name: r'previousId'),
             isNonNull: false,
             annotations: [
               r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid,)'
             ]),
         QueryInput(
             type: r'List<MyUuid>',
-            name: r'listIds',
+            name: TempName(name: r'listIds'),
             isNonNull: false,
             annotations: [
               r'JsonKey(fromJson: fromGraphQLListMyUuidToDartListMyUuid, toJson: fromDartListMyUuidToGraphQLListMyUuid,)'

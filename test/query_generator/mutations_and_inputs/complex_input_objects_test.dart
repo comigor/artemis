@@ -53,13 +53,14 @@ final LibraryDefinition libraryDefinition =
       queryType: r'SomeQuery$QueryRoot',
       classes: [
         EnumDefinition(
-            name: r'MyEnum', values: [r'value1', r'value2', r'artemisUnknown']),
+            name: EnumName(name: r'MyEnum'),
+            values: [r'value1', r'value2', r'artemisUnknown']),
         ClassDefinition(
-            name: r'SomeQuery$QueryRoot$SomeObject',
+            name: TempName(name: r'SomeQuery$QueryRoot$SomeObject'),
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: r's',
+                  name: TempName(name: r's'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -67,11 +68,11 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: r'SomeQuery$QueryRoot',
+            name: TempName(name: r'SomeQuery$QueryRoot'),
             properties: [
               ClassProperty(
                   type: r'SomeQuery$QueryRoot$SomeObject',
-                  name: r'o',
+                  name: TempName(name: r'o'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -79,16 +80,16 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: r'ComplexInput',
+            name: TempName(name: r'ComplexInput'),
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: r's',
+                  name: TempName(name: r's'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: r'MyEnum',
-                  name: r'e',
+                  name: TempName(name: r'e'),
                   annotations: [
                     r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
                   ],
@@ -96,7 +97,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false),
               ClassProperty(
                   type: r'List<String>',
-                  name: r'ls',
+                  name: TempName(name: r'ls'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -105,7 +106,10 @@ final LibraryDefinition libraryDefinition =
             isInput: true)
       ],
       inputs: [
-        QueryInput(type: r'ComplexInput', name: r'filter', isNonNull: true)
+        QueryInput(
+            type: r'ComplexInput',
+            name: TempName(name: r'filter'),
+            isNonNull: true)
       ],
       generateHelpers: true,
       suffix: r'Query')

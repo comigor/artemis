@@ -49,13 +49,14 @@ final LibraryDefinition libraryDefinition =
       queryType: r'Custom$QueryRoot',
       classes: [
         EnumDefinition(
-            name: r'MyEnum', values: [r'a', r'b', r'artemisUnknown']),
+            name: EnumName(name: r'MyEnum'),
+            values: [r'a', r'b', r'artemisUnknown']),
         ClassDefinition(
-            name: r'Custom$QueryRoot$QueryResponse',
+            name: TempName(name: r'Custom$QueryRoot$QueryResponse'),
             properties: [
               ClassProperty(
                   type: r'MyEnum',
-                  name: r'e',
+                  name: TempName(name: r'e'),
                   annotations: [
                     r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
                   ],
@@ -66,11 +67,11 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: r'Custom$QueryRoot',
+            name: TempName(name: r'Custom$QueryRoot'),
             properties: [
               ClassProperty(
                   type: r'Custom$QueryRoot$QueryResponse',
-                  name: r'q',
+                  name: TempName(name: r'q'),
                   isNonNull: false,
                   isResolveType: false)
             ],

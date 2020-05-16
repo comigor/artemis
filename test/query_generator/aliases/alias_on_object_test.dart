@@ -53,32 +53,41 @@ final LibraryDefinition libraryDefinition =
       queryType: r'SomeQuery$QueryResponse',
       classes: [
         ClassDefinition(
-            name: r'SomeQuery$QueryResponse$SomeObject',
+            name: TempName(name: r'SomeQuery$QueryResponse$SomeObject'),
             properties: [
-              ClassProperty(type: r'String', name: r'st', isNonNull: false)
+              ClassProperty(
+                  type: r'String',
+                  name: TempName(name: r'st'),
+                  isNonNull: false)
             ],
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: r'SomeQuery$QueryResponse$AnotherObject',
+            name: TempName(name: r'SomeQuery$QueryResponse$AnotherObject'),
             properties: [
-              ClassProperty(type: r'String', name: r'str', isNonNull: false)
+              ClassProperty(
+                  type: r'String',
+                  name: TempName(name: r'str'),
+                  isNonNull: false)
             ],
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: r'SomeQuery$QueryResponse',
+            name: TempName(name: r'SomeQuery$QueryResponse'),
             properties: [
-              ClassProperty(type: r'String', name: r's', isNonNull: false),
+              ClassProperty(
+                  type: r'String',
+                  name: TempName(name: r's'),
+                  isNonNull: false),
               ClassProperty(
                   type: r'SomeQuery$QueryResponse$SomeObject',
-                  name: r'o',
+                  name: TempName(name: r'o'),
                   isNonNull: false),
               ClassProperty(
                   type: r'List<SomeQuery$QueryResponse$AnotherObject>',
-                  name: r'anotherObject',
+                  name: TempName(name: r'anotherObject'),
                   isNonNull: false)
             ],
             factoryPossibilities: {},

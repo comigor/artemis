@@ -105,9 +105,10 @@ final LibraryDefinition libraryDefinition =
       queryType: r'Query$SomeObject',
       classes: [
         ClassDefinition(
-            name: r'Query$SomeObject',
+            name: TempName(name: r'Query$SomeObject'),
             properties: [
-              ClassProperty(type: r'String', name: r'a', isNonNull: false)
+              ClassProperty(
+                  type: r'String', name: TempName(name: r'a'), isNonNull: false)
             ],
             factoryPossibilities: {},
             typeNameField: r'__typename',
@@ -123,11 +124,11 @@ final LibraryDefinition libraryDefinitionWithCustomParserFns =
       queryType: r'Query$SomeObject',
       classes: [
         ClassDefinition(
-            name: r'Query$SomeObject',
+            name: TempName(name: r'Query$SomeObject'),
             properties: [
               ClassProperty(
                   type: r'MyDartUuid',
-                  name: r'a',
+                  name: TempName(name: r'a'),
                   annotations: [
                     r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyDartUuid, toJson: fromDartMyDartUuidToGraphQLMyUuid,)'
                   ],
@@ -151,11 +152,11 @@ final LibraryDefinition libraryDefinitionWithCustomImports =
       queryType: r'Query$SomeObject',
       classes: [
         ClassDefinition(
-            name: r'Query$SomeObject',
+            name: TempName(name: r'Query$SomeObject'),
             properties: [
               ClassProperty(
                   type: r'MyUuid',
-                  name: r'a',
+                  name: TempName(name: r'a'),
                   annotations: [
                     r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid,)'
                   ],

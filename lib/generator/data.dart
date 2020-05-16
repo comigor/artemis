@@ -6,16 +6,66 @@ import 'package:meta/meta.dart';
 import 'data_printer.dart';
 import 'helpers.dart';
 
+///
+abstract class Name extends Equatable with DataPrinter {
+  ///
+  final String name;
+
+  ///
+  Name({this.name}) : assert(hasValue(name));
+
+  ///
+  String get namePrintable => normalizeName1(name);
+
+  ///
+  String normalizeName1(String name);
+}
+
+/// Abstract definition of an entity.
+abstract class Definition extends Equatable with DataPrinter {
+  /// The definition name.
+  final Name name;
+
+  /// Instantiate a definition.
+  Definition({@required this.name});
+}
+
+///
+class EnumName extends Name with DataPrinter {
+  ///
+  EnumName({String name}) : super(name: name);
+
+  @override
+  String normalizeName1(String name) => name;
+
+  @override
+  Map<String, Object> get namedProps => {
+        'name': name,
+      };
+}
+
+///
+class TempName extends Name {
+  ///
+  TempName({String name}) : super(name: name);
+
+  ///
+  @override
+  String normalizeName1(String name) => name;
+
+  @override
+  Map<String, Object> get namedProps => {
+        'name': name,
+      };
+}
+
 /// Callback fired when the generator processes a [LibraryDefinition].
 typedef OnBuildQuery = void Function(LibraryDefinition definition);
 
 /// Define a property (field) from a class.
-class ClassProperty extends Equatable with DataPrinter {
+class ClassProperty extends Definition with DataPrinter {
   /// The property type.
   final String type;
-
-  /// The property name.
-  final String name;
 
   /// Some other custom annotation.
   final List<String> annotations;
@@ -29,11 +79,12 @@ class ClassProperty extends Equatable with DataPrinter {
   /// Instantiate a property (field) from a class.
   ClassProperty({
     @required this.type,
-    @required this.name,
     this.annotations = const [],
     this.isNonNull = false,
     this.isResolveType = false,
-  }) : assert(hasValue(type) && hasValue(name));
+    @required Name name,
+  })  : assert(hasValue(type) && hasValue(name)),
+        super(name: name);
 
   /// If property is an override from super class.
   bool get isOverride => annotations.contains('override');
@@ -41,7 +92,7 @@ class ClassProperty extends Equatable with DataPrinter {
   /// Creates a copy of [ClassProperty] without modifying the original.
   ClassProperty copyWith({
     String type,
-    String name,
+    Name name,
     List<String> annotations,
     bool isNonNull,
     bool isResolveType,
@@ -65,12 +116,9 @@ class ClassProperty extends Equatable with DataPrinter {
 }
 
 /// Define a query/mutation input parameter.
-class QueryInput extends Equatable with DataPrinter {
+class QueryInput extends Definition with DataPrinter {
   /// The input type.
   final String type;
-
-  /// The input name.
-  final String name;
 
   /// Whether this parameter is required
   final bool isNonNull;
@@ -81,10 +129,11 @@ class QueryInput extends Equatable with DataPrinter {
   /// Instantiate an input parameter.
   QueryInput({
     @required this.type,
-    @required this.name,
     this.isNonNull = false,
     this.annotations = const [],
-  }) : assert(hasValue(type) && hasValue(name));
+    Name name,
+  })  : assert(hasValue(type) && hasValue(name)),
+        super(name: name);
 
   @override
   Map<String, Object> get namedProps => {
@@ -93,18 +142,6 @@ class QueryInput extends Equatable with DataPrinter {
         'isNonNull': isNonNull,
         'annotations': annotations,
       };
-}
-
-/// Abstract definition of an entity.
-abstract class Definition extends Equatable {
-  /// The definition name.
-  final String name;
-
-  /// Instantiate a definition.
-  Definition({@required this.name}) : assert(hasValue(name));
-
-  @override
-  List get props => [name];
 }
 
 /// Define a Dart class parsed from GraphQL type.
@@ -133,7 +170,7 @@ class ClassDefinition extends Definition with DataPrinter {
 
   /// Instantiate a class definition.
   ClassDefinition({
-    @required String name,
+    @required Name name,
     this.properties = const [],
     this.extension,
     this.implementations = const [],
@@ -164,7 +201,7 @@ class FragmentClassDefinition extends Definition with DataPrinter {
 
   /// Instantiate a fragment class definition.
   FragmentClassDefinition({
-    @required String name,
+    @required Name name,
     @required this.properties,
   })  : assert(hasValue(name) && hasValue(properties)),
         super(name: name);
@@ -183,7 +220,7 @@ class EnumDefinition extends Definition with DataPrinter {
 
   /// Instantiate an enum definition.
   EnumDefinition({
-    String name,
+    @required Name name,
     this.values,
   })  : assert(hasValue(name) && hasValue(values)),
         super(name: name);

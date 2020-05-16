@@ -58,11 +58,11 @@ final LibraryDefinition libraryDefinition =
       queryType: r'SomeQuery$SomeObject',
       classes: [
         ClassDefinition(
-            name: r'SomeQuery$SomeObject$SomeUnion$TypeA',
+            name: TempName(name: r'SomeQuery$SomeObject$SomeUnion$TypeA'),
             properties: [
               ClassProperty(
                   type: r'int',
-                  name: r'a',
+                  name: TempName(name: r'a'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -71,11 +71,11 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: r'SomeQuery$SomeObject$SomeUnion$TypeB',
+            name: TempName(name: r'SomeQuery$SomeObject$SomeUnion$TypeB'),
             properties: [
               ClassProperty(
                   type: r'int',
-                  name: r'b',
+                  name: TempName(name: r'b'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -84,11 +84,11 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: r'SomeQuery$SomeObject$SomeUnion',
+            name: TempName(name: r'SomeQuery$SomeObject$SomeUnion'),
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: r'typeName',
+                  name: TempName(name: r'typeName'),
                   annotations: [
                     r'override',
                     r'''JsonKey(name: '__typename')'''
@@ -103,11 +103,11 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: r'SomeQuery$SomeObject',
+            name: TempName(name: r'SomeQuery$SomeObject'),
             properties: [
               ClassProperty(
                   type: r'SomeQuery$SomeObject$SomeUnion',
-                  name: r'o',
+                  name: TempName(name: r'o'),
                   isNonNull: false,
                   isResolveType: false)
             ],

@@ -36,10 +36,10 @@ final LibraryDefinition libraryDefinition =
       queryType: r'SomeQuery$SomeObject',
       classes: [
         ClassDefinition(
-            name: r'SomeQuery$SomeObject',
+            name: TempName(name: r'SomeQuery$SomeObject'),
             properties: [
-              ClassProperty(type: r'String', name: r's'),
-              ClassProperty(type: r'int', name: r'i')
+              ClassProperty(type: r'String', name: TempName(name: r's')),
+              ClassProperty(type: r'int', name: TempName(name: r'i'))
             ],
             typeNameField: r'__typename')
       ],
@@ -49,8 +49,10 @@ final LibraryDefinition libraryDefinition =
       queryType: r'AnotherQuery$SomeObject',
       classes: [
         ClassDefinition(
-            name: r'AnotherQuery$SomeObject',
-            properties: [ClassProperty(type: r'String', name: r's')],
+            name: TempName(name: r'AnotherQuery$SomeObject'),
+            properties: [
+              ClassProperty(type: r'String', name: TempName(name: r's'))
+            ],
             typeNameField: r'__typename')
       ],
       generateHelpers: false)

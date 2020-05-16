@@ -34,11 +34,11 @@ final LibraryDefinition libraryDefinition =
       queryType: r'Query$Query',
       classes: [
         ClassDefinition(
-            name: r'Query$Query',
+            name: TempName(name: r'Query$Query'),
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: r'a',
+                  name: TempName(name: r'a'),
                   isNonNull: false,
                   isResolveType: false)
             ],

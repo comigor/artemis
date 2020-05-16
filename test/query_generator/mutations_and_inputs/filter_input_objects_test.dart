@@ -59,11 +59,11 @@ final LibraryDefinition libraryDefinition =
       queryType: r'SomeQuery$QueryRoot',
       classes: [
         ClassDefinition(
-            name: r'SomeQuery$QueryRoot$SomeObject',
+            name: TempName(name: r'SomeQuery$QueryRoot$SomeObject'),
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: r's',
+                  name: TempName(name: r's'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -71,11 +71,11 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: r'SomeQuery$QueryRoot',
+            name: TempName(name: r'SomeQuery$QueryRoot'),
             properties: [
               ClassProperty(
                   type: r'SomeQuery$QueryRoot$SomeObject',
-                  name: r'o',
+                  name: TempName(name: r'o'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -83,11 +83,11 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: r'Input',
+            name: TempName(name: r'Input'),
             properties: [
               ClassProperty(
                   type: r'SubInput',
-                  name: r's',
+                  name: TempName(name: r's'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -95,11 +95,11 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: true),
         ClassDefinition(
-            name: r'SubInput',
+            name: TempName(name: r'SubInput'),
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: r's',
+                  name: TempName(name: r's'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -107,7 +107,10 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: true)
       ],
-      inputs: [QueryInput(type: r'Input', name: r'input', isNonNull: true)],
+      inputs: [
+        QueryInput(
+            type: r'Input', name: TempName(name: r'input'), isNonNull: true)
+      ],
       generateHelpers: true,
       suffix: r'Query')
 ]);

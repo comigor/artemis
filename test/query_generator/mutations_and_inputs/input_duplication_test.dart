@@ -62,11 +62,11 @@ final LibraryDefinition libraryDefinition =
       queryType: r'Custom$Mutation',
       classes: [
         ClassDefinition(
-            name: r'Custom$Mutation$Mut',
+            name: TempName(name: r'Custom$Mutation$Mut'),
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: r's',
+                  name: TempName(name: r's'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -74,11 +74,11 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: r'Custom$Mutation',
+            name: TempName(name: r'Custom$Mutation'),
             properties: [
               ClassProperty(
                   type: r'Custom$Mutation$Mut',
-                  name: r'mut',
+                  name: TempName(name: r'mut'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -86,55 +86,11 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: r'Input',
+            name: TempName(name: r'Input'),
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: r's',
-                  isNonNull: true,
-                  isResolveType: false)
-            ],
-            factoryPossibilities: {},
-            typeNameField: r'__typename',
-            isInput: true)
-      ],
-      inputs: [QueryInput(type: r'Input', name: r'input', isNonNull: true)],
-      generateHelpers: true,
-      suffix: r'Mutation'),
-  QueryDefinition(
-      queryName: r'customList',
-      queryType: r'CustomList$Mutation',
-      classes: [
-        ClassDefinition(
-            name: r'CustomList$Mutation$MutList',
-            properties: [
-              ClassProperty(
-                  type: r'String',
-                  name: r's',
-                  isNonNull: false,
-                  isResolveType: false)
-            ],
-            factoryPossibilities: {},
-            typeNameField: r'__typename',
-            isInput: false),
-        ClassDefinition(
-            name: r'CustomList$Mutation',
-            properties: [
-              ClassProperty(
-                  type: r'CustomList$Mutation$MutList',
-                  name: r'mutList',
-                  isNonNull: false,
-                  isResolveType: false)
-            ],
-            factoryPossibilities: {},
-            typeNameField: r'__typename',
-            isInput: false),
-        ClassDefinition(
-            name: r'Input',
-            properties: [
-              ClassProperty(
-                  type: r'String',
-                  name: r's',
+                  name: TempName(name: r's'),
                   isNonNull: true,
                   isResolveType: false)
             ],
@@ -143,7 +99,57 @@ final LibraryDefinition libraryDefinition =
             isInput: true)
       ],
       inputs: [
-        QueryInput(type: r'List<Input>', name: r'input', isNonNull: true)
+        QueryInput(
+            type: r'Input', name: TempName(name: r'input'), isNonNull: true)
+      ],
+      generateHelpers: true,
+      suffix: r'Mutation'),
+  QueryDefinition(
+      queryName: r'customList',
+      queryType: r'CustomList$Mutation',
+      classes: [
+        ClassDefinition(
+            name: TempName(name: r'CustomList$Mutation$MutList'),
+            properties: [
+              ClassProperty(
+                  type: r'String',
+                  name: TempName(name: r's'),
+                  isNonNull: false,
+                  isResolveType: false)
+            ],
+            factoryPossibilities: {},
+            typeNameField: r'__typename',
+            isInput: false),
+        ClassDefinition(
+            name: TempName(name: r'CustomList$Mutation'),
+            properties: [
+              ClassProperty(
+                  type: r'CustomList$Mutation$MutList',
+                  name: TempName(name: r'mutList'),
+                  isNonNull: false,
+                  isResolveType: false)
+            ],
+            factoryPossibilities: {},
+            typeNameField: r'__typename',
+            isInput: false),
+        ClassDefinition(
+            name: TempName(name: r'Input'),
+            properties: [
+              ClassProperty(
+                  type: r'String',
+                  name: TempName(name: r's'),
+                  isNonNull: true,
+                  isResolveType: false)
+            ],
+            factoryPossibilities: {},
+            typeNameField: r'__typename',
+            isInput: true)
+      ],
+      inputs: [
+        QueryInput(
+            type: r'List<Input>',
+            name: TempName(name: r'input'),
+            isNonNull: true)
       ],
       generateHelpers: true,
       suffix: r'Mutation')

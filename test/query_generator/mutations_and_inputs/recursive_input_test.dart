@@ -39,11 +39,11 @@ final LibraryDefinition libraryDefinition =
       queryType: r'Custom$Mutation',
       classes: [
         ClassDefinition(
-            name: r'Custom$Mutation',
+            name: TempName(name: r'Custom$Mutation'),
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: r'mut',
+                  name: TempName(name: r'mut'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -51,16 +51,16 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: r'Input',
+            name: TempName(name: r'Input'),
             properties: [
               ClassProperty(
                   type: r'Input',
-                  name: r'and',
+                  name: TempName(name: r'and'),
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: r'Input',
-                  name: r'or',
+                  name: TempName(name: r'or'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -68,7 +68,10 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: true)
       ],
-      inputs: [QueryInput(type: r'Input', name: r'input', isNonNull: true)],
+      inputs: [
+        QueryInput(
+            type: r'Input', name: TempName(name: r'input'), isNonNull: true)
+      ],
       generateHelpers: false,
       suffix: r'Mutation')
 ]);

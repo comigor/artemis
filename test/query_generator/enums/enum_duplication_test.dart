@@ -62,13 +62,14 @@ final LibraryDefinition libraryDefinition =
       queryType: r'Custom$Query',
       classes: [
         EnumDefinition(
-            name: r'MyEnum', values: [r'a', r'b', r'artemisUnknown']),
+            name: EnumName(name: r'MyEnum'),
+            values: [r'a', r'b', r'artemisUnknown']),
         ClassDefinition(
-            name: r'Custom$Query$Q',
+            name: TempName(name: r'Custom$Query$Q'),
             properties: [
               ClassProperty(
                   type: r'MyEnum',
-                  name: r'e',
+                  name: TempName(name: r'e'),
                   annotations: [
                     r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
                   ],
@@ -79,11 +80,11 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: r'Custom$Query',
+            name: TempName(name: r'Custom$Query'),
             properties: [
               ClassProperty(
                   type: r'Custom$Query$Q',
-                  name: r'q',
+                  name: TempName(name: r'q'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -98,13 +99,14 @@ final LibraryDefinition libraryDefinition =
       queryType: r'CustomList$Query',
       classes: [
         EnumDefinition(
-            name: r'MyEnum', values: [r'a', r'b', r'artemisUnknown']),
+            name: EnumName(name: r'MyEnum'),
+            values: [r'a', r'b', r'artemisUnknown']),
         ClassDefinition(
-            name: r'CustomList$Query$QList',
+            name: TempName(name: r'CustomList$Query$QList'),
             properties: [
               ClassProperty(
                   type: r'MyEnum',
-                  name: r'e',
+                  name: TempName(name: r'e'),
                   annotations: [
                     r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
                   ],
@@ -115,11 +117,11 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: r'CustomList$Query',
+            name: TempName(name: r'CustomList$Query'),
             properties: [
               ClassProperty(
                   type: r'List<CustomList$Query$QList>',
-                  name: r'qList',
+                  name: TempName(name: r'qList'),
                   isNonNull: false,
                   isResolveType: false)
             ],

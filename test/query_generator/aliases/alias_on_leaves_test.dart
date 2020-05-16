@@ -52,13 +52,14 @@ final LibraryDefinition libraryDefinition =
       queryType: r'SomeQuery$Response',
       classes: [
         EnumDefinition(
-            name: r'MyEnum', values: [r'a', r'b', r'artemisUnknown']),
+            name: EnumName(name: r'MyEnum'),
+            values: [r'a', r'b', r'artemisUnknown']),
         ClassDefinition(
-            name: r'SomeQuery$Response$SomeObject',
+            name: TempName(name: r'SomeQuery$Response$SomeObject'),
             properties: [
               ClassProperty(
                   type: r'MyEnum',
-                  name: r'thisIsAnEnum',
+                  name: TempName(name: r'thisIsAnEnum'),
                   annotations: [
                     r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
                   ],
@@ -69,16 +70,16 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: r'SomeQuery$Response',
+            name: TempName(name: r'SomeQuery$Response'),
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: r'thisIsAString',
+                  name: TempName(name: r'thisIsAString'),
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: r'SomeQuery$Response$SomeObject',
-                  name: r'o',
+                  name: TempName(name: r'o'),
                   isNonNull: false,
                   isResolveType: false)
             ],

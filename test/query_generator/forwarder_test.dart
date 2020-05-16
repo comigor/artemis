@@ -52,11 +52,11 @@ final LibraryDefinition libraryDefinition =
       queryType: r'Custom$QueryRoot',
       classes: [
         ClassDefinition(
-            name: r'Custom$QueryRoot',
+            name: TempName(name: r'Custom$QueryRoot'),
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: r'a',
+                  name: TempName(name: r'a'),
                   isNonNull: false,
                   isResolveType: false)
             ],
