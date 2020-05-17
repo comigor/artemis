@@ -314,7 +314,7 @@ Make sure your query is correct and your schema is updated.''');
     }
 
     if (fieldType is! ListTypeNode) {
-      annotation = 'JsonKey(unknownEnumValue: $dartTypeStr.$ARTEMIS_UNKNOWN)';
+      annotation = 'JsonKey(unknownEnumValue: $dartTypeStr.${ReCase(ARTEMIS_UNKNOWN).camelCase})';
     }
   }
 
