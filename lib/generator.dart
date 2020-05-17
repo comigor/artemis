@@ -471,7 +471,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
     if (leafType is EnumTypeDefinitionNode) {
       context.usedEnums.add(leafType.name.value);
       if (leafType is! ListTypeNode) {
-        annotation = 'JsonKey(unknownEnumValue: $dartTypeStr.$ARTEMIS_UNKNOWN)';
+        annotation = 'JsonKey(unknownEnumValue: $dartTypeStr.${ReCase(ARTEMIS_UNKNOWN).camelCase})';
       }
     } else if (leafType is InputObjectTypeDefinitionNode) {
       addUsedInputObjectsAndEnums(leafType);
