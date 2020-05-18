@@ -79,7 +79,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'Query$Query$Pokemon',
                   name: r'pokemon',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -96,13 +95,11 @@ final LibraryDefinition libraryDefinition =
           ClassProperty(
               type: r'String',
               name: r'id',
-              isOverride: false,
               isNonNull: true,
               isResolveType: false),
           ClassProperty(
               type: r'PokemonMixin$Pokemon',
               name: r'evolution',
-              isOverride: false,
               isNonNull: false,
               isResolveType: false)
         ]),
@@ -110,7 +107,6 @@ final LibraryDefinition libraryDefinition =
           ClassProperty(
               type: r'String',
               name: r'name',
-              isOverride: false,
               isNonNull: false,
               isResolveType: false)
         ]),
@@ -118,13 +114,11 @@ final LibraryDefinition libraryDefinition =
           ClassProperty(
               type: r'String',
               name: r'number',
-              isOverride: false,
               isNonNull: false,
               isResolveType: false),
           ClassProperty(
               type: r'String',
               name: r'name',
-              isOverride: false,
               isNonNull: false,
               isResolveType: false)
         ])

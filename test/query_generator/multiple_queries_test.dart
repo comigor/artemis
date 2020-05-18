@@ -38,8 +38,8 @@ final LibraryDefinition libraryDefinition =
         ClassDefinition(
             name: r'SomeQuery$SomeObject',
             properties: [
-              ClassProperty(type: r'String', name: r's', isOverride: false),
-              ClassProperty(type: r'int', name: r'i', isOverride: false)
+              ClassProperty(type: r'String', name: r's'),
+              ClassProperty(type: r'int', name: r'i')
             ],
             typeNameField: r'__typename')
       ],
@@ -50,9 +50,7 @@ final LibraryDefinition libraryDefinition =
       classes: [
         ClassDefinition(
             name: r'AnotherQuery$SomeObject',
-            properties: [
-              ClassProperty(type: r'String', name: r's', isOverride: false)
-            ],
+            properties: [ClassProperty(type: r'String', name: r's')],
             typeNameField: r'__typename')
       ],
       generateHelpers: false)
