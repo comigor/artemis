@@ -314,8 +314,8 @@ Make sure your query is correct and your schema is updated.''');
     }
 
     if (fieldType is! ListTypeNode) {
-      annotations
-          .add('JsonKey(unknownEnumValue: $dartTypeStr.${ReCase(ARTEMIS_UNKNOWN).camelCase})');
+      annotations.add(
+          'JsonKey(unknownEnumValue: $dartTypeStr.${ReCase(ARTEMIS_UNKNOWN).camelCase})');
     }
   }
 
@@ -474,8 +474,8 @@ class _GeneratorVisitor extends RecursiveVisitor {
     if (leafType is EnumTypeDefinitionNode) {
       context.usedEnums.add(leafType.name.value);
       if (leafType is! ListTypeNode) {
-        annotations
-            .add('JsonKey(unknownEnumValue: $dartTypeStr.${ReCase(ARTEMIS_UNKNOWN).camelCase})');
+        annotations.add(
+            'JsonKey(unknownEnumValue: $dartTypeStr.${ReCase(ARTEMIS_UNKNOWN).camelCase})');
       }
     } else if (leafType is InputObjectTypeDefinitionNode) {
       addUsedInputObjectsAndEnums(leafType);
