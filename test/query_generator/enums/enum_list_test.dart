@@ -48,7 +48,7 @@ final LibraryDefinition libraryDefinition =
       queryType: r'Custom$QueryRoot',
       classes: [
         EnumDefinition(
-            name: r'MyEnum', values: [r'A', r'B', r'ARTEMIS_UNKNOWN']),
+            name: r'MyEnum', values: [r'A', r'B', r'artemisUnknown']),
         ClassDefinition(
             name: r'Custom$QueryRoot$QueryResponse',
             properties: [
@@ -116,6 +116,6 @@ class Custom$QueryRoot with EquatableMixin {
 enum MyEnum {
   A,
   B,
-  ARTEMIS_UNKNOWN,
+  artemisUnknown,
 }
 ''';
