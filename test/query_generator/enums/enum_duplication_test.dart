@@ -69,9 +69,9 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'MyEnum',
                   name: r'e',
-                  isOverride: false,
-                  annotation:
-                      r'JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)',
+                  annotations: [
+                    r'JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)'
+                  ],
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -84,7 +84,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'Custom$Query$Q',
                   name: r'q',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -106,9 +105,9 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'MyEnum',
                   name: r'e',
-                  isOverride: false,
-                  annotation:
-                      r'JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)',
+                  annotations: [
+                    r'JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)'
+                  ],
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -121,7 +120,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'List<CustomList$Query$QList>',
                   name: r'qList',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false)
             ],

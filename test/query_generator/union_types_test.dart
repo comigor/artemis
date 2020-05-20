@@ -1,5 +1,4 @@
 import 'package:artemis/generator/data.dart';
-import 'package:gql/language.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -55,7 +54,6 @@ final String graphQLSchema = '''
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      document: parseString(query),
       queryName: r'some_query',
       queryType: r'SomeQuery$SomeObject',
       classes: [
@@ -65,7 +63,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'int',
                   name: r'a',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -79,7 +76,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'int',
                   name: r'b',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -93,8 +89,10 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'String',
                   name: r'typeName',
-                  isOverride: true,
-                  annotation: r'''JsonKey(name: '__typename')''',
+                  annotations: [
+                    r'override',
+                    r'''JsonKey(name: '__typename')'''
+                  ],
                   isNonNull: false,
                   isResolveType: true)
             ],
@@ -110,7 +108,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'SomeQuery$SomeObject$SomeUnion',
                   name: r'o',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false)
             ],

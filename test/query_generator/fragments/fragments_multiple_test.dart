@@ -89,13 +89,11 @@ final LibraryDefinition libraryDefinition =
           ClassProperty(
               type: r'String',
               name: r'id',
-              isOverride: false,
               isNonNull: true,
               isResolveType: false),
           ClassProperty(
               type: r'String',
               name: r'name',
-              isOverride: false,
               isNonNull: true,
               isResolveType: false)
         ]),
@@ -103,7 +101,6 @@ final LibraryDefinition libraryDefinition =
           ClassProperty(
               type: r'String',
               name: r'id',
-              isOverride: false,
               isNonNull: true,
               isResolveType: false)
         ]),
@@ -113,25 +110,21 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'DateTime',
                   name: r'dateFrom',
-                  isOverride: false,
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: r'DateTime',
                   name: r'dateTo',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: r'String',
                   name: r'id',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: r'String',
                   name: r'voyageNumber',
-                  isOverride: false,
                   isNonNull: true,
                   isResolveType: false)
             ],
@@ -144,13 +137,11 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'int',
                   name: r'numberOfReports',
-                  isOverride: false,
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: r'VoyagesData$Query$VoyageList$VoyageDetails$Voyage',
                   name: r'voyage',
-                  isOverride: false,
                   isNonNull: true,
                   isResolveType: false)
             ],
@@ -163,7 +154,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'List<VoyagesData$Query$VoyageList$VoyageDetails>',
                   name: r'voyages',
-                  isOverride: false,
                   isNonNull: true,
                   isResolveType: false)
             ],
@@ -176,7 +166,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'VoyagesData$Query$VoyageList',
                   name: r'voyages',
-                  isOverride: false,
                   isNonNull: true,
                   isResolveType: false)
             ],
@@ -189,13 +178,11 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'int',
                   name: r'limit',
-                  isOverride: false,
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: r'int',
                   name: r'offset',
-                  isOverride: false,
                   isNonNull: true,
                   isResolveType: false)
             ],

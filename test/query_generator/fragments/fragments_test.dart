@@ -44,15 +44,10 @@ final LibraryDefinition libraryDefinition =
           ClassProperty(
               type: r'String',
               name: r's',
-              isOverride: false,
               isNonNull: false,
               isResolveType: false),
           ClassProperty(
-              type: r'int',
-              name: r'i',
-              isOverride: false,
-              isNonNull: false,
-              isResolveType: false)
+              type: r'int', name: r'i', isNonNull: false, isResolveType: false)
         ]),
         ClassDefinition(
             name: r'SomeQuery$SomeObject',

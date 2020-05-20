@@ -67,7 +67,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'String',
                   name: r's',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -80,7 +79,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'Custom$Mutation$Mut',
                   name: r'mut',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -93,7 +91,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'String',
                   name: r's',
-                  isOverride: false,
                   isNonNull: true,
                   isResolveType: false)
             ],
@@ -114,7 +111,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'String',
                   name: r's',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -127,7 +123,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'CustomList$Mutation$MutList',
                   name: r'mutList',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -140,7 +135,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'String',
                   name: r's',
-                  isOverride: false,
                   isNonNull: true,
                   isResolveType: false)
             ],

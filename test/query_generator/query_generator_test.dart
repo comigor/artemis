@@ -46,13 +46,11 @@ void main() {
                           ClassProperty(
                               type: r'String',
                               name: r's',
-                              isOverride: false,
                               isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
                               type: r'int',
                               name: r'i',
-                              isOverride: false,
                               isNonNull: false,
                               isResolveType: false)
                         ],
@@ -127,19 +125,16 @@ class SomeQuery$SomeObject with EquatableMixin {
                           ClassProperty(
                               type: r'String',
                               name: r's',
-                              isOverride: false,
                               isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
                               type: r'int',
                               name: r'i',
-                              isOverride: false,
                               isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
                               type: r'List<int>',
                               name: r'list',
-                              isOverride: false,
                               isNonNull: true,
                               isResolveType: false)
                         ],
@@ -152,7 +147,6 @@ class SomeQuery$SomeObject with EquatableMixin {
                           ClassProperty(
                               type: r'SomeQuery$Query$SomeObject',
                               name: r'someQuery',
-                              isOverride: false,
                               isNonNull: false,
                               isResolveType: false)
                         ],
@@ -358,7 +352,6 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
                           ClassProperty(
                               type: r'String',
                               name: r'str',
-                              isOverride: false,
                               isNonNull: false,
                               isResolveType: false)
                         ],
@@ -371,14 +364,12 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
                           ClassProperty(
                               type: r'String',
                               name: r'st',
-                              isOverride: false,
                               isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
                               type:
                                   r'List<SomeQuery$Result$SomeObject$AnotherObject>',
                               name: r'ob',
-                              isOverride: false,
                               isNonNull: false,
                               isResolveType: false)
                         ],
@@ -391,13 +382,11 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
                           ClassProperty(
                               type: r'String',
                               name: r's',
-                              isOverride: false,
                               isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
                               type: r'SomeQuery$Result$SomeObject',
                               name: r'o',
-                              isOverride: false,
                               isNonNull: false,
                               isResolveType: false)
                         ],
@@ -491,13 +480,11 @@ class SomeQuery$Result with EquatableMixin {
                           ClassProperty(
                               type: r'String',
                               name: r'firstName',
-                              isOverride: false,
                               isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
                               type: r'String',
                               name: r'lastName',
-                              isOverride: false,
                               isNonNull: false,
                               isResolveType: false)
                         ],
@@ -577,13 +564,11 @@ class SomeQuery$Result with EquatableMixin {
                           ClassProperty(
                               type: r'Decimal',
                               name: r'bigDecimal',
-                              isOverride: false,
                               isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
                               type: r'DateTime',
                               name: r'dateTime',
-                              isOverride: false,
                               isNonNull: false,
                               isResolveType: false)
                         ],
@@ -647,7 +632,6 @@ class SomeQuery$SomeObject with EquatableMixin {
                           ClassProperty(
                               type: r'String',
                               name: r's',
-                              isOverride: false,
                               isNonNull: false,
                               isResolveType: false)
                         ],

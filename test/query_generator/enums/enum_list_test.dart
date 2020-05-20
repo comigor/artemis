@@ -55,7 +55,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'List<MyEnum>',
                   name: r'le',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -68,7 +67,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'Custom$QueryRoot$QueryResponse',
                   name: r'q',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false)
             ],

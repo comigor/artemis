@@ -64,7 +64,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'String',
                   name: r's',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -77,7 +76,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'SomeQuery$QueryRoot$SomeObject',
                   name: r'o',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -90,7 +88,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'SubInput',
                   name: r's',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -103,7 +100,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'String',
                   name: r's',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false)
             ],

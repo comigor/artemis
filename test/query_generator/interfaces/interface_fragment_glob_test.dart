@@ -102,13 +102,11 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'String',
                   name: r'message',
-                  isOverride: false,
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: r'Custom$Query$NodeById$ChatMessage$User',
                   name: r'user',
-                  isOverride: false,
                   isNonNull: true,
                   isResolveType: false)
             ],
@@ -122,14 +120,15 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'String',
                   name: r'id',
-                  isOverride: false,
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: r'String',
                   name: r'typeName',
-                  isOverride: true,
-                  annotation: r'''JsonKey(name: '__typename')''',
+                  annotations: [
+                    r'override',
+                    r'''JsonKey(name: '__typename')'''
+                  ],
                   isNonNull: false,
                   isResolveType: true)
             ],
@@ -145,7 +144,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'Custom$Query$NodeById',
                   name: r'nodeById',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -156,13 +154,11 @@ final LibraryDefinition libraryDefinition =
           ClassProperty(
               type: r'String',
               name: r'id',
-              isOverride: false,
               isNonNull: true,
               isResolveType: false),
           ClassProperty(
               type: r'String',
               name: r'username',
-              isOverride: false,
               isNonNull: true,
               isResolveType: false)
         ])

@@ -54,7 +54,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'String',
                   name: r's',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -67,7 +66,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'Custom$MutationRoot$MutationResponse',
                   name: r'mut',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -80,7 +78,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'String',
                   name: r's',
-                  isOverride: false,
                   isNonNull: true,
                   isResolveType: false)
             ],

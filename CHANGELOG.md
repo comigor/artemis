@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.0.11-beta.1
+- Convert `ClassProperty` annotation item to `List<String>`.
+
 ## 6.0.10-beta.1
 - Duplication bug fix
 

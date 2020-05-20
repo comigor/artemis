@@ -67,13 +67,11 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'String',
                   name: r'id',
-                  isOverride: false,
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: r'String',
                   name: r'message',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -86,7 +84,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'CreateThing$MutationRoot$CreateThingResponse$Thing',
                   name: r'thing',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -99,7 +96,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'CreateThing$MutationRoot$CreateThingResponse',
                   name: r'createThing',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -112,7 +108,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'String',
                   name: r'id',
-                  isOverride: false,
                   isNonNull: true,
                   isResolveType: false)
             ],
@@ -125,19 +120,16 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'String',
                   name: r'clientId',
-                  isOverride: false,
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: r'String',
                   name: r'message',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: r'List<OtherObjectInput>',
                   name: r'shares',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false)
             ],
