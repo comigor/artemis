@@ -3,6 +3,7 @@
 cd "$GITHUB_WORKSPACE"
 
 github_ref="$1"
+REPO_TOKEN="$2"
 
 echo "PARAM GITHUB REF: $github_ref"
 echo "GITHUB EVENT NAME: $GITHUB_EVENT_NAME"
@@ -12,14 +13,29 @@ echo "GITHUB HEAD REF: $GITHUB_HEAD_REF"
 
 # echo "https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/5114/reviews?access_token=TOKEN"
 env
-cat "$GITHUB_EVENT_PATH" | jq .
-echo "$GITHUB_REF" | sed -E 's/pull\/([0-9]+)\/.*/\1/g'
+# cat "$GITHUB_EVENT_PATH" | jq .
+# echo "$GITHUB_REF" | sed -E 's/pull\/([0-9]+)\/.*/\1/g'
 cat "$GITHUB_EVENT_PATH" | jq -r '.number'
-cat "$GITHUB_EVENT_PATH" | jq -r '.pull_request._links.self'
+cat "$GITHUB_EVENT_PATH" | jq -r '.pull_request._links.self.href'
+PR_HREF=$(cat "$GITHUB_EVENT_PATH" | jq -r '.pull_request._links.self.href')
 
-curl -f -X POST -H 'Content-Type: application/json' \
-    --data '{"event": "COMMENT", "body": "Failed!"}' \
-    -s "$(cat "$GITHUB_EVENT_PATH" | jq -r '.pull_request._links.self')/reviews?access_token=$GITHUB_TOKEN"
+curl -f -X POST \
+    -H 'Content-Type: application/json' \
+    -H "Authorization: Bearer $GITHUB_TOKEN" \
+    --data '{"event": "COMMENT", "body": "Failed! 1"}' \
+    "$PR_HREF/reviews"
+
+curl -f -X POST \
+    -H 'Content-Type: application/json' \
+    -H "Authorization: Bearer $ACTIONS_RUNTIME_TOKEN" \
+    --data '{"event": "COMMENT", "body": "Failed! 2"}' \
+    "$PR_HREF/reviews"
+
+curl -f -X POST \
+    -H 'Content-Type: application/json' \
+    -H "Authorization: Bearer $REPO_TOKEN" \
+    --data '{"event": "COMMENT", "body": "Failed! 3"}' \
+    "$PR_HREF/reviews"
 
 exit 1
 

@@ -20,3 +20,4 @@ jobs:
       - uses: ./.github/actions/check-version-and-changelog
         with:
           base_ref: "${{ github.base_ref }}"
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"

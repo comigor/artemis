@@ -13,3 +13,4 @@ runs:
   image: "Dockerfile"
   args:
     - "${{ inputs.base_ref }}"
+    - "${{ inputs.repo_token }}"
