@@ -12,7 +12,8 @@ echo "GITHUB HEAD REF: $GITHUB_HEAD_REF"
 
 echo "https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/5114/reviews?access_token=TOKEN"
 env
-cat "GITHUB_EVENT_PATH" | jq .
+cat "$GITHUB_EVENT_PATH" | jq .
+echo "$GITHUB_REF" | gsed -E 's/pull\/([0-9]+)\/.*/\1/g'
 
 exit 1
 
