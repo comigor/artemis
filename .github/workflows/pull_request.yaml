@@ -3,17 +3,17 @@ on: pull_request
 name: CI
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Clone repository
-        uses: actions/checkout@master
-      - name: Run tests
-        uses: comigor/actions/dart-test@master
-        env:
-          DTA_EXCLUDE_REGEX: example
+  # test:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Clone repository
+  #       uses: actions/checkout@master
+  #     - name: Run tests
+  #       uses: comigor/actions/dart-test@master
+  #       env:
+  #         DTA_EXCLUDE_REGEX: example
   check-version-and-changelog:
-    needs: test
+    # needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
