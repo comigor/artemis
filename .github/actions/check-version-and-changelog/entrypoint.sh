@@ -10,6 +10,12 @@ echo "GITHUB REF: $GITHUB_REF"
 echo "GITHUB BASE REF: $GITHUB_BASE_REF"
 echo "GITHUB HEAD REF: $GITHUB_HEAD_REF"
 
+echo "https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/5114/reviews?access_token=TOKEN"
+env
+cat "GITHUB_EVENT_PATH" | jq .
+
+exit 1
+
 git fetch --prune --unshallow
 
 if [ "$GITHUB_EVENT_NAME" = "pull_request" ]; then
