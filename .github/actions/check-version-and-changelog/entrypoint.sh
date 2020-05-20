@@ -10,10 +10,16 @@ echo "GITHUB REF: $GITHUB_REF"
 echo "GITHUB BASE REF: $GITHUB_BASE_REF"
 echo "GITHUB HEAD REF: $GITHUB_HEAD_REF"
 
-echo "https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/5114/reviews?access_token=TOKEN"
+# echo "https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/5114/reviews?access_token=TOKEN"
 env
 cat "$GITHUB_EVENT_PATH" | jq .
-echo "$GITHUB_REF" | gsed -E 's/pull\/([0-9]+)\/.*/\1/g'
+echo "$GITHUB_REF" | sed -E 's/pull\/([0-9]+)\/.*/\1/g'
+cat "$GITHUB_EVENT_PATH" | jq -r '.number'
+cat "$GITHUB_EVENT_PATH" | jq -r '.pull_request._links.self'
+
+curl -f -X POST -H 'Content-Type: application/json' \
+    --data '{"event": "COMMENT", "body": "Failed!"}' \
+    -s "$(cat "$GITHUB_EVENT_PATH" | jq -r '.pull_request._links.self')/reviews?access_token=$GITHUB_TOKEN"
 
 exit 1
 
