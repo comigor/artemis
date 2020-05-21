@@ -5,6 +5,10 @@ inputs:
     description: "GitHub base_ref"
     required: true
     default: ""
+  repo_token:
+    description: "Access token for sending messages"
+    required: true
+    default: ""
 outputs:
   package_version:
     description: "The package version"

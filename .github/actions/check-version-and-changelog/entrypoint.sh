@@ -11,33 +11,15 @@ echo "GITHUB REF: $GITHUB_REF"
 echo "GITHUB BASE REF: $GITHUB_BASE_REF"
 echo "GITHUB HEAD REF: $GITHUB_HEAD_REF"
 
-# echo "https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/5114/reviews?access_token=TOKEN"
-env
-# cat "$GITHUB_EVENT_PATH" | jq .
-# echo "$GITHUB_REF" | sed -E 's/pull\/([0-9]+)\/.*/\1/g'
-cat "$GITHUB_EVENT_PATH" | jq -r '.number'
-cat "$GITHUB_EVENT_PATH" | jq -r '.pull_request._links.self.href'
-PR_HREF=$(cat "$GITHUB_EVENT_PATH" | jq -r '.pull_request._links.self.href')
+function send_message_and_bail {
+    curl -f -X POST \
+        -H 'Content-Type: application/json' \
+        -H "Authorization: Bearer $REPO_TOKEN" \
+        --data "{\"event\": \"COMMENT\", \"body\": \"$1\"}" \
+        "$PR_HREF/reviews"
 
-curl -f -X POST \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $GITHUB_TOKEN" \
-    --data '{"event": "COMMENT", "body": "Failed! 1"}' \
-    "$PR_HREF/reviews"
-
-curl -f -X POST \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $ACTIONS_RUNTIME_TOKEN" \
-    --data '{"event": "COMMENT", "body": "Failed! 2"}' \
-    "$PR_HREF/reviews"
-
-curl -f -X POST \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $REPO_TOKEN" \
-    --data '{"event": "COMMENT", "body": "Failed! 3"}' \
-    "$PR_HREF/reviews"
-
-exit 1
+    exit 1
+}
 
 git fetch --prune --unshallow
 
@@ -49,26 +31,25 @@ fi
 
 diff=$(git diff $where pubspec.yaml)
 
-echo "$diff" | grep -E '\+.*version' || {
-    echo "Version not bumped on pubspec"
-    exit 1
-}
-
 package_version=$(cat pubspec.yaml | oq -i YAML -r '.version')
+
+echo "$diff" | grep -E '\+.*version' || {
+    send_message_and_bail "Version $package_version not bumped on pubspec!"
+}
 
 # If are on master or beta
 if [ "$github_ref" = "master" ] || [ "$github_ref" = "refs/heads/master" ]; then
     echo "$package_version" | grep "beta" && {
-        echo "Version cant contain beta"
-        exit 1
+        send_message_and_bail "You can't merge a \"beta\" version on `master` branch!"
     }
 elif [ "$github_ref" = "beta" ] || [ "$github_ref" = "refs/heads/beta" ]; then
     echo "$package_version" | grep "beta" || {
-        echo "Missing beta on version"
-        exit 1
+        send_message_and_bail "You can only merge a \"beta\" version on `beta` branch!"
     }
 fi
 
-cat CHANGELOG.md | grep "$package_version"
+cat CHANGELOG.md | grep -q "$package_version" || {
+    send_message_and_bail "Version $package_version not found on CHANGELOG!"
+}
 
 echo "::set-output name=package_version::$package_version"
