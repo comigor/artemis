@@ -22,10 +22,11 @@ PR_HREF=$(cat "$GITHUB_EVENT_PATH" | jq -r '.pull_request._links.self.href')
 function send_message_and_bail {
     if [ ! -z "$REPO_TOKEN" ]; then
         BODY=$(echo "$1" | sed -zE 's/\n/\\n/g')
+        echo "{\"event\": \"COMMENT\", \"body\": \"$BODY\"}" > /tmp/payload.json
         curl -f -X POST \
             -H 'Content-Type: application/json' \
             -H "Authorization: Bearer $REPO_TOKEN" \
-            --data "{\"event\": \"COMMENT\", \"body\": \"$BODY\"}" \
+            --data "@/tmp/payload.json" \
             "$PR_HREF/reviews"
     fi
 
@@ -48,22 +49,22 @@ for ppath in $(find . -name pubspec.yaml | grep -ve "$DTA_EXCLUDE_REGEX"); do
     OUTPUT=$(dartfmt -n . --set-exit-if-changed 2>&1)
 
     if [ $? -ne 0 ]; then
-        send_message_and_bail "Linter has failed!\n\n\`\`\`\n$OUTPUT\n\`\`\`"
+        send_message_and_bail "Linter has failed!\n\n<details>\`\`\`\n$OUTPUT\n\`\`\`</details>"
     fi
   fi
 
   if [ "$DTA_DISABLE_ANALYZER" = "false" ]; then
     echo "=== Running analyzer ==="
-    OUTPUT=$(dartanalyzer --fatal-infos --fatal-warnings . 2>&1) || send_message_and_bail "Analyzer has failed!\n\n\`\`\`\n$OUTPUT\n\`\`\`"
+    OUTPUT=$(dartanalyzer --fatal-infos --fatal-warnings . 2>&1) || send_message_and_bail "Analyzer has failed!\n\n<details>\`\`\`\n$OUTPUT\n\`\`\`</details>"
   fi
 
   [ -d "test" ] && {
     if [ "$DTA_DISABLE_TESTS" = "false" ]; then
       echo "=== Running tests ==="
       if [ "$DTA_IS_FLUTTER" = "false" ]; then
-        OUTPUT=$(pub run test 2>&1) || send_message_and_bail "Tests failed!\n\n\`\`\`\n$OUTPUT\n\`\`\`"
+        OUTPUT=$(pub run test 2>&1) || send_message_and_bail "Tests failed!\n\n<details>\`\`\`\n$OUTPUT\n\`\`\`</details>"
       else
-        OUTPUT=$(flutter test 2>&1) || send_message_and_bail "Tests failed!\n\n\`\`\`\n$OUTPUT\n\`\`\`"
+        OUTPUT=$(flutter test 2>&1) || send_message_and_bail "Tests failed!\n\n<details>\`\`\`\n$OUTPUT\n\`\`\`</details>"
       fi
     fi
   }
