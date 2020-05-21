@@ -11,6 +11,8 @@ echo "GITHUB REF: $GITHUB_REF"
 echo "GITHUB BASE REF: $GITHUB_BASE_REF"
 echo "GITHUB HEAD REF: $GITHUB_HEAD_REF"
 
+PR_HREF=$(cat "$GITHUB_EVENT_PATH" | jq -r '.pull_request._links.self.href')
+
 function send_message_and_bail {
     curl -f -X POST \
         -H 'Content-Type: application/json' \
