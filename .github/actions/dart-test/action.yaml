@@ -33,4 +33,4 @@ runs:
     - "${{ inputs.disable_linter }}"
     - "${{ inputs.disable_analyzer }}"
     - "${{ inputs.disable_tests }}"
-    - "${{ inputs.excclude_regex }}"
+    - "${{ inputs.exclude_regex }}"
