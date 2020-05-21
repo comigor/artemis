@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 6.1.0-beta.1
+**MAJOR BREAKING CHANGE**
+
+- Convert enum casing to camel case.
+
 ## 6.0.11-beta.1
 - Convert `ClassProperty` annotation item to `List<String>`.
 

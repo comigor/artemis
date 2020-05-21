@@ -25,8 +25,8 @@ void main() {
           }
           
           enum MyEnum {
-            A
-            B
+            a
+            b
           }
         ''',
         libraryDefinition: libraryDefinition,
@@ -52,7 +52,7 @@ final LibraryDefinition libraryDefinition =
       queryType: r'SomeQuery$Response',
       classes: [
         EnumDefinition(
-            name: r'MyEnum', values: [r'A', r'B', r'ARTEMIS_UNKNOWN']),
+            name: r'MyEnum', values: [r'a', r'b', r'artemisUnknown']),
         ClassDefinition(
             name: r'SomeQuery$Response$SomeObject',
             properties: [
@@ -60,7 +60,7 @@ final LibraryDefinition libraryDefinition =
                   type: r'MyEnum',
                   name: r'thisIsAnEnum',
                   annotations: [
-                    r'JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)'
+                    r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
                   ],
                   isNonNull: false,
                   isResolveType: false)
@@ -104,7 +104,7 @@ class SomeQuery$Response$SomeObject with EquatableMixin {
   factory SomeQuery$Response$SomeObject.fromJson(Map<String, dynamic> json) =>
       _$SomeQuery$Response$SomeObjectFromJson(json);
 
-  @JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)
+  @JsonKey(unknownEnumValue: MyEnum.artemisUnknown)
   MyEnum thisIsAnEnum;
 
   @override
@@ -129,8 +129,8 @@ class SomeQuery$Response with EquatableMixin {
 }
 
 enum MyEnum {
-  A,
-  B,
-  ARTEMIS_UNKNOWN,
+  a,
+  b,
+  artemisUnknown,
 }
 ''';
