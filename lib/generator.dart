@@ -442,6 +442,9 @@ class _GeneratorVisitor extends RecursiveVisitor {
   }
 
   void addUsedInputObjectsAndEnums(InputObjectTypeDefinitionNode node) {
+    if (context.usedInputObjects.contains(node.name.value)) {
+      return;
+    }
     context.usedInputObjects.add(node.name.value);
 
     for (final field in node.fields) {
