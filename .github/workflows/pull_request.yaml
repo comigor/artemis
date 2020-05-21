@@ -21,3 +21,10 @@ jobs:
         with:
           base_ref: "${{ github.base_ref }}"
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: ./.github/actions/dart-test
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"

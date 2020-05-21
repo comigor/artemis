@@ -2,26 +2,28 @@
 
 cd "$GITHUB_WORKSPACE"
 
-github_ref="$1"
-REPO_TOKEN="$2"
-
-echo "PARAM GITHUB REF: $github_ref"
-echo "GITHUB EVENT NAME: $GITHUB_EVENT_NAME"
-echo "GITHUB REF: $GITHUB_REF"
-echo "GITHUB BASE REF: $GITHUB_BASE_REF"
-echo "GITHUB HEAD REF: $GITHUB_HEAD_REF"
+REPO_TOKEN="$1"
+github_ref="$2"
 
 PR_HREF=$(cat "$GITHUB_EVENT_PATH" | jq -r '.pull_request._links.self.href')
 
 function send_message_and_bail {
-    curl -f -X POST \
-        -H 'Content-Type: application/json' \
-        -H "Authorization: Bearer $REPO_TOKEN" \
-        --data "{\"event\": \"COMMENT\", \"body\": \"$1\"}" \
-        "$PR_HREF/reviews"
+    if [ ! -z "$REPO_TOKEN" ]; then
+        curl -f -X POST \
+            -H 'Content-Type: application/json' \
+            -H "Authorization: Bearer $REPO_TOKEN" \
+            --data "{\"event\": \"COMMENT\", \"body\": \"$1\"}" \
+            "$PR_HREF/reviews"
+    fi
 
     exit 1
 }
+
+# echo "PARAM GITHUB REF: $github_ref"
+# echo "GITHUB EVENT NAME: $GITHUB_EVENT_NAME"
+# echo "GITHUB REF: $GITHUB_REF"
+# echo "GITHUB BASE REF: $GITHUB_BASE_REF"
+# echo "GITHUB HEAD REF: $GITHUB_HEAD_REF"
 
 git fetch --prune --unshallow
 
@@ -36,7 +38,7 @@ diff=$(git diff $where pubspec.yaml)
 package_version=$(cat pubspec.yaml | oq -i YAML -r '.version')
 
 echo "$diff" | grep -E '\+.*version' || {
-    send_message_and_bail "Version $package_version not bumped on pubspec!"
+    send_message_and_bail "Version \`$package_version\` not bumped on pubspec!"
 }
 
 # If are on master or beta
@@ -51,7 +53,7 @@ elif [ "$github_ref" = "beta" ] || [ "$github_ref" = "refs/heads/beta" ]; then
 fi
 
 cat CHANGELOG.md | grep -q "$package_version" || {
-    send_message_and_bail "Version $package_version not found on CHANGELOG!"
+    send_message_and_bail "Version \`$package_version\` not found on CHANGELOG!"
 }
 
 echo "::set-output name=package_version::$package_version"
