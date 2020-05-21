@@ -29,9 +29,9 @@ function send_message_and_bail {
 $ERROR
 
 <details>
-\`\`\`
+<pre>
 $DETAIL
-\`\`\`
+</pre>
 </details>
 EOF
 )
