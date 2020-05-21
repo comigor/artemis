@@ -21,12 +21,11 @@ PR_HREF=$(cat "$GITHUB_EVENT_PATH" | jq -r '.pull_request._links.self.href')
 
 function send_message_and_bail {
     if [ ! -z "$REPO_TOKEN" ]; then
-        echo "{\"event\": \"COMMENT\", \"body\": \"$1\"}"
-        echo "{\"event\": \"COMMENT\", \"body\": \"$1\"}" | jq .
+        BODY=$(echo "$1" | sed -zE 's/\n/\\n/g')
         curl -f -X POST \
             -H 'Content-Type: application/json' \
             -H "Authorization: Bearer $REPO_TOKEN" \
-            --data "{\"event\": \"COMMENT\", \"body\": \"$1\"}" \
+            --data "{\"event\": \"COMMENT\", \"body\": \"$BODY\"}" \
             "$PR_HREF/reviews"
     fi
 
