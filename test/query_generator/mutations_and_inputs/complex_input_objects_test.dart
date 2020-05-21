@@ -53,8 +53,7 @@ final LibraryDefinition libraryDefinition =
       queryType: r'SomeQuery$QueryRoot',
       classes: [
         EnumDefinition(
-            name: r'MyEnum',
-            values: [r'value1', r'value2', r'artemisUnknown']),
+            name: r'MyEnum', values: [r'value1', r'value2', r'artemisUnknown']),
         ClassDefinition(
             name: r'SomeQuery$QueryRoot$SomeObject',
             properties: [
