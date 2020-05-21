@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 6.0.12-beta.1
+## 6.1.0-beta.1
 **MAJOR BREAKING CHANGE**
 
 - Convert enum casing to camel case.
