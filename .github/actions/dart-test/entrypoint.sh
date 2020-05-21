@@ -22,14 +22,7 @@ PR_HREF=$(cat "$GITHUB_EVENT_PATH" | jq -r '.pull_request._links.self.href')
 function send_message_and_bail {
     if [ ! -z "$REPO_TOKEN" ]; then
         BODY=$(echo "$1" | sed -zE 's/\n/\\n/g')
-        echo AAAAAAAAAAAAAA
-        echo "{\"event\": \"COMMENT\", \"body\": \"$BODY\"}"
-        echo BVVVVVVVVVVBBB
-        echo "{\"event\": \"COMMENT\", \"body\": \"$BODY\"}" | jq -c
-        echo CCCCCCCCCCCCCC
-        echo "{\"event\": \"COMMENT\", \"body\": \"$BODY\"}" | jq -c > /tmp/payload.json
-        echo DDDDDDDDDDDDDD
-        cat /tmp/payload.json
+        jq -c -n --arg body "$BODY" '{"event":"COMMENT", "body":$body}' > /tmp/payload.json
         curl -f -X POST \
             -H 'Content-Type: application/json' \
             -H "Authorization: Bearer $REPO_TOKEN" \
@@ -69,7 +62,7 @@ for ppath in $(find . -name pubspec.yaml | grep -ve "$DTA_EXCLUDE_REGEX"); do
     if [ "$DTA_DISABLE_TESTS" = "false" ]; then
       echo "=== Running tests ==="
       if [ "$DTA_IS_FLUTTER" = "false" ]; then
-        OUTPUT=$(pub run test 2>&1) || send_message_and_bail "Tests failed!\n\n<details>\`\`\`\n$OUTPUT\n\`\`\`</details>"
+        OUTPUT=$(pub run test --no-color 2>&1) || send_message_and_bail "Tests failed!\n\n<details>\`\`\`\n$OUTPUT\n\`\`\`</details>"
       else
         OUTPUT=$(flutter test 2>&1) || send_message_and_bail "Tests failed!\n\n<details>\`\`\`\n$OUTPUT\n\`\`\`</details>"
       fi
