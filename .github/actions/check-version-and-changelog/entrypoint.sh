@@ -35,11 +35,11 @@ fi
 
 diff=$(git diff $where pubspec.yaml)
 
-package_version=$(cat pubspec.yaml | oq -i YAML -r '.version')
-
 echo "$diff" | grep -E '\+.*version' || {
-    send_message_and_bail "Version \`$package_version\` not bumped on pubspec!"
+    send_message_and_bail "You must bump the version on pubspec!"
 }
+
+package_version=$(cat pubspec.yaml | oq -i YAML -r '.version')
 
 # If are on master or beta
 if [ "$github_ref" = "master" ] || [ "$github_ref" = "refs/heads/master" ]; then
