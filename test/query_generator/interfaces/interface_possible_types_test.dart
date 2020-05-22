@@ -80,7 +80,7 @@ final LibraryDefinition libraryDefinition =
                   isNonNull: true,
                   isResolveType: false)
             ],
-            extension: r'Custom$Query$Node',
+            extension: TempName(name: r'Custom$Query$Node'),
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
@@ -93,7 +93,7 @@ final LibraryDefinition libraryDefinition =
                   isNonNull: true,
                   isResolveType: false)
             ],
-            extension: r'Custom$Query$Node',
+            extension: TempName(name: r'Custom$Query$Node'),
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),

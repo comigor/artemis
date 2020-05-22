@@ -137,7 +137,7 @@ class AClass with EquatableMixin {
       final definition = ClassDefinition(
           name: EnumName(name: 'AClass'),
           properties: [],
-          extension: 'AnotherClass');
+          extension: TempName(name: 'AnotherClass'));
 
       final str = specToString(classDefinitionToSpec(definition, []));
 

@@ -66,7 +66,7 @@ final LibraryDefinition libraryDefinition =
                   isNonNull: false,
                   isResolveType: false)
             ],
-            extension: r'SomeQuery$SomeObject$SomeUnion',
+            extension: TempName(name: r'SomeQuery$SomeObject$SomeUnion'),
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
@@ -79,7 +79,7 @@ final LibraryDefinition libraryDefinition =
                   isNonNull: false,
                   isResolveType: false)
             ],
-            extension: r'SomeQuery$SomeObject$SomeUnion',
+            extension: TempName(name: r'SomeQuery$SomeObject$SomeUnion'),
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),

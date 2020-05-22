@@ -382,7 +382,9 @@ class _GeneratorVisitor extends RecursiveVisitor {
       name: TempName(name: nextContext.joinedName()),
       properties: _classProperties,
       mixins: _mixins,
-      extension: partOfUnion ? nextContext.rollbackPath().joinedName() : null,
+      extension: partOfUnion
+          ? TempName(name: nextContext.rollbackPath().joinedName())
+          : null,
       factoryPossibilities: possibleTypes,
     ));
   }

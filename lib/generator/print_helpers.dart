@@ -111,8 +111,9 @@ Spec classDefinitionToSpec(
       ..mixins.add(refer('EquatableMixin'))
       ..mixins.addAll(definition.mixins.map((i) => refer(i)))
       ..methods.add(_propsMethod('[${props.join(',')}]'))
-      ..extend =
-          definition.extension != null ? refer(definition.extension) : null
+      ..extend = definition.extension != null
+          ? refer(definition.extension.namePrintable)
+          : null
       ..implements.addAll(definition.implementations.map((i) => refer(i)))
       ..constructors.add(Constructor((b) {
         if (definition.isInput) {

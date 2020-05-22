@@ -84,14 +84,14 @@ final LibraryDefinition libraryDefinition =
       classes: [
         ClassDefinition(
             name: TempName(name: r'Custom$Query$NodeById$User'),
-            extension: r'Custom$Query$NodeById',
+            extension: TempName(name: r'Custom$Query$NodeById'),
             mixins: [r'UserFragMixin'],
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
             name: TempName(name: r'Custom$Query$NodeById$ChatMessage$User'),
-            extension: r'Custom$Query$NodeById$ChatMessage',
+            extension: TempName(name: r'Custom$Query$NodeById$ChatMessage'),
             mixins: [r'UserFragMixin'],
             factoryPossibilities: {},
             typeNameField: r'__typename',
@@ -110,7 +110,7 @@ final LibraryDefinition libraryDefinition =
                   isNonNull: true,
                   isResolveType: false)
             ],
-            extension: r'Custom$Query$NodeById',
+            extension: TempName(name: r'Custom$Query$NodeById'),
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),

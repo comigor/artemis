@@ -51,7 +51,7 @@ class TempName extends Name {
 
   ///
   @override
-  String normalizeName1(String name) => name;
+  String normalizeName1(String name) => ReCase(name).pascalCase;
 
   @override
   Map<String, Object> get namedProps => {
@@ -150,7 +150,7 @@ class ClassDefinition extends Definition with DataPrinter {
   final Iterable<ClassProperty> properties;
 
   /// The type this class extends from, or [null].
-  final String extension;
+  final Name extension;
 
   /// The types this class implements.
   final Iterable<String> implementations;
