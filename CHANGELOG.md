@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.1.1-beta.2
+- Improve actions and check pipeline output.
+
 ## 6.1.1-beta.1
 - Short-circuit input object generation on recursive detection
 
