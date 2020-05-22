@@ -379,11 +379,11 @@ class _GeneratorVisitor extends RecursiveVisitor {
     _log(context, nextContext.align,
         '<- Generated class ${nextContext.joinedName()}.');
     nextContext.generatedClasses.add(ClassDefinition(
-      name: TempName(name: nextContext.joinedName()),
+      name: ClassName(name: nextContext.joinedName()),
       properties: _classProperties,
       mixins: _mixins,
       extension: partOfUnion
-          ? TempName(name: nextContext.rollbackPath().joinedName())
+          ? ClassName(name: nextContext.rollbackPath().joinedName())
           : null,
       factoryPossibilities: possibleTypes,
     ));
@@ -444,10 +444,10 @@ class _GeneratorVisitor extends RecursiveVisitor {
   }
 
   void addUsedInputObjectsAndEnums(InputObjectTypeDefinitionNode node) {
-    if (context.usedInputObjects.contains(TempName(name: node.name.value))) {
+    if (context.usedInputObjects.contains(ClassName(name: node.name.value))) {
       return;
     }
-    context.usedInputObjects.add(TempName(name: node.name.value));
+    context.usedInputObjects.add(ClassName(name: node.name.value));
 
     for (final field in node.fields) {
       final type = gql.getTypeByName(context.schema, field.type);
@@ -582,7 +582,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
         '<- Generated fragment ${nextContext.joinedName()}.');
     nextContext.generatedClasses.add(
       FragmentClassDefinition(
-        name: TempName(name: nextContext.joinedName()),
+        name: ClassName(name: nextContext.joinedName()),
         properties:
             visitor._classProperties.followedBy(otherMixinsProps).toList(),
       ),
@@ -642,7 +642,7 @@ class _CanonicalVisitor extends RecursiveVisitor {
 
     inputObjects.add(ClassDefinition(
       isInput: true,
-      name: TempName(name: nextContext.joinedName()),
+      name: ClassName(name: nextContext.joinedName()),
       properties: properties,
     ));
   }

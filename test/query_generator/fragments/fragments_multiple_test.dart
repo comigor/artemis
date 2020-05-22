@@ -85,20 +85,22 @@ final LibraryDefinition libraryDefinition =
       queryName: r'VoyagesData',
       queryType: r'VoyagesData$Query',
       classes: [
-        FragmentClassDefinition(name: TempName(name: r'DstMixin'), properties: [
-          ClassProperty(
-              type: r'String',
-              name: VariableName(name: r'id'),
-              isNonNull: true,
-              isResolveType: false),
-          ClassProperty(
-              type: r'String',
-              name: VariableName(name: r'name'),
-              isNonNull: true,
-              isResolveType: false)
-        ]),
         FragmentClassDefinition(
-            name: TempName(name: r'DepartureMixin'),
+            name: ClassName(name: r'DstMixin'),
+            properties: [
+              ClassProperty(
+                  type: r'String',
+                  name: VariableName(name: r'id'),
+                  isNonNull: true,
+                  isResolveType: false),
+              ClassProperty(
+                  type: r'String',
+                  name: VariableName(name: r'name'),
+                  isNonNull: true,
+                  isResolveType: false)
+            ]),
+        FragmentClassDefinition(
+            name: ClassName(name: r'DepartureMixin'),
             properties: [
               ClassProperty(
                   type: r'String',
@@ -107,7 +109,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ]),
         ClassDefinition(
-            name: TempName(
+            name: ClassName(
                 name: r'VoyagesData$Query$VoyageList$VoyageDetails$Voyage'),
             properties: [
               ClassProperty(
@@ -135,7 +137,8 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: TempName(name: r'VoyagesData$Query$VoyageList$VoyageDetails'),
+            name:
+                ClassName(name: r'VoyagesData$Query$VoyageList$VoyageDetails'),
             properties: [
               ClassProperty(
                   type: r'int',
@@ -152,7 +155,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: TempName(name: r'VoyagesData$Query$VoyageList'),
+            name: ClassName(name: r'VoyagesData$Query$VoyageList'),
             properties: [
               ClassProperty(
                   type: r'List<VoyagesData$Query$VoyageList$VoyageDetails>',
@@ -164,7 +167,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: TempName(name: r'VoyagesData$Query'),
+            name: ClassName(name: r'VoyagesData$Query'),
             properties: [
               ClassProperty(
                   type: r'VoyagesData$Query$VoyageList',
@@ -176,7 +179,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: TempName(name: r'PaginationInput'),
+            name: ClassName(name: r'PaginationInput'),
             properties: [
               ClassProperty(
                   type: r'int',

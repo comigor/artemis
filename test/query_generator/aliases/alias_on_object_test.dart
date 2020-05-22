@@ -53,7 +53,7 @@ final LibraryDefinition libraryDefinition =
       queryType: r'SomeQuery$QueryResponse',
       classes: [
         ClassDefinition(
-            name: TempName(name: r'SomeQuery$QueryResponse$SomeObject'),
+            name: ClassName(name: r'SomeQuery$QueryResponse$SomeObject'),
             properties: [
               ClassProperty(
                   type: r'String',
@@ -64,7 +64,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: TempName(name: r'SomeQuery$QueryResponse$AnotherObject'),
+            name: ClassName(name: r'SomeQuery$QueryResponse$AnotherObject'),
             properties: [
               ClassProperty(
                   type: r'String',
@@ -75,7 +75,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: TempName(name: r'SomeQuery$QueryResponse'),
+            name: ClassName(name: r'SomeQuery$QueryResponse'),
             properties: [
               ClassProperty(
                   type: r'String',

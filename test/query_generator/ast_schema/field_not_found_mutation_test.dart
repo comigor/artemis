@@ -57,7 +57,7 @@ final LibraryDefinition libraryDefinition =
       queryType: r'CreateThing$MutationRoot',
       classes: [
         ClassDefinition(
-            name: TempName(
+            name: ClassName(
                 name: r'CreateThing$MutationRoot$CreateThingResponse$Thing'),
             properties: [
               ClassProperty(
@@ -75,8 +75,8 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name:
-                TempName(name: r'CreateThing$MutationRoot$CreateThingResponse'),
+            name: ClassName(
+                name: r'CreateThing$MutationRoot$CreateThingResponse'),
             properties: [
               ClassProperty(
                   type: r'CreateThing$MutationRoot$CreateThingResponse$Thing',
@@ -88,7 +88,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: TempName(name: r'CreateThing$MutationRoot'),
+            name: ClassName(name: r'CreateThing$MutationRoot'),
             properties: [
               ClassProperty(
                   type: r'CreateThing$MutationRoot$CreateThingResponse',
@@ -100,7 +100,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: TempName(name: r'CreateThingInput'),
+            name: ClassName(name: r'CreateThingInput'),
             properties: [
               ClassProperty(
                   type: r'String',

@@ -45,9 +45,9 @@ class EnumName extends Name with DataPrinter {
 }
 
 ///
-class TempName extends Name {
+class ClassName extends Name {
   ///
-  TempName({String name}) : super(name: name);
+  ClassName({String name}) : super(name: name);
 
   ///
   @override

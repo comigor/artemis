@@ -41,7 +41,7 @@ void main() {
                   queryType: r'SomeQuery$SomeObject',
                   classes: [
                     ClassDefinition(
-                        name: TempName(name: r'SomeQuery$SomeObject'),
+                        name: ClassName(name: r'SomeQuery$SomeObject'),
                         properties: [
                           ClassProperty(
                               type: r'String',
@@ -120,7 +120,7 @@ class SomeQuery$SomeObject with EquatableMixin {
                   queryType: r'SomeQuery$Query',
                   classes: [
                     ClassDefinition(
-                        name: TempName(name: r'SomeQuery$Query$SomeObject'),
+                        name: ClassName(name: r'SomeQuery$Query$SomeObject'),
                         properties: [
                           ClassProperty(
                               type: r'String',
@@ -142,7 +142,7 @@ class SomeQuery$SomeObject with EquatableMixin {
                         typeNameField: r'__typename',
                         isInput: false),
                     ClassDefinition(
-                        name: TempName(name: r'SomeQuery$Query'),
+                        name: ClassName(name: r'SomeQuery$Query'),
                         properties: [
                           ClassProperty(
                               type: r'SomeQuery$Query$SomeObject',
@@ -347,7 +347,7 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
                   queryType: r'SomeQuery$Result',
                   classes: [
                     ClassDefinition(
-                        name: TempName(
+                        name: ClassName(
                             name: r'SomeQuery$Result$SomeObject$AnotherObject'),
                         properties: [
                           ClassProperty(
@@ -360,7 +360,7 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
                         typeNameField: r'__typename',
                         isInput: false),
                     ClassDefinition(
-                        name: TempName(name: r'SomeQuery$Result$SomeObject'),
+                        name: ClassName(name: r'SomeQuery$Result$SomeObject'),
                         properties: [
                           ClassProperty(
                               type: r'String',
@@ -378,7 +378,7 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
                         typeNameField: r'__typename',
                         isInput: false),
                     ClassDefinition(
-                        name: TempName(name: r'SomeQuery$Result'),
+                        name: ClassName(name: r'SomeQuery$Result'),
                         properties: [
                           ClassProperty(
                               type: r'String',
@@ -476,7 +476,7 @@ class SomeQuery$Result with EquatableMixin {
                   queryType: r'SomeQuery$Result',
                   classes: [
                     ClassDefinition(
-                        name: TempName(name: r'SomeQuery$Result'),
+                        name: ClassName(name: r'SomeQuery$Result'),
                         properties: [
                           ClassProperty(
                               type: r'String',
@@ -560,7 +560,7 @@ class SomeQuery$Result with EquatableMixin {
                   queryType: r'SomeQuery$SomeObject',
                   classes: [
                     ClassDefinition(
-                        name: TempName(name: r'SomeQuery$SomeObject'),
+                        name: ClassName(name: r'SomeQuery$SomeObject'),
                         properties: [
                           ClassProperty(
                               type: r'Decimal',
@@ -628,7 +628,7 @@ class SomeQuery$SomeObject with EquatableMixin {
                   queryType: r'PascalCasingQuery$PascalCasingQuery',
                   classes: [
                     ClassDefinition(
-                        name: TempName(
+                        name: ClassName(
                             name: r'PascalCasingQuery$PascalCasingQuery'),
                         properties: [
                           ClassProperty(

@@ -68,13 +68,13 @@ final LibraryDefinition libraryDefinition =
       queryType: r'Query$Query',
       classes: [
         ClassDefinition(
-            name: TempName(name: r'Query$Query$Pokemon'),
+            name: ClassName(name: r'Query$Query$Pokemon'),
             mixins: [r'PokemonMixin', r'PokemonPartsMixin'],
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: TempName(name: r'Query$Query'),
+            name: ClassName(name: r'Query$Query'),
             properties: [
               ClassProperty(
                   type: r'Query$Query$Pokemon',
@@ -86,13 +86,13 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: TempName(name: r'PokemonMixin$Pokemon'),
+            name: ClassName(name: r'PokemonMixin$Pokemon'),
             mixins: [r'PokemonNameMixin'],
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
         FragmentClassDefinition(
-            name: TempName(name: r'PokemonMixin'),
+            name: ClassName(name: r'PokemonMixin'),
             properties: [
               ClassProperty(
                   type: r'String',
@@ -106,7 +106,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ]),
         FragmentClassDefinition(
-            name: TempName(name: r'PokemonNameMixin'),
+            name: ClassName(name: r'PokemonNameMixin'),
             properties: [
               ClassProperty(
                   type: r'String',
@@ -115,7 +115,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ]),
         FragmentClassDefinition(
-            name: TempName(name: r'PokemonPartsMixin'),
+            name: ClassName(name: r'PokemonPartsMixin'),
             properties: [
               ClassProperty(
                   type: r'String',

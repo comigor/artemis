@@ -91,13 +91,13 @@ final LibraryDefinition libraryDefinition =
       queryType: r'Query$Query',
       classes: [
         ClassDefinition(
-            name: TempName(name: r'Query$Query$Pokemon$Pokemon'),
+            name: ClassName(name: r'Query$Query$Pokemon$Pokemon'),
             mixins: [r'PokemonMixin'],
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: TempName(name: r'Query$Query$Pokemon'),
+            name: ClassName(name: r'Query$Query$Pokemon'),
             properties: [
               ClassProperty(
                   type: r'List<Query$Query$Pokemon$Pokemon>',
@@ -110,7 +110,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: TempName(name: r'Query$Query'),
+            name: ClassName(name: r'Query$Query'),
             properties: [
               ClassProperty(
                   type: r'Query$Query$Pokemon',
@@ -122,19 +122,19 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: TempName(name: r'PokemonMixin$PokemonDimension'),
+            name: ClassName(name: r'PokemonMixin$PokemonDimension'),
             mixins: [r'WeightMixin'],
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: TempName(name: r'PokemonMixin$PokemonAttack'),
+            name: ClassName(name: r'PokemonMixin$PokemonAttack'),
             mixins: [r'PokemonAttackMixin'],
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
         FragmentClassDefinition(
-            name: TempName(name: r'PokemonMixin'),
+            name: ClassName(name: r'PokemonMixin'),
             properties: [
               ClassProperty(
                   type: r'String',
@@ -153,7 +153,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ]),
         FragmentClassDefinition(
-            name: TempName(name: r'WeightMixin'),
+            name: ClassName(name: r'WeightMixin'),
             properties: [
               ClassProperty(
                   type: r'String',
@@ -162,13 +162,13 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ]),
         ClassDefinition(
-            name: TempName(name: r'PokemonAttackMixin$Attack'),
+            name: ClassName(name: r'PokemonAttackMixin$Attack'),
             mixins: [r'AttackMixin'],
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
         FragmentClassDefinition(
-            name: TempName(name: r'PokemonAttackMixin'),
+            name: ClassName(name: r'PokemonAttackMixin'),
             properties: [
               ClassProperty(
                   type: r'List<PokemonAttackMixin$Attack>',
@@ -177,7 +177,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ]),
         FragmentClassDefinition(
-            name: TempName(name: r'AttackMixin'),
+            name: ClassName(name: r'AttackMixin'),
             properties: [
               ClassProperty(
                   type: r'String',

@@ -75,21 +75,21 @@ final LibraryDefinition libraryDefinition =
       queryType: r'Custom$Query',
       classes: [
         ClassDefinition(
-            name: TempName(name: r'Custom$Query$Node$User'),
-            extension: TempName(name: r'Custom$Query$Node'),
+            name: ClassName(name: r'Custom$Query$Node$User'),
+            extension: ClassName(name: r'Custom$Query$Node'),
             mixins: [r'UserFragMixin'],
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: TempName(name: r'Custom$Query$Node$ChatMessage$User'),
-            extension: TempName(name: r'Custom$Query$Node$ChatMessage'),
+            name: ClassName(name: r'Custom$Query$Node$ChatMessage$User'),
+            extension: ClassName(name: r'Custom$Query$Node$ChatMessage'),
             mixins: [r'UserFragMixin'],
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: TempName(name: r'Custom$Query$Node$ChatMessage'),
+            name: ClassName(name: r'Custom$Query$Node$ChatMessage'),
             properties: [
               ClassProperty(
                   type: r'String',
@@ -102,12 +102,12 @@ final LibraryDefinition libraryDefinition =
                   isNonNull: true,
                   isResolveType: false)
             ],
-            extension: TempName(name: r'Custom$Query$Node'),
+            extension: ClassName(name: r'Custom$Query$Node'),
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: TempName(name: r'Custom$Query$Node'),
+            name: ClassName(name: r'Custom$Query$Node'),
             properties: [
               ClassProperty(
                   type: r'String',
@@ -131,7 +131,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: TempName(name: r'Custom$Query'),
+            name: ClassName(name: r'Custom$Query'),
             properties: [
               ClassProperty(
                   type: r'Custom$Query$Node',
@@ -143,7 +143,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         FragmentClassDefinition(
-            name: TempName(name: r'UserFragMixin'),
+            name: ClassName(name: r'UserFragMixin'),
             properties: [
               ClassProperty(
                   type: r'String',

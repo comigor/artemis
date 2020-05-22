@@ -41,7 +41,7 @@ final LibraryDefinition libraryDefinition =
       queryType: r'SomeQuery$SomeObject',
       classes: [
         FragmentClassDefinition(
-            name: TempName(name: r'MyFragmentMixin'),
+            name: ClassName(name: r'MyFragmentMixin'),
             properties: [
               ClassProperty(
                   type: r'String',
@@ -55,7 +55,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ]),
         ClassDefinition(
-            name: TempName(name: r'SomeQuery$SomeObject'),
+            name: ClassName(name: r'SomeQuery$SomeObject'),
             mixins: [r'MyFragmentMixin'],
             factoryPossibilities: {},
             typeNameField: r'__typename',

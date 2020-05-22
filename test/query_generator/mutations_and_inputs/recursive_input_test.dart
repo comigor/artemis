@@ -39,7 +39,7 @@ final LibraryDefinition libraryDefinition =
       queryType: r'Custom$Mutation',
       classes: [
         ClassDefinition(
-            name: TempName(name: r'Custom$Mutation'),
+            name: ClassName(name: r'Custom$Mutation'),
             properties: [
               ClassProperty(
                   type: r'String',
@@ -51,7 +51,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: TempName(name: r'Input'),
+            name: ClassName(name: r'Input'),
             properties: [
               ClassProperty(
                   type: r'Input',

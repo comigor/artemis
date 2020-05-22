@@ -97,7 +97,7 @@ class Context {
   final Set<EnumName> usedEnums;
 
   /// A list of used input objects (to filtered on generation).
-  final Set<TempName> usedInputObjects;
+  final Set<ClassName> usedInputObjects;
 
   String _stringForNaming(String withFieldNames, String withClassNames) =>
       schemaMap.namingScheme == NamingScheme.pathedWithFields

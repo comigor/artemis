@@ -72,7 +72,7 @@ final LibraryDefinition libraryDefinition =
       queryType: r'Custom$Query',
       classes: [
         ClassDefinition(
-            name: TempName(name: r'Custom$Query$Node$User'),
+            name: ClassName(name: r'Custom$Query$Node$User'),
             properties: [
               ClassProperty(
                   type: r'String',
@@ -80,12 +80,12 @@ final LibraryDefinition libraryDefinition =
                   isNonNull: true,
                   isResolveType: false)
             ],
-            extension: TempName(name: r'Custom$Query$Node'),
+            extension: ClassName(name: r'Custom$Query$Node'),
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: TempName(name: r'Custom$Query$Node$ChatMessage'),
+            name: ClassName(name: r'Custom$Query$Node$ChatMessage'),
             properties: [
               ClassProperty(
                   type: r'String',
@@ -93,12 +93,12 @@ final LibraryDefinition libraryDefinition =
                   isNonNull: true,
                   isResolveType: false)
             ],
-            extension: TempName(name: r'Custom$Query$Node'),
+            extension: ClassName(name: r'Custom$Query$Node'),
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: TempName(name: r'Custom$Query$Node'),
+            name: ClassName(name: r'Custom$Query$Node'),
             properties: [
               ClassProperty(
                   type: r'String',
@@ -122,7 +122,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: TempName(name: r'Custom$Query'),
+            name: ClassName(name: r'Custom$Query'),
             properties: [
               ClassProperty(
                   type: r'Custom$Query$Node',

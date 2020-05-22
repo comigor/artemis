@@ -55,7 +55,7 @@ final LibraryDefinition libraryDefinition =
             name: EnumName(name: r'MyEnum'),
             values: [r'a', r'b', r'artemisUnknown']),
         ClassDefinition(
-            name: TempName(name: r'SomeQuery$Response$SomeObject'),
+            name: ClassName(name: r'SomeQuery$Response$SomeObject'),
             properties: [
               ClassProperty(
                   type: r'MyEnum',
@@ -70,7 +70,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: TempName(name: r'SomeQuery$Response'),
+            name: ClassName(name: r'SomeQuery$Response'),
             properties: [
               ClassProperty(
                   type: r'String',

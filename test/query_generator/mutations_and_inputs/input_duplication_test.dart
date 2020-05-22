@@ -62,7 +62,7 @@ final LibraryDefinition libraryDefinition =
       queryType: r'Custom$Mutation',
       classes: [
         ClassDefinition(
-            name: TempName(name: r'Custom$Mutation$Mut'),
+            name: ClassName(name: r'Custom$Mutation$Mut'),
             properties: [
               ClassProperty(
                   type: r'String',
@@ -74,7 +74,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: TempName(name: r'Custom$Mutation'),
+            name: ClassName(name: r'Custom$Mutation'),
             properties: [
               ClassProperty(
                   type: r'Custom$Mutation$Mut',
@@ -86,7 +86,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: TempName(name: r'Input'),
+            name: ClassName(name: r'Input'),
             properties: [
               ClassProperty(
                   type: r'String',
@@ -109,7 +109,7 @@ final LibraryDefinition libraryDefinition =
       queryType: r'CustomList$Mutation',
       classes: [
         ClassDefinition(
-            name: TempName(name: r'CustomList$Mutation$MutList'),
+            name: ClassName(name: r'CustomList$Mutation$MutList'),
             properties: [
               ClassProperty(
                   type: r'String',
@@ -121,7 +121,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: TempName(name: r'CustomList$Mutation'),
+            name: ClassName(name: r'CustomList$Mutation'),
             properties: [
               ClassProperty(
                   type: r'CustomList$Mutation$MutList',
@@ -133,7 +133,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: TempName(name: r'Input'),
+            name: ClassName(name: r'Input'),
             properties: [
               ClassProperty(
                   type: r'String',

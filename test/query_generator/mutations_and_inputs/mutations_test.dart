@@ -49,7 +49,7 @@ final LibraryDefinition libraryDefinition =
       queryType: r'Custom$MutationRoot',
       classes: [
         ClassDefinition(
-            name: TempName(name: r'Custom$MutationRoot$MutationResponse'),
+            name: ClassName(name: r'Custom$MutationRoot$MutationResponse'),
             properties: [
               ClassProperty(
                   type: r'String',
@@ -61,7 +61,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: TempName(name: r'Custom$MutationRoot'),
+            name: ClassName(name: r'Custom$MutationRoot'),
             properties: [
               ClassProperty(
                   type: r'Custom$MutationRoot$MutationResponse',
@@ -73,7 +73,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: TempName(name: r'Input'),
+            name: ClassName(name: r'Input'),
             properties: [
               ClassProperty(
                   type: r'String',

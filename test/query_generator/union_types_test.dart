@@ -58,7 +58,7 @@ final LibraryDefinition libraryDefinition =
       queryType: r'SomeQuery$SomeObject',
       classes: [
         ClassDefinition(
-            name: TempName(name: r'SomeQuery$SomeObject$SomeUnion$TypeA'),
+            name: ClassName(name: r'SomeQuery$SomeObject$SomeUnion$TypeA'),
             properties: [
               ClassProperty(
                   type: r'int',
@@ -66,12 +66,12 @@ final LibraryDefinition libraryDefinition =
                   isNonNull: false,
                   isResolveType: false)
             ],
-            extension: TempName(name: r'SomeQuery$SomeObject$SomeUnion'),
+            extension: ClassName(name: r'SomeQuery$SomeObject$SomeUnion'),
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: TempName(name: r'SomeQuery$SomeObject$SomeUnion$TypeB'),
+            name: ClassName(name: r'SomeQuery$SomeObject$SomeUnion$TypeB'),
             properties: [
               ClassProperty(
                   type: r'int',
@@ -79,12 +79,12 @@ final LibraryDefinition libraryDefinition =
                   isNonNull: false,
                   isResolveType: false)
             ],
-            extension: TempName(name: r'SomeQuery$SomeObject$SomeUnion'),
+            extension: ClassName(name: r'SomeQuery$SomeObject$SomeUnion'),
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: TempName(name: r'SomeQuery$SomeObject$SomeUnion'),
+            name: ClassName(name: r'SomeQuery$SomeObject$SomeUnion'),
             properties: [
               ClassProperty(
                   type: r'String',
@@ -103,7 +103,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: TempName(name: r'SomeQuery$SomeObject'),
+            name: ClassName(name: r'SomeQuery$SomeObject'),
             properties: [
               ClassProperty(
                   type: r'SomeQuery$SomeObject$SomeUnion',

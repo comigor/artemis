@@ -70,7 +70,7 @@ final LibraryDefinition libraryDefinition =
     queryType: r'SomeQuery$SomeObject',
     classes: [
       ClassDefinition(
-          name: TempName(name: r'SomeQuery$SomeObject'),
+          name: ClassName(name: r'SomeQuery$SomeObject'),
           properties: [
             ClassProperty(type: 'int', name: VariableName(name: 'i')),
             ClassProperty(type: 'double', name: VariableName(name: 'f')),

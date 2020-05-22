@@ -59,7 +59,7 @@ final LibraryDefinition libraryDefinition =
       queryType: r'SomeQuery$QueryRoot',
       classes: [
         ClassDefinition(
-            name: TempName(name: r'SomeQuery$QueryRoot$SomeObject'),
+            name: ClassName(name: r'SomeQuery$QueryRoot$SomeObject'),
             properties: [
               ClassProperty(
                   type: r'String',
@@ -71,7 +71,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: TempName(name: r'SomeQuery$QueryRoot'),
+            name: ClassName(name: r'SomeQuery$QueryRoot'),
             properties: [
               ClassProperty(
                   type: r'SomeQuery$QueryRoot$SomeObject',
@@ -83,7 +83,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: TempName(name: r'Input'),
+            name: ClassName(name: r'Input'),
             properties: [
               ClassProperty(
                   type: r'SubInput',
@@ -95,7 +95,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: true),
         ClassDefinition(
-            name: TempName(name: r'SubInput'),
+            name: ClassName(name: r'SubInput'),
             properties: [
               ClassProperty(
                   type: r'String',
