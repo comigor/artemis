@@ -65,7 +65,7 @@ final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       queryName: r'query',
-      queryType: r'Query$Query',
+      queryType: ClassName(name: r'Query$Query'),
       classes: [
         ClassDefinition(
             name: ClassName(name: r'Query$Query$Pokemon'),
@@ -77,7 +77,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Query$Query'),
             properties: [
               ClassProperty(
-                  type: r'Query$Query$Pokemon',
+                  type: ClassName(name: r'Query$Query$Pokemon'),
                   name: VariableName(name: r'pokemon'),
                   isNonNull: false,
                   isResolveType: false)
@@ -95,12 +95,12 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'PokemonMixin'),
             properties: [
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r'id'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: r'PokemonMixin$Pokemon',
+                  type: ClassName(name: r'PokemonMixin$Pokemon'),
                   name: VariableName(name: r'evolution'),
                   isNonNull: false,
                   isResolveType: false)
@@ -109,7 +109,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'PokemonNameMixin'),
             properties: [
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r'name'),
                   isNonNull: false,
                   isResolveType: false)
@@ -118,12 +118,12 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'PokemonPartsMixin'),
             properties: [
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r'number'),
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r'name'),
                   isNonNull: false,
                   isResolveType: false)

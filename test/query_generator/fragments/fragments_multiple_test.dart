@@ -83,18 +83,18 @@ final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       queryName: r'VoyagesData',
-      queryType: r'VoyagesData$Query',
+      queryType: ClassName(name: r'VoyagesData$Query'),
       classes: [
         FragmentClassDefinition(
             name: ClassName(name: r'DstMixin'),
             properties: [
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r'id'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r'name'),
                   isNonNull: true,
                   isResolveType: false)
@@ -103,7 +103,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'DepartureMixin'),
             properties: [
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r'id'),
                   isNonNull: true,
                   isResolveType: false)
@@ -113,22 +113,22 @@ final LibraryDefinition libraryDefinition =
                 name: r'VoyagesData$Query$VoyageList$VoyageDetails$Voyage'),
             properties: [
               ClassProperty(
-                  type: r'DateTime',
+                  type: ClassName(name: r'DateTime'),
                   name: VariableName(name: r'dateFrom'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: r'DateTime',
+                  type: ClassName(name: r'DateTime'),
                   name: VariableName(name: r'dateTo'),
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r'id'),
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r'voyageNumber'),
                   isNonNull: true,
                   isResolveType: false)
@@ -141,12 +141,14 @@ final LibraryDefinition libraryDefinition =
                 ClassName(name: r'VoyagesData$Query$VoyageList$VoyageDetails'),
             properties: [
               ClassProperty(
-                  type: r'int',
+                  type: ClassName(name: r'int'),
                   name: VariableName(name: r'numberOfReports'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: r'VoyagesData$Query$VoyageList$VoyageDetails$Voyage',
+                  type: ClassName(
+                      name:
+                          r'VoyagesData$Query$VoyageList$VoyageDetails$Voyage'),
                   name: VariableName(name: r'voyage'),
                   isNonNull: true,
                   isResolveType: false)
@@ -158,7 +160,9 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'VoyagesData$Query$VoyageList'),
             properties: [
               ClassProperty(
-                  type: r'List<VoyagesData$Query$VoyageList$VoyageDetails>',
+                  type: ClassName(
+                      name:
+                          r'List<VoyagesData$Query$VoyageList$VoyageDetails>'),
                   name: VariableName(name: r'voyages'),
                   isNonNull: true,
                   isResolveType: false)
@@ -170,7 +174,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'VoyagesData$Query'),
             properties: [
               ClassProperty(
-                  type: r'VoyagesData$Query$VoyageList',
+                  type: ClassName(name: r'VoyagesData$Query$VoyageList'),
                   name: VariableName(name: r'voyages'),
                   isNonNull: true,
                   isResolveType: false)
@@ -182,12 +186,12 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'PaginationInput'),
             properties: [
               ClassProperty(
-                  type: r'int',
+                  type: ClassName(name: r'int'),
                   name: VariableName(name: r'limit'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: r'int',
+                  type: ClassName(name: r'int'),
                   name: VariableName(name: r'offset'),
                   isNonNull: true,
                   isResolveType: false)
@@ -198,7 +202,7 @@ final LibraryDefinition libraryDefinition =
       ],
       inputs: [
         QueryInput(
-            type: r'PaginationInput',
+            type: ClassName(name: r'PaginationInput'),
             name: VariableName(name: r'input'),
             isNonNull: true)
       ],

@@ -50,16 +50,16 @@ final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       queryName: r'some_query',
-      queryType: r'SomeQuery$QueryRoot',
+      queryType: ClassName(name: r'SomeQuery$QueryRoot'),
       classes: [
         EnumDefinition(
-            name: EnumName(name: r'MyEnum'),
+            name: ClassName(name: r'MyEnum'),
             values: [r'value1', r'value2', r'artemisUnknown']),
         ClassDefinition(
             name: ClassName(name: r'SomeQuery$QueryRoot$SomeObject'),
             properties: [
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r's'),
                   isNonNull: false,
                   isResolveType: false)
@@ -71,7 +71,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'SomeQuery$QueryRoot'),
             properties: [
               ClassProperty(
-                  type: r'SomeQuery$QueryRoot$SomeObject',
+                  type: ClassName(name: r'SomeQuery$QueryRoot$SomeObject'),
                   name: VariableName(name: r'o'),
                   isNonNull: false,
                   isResolveType: false)
@@ -83,12 +83,12 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'ComplexInput'),
             properties: [
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r's'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: r'MyEnum',
+                  type: ClassName(name: r'MyEnum'),
                   name: VariableName(name: r'e'),
                   annotations: [
                     r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
@@ -96,7 +96,7 @@ final LibraryDefinition libraryDefinition =
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
-                  type: r'List<String>',
+                  type: ClassName(name: r'List<String>'),
                   name: VariableName(name: r'ls'),
                   isNonNull: false,
                   isResolveType: false)
@@ -107,7 +107,7 @@ final LibraryDefinition libraryDefinition =
       ],
       inputs: [
         QueryInput(
-            type: r'ComplexInput',
+            type: ClassName(name: r'ComplexInput'),
             name: VariableName(name: r'filter'),
             isNonNull: true)
       ],

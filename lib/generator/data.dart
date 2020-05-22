@@ -30,19 +30,7 @@ abstract class Definition extends Equatable with DataPrinter {
   Definition({@required this.name});
 }
 
-///
-class EnumName extends Name with DataPrinter {
-  ///
-  EnumName({String name}) : super(name: name);
-
-  @override
-  String normalizeName1(String name) => name;
-
-  @override
-  Map<String, Object> get namedProps => {
-        'name': name,
-      };
-}
+final _camelCasedClasses = <String>{'int', 'double', 'bool'};
 
 ///
 class ClassName extends Name {
@@ -51,7 +39,8 @@ class ClassName extends Name {
 
   ///
   @override
-  String normalizeName1(String name) => ReCase(name).pascalCase;
+  String normalizeName1(String name) =>
+      _camelCasedClasses.contains(name) ? name : ReCase(name).pascalCase;
 
   @override
   Map<String, Object> get namedProps => {
@@ -80,7 +69,7 @@ typedef OnBuildQuery = void Function(LibraryDefinition definition);
 /// Define a property (field) from a class.
 class ClassProperty extends Definition with DataPrinter {
   /// The property type.
-  final String type;
+  final ClassName type;
 
   /// Some other custom annotation.
   final List<String> annotations;
@@ -97,7 +86,7 @@ class ClassProperty extends Definition with DataPrinter {
     this.annotations = const [],
     this.isNonNull = false,
     this.isResolveType = false,
-    @required Name name,
+    @required VariableName name,
   })  : assert(hasValue(type) && hasValue(name)),
         super(name: name);
 
@@ -106,15 +95,15 @@ class ClassProperty extends Definition with DataPrinter {
 
   /// Creates a copy of [ClassProperty] without modifying the original.
   ClassProperty copyWith({
-    String type,
-    Name name,
+    ClassName type,
+    VariableName name,
     List<String> annotations,
     bool isNonNull,
     bool isResolveType,
   }) =>
       ClassProperty(
         type: type ?? this.type,
-        name: name ?? this.name,
+        name: name ?? VariableName(name: this.name.name),
         annotations: annotations ?? this.annotations,
         isNonNull: isNonNull ?? this.isNonNull,
         isResolveType: isResolveType ?? this.isResolveType,
@@ -133,7 +122,7 @@ class ClassProperty extends Definition with DataPrinter {
 /// Define a query/mutation input parameter.
 class QueryInput extends Definition with DataPrinter {
   /// The input type.
-  final String type;
+  final ClassName type;
 
   /// Whether this parameter is required
   final bool isNonNull;
@@ -146,7 +135,7 @@ class QueryInput extends Definition with DataPrinter {
     @required this.type,
     this.isNonNull = false,
     this.annotations = const [],
-    Name name,
+    VariableName name,
   })  : assert(hasValue(type) && hasValue(name)),
         super(name: name);
 
@@ -185,7 +174,7 @@ class ClassDefinition extends Definition with DataPrinter {
 
   /// Instantiate a class definition.
   ClassDefinition({
-    @required Name name,
+    @required ClassName name,
     this.properties = const [],
     this.extension,
     this.implementations = const [],
@@ -216,7 +205,7 @@ class FragmentClassDefinition extends Definition with DataPrinter {
 
   /// Instantiate a fragment class definition.
   FragmentClassDefinition({
-    @required Name name,
+    @required ClassName name,
     @required this.properties,
   })  : assert(hasValue(name) && hasValue(properties)),
         super(name: name);
@@ -235,7 +224,7 @@ class EnumDefinition extends Definition with DataPrinter {
 
   /// Instantiate an enum definition.
   EnumDefinition({
-    @required Name name,
+    @required ClassName name,
     this.values,
   })  : assert(hasValue(name) && hasValue(values)),
         super(name: name);
@@ -253,7 +242,7 @@ class QueryDefinition extends Equatable with DataPrinter {
   final String queryName;
 
   /// The query type name.
-  final String queryType;
+  final ClassName queryType;
 
   /// The AST representation of GraphQL document.
   final DocumentNode document;

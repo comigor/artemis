@@ -72,7 +72,7 @@ final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       queryName: r'custom',
-      queryType: r'Custom$Query',
+      queryType: ClassName(name: r'Custom$Query'),
       classes: [
         ClassDefinition(
             name: ClassName(name: r'Custom$Query$Node$User'),
@@ -92,12 +92,12 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Custom$Query$Node$ChatMessage'),
             properties: [
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r'message'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: r'Custom$Query$Node$ChatMessage$User',
+                  type: ClassName(name: r'Custom$Query$Node$ChatMessage$User'),
                   name: VariableName(name: r'user'),
                   isNonNull: true,
                   isResolveType: false)
@@ -110,12 +110,12 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Custom$Query$Node'),
             properties: [
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r'id'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r'typeName'),
                   annotations: [
                     r'override',
@@ -134,7 +134,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Custom$Query'),
             properties: [
               ClassProperty(
-                  type: r'Custom$Query$Node',
+                  type: ClassName(name: r'Custom$Query$Node'),
                   name: VariableName(name: r'nodeById'),
                   isNonNull: false,
                   isResolveType: false)
@@ -146,12 +146,12 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'UserFragMixin'),
             properties: [
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r'id'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r'username'),
                   isNonNull: true,
                   isResolveType: false)
@@ -159,7 +159,9 @@ final LibraryDefinition libraryDefinition =
       ],
       inputs: [
         QueryInput(
-            type: r'String', name: VariableName(name: r'id'), isNonNull: true)
+            type: ClassName(name: r'String'),
+            name: VariableName(name: r'id'),
+            isNonNull: true)
       ],
       generateHelpers: false,
       suffix: r'Query')

@@ -59,13 +59,13 @@ final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       queryName: r'custom',
-      queryType: r'Custom$Mutation',
+      queryType: ClassName(name: r'Custom$Mutation'),
       classes: [
         ClassDefinition(
             name: ClassName(name: r'Custom$Mutation$Mut'),
             properties: [
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r's'),
                   isNonNull: false,
                   isResolveType: false)
@@ -77,7 +77,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Custom$Mutation'),
             properties: [
               ClassProperty(
-                  type: r'Custom$Mutation$Mut',
+                  type: ClassName(name: r'Custom$Mutation$Mut'),
                   name: VariableName(name: r'mut'),
                   isNonNull: false,
                   isResolveType: false)
@@ -89,7 +89,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Input'),
             properties: [
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r's'),
                   isNonNull: true,
                   isResolveType: false)
@@ -100,19 +100,21 @@ final LibraryDefinition libraryDefinition =
       ],
       inputs: [
         QueryInput(
-            type: r'Input', name: VariableName(name: r'input'), isNonNull: true)
+            type: ClassName(name: r'Input'),
+            name: VariableName(name: r'input'),
+            isNonNull: true)
       ],
       generateHelpers: true,
       suffix: r'Mutation'),
   QueryDefinition(
       queryName: r'customList',
-      queryType: r'CustomList$Mutation',
+      queryType: ClassName(name: r'CustomList$Mutation'),
       classes: [
         ClassDefinition(
             name: ClassName(name: r'CustomList$Mutation$MutList'),
             properties: [
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r's'),
                   isNonNull: false,
                   isResolveType: false)
@@ -124,7 +126,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'CustomList$Mutation'),
             properties: [
               ClassProperty(
-                  type: r'CustomList$Mutation$MutList',
+                  type: ClassName(name: r'CustomList$Mutation$MutList'),
                   name: VariableName(name: r'mutList'),
                   isNonNull: false,
                   isResolveType: false)
@@ -136,7 +138,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Input'),
             properties: [
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r's'),
                   isNonNull: true,
                   isResolveType: false)
@@ -147,7 +149,7 @@ final LibraryDefinition libraryDefinition =
       ],
       inputs: [
         QueryInput(
-            type: r'List<Input>',
+            type: ClassName(name: r'List<Input>'),
             name: VariableName(name: r'input'),
             isNonNull: true)
       ],

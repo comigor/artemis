@@ -38,18 +38,18 @@ final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       queryName: r'some_query',
-      queryType: r'SomeQuery$SomeObject',
+      queryType: ClassName(name: r'SomeQuery$SomeObject'),
       classes: [
         FragmentClassDefinition(
             name: ClassName(name: r'MyFragmentMixin'),
             properties: [
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r's'),
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
-                  type: r'int',
+                  type: ClassName(name: r'int'),
                   name: VariableName(name: r'i'),
                   isNonNull: false,
                   isResolveType: false)

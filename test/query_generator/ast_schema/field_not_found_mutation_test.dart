@@ -54,19 +54,19 @@ final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       queryName: r'createThing',
-      queryType: r'CreateThing$MutationRoot',
+      queryType: ClassName(name: r'CreateThing$MutationRoot'),
       classes: [
         ClassDefinition(
             name: ClassName(
                 name: r'CreateThing$MutationRoot$CreateThingResponse$Thing'),
             properties: [
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r'id'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r'message'),
                   isNonNull: false,
                   isResolveType: false)
@@ -79,7 +79,9 @@ final LibraryDefinition libraryDefinition =
                 name: r'CreateThing$MutationRoot$CreateThingResponse'),
             properties: [
               ClassProperty(
-                  type: r'CreateThing$MutationRoot$CreateThingResponse$Thing',
+                  type: ClassName(
+                      name:
+                          r'CreateThing$MutationRoot$CreateThingResponse$Thing'),
                   name: VariableName(name: r'thing'),
                   isNonNull: false,
                   isResolveType: false)
@@ -91,7 +93,8 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'CreateThing$MutationRoot'),
             properties: [
               ClassProperty(
-                  type: r'CreateThing$MutationRoot$CreateThingResponse',
+                  type: ClassName(
+                      name: r'CreateThing$MutationRoot$CreateThingResponse'),
                   name: VariableName(name: r'createThing'),
                   isNonNull: false,
                   isResolveType: false)
@@ -103,12 +106,12 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'CreateThingInput'),
             properties: [
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r'clientId'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r'message'),
                   isNonNull: false,
                   isResolveType: false)
@@ -119,7 +122,7 @@ final LibraryDefinition libraryDefinition =
       ],
       inputs: [
         QueryInput(
-            type: r'CreateThingInput',
+            type: ClassName(name: r'CreateThingInput'),
             name: VariableName(name: r'createThingInput'),
             isNonNull: false)
       ],

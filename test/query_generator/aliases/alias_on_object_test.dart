@@ -50,13 +50,13 @@ final LibraryDefinition libraryDefinition =
   QueryDefinition(
       document: parseString(query),
       queryName: r'some_query',
-      queryType: r'SomeQuery$QueryResponse',
+      queryType: ClassName(name: r'SomeQuery$QueryResponse'),
       classes: [
         ClassDefinition(
             name: ClassName(name: r'SomeQuery$QueryResponse$SomeObject'),
             properties: [
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r'st'),
                   isNonNull: false)
             ],
@@ -67,7 +67,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'SomeQuery$QueryResponse$AnotherObject'),
             properties: [
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r'str'),
                   isNonNull: false)
             ],
@@ -78,15 +78,16 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'SomeQuery$QueryResponse'),
             properties: [
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r's'),
                   isNonNull: false),
               ClassProperty(
-                  type: r'SomeQuery$QueryResponse$SomeObject',
+                  type: ClassName(name: r'SomeQuery$QueryResponse$SomeObject'),
                   name: VariableName(name: r'o'),
                   isNonNull: false),
               ClassProperty(
-                  type: r'List<SomeQuery$QueryResponse$AnotherObject>',
+                  type: ClassName(
+                      name: r'List<SomeQuery$QueryResponse$AnotherObject>'),
                   name: VariableName(name: r'anotherObject'),
                   isNonNull: false)
             ],

@@ -67,16 +67,24 @@ final LibraryDefinition libraryDefinition =
   QueryDefinition(
     document: parseString(query),
     queryName: r'some_query',
-    queryType: r'SomeQuery$SomeObject',
+    queryType: ClassName(name: r'SomeQuery$SomeObject'),
     classes: [
       ClassDefinition(
           name: ClassName(name: r'SomeQuery$SomeObject'),
           properties: [
-            ClassProperty(type: 'int', name: VariableName(name: 'i')),
-            ClassProperty(type: 'double', name: VariableName(name: 'f')),
-            ClassProperty(type: 'String', name: VariableName(name: 's')),
-            ClassProperty(type: 'bool', name: VariableName(name: 'b')),
-            ClassProperty(type: 'String', name: VariableName(name: 'id')),
+            ClassProperty(
+                type: ClassName(name: r'int'), name: VariableName(name: 'i')),
+            ClassProperty(
+                type: ClassName(name: r'double'),
+                name: VariableName(name: 'f')),
+            ClassProperty(
+                type: ClassName(name: r'String'),
+                name: VariableName(name: 's')),
+            ClassProperty(
+                type: ClassName(name: r'bool'), name: VariableName(name: 'b')),
+            ClassProperty(
+                type: ClassName(name: r'String'),
+                name: VariableName(name: 'id')),
           ]),
     ],
   )

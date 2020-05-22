@@ -55,13 +55,13 @@ final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       queryName: r'some_query',
-      queryType: r'SomeQuery$SomeObject',
+      queryType: ClassName(name: r'SomeQuery$SomeObject'),
       classes: [
         ClassDefinition(
             name: ClassName(name: r'SomeQuery$SomeObject$SomeUnion$TypeA'),
             properties: [
               ClassProperty(
-                  type: r'int',
+                  type: ClassName(name: r'int'),
                   name: VariableName(name: r'a'),
                   isNonNull: false,
                   isResolveType: false)
@@ -74,7 +74,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'SomeQuery$SomeObject$SomeUnion$TypeB'),
             properties: [
               ClassProperty(
-                  type: r'int',
+                  type: ClassName(name: r'int'),
                   name: VariableName(name: r'b'),
                   isNonNull: false,
                   isResolveType: false)
@@ -87,7 +87,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'SomeQuery$SomeObject$SomeUnion'),
             properties: [
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r'typeName'),
                   annotations: [
                     r'override',
@@ -106,7 +106,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'SomeQuery$SomeObject'),
             properties: [
               ClassProperty(
-                  type: r'SomeQuery$SomeObject$SomeUnion',
+                  type: ClassName(name: r'SomeQuery$SomeObject$SomeUnion'),
                   name: VariableName(name: r'o'),
                   isNonNull: false,
                   isResolveType: false)

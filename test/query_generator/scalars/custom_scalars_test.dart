@@ -102,13 +102,13 @@ final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       queryName: r'query',
-      queryType: r'Query$SomeObject',
+      queryType: ClassName(name: r'Query$SomeObject'),
       classes: [
         ClassDefinition(
             name: ClassName(name: r'Query$SomeObject'),
             properties: [
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r'a'),
                   isNonNull: false)
             ],
@@ -123,13 +123,13 @@ final LibraryDefinition libraryDefinitionWithCustomParserFns =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       queryName: r'query',
-      queryType: r'Query$SomeObject',
+      queryType: ClassName(name: r'Query$SomeObject'),
       classes: [
         ClassDefinition(
             name: ClassName(name: r'Query$SomeObject'),
             properties: [
               ClassProperty(
-                  type: r'MyDartUuid',
+                  type: ClassName(name: r'MyDartUuid'),
                   name: VariableName(name: r'a'),
                   annotations: [
                     r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyDartUuid, toJson: fromDartMyDartUuidToGraphQLMyUuid,)'
@@ -151,13 +151,13 @@ final LibraryDefinition libraryDefinitionWithCustomImports =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       queryName: r'query',
-      queryType: r'Query$SomeObject',
+      queryType: ClassName(name: r'Query$SomeObject'),
       classes: [
         ClassDefinition(
             name: ClassName(name: r'Query$SomeObject'),
             properties: [
               ClassProperty(
-                  type: r'MyUuid',
+                  type: ClassName(name: r'MyUuid'),
                   name: VariableName(name: r'a'),
                   annotations: [
                     r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid,)'

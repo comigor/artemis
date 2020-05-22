@@ -88,7 +88,7 @@ final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       queryName: r'query',
-      queryType: r'Query$Query',
+      queryType: ClassName(name: r'Query$Query'),
       classes: [
         ClassDefinition(
             name: ClassName(name: r'Query$Query$Pokemon$Pokemon'),
@@ -100,7 +100,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Query$Query$Pokemon'),
             properties: [
               ClassProperty(
-                  type: r'List<Query$Query$Pokemon$Pokemon>',
+                  type: ClassName(name: r'List<Query$Query$Pokemon$Pokemon>'),
                   name: VariableName(name: r'evolutions'),
                   isNonNull: false,
                   isResolveType: false)
@@ -113,7 +113,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Query$Query'),
             properties: [
               ClassProperty(
-                  type: r'Query$Query$Pokemon',
+                  type: ClassName(name: r'Query$Query$Pokemon'),
                   name: VariableName(name: r'pokemon'),
                   isNonNull: false,
                   isResolveType: false)
@@ -137,17 +137,17 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'PokemonMixin'),
             properties: [
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r'id'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: r'PokemonMixin$PokemonDimension',
+                  type: ClassName(name: r'PokemonMixin$PokemonDimension'),
                   name: VariableName(name: r'weight'),
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
-                  type: r'PokemonMixin$PokemonAttack',
+                  type: ClassName(name: r'PokemonMixin$PokemonAttack'),
                   name: VariableName(name: r'attacks'),
                   isNonNull: false,
                   isResolveType: false)
@@ -156,7 +156,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'WeightMixin'),
             properties: [
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r'minimum'),
                   isNonNull: false,
                   isResolveType: false)
@@ -171,7 +171,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'PokemonAttackMixin'),
             properties: [
               ClassProperty(
-                  type: r'List<PokemonAttackMixin$Attack>',
+                  type: ClassName(name: r'List<PokemonAttackMixin$Attack>'),
                   name: VariableName(name: r'special'),
                   isNonNull: false,
                   isResolveType: false)
@@ -180,7 +180,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'AttackMixin'),
             properties: [
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r'name'),
                   isNonNull: false,
                   isResolveType: false)

@@ -116,18 +116,24 @@ void main() {
       var input = [
         QueryDefinition(
           queryName: 'some_query',
-          queryType: 'SomeQuery',
+          queryType: ClassName(name: r'SomeQuery'),
           document: parseString('query some_query {}'),
           inputs: [
             QueryInput(
-                type: 'Type', name: VariableName(name: 'name'), isNonNull: true)
+                type: ClassName(name: r'Type'),
+                name: VariableName(name: 'name'),
+                isNonNull: true)
           ],
         ),
         QueryDefinition(
           queryName: 'another_query',
-          queryType: 'AnotherQuery',
+          queryType: ClassName(name: r'AnotherQuery'),
           document: parseString('query another_query {}'),
-          inputs: [QueryInput(type: 'Type', name: VariableName(name: 'name'))],
+          inputs: [
+            QueryInput(
+                type: ClassName(name: r'Type'),
+                name: VariableName(name: 'name'))
+          ],
         ),
       ];
       var result = hasNonNullableInput(input);
@@ -139,15 +145,23 @@ void main() {
       var input = [
         QueryDefinition(
           queryName: 'some_query',
-          queryType: 'SomeQuery',
+          queryType: ClassName(name: r'SomeQuery'),
           document: parseString('query some_query {}'),
-          inputs: [QueryInput(type: 'Type', name: VariableName(name: 'name'))],
+          inputs: [
+            QueryInput(
+                type: ClassName(name: r'Type'),
+                name: VariableName(name: 'name'))
+          ],
         ),
         QueryDefinition(
           queryName: 'another_query',
-          queryType: 'AnotherQuery',
+          queryType: ClassName(name: r'AnotherQuery'),
           document: parseString('query another_query {}'),
-          inputs: [QueryInput(type: 'Type', name: VariableName(name: 'name'))],
+          inputs: [
+            QueryInput(
+                type: ClassName(name: r'Type'),
+                name: VariableName(name: 'name'))
+          ],
         ),
       ];
       var result = hasNonNullableInput(input);

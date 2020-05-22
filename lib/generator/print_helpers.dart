@@ -143,7 +143,7 @@ Spec classDefinitionToSpec(
         final field = Field(
           (f) => f
             ..name = p.name.namePrintable
-            ..type = refer(p.type)
+            ..type = refer(p.type.namePrintable)
             ..annotations.addAll(
               p.annotations.map((e) => CodeExpression(Code(e))),
             ),
@@ -158,7 +158,7 @@ Spec fragmentClassDefinitionToSpec(FragmentClassDefinition definition) {
   final fields = (definition.properties ?? []).map((p) {
     final lines = <String>[];
     lines.addAll(p.annotations.map((e) => '@${e}'));
-    lines.add('${p.type} ${p.name.namePrintable};');
+    lines.add('${p.type.namePrintable} ${p.name.namePrintable};');
     return lines.join('\n');
   });
 
@@ -218,7 +218,7 @@ Spec generateArgumentClassSpec(QueryDefinition definition) {
         (p) => Field(
           (f) => f
             ..name = p.name.namePrintable
-            ..type = refer(p.type)
+            ..type = refer(p.type.namePrintable)
             ..modifier = FieldModifier.final$
             ..annotations
                 .addAll(p.annotations.map((e) => CodeExpression(Code(e)))),
@@ -230,8 +230,8 @@ Spec generateArgumentClassSpec(QueryDefinition definition) {
 /// Generates a [Spec] of a query/mutation class.
 Spec generateQueryClassSpec(QueryDefinition definition) {
   final typeDeclaration = definition.inputs.isEmpty
-      ? '${definition.queryType}, JsonSerializable'
-      : '${definition.queryType}, ${definition.className}Arguments';
+      ? '${definition.queryType.namePrintable}, JsonSerializable'
+      : '${definition.queryType.namePrintable}, ${definition.className}Arguments';
 
   final constructor = definition.inputs.isEmpty
       ? Constructor()
@@ -283,7 +283,7 @@ Spec generateQueryClassSpec(QueryDefinition definition) {
       ..methods.add(Method(
         (m) => m
           ..annotations.add(CodeExpression(Code('override')))
-          ..returns = refer(definition.queryType)
+          ..returns = refer(definition.queryType.namePrintable)
           ..name = 'parse'
           ..requiredParameters.add(Parameter(
             (p) => p
@@ -291,7 +291,7 @@ Spec generateQueryClassSpec(QueryDefinition definition) {
               ..name = 'json',
           ))
           ..lambda = true
-          ..body = Code('${definition.queryType}.fromJson(json)'),
+          ..body = Code('${definition.queryType.namePrintable}.fromJson(json)'),
       )),
   );
 }

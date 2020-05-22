@@ -60,24 +60,24 @@ final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       queryName: r'custom',
-      queryType: r'Custom$QueryRoot',
+      queryType: ClassName(name: r'Custom$QueryRoot'),
       classes: [
         EnumDefinition(
-            name: EnumName(name: r'MyEnum'),
+            name: ClassName(name: r'MyEnum'),
             values: [r'a', r'b', r'artemisUnknown']),
         EnumDefinition(
-            name: EnumName(name: r'OtherEnum'),
+            name: ClassName(name: r'OtherEnum'),
             values: [r'o1', r'o2', r'artemisUnknown']),
         ClassDefinition(
             name: ClassName(name: r'Custom$QueryRoot$QueryResponse'),
             properties: [
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r's'),
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
-                  type: r'MyEnum',
+                  type: ClassName(name: r'MyEnum'),
                   name: VariableName(name: r'my'),
                   annotations: [
                     r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
@@ -85,7 +85,7 @@ final LibraryDefinition libraryDefinition =
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
-                  type: r'OtherEnum',
+                  type: ClassName(name: r'OtherEnum'),
                   name: VariableName(name: r'other'),
                   annotations: [
                     r'JsonKey(unknownEnumValue: OtherEnum.artemisUnknown)'
@@ -100,7 +100,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Custom$QueryRoot'),
             properties: [
               ClassProperty(
-                  type: r'Custom$QueryRoot$QueryResponse',
+                  type: ClassName(name: r'Custom$QueryRoot$QueryResponse'),
                   name: VariableName(name: r'q'),
                   isNonNull: false,
                   isResolveType: false)
@@ -112,7 +112,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Input'),
             properties: [
               ClassProperty(
-                  type: r'MyEnum',
+                  type: ClassName(name: r'MyEnum'),
                   name: VariableName(name: r'e'),
                   annotations: [
                     r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
@@ -126,11 +126,11 @@ final LibraryDefinition libraryDefinition =
       ],
       inputs: [
         QueryInput(
-            type: r'Input',
+            type: ClassName(name: r'Input'),
             name: VariableName(name: r'input'),
             isNonNull: true),
         QueryInput(
-            type: r'OtherEnum',
+            type: ClassName(name: r'OtherEnum'),
             name: VariableName(name: r'o'),
             isNonNull: true,
             annotations: [

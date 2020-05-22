@@ -33,25 +33,30 @@ final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       queryName: r'some_query',
-      queryType: r'SomeQuery$SomeObject',
+      queryType: ClassName(name: r'SomeQuery$SomeObject'),
       classes: [
         ClassDefinition(
             name: ClassName(name: r'SomeQuery$SomeObject'),
             properties: [
-              ClassProperty(type: r'String', name: VariableName(name: r's')),
-              ClassProperty(type: r'int', name: VariableName(name: r'i'))
+              ClassProperty(
+                  type: ClassName(name: r'String'),
+                  name: VariableName(name: r's')),
+              ClassProperty(
+                  type: ClassName(name: r'int'), name: VariableName(name: r'i'))
             ],
             typeNameField: r'__typename')
       ],
       generateHelpers: false),
   QueryDefinition(
       queryName: r'another_query',
-      queryType: r'AnotherQuery$SomeObject',
+      queryType: ClassName(name: r'AnotherQuery$SomeObject'),
       classes: [
         ClassDefinition(
             name: ClassName(name: r'AnotherQuery$SomeObject'),
             properties: [
-              ClassProperty(type: r'String', name: VariableName(name: r's'))
+              ClassProperty(
+                  type: ClassName(name: r'String'),
+                  name: VariableName(name: r's'))
             ],
             typeNameField: r'__typename')
       ],

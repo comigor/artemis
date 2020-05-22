@@ -49,13 +49,13 @@ final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       queryName: r'custom',
-      queryType: r'Custom$QueryRoot',
+      queryType: ClassName(name: r'Custom$QueryRoot'),
       classes: [
         ClassDefinition(
             name: ClassName(name: r'Custom$QueryRoot'),
             properties: [
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r'a'),
                   isNonNull: false,
                   isResolveType: false)

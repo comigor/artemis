@@ -46,13 +46,13 @@ final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       queryName: r'custom',
-      queryType: r'Custom$MutationRoot',
+      queryType: ClassName(name: r'Custom$MutationRoot'),
       classes: [
         ClassDefinition(
             name: ClassName(name: r'Custom$MutationRoot$MutationResponse'),
             properties: [
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r's'),
                   isNonNull: false,
                   isResolveType: false)
@@ -64,7 +64,8 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Custom$MutationRoot'),
             properties: [
               ClassProperty(
-                  type: r'Custom$MutationRoot$MutationResponse',
+                  type:
+                      ClassName(name: r'Custom$MutationRoot$MutationResponse'),
                   name: VariableName(name: r'mut'),
                   isNonNull: false,
                   isResolveType: false)
@@ -76,7 +77,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Input'),
             properties: [
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r's'),
                   isNonNull: true,
                   isResolveType: false)
@@ -87,7 +88,9 @@ final LibraryDefinition libraryDefinition =
       ],
       inputs: [
         QueryInput(
-            type: r'Input', name: VariableName(name: r'input'), isNonNull: true)
+            type: ClassName(name: r'Input'),
+            name: VariableName(name: r'input'),
+            isNonNull: true)
       ],
       generateHelpers: true,
       suffix: r'Mutation')

@@ -59,16 +59,16 @@ final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       queryName: r'custom',
-      queryType: r'Custom$Query',
+      queryType: ClassName(name: r'Custom$Query'),
       classes: [
         EnumDefinition(
-            name: EnumName(name: r'MyEnum'),
+            name: ClassName(name: r'MyEnum'),
             values: [r'a', r'b', r'artemisUnknown']),
         ClassDefinition(
             name: ClassName(name: r'Custom$Query$Q'),
             properties: [
               ClassProperty(
-                  type: r'MyEnum',
+                  type: ClassName(name: r'MyEnum'),
                   name: VariableName(name: r'e'),
                   annotations: [
                     r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
@@ -83,7 +83,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Custom$Query'),
             properties: [
               ClassProperty(
-                  type: r'Custom$Query$Q',
+                  type: ClassName(name: r'Custom$Query$Q'),
                   name: VariableName(name: r'q'),
                   isNonNull: false,
                   isResolveType: false)
@@ -96,16 +96,16 @@ final LibraryDefinition libraryDefinition =
       suffix: r'Query'),
   QueryDefinition(
       queryName: r'customList',
-      queryType: r'CustomList$Query',
+      queryType: ClassName(name: r'CustomList$Query'),
       classes: [
         EnumDefinition(
-            name: EnumName(name: r'MyEnum'),
+            name: ClassName(name: r'MyEnum'),
             values: [r'a', r'b', r'artemisUnknown']),
         ClassDefinition(
             name: ClassName(name: r'CustomList$Query$QList'),
             properties: [
               ClassProperty(
-                  type: r'MyEnum',
+                  type: ClassName(name: r'MyEnum'),
                   name: VariableName(name: r'e'),
                   annotations: [
                     r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
@@ -120,7 +120,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'CustomList$Query'),
             properties: [
               ClassProperty(
-                  type: r'List<CustomList$Query$QList>',
+                  type: ClassName(name: r'List<CustomList$Query$QList>'),
                   name: VariableName(name: r'qList'),
                   isNonNull: false,
                   isResolveType: false)

@@ -45,16 +45,16 @@ final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       queryName: r'custom',
-      queryType: r'Custom$QueryRoot',
+      queryType: ClassName(name: r'Custom$QueryRoot'),
       classes: [
         EnumDefinition(
-            name: EnumName(name: r'MyEnum'),
+            name: ClassName(name: r'MyEnum'),
             values: [r'a', r'b', r'artemisUnknown']),
         ClassDefinition(
             name: ClassName(name: r'Custom$QueryRoot$QueryResponse'),
             properties: [
               ClassProperty(
-                  type: r'List<MyEnum>',
+                  type: ClassName(name: r'List<MyEnum>'),
                   name: VariableName(name: r'le'),
                   isNonNull: false,
                   isResolveType: false)
@@ -66,7 +66,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Custom$QueryRoot'),
             properties: [
               ClassProperty(
-                  type: r'Custom$QueryRoot$QueryResponse',
+                  type: ClassName(name: r'Custom$QueryRoot$QueryResponse'),
                   name: VariableName(name: r'q'),
                   isNonNull: false,
                   isResolveType: false)

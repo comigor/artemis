@@ -36,13 +36,13 @@ final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       queryName: r'custom',
-      queryType: r'Custom$Mutation',
+      queryType: ClassName(name: r'Custom$Mutation'),
       classes: [
         ClassDefinition(
             name: ClassName(name: r'Custom$Mutation'),
             properties: [
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r'mut'),
                   isNonNull: false,
                   isResolveType: false)
@@ -54,12 +54,12 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Input'),
             properties: [
               ClassProperty(
-                  type: r'Input',
+                  type: ClassName(name: r'Input'),
                   name: VariableName(name: r'and'),
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
-                  type: r'Input',
+                  type: ClassName(name: r'Input'),
                   name: VariableName(name: r'or'),
                   isNonNull: false,
                   isResolveType: false)
@@ -70,7 +70,9 @@ final LibraryDefinition libraryDefinition =
       ],
       inputs: [
         QueryInput(
-            type: r'Input', name: VariableName(name: r'input'), isNonNull: true)
+            type: ClassName(name: r'Input'),
+            name: VariableName(name: r'input'),
+            isNonNull: true)
       ],
       generateHelpers: false,
       suffix: r'Mutation')

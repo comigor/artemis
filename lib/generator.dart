@@ -191,8 +191,9 @@ QueryDefinition generateQuery(
 
   return QueryDefinition(
     queryName: queryName,
-    queryType: createJoinedName(
-        [className, parentType.name.value], schemaMap.namingScheme),
+    queryType: ClassName(
+        name: createJoinedName(
+            [className, parentType.name.value], schemaMap.namingScheme)),
     document: document,
     classes: [
       ...canonicalVisitor.enums
@@ -310,7 +311,7 @@ Make sure your query is correct and your schema is updated.''');
   } // On enums
   else if (nextType is EnumTypeDefinitionNode) {
     if (markAsUsed) {
-      context.usedEnums.add(EnumName(name: nextType.name.value));
+      context.usedEnums.add(ClassName(name: nextType.name.value));
     }
 
     if (fieldType is! ListTypeNode) {
@@ -320,7 +321,7 @@ Make sure your query is correct and your schema is updated.''');
   }
 
   return ClassProperty(
-    type: dartTypeStr,
+    type: ClassName(name: dartTypeStr),
     name: VariableName(name: fieldAlias ?? fieldName),
     annotations: annotations,
     isNonNull: fieldType.isNonNull,
@@ -361,7 +362,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
 
       possibleTypes.addAll(Map.fromIterables(keys, values));
       _classProperties.add(ClassProperty(
-        type: 'String',
+        type: ClassName(name: 'String'),
         name: VariableName(name: 'typeName'),
         annotations: [
           'override',
@@ -454,7 +455,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
       if (type is InputObjectTypeDefinitionNode) {
         addUsedInputObjectsAndEnums(type);
       } else if (type is EnumTypeDefinitionNode) {
-        context.usedEnums.add(EnumName(name: type.name.value));
+        context.usedEnums.add(ClassName(name: type.name.value));
       }
     }
   }
@@ -477,7 +478,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
 
     final annotations = <String>[];
     if (leafType is EnumTypeDefinitionNode) {
-      context.usedEnums.add(EnumName(name: leafType.name.value));
+      context.usedEnums.add(ClassName(name: leafType.name.value));
       if (leafType is! ListTypeNode) {
         annotations.add(
             'JsonKey(unknownEnumValue: $dartTypeStr.${ReCase(ARTEMIS_UNKNOWN).camelCase})');
@@ -501,7 +502,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
     }
 
     context.inputsClasses.add(QueryInput(
-      type: dartTypeStr,
+      type: ClassName(name: dartTypeStr),
       name: VariableName(name: node.variable.name.value),
       isNonNull: node.type.isNonNull,
       annotations: annotations,
@@ -607,7 +608,7 @@ class _CanonicalVisitor extends RecursiveVisitor {
         '<- Generated enum ${nextContext.joinedName()}.');
 
     enums.add(EnumDefinition(
-      name: EnumName(name: nextContext.joinedName()),
+      name: ClassName(name: nextContext.joinedName()),
       values: node.values.map((eV) => ReCase(eV.name.value).camelCase).toList()
         ..add(ReCase(ARTEMIS_UNKNOWN).camelCase),
     ));

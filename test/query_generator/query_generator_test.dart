@@ -38,18 +38,18 @@ void main() {
                 LibraryDefinition(basename: r'query.graphql', queries: [
               QueryDefinition(
                   queryName: r'some_query',
-                  queryType: r'SomeQuery$SomeObject',
+                  queryType: ClassName(name: r'SomeQuery$SomeObject'),
                   classes: [
                     ClassDefinition(
                         name: ClassName(name: r'SomeQuery$SomeObject'),
                         properties: [
                           ClassProperty(
-                              type: r'String',
+                              type: ClassName(name: r'String'),
                               name: VariableName(name: r's'),
                               isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
-                              type: r'int',
+                              type: ClassName(name: r'int'),
                               name: VariableName(name: r'i'),
                               isNonNull: false,
                               isResolveType: false)
@@ -117,23 +117,23 @@ class SomeQuery$SomeObject with EquatableMixin {
                 LibraryDefinition(basename: r'query.graphql', queries: [
               QueryDefinition(
                   queryName: r'some_query',
-                  queryType: r'SomeQuery$Query',
+                  queryType: ClassName(name: r'SomeQuery$Query'),
                   classes: [
                     ClassDefinition(
                         name: ClassName(name: r'SomeQuery$Query$SomeObject'),
                         properties: [
                           ClassProperty(
-                              type: r'String',
+                              type: ClassName(name: r'String'),
                               name: VariableName(name: r's'),
                               isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
-                              type: r'int',
+                              type: ClassName(name: r'int'),
                               name: VariableName(name: r'i'),
                               isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
-                              type: r'List<int>',
+                              type: ClassName(name: r'List<int>'),
                               name: VariableName(name: r'list'),
                               isNonNull: true,
                               isResolveType: false)
@@ -145,7 +145,8 @@ class SomeQuery$SomeObject with EquatableMixin {
                         name: ClassName(name: r'SomeQuery$Query'),
                         properties: [
                           ClassProperty(
-                              type: r'SomeQuery$Query$SomeObject',
+                              type: ClassName(
+                                  name: r'SomeQuery$Query$SomeObject'),
                               name: VariableName(name: r'someQuery'),
                               isNonNull: false,
                               isResolveType: false)
@@ -156,11 +157,11 @@ class SomeQuery$SomeObject with EquatableMixin {
                   ],
                   inputs: [
                     QueryInput(
-                        type: r'List<int>',
+                        type: ClassName(name: r'List<int>'),
                         name: VariableName(name: r'intsNonNullable'),
                         isNonNull: true),
                     QueryInput(
-                        type: r'String',
+                        type: ClassName(name: r'String'),
                         name: VariableName(name: r'stringNullable'),
                         isNonNull: false)
                   ],
@@ -344,14 +345,14 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
                 LibraryDefinition(basename: r'query.graphql', queries: [
               QueryDefinition(
                   queryName: r'some_query',
-                  queryType: r'SomeQuery$Result',
+                  queryType: ClassName(name: r'SomeQuery$Result'),
                   classes: [
                     ClassDefinition(
                         name: ClassName(
                             name: r'SomeQuery$Result$SomeObject$AnotherObject'),
                         properties: [
                           ClassProperty(
-                              type: r'String',
+                              type: ClassName(name: r'String'),
                               name: VariableName(name: r'str'),
                               isNonNull: false,
                               isResolveType: false)
@@ -363,13 +364,14 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
                         name: ClassName(name: r'SomeQuery$Result$SomeObject'),
                         properties: [
                           ClassProperty(
-                              type: r'String',
+                              type: ClassName(name: r'String'),
                               name: VariableName(name: r'st'),
                               isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
-                              type:
-                                  r'List<SomeQuery$Result$SomeObject$AnotherObject>',
+                              type: ClassName(
+                                  name:
+                                      r'List<SomeQuery$Result$SomeObject$AnotherObject>'),
                               name: VariableName(name: r'ob'),
                               isNonNull: false,
                               isResolveType: false)
@@ -381,12 +383,13 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
                         name: ClassName(name: r'SomeQuery$Result'),
                         properties: [
                           ClassProperty(
-                              type: r'String',
+                              type: ClassName(name: r'String'),
                               name: VariableName(name: r's'),
                               isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
-                              type: r'SomeQuery$Result$SomeObject',
+                              type: ClassName(
+                                  name: r'SomeQuery$Result$SomeObject'),
                               name: VariableName(name: r'o'),
                               isNonNull: false,
                               isResolveType: false)
@@ -473,18 +476,18 @@ class SomeQuery$Result with EquatableMixin {
                 LibraryDefinition(basename: r'query.graphql', queries: [
               QueryDefinition(
                   queryName: r'some_query',
-                  queryType: r'SomeQuery$Result',
+                  queryType: ClassName(name: r'SomeQuery$Result'),
                   classes: [
                     ClassDefinition(
                         name: ClassName(name: r'SomeQuery$Result'),
                         properties: [
                           ClassProperty(
-                              type: r'String',
+                              type: ClassName(name: r'String'),
                               name: VariableName(name: r'firstName'),
                               isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
-                              type: r'String',
+                              type: ClassName(name: r'String'),
                               name: VariableName(name: r'lastName'),
                               isNonNull: false,
                               isResolveType: false)
@@ -557,18 +560,18 @@ class SomeQuery$Result with EquatableMixin {
                 LibraryDefinition(basename: r'query.graphql', queries: [
               QueryDefinition(
                   queryName: r'some_query',
-                  queryType: r'SomeQuery$SomeObject',
+                  queryType: ClassName(name: r'SomeQuery$SomeObject'),
                   classes: [
                     ClassDefinition(
                         name: ClassName(name: r'SomeQuery$SomeObject'),
                         properties: [
                           ClassProperty(
-                              type: r'Decimal',
+                              type: ClassName(name: r'Decimal'),
                               name: VariableName(name: r'bigDecimal'),
                               isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
-                              type: r'DateTime',
+                              type: ClassName(name: r'DateTime'),
                               name: VariableName(name: r'dateTime'),
                               isNonNull: false,
                               isResolveType: false)
@@ -625,14 +628,15 @@ class SomeQuery$SomeObject with EquatableMixin {
                 LibraryDefinition(basename: r'query.graphql', queries: [
               QueryDefinition(
                   queryName: r'PascalCasingQuery',
-                  queryType: r'PascalCasingQuery$PascalCasingQuery',
+                  queryType:
+                      ClassName(name: r'PascalCasingQuery$PascalCasingQuery'),
                   classes: [
                     ClassDefinition(
                         name: ClassName(
                             name: r'PascalCasingQuery$PascalCasingQuery'),
                         properties: [
                           ClassProperty(
-                              type: r'String',
+                              type: ClassName(name: r'String'),
                               name: VariableName(name: r's'),
                               isNonNull: false,
                               isResolveType: false)

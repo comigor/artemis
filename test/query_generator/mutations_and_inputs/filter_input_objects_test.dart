@@ -56,13 +56,13 @@ final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       queryName: r'some_query',
-      queryType: r'SomeQuery$QueryRoot',
+      queryType: ClassName(name: r'SomeQuery$QueryRoot'),
       classes: [
         ClassDefinition(
             name: ClassName(name: r'SomeQuery$QueryRoot$SomeObject'),
             properties: [
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r's'),
                   isNonNull: false,
                   isResolveType: false)
@@ -74,7 +74,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'SomeQuery$QueryRoot'),
             properties: [
               ClassProperty(
-                  type: r'SomeQuery$QueryRoot$SomeObject',
+                  type: ClassName(name: r'SomeQuery$QueryRoot$SomeObject'),
                   name: VariableName(name: r'o'),
                   isNonNull: false,
                   isResolveType: false)
@@ -86,7 +86,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Input'),
             properties: [
               ClassProperty(
-                  type: r'SubInput',
+                  type: ClassName(name: r'SubInput'),
                   name: VariableName(name: r's'),
                   isNonNull: false,
                   isResolveType: false)
@@ -98,7 +98,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'SubInput'),
             properties: [
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r's'),
                   isNonNull: false,
                   isResolveType: false)
@@ -109,7 +109,9 @@ final LibraryDefinition libraryDefinition =
       ],
       inputs: [
         QueryInput(
-            type: r'Input', name: VariableName(name: r'input'), isNonNull: true)
+            type: ClassName(name: r'Input'),
+            name: VariableName(name: r'input'),
+            isNonNull: true)
       ],
       generateHelpers: true,
       suffix: r'Query')

@@ -60,13 +60,13 @@ final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       queryName: r'custom',
-      queryType: r'Custom$MutationRoot',
+      queryType: ClassName(name: r'Custom$MutationRoot'),
       classes: [
         ClassDefinition(
             name: ClassName(name: r'Custom$MutationRoot$MutationResponse'),
             properties: [
               ClassProperty(
-                  type: r'String',
+                  type: ClassName(name: r'String'),
                   name: VariableName(name: r's'),
                   isNonNull: false,
                   isResolveType: false)
@@ -78,7 +78,8 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Custom$MutationRoot'),
             properties: [
               ClassProperty(
-                  type: r'Custom$MutationRoot$MutationResponse',
+                  type:
+                      ClassName(name: r'Custom$MutationRoot$MutationResponse'),
                   name: VariableName(name: r'mut'),
                   isNonNull: false,
                   isResolveType: false)
@@ -90,7 +91,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Input'),
             properties: [
               ClassProperty(
-                  type: r'MyUuid',
+                  type: ClassName(name: r'MyUuid'),
                   name: VariableName(name: r'id'),
                   annotations: [
                     r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid,)'
@@ -104,18 +105,18 @@ final LibraryDefinition libraryDefinition =
       ],
       inputs: [
         QueryInput(
-            type: r'Input',
+            type: ClassName(name: r'Input'),
             name: VariableName(name: r'input'),
             isNonNull: true),
         QueryInput(
-            type: r'MyUuid',
+            type: ClassName(name: r'MyUuid'),
             name: VariableName(name: r'previousId'),
             isNonNull: false,
             annotations: [
               r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid,)'
             ]),
         QueryInput(
-            type: r'List<MyUuid>',
+            type: ClassName(name: r'List<MyUuid>'),
             name: VariableName(name: r'listIds'),
             isNonNull: false,
             annotations: [
