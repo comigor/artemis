@@ -112,8 +112,6 @@ class SomeQuery$Response$SomeObject with EquatableMixin {
   Map<String, dynamic> toJson() => _$SomeQuery$Response$SomeObjectToJson(this);
 }
 
-fail!
-
 @JsonSerializable(explicitToJson: true)
 class SomeQuery$Response with EquatableMixin {
   SomeQuery$Response();
