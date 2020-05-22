@@ -55,7 +55,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'List<MyEnum>',
-                  name: TempName(name: r'le'),
+                  name: VariableName(name: r'le'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -67,7 +67,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'Custom$QueryRoot$QueryResponse',
-                  name: TempName(name: r'q'),
+                  name: VariableName(name: r'q'),
                   isNonNull: false,
                   isResolveType: false)
             ],

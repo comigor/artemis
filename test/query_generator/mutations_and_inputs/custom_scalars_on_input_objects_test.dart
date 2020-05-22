@@ -67,7 +67,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: TempName(name: r's'),
+                  name: VariableName(name: r's'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -79,7 +79,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'Custom$MutationRoot$MutationResponse',
-                  name: TempName(name: r'mut'),
+                  name: VariableName(name: r'mut'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -91,7 +91,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'MyUuid',
-                  name: TempName(name: r'id'),
+                  name: VariableName(name: r'id'),
                   annotations: [
                     r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid,)'
                   ],
@@ -104,17 +104,19 @@ final LibraryDefinition libraryDefinition =
       ],
       inputs: [
         QueryInput(
-            type: r'Input', name: TempName(name: r'input'), isNonNull: true),
+            type: r'Input',
+            name: VariableName(name: r'input'),
+            isNonNull: true),
         QueryInput(
             type: r'MyUuid',
-            name: TempName(name: r'previousId'),
+            name: VariableName(name: r'previousId'),
             isNonNull: false,
             annotations: [
               r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid,)'
             ]),
         QueryInput(
             type: r'List<MyUuid>',
-            name: TempName(name: r'listIds'),
+            name: VariableName(name: r'listIds'),
             isNonNull: false,
             annotations: [
               r'JsonKey(fromJson: fromGraphQLListMyUuidToDartListMyUuid, toJson: fromDartListMyUuidToGraphQLListMyUuid,)'

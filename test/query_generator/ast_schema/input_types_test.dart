@@ -67,12 +67,12 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: TempName(name: r'id'),
+                  name: VariableName(name: r'id'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: r'String',
-                  name: TempName(name: r'message'),
+                  name: VariableName(name: r'message'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -85,7 +85,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'CreateThing$MutationRoot$CreateThingResponse$Thing',
-                  name: TempName(name: r'thing'),
+                  name: VariableName(name: r'thing'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -97,7 +97,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'CreateThing$MutationRoot$CreateThingResponse',
-                  name: TempName(name: r'createThing'),
+                  name: VariableName(name: r'createThing'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -109,7 +109,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: TempName(name: r'id'),
+                  name: VariableName(name: r'id'),
                   isNonNull: true,
                   isResolveType: false)
             ],
@@ -121,17 +121,17 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: TempName(name: r'clientId'),
+                  name: VariableName(name: r'clientId'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: r'String',
-                  name: TempName(name: r'message'),
+                  name: VariableName(name: r'message'),
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: r'List<OtherObjectInput>',
-                  name: TempName(name: r'shares'),
+                  name: VariableName(name: r'shares'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -142,7 +142,7 @@ final LibraryDefinition libraryDefinition =
       inputs: [
         QueryInput(
             type: r'CreateThingInput',
-            name: TempName(name: r'createThingInput'),
+            name: VariableName(name: r'createThingInput'),
             isNonNull: false)
       ],
       generateHelpers: false,

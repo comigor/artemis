@@ -108,7 +108,9 @@ final LibraryDefinition libraryDefinition =
             name: TempName(name: r'Query$SomeObject'),
             properties: [
               ClassProperty(
-                  type: r'String', name: TempName(name: r'a'), isNonNull: false)
+                  type: r'String',
+                  name: VariableName(name: r'a'),
+                  isNonNull: false)
             ],
             factoryPossibilities: {},
             typeNameField: r'__typename',
@@ -128,7 +130,7 @@ final LibraryDefinition libraryDefinitionWithCustomParserFns =
             properties: [
               ClassProperty(
                   type: r'MyDartUuid',
-                  name: TempName(name: r'a'),
+                  name: VariableName(name: r'a'),
                   annotations: [
                     r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyDartUuid, toJson: fromDartMyDartUuidToGraphQLMyUuid,)'
                   ],
@@ -156,7 +158,7 @@ final LibraryDefinition libraryDefinitionWithCustomImports =
             properties: [
               ClassProperty(
                   type: r'MyUuid',
-                  name: TempName(name: r'a'),
+                  name: VariableName(name: r'a'),
                   annotations: [
                     r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid,)'
                   ],

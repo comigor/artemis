@@ -59,7 +59,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'MyEnum',
-                  name: TempName(name: r'thisIsAnEnum'),
+                  name: VariableName(name: r'thisIsAnEnum'),
                   annotations: [
                     r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
                   ],
@@ -74,12 +74,12 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: TempName(name: r'thisIsAString'),
+                  name: VariableName(name: r'thisIsAString'),
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: r'SomeQuery$Response$SomeObject',
-                  name: TempName(name: r'o'),
+                  name: VariableName(name: r'o'),
                   isNonNull: false,
                   isResolveType: false)
             ],

@@ -78,14 +78,14 @@ void main() {
       final definition = FragmentClassDefinition(
           name: EnumName(name: 'FragmentMixin'),
           properties: [
-            ClassProperty(type: 'Type', name: EnumName(name: 'name')),
+            ClassProperty(type: 'Type', name: VariableName(name: 'name')),
             ClassProperty(
                 type: 'Type',
-                name: EnumName(name: 'name'),
+                name: VariableName(name: 'name'),
                 annotations: ['override']),
             ClassProperty(
                 type: 'Type',
-                name: EnumName(name: 'name'),
+                name: VariableName(name: 'name'),
                 annotations: ['Test']),
           ]);
 
@@ -203,8 +203,9 @@ class AClass with EquatableMixin {
     test('It can have properties.', () {
       final definition =
           ClassDefinition(name: EnumName(name: 'AClass'), properties: [
-        ClassProperty(type: 'Type', name: EnumName(name: 'name')),
-        ClassProperty(type: 'AnotherType', name: EnumName(name: 'anotherName')),
+        ClassProperty(type: 'Type', name: VariableName(name: 'name')),
+        ClassProperty(
+            type: 'AnotherType', name: VariableName(name: 'anotherName')),
       ]);
 
       final str = specToString(classDefinitionToSpec(definition, []));
@@ -231,18 +232,18 @@ class AClass with EquatableMixin {
         () {
       final definition =
           ClassDefinition(name: EnumName(name: 'AClass'), properties: [
-        ClassProperty(type: 'Type', name: EnumName(name: 'name')),
+        ClassProperty(type: 'Type', name: VariableName(name: 'name')),
         ClassProperty(
             type: 'AnnotedProperty',
-            name: EnumName(name: 'name'),
+            name: VariableName(name: 'name'),
             annotations: ['Hey()']),
         ClassProperty(
             type: 'OverridenProperty',
-            name: EnumName(name: 'name'),
+            name: VariableName(name: 'name'),
             annotations: ['override']),
         ClassProperty(
             type: 'AllAtOnce',
-            name: EnumName(name: 'name'),
+            name: VariableName(name: 'name'),
             annotations: ['override', 'Ho()']),
       ]);
 
@@ -285,7 +286,7 @@ class AClass with EquatableMixin {
         FragmentClassDefinition(
             name: EnumName(name: 'FragmentMixin'),
             properties: [
-              ClassProperty(type: 'Type', name: EnumName(name: 'name')),
+              ClassProperty(type: 'Type', name: VariableName(name: 'name')),
             ])
       ]));
 
@@ -307,10 +308,10 @@ class AClass with EquatableMixin, FragmentMixin {
       final definition = ClassDefinition(
         name: EnumName(name: 'AClass'),
         properties: [
-          ClassProperty(type: 'Type', name: EnumName(name: 'name')),
+          ClassProperty(type: 'Type', name: VariableName(name: 'name')),
           ClassProperty(
               type: 'AnotherType',
-              name: EnumName(name: 'anotherName'),
+              name: VariableName(name: 'anotherName'),
               isNonNull: true),
         ],
         isInput: true,
@@ -478,7 +479,7 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, JsonSerializable> {
           queryType: 'TestQuery',
           document: parseString('query test_query {}'),
           generateHelpers: true,
-          inputs: [QueryInput(type: 'Type', name: EnumName(name: 'name'))],
+          inputs: [QueryInput(type: 'Type', name: VariableName(name: 'name'))],
         ),
       ]);
 
@@ -539,7 +540,7 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
         queryType: 'TestQuery',
         document: parseString('query test_query {}'),
         generateHelpers: true,
-        inputs: [QueryInput(type: 'Type', name: EnumName(name: 'name'))],
+        inputs: [QueryInput(type: 'Type', name: VariableName(name: 'name'))],
       );
 
       final str = specToString(generateArgumentClassSpec(definition));
@@ -566,7 +567,7 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
         queryType: 'TestQuery',
         document: parseString('query test_query {}'),
         generateHelpers: true,
-        inputs: [QueryInput(type: 'Type', name: EnumName(name: 'name'))],
+        inputs: [QueryInput(type: 'Type', name: VariableName(name: 'name'))],
         suffix: 'Query',
       );
 

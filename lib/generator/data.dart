@@ -59,6 +59,21 @@ class TempName extends Name {
       };
 }
 
+///
+class VariableName extends Name {
+  ///
+  VariableName({String name}) : super(name: name);
+
+  ///
+  @override
+  String normalizeName1(String name) => ReCase(name).camelCase;
+
+  @override
+  Map<String, Object> get namedProps => {
+        'name': name,
+      };
+}
+
 /// Callback fired when the generator processes a [LibraryDefinition].
 typedef OnBuildQuery = void Function(LibraryDefinition definition);
 

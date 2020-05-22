@@ -76,7 +76,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: TempName(name: r'username'),
+                  name: VariableName(name: r'username'),
                   isNonNull: true,
                   isResolveType: false)
             ],
@@ -89,7 +89,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: TempName(name: r'message'),
+                  name: VariableName(name: r'message'),
                   isNonNull: true,
                   isResolveType: false)
             ],
@@ -102,12 +102,12 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: TempName(name: r'id'),
+                  name: VariableName(name: r'id'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: r'String',
-                  name: TempName(name: r'typeName'),
+                  name: VariableName(name: r'typeName'),
                   annotations: [
                     r'override',
                     r'''JsonKey(name: '__typename')'''
@@ -126,7 +126,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'Custom$Query$Node',
-                  name: TempName(name: r'nodeById'),
+                  name: VariableName(name: r'nodeById'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -136,7 +136,7 @@ final LibraryDefinition libraryDefinition =
       ],
       inputs: [
         QueryInput(
-            type: r'String', name: TempName(name: r'id'), isNonNull: true)
+            type: r'String', name: VariableName(name: r'id'), isNonNull: true)
       ],
       generateHelpers: false,
       suffix: r'Query')

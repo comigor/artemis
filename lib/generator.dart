@@ -321,7 +321,7 @@ Make sure your query is correct and your schema is updated.''');
 
   return ClassProperty(
     type: dartTypeStr,
-    name: TempName(name: fieldAlias ?? fieldName),
+    name: VariableName(name: fieldAlias ?? fieldName),
     annotations: annotations,
     isNonNull: fieldType.isNonNull,
   );
@@ -362,7 +362,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
       possibleTypes.addAll(Map.fromIterables(keys, values));
       _classProperties.add(ClassProperty(
         type: 'String',
-        name: TempName(name: 'typeName'),
+        name: VariableName(name: 'typeName'),
         annotations: [
           'override',
           'JsonKey(name: \'${nextContext.schemaMap.typeNameField}\')'
@@ -502,7 +502,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
 
     context.inputsClasses.add(QueryInput(
       type: dartTypeStr,
-      name: TempName(name: node.variable.name.value),
+      name: VariableName(name: node.variable.name.value),
       isNonNull: node.type.isNonNull,
       annotations: annotations,
     ));

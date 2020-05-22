@@ -60,7 +60,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: TempName(name: r's'),
+                  name: VariableName(name: r's'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -72,7 +72,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'SomeQuery$QueryRoot$SomeObject',
-                  name: TempName(name: r'o'),
+                  name: VariableName(name: r'o'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -84,12 +84,12 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: TempName(name: r's'),
+                  name: VariableName(name: r's'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: r'MyEnum',
-                  name: TempName(name: r'e'),
+                  name: VariableName(name: r'e'),
                   annotations: [
                     r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
                   ],
@@ -97,7 +97,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false),
               ClassProperty(
                   type: r'List<String>',
-                  name: TempName(name: r'ls'),
+                  name: VariableName(name: r'ls'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -108,7 +108,7 @@ final LibraryDefinition libraryDefinition =
       inputs: [
         QueryInput(
             type: r'ComplexInput',
-            name: TempName(name: r'filter'),
+            name: VariableName(name: r'filter'),
             isNonNull: true)
       ],
       generateHelpers: true,

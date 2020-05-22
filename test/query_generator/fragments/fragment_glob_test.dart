@@ -101,7 +101,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'List<Query$Query$Pokemon$Pokemon>',
-                  name: TempName(name: r'evolutions'),
+                  name: VariableName(name: r'evolutions'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -114,7 +114,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'Query$Query$Pokemon',
-                  name: TempName(name: r'pokemon'),
+                  name: VariableName(name: r'pokemon'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -138,17 +138,17 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: TempName(name: r'id'),
+                  name: VariableName(name: r'id'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: r'PokemonMixin$PokemonDimension',
-                  name: TempName(name: r'weight'),
+                  name: VariableName(name: r'weight'),
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: r'PokemonMixin$PokemonAttack',
-                  name: TempName(name: r'attacks'),
+                  name: VariableName(name: r'attacks'),
                   isNonNull: false,
                   isResolveType: false)
             ]),
@@ -157,7 +157,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: TempName(name: r'minimum'),
+                  name: VariableName(name: r'minimum'),
                   isNonNull: false,
                   isResolveType: false)
             ]),
@@ -172,7 +172,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'List<PokemonAttackMixin$Attack>',
-                  name: TempName(name: r'special'),
+                  name: VariableName(name: r'special'),
                   isNonNull: false,
                   isResolveType: false)
             ]),
@@ -181,7 +181,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: TempName(name: r'name'),
+                  name: VariableName(name: r'name'),
                   isNonNull: false,
                   isResolveType: false)
             ])

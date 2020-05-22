@@ -38,7 +38,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: TempName(name: r'a'),
+                  name: VariableName(name: r'a'),
                   isNonNull: false,
                   isResolveType: false)
             ],

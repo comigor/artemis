@@ -45,12 +45,12 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: TempName(name: r's'),
+                  name: VariableName(name: r's'),
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: r'int',
-                  name: TempName(name: r'i'),
+                  name: VariableName(name: r'i'),
                   isNonNull: false,
                   isResolveType: false)
             ]),

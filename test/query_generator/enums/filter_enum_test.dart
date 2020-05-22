@@ -89,7 +89,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'MyEnum',
-                  name: TempName(name: r'e'),
+                  name: VariableName(name: r'e'),
                   annotations: [
                     r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
                   ],
@@ -104,7 +104,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'Custom$QueryRoot$QueryResponse',
-                  name: TempName(name: r'q'),
+                  name: VariableName(name: r'q'),
                   annotations: [],
                   isNonNull: false,
                   isResolveType: false)
@@ -117,7 +117,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'InputInputEnum',
-                  name: TempName(name: r'e'),
+                  name: VariableName(name: r'e'),
                   annotations: [
                     r'JsonKey(unknownEnumValue: InputInputEnum.artemisUnknown)'
                   ],
@@ -131,14 +131,14 @@ final LibraryDefinition libraryDefinition =
       inputs: [
         QueryInput(
             type: r'InputEnum',
-            name: TempName(name: r'e'),
+            name: VariableName(name: r'e'),
             isNonNull: true,
             annotations: [
               r'JsonKey(unknownEnumValue: InputEnum.artemisUnknown)'
             ]),
         QueryInput(
             type: r'Input',
-            name: TempName(name: r'i'),
+            name: VariableName(name: r'i'),
             isNonNull: true,
             annotations: [])
       ],

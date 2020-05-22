@@ -88,12 +88,12 @@ final LibraryDefinition libraryDefinition =
         FragmentClassDefinition(name: TempName(name: r'DstMixin'), properties: [
           ClassProperty(
               type: r'String',
-              name: TempName(name: r'id'),
+              name: VariableName(name: r'id'),
               isNonNull: true,
               isResolveType: false),
           ClassProperty(
               type: r'String',
-              name: TempName(name: r'name'),
+              name: VariableName(name: r'name'),
               isNonNull: true,
               isResolveType: false)
         ]),
@@ -102,7 +102,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: TempName(name: r'id'),
+                  name: VariableName(name: r'id'),
                   isNonNull: true,
                   isResolveType: false)
             ]),
@@ -112,22 +112,22 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'DateTime',
-                  name: TempName(name: r'dateFrom'),
+                  name: VariableName(name: r'dateFrom'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: r'DateTime',
-                  name: TempName(name: r'dateTo'),
+                  name: VariableName(name: r'dateTo'),
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: r'String',
-                  name: TempName(name: r'id'),
+                  name: VariableName(name: r'id'),
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: r'String',
-                  name: TempName(name: r'voyageNumber'),
+                  name: VariableName(name: r'voyageNumber'),
                   isNonNull: true,
                   isResolveType: false)
             ],
@@ -139,12 +139,12 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'int',
-                  name: TempName(name: r'numberOfReports'),
+                  name: VariableName(name: r'numberOfReports'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: r'VoyagesData$Query$VoyageList$VoyageDetails$Voyage',
-                  name: TempName(name: r'voyage'),
+                  name: VariableName(name: r'voyage'),
                   isNonNull: true,
                   isResolveType: false)
             ],
@@ -156,7 +156,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'List<VoyagesData$Query$VoyageList$VoyageDetails>',
-                  name: TempName(name: r'voyages'),
+                  name: VariableName(name: r'voyages'),
                   isNonNull: true,
                   isResolveType: false)
             ],
@@ -168,7 +168,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'VoyagesData$Query$VoyageList',
-                  name: TempName(name: r'voyages'),
+                  name: VariableName(name: r'voyages'),
                   isNonNull: true,
                   isResolveType: false)
             ],
@@ -180,12 +180,12 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'int',
-                  name: TempName(name: r'limit'),
+                  name: VariableName(name: r'limit'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: r'int',
-                  name: TempName(name: r'offset'),
+                  name: VariableName(name: r'offset'),
                   isNonNull: true,
                   isResolveType: false)
             ],
@@ -196,7 +196,7 @@ final LibraryDefinition libraryDefinition =
       inputs: [
         QueryInput(
             type: r'PaginationInput',
-            name: TempName(name: r'input'),
+            name: VariableName(name: r'input'),
             isNonNull: true)
       ],
       generateHelpers: true,

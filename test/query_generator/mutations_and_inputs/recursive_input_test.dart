@@ -43,7 +43,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: TempName(name: r'mut'),
+                  name: VariableName(name: r'mut'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -55,12 +55,12 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'Input',
-                  name: TempName(name: r'and'),
+                  name: VariableName(name: r'and'),
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: r'Input',
-                  name: TempName(name: r'or'),
+                  name: VariableName(name: r'or'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -70,7 +70,7 @@ final LibraryDefinition libraryDefinition =
       ],
       inputs: [
         QueryInput(
-            type: r'Input', name: TempName(name: r'input'), isNonNull: true)
+            type: r'Input', name: VariableName(name: r'input'), isNonNull: true)
       ],
       generateHelpers: false,
       suffix: r'Mutation')

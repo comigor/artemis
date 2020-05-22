@@ -69,7 +69,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'MyEnum',
-                  name: TempName(name: r'e'),
+                  name: VariableName(name: r'e'),
                   annotations: [
                     r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
                   ],
@@ -84,7 +84,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'Custom$Query$Q',
-                  name: TempName(name: r'q'),
+                  name: VariableName(name: r'q'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -106,7 +106,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'MyEnum',
-                  name: TempName(name: r'e'),
+                  name: VariableName(name: r'e'),
                   annotations: [
                     r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
                   ],
@@ -121,7 +121,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'List<CustomList$Query$QList>',
-                  name: TempName(name: r'qList'),
+                  name: VariableName(name: r'qList'),
                   isNonNull: false,
                   isResolveType: false)
             ],

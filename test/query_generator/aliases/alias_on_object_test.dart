@@ -57,7 +57,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: TempName(name: r'st'),
+                  name: VariableName(name: r'st'),
                   isNonNull: false)
             ],
             factoryPossibilities: {},
@@ -68,7 +68,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: TempName(name: r'str'),
+                  name: VariableName(name: r'str'),
                   isNonNull: false)
             ],
             factoryPossibilities: {},
@@ -79,15 +79,15 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: TempName(name: r's'),
+                  name: VariableName(name: r's'),
                   isNonNull: false),
               ClassProperty(
                   type: r'SomeQuery$QueryResponse$SomeObject',
-                  name: TempName(name: r'o'),
+                  name: VariableName(name: r'o'),
                   isNonNull: false),
               ClassProperty(
                   type: r'List<SomeQuery$QueryResponse$AnotherObject>',
-                  name: TempName(name: r'anotherObject'),
+                  name: VariableName(name: r'anotherObject'),
                   isNonNull: false)
             ],
             factoryPossibilities: {},

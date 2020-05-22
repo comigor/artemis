@@ -73,12 +73,12 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: TempName(name: r's'),
+                  name: VariableName(name: r's'),
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: r'MyEnum',
-                  name: TempName(name: r'my'),
+                  name: VariableName(name: r'my'),
                   annotations: [
                     r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
                   ],
@@ -86,7 +86,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false),
               ClassProperty(
                   type: r'OtherEnum',
-                  name: TempName(name: r'other'),
+                  name: VariableName(name: r'other'),
                   annotations: [
                     r'JsonKey(unknownEnumValue: OtherEnum.artemisUnknown)'
                   ],
@@ -101,7 +101,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'Custom$QueryRoot$QueryResponse',
-                  name: TempName(name: r'q'),
+                  name: VariableName(name: r'q'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -113,7 +113,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'MyEnum',
-                  name: TempName(name: r'e'),
+                  name: VariableName(name: r'e'),
                   annotations: [
                     r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
                   ],
@@ -126,10 +126,12 @@ final LibraryDefinition libraryDefinition =
       ],
       inputs: [
         QueryInput(
-            type: r'Input', name: TempName(name: r'input'), isNonNull: true),
+            type: r'Input',
+            name: VariableName(name: r'input'),
+            isNonNull: true),
         QueryInput(
             type: r'OtherEnum',
-            name: TempName(name: r'o'),
+            name: VariableName(name: r'o'),
             isNonNull: true,
             annotations: [
               r'JsonKey(unknownEnumValue: OtherEnum.artemisUnknown)'

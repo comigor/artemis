@@ -66,7 +66,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: TempName(name: r's'),
+                  name: VariableName(name: r's'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -78,7 +78,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'Custom$Mutation$Mut',
-                  name: TempName(name: r'mut'),
+                  name: VariableName(name: r'mut'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -90,7 +90,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: TempName(name: r's'),
+                  name: VariableName(name: r's'),
                   isNonNull: true,
                   isResolveType: false)
             ],
@@ -100,7 +100,7 @@ final LibraryDefinition libraryDefinition =
       ],
       inputs: [
         QueryInput(
-            type: r'Input', name: TempName(name: r'input'), isNonNull: true)
+            type: r'Input', name: VariableName(name: r'input'), isNonNull: true)
       ],
       generateHelpers: true,
       suffix: r'Mutation'),
@@ -113,7 +113,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: TempName(name: r's'),
+                  name: VariableName(name: r's'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -125,7 +125,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'CustomList$Mutation$MutList',
-                  name: TempName(name: r'mutList'),
+                  name: VariableName(name: r'mutList'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -137,7 +137,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: TempName(name: r's'),
+                  name: VariableName(name: r's'),
                   isNonNull: true,
                   isResolveType: false)
             ],
@@ -148,7 +148,7 @@ final LibraryDefinition libraryDefinition =
       inputs: [
         QueryInput(
             type: r'List<Input>',
-            name: TempName(name: r'input'),
+            name: VariableName(name: r'input'),
             isNonNull: true)
       ],
       generateHelpers: true,

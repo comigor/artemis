@@ -120,14 +120,14 @@ void main() {
           document: parseString('query some_query {}'),
           inputs: [
             QueryInput(
-                type: 'Type', name: TempName(name: 'name'), isNonNull: true)
+                type: 'Type', name: VariableName(name: 'name'), isNonNull: true)
           ],
         ),
         QueryDefinition(
           queryName: 'another_query',
           queryType: 'AnotherQuery',
           document: parseString('query another_query {}'),
-          inputs: [QueryInput(type: 'Type', name: TempName(name: 'name'))],
+          inputs: [QueryInput(type: 'Type', name: VariableName(name: 'name'))],
         ),
       ];
       var result = hasNonNullableInput(input);
@@ -141,13 +141,13 @@ void main() {
           queryName: 'some_query',
           queryType: 'SomeQuery',
           document: parseString('query some_query {}'),
-          inputs: [QueryInput(type: 'Type', name: TempName(name: 'name'))],
+          inputs: [QueryInput(type: 'Type', name: VariableName(name: 'name'))],
         ),
         QueryDefinition(
           queryName: 'another_query',
           queryType: 'AnotherQuery',
           document: parseString('query another_query {}'),
-          inputs: [QueryInput(type: 'Type', name: TempName(name: 'name'))],
+          inputs: [QueryInput(type: 'Type', name: VariableName(name: 'name'))],
         ),
       ];
       var result = hasNonNullableInput(input);

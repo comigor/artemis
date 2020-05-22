@@ -38,8 +38,8 @@ final LibraryDefinition libraryDefinition =
         ClassDefinition(
             name: TempName(name: r'SomeQuery$SomeObject'),
             properties: [
-              ClassProperty(type: r'String', name: TempName(name: r's')),
-              ClassProperty(type: r'int', name: TempName(name: r'i'))
+              ClassProperty(type: r'String', name: VariableName(name: r's')),
+              ClassProperty(type: r'int', name: VariableName(name: r'i'))
             ],
             typeNameField: r'__typename')
       ],
@@ -51,7 +51,7 @@ final LibraryDefinition libraryDefinition =
         ClassDefinition(
             name: TempName(name: r'AnotherQuery$SomeObject'),
             properties: [
-              ClassProperty(type: r'String', name: TempName(name: r's'))
+              ClassProperty(type: r'String', name: VariableName(name: r's'))
             ],
             typeNameField: r'__typename')
       ],

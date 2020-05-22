@@ -62,7 +62,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'int',
-                  name: TempName(name: r'a'),
+                  name: VariableName(name: r'a'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -75,7 +75,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'int',
-                  name: TempName(name: r'b'),
+                  name: VariableName(name: r'b'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -88,7 +88,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: TempName(name: r'typeName'),
+                  name: VariableName(name: r'typeName'),
                   annotations: [
                     r'override',
                     r'''JsonKey(name: '__typename')'''
@@ -107,7 +107,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'SomeQuery$SomeObject$SomeUnion',
-                  name: TempName(name: r'o'),
+                  name: VariableName(name: r'o'),
                   isNonNull: false,
                   isResolveType: false)
             ],

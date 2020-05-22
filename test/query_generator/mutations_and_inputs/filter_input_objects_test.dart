@@ -63,7 +63,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: TempName(name: r's'),
+                  name: VariableName(name: r's'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -75,7 +75,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'SomeQuery$QueryRoot$SomeObject',
-                  name: TempName(name: r'o'),
+                  name: VariableName(name: r'o'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -87,7 +87,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'SubInput',
-                  name: TempName(name: r's'),
+                  name: VariableName(name: r's'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -99,7 +99,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: r'String',
-                  name: TempName(name: r's'),
+                  name: VariableName(name: r's'),
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -109,7 +109,7 @@ final LibraryDefinition libraryDefinition =
       ],
       inputs: [
         QueryInput(
-            type: r'Input', name: TempName(name: r'input'), isNonNull: true)
+            type: r'Input', name: VariableName(name: r'input'), isNonNull: true)
       ],
       generateHelpers: true,
       suffix: r'Query')
