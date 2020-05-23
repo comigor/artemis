@@ -21,6 +21,83 @@ void main() {
     });
 
     test(
+        'Should include typeName if enabled',
+            () async => testGenerator(
+            query: 'query some_query { s, i }',
+            includeTypeNameField: true,
+            schema: r'''
+        schema {
+          query: SomeObject
+        }
+  
+        type SomeObject {
+          s: String
+          i: Int
+        }
+      ''',
+            libraryDefinition:
+            LibraryDefinition(basename: r'query.graphql', queries: [
+              QueryDefinition(
+                  queryName: r'some_query',
+                  queryType: r'SomeQuery$SomeObject',
+                  classes: [
+                    ClassDefinition(
+                        name: r'SomeQuery$SomeObject',
+                        properties: [
+                          ClassProperty(
+                              type: r'String',
+                              name: r's',
+                              isNonNull: false,
+                              isResolveType: false),
+                          ClassProperty(
+                              type: r'int',
+                              name: r'i',
+                              isNonNull: false,
+                              isResolveType: false),
+                          ClassProperty(
+                              type: r'String',
+                              name: r'typeName',
+                              annotations: ['JsonKey(name: \'__typename\')'],
+                              isNonNull: true,
+                              isResolveType: true),
+                        ],
+                        factoryPossibilities: {},
+                        typeNameField: r'__typename',
+                        isInput: false)
+                  ],
+                  generateHelpers: false,
+                  suffix: r'Query')
+            ]),
+            generatedFile: r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+
+import 'package:meta/meta.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:equatable/equatable.dart';
+import 'package:gql/ast.dart';
+part 'query.graphql.g.dart';
+
+@JsonSerializable(explicitToJson: true)
+class SomeQuery$SomeObject with EquatableMixin {
+  SomeQuery$SomeObject();
+
+  factory SomeQuery$SomeObject.fromJson(Map<String, dynamic> json) =>
+      _$SomeQuery$SomeObjectFromJson(json);
+
+  String s;
+
+  int i;
+
+  @JsonKey(name: '__typename')
+  String typeName;
+
+  @override
+  List<Object> get props => [s, i, typeName];
+  Map<String, dynamic> toJson() => _$SomeQuery$SomeObjectToJson(this);
+}
+''',
+            generateHelpers: false));
+
+    test(
         'A simple query yields simple classes',
         () async => testGenerator(
             query: 'query some_query { s, i }',

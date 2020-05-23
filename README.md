@@ -88,6 +88,7 @@ targets:
 | - | - | - |
 | `generate_helpers` | `true` | If Artemis should generate query/mutation helper GraphQLQuery subclasses. |
 | `scalar_mapping` | `[]` | Mapping of GraphQL and Dart types. See [Custom scalars](#custom-scalars). |
+| `include_type_name_field` | `false` | When enabled, __typename will be included in generated code (useful for clients which need the typename for caching). |
 | `schema_mapping` | `[]` | Mapping of queries and which schemas they will use for code generation. See [Schema mapping](#schema-mapping). |
 | `fragments_glob` | `null` | Import path to the file implementing fragments for all queries mapped in schema_mapping. If it's assigned, fragments defined in schema_mapping will be ignored. |
 

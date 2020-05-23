@@ -126,6 +126,9 @@ class SchemaMap {
   /// The GraphQL schema string.
   final String schema;
 
+  /// When true, will include typeNameField (eg: __typename) in JSON serialization
+  final bool includeTypeNameField;
+
   /// A [Glob] to find queries files.
   final String queriesGlob;
 
@@ -151,6 +154,7 @@ class SchemaMap {
     this.schema,
     this.queriesGlob,
     this.typeNameField = '__typename',
+    this.includeTypeNameField = false,
     this.namingScheme = NamingScheme.pathedWithTypes,
   });
 

@@ -369,6 +369,13 @@ class _GeneratorVisitor extends RecursiveVisitor {
         ],
         isResolveType: true,
       ));
+    } else if (context.schemaMap.includeTypeNameField) {
+      _classProperties.add(ClassProperty(
+          type: 'String',
+          name: 'typeName',
+          annotations: ['JsonKey(name: \'${nextContext.schemaMap.typeNameField}\')'],
+          isNonNull: true,
+          isResolveType: true));
     }
 
     final partOfUnion = nextContext.ofUnion != null;
