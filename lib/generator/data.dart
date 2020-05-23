@@ -39,8 +39,9 @@ class ClassName extends Name {
 
   ///
   @override
-  String normalizeName1(String name) =>
-      _camelCasedClasses.contains(name) ? name : ReCase(name).pascalCase;
+  String normalizeName1(String name) => _camelCasedClasses.contains(name)
+      ? name
+      : name.splitMapJoin(r'$', onNonMatch: (m) => ReCase(m).pascalCase);
 
   @override
   Map<String, Object> get namedProps => {
