@@ -2,13 +2,31 @@
 
 cd "$GITHUB_WORKSPACE"
 
-github_ref="$1"
+REPO_TOKEN="$1"
+github_ref="$2"
 
-echo "PARAM GITHUB REF: $github_ref"
-echo "GITHUB EVENT NAME: $GITHUB_EVENT_NAME"
-echo "GITHUB REF: $GITHUB_REF"
-echo "GITHUB BASE REF: $GITHUB_BASE_REF"
-echo "GITHUB HEAD REF: $GITHUB_HEAD_REF"
+PR_HREF=$(cat "$GITHUB_EVENT_PATH" | jq -r '.pull_request._links.self.href')
+
+function send_message_and_bail {
+    if [ ! -z "$REPO_TOKEN" ]; then
+        ERROR="$1"
+
+        jq -c -n --arg body "$ERROR" '{"event":"COMMENT", "body":$body}' > /tmp/payload.json
+        curl -f -X POST \
+            -H 'Content-Type: application/json' \
+            -H "Authorization: Bearer $REPO_TOKEN" \
+            --data "@/tmp/payload.json" \
+            "$PR_HREF/reviews" -vv
+    fi
+
+    exit 1
+}
+
+# echo "PARAM GITHUB REF: $github_ref"
+# echo "GITHUB EVENT NAME: $GITHUB_EVENT_NAME"
+# echo "GITHUB REF: $GITHUB_REF"
+# echo "GITHUB BASE REF: $GITHUB_BASE_REF"
+# echo "GITHUB HEAD REF: $GITHUB_HEAD_REF"
 
 git fetch --prune --unshallow
 
@@ -21,8 +39,7 @@ fi
 diff=$(git diff $where pubspec.yaml)
 
 echo "$diff" | grep -E '\+.*version' || {
-    echo "Version not bumped on pubspec"
-    exit 1
+    send_message_and_bail "You must bump the version on pubspec!"
 }
 
 package_version=$(cat pubspec.yaml | oq -i YAML -r '.version')
@@ -30,16 +47,16 @@ package_version=$(cat pubspec.yaml | oq -i YAML -r '.version')
 # If are on master or beta
 if [ "$github_ref" = "master" ] || [ "$github_ref" = "refs/heads/master" ]; then
     echo "$package_version" | grep "beta" && {
-        echo "Version cant contain beta"
-        exit 1
+        send_message_and_bail "You can't merge a \"beta\" version on `master` branch!"
     }
 elif [ "$github_ref" = "beta" ] || [ "$github_ref" = "refs/heads/beta" ]; then
     echo "$package_version" | grep "beta" || {
-        echo "Missing beta on version"
-        exit 1
+        send_message_and_bail "You can only merge a \"beta\" version on `beta` branch!"
     }
 fi
 
-cat CHANGELOG.md | grep "$package_version"
+cat CHANGELOG.md | grep -q "$package_version" || {
+    send_message_and_bail "Version \`$package_version\` not found on CHANGELOG!"
+}
 
 echo "::set-output name=package_version::$package_version"

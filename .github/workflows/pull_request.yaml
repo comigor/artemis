@@ -3,20 +3,19 @@ on: pull_request
 name: CI
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Clone repository
-        uses: actions/checkout@master
-      - name: Run tests
-        uses: comigor/actions/dart-test@master
-        env:
-          DTA_EXCLUDE_REGEX: example
   check-version-and-changelog:
-    needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
       - uses: ./.github/actions/check-version-and-changelog
         with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
           base_ref: "${{ github.base_ref }}"
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: ./.github/actions/dart-test
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          exclude_regex: "example"

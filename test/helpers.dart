@@ -21,7 +21,7 @@ Future testGenerator({
   Map<String, dynamic> sourceAssetsMap = const {},
   Map<String, dynamic> outputsMap = const {},
 }) async {
-  Logger.root.level = Level.ALL;
+  Logger.root.level = Level.INFO;
 
   assert((schema) != null);
 
