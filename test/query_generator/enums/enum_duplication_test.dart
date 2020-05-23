@@ -62,7 +62,7 @@ final LibraryDefinition libraryDefinition =
       queryType: r'Custom$Query',
       classes: [
         EnumDefinition(
-            name: r'MyEnum', values: [r'a', r'b', r'artemisUnknown']),
+            name: r'MyEnum', values: [r'a', r'b', r'ARTEMIS_UNKNOWN']),
         ClassDefinition(
             name: r'Custom$Query$Q',
             properties: [
@@ -98,7 +98,7 @@ final LibraryDefinition libraryDefinition =
       queryType: r'CustomList$Query',
       classes: [
         EnumDefinition(
-            name: r'MyEnum', values: [r'a', r'b', r'artemisUnknown']),
+            name: r'MyEnum', values: [r'a', r'b', r'ARTEMIS_UNKNOWN']),
         ClassDefinition(
             name: r'CustomList$Query$QList',
             properties: [
@@ -201,7 +201,7 @@ enum MyEnum {
   a,
   @JsonValue('b')
   b,
-  @JsonValue('artemisUnknown')
+  @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
 ''';

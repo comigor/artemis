@@ -76,11 +76,11 @@ final LibraryDefinition libraryDefinition =
       queryType: r'Custom$QueryRoot',
       classes: [
         EnumDefinition(
-            name: r'MyEnum', values: [r'a', r'b', r'artemisUnknown']),
+            name: r'MyEnum', values: [r'a', r'b', r'ARTEMIS_UNKNOWN']),
         EnumDefinition(
-            name: r'InputEnum', values: [r'c', r'd', r'artemisUnknown']),
+            name: r'InputEnum', values: [r'c', r'd', r'ARTEMIS_UNKNOWN']),
         EnumDefinition(
-            name: r'InputInputEnum', values: [r'e', r'f', r'artemisUnknown']),
+            name: r'InputInputEnum', values: [r'e', r'f', r'ARTEMIS_UNKNOWN']),
         ClassDefinition(
             name: r'Custom$QueryRoot$QueryResponse',
             properties: [
@@ -195,7 +195,7 @@ enum MyEnum {
   a,
   @JsonValue('b')
   b,
-  @JsonValue('artemisUnknown')
+  @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
 enum InputEnum {
@@ -203,7 +203,7 @@ enum InputEnum {
   c,
   @JsonValue('d')
   d,
-  @JsonValue('artemisUnknown')
+  @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
 enum InputInputEnum {
@@ -211,7 +211,7 @@ enum InputInputEnum {
   e,
   @JsonValue('f')
   f,
-  @JsonValue('artemisUnknown')
+  @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
 ''';

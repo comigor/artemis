@@ -34,13 +34,13 @@ void main() {
 
       expect(str, '''enum Name {
   @JsonValue('Option')
-  Option,
+  option,
   @JsonValue('anotherOption')
   anotherOption,
   @JsonValue('third_option')
-  third_option,
+  thirdOption,
   @JsonValue('FORTH_OPTION')
-  FORTH_OPTION,
+  forthOption,
 }
 ''');
     });
@@ -57,9 +57,9 @@ void main() {
 
       expect(str, '''enum Name {
   @JsonValue('Option')
-  Option,
+  option,
   @JsonValue('AnotherOption')
-  AnotherOption,
+  anotherOption,
 }
 ''');
     });
@@ -616,7 +616,7 @@ class AClass with EquatableMixin {
 
 enum Enum {
   @JsonValue('Value')
-  Value,
+  value,
 }
 ''');
     });

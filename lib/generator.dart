@@ -606,8 +606,8 @@ class _CanonicalVisitor extends RecursiveVisitor {
 
     enums.add(EnumDefinition(
       name: nextContext.joinedName(),
-      values: node.values.map((eV) => ReCase(eV.name.value).camelCase).toList()
-        ..add(ReCase(ARTEMIS_UNKNOWN).camelCase),
+      values: node.values.map((eV) => eV.name.value).toList()
+        ..add(ARTEMIS_UNKNOWN),
     ));
   }
 

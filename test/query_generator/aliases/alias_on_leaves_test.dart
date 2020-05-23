@@ -52,7 +52,7 @@ final LibraryDefinition libraryDefinition =
       queryType: r'SomeQuery$Response',
       classes: [
         EnumDefinition(
-            name: r'MyEnum', values: [r'a', r'b', r'artemisUnknown']),
+            name: r'MyEnum', values: [r'a', r'b', r'ARTEMIS_UNKNOWN']),
         ClassDefinition(
             name: r'SomeQuery$Response$SomeObject',
             properties: [
@@ -133,7 +133,7 @@ enum MyEnum {
   a,
   @JsonValue('b')
   b,
-  @JsonValue('artemisUnknown')
+  @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
 ''';

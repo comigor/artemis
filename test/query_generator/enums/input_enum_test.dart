@@ -63,9 +63,9 @@ final LibraryDefinition libraryDefinition =
       queryType: r'Custom$QueryRoot',
       classes: [
         EnumDefinition(
-            name: r'MyEnum', values: [r'a', r'b', r'artemisUnknown']),
+            name: r'MyEnum', values: [r'a', r'b', r'ARTEMIS_UNKNOWN']),
         EnumDefinition(
-            name: r'OtherEnum', values: [r'o1', r'o2', r'artemisUnknown']),
+            name: r'OtherEnum', values: [r'o1', r'o2', r'ARTEMIS_UNKNOWN']),
         ClassDefinition(
             name: r'Custom$QueryRoot$QueryResponse',
             properties: [
@@ -198,7 +198,7 @@ enum MyEnum {
   a,
   @JsonValue('b')
   b,
-  @JsonValue('artemisUnknown')
+  @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
 enum OtherEnum {
@@ -206,7 +206,7 @@ enum OtherEnum {
   o1,
   @JsonValue('o2')
   o2,
-  @JsonValue('artemisUnknown')
+  @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
 

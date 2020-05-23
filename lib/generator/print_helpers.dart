@@ -1,6 +1,7 @@
 import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:gql_code_gen/gql_code_gen.dart' as dart;
+import 'package:recase/recase.dart';
 
 import '../generator/data.dart';
 import '../generator/helpers.dart';
@@ -8,7 +9,7 @@ import '../generator/helpers.dart';
 /// Generates a [Spec] of a single enum definition.
 Spec enumDefinitionToSpec(EnumDefinition definition) =>
     CodeExpression(Code('''enum ${definition.name} {
-  ${definition.values.removeDuplicatedBy((i) => i).map((v) => '@JsonValue(\'$v\')$v, ').join()}
+  ${definition.values.removeDuplicatedBy((i) => i).map((v) => '@JsonValue(\'$v\')${ReCase(v).camelCase}, ').join()}
 }'''));
 
 String _fromJsonBody(ClassDefinition definition) {

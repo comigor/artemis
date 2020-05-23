@@ -48,7 +48,7 @@ final LibraryDefinition libraryDefinition =
       queryType: r'Custom$QueryRoot',
       classes: [
         EnumDefinition(
-            name: r'MyEnum', values: [r'a', r'b', r'artemisUnknown']),
+            name: r'MyEnum', values: [r'a', r'b', r'ARTEMIS_UNKNOWN']),
         ClassDefinition(
             name: r'Custom$QueryRoot$QueryResponse',
             properties: [
@@ -118,7 +118,7 @@ enum MyEnum {
   a,
   @JsonValue('b')
   b,
-  @JsonValue('artemisUnknown')
+  @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
 ''';
