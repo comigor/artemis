@@ -117,8 +117,11 @@ class Custom$QueryRoot with EquatableMixin {
 }
 
 enum Custom$QueryRoot$QueryResponse$MyEnum {
+  @JsonValue('A')
   A,
+  @JsonValue('B')
   B,
+  @JsonValue('ARTEMIS_UNKNOWN')
   ARTEMIS_UNKNOWN,
 }
 ''';

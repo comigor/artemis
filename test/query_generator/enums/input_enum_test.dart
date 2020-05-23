@@ -167,13 +167,19 @@ class Custom$Input with EquatableMixin {
 }
 
 enum Custom$Input$MyEnum {
+  @JsonValue('A')
   A,
+  @JsonValue('B')
   B,
+  @JsonValue('ARTEMIS_UNKNOWN')
   ARTEMIS_UNKNOWN,
 }
 enum Custom$OtherEnum {
+  @JsonValue('O1')
   O1,
+  @JsonValue('O2')
   O2,
+  @JsonValue('ARTEMIS_UNKNOWN')
   ARTEMIS_UNKNOWN,
 }
 

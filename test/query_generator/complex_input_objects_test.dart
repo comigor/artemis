@@ -174,8 +174,11 @@ class SomeQuery$ComplexType with EquatableMixin {
 }
 
 enum SomeQuery$ComplexType$MyEnum {
+  @JsonValue('value1')
   value1,
+  @JsonValue('value2')
   value2,
+  @JsonValue('ARTEMIS_UNKNOWN')
   ARTEMIS_UNKNOWN,
 }
 

@@ -136,8 +136,11 @@ class SomeQuery$Response with EquatableMixin {
 }
 
 enum SomeQuery$Response$SomeObject$ThisIsAnEnum {
+  @JsonValue('A')
   A,
+  @JsonValue('B')
   B,
+  @JsonValue('ARTEMIS_UNKNOWN')
   ARTEMIS_UNKNOWN,
 }
 ''';
