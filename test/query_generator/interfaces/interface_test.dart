@@ -77,14 +77,14 @@ final LibraryDefinition libraryDefinition =
         ClassDefinition(
             name: r'Custom$Query$Node$User',
             extension: r'Custom$Query$Node',
-            mixins: [r'Custom$UserFragMixin'],
+            mixins: [r'UserFragMixin'],
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
             name: r'Custom$Query$Node$ChatMessage$User',
             extension: r'Custom$Query$Node$ChatMessage',
-            mixins: [r'Custom$UserFragMixin'],
+            mixins: [r'UserFragMixin'],
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
@@ -94,13 +94,11 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'String',
                   name: r'message',
-                  isOverride: false,
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: r'Custom$Query$Node$ChatMessage$User',
                   name: r'user',
-                  isOverride: false,
                   isNonNull: true,
                   isResolveType: false)
             ],
@@ -114,14 +112,15 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'String',
                   name: r'id',
-                  isOverride: false,
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: r'String',
                   name: r'typeName',
-                  isOverride: true,
-                  annotation: r'''JsonKey(name: '__typename')''',
+                  annotations: [
+                    r'override',
+                    r'''JsonKey(name: '__typename')'''
+                  ],
                   isNonNull: false,
                   isResolveType: true)
             ],
@@ -137,24 +136,21 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'Custom$Query$Node',
                   name: r'nodeById',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
             typeNameField: r'__typename',
             isInput: false),
-        FragmentClassDefinition(name: r'Custom$UserFragMixin', properties: [
+        FragmentClassDefinition(name: r'UserFragMixin', properties: [
           ClassProperty(
               type: r'String',
               name: r'id',
-              isOverride: false,
               isNonNull: true,
               isResolveType: false),
           ClassProperty(
               type: r'String',
               name: r'username',
-              isOverride: false,
               isNonNull: true,
               isResolveType: false)
         ])
@@ -172,14 +168,14 @@ import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
 
-mixin Custom$UserFragMixin {
+mixin UserFragMixin {
   String id;
   String username;
 }
 
 @JsonSerializable(explicitToJson: true)
 class Custom$Query$Node$User extends Custom$Query$Node
-    with EquatableMixin, Custom$UserFragMixin {
+    with EquatableMixin, UserFragMixin {
   Custom$Query$Node$User();
 
   factory Custom$Query$Node$User.fromJson(Map<String, dynamic> json) =>
@@ -192,7 +188,7 @@ class Custom$Query$Node$User extends Custom$Query$Node
 
 @JsonSerializable(explicitToJson: true)
 class Custom$Query$Node$ChatMessage$User extends Custom$Query$Node$ChatMessage
-    with EquatableMixin, Custom$UserFragMixin {
+    with EquatableMixin, UserFragMixin {
   Custom$Query$Node$ChatMessage$User();
 
   factory Custom$Query$Node$ChatMessage$User.fromJson(

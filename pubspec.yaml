@@ -1,5 +1,5 @@
 name: artemis
-version: 5.1.0
+version: 6.1.1-beta.2
 
 authors:
   - Igor Borges <igor@borges.dev>
@@ -8,18 +8,21 @@ description: Build dart types from GraphQL schemas and queries (using Introspect
 homepage: https://github.com/comigor/artemis
 
 environment:
-  sdk: '>=2.6.0 <3.0.0'
+  sdk: ">=2.6.0 <3.0.0"
 
 dependencies:
   build_config: ^0.4.0
   build: ^1.1.4
   code_builder: ^3.2.0
+  collection: ^1.14.12
+  dart_style: ^1.3.6
   equatable: ^1.0.1
+  glob: ^1.2.0
   gql_code_gen: ^0.1.5
   gql_dedupe_link: ^1.0.9
   gql_exec: ^0.2.2
   gql_http_link: ^0.2.7
-  gql_link: ^0.2.3
+  gql_link: ^0.3.1-alpha
   gql: ^0.12.2
   http: ^0.12.0+2
   json_annotation: ^3.0.0
@@ -27,6 +30,7 @@ dependencies:
   path: ^1.6.2
   recase: ^2.0.1
   source_gen: ^0.9.4+2
+  yaml: ^2.2.0
 
 dev_dependencies:
   args: ^1.5.2

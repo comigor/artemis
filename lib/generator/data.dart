@@ -17,11 +17,8 @@ class ClassProperty extends Equatable with DataPrinter {
   /// The property name.
   final String name;
 
-  /// If property is an override from super class.
-  final bool isOverride;
-
   /// Some other custom annotation.
-  final String annotation;
+  final List<String> annotations;
 
   /// Whether this parameter is required
   final bool isNonNull;
@@ -33,26 +30,26 @@ class ClassProperty extends Equatable with DataPrinter {
   ClassProperty({
     @required this.type,
     @required this.name,
-    this.isOverride = false,
-    this.annotation,
+    this.annotations = const [],
     this.isNonNull = false,
     this.isResolveType = false,
   }) : assert(hasValue(type) && hasValue(name));
+
+  /// If property is an override from super class.
+  bool get isOverride => annotations.contains('override');
 
   /// Creates a copy of [ClassProperty] without modifying the original.
   ClassProperty copyWith({
     String type,
     String name,
-    bool isOverride,
-    String annotation,
+    List<String> annotations,
     bool isNonNull,
     bool isResolveType,
   }) =>
       ClassProperty(
         type: type ?? this.type,
         name: name ?? this.name,
-        isOverride: isOverride ?? this.isOverride,
-        annotation: annotation ?? this.annotation,
+        annotations: annotations ?? this.annotations,
         isNonNull: isNonNull ?? this.isNonNull,
         isResolveType: isResolveType ?? this.isResolveType,
       );
@@ -61,8 +58,7 @@ class ClassProperty extends Equatable with DataPrinter {
   Map<String, Object> get namedProps => {
         'type': type,
         'name': name,
-        'isOverride': isOverride,
-        'annotation': annotation,
+        'annotations': annotations,
         'isNonNull': isNonNull,
         'isResolveType': isResolveType,
       };
@@ -79,15 +75,23 @@ class QueryInput extends Equatable with DataPrinter {
   /// Whether this parameter is required
   final bool isNonNull;
 
+  /// Some other custom annotation.
+  final List<String> annotations;
+
   /// Instantiate an input parameter.
-  QueryInput({@required this.type, @required this.name, this.isNonNull = false})
-      : assert(hasValue(type) && hasValue(name));
+  QueryInput({
+    @required this.type,
+    @required this.name,
+    this.isNonNull = false,
+    this.annotations = const [],
+  }) : assert(hasValue(type) && hasValue(name));
 
   @override
   Map<String, Object> get namedProps => {
         'type': type,
         'name': name,
         'isNonNull': isNonNull,
+        'annotations': annotations,
       };
 }
 

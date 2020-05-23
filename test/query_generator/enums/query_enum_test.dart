@@ -23,8 +23,8 @@ void main() {
           }
           
           enum MyEnum {
-            A
-            B
+            a
+            b
           }
         ''',
         libraryDefinition: libraryDefinition,
@@ -49,17 +49,16 @@ final LibraryDefinition libraryDefinition =
       queryType: r'Custom$QueryRoot',
       classes: [
         EnumDefinition(
-            name: r'Custom$QueryRoot$QueryResponse$MyEnum',
-            values: [r'A', r'B', r'ARTEMIS_UNKNOWN']),
+            name: r'MyEnum', values: [r'a', r'b', r'artemisUnknown']),
         ClassDefinition(
             name: r'Custom$QueryRoot$QueryResponse',
             properties: [
               ClassProperty(
-                  type: r'Custom$QueryRoot$QueryResponse$MyEnum',
+                  type: r'MyEnum',
                   name: r'e',
-                  isOverride: false,
-                  annotation:
-                      r'JsonKey(unknownEnumValue: Custom$QueryRoot$QueryResponse$MyEnum.ARTEMIS_UNKNOWN)',
+                  annotations: [
+                    r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
+                  ],
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -72,7 +71,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'Custom$QueryRoot$QueryResponse',
                   name: r'q',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -98,9 +96,8 @@ class Custom$QueryRoot$QueryResponse with EquatableMixin {
   factory Custom$QueryRoot$QueryResponse.fromJson(Map<String, dynamic> json) =>
       _$Custom$QueryRoot$QueryResponseFromJson(json);
 
-  @JsonKey(
-      unknownEnumValue: Custom$QueryRoot$QueryResponse$MyEnum.ARTEMIS_UNKNOWN)
-  Custom$QueryRoot$QueryResponse$MyEnum e;
+  @JsonKey(unknownEnumValue: MyEnum.artemisUnknown)
+  MyEnum e;
 
   @override
   List<Object> get props => [e];
@@ -121,12 +118,12 @@ class Custom$QueryRoot with EquatableMixin {
   Map<String, dynamic> toJson() => _$Custom$QueryRootToJson(this);
 }
 
-enum Custom$QueryRoot$QueryResponse$MyEnum {
+enum MyEnum {
   @JsonValue('A')
-  A,
+  a,
   @JsonValue('B')
-  B,
+  b,
   @JsonValue('ARTEMIS_UNKNOWN')
-  ARTEMIS_UNKNOWN,
+  artemisUnknown,
 }
 ''';

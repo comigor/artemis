@@ -62,13 +62,11 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'String',
                   name: r'id',
-                  isOverride: false,
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: r'String',
                   name: r'message',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -81,7 +79,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'CreateThing$MutationRoot$CreateThingResponse$Thing',
                   name: r'thing',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -94,7 +91,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'CreateThing$MutationRoot$CreateThingResponse',
                   name: r'createThing',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -102,18 +98,16 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: r'CreateThing$CreateThingInput',
+            name: r'CreateThingInput',
             properties: [
               ClassProperty(
                   type: r'String',
                   name: r'clientId',
-                  isOverride: false,
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: r'String',
                   name: r'message',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -123,7 +117,7 @@ final LibraryDefinition libraryDefinition =
       ],
       inputs: [
         QueryInput(
-            type: r'CreateThing$CreateThingInput',
+            type: r'CreateThingInput',
             name: r'createThingInput',
             isNonNull: false)
       ],
@@ -188,11 +182,11 @@ class CreateThing$MutationRoot with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class CreateThing$CreateThingInput with EquatableMixin {
-  CreateThing$CreateThingInput({@required this.clientId, this.message});
+class CreateThingInput with EquatableMixin {
+  CreateThingInput({@required this.clientId, this.message});
 
-  factory CreateThing$CreateThingInput.fromJson(Map<String, dynamic> json) =>
-      _$CreateThing$CreateThingInputFromJson(json);
+  factory CreateThingInput.fromJson(Map<String, dynamic> json) =>
+      _$CreateThingInputFromJson(json);
 
   String clientId;
 
@@ -200,6 +194,6 @@ class CreateThing$CreateThingInput with EquatableMixin {
 
   @override
   List<Object> get props => [clientId, message];
-  Map<String, dynamic> toJson() => _$CreateThing$CreateThingInputToJson(this);
+  Map<String, dynamic> toJson() => _$CreateThingInputToJson(this);
 }
 ''';

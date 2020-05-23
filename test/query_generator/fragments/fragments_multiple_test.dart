@@ -37,6 +37,8 @@ void main() {
             query: Query
           }
 
+          scalar DateTime
+
           type Query {
             voyages(pagination: PaginationInput!): VoyageList!
           }
@@ -83,55 +85,46 @@ final LibraryDefinition libraryDefinition =
       queryName: r'VoyagesData',
       queryType: r'VoyagesData$Query',
       classes: [
-        FragmentClassDefinition(name: r'VoyagesData$DstMixin', properties: [
+        FragmentClassDefinition(name: r'DstMixin', properties: [
           ClassProperty(
               type: r'String',
               name: r'id',
-              isOverride: false,
               isNonNull: true,
               isResolveType: false),
           ClassProperty(
               type: r'String',
               name: r'name',
-              isOverride: false,
               isNonNull: true,
               isResolveType: false)
         ]),
-        FragmentClassDefinition(
-            name: r'VoyagesData$DepartureMixin',
-            properties: [
-              ClassProperty(
-                  type: r'String',
-                  name: r'id',
-                  isOverride: false,
-                  isNonNull: true,
-                  isResolveType: false)
-            ]),
+        FragmentClassDefinition(name: r'DepartureMixin', properties: [
+          ClassProperty(
+              type: r'String',
+              name: r'id',
+              isNonNull: true,
+              isResolveType: false)
+        ]),
         ClassDefinition(
             name: r'VoyagesData$Query$VoyageList$VoyageDetails$Voyage',
             properties: [
               ClassProperty(
                   type: r'DateTime',
                   name: r'dateFrom',
-                  isOverride: false,
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: r'DateTime',
                   name: r'dateTo',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: r'String',
                   name: r'id',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: r'String',
                   name: r'voyageNumber',
-                  isOverride: false,
                   isNonNull: true,
                   isResolveType: false)
             ],
@@ -144,13 +137,11 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'int',
                   name: r'numberOfReports',
-                  isOverride: false,
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: r'VoyagesData$Query$VoyageList$VoyageDetails$Voyage',
                   name: r'voyage',
-                  isOverride: false,
                   isNonNull: true,
                   isResolveType: false)
             ],
@@ -163,7 +154,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'List<VoyagesData$Query$VoyageList$VoyageDetails>',
                   name: r'voyages',
-                  isOverride: false,
                   isNonNull: true,
                   isResolveType: false)
             ],
@@ -176,7 +166,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'VoyagesData$Query$VoyageList',
                   name: r'voyages',
-                  isOverride: false,
                   isNonNull: true,
                   isResolveType: false)
             ],
@@ -184,18 +173,16 @@ final LibraryDefinition libraryDefinition =
             typeNameField: r'__typename',
             isInput: false),
         ClassDefinition(
-            name: r'VoyagesData$PaginationInput',
+            name: r'PaginationInput',
             properties: [
               ClassProperty(
                   type: r'int',
                   name: r'limit',
-                  isOverride: false,
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: r'int',
                   name: r'offset',
-                  isOverride: false,
                   isNonNull: true,
                   isResolveType: false)
             ],
@@ -204,10 +191,7 @@ final LibraryDefinition libraryDefinition =
             isInput: true)
       ],
       inputs: [
-        QueryInput(
-            type: r'VoyagesData$PaginationInput',
-            name: r'input',
-            isNonNull: true)
+        QueryInput(type: r'PaginationInput', name: r'input', isNonNull: true)
       ],
       generateHelpers: true,
       suffix: r'Query')
@@ -222,11 +206,11 @@ import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
 
-mixin VoyagesData$DstMixin {
+mixin DstMixin {
   String id;
   String name;
 }
-mixin VoyagesData$DepartureMixin {
+mixin DepartureMixin {
   String id;
 }
 
@@ -299,11 +283,11 @@ class VoyagesData$Query with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class VoyagesData$PaginationInput with EquatableMixin {
-  VoyagesData$PaginationInput({@required this.limit, @required this.offset});
+class PaginationInput with EquatableMixin {
+  PaginationInput({@required this.limit, @required this.offset});
 
-  factory VoyagesData$PaginationInput.fromJson(Map<String, dynamic> json) =>
-      _$VoyagesData$PaginationInputFromJson(json);
+  factory PaginationInput.fromJson(Map<String, dynamic> json) =>
+      _$PaginationInputFromJson(json);
 
   int limit;
 
@@ -311,7 +295,7 @@ class VoyagesData$PaginationInput with EquatableMixin {
 
   @override
   List<Object> get props => [limit, offset];
-  Map<String, dynamic> toJson() => _$VoyagesData$PaginationInputToJson(this);
+  Map<String, dynamic> toJson() => _$PaginationInputToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -321,7 +305,7 @@ class VoyagesDataArguments extends JsonSerializable with EquatableMixin {
   factory VoyagesDataArguments.fromJson(Map<String, dynamic> json) =>
       _$VoyagesDataArgumentsFromJson(json);
 
-  final VoyagesData$PaginationInput input;
+  final PaginationInput input;
 
   @override
   List<Object> get props => [input];

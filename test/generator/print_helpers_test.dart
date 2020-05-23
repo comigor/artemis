@@ -81,8 +81,8 @@ void main() {
       final definition =
           FragmentClassDefinition(name: 'FragmentMixin', properties: [
         ClassProperty(type: 'Type', name: 'name'),
-        ClassProperty(type: 'Type', name: 'name', isOverride: true),
-        ClassProperty(type: 'Type', name: 'name', annotation: 'Test'),
+        ClassProperty(type: 'Type', name: 'name', annotations: ['override']),
+        ClassProperty(type: 'Type', name: 'name', annotations: ['Test']),
       ]);
 
       final str = specToString(fragmentClassDefinitionToSpec(definition));
@@ -224,14 +224,11 @@ class AClass with EquatableMixin {
       final definition = ClassDefinition(name: 'AClass', properties: [
         ClassProperty(type: 'Type', name: 'name'),
         ClassProperty(
-            type: 'AnnotedProperty', name: 'name', annotation: 'Hey()'),
+            type: 'AnnotedProperty', name: 'name', annotations: ['Hey()']),
         ClassProperty(
-            type: 'OverridenProperty', name: 'name', isOverride: true),
+            type: 'OverridenProperty', name: 'name', annotations: ['override']),
         ClassProperty(
-            type: 'AllAtOnce',
-            name: 'name',
-            isOverride: true,
-            annotation: 'Ho()'),
+            type: 'AllAtOnce', name: 'name', annotations: ['override', 'Ho()']),
       ]);
 
       final str = specToString(classDefinitionToSpec(definition, []));

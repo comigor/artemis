@@ -60,6 +60,24 @@ class ArtemisClient {
     );
   }
 
+  /// Streams a [GraphQLQuery], returning a typed response stream.
+  Stream<GraphQLResponse<T>> stream<T, U extends JsonSerializable>(
+    GraphQLQuery<T, U> query,
+  ) {
+    final request = Request(
+      operation: Operation(
+        document: query.document,
+        operationName: query.operationName,
+      ),
+      variables: query.getVariablesMap(),
+    );
+
+    return _link.request(request).map((response) => GraphQLResponse<T>(
+          data: response.data == null ? null : query.parse(response.data),
+          errors: response.errors,
+        ));
+  }
+
   /// Close the inline [http.Client].
   ///
   /// Keep in mind this will not close clients whose Artemis client

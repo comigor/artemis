@@ -1,5 +1,4 @@
 import 'package:artemis/generator/data.dart';
-import 'package:gql/language.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
@@ -26,8 +25,8 @@ void main() {
           }
           
           enum MyEnum {
-            A
-            B
+            a
+            b
           }
         ''',
         libraryDefinition: libraryDefinition,
@@ -49,22 +48,20 @@ const query = r'''
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      document: parseString(query),
       queryName: r'some_query',
       queryType: r'SomeQuery$Response',
       classes: [
         EnumDefinition(
-            name: r'SomeQuery$Response$SomeObject$ThisIsAnEnum',
-            values: [r'A', r'B', r'ARTEMIS_UNKNOWN']),
+            name: r'MyEnum', values: [r'a', r'b', r'artemisUnknown']),
         ClassDefinition(
             name: r'SomeQuery$Response$SomeObject',
             properties: [
               ClassProperty(
-                  type: r'SomeQuery$Response$SomeObject$ThisIsAnEnum',
+                  type: r'MyEnum',
                   name: r'thisIsAnEnum',
-                  isOverride: false,
-                  annotation:
-                      r'JsonKey(unknownEnumValue: SomeQuery$Response$SomeObject$ThisIsAnEnum.ARTEMIS_UNKNOWN)',
+                  annotations: [
+                    r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
+                  ],
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -77,13 +74,11 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: r'String',
                   name: r'thisIsAString',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: r'SomeQuery$Response$SomeObject',
                   name: r'o',
-                  isOverride: false,
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -109,10 +104,8 @@ class SomeQuery$Response$SomeObject with EquatableMixin {
   factory SomeQuery$Response$SomeObject.fromJson(Map<String, dynamic> json) =>
       _$SomeQuery$Response$SomeObjectFromJson(json);
 
-  @JsonKey(
-      unknownEnumValue:
-          SomeQuery$Response$SomeObject$ThisIsAnEnum.ARTEMIS_UNKNOWN)
-  SomeQuery$Response$SomeObject$ThisIsAnEnum thisIsAnEnum;
+  @JsonKey(unknownEnumValue: MyEnum.artemisUnknown)
+  MyEnum thisIsAnEnum;
 
   @override
   List<Object> get props => [thisIsAnEnum];
@@ -135,12 +128,12 @@ class SomeQuery$Response with EquatableMixin {
   Map<String, dynamic> toJson() => _$SomeQuery$ResponseToJson(this);
 }
 
-enum SomeQuery$Response$SomeObject$ThisIsAnEnum {
+enum MyEnum {
   @JsonValue('A')
-  A,
+  a,
   @JsonValue('B')
-  B,
+  b,
   @JsonValue('ARTEMIS_UNKNOWN')
-  ARTEMIS_UNKNOWN,
+  artemisUnknown,
 }
 ''';

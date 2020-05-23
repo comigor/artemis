@@ -63,10 +63,17 @@ class OperationTypeDefinitionNodeVisitor extends RecursiveVisitor {
   }
 }
 
+List<TypeDefinitionNode> _defaultScalars =
+    ['Boolean', 'Float', 'ID', 'Int', 'String']
+        .map((e) => ScalarTypeDefinitionNode(
+              name: NameNode(value: e),
+            ))
+        .toList();
+
 /// Visits all type definition nodes recursively
 class TypeDefinitionNodeVisitor extends RecursiveVisitor {
   /// Stores all type definition nodes
-  Iterable<TypeDefinitionNode> types = [];
+  Iterable<TypeDefinitionNode> types = [..._defaultScalars];
 
   @override
   void visitObjectTypeDefinitionNode(

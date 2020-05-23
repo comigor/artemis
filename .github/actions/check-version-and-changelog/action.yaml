@@ -1,0 +1,20 @@
+name: "Check version and changelog"
+description: "Make sure the version is bumped and it has a changelog entry"
+inputs:
+  repo_token:
+    description: "Access token for sending errors as a PR message"
+    required: false
+    default: ""
+  base_ref:
+    description: "GitHub base_ref"
+    required: true
+    default: ""
+outputs:
+  package_version:
+    description: "The package version"
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - "${{ inputs.repo_token }}"
+    - "${{ inputs.base_ref }}"

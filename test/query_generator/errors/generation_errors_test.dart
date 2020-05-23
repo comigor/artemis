@@ -1,11 +1,13 @@
 import 'package:artemis/builder.dart';
+import 'package:artemis/generator/errors.dart';
 import 'package:build/build.dart';
 import 'package:build_test/build_test.dart';
+import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 
-import '../../helpers.dart';
-
 void main() {
+  Logger.root.level = Level.ALL;
+
   group('On errors', () {
     test('When the schema file is not found', () async {
       final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
@@ -29,7 +31,7 @@ void main() {
                 'a|api.schema.grqphql': '',
                 'a|some_query.query.graphql': 'query some_query { s }',
               },
-              onLog: debug),
+              onLog: print),
           throwsA(predicate((e) => e is Exception)));
     });
 
@@ -50,15 +52,17 @@ void main() {
       );
     });
 
-    test('When queries_glob is not configured', () async {
+    test('When fragments_glob meets local fragments', () async {
       final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
         'generate_helpers': false,
         'schema_mapping': [
           {
             'schema': 'api.schema.graphql',
             'output': 'lib/some_query.dart',
+            'queries_glob': 'queries/**.graphql',
           },
         ],
+        'fragments_glob': '**.frag',
       }));
 
       anotherBuilder.onBuild = expectAsync1((_) => null, count: 0);
@@ -67,10 +71,97 @@ void main() {
           () => testBuilder(
               anotherBuilder,
               {
-                'a|some_query.query.graphql': 'query some_query { s }',
+                'a|api.schema.graphql': '''
+                schema {
+                  query: Query
+                }
+      
+                type Query {
+                  pokemon: Pokemon
+                }
+      
+                type Pokemon {
+                  id: String!
+                }
+                ''',
+                'a|queries/query.graphql': '''
+                  {
+                      pokemon {
+                        ...Pokemon
+                      }
+                  }
+                  
+                  fragment Pokemon on Pokemon {
+                    id
+                  }
+                ''',
+                'a|fragment.frag': '''fragment Pokemon on Pokemon {
+                  id
+                }'''
               },
-              onLog: debug),
-          throwsA(predicate((e) => e is Exception)));
+              onLog: print),
+          throwsA(predicate((e) => e is FragmentIgnoreException)));
     });
+  });
+
+  test('Fragments with same name but with different selection set', () async {
+    final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
+      'generate_helpers': false,
+      'schema_mapping': [
+        {
+          'schema': 'api.schema.graphql',
+          'output': 'lib/some_query.dart',
+          'queries_glob': 'queries/**.graphql',
+          'naming_scheme': 'pathedWithFields',
+        },
+      ],
+    }));
+
+    anotherBuilder.onBuild = expectAsync1((_) => null, count: 0);
+
+    expect(
+        () => testBuilder(
+            anotherBuilder,
+            {
+              'a|api.schema.graphql': '''
+                schema {
+                  query: Query
+                }
+      
+                type Query {
+                  pokemon: Pokemon
+                }
+      
+                type Pokemon {
+                  id: String!
+                  name: String!
+                }
+                ''',
+              'a|queries/query.graphql': '''
+                  {
+                      pokemon {
+                        ...Pokemon
+                      }
+                  }
+                  
+                  fragment Pokemon on Pokemon {
+                    id
+                  }
+                ''',
+              'a|queries/anotherQuery.graphql': '''
+                  {
+                      pokemon {
+                        ...Pokemon
+                      }
+                  }
+                  
+                  fragment Pokemon on Pokemon {
+                    id
+                    name
+                  }
+                ''',
+            },
+            onLog: print),
+        throwsA(predicate((e) => e is DuplicatedClassesException)));
   });
 }
