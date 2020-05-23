@@ -197,8 +197,11 @@ class CustomList$Query with EquatableMixin {
 }
 
 enum MyEnum {
+  @JsonValue('a')
   a,
+  @JsonValue('b')
   b,
+  @JsonValue('artemisUnknown')
   artemisUnknown,
 }
 ''';

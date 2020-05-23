@@ -193,20 +193,20 @@ class Input with EquatableMixin {
   Map<String, dynamic> toJson() => _$InputToJson(this);
 }
 
-enum Input$MyEnum {
-  @JsonValue('A')
-  A,
-  @JsonValue('B')
-  B,
-  @JsonValue('ARTEMIS_UNKNOWN')
-  ARTEMIS_UNKNOWN,
+enum MyEnum {
+  @JsonValue('a')
+  a,
+  @JsonValue('b')
+  b,
+  @JsonValue('artemisUnknown')
+  artemisUnknown,
 }
 enum OtherEnum {
-  @JsonValue('O1')
+  @JsonValue('o1')
   o1,
-  @JsonValue('O2')
+  @JsonValue('o2')
   o2,
-  @JsonValue('ARTEMIS_UNKNOWN')
+  @JsonValue('artemisUnknown')
   artemisUnknown,
 }
 

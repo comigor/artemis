@@ -129,11 +129,11 @@ class SomeQuery$Response with EquatableMixin {
 }
 
 enum MyEnum {
-  @JsonValue('A')
+  @JsonValue('a')
   a,
-  @JsonValue('B')
+  @JsonValue('b')
   b,
-  @JsonValue('ARTEMIS_UNKNOWN')
+  @JsonValue('artemisUnknown')
   artemisUnknown,
 }
 ''';

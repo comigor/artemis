@@ -191,18 +191,27 @@ class Input with EquatableMixin {
 }
 
 enum MyEnum {
+  @JsonValue('a')
   a,
+  @JsonValue('b')
   b,
+  @JsonValue('artemisUnknown')
   artemisUnknown,
 }
 enum InputEnum {
+  @JsonValue('c')
   c,
+  @JsonValue('d')
   d,
+  @JsonValue('artemisUnknown')
   artemisUnknown,
 }
 enum InputInputEnum {
+  @JsonValue('e')
   e,
+  @JsonValue('f')
   f,
+  @JsonValue('artemisUnknown')
   artemisUnknown,
 }
 ''';

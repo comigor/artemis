@@ -172,7 +172,7 @@ enum MyEnum {
   value1,
   @JsonValue('value2')
   value2,
-  @JsonValue('ARTEMIS_UNKNOWN')
+  @JsonValue('artemisUnknown')
   artemisUnknown,
 }
 
