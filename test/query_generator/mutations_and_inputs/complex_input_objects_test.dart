@@ -53,7 +53,8 @@ final LibraryDefinition libraryDefinition =
       queryType: r'SomeQuery$QueryRoot',
       classes: [
         EnumDefinition(
-            name: r'MyEnum', values: [r'value1', r'value2', r'artemisUnknown']),
+            name: r'MyEnum',
+            values: [r'value1', r'value2', r'ARTEMIS_UNKNOWN']),
         ClassDefinition(
             name: r'SomeQuery$QueryRoot$SomeObject',
             properties: [
@@ -90,7 +91,7 @@ final LibraryDefinition libraryDefinition =
                   type: r'MyEnum',
                   name: r'e',
                   annotations: [
-                    r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
+                    r'JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)'
                   ],
                   isNonNull: false,
                   isResolveType: false),
@@ -157,7 +158,7 @@ class ComplexInput with EquatableMixin {
 
   String s;
 
-  @JsonKey(unknownEnumValue: MyEnum.artemisUnknown)
+  @JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)
   MyEnum e;
 
   List<String> ls;
@@ -170,7 +171,7 @@ class ComplexInput with EquatableMixin {
 enum MyEnum {
   value1,
   value2,
-  artemisUnknown,
+  ARTEMIS_UNKNOWN,
 }
 
 @JsonSerializable(explicitToJson: true)

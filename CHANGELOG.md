@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 6.2.0-beta.1
+**MAJOR BREAKING CHANGE**
+
+We've found a regression on `6.1.0-beta.1`, which sends Enums as camelCase to
+the server, when they should be sent as SCREAMING_SNAKE_CASE.
+
+- Reverts `6.1.0-beta.1`.
+
 ## 6.1.1-beta.2
 - Improve actions and check pipeline output.
 

@@ -25,8 +25,8 @@ void main() {
           }
           
           enum MyEnum {
-            a
-            b
+            A
+            B
           }
         ''',
         libraryDefinition: libraryDefinition,
@@ -62,7 +62,7 @@ final LibraryDefinition libraryDefinition =
       queryType: r'Custom$Query',
       classes: [
         EnumDefinition(
-            name: r'MyEnum', values: [r'a', r'b', r'artemisUnknown']),
+            name: r'MyEnum', values: [r'A', r'B', r'ARTEMIS_UNKNOWN']),
         ClassDefinition(
             name: r'Custom$Query$Q',
             properties: [
@@ -70,7 +70,7 @@ final LibraryDefinition libraryDefinition =
                   type: r'MyEnum',
                   name: r'e',
                   annotations: [
-                    r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
+                    r'JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)'
                   ],
                   isNonNull: false,
                   isResolveType: false)
@@ -98,7 +98,7 @@ final LibraryDefinition libraryDefinition =
       queryType: r'CustomList$Query',
       classes: [
         EnumDefinition(
-            name: r'MyEnum', values: [r'a', r'b', r'artemisUnknown']),
+            name: r'MyEnum', values: [r'A', r'B', r'ARTEMIS_UNKNOWN']),
         ClassDefinition(
             name: r'CustomList$Query$QList',
             properties: [
@@ -106,7 +106,7 @@ final LibraryDefinition libraryDefinition =
                   type: r'MyEnum',
                   name: r'e',
                   annotations: [
-                    r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
+                    r'JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)'
                   ],
                   isNonNull: false,
                   isResolveType: false)
@@ -145,7 +145,7 @@ class Custom$Query$Q with EquatableMixin {
   factory Custom$Query$Q.fromJson(Map<String, dynamic> json) =>
       _$Custom$Query$QFromJson(json);
 
-  @JsonKey(unknownEnumValue: MyEnum.artemisUnknown)
+  @JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)
   MyEnum e;
 
   @override
@@ -174,7 +174,7 @@ class CustomList$Query$QList with EquatableMixin {
   factory CustomList$Query$QList.fromJson(Map<String, dynamic> json) =>
       _$CustomList$Query$QListFromJson(json);
 
-  @JsonKey(unknownEnumValue: MyEnum.artemisUnknown)
+  @JsonKey(unknownEnumValue: MyEnum.ARTEMIS_UNKNOWN)
   MyEnum e;
 
   @override
@@ -197,8 +197,8 @@ class CustomList$Query with EquatableMixin {
 }
 
 enum MyEnum {
-  a,
-  b,
-  artemisUnknown,
+  A,
+  B,
+  ARTEMIS_UNKNOWN,
 }
 ''';
