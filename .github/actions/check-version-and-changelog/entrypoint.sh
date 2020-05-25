@@ -47,11 +47,11 @@ package_version=$(cat pubspec.yaml | oq -i YAML -r '.version')
 # If are on master or beta
 if [ "$github_ref" = "master" ] || [ "$github_ref" = "refs/heads/master" ]; then
     echo "$package_version" | grep "beta" && {
-        send_message_and_bail "You can't merge a \"beta\" version on `master` branch!"
+        send_message_and_bail "You can't merge a \"beta\" version on \`master\` branch!"
     }
 elif [ "$github_ref" = "beta" ] || [ "$github_ref" = "refs/heads/beta" ]; then
     echo "$package_version" | grep "beta" || {
-        send_message_and_bail "You can only merge a \"beta\" version on `beta` branch!"
+        send_message_and_bail "You can only merge a \"beta\" version on \`beta\` branch!"
     }
 fi
 
