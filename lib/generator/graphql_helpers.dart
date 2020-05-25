@@ -1,7 +1,8 @@
-import 'package:artemis/visitor.dart';
 import 'package:gql/ast.dart';
 
+import '../generator/errors.dart';
 import '../schema/options.dart';
+import '../visitor.dart';
 
 /// Get a full [TypeDefinitionNode] from a type node.
 TypeDefinitionNode getTypeByName(DocumentNode schema, TypeNode typeNode,
@@ -43,12 +44,10 @@ String buildTypeString(
     schema.accept(typeVisitor);
     final type = typeVisitor.getByName(node.name.value);
 
-    final scalar = getSingleScalarMap(options, node.name.value);
-    final dartTypeValue = dartType ? scalar.dartType.name : scalar.graphQLType;
-
     if (type != null) {
       if (type is ScalarTypeDefinitionNode) {
-        return dartTypeValue;
+        final scalar = getSingleScalarMap(options, node.name.value);
+        return dartType ? scalar.dartType.name : scalar.graphQLType;
       }
 
       if (type is EnumTypeDefinitionNode ||
@@ -63,7 +62,7 @@ String buildTypeString(
       }
     }
 
-    return dartTypeValue;
+    return node.name.value;
   }
 
   if (node is ListTypeNode) {
@@ -86,10 +85,7 @@ Map<String, ScalarMap> _defaultScalarMapping = {
 
 /// Retrieve a scalar mapping of a type.
 ScalarMap getSingleScalarMap(GeneratorOptions options, String type) =>
-    options.scalarMapping
-        .followedBy(_defaultScalarMapping.values)
-        .firstWhere((m) => m.graphQLType == type,
-            orElse: () => ScalarMap(
-                  graphQLType: type,
-                  dartType: DartType(name: type),
-                ));
+    options.scalarMapping.followedBy(_defaultScalarMapping.values).firstWhere(
+          (m) => m.graphQLType == type,
+          orElse: () => throw MissingScalarConfigurationException(type),
+        );

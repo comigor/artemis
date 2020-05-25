@@ -7,6 +7,7 @@ import 'package:gql/language.dart';
 
 import './generator.dart';
 import './generator/data.dart';
+import './generator/errors.dart';
 import './generator/print_helpers.dart';
 import './schema/options.dart';
 
@@ -94,7 +95,12 @@ class GraphQLQueryBuilder implements Builder {
         throw Exception('''No queries were considered on this generation!
 Make sure that `queries_glob` your build.yaml file include GraphQL queries files.
 ''');
+      } else if (Glob(schemaMap.queriesGlob).matches(schemaMap.schema)) {
+        throw QueryGlobsSchemaException();
+      } else if (Glob(schemaMap.queriesGlob).matches(schemaMap.output)) {
+        throw QueryGlobsOutputException();
       }
+
       final assetStream = buildStep.findAssets(Glob(schemaMap.queriesGlob));
       final gqlDocs = await assetStream
           .asyncMap(

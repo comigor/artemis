@@ -8,7 +8,7 @@ void main() {
     test(
       'Fragments will have their own classes multiple',
       () async => testGenerator(
-          query: r'''
+        query: r'''
           fragment Dst on Destination {
             id
             name
@@ -32,7 +32,7 @@ void main() {
             }
           }
         ''',
-          schema: r'''
+        schema: r'''
           schema {
             query: Query
           }
@@ -72,9 +72,18 @@ void main() {
             offset: Int!
           }
         ''',
-          libraryDefinition: libraryDefinition,
-          generatedFile: generatedFile,
-          generateHelpers: true),
+        libraryDefinition: libraryDefinition,
+        generatedFile: generatedFile,
+        generateHelpers: true,
+        builderOptionsMap: {
+          'scalar_mapping': [
+            {
+              'graphql_type': 'DateTime',
+              'dart_type': 'DateTime',
+            },
+          ],
+        },
+      ),
     );
   });
 }

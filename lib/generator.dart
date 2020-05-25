@@ -216,7 +216,8 @@ List<String> _extractCustomImports(
   schema.accept(typeVisitor);
 
   return typeVisitor.types
-      .map((TypeDefinitionNode type) {
+      .whereType<ScalarTypeDefinitionNode>()
+      .map((type) {
         final scalarMap = gql.getSingleScalarMap(options, type.name.value);
         return scalarMap.dartType.imports
             .followedBy([scalarMap.customParserImport].where((c) => c != null));

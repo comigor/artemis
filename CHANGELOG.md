@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.2.1-beta.1
+- Check for more error causes and throw, explaining the error.
+
 ## 6.2.0-beta.1
 **MAJOR BREAKING CHANGE**
 
