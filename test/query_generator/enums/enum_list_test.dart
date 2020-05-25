@@ -25,8 +25,8 @@ void main() {
           }
           
           enum MyEnum {
-            a
-            b
+            A
+            B
           }''',
       ),
     );
@@ -48,7 +48,7 @@ final LibraryDefinition libraryDefinition =
       queryType: r'Custom$QueryRoot',
       classes: [
         EnumDefinition(
-            name: r'MyEnum', values: [r'a', r'b', r'artemisUnknown']),
+            name: r'MyEnum', values: [r'A', r'B', r'ARTEMIS_UNKNOWN']),
         ClassDefinition(
             name: r'Custom$QueryRoot$QueryResponse',
             properties: [
@@ -114,8 +114,8 @@ class Custom$QueryRoot with EquatableMixin {
 }
 
 enum MyEnum {
-  a,
-  b,
-  artemisUnknown,
+  A,
+  B,
+  ARTEMIS_UNKNOWN,
 }
 ''';
