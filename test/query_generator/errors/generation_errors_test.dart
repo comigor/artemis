@@ -216,4 +216,37 @@ void main() {
             onLog: print),
         throwsA(predicate((e) => e is QueryGlobsOutputException)));
   });
+
+  test('When scalar_mapping does not define a custom scalar', () async {
+    final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
+      'generate_helpers': false,
+      'schema_mapping': [
+        {
+          'schema': 'api.schema.graphql',
+          'output': 'lib/output/some_query.dart',
+          'queries_glob': 'lib/queries/some_query.graphql',
+        },
+      ],
+    }));
+
+    anotherBuilder.onBuild = expectAsync1((_) => null, count: 0);
+
+    expect(
+        () => testBuilder(
+            anotherBuilder,
+            {
+              'a|api.schema.graphql': r'''
+scalar DateTime
+
+type Query {
+  s: DateTime
+}
+''',
+              'a|lib/queries/some_query.graphql': 'query some_query { s }',
+            },
+            onLog: print),
+        throwsA(predicate((e) =>
+            e is MissingScalarConfigurationException &&
+            e.scalarName == 'DateTime')));
+  });
 }

@@ -36,7 +36,7 @@ void main() {
       );
 
       test(
-        'If they are NOT explicitly defined on schema',
+        'All default GraphQL scalars are parsed correctly even if they are NOT explicitly defined on schema',
         () async => testGenerator(
           schema: r'''
             schema {
