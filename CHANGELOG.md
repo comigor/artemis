@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.6.1-beta.1
+- allow multiple operations per file
+
 ## 6.5.2-beta.1
 - performance improvements - scan schema for canonical types only once
 

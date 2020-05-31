@@ -34,8 +34,8 @@ LibraryDefinition generateLibrary(
   List<FragmentDefinitionNode> fragmentsCommon,
   DocumentNode schema,
 ) {
-  final queriesDefinitions = gqlDocs
-      .map((doc) => generateQuery(
+  final queryDefinitions = gqlDocs
+      .map((doc) => generateDefinitions(
             schema,
             path,
             doc,
@@ -43,9 +43,12 @@ LibraryDefinition generateLibrary(
             schemaMap,
             fragmentsCommon,
           ))
+      .expand((e) => e)
       .toList();
 
-  final allClassesNames = queriesDefinitions
+//  final queryDefinitions = definitions.expand((e) => e).toList();
+
+  final allClassesNames = queryDefinitions
       .map((def) => def.classes.map((c) => c))
       .expand((e) => e)
       .toList();
@@ -63,7 +66,7 @@ LibraryDefinition generateLibrary(
   final customImports = _extractCustomImports(schema, options);
   return LibraryDefinition(
     basename: basename,
-    queries: queriesDefinitions,
+    queries: queryDefinitions,
     customImports: customImports,
   );
 }
@@ -100,7 +103,7 @@ _CanonicalVisitor _canonicalVisitor;
 
 /// Generate a query definition from a GraphQL schema and a query, given
 /// Artemis options and schema mappings.
-QueryDefinition generateQuery(
+Iterable<QueryDefinition> generateDefinitions(
   DocumentNode schema,
   String path,
   DocumentNode document,
@@ -108,9 +111,6 @@ QueryDefinition generateQuery(
   SchemaMap schemaMap,
   List<FragmentDefinitionNode> fragmentsCommon,
 ) {
-  final operation =
-      document.definitions.whereType<OperationDefinitionNode>().first;
-
   final fragments = <FragmentDefinitionNode>[];
 
   final documentFragments =
@@ -120,107 +120,117 @@ QueryDefinition generateQuery(
     throw FragmentIgnoreException();
   }
 
-  if (fragmentsCommon.isEmpty) {
-    fragments.addAll(documentFragments);
-  } else {
-    final fragmentsOperation =
-        _extractFragments(operation.selectionSet, fragmentsCommon);
-    document.definitions.addAll(fragmentsOperation);
-    fragments.addAll(fragmentsOperation);
-  }
+  final operations =
+      document.definitions.whereType<OperationDefinitionNode>().toList();
 
-  final basename = p.basenameWithoutExtension(path).split('.').first;
-  final operationName = operation.name?.value ?? basename;
+  return operations.map((operation) {
+    if (fragmentsCommon.isEmpty) {
+      fragments.addAll(documentFragments);
+    } else {
+      final fragmentsOperation =
+          _extractFragments(operation.selectionSet, fragmentsCommon);
+      document.definitions.addAll(fragmentsOperation);
+      fragments.addAll(fragmentsOperation);
+    }
 
-  final schemaVisitor = SchemaDefinitionVisitor();
-  final objectVisitor = ObjectTypeDefinitionVisitor();
+    final basename = p.basenameWithoutExtension(path).split('.').first;
+    final operationName = operation.name?.value ?? basename;
 
-  schema.accept(schemaVisitor);
-  schema.accept(objectVisitor);
+    final schemaVisitor = SchemaDefinitionVisitor();
+    final objectVisitor = ObjectTypeDefinitionVisitor();
 
-  String suffix;
-  switch (operation.type) {
-    case OperationType.subscription:
-      suffix = 'Subscription';
-      break;
-    case OperationType.mutation:
-      suffix = 'Mutation';
-      break;
-    case OperationType.query:
-    default:
-      suffix = 'Query';
-      break;
-  }
+    schema.accept(schemaVisitor);
+    schema.accept(objectVisitor);
 
-  final rootTypeName = (schemaVisitor.schemaDefinitionNode?.operationTypes ??
-              [])
-          .firstWhere((e) => e.operation == operation.type, orElse: () => null)
-          ?.type
-          ?.name
-          ?.value ??
-      suffix;
+    String suffix;
+    switch (operation.type) {
+      case OperationType.subscription:
+        suffix = 'Subscription';
+        break;
+      case OperationType.mutation:
+        suffix = 'Mutation';
+        break;
+      case OperationType.query:
+      default:
+        suffix = 'Query';
+        break;
+    }
 
-  if (rootTypeName == null) {
-    throw Exception(
-        '''No root type was found for ${operation.type} $operationName.''');
-  }
+    final rootTypeName =
+        (schemaVisitor.schemaDefinitionNode?.operationTypes ?? [])
+                .firstWhere((e) => e.operation == operation.type,
+                    orElse: () => null)
+                ?.type
+                ?.name
+                ?.value ??
+            suffix;
 
-  final TypeDefinitionNode parentType = objectVisitor.getByName(rootTypeName);
+    if (rootTypeName == null) {
+      throw Exception(
+          '''No root type was found for ${operation.type} $operationName.''');
+    }
 
-  final name = QueryName.fromPath(
-      path: createPathName([
-    ClassName(name: operationName),
-    ClassName(name: parentType.name.value)
-  ], schemaMap.namingScheme));
+    final TypeDefinitionNode parentType = objectVisitor.getByName(rootTypeName);
 
-  final context = Context(
-    schema: schema,
-    options: options,
-    schemaMap: schemaMap,
-    path: [
-      TypeName(name: operationName),
-      TypeName(name: parentType.name.value)
-    ],
-    currentType: parentType,
-    currentFieldName: null,
-    currentClassName: null,
-    generatedClasses: [],
-    inputsClasses: [],
-    fragments: fragments,
-    usedEnums: {},
-    usedInputObjects: {},
-  );
+    final name = QueryName.fromPath(
+        path: createPathName([
+      ClassName(name: operationName),
+      ClassName(name: parentType.name.value)
+    ], schemaMap.namingScheme));
 
-  final visitor = _GeneratorVisitor(
-    context: context,
-  );
-
-  // scans schema for canonical types only once
-  if (_canonicalVisitor == null) {
-    _canonicalVisitor = _CanonicalVisitor(
-      context: context.sameTypeWithNoPath(),
+    final context = Context(
+      schema: schema,
+      options: options,
+      schemaMap: schemaMap,
+      path: [
+        TypeName(name: operationName),
+        TypeName(name: parentType.name.value)
+      ],
+      currentType: parentType,
+      currentFieldName: null,
+      currentClassName: null,
+      generatedClasses: [],
+      inputsClasses: [],
+      fragments: fragments,
+      usedEnums: {},
+      usedInputObjects: {},
     );
 
-    schema.accept(_canonicalVisitor);
-  }
+    final visitor = _GeneratorVisitor(
+      context: context,
+    );
+    // scans schema for canonical types only once
+    if (_canonicalVisitor == null) {
+      _canonicalVisitor = _CanonicalVisitor(
+        context: context.sameTypeWithNoPath(),
+      );
 
-  document.accept(visitor);
+      schema.accept(_canonicalVisitor);
+    }
 
-  return QueryDefinition(
-    name: name,
-    operationName: operationName,
-    document: document,
-    classes: [
-      ..._canonicalVisitor.enums
-          .where((e) => context.usedEnums.contains(e.name)),
-      ...visitor.context.generatedClasses,
-      ..._canonicalVisitor.inputObjects
-          .where((i) => context.usedInputObjects.contains(i.name)),
-    ],
-    inputs: visitor.context.inputsClasses,
-    generateHelpers: options.generateHelpers,
-    suffix: suffix,
-  );
+    DocumentNode(
+      definitions: document.definitions
+          // filtering unused operations
+          .where((e) => e is! OperationDefinitionNode || e == operation)
+          .toList(),
+    ).accept(visitor);
+
+    return QueryDefinition(
+      name: name,
+      operationName: operationName,
+      document: document,
+      classes: [
+        ..._canonicalVisitor.enums
+            .where((e) => context.usedEnums.contains(e.name)),
+        ...visitor.context.generatedClasses,
+        ..._canonicalVisitor.inputObjects
+            .where((i) => context.usedInputObjects.contains(i.name)),
+      ],
+      inputs: visitor.context.inputsClasses,
+      generateHelpers: options.generateHelpers,
+      suffix: suffix,
+    );
+  });
 }
 
 List<String> _extractCustomImports(
