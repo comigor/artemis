@@ -2,6 +2,7 @@ import 'package:artemis/generator/data/definition.dart';
 import 'package:artemis/generator/data_printer.dart';
 import 'package:artemis/generator/helpers.dart';
 import 'package:meta/meta.dart';
+import 'package:recase/recase.dart';
 
 /// Define a property (field) from a class.
 class ClassProperty extends Definition with DataPrinter {
@@ -65,10 +66,19 @@ class ClassPropertyName extends Name with DataPrinter {
   ClassPropertyName({String name}) : super(name: name);
 
   @override
+  String normalize(String name) {
+    final normalized = super.normalize(name);
+    final suffix = RegExp(r'.*(_+)$').firstMatch(normalized)?.group(1) ?? '';
+    return ReCase(super.normalize(name)).camelCase + suffix;
+  }
+
+  @override
   Map<String, Object> get namedProps => {
         'name': name,
       };
 }
+
+const _camelCaseTypes = {'bool', 'double', 'int'};
 
 /// Type name
 class TypeName extends Name with DataPrinter {
@@ -79,4 +89,12 @@ class TypeName extends Name with DataPrinter {
   Map<String, Object> get namedProps => {
         'name': name,
       };
+
+  @override
+  String normalize(String name) {
+    final normalized = super.normalize(name);
+    if (_camelCaseTypes.contains(normalized)) return normalized;
+
+    return ReCase(normalized).pascalCase;
+  }
 }
