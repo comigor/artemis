@@ -1,4 +1,4 @@
-import 'package:artemis/generator/data.dart';
+import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
@@ -44,34 +44,37 @@ query custom {
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      queryName: r'custom',
-      queryType: r'Custom$QueryRoot',
+      name: QueryName(name: r'custom$_QueryRoot'),
+      operationName: r'custom',
       classes: [
-        EnumDefinition(
-            name: r'MyEnum', values: [r'A', r'B', r'ARTEMIS_UNKNOWN']),
+        EnumDefinition(name: EnumName(name: r'MyEnum'), values: [
+          EnumValue(name: r'A'),
+          EnumValue(name: r'B'),
+          EnumValue(name: r'ARTEMIS_UNKNOWN')
+        ]),
         ClassDefinition(
-            name: r'Custom$QueryRoot$QueryResponse',
+            name: ClassName(name: r'custom$_QueryRoot$_QueryResponse'),
             properties: [
               ClassProperty(
-                  type: r'List<MyEnum>',
-                  name: r'le',
+                  type: TypeName(name: r'List<MyEnum>'),
+                  name: ClassPropertyName(name: r'le'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'Custom$QueryRoot',
+            name: ClassName(name: r'custom$_QueryRoot'),
             properties: [
               ClassProperty(
-                  type: r'Custom$QueryRoot$QueryResponse',
-                  name: r'q',
+                  type: TypeName(name: r'Custom$QueryRoot$QueryResponse'),
+                  name: ClassPropertyName(name: r'q'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false)
       ],
       generateHelpers: false,
@@ -114,8 +117,11 @@ class Custom$QueryRoot with EquatableMixin {
 }
 
 enum MyEnum {
-  A,
-  B,
-  ARTEMIS_UNKNOWN,
+  @JsonValue("A")
+  a,
+  @JsonValue("B")
+  b,
+  @JsonValue("ARTEMIS_UNKNOWN")
+  artemisUnknown,
 }
 ''';

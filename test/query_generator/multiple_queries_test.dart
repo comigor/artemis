@@ -1,4 +1,4 @@
-import 'package:artemis/generator/data.dart';
+import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -32,28 +32,48 @@ void main() {
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      queryName: r'some_query',
-      queryType: r'SomeQuery$SomeObject',
+      name: QueryName(name: r'some_query$_SomeObject'),
+      operationName: r'some_query',
       classes: [
         ClassDefinition(
-            name: r'SomeQuery$SomeObject',
+            name: ClassName(name: r'some_query$_SomeObject'),
             properties: [
-              ClassProperty(type: r'String', name: r's'),
-              ClassProperty(type: r'int', name: r'i')
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r's'),
+                  isNonNull: false,
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(name: r'int'),
+                  name: ClassPropertyName(name: r'i'),
+                  isNonNull: false,
+                  isResolveType: false)
             ],
-            typeNameField: r'__typename')
+            factoryPossibilities: {},
+            typeNameField: TypeName(name: '__typename'),
+            isInput: false)
       ],
-      generateHelpers: false),
+      generateHelpers: false,
+      suffix: r'Query'),
   QueryDefinition(
-      queryName: r'another_query',
-      queryType: r'AnotherQuery$SomeObject',
+      name: QueryName(name: r'another_query$_SomeObject'),
+      operationName: r'another_query',
       classes: [
         ClassDefinition(
-            name: r'AnotherQuery$SomeObject',
-            properties: [ClassProperty(type: r'String', name: r's')],
-            typeNameField: r'__typename')
+            name: ClassName(name: r'another_query$_SomeObject'),
+            properties: [
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r's'),
+                  isNonNull: false,
+                  isResolveType: false)
+            ],
+            factoryPossibilities: {},
+            typeNameField: TypeName(name: '__typename'),
+            isInput: false)
       ],
-      generateHelpers: false)
+      generateHelpers: false,
+      suffix: r'Query')
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND

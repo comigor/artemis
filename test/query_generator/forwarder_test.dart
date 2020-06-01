@@ -1,4 +1,4 @@
-import 'package:artemis/generator/data.dart';
+import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -48,20 +48,20 @@ query custom {
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      queryName: r'custom',
-      queryType: r'Custom$QueryRoot',
+      name: QueryName(name: r'custom$_QueryRoot'),
+      operationName: r'custom',
       classes: [
         ClassDefinition(
-            name: r'Custom$QueryRoot',
+            name: ClassName(name: r'custom$_QueryRoot'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r'a',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'a'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false)
       ],
       generateHelpers: false,

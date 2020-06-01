@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 6.3.0-beta.1
+**MAJOR BREAKING CHANGE**
+
+- all starting underscores are replaced with $
+- `__typename` field replaced with `$$typename`
+- enums are named according to Dart spec
+- fields similar to Dart keywords are prefixed with `kw$`
+- 
 ## 6.2.1-beta.1
 - Check for more error causes and throw, explaining the error.
 

@@ -1,4 +1,4 @@
-import 'package:artemis/generator/data.dart';
+import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
@@ -33,6 +33,7 @@ const query = r'''
   query custom($id: ID!) {
     nodeById(id: $id) {
       id
+      __typename,
       ... on User {
         ...UserFrag
       }
@@ -79,52 +80,54 @@ final String graphQLSchema = r'''
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      queryName: r'custom',
-      queryType: r'Custom$Query',
+      name: QueryName(name: r'custom$_Query'),
+      operationName: r'custom',
       classes: [
         ClassDefinition(
-            name: r'Custom$Query$NodeById$User',
+            name: ClassName(name: r'custom$_Query$_nodeById$_User'),
             extension: r'Custom$Query$NodeById',
             mixins: [r'UserFragMixin'],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'Custom$Query$NodeById$ChatMessage$User',
+            name:
+                ClassName(name: r'custom$_Query$_nodeById$_ChatMessage$_user'),
             extension: r'Custom$Query$NodeById$ChatMessage',
             mixins: [r'UserFragMixin'],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'Custom$Query$NodeById$ChatMessage',
+            name: ClassName(name: r'custom$_Query$_nodeById$_ChatMessage'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r'message',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'message'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: r'Custom$Query$NodeById$ChatMessage$User',
-                  name: r'user',
+                  type:
+                      TypeName(name: r'Custom$Query$NodeById$ChatMessage$User'),
+                  name: ClassPropertyName(name: r'user'),
                   isNonNull: true,
                   isResolveType: false)
             ],
             extension: r'Custom$Query$NodeById',
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'Custom$Query$NodeById',
+            name: ClassName(name: r'custom$_Query$_nodeById'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r'id',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'id'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: r'String',
-                  name: r'typeName',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'__typename'),
                   annotations: [
                     r'override',
                     r'''JsonKey(name: '__typename')'''
@@ -136,34 +139,41 @@ final LibraryDefinition libraryDefinition =
               r'User': r'Custom$Query$NodeById$User',
               r'ChatMessage': r'Custom$Query$NodeById$ChatMessage'
             },
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'Custom$Query',
+            name: ClassName(name: r'custom$_Query'),
             properties: [
               ClassProperty(
-                  type: r'Custom$Query$NodeById',
-                  name: r'nodeById',
+                  type: TypeName(name: r'Custom$Query$NodeById'),
+                  name: ClassPropertyName(name: r'nodeById'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
-        FragmentClassDefinition(name: r'UserFragMixin', properties: [
-          ClassProperty(
-              type: r'String',
-              name: r'id',
-              isNonNull: true,
-              isResolveType: false),
-          ClassProperty(
-              type: r'String',
-              name: r'username',
-              isNonNull: true,
-              isResolveType: false)
-        ])
+        FragmentClassDefinition(
+            name: ClassName(name: r'UserFragMixin'),
+            properties: [
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'id'),
+                  isNonNull: true,
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'username'),
+                  isNonNull: true,
+                  isResolveType: false)
+            ])
       ],
-      inputs: [QueryInput(type: r'String', name: r'id', isNonNull: true)],
+      inputs: [
+        QueryInput(
+            type: TypeName(name: r'String'),
+            name: QueryInputName(name: r'id'),
+            isNonNull: true)
+      ],
       generateHelpers: false,
       suffix: r'Query')
 ]);
@@ -248,12 +258,12 @@ class Custom$Query$NodeById with EquatableMixin {
 
   @override
   @JsonKey(name: '__typename')
-  String typeName;
+  String $$typename;
 
   @override
-  List<Object> get props => [id, typeName];
+  List<Object> get props => [id, $$typename];
   Map<String, dynamic> toJson() {
-    switch (typeName) {
+    switch ($$typename) {
       case r'User':
         return (this as Custom$Query$NodeById$User).toJson();
       case r'ChatMessage':

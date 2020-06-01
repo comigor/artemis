@@ -1,4 +1,4 @@
-import 'package:artemis/generator/data.dart';
+import 'package:artemis/generator/data/data.dart';
 import 'package:artemis/generator/print_helpers.dart';
 import 'package:gql/language.dart';
 import 'package:test/test.dart';
@@ -8,52 +8,61 @@ void main() {
     test('It will throw if name is null or empty.', () {
       expect(() => enumDefinitionToSpec(EnumDefinition(name: null, values: [])),
           throwsA(TypeMatcher<AssertionError>()));
-      expect(() => enumDefinitionToSpec(EnumDefinition(name: '', values: [])),
+      expect(
+          () => enumDefinitionToSpec(
+              EnumDefinition(name: EnumName(name: ''), values: [])),
           throwsA(TypeMatcher<AssertionError>()));
     });
 
     test('It will throw if values is null or empty.', () {
       expect(
-          () =>
-              enumDefinitionToSpec(EnumDefinition(name: 'Name', values: null)),
+          () => enumDefinitionToSpec(
+              EnumDefinition(name: EnumName(name: 'Name'), values: null)),
           throwsA(TypeMatcher<AssertionError>()));
       expect(
-          () => enumDefinitionToSpec(EnumDefinition(name: 'Name', values: [])),
+          () => enumDefinitionToSpec(
+              EnumDefinition(name: EnumName(name: 'Name'), values: [])),
           throwsA(TypeMatcher<AssertionError>()));
     });
 
     test('It will generate an Enum declaration.', () {
-      final definition = EnumDefinition(name: 'Name', values: [
-        'Option',
-        'anotherOption',
-        'third_option',
-        'FORTH_OPTION',
+      final definition = EnumDefinition(name: EnumName(name: 'Name'), values: [
+        EnumValue(name: 'Option'),
+        EnumValue(name: 'anotherOption'),
+        EnumValue(name: 'third_option'),
+        EnumValue(name: 'FORTH_OPTION'),
       ]);
 
       final str = specToString(enumDefinitionToSpec(definition));
 
       expect(str, '''enum Name {
-  Option,
+  @JsonValue("Option")
+  option,
+  @JsonValue("anotherOption")
   anotherOption,
-  third_option,
-  FORTH_OPTION,
+  @JsonValue("third_option")
+  thirdOption,
+  @JsonValue("FORTH_OPTION")
+  forthOption,
 }
 ''');
     });
 
     test('It will ignore duplicate options.', () {
-      final definition = EnumDefinition(name: 'Name', values: [
-        'Option',
-        'AnotherOption',
-        'Option',
-        'AnotherOption',
+      final definition = EnumDefinition(name: EnumName(name: 'Name'), values: [
+        EnumValue(name: 'Option'),
+        EnumValue(name: 'AnotherOption'),
+        EnumValue(name: 'Option'),
+        EnumValue(name: 'AnotherOption'),
       ]);
 
       final str = specToString(enumDefinitionToSpec(definition));
 
       expect(str, '''enum Name {
-  Option,
-  AnotherOption,
+  @JsonValue("Option")
+  option,
+  @JsonValue("AnotherOption")
+  anotherOption,
 }
 ''');
     });
@@ -66,18 +75,27 @@ void main() {
               FragmentClassDefinition(name: null, properties: [])),
           throwsA(TypeMatcher<AssertionError>()));
       expect(
-          () => fragmentClassDefinitionToSpec(
-              FragmentClassDefinition(name: '', properties: [])),
+          () => fragmentClassDefinitionToSpec(FragmentClassDefinition(
+              name: FragmentName(name: ''), properties: [])),
           throwsA(TypeMatcher<AssertionError>()));
     });
 
     test('It will generate an Mixins declarations.', () {
-      final definition =
-          FragmentClassDefinition(name: 'FragmentMixin', properties: [
-        ClassProperty(type: 'Type', name: 'name'),
-        ClassProperty(type: 'Type', name: 'name', annotations: ['override']),
-        ClassProperty(type: 'Type', name: 'name', annotations: ['Test']),
-      ]);
+      final definition = FragmentClassDefinition(
+          name: ClassName(name: 'FragmentMixin'),
+          properties: [
+            ClassProperty(
+                type: TypeName(name: 'Type'),
+                name: ClassPropertyName(name: 'name')),
+            ClassProperty(
+                type: TypeName(name: 'Type'),
+                name: ClassPropertyName(name: 'name'),
+                annotations: ['override']),
+            ClassProperty(
+                type: TypeName(name: 'Type'),
+                name: ClassPropertyName(name: 'name'),
+                annotations: ['Test']),
+          ]);
 
       final str = specToString(fragmentClassDefinitionToSpec(definition));
 
@@ -100,12 +118,13 @@ void main() {
           throwsA(TypeMatcher<AssertionError>()));
       expect(
           () => classDefinitionToSpec(
-              ClassDefinition(name: '', properties: []), []),
+              ClassDefinition(name: ClassName(name: ''), properties: []), []),
           throwsA(TypeMatcher<AssertionError>()));
     });
 
     test('It can generate a class without properties.', () {
-      final definition = ClassDefinition(name: 'AClass', properties: []);
+      final definition =
+          ClassDefinition(name: ClassName(name: 'AClass'), properties: []);
 
       final str = specToString(classDefinitionToSpec(definition, []));
 
@@ -124,7 +143,9 @@ class AClass with EquatableMixin {
 
     test('"Mixins" will be included to class.', () {
       final definition = ClassDefinition(
-          name: 'AClass', properties: [], extension: 'AnotherClass');
+          name: ClassName(name: 'AClass'),
+          properties: [],
+          extension: 'AnotherClass');
 
       final str = specToString(classDefinitionToSpec(definition, []));
 
@@ -145,18 +166,18 @@ class AClass extends AnotherClass with EquatableMixin {
         'factoryPossibilities and typeNameField are used to generated a branch factory.',
         () {
       final definition = ClassDefinition(
-        name: 'AClass',
+        name: ClassName(name: 'AClass'),
         properties: [],
         factoryPossibilities: {
           'ASubClass': 'ASubClass',
           'BSubClass': 'BSubClass',
         },
-        typeNameField: '__typename',
+        typeNameField: TypeName(name: '__typename'),
       );
 
       final str = specToString(classDefinitionToSpec(definition, []));
 
-      expect(str, '''@JsonSerializable(explicitToJson: true)
+      expect(str, r'''@JsonSerializable(explicitToJson: true)
 class AClass with EquatableMixin {
   AClass();
 
@@ -168,29 +189,34 @@ class AClass with EquatableMixin {
         return BSubClass.fromJson(json);
       default:
     }
-    return _\$AClassFromJson(json);
+    return _$AClassFromJson(json);
   }
 
   @override
   List<Object> get props => [];
   Map<String, dynamic> toJson() {
-    switch (typeName) {
+    switch ($$typename) {
       case r'ASubClass':
         return (this as ASubClass).toJson();
       case r'BSubClass':
         return (this as BSubClass).toJson();
       default:
     }
-    return _\$AClassToJson(this);
+    return _$AClassToJson(this);
   }
 }
 ''');
     });
 
     test('It can have properties.', () {
-      final definition = ClassDefinition(name: 'AClass', properties: [
-        ClassProperty(type: 'Type', name: 'name'),
-        ClassProperty(type: 'AnotherType', name: 'anotherName'),
+      final definition =
+          ClassDefinition(name: ClassName(name: 'AClass'), properties: [
+        ClassProperty(
+            type: TypeName(name: 'Type'),
+            name: ClassPropertyName(name: 'name')),
+        ClassProperty(
+            type: TypeName(name: 'AnotherType'),
+            name: ClassPropertyName(name: 'anotherName')),
       ]);
 
       final str = specToString(classDefinitionToSpec(definition, []));
@@ -215,14 +241,23 @@ class AClass with EquatableMixin {
     test(
         'Its properties can be an override or have a custom annotation, or both.',
         () {
-      final definition = ClassDefinition(name: 'AClass', properties: [
-        ClassProperty(type: 'Type', name: 'name'),
+      final definition =
+          ClassDefinition(name: ClassName(name: 'AClass'), properties: [
         ClassProperty(
-            type: 'AnnotedProperty', name: 'name', annotations: ['Hey()']),
+            type: TypeName(name: 'Type'),
+            name: ClassPropertyName(name: 'name')),
         ClassProperty(
-            type: 'OverridenProperty', name: 'name', annotations: ['override']),
+            type: TypeName(name: 'AnnotedProperty'),
+            name: ClassPropertyName(name: 'name'),
+            annotations: ['Hey()']),
         ClassProperty(
-            type: 'AllAtOnce', name: 'name', annotations: ['override', 'Ho()']),
+            type: TypeName(name: 'OverridenProperty'),
+            name: ClassPropertyName(name: 'name'),
+            annotations: ['override']),
+        ClassProperty(
+            type: TypeName(name: 'AllAtOnce'),
+            name: ClassPropertyName(name: 'name'),
+            annotations: ['override', 'Ho()']),
       ]);
 
       final str = specToString(classDefinitionToSpec(definition, []));
@@ -256,12 +291,18 @@ class AClass with EquatableMixin {
         'Mixins can be included and its properties will be considered on props getter',
         () {
       final definition = ClassDefinition(
-          name: 'AClass', properties: [], mixins: ['FragmentMixin']);
+          name: ClassName(name: 'AClass'),
+          properties: [],
+          mixins: ['FragmentMixin']);
 
       final str = specToString(classDefinitionToSpec(definition, [
-        FragmentClassDefinition(name: 'FragmentMixin', properties: [
-          ClassProperty(type: 'Type', name: 'name'),
-        ])
+        FragmentClassDefinition(
+            name: ClassName(name: 'FragmentMixin'),
+            properties: [
+              ClassProperty(
+                  type: TypeName(name: 'Type'),
+                  name: ClassPropertyName(name: 'name')),
+            ])
       ]));
 
       expect(str, '''@JsonSerializable(explicitToJson: true)
@@ -280,11 +321,15 @@ class AClass with EquatableMixin, FragmentMixin {
     test('It can be an input object (and have a named parameter constructor).',
         () {
       final definition = ClassDefinition(
-        name: 'AClass',
+        name: ClassName(name: 'AClass'),
         properties: [
-          ClassProperty(type: 'Type', name: 'name'),
           ClassProperty(
-              type: 'AnotherType', name: 'anotherName', isNonNull: true),
+              type: TypeName(name: 'Type'),
+              name: ClassPropertyName(name: 'name')),
+          ClassProperty(
+              type: TypeName(name: 'AnotherType'),
+              name: ClassPropertyName(name: 'anotherName'),
+              isNonNull: true),
         ],
         isInput: true,
       );
@@ -321,8 +366,8 @@ class AClass with EquatableMixin {
       expect(
         () => generateQueryClassSpec(
           QueryDefinition(
-              queryName: null,
-              queryType: 'Type',
+              name: QueryName(name: null),
+              operationName: 'Type',
               document: parseString('query test_query {}')),
         ),
         throwsA(TypeMatcher<AssertionError>()),
@@ -330,8 +375,8 @@ class AClass with EquatableMixin {
       expect(
         () => generateQueryClassSpec(
           QueryDefinition(
-              queryName: '',
-              queryType: 'Type',
+              name: QueryName(name: 'Type'),
+              operationName: '',
               document: parseString('query test_query {}')),
         ),
         throwsA(
@@ -341,8 +386,8 @@ class AClass with EquatableMixin {
       expect(
         () => generateQueryClassSpec(
           QueryDefinition(
-              queryName: 'test_query',
-              queryType: null,
+              name: QueryName(name: null),
+              operationName: 'test_query',
               document: parseString('query test_query {}')),
         ),
         throwsA(
@@ -352,8 +397,8 @@ class AClass with EquatableMixin {
       expect(
         () => generateQueryClassSpec(
           QueryDefinition(
-              queryName: 'test_query',
-              queryType: '',
+              name: QueryName(name: ''),
+              operationName: 'test_query',
               document: parseString('query test_query {}')),
         ),
         throwsA(
@@ -400,8 +445,8 @@ part 'test_query.graphql.g.dart';
         basename: r'test_query.graphql',
         queries: [
           QueryDefinition(
-            queryName: 'test_query',
-            queryType: 'TestQuery',
+            name: QueryName(name: 'test_query'),
+            operationName: 'test_query',
             document: parseString('query test_query {}'),
             generateHelpers: true,
           )
@@ -447,11 +492,15 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, JsonSerializable> {
       final definition =
           LibraryDefinition(basename: r'test_query.graphql', queries: [
         QueryDefinition(
-          queryName: 'test_query',
-          queryType: 'TestQuery',
+          name: QueryName(name: 'test_query'),
+          operationName: 'test_query',
           document: parseString('query test_query {}'),
           generateHelpers: true,
-          inputs: [QueryInput(type: 'Type', name: 'name')],
+          inputs: [
+            QueryInput(
+                type: TypeName(name: 'Type'),
+                name: QueryInputName(name: 'name'))
+          ],
         ),
       ]);
 
@@ -508,11 +557,14 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
 
     test('Will generate an Arguments class', () {
       final definition = QueryDefinition(
-        queryName: 'test_query',
-        queryType: 'TestQuery',
+        name: QueryName(name: 'test_query'),
+        operationName: 'test_query',
         document: parseString('query test_query {}'),
         generateHelpers: true,
-        inputs: [QueryInput(type: 'Type', name: 'name')],
+        inputs: [
+          QueryInput(
+              type: TypeName(name: 'Type'), name: QueryInputName(name: 'name'))
+        ],
       );
 
       final str = specToString(generateArgumentClassSpec(definition));
@@ -535,11 +587,14 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
 
     test('Will generate a Query Class', () {
       final definition = QueryDefinition(
-        queryName: 'test_query',
-        queryType: 'TestQuery',
+        name: QueryName(name: 'test_query'),
+        operationName: 'test_query',
         document: parseString('query test_query {}'),
         generateHelpers: true,
-        inputs: [QueryInput(type: 'Type', name: 'name')],
+        inputs: [
+          QueryInput(
+              type: TypeName(name: 'Type'), name: QueryInputName(name: 'name'))
+        ],
         suffix: 'Query',
       );
 
@@ -578,12 +633,14 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
       final definition =
           LibraryDefinition(basename: r'test_query.graphql', queries: [
         QueryDefinition(
-          queryName: 'test_query',
-          queryType: 'TestQuery',
+          name: QueryName(name: 'test_query'),
+          operationName: 'test_query',
           document: parseString('query test_query {}'),
           classes: [
-            EnumDefinition(name: 'Enum', values: ['Value']),
-            ClassDefinition(name: 'AClass', properties: [])
+            EnumDefinition(
+                name: EnumName(name: 'Enum'),
+                values: [EnumValue(name: 'Value')]),
+            ClassDefinition(name: ClassName(name: 'AClass'), properties: [])
           ],
         ),
       ]);
@@ -609,7 +666,8 @@ class AClass with EquatableMixin {
 }
 
 enum Enum {
-  Value,
+  @JsonValue("Value")
+  value,
 }
 ''');
     });

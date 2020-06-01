@@ -1,4 +1,4 @@
-import 'package:artemis/generator/data.dart';
+import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
@@ -55,59 +55,64 @@ void main() {
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      queryName: r'some_query',
-      queryType: r'SomeQuery$QueryRoot',
+      name: QueryName(name: r'some_query$_QueryRoot'),
+      operationName: r'some_query',
       classes: [
         ClassDefinition(
-            name: r'SomeQuery$QueryRoot$SomeObject',
+            name: ClassName(name: r'some_query$_QueryRoot$_SomeObject'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r's',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r's'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'SomeQuery$QueryRoot',
+            name: ClassName(name: r'some_query$_QueryRoot'),
             properties: [
               ClassProperty(
-                  type: r'SomeQuery$QueryRoot$SomeObject',
-                  name: r'o',
+                  type: TypeName(name: r'SomeQuery$QueryRoot$SomeObject'),
+                  name: ClassPropertyName(name: r'o'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'Input',
+            name: ClassName(name: r'Input'),
             properties: [
               ClassProperty(
-                  type: r'SubInput',
-                  name: r's',
+                  type: TypeName(name: r'SubInput'),
+                  name: ClassPropertyName(name: r's'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: true),
         ClassDefinition(
-            name: r'SubInput',
+            name: ClassName(name: r'SubInput'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r's',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r's'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: true)
       ],
-      inputs: [QueryInput(type: r'Input', name: r'input', isNonNull: true)],
+      inputs: [
+        QueryInput(
+            type: TypeName(name: r'Input'),
+            name: QueryInputName(name: r'input'),
+            isNonNull: true)
+      ],
       generateHelpers: true,
       suffix: r'Query')
 ]);

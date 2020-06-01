@@ -1,4 +1,4 @@
-import 'package:artemis/generator/data.dart';
+import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
@@ -87,96 +87,104 @@ const queryString = '''
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      queryName: r'query',
-      queryType: r'Query$Query',
+      name: QueryName(name: r'query$_Query'),
+      operationName: r'query',
       classes: [
         ClassDefinition(
-            name: r'Query$Query$Pokemon$Pokemon',
+            name: ClassName(name: r'query$_Query$_Pokemon$_Pokemon'),
             mixins: [r'PokemonMixin'],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'Query$Query$Pokemon',
+            name: ClassName(name: r'query$_Query$_Pokemon'),
             properties: [
               ClassProperty(
-                  type: r'List<Query$Query$Pokemon$Pokemon>',
-                  name: r'evolutions',
+                  type: TypeName(name: r'List<Query$Query$Pokemon$Pokemon>'),
+                  name: ClassPropertyName(name: r'evolutions'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             mixins: [r'PokemonMixin'],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'Query$Query',
+            name: ClassName(name: r'query$_Query'),
             properties: [
               ClassProperty(
-                  type: r'Query$Query$Pokemon',
-                  name: r'pokemon',
+                  type: TypeName(name: r'Query$Query$Pokemon'),
+                  name: ClassPropertyName(name: r'pokemon'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'PokemonMixin$PokemonDimension',
+            name: ClassName(name: r'PokemonMixin$_PokemonDimension'),
             mixins: [r'WeightMixin'],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'PokemonMixin$PokemonAttack',
+            name: ClassName(name: r'PokemonMixin$_PokemonAttack'),
             mixins: [r'PokemonAttackMixin'],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
-        FragmentClassDefinition(name: r'PokemonMixin', properties: [
-          ClassProperty(
-              type: r'String',
-              name: r'id',
-              isNonNull: true,
-              isResolveType: false),
-          ClassProperty(
-              type: r'PokemonMixin$PokemonDimension',
-              name: r'weight',
-              isNonNull: false,
-              isResolveType: false),
-          ClassProperty(
-              type: r'PokemonMixin$PokemonAttack',
-              name: r'attacks',
-              isNonNull: false,
-              isResolveType: false)
-        ]),
-        FragmentClassDefinition(name: r'WeightMixin', properties: [
-          ClassProperty(
-              type: r'String',
-              name: r'minimum',
-              isNonNull: false,
-              isResolveType: false)
-        ]),
+        FragmentClassDefinition(
+            name: ClassName(name: r'PokemonMixin'),
+            properties: [
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'id'),
+                  isNonNull: true,
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(name: r'PokemonMixin$PokemonDimension'),
+                  name: ClassPropertyName(name: r'weight'),
+                  isNonNull: false,
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(name: r'PokemonMixin$PokemonAttack'),
+                  name: ClassPropertyName(name: r'attacks'),
+                  isNonNull: false,
+                  isResolveType: false)
+            ]),
+        FragmentClassDefinition(
+            name: ClassName(name: r'WeightMixin'),
+            properties: [
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'minimum'),
+                  isNonNull: false,
+                  isResolveType: false)
+            ]),
         ClassDefinition(
-            name: r'PokemonAttackMixin$Attack',
+            name: ClassName(name: r'PokemonAttackMixin$_Attack'),
             mixins: [r'AttackMixin'],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
-        FragmentClassDefinition(name: r'PokemonAttackMixin', properties: [
-          ClassProperty(
-              type: r'List<PokemonAttackMixin$Attack>',
-              name: r'special',
-              isNonNull: false,
-              isResolveType: false)
-        ]),
-        FragmentClassDefinition(name: r'AttackMixin', properties: [
-          ClassProperty(
-              type: r'String',
-              name: r'name',
-              isNonNull: false,
-              isResolveType: false)
-        ])
+        FragmentClassDefinition(
+            name: ClassName(name: r'PokemonAttackMixin'),
+            properties: [
+              ClassProperty(
+                  type: TypeName(name: r'List<PokemonAttackMixin$Attack>'),
+                  name: ClassPropertyName(name: r'special'),
+                  isNonNull: false,
+                  isResolveType: false)
+            ]),
+        FragmentClassDefinition(
+            name: ClassName(name: r'AttackMixin'),
+            properties: [
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'name'),
+                  isNonNull: false,
+                  isResolveType: false)
+            ])
       ],
       generateHelpers: true,
       suffix: r'Query')

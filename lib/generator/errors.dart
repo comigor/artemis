@@ -1,4 +1,4 @@
-import 'package:artemis/generator/data.dart';
+import 'package:artemis/generator/data/data.dart';
 
 /// Define an exception thrown when duplicated classes names were generated.
 class DuplicatedClassesException implements Exception {

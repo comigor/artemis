@@ -1,4 +1,4 @@
-import 'package:artemis/generator/data.dart';
+import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
@@ -59,39 +59,39 @@ mutation custom($input: Input!, $previousId: MyUuid, $listIds: [MyUuid]) {
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      queryName: r'custom',
-      queryType: r'Custom$MutationRoot',
+      name: QueryName(name: r'custom$_MutationRoot'),
+      operationName: r'custom',
       classes: [
         ClassDefinition(
-            name: r'Custom$MutationRoot$MutationResponse',
+            name: ClassName(name: r'custom$_MutationRoot$_MutationResponse'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r's',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r's'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'Custom$MutationRoot',
+            name: ClassName(name: r'custom$_MutationRoot'),
             properties: [
               ClassProperty(
-                  type: r'Custom$MutationRoot$MutationResponse',
-                  name: r'mut',
+                  type: TypeName(name: r'Custom$MutationRoot$MutationResponse'),
+                  name: ClassPropertyName(name: r'mut'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'Input',
+            name: ClassName(name: r'Input'),
             properties: [
               ClassProperty(
-                  type: r'MyUuid',
-                  name: r'id',
+                  type: TypeName(name: r'MyUuid'),
+                  name: ClassPropertyName(name: r'id'),
                   annotations: [
                     r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid,)'
                   ],
@@ -99,21 +99,24 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: true)
       ],
       inputs: [
-        QueryInput(type: r'Input', name: r'input', isNonNull: true),
         QueryInput(
-            type: r'MyUuid',
-            name: r'previousId',
+            type: TypeName(name: r'Input'),
+            name: QueryInputName(name: r'input'),
+            isNonNull: true),
+        QueryInput(
+            type: TypeName(name: r'MyUuid'),
+            name: QueryInputName(name: r'previousId'),
             isNonNull: false,
             annotations: [
               r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid,)'
             ]),
         QueryInput(
-            type: r'List<MyUuid>',
-            name: r'listIds',
+            type: TypeName(name: r'List<MyUuid>'),
+            name: QueryInputName(name: r'listIds'),
             isNonNull: false,
             annotations: [
               r'JsonKey(fromJson: fromGraphQLListMyUuidToDartListMyUuid, toJson: fromDartListMyUuidToGraphQLListMyUuid,)'

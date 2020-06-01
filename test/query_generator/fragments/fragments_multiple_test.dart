@@ -1,4 +1,4 @@
-import 'package:artemis/generator/data.dart';
+import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
@@ -91,116 +91,129 @@ void main() {
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      queryName: r'VoyagesData',
-      queryType: r'VoyagesData$Query',
+      name: QueryName(name: r'VoyagesData$_Query'),
+      operationName: r'VoyagesData',
       classes: [
-        FragmentClassDefinition(name: r'DstMixin', properties: [
-          ClassProperty(
-              type: r'String',
-              name: r'id',
-              isNonNull: true,
-              isResolveType: false),
-          ClassProperty(
-              type: r'String',
-              name: r'name',
-              isNonNull: true,
-              isResolveType: false)
-        ]),
-        FragmentClassDefinition(name: r'DepartureMixin', properties: [
-          ClassProperty(
-              type: r'String',
-              name: r'id',
-              isNonNull: true,
-              isResolveType: false)
-        ]),
-        ClassDefinition(
-            name: r'VoyagesData$Query$VoyageList$VoyageDetails$Voyage',
+        FragmentClassDefinition(
+            name: ClassName(name: r'DstMixin'),
             properties: [
               ClassProperty(
-                  type: r'DateTime',
-                  name: r'dateFrom',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'id'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: r'DateTime',
-                  name: r'dateTo',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'name'),
+                  isNonNull: true,
+                  isResolveType: false)
+            ]),
+        FragmentClassDefinition(
+            name: ClassName(name: r'DepartureMixin'),
+            properties: [
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'id'),
+                  isNonNull: true,
+                  isResolveType: false)
+            ]),
+        ClassDefinition(
+            name: ClassName(
+                name: r'VoyagesData$_Query$_VoyageList$_VoyageDetails$_Voyage'),
+            properties: [
+              ClassProperty(
+                  type: TypeName(name: r'DateTime'),
+                  name: ClassPropertyName(name: r'dateFrom'),
+                  isNonNull: true,
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(name: r'DateTime'),
+                  name: ClassPropertyName(name: r'dateTo'),
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
-                  type: r'String',
-                  name: r'id',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'id'),
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
-                  type: r'String',
-                  name: r'voyageNumber',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'voyageNumber'),
                   isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'VoyagesData$Query$VoyageList$VoyageDetails',
+            name: ClassName(
+                name: r'VoyagesData$_Query$_VoyageList$_VoyageDetails'),
             properties: [
               ClassProperty(
-                  type: r'int',
-                  name: r'numberOfReports',
+                  type: TypeName(name: r'int'),
+                  name: ClassPropertyName(name: r'numberOfReports'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: r'VoyagesData$Query$VoyageList$VoyageDetails$Voyage',
-                  name: r'voyage',
+                  type: TypeName(
+                      name:
+                          r'VoyagesData$Query$VoyageList$VoyageDetails$Voyage'),
+                  name: ClassPropertyName(name: r'voyage'),
                   isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'VoyagesData$Query$VoyageList',
+            name: ClassName(name: r'VoyagesData$_Query$_VoyageList'),
             properties: [
               ClassProperty(
-                  type: r'List<VoyagesData$Query$VoyageList$VoyageDetails>',
-                  name: r'voyages',
+                  type: TypeName(
+                      name:
+                          r'List<VoyagesData$Query$VoyageList$VoyageDetails>'),
+                  name: ClassPropertyName(name: r'voyages'),
                   isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'VoyagesData$Query',
+            name: ClassName(name: r'VoyagesData$_Query'),
             properties: [
               ClassProperty(
-                  type: r'VoyagesData$Query$VoyageList',
-                  name: r'voyages',
+                  type: TypeName(name: r'VoyagesData$Query$VoyageList'),
+                  name: ClassPropertyName(name: r'voyages'),
                   isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'PaginationInput',
+            name: ClassName(name: r'PaginationInput'),
             properties: [
               ClassProperty(
-                  type: r'int',
-                  name: r'limit',
+                  type: TypeName(name: r'int'),
+                  name: ClassPropertyName(name: r'limit'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: r'int',
-                  name: r'offset',
+                  type: TypeName(name: r'int'),
+                  name: ClassPropertyName(name: r'offset'),
                   isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: '__typename'),
             isInput: true)
       ],
       inputs: [
-        QueryInput(type: r'PaginationInput', name: r'input', isNonNull: true)
+        QueryInput(
+            type: TypeName(name: r'PaginationInput'),
+            name: QueryInputName(name: r'input'),
+            isNonNull: true)
       ],
       generateHelpers: true,
       suffix: r'Query')

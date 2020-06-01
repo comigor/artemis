@@ -1,15 +1,15 @@
 import 'dart:async';
 
+import 'package:artemis/generator/data/data.dart';
 import 'package:build/build.dart';
 import 'package:glob/glob.dart';
 import 'package:gql/ast.dart';
 import 'package:gql/language.dart';
 
 import './generator.dart';
-import './generator/data.dart';
-import './generator/errors.dart';
 import './generator/print_helpers.dart';
 import './schema/options.dart';
+import 'generator/errors.dart';
 
 /// [GraphQLQueryBuilder] instance, to be used by `build_runner`.
 GraphQLQueryBuilder graphQLQueryBuilder(BuilderOptions options) =>
