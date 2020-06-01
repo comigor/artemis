@@ -9,12 +9,12 @@ TypeDefinitionNode getTypeByName(DocumentNode schema, TypeNode typeNode,
     {String context}) {
   NamedTypeNode namedNode;
 
-  if (typeNode is NamedTypeNode) {
-    namedNode = typeNode;
+  if (typeNode is ListTypeNode) {
+    return getTypeByName(schema, typeNode.type, context: context);
   }
 
-  if (typeNode is ListTypeNode) {
-    namedNode = typeNode.type as NamedTypeNode;
+  if (typeNode is NamedTypeNode) {
+    namedNode = typeNode;
   }
 
   final typeVisitor = TypeDefinitionNodeVisitor();

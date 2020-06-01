@@ -27,6 +27,7 @@ void main() {
             s: String!
             e: MyEnum
             ls: [String]
+            i: [[Int]]
           }
 
           type SomeObject {
@@ -67,7 +68,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'some_query$_QueryRoot'),
@@ -79,7 +80,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'ComplexInput'),
@@ -101,10 +102,15 @@ final LibraryDefinition libraryDefinition =
                   type: TypeName(name: r'List<String>'),
                   name: ClassPropertyName(name: r'ls'),
                   isNonNull: false,
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(name: r'List<List<int>>'),
+                  name: ClassPropertyName(name: r'i'),
+                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: true)
       ],
       inputs: [
@@ -156,7 +162,7 @@ class SomeQuery$QueryRoot with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class ComplexInput with EquatableMixin {
-  ComplexInput({@required this.s, this.e, this.ls});
+  ComplexInput({@required this.s, this.e, this.ls, this.i});
 
   factory ComplexInput.fromJson(Map<String, dynamic> json) =>
       _$ComplexInputFromJson(json);
@@ -168,8 +174,10 @@ class ComplexInput with EquatableMixin {
 
   List<String> ls;
 
+  List<List<int>> i;
+
   @override
-  List<Object> get props => [s, e, ls];
+  List<Object> get props => [s, e, ls, i];
   Map<String, dynamic> toJson() => _$ComplexInputToJson(this);
 }
 
