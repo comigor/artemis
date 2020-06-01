@@ -58,7 +58,7 @@ const anotherQuery = r'''
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      name: QueryName(name: r'custom$_Query'),
+      name: QueryName(name: r'Custom$_Query'),
       operationName: r'custom',
       classes: [
         EnumDefinition(name: EnumName(name: r'MyEnum'), values: [
@@ -79,7 +79,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'custom$_Query'),
@@ -91,13 +91,13 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false)
       ],
       generateHelpers: false,
       suffix: r'Query'),
   QueryDefinition(
-      name: QueryName(name: r'customList$_Query'),
+      name: QueryName(name: r'CustomList$_Query'),
       operationName: r'customList',
       classes: [
         EnumDefinition(name: EnumName(name: r'MyEnum'), values: [
@@ -118,7 +118,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'customList$_Query'),
@@ -130,7 +130,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false)
       ],
       generateHelpers: false,

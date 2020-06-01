@@ -50,7 +50,7 @@ void main() {
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      name: QueryName(name: r'some_query$_QueryRoot'),
+      name: QueryName(name: r'SomeQuery$_QueryRoot'),
       operationName: r'some_query',
       classes: [
         EnumDefinition(name: EnumName(name: r'MyEnum'), values: [

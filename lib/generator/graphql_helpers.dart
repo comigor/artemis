@@ -3,6 +3,7 @@ import 'package:gql/ast.dart';
 import '../generator/errors.dart';
 import '../schema/options.dart';
 import '../visitor.dart';
+import 'data/definition.dart';
 
 /// Get a full [TypeDefinitionNode] from a type node.
 TypeDefinitionNode getTypeByName(DocumentNode schema, TypeNode typeNode,
@@ -35,7 +36,7 @@ String buildTypeString(
   Node node,
   GeneratorOptions options, {
   bool dartType = true,
-  String replaceLeafWith,
+  Name replaceLeafWith,
   String prefix = '',
   DocumentNode schema,
 }) {
@@ -56,7 +57,7 @@ String buildTypeString(
       }
 
       if (replaceLeafWith != null) {
-        return '$prefix$replaceLeafWith';
+        return '$prefix${replaceLeafWith.namePrintable}';
       } else {
         return '$prefix${type.name.value}';
       }

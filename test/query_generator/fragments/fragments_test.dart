@@ -37,11 +37,11 @@ void main() {
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      name: QueryName(name: r'some_query$_SomeObject'),
+      name: QueryName(name: r'SomeQuery$_SomeObject'),
       operationName: r'some_query',
       classes: [
         FragmentClassDefinition(
-            name: ClassName(name: r'MyFragmentMixin'),
+            name: FragmentName(name: r'MyFragmentMixin'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'String'),
@@ -56,9 +56,9 @@ final LibraryDefinition libraryDefinition =
             ]),
         ClassDefinition(
             name: ClassName(name: r'some_query$_SomeObject'),
-            mixins: [r'MyFragmentMixin'],
+            mixins: [FragmentName(name: r'MyFragmentMixin')],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false)
       ],
       generateHelpers: false,

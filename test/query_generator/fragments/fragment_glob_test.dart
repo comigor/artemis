@@ -87,14 +87,14 @@ const queryString = '''
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      name: QueryName(name: r'query$_Query'),
+      name: QueryName(name: r'Query$_Query'),
       operationName: r'query',
       classes: [
         ClassDefinition(
             name: ClassName(name: r'query$_Query$_Pokemon$_Pokemon'),
-            mixins: [r'PokemonMixin'],
+            mixins: [FragmentName(name: r'PokemonMixin')],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'query$_Query$_Pokemon'),
@@ -105,9 +105,9 @@ final LibraryDefinition libraryDefinition =
                   isNonNull: false,
                   isResolveType: false)
             ],
-            mixins: [r'PokemonMixin'],
+            mixins: [FragmentName(name: r'PokemonMixin')],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'query$_Query'),
@@ -119,22 +119,22 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'PokemonMixin$_PokemonDimension'),
-            mixins: [r'WeightMixin'],
+            mixins: [FragmentName(name: r'WeightMixin')],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'PokemonMixin$_PokemonAttack'),
-            mixins: [r'PokemonAttackMixin'],
+            mixins: [FragmentName(name: r'PokemonAttackMixin')],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         FragmentClassDefinition(
-            name: ClassName(name: r'PokemonMixin'),
+            name: FragmentName(name: r'PokemonMixin'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'String'),
@@ -153,7 +153,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ]),
         FragmentClassDefinition(
-            name: ClassName(name: r'WeightMixin'),
+            name: FragmentName(name: r'WeightMixin'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'String'),
@@ -163,12 +163,12 @@ final LibraryDefinition libraryDefinition =
             ]),
         ClassDefinition(
             name: ClassName(name: r'PokemonAttackMixin$_Attack'),
-            mixins: [r'AttackMixin'],
+            mixins: [FragmentName(name: r'AttackMixin')],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         FragmentClassDefinition(
-            name: ClassName(name: r'PokemonAttackMixin'),
+            name: FragmentName(name: r'PokemonAttackMixin'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'List<PokemonAttackMixin$Attack>'),
@@ -177,7 +177,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ]),
         FragmentClassDefinition(
-            name: ClassName(name: r'AttackMixin'),
+            name: FragmentName(name: r'AttackMixin'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'String'),

@@ -18,7 +18,7 @@ String _fromJsonBody(ClassDefinition definition) {
 
   for (final p in definition.factoryPossibilities.entries) {
     buffer.writeln('''      case r'${p.key}':
-        return ${p.value}.fromJson(json);''');
+        return ${p.value.namePrintable}.fromJson(json);''');
   }
 
   buffer.writeln('''      default:
@@ -34,7 +34,7 @@ String _toJsonBody(ClassDefinition definition) {
 
   for (final p in definition.factoryPossibilities.entries) {
     buffer.writeln('''      case r'${p.key}':
-        return (this as ${p.value}).toJson();''');
+        return (this as ${p.value.namePrintable}).toJson();''');
   }
 
   buffer.writeln('''      default:
@@ -100,7 +100,7 @@ Spec classDefinitionToSpec(
       .map((i) {
         return fragments
             .firstWhere((f) {
-              return f.name.name == i;
+              return f.name == i;
             })
             .properties
             .map((p) => p.name.namePrintable);
@@ -114,10 +114,11 @@ Spec classDefinitionToSpec(
           .add(CodeExpression(Code('JsonSerializable(explicitToJson: true)')))
       ..name = definition.name.namePrintable
       ..mixins.add(refer('EquatableMixin'))
-      ..mixins.addAll(definition.mixins.map((i) => refer(i)))
+      ..mixins.addAll(definition.mixins.map((i) => refer(i.name)))
       ..methods.add(_propsMethod('[${props.join(',')}]'))
-      ..extend =
-          definition.extension != null ? refer(definition.extension) : null
+      ..extend = definition.extension != null
+          ? refer(definition.extension.namePrintable)
+          : null
       ..implements.addAll(definition.implementations.map((i) => refer(i)))
       ..constructors.add(Constructor((b) {
         if (definition.isInput) {

@@ -82,7 +82,7 @@ void main() {
 
     test('It will generate an Mixins declarations.', () {
       final definition = FragmentClassDefinition(
-          name: ClassName(name: 'FragmentMixin'),
+          name: FragmentName(name: 'FragmentMixin'),
           properties: [
             ClassProperty(
                 type: TypeName(name: 'Type'),
@@ -145,7 +145,7 @@ class AClass with EquatableMixin {
       final definition = ClassDefinition(
           name: ClassName(name: 'AClass'),
           properties: [],
-          extension: 'AnotherClass');
+          extension: ClassName(name: 'AnotherClass'));
 
       final str = specToString(classDefinitionToSpec(definition, []));
 
@@ -169,8 +169,8 @@ class AClass extends AnotherClass with EquatableMixin {
         name: ClassName(name: 'AClass'),
         properties: [],
         factoryPossibilities: {
-          'ASubClass': 'ASubClass',
-          'BSubClass': 'BSubClass',
+          'ASubClass': ClassName(name: 'ASubClass'),
+          'BSubClass': ClassName(name: 'BSubClass'),
         },
         typeNameField: TypeName(name: '__typename'),
       );
@@ -293,11 +293,11 @@ class AClass with EquatableMixin {
       final definition = ClassDefinition(
           name: ClassName(name: 'AClass'),
           properties: [],
-          mixins: ['FragmentMixin']);
+          mixins: [FragmentName(name: 'FragmentMixin')]);
 
       final str = specToString(classDefinitionToSpec(definition, [
         FragmentClassDefinition(
-            name: ClassName(name: 'FragmentMixin'),
+            name: FragmentName(name: 'FragmentMixin'),
             properties: [
               ClassProperty(
                   type: TypeName(name: 'Type'),

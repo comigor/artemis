@@ -64,14 +64,17 @@ const queryString = '''
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      name: QueryName(name: r'query$_Query'),
+      name: QueryName(name: r'Query$_Query'),
       operationName: r'query',
       classes: [
         ClassDefinition(
             name: ClassName(name: r'query$_Query$_Pokemon'),
-            mixins: [r'PokemonMixin', r'PokemonPartsMixin'],
+            mixins: [
+              FragmentName(name: r'PokemonMixin'),
+              FragmentName(name: r'PokemonPartsMixin')
+            ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'query$_Query'),
@@ -83,16 +86,16 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'PokemonMixin$_Pokemon'),
-            mixins: [r'PokemonNameMixin'],
+            mixins: [FragmentName(name: r'PokemonNameMixin')],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         FragmentClassDefinition(
-            name: ClassName(name: r'PokemonMixin'),
+            name: FragmentName(name: r'PokemonMixin'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'String'),
@@ -106,7 +109,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ]),
         FragmentClassDefinition(
-            name: ClassName(name: r'PokemonNameMixin'),
+            name: FragmentName(name: r'PokemonNameMixin'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'String'),
@@ -115,7 +118,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ]),
         FragmentClassDefinition(
-            name: ClassName(name: r'PokemonPartsMixin'),
+            name: FragmentName(name: r'PokemonPartsMixin'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'String'),

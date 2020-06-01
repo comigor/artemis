@@ -69,7 +69,7 @@ const graphQLSchema = '''
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      name: QueryName(name: r'custom$_Query'),
+      name: QueryName(name: r'Custom$_Query'),
       operationName: r'custom',
       classes: [
         ClassDefinition(
@@ -81,9 +81,9 @@ final LibraryDefinition libraryDefinition =
                   isNonNull: true,
                   isResolveType: false)
             ],
-            extension: r'Custom$Query$Node',
+            extension: ClassName(name: r'custom$_Query$_Node'),
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'custom$_Query$_Node$_ChatMessage'),
@@ -94,9 +94,9 @@ final LibraryDefinition libraryDefinition =
                   isNonNull: true,
                   isResolveType: false)
             ],
-            extension: r'Custom$Query$Node',
+            extension: ClassName(name: r'custom$_Query$_Node'),
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'custom$_Query$_Node'),
@@ -117,10 +117,11 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: true)
             ],
             factoryPossibilities: {
-              r'User': r'Custom$Query$Node$User',
-              r'ChatMessage': r'Custom$Query$Node$ChatMessage'
+              r'User': ClassName(name: r'custom$_Query$_Node$_User'),
+              r'ChatMessage':
+                  ClassName(name: r'custom$_Query$_Node$_ChatMessage')
             },
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'custom$_Query'),
@@ -132,7 +133,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false)
       ],
       inputs: [

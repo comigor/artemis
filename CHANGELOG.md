@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.3.3-beta.1
+- Centralize naming transformations
+
 ## 6.3.2-beta.1
 - Recursively consider input lists.
 

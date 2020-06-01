@@ -5,6 +5,9 @@ import 'package:meta/meta.dart';
 
 /// Define a property (field) from a class.
 class ClassProperty extends Definition with DataPrinter {
+  @override
+  final ClassPropertyName name;
+
   /// The property type.
   final TypeName type;
 
@@ -23,7 +26,7 @@ class ClassProperty extends Definition with DataPrinter {
     this.annotations = const [],
     this.isNonNull = false,
     this.isResolveType = false,
-    @required Name name,
+    @required this.name,
   })  : assert(hasValue(type) && hasValue(name)),
         super(name: name);
 
@@ -33,7 +36,7 @@ class ClassProperty extends Definition with DataPrinter {
   /// Creates a copy of [ClassProperty] without modifying the original.
   ClassProperty copyWith({
     TypeName type,
-    Name name,
+    ClassPropertyName name,
     List<String> annotations,
     bool isNonNull,
     bool isResolveType,
@@ -60,11 +63,6 @@ class ClassProperty extends Definition with DataPrinter {
 class ClassPropertyName extends Name with DataPrinter {
   /// Instantiate a class property name definition.
   ClassPropertyName({String name}) : super(name: name);
-
-  @override
-  String normalize(String name) {
-    return normalizeName(name);
-  }
 
   @override
   Map<String, Object> get namedProps => {

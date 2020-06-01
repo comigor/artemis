@@ -74,7 +74,7 @@ final String graphQLSchema = '''
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      name: QueryName(name: r'some_query$_SomeObject'),
+      name: QueryName(name: r'SomeQuery$_SomeObject'),
       operationName: r'some_query',
       classes: [
         ClassDefinition(
@@ -116,9 +116,9 @@ final LibraryDefinition libraryDefinition =
                   isNonNull: false,
                   isResolveType: false)
             ],
-            extension: r'SomeQuery$SomeObject$SomeUnion',
+            extension: ClassName(name: r'some_query$_SomeObject$_SomeUnion'),
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'some_query$_SomeObject$_SomeUnion$_TypeB'),
@@ -159,9 +159,9 @@ final LibraryDefinition libraryDefinition =
                   isNonNull: false,
                   isResolveType: false)
             ],
-            extension: r'SomeQuery$SomeObject$SomeUnion',
+            extension: ClassName(name: r'some_query$_SomeObject$_SomeUnion'),
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'some_query$_SomeObject$_SomeUnion'),
@@ -177,10 +177,12 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: true)
             ],
             factoryPossibilities: {
-              r'TypeA': r'SomeQuery$SomeObject$SomeUnion$TypeA',
-              r'TypeB': r'SomeQuery$SomeObject$SomeUnion$TypeB'
+              r'TypeA':
+                  ClassName(name: r'some_query$_SomeObject$_SomeUnion$_TypeA'),
+              r'TypeB':
+                  ClassName(name: r'some_query$_SomeObject$_SomeUnion$_TypeB')
             },
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'some_query$_SomeObject'),
@@ -192,7 +194,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false)
       ],
       generateHelpers: false,

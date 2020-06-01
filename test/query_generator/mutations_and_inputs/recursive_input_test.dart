@@ -35,7 +35,7 @@ mutation custom($input: Input!) {
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      name: QueryName(name: r'custom$_Mutation'),
+      name: QueryName(name: r'Custom$_Mutation'),
       operationName: r'custom',
       classes: [
         ClassDefinition(
