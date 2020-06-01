@@ -84,8 +84,21 @@ Map<String, ScalarMap> _defaultScalarMapping = {
 };
 
 /// Retrieve a scalar mapping of a type.
-ScalarMap getSingleScalarMap(GeneratorOptions options, String type) =>
+ScalarMap getSingleScalarMap(GeneratorOptions options, String type,
+        {bool throwOnNotFound = true}) =>
     options.scalarMapping.followedBy(_defaultScalarMapping.values).firstWhere(
           (m) => m.graphQLType == type,
-          orElse: () => throw MissingScalarConfigurationException(type),
+          orElse: () => throwOnNotFound
+              ? throw MissingScalarConfigurationException(type)
+              : null,
         );
+
+/// Retrieve imports of a scalar map.
+Iterable<String> importsOfScalar(GeneratorOptions options, String type) {
+  final scalarMapping = options.scalarMapping.firstWhere(
+    (m) => m.graphQLType == type,
+    orElse: () => null,
+  );
+  return (scalarMapping?.dartType?.imports ?? [])
+      .followedBy([scalarMapping?.customParserImport]).where((c) => c != null);
+}

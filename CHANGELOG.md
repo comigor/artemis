@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.3.1-beta.1
+- Do not throw on unused scalars.
+
 ## 6.3.0-beta.1
 **MAJOR BREAKING CHANGE**
 
@@ -7,7 +10,7 @@
 - `__typename` field replaced with `$$typename`
 - enums are named according to Dart spec
 - fields similar to Dart keywords are prefixed with `kw$`
-- 
+
 ## 6.2.1-beta.1
 - Check for more error causes and throw, explaining the error.
 

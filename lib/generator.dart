@@ -218,11 +218,7 @@ List<String> _extractCustomImports(
 
   return typeVisitor.types
       .whereType<ScalarTypeDefinitionNode>()
-      .map((type) {
-        final scalarMap = gql.getSingleScalarMap(options, type.name.value);
-        return scalarMap.dartType.imports
-            .followedBy([scalarMap.customParserImport].where((c) => c != null));
-      })
+      .map((type) => gql.importsOfScalar(options, type.name.value))
       .expand((i) => i)
       .toSet()
       .toList();
