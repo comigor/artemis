@@ -114,7 +114,7 @@ Spec classDefinitionToSpec(
           .add(CodeExpression(Code('JsonSerializable(explicitToJson: true)')))
       ..name = definition.name.namePrintable
       ..mixins.add(refer('EquatableMixin'))
-      ..mixins.addAll(definition.mixins.map((i) => refer(i.name)))
+      ..mixins.addAll(definition.mixins.map((i) => refer(i.namePrintable)))
       ..methods.add(_propsMethod('[${props.join(',')}]'))
       ..extend = definition.extension != null
           ? refer(definition.extension.namePrintable)

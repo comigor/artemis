@@ -240,7 +240,6 @@ ClassProperty _createClassProperty({
     return ClassProperty(
       type: TypeName(name: 'String'),
       name: fieldName,
-//      name: ClassPropertyName(name: fieldName),
       annotations: [
         'override',
         'JsonKey(name: \'${context.schemaMap.typeNameField}\')'
@@ -390,12 +389,14 @@ class _GeneratorVisitor extends RecursiveVisitor {
     final partOfUnion = nextContext.ofUnion != null;
     if (partOfUnion) {}
 
+    final name = ClassName.fromPath(path: nextContext.fullPathName());
     _log(context, nextContext.align,
         '└ ${nextContext.path}[${nextContext.currentType.name.value}][${nextContext.currentClassName} ${nextContext.currentFieldName}] (${nextContext.alias ?? ''})');
-//    _log(context, nextContext.align,
-//        '<- Generated class ${nextContext.joinedName()}.');
+    _log(context, nextContext.align,
+        '<- Generated class ${name.namePrintable}.');
+
     nextContext.generatedClasses.add(ClassDefinition(
-      name: ClassName.fromPath(path: nextContext.fullPathName()),
+      name: name,
       properties: _classProperties,
       mixins: _mixins,
       extension: partOfUnion
