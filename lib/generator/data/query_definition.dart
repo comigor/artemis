@@ -59,8 +59,8 @@ class QueryName extends Name with DataPrinter {
   QueryName({String name}) : super(name: name);
 
   /// Generate class name from hierarchical path
-  factory QueryName.fromPath({List<String> path}) {
-    return QueryName(name: path.join(r'$_'));
+  factory QueryName.fromPath({List<Name> path}) {
+    return QueryName(name: path.map((e) => e.namePrintable).join(r'$_'));
   }
 
   @override

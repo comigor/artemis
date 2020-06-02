@@ -6,12 +6,15 @@ import 'package:recase/recase.dart';
 
 /// Define a Dart enum parsed from GraphQL schema.
 class EnumDefinition extends Definition with DataPrinter {
+  @override
+  final EnumName name;
+
   /// The possible values of this enum.
   final Iterable<EnumValue> values;
 
   /// Instantiate an enum definition.
   EnumDefinition({
-    @required Name name,
+    @required this.name,
     this.values,
   })  : assert(hasValue(name) && hasValue(values)),
         super(name: name);
@@ -35,7 +38,7 @@ class EnumValue extends Name with DataPrinter {
 
   @override
   String normalize(String name) {
-    return ReCase(normalizeName(name)).camelCase;
+    return ReCase(super.normalize(name)).camelCase;
   }
 }
 

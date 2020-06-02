@@ -101,11 +101,11 @@ void main() {
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      name: QueryName(name: r'query$_SomeObject'),
+      name: QueryName(name: r'Query$_SomeObject'),
       operationName: r'query',
       classes: [
         ClassDefinition(
-            name: ClassName(name: r'query$_SomeObject'),
+            name: ClassName(name: r'Query$_SomeObject'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'String'),
@@ -114,7 +114,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false)
       ],
       generateHelpers: false,
@@ -124,11 +124,11 @@ final LibraryDefinition libraryDefinition =
 final LibraryDefinition libraryDefinitionWithCustomParserFns =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      name: QueryName(name: r'query$_SomeObject'),
+      name: QueryName(name: r'Query$_SomeObject'),
       operationName: r'query',
       classes: [
         ClassDefinition(
-            name: ClassName(name: r'query$_SomeObject'),
+            name: ClassName(name: r'Query$_SomeObject'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'MyDartUuid'),
@@ -140,7 +140,7 @@ final LibraryDefinition libraryDefinitionWithCustomParserFns =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false)
       ],
       generateHelpers: false,
@@ -152,11 +152,11 @@ final LibraryDefinition libraryDefinitionWithCustomParserFns =
 final LibraryDefinition libraryDefinitionWithCustomImports =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      name: QueryName(name: r'query$_SomeObject'),
+      name: QueryName(name: r'Query$_SomeObject'),
       operationName: r'query',
       classes: [
         ClassDefinition(
-            name: ClassName(name: r'query$_SomeObject'),
+            name: ClassName(name: r'Query$_SomeObject'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'MyUuid'),
@@ -168,7 +168,7 @@ final LibraryDefinition libraryDefinitionWithCustomImports =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false)
       ],
       generateHelpers: false,

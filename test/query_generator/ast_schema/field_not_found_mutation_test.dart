@@ -53,12 +53,12 @@ mutation createThing($createThingInput: CreateThingInput) {
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      name: QueryName(name: r'createThing$_MutationRoot'),
+      name: QueryName(name: r'CreateThing$_MutationRoot'),
       operationName: r'createThing',
       classes: [
         ClassDefinition(
             name: ClassName(
-                name: r'createThing$_MutationRoot$_CreateThingResponse$_Thing'),
+                name: r'CreateThing$_MutationRoot$_CreateThingResponse$_Thing'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'String'),
@@ -72,11 +72,11 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(
-                name: r'createThing$_MutationRoot$_CreateThingResponse'),
+                name: r'CreateThing$_MutationRoot$_CreateThingResponse'),
             properties: [
               ClassProperty(
                   type: TypeName(
@@ -87,10 +87,10 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: ClassName(name: r'createThing$_MutationRoot'),
+            name: ClassName(name: r'CreateThing$_MutationRoot'),
             properties: [
               ClassProperty(
                   type: TypeName(
@@ -100,7 +100,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'CreateThingInput'),
@@ -117,7 +117,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: true)
       ],
       inputs: [

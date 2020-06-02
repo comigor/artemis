@@ -50,7 +50,7 @@ void main() {
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      name: QueryName(name: r'some_query$_QueryRoot'),
+      name: QueryName(name: r'SomeQuery$_QueryRoot'),
       operationName: r'some_query',
       classes: [
         EnumDefinition(name: EnumName(name: r'MyEnum'), values: [
@@ -59,7 +59,7 @@ final LibraryDefinition libraryDefinition =
           EnumValue(name: r'ARTEMIS_UNKNOWN')
         ]),
         ClassDefinition(
-            name: ClassName(name: r'some_query$_QueryRoot$_SomeObject'),
+            name: ClassName(name: r'SomeQuery$_QueryRoot$_SomeObject'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'String'),
@@ -71,7 +71,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: ClassName(name: r'some_query$_QueryRoot'),
+            name: ClassName(name: r'SomeQuery$_QueryRoot'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'SomeQuery$QueryRoot$SomeObject'),

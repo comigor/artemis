@@ -58,11 +58,11 @@ mutation customList($input: [Input!]!) {
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      name: QueryName(name: r'custom$_Mutation'),
+      name: QueryName(name: r'Custom$_Mutation'),
       operationName: r'custom',
       classes: [
         ClassDefinition(
-            name: ClassName(name: r'custom$_Mutation$_mut'),
+            name: ClassName(name: r'Custom$_Mutation$_mut'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'String'),
@@ -71,10 +71,10 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: ClassName(name: r'custom$_Mutation'),
+            name: ClassName(name: r'Custom$_Mutation'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'Custom$Mutation$Mut'),
@@ -83,7 +83,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'Input'),
@@ -95,7 +95,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: true)
       ],
       inputs: [
@@ -107,11 +107,11 @@ final LibraryDefinition libraryDefinition =
       generateHelpers: true,
       suffix: r'Mutation'),
   QueryDefinition(
-      name: QueryName(name: r'customList$_Mutation'),
+      name: QueryName(name: r'CustomList$_Mutation'),
       operationName: r'customList',
       classes: [
         ClassDefinition(
-            name: ClassName(name: r'customList$_Mutation$_mutList'),
+            name: ClassName(name: r'CustomList$_Mutation$_mutList'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'String'),
@@ -120,10 +120,10 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: ClassName(name: r'customList$_Mutation'),
+            name: ClassName(name: r'CustomList$_Mutation'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'CustomList$Mutation$MutList'),
@@ -132,7 +132,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'Input'),
@@ -144,7 +144,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: true)
       ],
       inputs: [

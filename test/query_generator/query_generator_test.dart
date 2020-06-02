@@ -37,11 +37,11 @@ void main() {
             libraryDefinition:
                 LibraryDefinition(basename: r'query.graphql', queries: [
               QueryDefinition(
-                  name: QueryName(name: r'some_query$_SomeObject'),
+                  name: QueryName(name: r'SomeQuery$_SomeObject'),
                   operationName: r'some_query',
                   classes: [
                     ClassDefinition(
-                        name: ClassName(name: r'some_query$_SomeObject'),
+                        name: ClassName(name: r'SomeQuery$_SomeObject'),
                         properties: [
                           ClassProperty(
                               type: TypeName(name: r'String'),
@@ -55,7 +55,7 @@ void main() {
                               isResolveType: false)
                         ],
                         factoryPossibilities: {},
-                        typeNameField: TypeName(name: '__typename'),
+                        typeNameField: TypeName(name: r'__typename'),
                         isInput: false)
                   ],
                   generateHelpers: false,
@@ -116,11 +116,11 @@ class SomeQuery$SomeObject with EquatableMixin {
             libraryDefinition:
                 LibraryDefinition(basename: r'query.graphql', queries: [
               QueryDefinition(
-                  name: QueryName(name: r'some_query$_Query'),
+                  name: QueryName(name: r'SomeQuery$_Query'),
                   operationName: r'some_query',
                   classes: [
                     ClassDefinition(
-                        name: ClassName(name: r'some_query$_Query$_SomeObject'),
+                        name: ClassName(name: r'SomeQuery$_Query$_SomeObject'),
                         properties: [
                           ClassProperty(
                               type: TypeName(name: r'String'),
@@ -139,10 +139,10 @@ class SomeQuery$SomeObject with EquatableMixin {
                               isResolveType: false)
                         ],
                         factoryPossibilities: {},
-                        typeNameField: TypeName(name: '__typename'),
+                        typeNameField: TypeName(name: r'__typename'),
                         isInput: false),
                     ClassDefinition(
-                        name: ClassName(name: r'some_query$_Query'),
+                        name: ClassName(name: r'SomeQuery$_Query'),
                         properties: [
                           ClassProperty(
                               type:
@@ -152,7 +152,7 @@ class SomeQuery$SomeObject with EquatableMixin {
                               isResolveType: false)
                         ],
                         factoryPossibilities: {},
-                        typeNameField: TypeName(name: '__typename'),
+                        typeNameField: TypeName(name: r'__typename'),
                         isInput: false)
                   ],
                   inputs: [
@@ -344,13 +344,13 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
             libraryDefinition:
                 LibraryDefinition(basename: r'query.graphql', queries: [
               QueryDefinition(
-                  name: QueryName(name: r'some_query$_Result'),
+                  name: QueryName(name: r'SomeQuery$_Result'),
                   operationName: r'some_query',
                   classes: [
                     ClassDefinition(
                         name: ClassName(
                             name:
-                                r'some_query$_Result$_SomeObject$_AnotherObject'),
+                                r'SomeQuery$_Result$_SomeObject$_AnotherObject'),
                         properties: [
                           ClassProperty(
                               type: TypeName(name: r'String'),
@@ -359,11 +359,10 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
                               isResolveType: false)
                         ],
                         factoryPossibilities: {},
-                        typeNameField: TypeName(name: '__typename'),
+                        typeNameField: TypeName(name: r'__typename'),
                         isInput: false),
                     ClassDefinition(
-                        name:
-                            ClassName(name: r'some_query$_Result$_SomeObject'),
+                        name: ClassName(name: r'SomeQuery$_Result$_SomeObject'),
                         properties: [
                           ClassProperty(
                               type: TypeName(name: r'String'),
@@ -379,10 +378,10 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
                               isResolveType: false)
                         ],
                         factoryPossibilities: {},
-                        typeNameField: TypeName(name: '__typename'),
+                        typeNameField: TypeName(name: r'__typename'),
                         isInput: false),
                     ClassDefinition(
-                        name: ClassName(name: r'some_query$_Result'),
+                        name: ClassName(name: r'SomeQuery$_Result'),
                         properties: [
                           ClassProperty(
                               type: TypeName(name: r'String'),
@@ -397,7 +396,7 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
                               isResolveType: false)
                         ],
                         factoryPossibilities: {},
-                        typeNameField: TypeName(name: '__typename'),
+                        typeNameField: TypeName(name: r'__typename'),
                         isInput: false)
                   ],
                   generateHelpers: false,
@@ -477,11 +476,11 @@ class SomeQuery$Result with EquatableMixin {
             libraryDefinition:
                 LibraryDefinition(basename: r'query.graphql', queries: [
               QueryDefinition(
-                  name: QueryName(name: r'some_query$_Result'),
+                  name: QueryName(name: r'SomeQuery$_Result'),
                   operationName: r'some_query',
                   classes: [
                     ClassDefinition(
-                        name: ClassName(name: r'some_query$_Result'),
+                        name: ClassName(name: r'SomeQuery$_Result'),
                         properties: [
                           ClassProperty(
                               type: TypeName(name: r'String'),
@@ -495,7 +494,7 @@ class SomeQuery$Result with EquatableMixin {
                               isResolveType: false)
                         ],
                         factoryPossibilities: {},
-                        typeNameField: TypeName(name: '__typename'),
+                        typeNameField: TypeName(name: r'__typename'),
                         isInput: false)
                   ],
                   generateHelpers: false,
@@ -561,11 +560,11 @@ class SomeQuery$Result with EquatableMixin {
             libraryDefinition:
                 LibraryDefinition(basename: r'query.graphql', queries: [
               QueryDefinition(
-                  name: QueryName(name: r'some_query$_SomeObject'),
+                  name: QueryName(name: r'SomeQuery$_SomeObject'),
                   operationName: r'some_query',
                   classes: [
                     ClassDefinition(
-                        name: ClassName(name: r'some_query$_SomeObject'),
+                        name: ClassName(name: r'SomeQuery$_SomeObject'),
                         properties: [
                           ClassProperty(
                               type: TypeName(name: r'Decimal'),
@@ -579,7 +578,7 @@ class SomeQuery$Result with EquatableMixin {
                               isResolveType: false)
                         ],
                         factoryPossibilities: {},
-                        typeNameField: TypeName(name: '__typename'),
+                        typeNameField: TypeName(name: r'__typename'),
                         isInput: false)
                   ],
                   generateHelpers: false,

@@ -59,11 +59,11 @@ mutation custom($input: Input!, $previousId: MyUuid, $listIds: [MyUuid]) {
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      name: QueryName(name: r'custom$_MutationRoot'),
+      name: QueryName(name: r'Custom$_MutationRoot'),
       operationName: r'custom',
       classes: [
         ClassDefinition(
-            name: ClassName(name: r'custom$_MutationRoot$_MutationResponse'),
+            name: ClassName(name: r'Custom$_MutationRoot$_MutationResponse'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'String'),
@@ -72,10 +72,10 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: ClassName(name: r'custom$_MutationRoot'),
+            name: ClassName(name: r'Custom$_MutationRoot'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'Custom$MutationRoot$MutationResponse'),
@@ -84,7 +84,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'Input'),
@@ -99,7 +99,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: true)
       ],
       inputs: [

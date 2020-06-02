@@ -47,11 +47,11 @@ const query = r'''
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      name: QueryName(name: r'some_query$_QueryResponse'),
+      name: QueryName(name: r'SomeQuery$_QueryResponse'),
       operationName: r'some_query',
       classes: [
         ClassDefinition(
-            name: ClassName(name: r'some_query$_QueryResponse$_SomeObject'),
+            name: ClassName(name: r'SomeQuery$_QueryResponse$_SomeObject'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'String'),
@@ -60,10 +60,10 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: ClassName(name: r'some_query$_QueryResponse$_anotherObject'),
+            name: ClassName(name: r'SomeQuery$_QueryResponse$_anotherObject'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'String'),
@@ -72,10 +72,10 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: ClassName(name: r'some_query$_QueryResponse'),
+            name: ClassName(name: r'SomeQuery$_QueryResponse'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'String'),
@@ -95,7 +95,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false)
       ],
       generateHelpers: false,

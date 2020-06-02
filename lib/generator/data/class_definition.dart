@@ -1,5 +1,6 @@
 import 'package:artemis/generator/data/class_property.dart';
 import 'package:artemis/generator/data/definition.dart';
+import 'package:artemis/generator/data/fragment_class_definition.dart';
 import 'package:artemis/generator/data_printer.dart';
 import 'package:artemis/generator/helpers.dart';
 import 'package:meta/meta.dart';
@@ -11,17 +12,17 @@ class ClassDefinition extends Definition with DataPrinter {
   final Iterable<ClassProperty> properties;
 
   /// The type this class extends from, or [null].
-  final String extension;
+  final Name extension;
 
   /// The types this class implements.
   final Iterable<String> implementations;
 
   /// The types this class mixins.
-  final Iterable<String> mixins;
+  final Iterable<FragmentName> mixins;
 
   /// The types possibilities (GraphQL type -> class name) the class
   /// implements, if it's part of an union type or interface.
-  final Map<String, String> factoryPossibilities;
+  final Map<String, Name> factoryPossibilities;
 
   /// The field name used to resolve this class type.
   final TypeName typeNameField;
@@ -62,8 +63,8 @@ class ClassName extends Name with DataPrinter {
   ClassName({String name}) : super(name: name);
 
   /// Generate class name from hierarchical path
-  factory ClassName.fromPath({List<String> path}) {
-    return ClassName(name: path.join(r'$_'));
+  factory ClassName.fromPath({List<Name> path}) {
+    return ClassName(name: path.map((e) => e.namePrintable).join(r'$_'));
   }
 
   @override

@@ -1,43 +1,15 @@
 import 'package:artemis/generator/data/data.dart';
 import 'package:meta/meta.dart';
 import 'package:gql/ast.dart';
-import 'package:recase/recase.dart';
-
 import '../schema/options.dart';
-import 'helpers.dart';
 
 /// Returns the full class name with joined path.
-String createJoinedName(List<String> path, NamingScheme namingScheme,
-    [String currentClassName, String currentFieldName, String alias]) {
+List<Name> createPathName(List<Name> path, NamingScheme namingScheme,
+    [Name currentClassName, Name currentFieldName, Name alias]) {
   final fieldName = alias ?? currentFieldName;
   final className = alias ?? currentClassName;
 
-  List<String> fullPath;
-
-  switch (namingScheme) {
-    case NamingScheme.simple:
-      fullPath = [className ?? path.last];
-      break;
-    case NamingScheme.pathedWithFields:
-      fullPath = [...path, if (fieldName != null) fieldName];
-      break;
-    case NamingScheme.pathedWithTypes:
-    default:
-      fullPath = [...path, if (className != null) className];
-      break;
-  }
-
-  // normalize before re-case cause it removes starting underscore
-  return fullPath.map((e) => ReCase(normalizeName(e)).pascalCase).join(r'$');
-}
-
-/// Returns the full class name with joined path.
-List<String> createPathName(List<String> path, NamingScheme namingScheme,
-    [String currentClassName, String currentFieldName, String alias]) {
-  final fieldName = alias ?? currentFieldName;
-  final className = alias ?? currentClassName;
-
-  List<String> fullPath;
+  List<Name> fullPath;
 
   switch (namingScheme) {
     case NamingScheme.simple:
@@ -87,22 +59,22 @@ class Context {
   final SchemaMap schemaMap;
 
   /// The path of data we're currently processing.
-  final List<String> path;
+  final List<Name> path;
 
   /// The [TypeDefinitionNode] we're currently processing.
   final TypeDefinitionNode currentType;
 
   /// The name of the class we're currently processing.
-  final String currentClassName;
+  final Name currentClassName;
 
   /// The name of the field we're currently processing.
-  final String currentFieldName;
+  final Name currentFieldName;
 
   /// If part of an union type, which [TypeDefinitionNode] it represents.
   final TypeDefinitionNode ofUnion;
 
   /// A string to replace the current class name.
-  final String alias;
+  final Name alias;
 
   /// The current generated definition classes of this visitor.
   final List<Definition> generatedClasses;
@@ -125,26 +97,22 @@ class Context {
   /// A list of used input objects (to filtered on generation).
   final Set<ClassName> usedInputObjects;
 
-  String _stringForNaming(String withFieldNames, String withClassNames) =>
+  Name _stringForNaming(Name withFieldNames, Name withClassNames) =>
       schemaMap.namingScheme == NamingScheme.pathedWithFields
           ? withFieldNames
           : withClassNames;
 
-  /// Returns the full class name with joined path.
-  String joinedName() => createJoinedName(
-      path, schemaMap.namingScheme, currentClassName, currentFieldName, alias);
-
-  ///
-  List<String> fullPathName() => createPathName(
+  /// Returns the full class name
+  List<Name> fullPathName() => createPathName(
       path, schemaMap.namingScheme, currentClassName, currentFieldName, alias);
 
   /// Returns a copy of this context, on the same path, but with a new type.
   Context nextTypeWithSamePath({
     @required TypeDefinitionNode nextType,
-    @required String nextFieldName,
-    @required String nextClassName,
+    @required Name nextFieldName,
+    @required Name nextClassName,
     TypeDefinitionNode ofUnion,
-    String alias,
+    Name alias,
     List<Definition> generatedClasses,
     List<QueryInput> inputsClasses,
     List<FragmentDefinitionNode> fragments,
@@ -169,9 +137,9 @@ class Context {
   /// Returns a copy of this context, with a new type on a new path.
   Context next({
     @required TypeDefinitionNode nextType,
-    String nextFieldName,
-    String nextClassName,
-    String alias,
+    Name nextFieldName,
+    Name nextClassName,
+    Name alias,
     TypeDefinitionNode ofUnion,
     List<Definition> generatedClasses,
     List<QueryInput> inputsClasses,
@@ -203,9 +171,9 @@ class Context {
 
   /// Returns a copy of this context, with the same type and path.
   Context withAlias({
-    String nextFieldName,
-    String nextClassName,
-    String alias,
+    Name nextFieldName,
+    Name nextClassName,
+    Name alias,
   }) =>
       Context(
         schema: schema,
@@ -227,9 +195,9 @@ class Context {
 
   /// Returns a copy of this context, with the same type, but on a new path.
   Context sameTypeWithNextPath({
-    String nextFieldName,
-    String nextClassName,
-    String alias,
+    Name nextFieldName,
+    Name nextClassName,
+    Name alias,
     TypeDefinitionNode ofUnion,
     List<Definition> generatedClasses,
     List<QueryInput> inputsClasses,
@@ -285,7 +253,7 @@ class Context {
 
   /// Returns a copy of this context, with the same type, but on the first path.
   Context sameTypeWithNoPath({
-    String alias,
+    Name alias,
     TypeDefinitionNode ofUnion,
     List<Definition> generatedClasses,
     List<QueryInput> inputsClasses,
@@ -312,10 +280,10 @@ class Context {
   /// Returns a copy of this context, with next type, but on the first path.
   Context nextTypeWithNoPath({
     @required TypeDefinitionNode nextType,
-    @required String nextFieldName,
-    @required String nextClassName,
+    @required Name nextFieldName,
+    @required Name nextClassName,
     TypeDefinitionNode ofUnion,
-    String alias,
+    Name alias,
     List<Definition> generatedClasses,
     List<QueryInput> inputsClasses,
     List<FragmentDefinitionNode> fragments,

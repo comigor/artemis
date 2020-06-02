@@ -95,7 +95,7 @@ final LibraryDefinition libraryDefinition =
       operationName: r'VoyagesData',
       classes: [
         FragmentClassDefinition(
-            name: ClassName(name: r'DstMixin'),
+            name: FragmentName(name: r'DstMixin'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'String'),
@@ -109,7 +109,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ]),
         FragmentClassDefinition(
-            name: ClassName(name: r'DepartureMixin'),
+            name: FragmentName(name: r'DepartureMixin'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'String'),
@@ -143,7 +143,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(
@@ -163,7 +163,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'VoyagesData$_Query$_VoyageList'),
@@ -177,7 +177,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'VoyagesData$_Query'),
@@ -189,7 +189,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'PaginationInput'),
@@ -206,7 +206,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: true)
       ],
       inputs: [

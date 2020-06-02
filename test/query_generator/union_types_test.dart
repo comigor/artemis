@@ -74,11 +74,11 @@ final String graphQLSchema = '''
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      name: QueryName(name: r'some_query$_SomeObject'),
+      name: QueryName(name: r'SomeQuery$_SomeObject'),
       operationName: r'some_query',
       classes: [
         ClassDefinition(
-            name: ClassName(name: r'some_query$_SomeObject$_SomeUnion$_TypeA'),
+            name: ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion$_TypeA'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'int'),
@@ -116,12 +116,12 @@ final LibraryDefinition libraryDefinition =
                   isNonNull: false,
                   isResolveType: false)
             ],
-            extension: r'SomeQuery$SomeObject$SomeUnion',
+            extension: ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion'),
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: ClassName(name: r'some_query$_SomeObject$_SomeUnion$_TypeB'),
+            name: ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion$_TypeB'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'int'),
@@ -159,12 +159,12 @@ final LibraryDefinition libraryDefinition =
                   isNonNull: false,
                   isResolveType: false)
             ],
-            extension: r'SomeQuery$SomeObject$SomeUnion',
+            extension: ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion'),
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: ClassName(name: r'some_query$_SomeObject$_SomeUnion'),
+            name: ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'String'),
@@ -177,13 +177,15 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: true)
             ],
             factoryPossibilities: {
-              r'TypeA': r'SomeQuery$SomeObject$SomeUnion$TypeA',
-              r'TypeB': r'SomeQuery$SomeObject$SomeUnion$TypeB'
+              r'TypeA':
+                  ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion$_TypeA'),
+              r'TypeB':
+                  ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion$_TypeB')
             },
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: ClassName(name: r'some_query$_SomeObject'),
+            name: ClassName(name: r'SomeQuery$_SomeObject'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'SomeQuery$SomeObject$SomeUnion'),
@@ -192,7 +194,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false)
       ],
       generateHelpers: false,
@@ -224,16 +226,16 @@ class SomeQuery$SomeObject$SomeUnion$TypeA
   String $a;
 
   @JsonKey(name: '_a_a')
-  String $a_a;
+  String $aA;
 
   @JsonKey(name: '_a_a_')
-  String $a_a_;
+  String $aA_;
 
   @JsonKey(name: '_new')
   String $new;
 
   @override
-  List<Object> get props => [a, $, $a, $a_a, $a_a_, $new];
+  List<Object> get props => [a, $, $a, $aA, $aA_, $new];
   Map<String, dynamic> toJson() =>
       _$SomeQuery$SomeObject$SomeUnion$TypeAToJson(this);
 }
@@ -256,16 +258,16 @@ class SomeQuery$SomeObject$SomeUnion$TypeB
   String $b;
 
   @JsonKey(name: '_b_b')
-  String $b_b;
+  String $bB;
 
   @JsonKey(name: '_b_b_')
-  String $b_b_;
+  String $bB_;
 
   @JsonKey(name: 'new')
   String kw$new;
 
   @override
-  List<Object> get props => [b, $, $b, $b_b, $b_b_, kw$new];
+  List<Object> get props => [b, $, $b, $bB, $bB_, kw$new];
   Map<String, dynamic> toJson() =>
       _$SomeQuery$SomeObject$SomeUnion$TypeBToJson(this);
 }

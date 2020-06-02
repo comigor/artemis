@@ -58,7 +58,7 @@ const anotherQuery = r'''
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      name: QueryName(name: r'custom$_Query'),
+      name: QueryName(name: r'Custom$_Query'),
       operationName: r'custom',
       classes: [
         EnumDefinition(name: EnumName(name: r'MyEnum'), values: [
@@ -67,7 +67,7 @@ final LibraryDefinition libraryDefinition =
           EnumValue(name: r'ARTEMIS_UNKNOWN')
         ]),
         ClassDefinition(
-            name: ClassName(name: r'custom$_Query$_q'),
+            name: ClassName(name: r'Custom$_Query$_q'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'MyEnum'),
@@ -79,10 +79,10 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: ClassName(name: r'custom$_Query'),
+            name: ClassName(name: r'Custom$_Query'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'Custom$Query$Q'),
@@ -91,13 +91,13 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false)
       ],
       generateHelpers: false,
       suffix: r'Query'),
   QueryDefinition(
-      name: QueryName(name: r'customList$_Query'),
+      name: QueryName(name: r'CustomList$_Query'),
       operationName: r'customList',
       classes: [
         EnumDefinition(name: EnumName(name: r'MyEnum'), values: [
@@ -106,7 +106,7 @@ final LibraryDefinition libraryDefinition =
           EnumValue(name: r'ARTEMIS_UNKNOWN')
         ]),
         ClassDefinition(
-            name: ClassName(name: r'customList$_Query$_qList'),
+            name: ClassName(name: r'CustomList$_Query$_qList'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'MyEnum'),
@@ -118,10 +118,10 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: ClassName(name: r'customList$_Query'),
+            name: ClassName(name: r'CustomList$_Query'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'List<CustomList$Query$QList>'),
@@ -130,7 +130,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false)
       ],
       generateHelpers: false,

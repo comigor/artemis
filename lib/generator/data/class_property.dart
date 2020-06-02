@@ -2,9 +2,13 @@ import 'package:artemis/generator/data/definition.dart';
 import 'package:artemis/generator/data_printer.dart';
 import 'package:artemis/generator/helpers.dart';
 import 'package:meta/meta.dart';
+import 'package:recase/recase.dart';
 
 /// Define a property (field) from a class.
 class ClassProperty extends Definition with DataPrinter {
+  @override
+  final ClassPropertyName name;
+
   /// The property type.
   final TypeName type;
 
@@ -23,7 +27,7 @@ class ClassProperty extends Definition with DataPrinter {
     this.annotations = const [],
     this.isNonNull = false,
     this.isResolveType = false,
-    @required Name name,
+    @required this.name,
   })  : assert(hasValue(type) && hasValue(name)),
         super(name: name);
 
@@ -33,7 +37,7 @@ class ClassProperty extends Definition with DataPrinter {
   /// Creates a copy of [ClassProperty] without modifying the original.
   ClassProperty copyWith({
     TypeName type,
-    Name name,
+    ClassPropertyName name,
     List<String> annotations,
     bool isNonNull,
     bool isResolveType,
@@ -63,7 +67,9 @@ class ClassPropertyName extends Name with DataPrinter {
 
   @override
   String normalize(String name) {
-    return normalizeName(name);
+    final normalized = super.normalize(name);
+    final suffix = RegExp(r'.*(_+)$').firstMatch(normalized)?.group(1) ?? '';
+    return ReCase(super.normalize(name)).camelCase + suffix;
   }
 
   @override
@@ -71,6 +77,8 @@ class ClassPropertyName extends Name with DataPrinter {
         'name': name,
       };
 }
+
+const _camelCaseTypes = {'bool', 'double', 'int'};
 
 /// Type name
 class TypeName extends Name with DataPrinter {
@@ -81,4 +89,12 @@ class TypeName extends Name with DataPrinter {
   Map<String, Object> get namedProps => {
         'name': name,
       };
+
+  @override
+  String normalize(String name) {
+    final normalized = super.normalize(name);
+    if (_camelCaseTypes.contains(normalized)) return normalized;
+
+    return ReCase(normalized).pascalCase;
+  }
 }

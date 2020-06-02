@@ -30,11 +30,11 @@ query {
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      name: QueryName(name: r'query$_Query'),
+      name: QueryName(name: r'Query$_Query'),
       operationName: r'query',
       classes: [
         ClassDefinition(
-            name: ClassName(name: r'query$_Query'),
+            name: ClassName(name: r'Query$_Query'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'String'),
@@ -43,7 +43,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false)
       ],
       generateHelpers: false,

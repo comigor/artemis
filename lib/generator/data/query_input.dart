@@ -6,6 +6,9 @@ import 'package:meta/meta.dart';
 
 /// Define a query/mutation input parameter.
 class QueryInput extends Definition with DataPrinter {
+  @override
+  final QueryInputName name;
+
   /// The input type.
   final TypeName type;
 
@@ -20,7 +23,7 @@ class QueryInput extends Definition with DataPrinter {
     @required this.type,
     this.isNonNull = false,
     this.annotations = const [],
-    Name name,
+    this.name,
   })  : assert(hasValue(type) && hasValue(name)),
         super(name: name);
 

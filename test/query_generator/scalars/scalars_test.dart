@@ -64,11 +64,11 @@ final String query = 'query some_query { i, f, s, b, id }';
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      name: QueryName(name: r'some_query$_SomeObject'),
+      name: QueryName(name: r'SomeQuery$_SomeObject'),
       operationName: r'some_query',
       classes: [
         ClassDefinition(
-            name: ClassName(name: r'some_query$_SomeObject'),
+            name: ClassName(name: r'SomeQuery$_SomeObject'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'int'),
@@ -97,7 +97,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false)
       ],
       generateHelpers: false,

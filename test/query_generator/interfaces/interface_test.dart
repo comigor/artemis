@@ -72,25 +72,25 @@ final String graphQLSchema = r'''
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      name: QueryName(name: r'custom$_Query'),
+      name: QueryName(name: r'Custom$_Query'),
       operationName: r'custom',
       classes: [
         ClassDefinition(
-            name: ClassName(name: r'custom$_Query$_Node$_User'),
-            extension: r'Custom$Query$Node',
-            mixins: [r'UserFragMixin'],
+            name: ClassName(name: r'Custom$_Query$_Node$_User'),
+            extension: ClassName(name: r'Custom$_Query$_Node'),
+            mixins: [FragmentName(name: r'UserFragMixin')],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: ClassName(name: r'custom$_Query$_Node$_ChatMessage$_User'),
-            extension: r'Custom$Query$Node$ChatMessage',
-            mixins: [r'UserFragMixin'],
+            name: ClassName(name: r'Custom$_Query$_Node$_ChatMessage$_User'),
+            extension: ClassName(name: r'Custom$_Query$_Node$_ChatMessage'),
+            mixins: [FragmentName(name: r'UserFragMixin')],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: ClassName(name: r'custom$_Query$_Node$_ChatMessage'),
+            name: ClassName(name: r'Custom$_Query$_Node$_ChatMessage'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'String'),
@@ -103,12 +103,12 @@ final LibraryDefinition libraryDefinition =
                   isNonNull: true,
                   isResolveType: false)
             ],
-            extension: r'Custom$Query$Node',
+            extension: ClassName(name: r'Custom$_Query$_Node'),
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: ClassName(name: r'custom$_Query$_Node'),
+            name: ClassName(name: r'Custom$_Query$_Node'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'String'),
@@ -126,13 +126,14 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: true)
             ],
             factoryPossibilities: {
-              r'User': r'Custom$Query$Node$User',
-              r'ChatMessage': r'Custom$Query$Node$ChatMessage'
+              r'User': ClassName(name: r'Custom$_Query$_Node$_User'),
+              r'ChatMessage':
+                  ClassName(name: r'Custom$_Query$_Node$_ChatMessage')
             },
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: ClassName(name: r'custom$_Query'),
+            name: ClassName(name: r'Custom$_Query'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'Custom$Query$Node'),
@@ -141,10 +142,10 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: '__typename'),
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         FragmentClassDefinition(
-            name: ClassName(name: r'UserFragMixin'),
+            name: FragmentName(name: r'UserFragMixin'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'String'),
