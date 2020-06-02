@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.4.3-beta.1
+- Mass package update
+
 ## 6.3.3-beta.1
 - Centralize naming transformations; make types PascalCase and fields camelCase.
 
