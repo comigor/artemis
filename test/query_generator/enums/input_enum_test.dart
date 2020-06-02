@@ -73,7 +73,7 @@ final LibraryDefinition libraryDefinition =
           EnumValue(name: r'ARTEMIS_UNKNOWN')
         ]),
         ClassDefinition(
-            name: ClassName(name: r'custom$_QueryRoot$_QueryResponse'),
+            name: ClassName(name: r'Custom$_QueryRoot$_QueryResponse'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'String'),
@@ -101,7 +101,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: ClassName(name: r'custom$_QueryRoot'),
+            name: ClassName(name: r'Custom$_QueryRoot'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'Custom$QueryRoot$QueryResponse'),

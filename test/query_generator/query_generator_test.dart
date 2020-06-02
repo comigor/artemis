@@ -41,7 +41,7 @@ void main() {
                   operationName: r'some_query',
                   classes: [
                     ClassDefinition(
-                        name: ClassName(name: r'some_query$_SomeObject'),
+                        name: ClassName(name: r'SomeQuery$_SomeObject'),
                         properties: [
                           ClassProperty(
                               type: TypeName(name: r'String'),
@@ -120,7 +120,7 @@ class SomeQuery$SomeObject with EquatableMixin {
                   operationName: r'some_query',
                   classes: [
                     ClassDefinition(
-                        name: ClassName(name: r'some_query$_Query$_SomeObject'),
+                        name: ClassName(name: r'SomeQuery$_Query$_SomeObject'),
                         properties: [
                           ClassProperty(
                               type: TypeName(name: r'String'),
@@ -142,7 +142,7 @@ class SomeQuery$SomeObject with EquatableMixin {
                         typeNameField: TypeName(name: r'__typename'),
                         isInput: false),
                     ClassDefinition(
-                        name: ClassName(name: r'some_query$_Query'),
+                        name: ClassName(name: r'SomeQuery$_Query'),
                         properties: [
                           ClassProperty(
                               type:
@@ -350,7 +350,7 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
                     ClassDefinition(
                         name: ClassName(
                             name:
-                                r'some_query$_Result$_SomeObject$_AnotherObject'),
+                                r'SomeQuery$_Result$_SomeObject$_AnotherObject'),
                         properties: [
                           ClassProperty(
                               type: TypeName(name: r'String'),
@@ -362,8 +362,7 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
                         typeNameField: TypeName(name: r'__typename'),
                         isInput: false),
                     ClassDefinition(
-                        name:
-                            ClassName(name: r'some_query$_Result$_SomeObject'),
+                        name: ClassName(name: r'SomeQuery$_Result$_SomeObject'),
                         properties: [
                           ClassProperty(
                               type: TypeName(name: r'String'),
@@ -382,7 +381,7 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
                         typeNameField: TypeName(name: r'__typename'),
                         isInput: false),
                     ClassDefinition(
-                        name: ClassName(name: r'some_query$_Result'),
+                        name: ClassName(name: r'SomeQuery$_Result'),
                         properties: [
                           ClassProperty(
                               type: TypeName(name: r'String'),
@@ -481,7 +480,7 @@ class SomeQuery$Result with EquatableMixin {
                   operationName: r'some_query',
                   classes: [
                     ClassDefinition(
-                        name: ClassName(name: r'some_query$_Result'),
+                        name: ClassName(name: r'SomeQuery$_Result'),
                         properties: [
                           ClassProperty(
                               type: TypeName(name: r'String'),
@@ -565,7 +564,7 @@ class SomeQuery$Result with EquatableMixin {
                   operationName: r'some_query',
                   classes: [
                     ClassDefinition(
-                        name: ClassName(name: r'some_query$_SomeObject'),
+                        name: ClassName(name: r'SomeQuery$_SomeObject'),
                         properties: [
                           ClassProperty(
                               type: TypeName(name: r'Decimal'),

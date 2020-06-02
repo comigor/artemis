@@ -69,7 +69,7 @@ final LibraryDefinition libraryDefinition =
       operationName: r'custom',
       classes: [
         ClassDefinition(
-            name: ClassName(name: r'custom$_MutationRoot$_MutationResponse'),
+            name: ClassName(name: r'Custom$_MutationRoot$_MutationResponse'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'String'),
@@ -81,7 +81,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: ClassName(name: r'custom$_MutationRoot'),
+            name: ClassName(name: r'Custom$_MutationRoot'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'Custom$MutationRoot$MutationResponse'),

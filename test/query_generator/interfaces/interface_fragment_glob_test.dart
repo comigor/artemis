@@ -84,22 +84,22 @@ final LibraryDefinition libraryDefinition =
       operationName: r'custom',
       classes: [
         ClassDefinition(
-            name: ClassName(name: r'custom$_Query$_nodeById$_User'),
-            extension: ClassName(name: r'custom$_Query$_nodeById'),
+            name: ClassName(name: r'Custom$_Query$_nodeById$_user'),
+            extension: ClassName(name: r'Custom$_Query$_nodeById'),
             mixins: [FragmentName(name: r'UserFragMixin')],
             factoryPossibilities: {},
             typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name:
-                ClassName(name: r'custom$_Query$_nodeById$_ChatMessage$_user'),
-            extension: ClassName(name: r'custom$_Query$_nodeById$_ChatMessage'),
+                ClassName(name: r'Custom$_Query$_nodeById$_chatMessage$_user'),
+            extension: ClassName(name: r'Custom$_Query$_nodeById$_chatMessage'),
             mixins: [FragmentName(name: r'UserFragMixin')],
             factoryPossibilities: {},
             typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: ClassName(name: r'custom$_Query$_nodeById$_ChatMessage'),
+            name: ClassName(name: r'Custom$_Query$_nodeById$_chatMessage'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'String'),
@@ -113,12 +113,12 @@ final LibraryDefinition libraryDefinition =
                   isNonNull: true,
                   isResolveType: false)
             ],
-            extension: ClassName(name: r'custom$_Query$_nodeById'),
+            extension: ClassName(name: r'Custom$_Query$_nodeById'),
             factoryPossibilities: {},
             typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: ClassName(name: r'custom$_Query$_nodeById'),
+            name: ClassName(name: r'Custom$_Query$_nodeById'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'String'),
@@ -136,14 +136,14 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: true)
             ],
             factoryPossibilities: {
-              r'User': ClassName(name: r'custom$_Query$_nodeById$_User'),
+              r'User': ClassName(name: r'Custom$_Query$_nodeById$_User'),
               r'ChatMessage':
-                  ClassName(name: r'custom$_Query$_nodeById$_ChatMessage')
+                  ClassName(name: r'Custom$_Query$_nodeById$_ChatMessage')
             },
             typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: ClassName(name: r'custom$_Query'),
+            name: ClassName(name: r'Custom$_Query'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'Custom$Query$NodeById'),

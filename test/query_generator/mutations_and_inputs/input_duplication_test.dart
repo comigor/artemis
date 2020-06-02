@@ -62,7 +62,7 @@ final LibraryDefinition libraryDefinition =
       operationName: r'custom',
       classes: [
         ClassDefinition(
-            name: ClassName(name: r'custom$_Mutation$_mut'),
+            name: ClassName(name: r'Custom$_Mutation$_mut'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'String'),
@@ -74,7 +74,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: ClassName(name: r'custom$_Mutation'),
+            name: ClassName(name: r'Custom$_Mutation'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'Custom$Mutation$Mut'),
@@ -111,7 +111,7 @@ final LibraryDefinition libraryDefinition =
       operationName: r'customList',
       classes: [
         ClassDefinition(
-            name: ClassName(name: r'customList$_Mutation$_mutList'),
+            name: ClassName(name: r'CustomList$_Mutation$_mutList'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'String'),
@@ -123,7 +123,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: ClassName(name: r'customList$_Mutation'),
+            name: ClassName(name: r'CustomList$_Mutation'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'CustomList$Mutation$MutList'),

@@ -91,13 +91,13 @@ final LibraryDefinition libraryDefinition =
       operationName: r'query',
       classes: [
         ClassDefinition(
-            name: ClassName(name: r'query$_Query$_Pokemon$_Pokemon'),
+            name: ClassName(name: r'Query$_Query$_Pokemon$_Pokemon'),
             mixins: [FragmentName(name: r'PokemonMixin')],
             factoryPossibilities: {},
             typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: ClassName(name: r'query$_Query$_Pokemon'),
+            name: ClassName(name: r'Query$_Query$_Pokemon'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'List<Query$Query$Pokemon$Pokemon>'),
@@ -110,7 +110,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: ClassName(name: r'query$_Query'),
+            name: ClassName(name: r'Query$_Query'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'Query$Query$Pokemon'),

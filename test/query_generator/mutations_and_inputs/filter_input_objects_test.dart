@@ -59,7 +59,7 @@ final LibraryDefinition libraryDefinition =
       operationName: r'some_query',
       classes: [
         ClassDefinition(
-            name: ClassName(name: r'some_query$_QueryRoot$_SomeObject'),
+            name: ClassName(name: r'SomeQuery$_QueryRoot$_SomeObject'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'String'),
@@ -71,7 +71,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: ClassName(name: r'some_query$_QueryRoot'),
+            name: ClassName(name: r'SomeQuery$_QueryRoot'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'SomeQuery$QueryRoot$SomeObject'),

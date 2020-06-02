@@ -68,7 +68,7 @@ final LibraryDefinition libraryDefinition =
       operationName: r'some_query',
       classes: [
         ClassDefinition(
-            name: ClassName(name: r'some_query$_SomeObject'),
+            name: ClassName(name: r'SomeQuery$_SomeObject'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'int'),

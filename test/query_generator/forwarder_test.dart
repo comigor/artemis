@@ -52,7 +52,7 @@ final LibraryDefinition libraryDefinition =
       operationName: r'custom',
       classes: [
         ClassDefinition(
-            name: ClassName(name: r'custom$_QueryRoot'),
+            name: ClassName(name: r'Custom$_QueryRoot'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'String'),

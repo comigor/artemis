@@ -55,7 +55,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ]),
         ClassDefinition(
-            name: ClassName(name: r'some_query$_SomeObject'),
+            name: ClassName(name: r'SomeQuery$_SomeObject'),
             mixins: [FragmentName(name: r'MyFragmentMixin')],
             factoryPossibilities: {},
             typeNameField: TypeName(name: r'__typename'),

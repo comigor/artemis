@@ -57,7 +57,7 @@ final LibraryDefinition libraryDefinition =
           EnumValue(name: r'ARTEMIS_UNKNOWN')
         ]),
         ClassDefinition(
-            name: ClassName(name: r'some_query$_Response$_SomeObject'),
+            name: ClassName(name: r'SomeQuery$_Response$_SomeObject'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'MyEnum'),
@@ -72,7 +72,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: ClassName(name: r'some_query$_Response'),
+            name: ClassName(name: r'SomeQuery$_Response'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'String'),

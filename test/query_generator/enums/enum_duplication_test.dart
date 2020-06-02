@@ -67,7 +67,7 @@ final LibraryDefinition libraryDefinition =
           EnumValue(name: r'ARTEMIS_UNKNOWN')
         ]),
         ClassDefinition(
-            name: ClassName(name: r'custom$_Query$_q'),
+            name: ClassName(name: r'Custom$_Query$_q'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'MyEnum'),
@@ -82,7 +82,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: ClassName(name: r'custom$_Query'),
+            name: ClassName(name: r'Custom$_Query'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'Custom$Query$Q'),
@@ -106,7 +106,7 @@ final LibraryDefinition libraryDefinition =
           EnumValue(name: r'ARTEMIS_UNKNOWN')
         ]),
         ClassDefinition(
-            name: ClassName(name: r'customList$_Query$_qList'),
+            name: ClassName(name: r'CustomList$_Query$_qList'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'MyEnum'),
@@ -121,7 +121,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: ClassName(name: r'customList$_Query'),
+            name: ClassName(name: r'CustomList$_Query'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'List<CustomList$Query$QList>'),

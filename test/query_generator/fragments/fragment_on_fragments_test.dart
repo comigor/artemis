@@ -68,7 +68,7 @@ final LibraryDefinition libraryDefinition =
       operationName: r'query',
       classes: [
         ClassDefinition(
-            name: ClassName(name: r'query$_Query$_Pokemon'),
+            name: ClassName(name: r'Query$_Query$_Pokemon'),
             mixins: [
               FragmentName(name: r'PokemonMixin'),
               FragmentName(name: r'PokemonPartsMixin')
@@ -77,7 +77,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: ClassName(name: r'query$_Query'),
+            name: ClassName(name: r'Query$_Query'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'Query$Query$Pokemon'),

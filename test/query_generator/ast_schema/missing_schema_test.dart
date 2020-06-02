@@ -34,7 +34,7 @@ final LibraryDefinition libraryDefinition =
       operationName: r'query',
       classes: [
         ClassDefinition(
-            name: ClassName(name: r'query$_Query'),
+            name: ClassName(name: r'Query$_Query'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'String'),

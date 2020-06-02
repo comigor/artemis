@@ -105,7 +105,7 @@ final LibraryDefinition libraryDefinition =
       operationName: r'query',
       classes: [
         ClassDefinition(
-            name: ClassName(name: r'query$_SomeObject'),
+            name: ClassName(name: r'Query$_SomeObject'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'String'),
@@ -128,7 +128,7 @@ final LibraryDefinition libraryDefinitionWithCustomParserFns =
       operationName: r'query',
       classes: [
         ClassDefinition(
-            name: ClassName(name: r'query$_SomeObject'),
+            name: ClassName(name: r'Query$_SomeObject'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'MyDartUuid'),
@@ -156,7 +156,7 @@ final LibraryDefinition libraryDefinitionWithCustomImports =
       operationName: r'query',
       classes: [
         ClassDefinition(
-            name: ClassName(name: r'query$_SomeObject'),
+            name: ClassName(name: r'Query$_SomeObject'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'MyUuid'),
