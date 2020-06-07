@@ -8,8 +8,16 @@ import '../generator/helpers.dart';
 /// Generates a [Spec] of a single enum definition.
 Spec enumDefinitionToSpec(EnumDefinition definition) =>
     CodeExpression(Code('''enum ${definition.name.namePrintable} {
-  ${definition.values.removeDuplicatedBy((i) => i).map((v) => '@JsonValue("${v.name}")${v.namePrintable}, ').join()}
+  ${definition.values.removeDuplicatedBy((i) => i).map(_enumValueToSpec).join()}
 }'''));
+
+String _enumValueToSpec(EnumValue value) {
+  final annotations = value.annotations
+      .map((annotation) => '@$annotation')
+      .followedBy(['@JsonValue("${value.name}")']).join(' ');
+
+  return '$annotations${value.namePrintable}, ';
+}
 
 String _fromJsonBody(ClassDefinition definition) {
   final buffer = StringBuffer();

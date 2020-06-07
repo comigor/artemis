@@ -349,6 +349,28 @@ Make sure your query is correct and your schema is updated.''');
   );
 }
 
+void _addDeprecatedAnnotationIfNecessary(
+  List<String> annotations,
+  List<DirectiveNode> directives,
+) {
+  final deprecatedDirective = directives?.firstWhere(
+    (directive) => directive.name.value == 'deprecated',
+    orElse: () => null,
+  );
+
+  if (deprecatedDirective != null) {
+    final reasonValueNode = deprecatedDirective?.arguments
+        ?.firstWhere((argument) => argument.name.value == 'reason')
+        ?.value;
+
+    final reason = reasonValueNode is StringValueNode
+        ? reasonValueNode.value
+        : 'No longer supported';
+
+    annotations.add("Deprecated('$reason')");
+  }
+}
+
 class _GeneratorVisitor extends RecursiveVisitor {
   _GeneratorVisitor({
     @required this.context,
@@ -633,9 +655,18 @@ class _CanonicalVisitor extends RecursiveVisitor {
 
     enums.add(EnumDefinition(
       name: enumName,
-      values: node.values.map((eV) => EnumValue(name: eV.name.value)).toList()
-        ..add(ARTEMIS_UNKNOWN),
+      values: node.values.map(_getEnumValue).toList()..add(ARTEMIS_UNKNOWN),
     ));
+  }
+
+  EnumValue _getEnumValue(EnumValueDefinitionNode enumValue) {
+    final annotations = <String>[];
+    _addDeprecatedAnnotationIfNecessary(annotations, enumValue.directives);
+
+    return EnumValue(
+      name: enumValue.name.value,
+      annotations: annotations,
+    );
   }
 
   @override
