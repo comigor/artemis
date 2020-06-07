@@ -80,7 +80,7 @@ final LibraryDefinition libraryDefinition =
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'SomeQuery$Response$SomeObject'),
+                  type: TypeName(name: r'SomeQuery$_Response$_SomeObject'),
                   name: ClassPropertyName(name: r'o'),
                   isNonNull: false,
                   isResolveType: false)

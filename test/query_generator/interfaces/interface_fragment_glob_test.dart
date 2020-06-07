@@ -107,8 +107,8 @@ final LibraryDefinition libraryDefinition =
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type:
-                      TypeName(name: r'Custom$Query$NodeById$ChatMessage$User'),
+                  type: TypeName(
+                      name: r'Custom$_Query$_nodeById$_chatMessage$_user'),
                   name: ClassPropertyName(name: r'user'),
                   isNonNull: true,
                   isResolveType: false)
@@ -146,7 +146,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Custom$_Query'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'Custom$Query$NodeById'),
+                  type: TypeName(name: r'Custom$_Query$_nodeById'),
                   name: ClassPropertyName(name: r'nodeById'),
                   isNonNull: false,
                   isResolveType: false)

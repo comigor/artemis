@@ -85,7 +85,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Custom$_Query'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'Custom$Query$Q'),
+                  type: TypeName(name: r'Custom$_Query$_q'),
                   name: ClassPropertyName(name: r'q'),
                   isNonNull: false,
                   isResolveType: false)

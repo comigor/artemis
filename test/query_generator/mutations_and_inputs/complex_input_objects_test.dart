@@ -74,7 +74,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'SomeQuery$_QueryRoot'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'SomeQuery$QueryRoot$SomeObject'),
+                  type: TypeName(name: r'SomeQuery$_QueryRoot$_SomeObject'),
                   name: ClassPropertyName(name: r'o'),
                   isNonNull: false,
                   isResolveType: false)

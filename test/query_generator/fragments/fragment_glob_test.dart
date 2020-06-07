@@ -113,7 +113,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Query$_Query'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'Query$Query$Pokemon'),
+                  type: TypeName(name: r'Query$_Query$_Pokemon'),
                   name: ClassPropertyName(name: r'pokemon'),
                   isNonNull: false,
                   isResolveType: false)
@@ -142,12 +142,12 @@ final LibraryDefinition libraryDefinition =
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'PokemonMixin$PokemonDimension'),
+                  type: TypeName(name: r'PokemonMixin$_PokemonDimension'),
                   name: ClassPropertyName(name: r'weight'),
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'PokemonMixin$PokemonAttack'),
+                  type: TypeName(name: r'PokemonMixin$_PokemonAttack'),
                   name: ClassPropertyName(name: r'attacks'),
                   isNonNull: false,
                   isResolveType: false)

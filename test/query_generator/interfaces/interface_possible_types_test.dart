@@ -127,7 +127,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Custom$_Query'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'Custom$Query$Node'),
+                  type: TypeName(name: r'Custom$_Query$_Node'),
                   name: ClassPropertyName(name: r'nodeById'),
                   isNonNull: false,
                   isResolveType: false)

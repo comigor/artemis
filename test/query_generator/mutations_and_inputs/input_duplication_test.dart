@@ -77,7 +77,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Custom$_Mutation'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'Custom$Mutation$Mut'),
+                  type: TypeName(name: r'Custom$_Mutation$_mut'),
                   name: ClassPropertyName(name: r'mut'),
                   isNonNull: false,
                   isResolveType: false)
@@ -126,7 +126,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'CustomList$_Mutation'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'CustomList$Mutation$MutList'),
+                  type: TypeName(name: r'CustomList$_Mutation$_mutList'),
                   name: ClassPropertyName(name: r'mutList'),
                   isNonNull: false,
                   isResolveType: false)

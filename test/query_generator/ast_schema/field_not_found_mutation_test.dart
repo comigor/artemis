@@ -81,7 +81,7 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(
                       name:
-                          r'CreateThing$MutationRoot$CreateThingResponse$Thing'),
+                          r'CreateThing$_MutationRoot$_CreateThingResponse$_Thing'),
                   name: ClassPropertyName(name: r'thing'),
                   isNonNull: false,
                   isResolveType: false)
@@ -94,7 +94,7 @@ final LibraryDefinition libraryDefinition =
             properties: [
               ClassProperty(
                   type: TypeName(
-                      name: r'CreateThing$MutationRoot$CreateThingResponse'),
+                      name: r'CreateThing$_MutationRoot$_CreateThingResponse'),
                   name: ClassPropertyName(name: r'createThing'),
                   isNonNull: false,
                   isResolveType: false)

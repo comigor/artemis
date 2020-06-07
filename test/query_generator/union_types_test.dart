@@ -188,7 +188,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'SomeQuery$_SomeObject'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'SomeQuery$SomeObject$SomeUnion'),
+                  type: TypeName(name: r'SomeQuery$_SomeObject$_SomeUnion'),
                   name: ClassPropertyName(name: r'o'),
                   isNonNull: false,
                   isResolveType: false)
