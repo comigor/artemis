@@ -341,6 +341,11 @@ Make sure your query is correct and your schema is updated.''');
     annotations.add('JsonKey(name: \'${name.name}\')');
   }
 
+  final fieldDirectives =
+      regularField?.directives ?? regularInputField?.directives;
+
+  _addDeprecatedAnnotationIfNecessary(annotations, fieldDirectives);
+
   return ClassProperty(
     type: dartTypeName,
     name: name,
