@@ -236,18 +236,6 @@ ClassProperty _createClassProperty({
   _OnNewClassFoundCallback onNewClassFound,
   bool markAsUsed = true,
 }) {
-  if (fieldName.name == context.schemaMap.typeNameField) {
-    return ClassProperty(
-      type: TypeName(name: 'String'),
-      name: fieldName,
-      annotations: [
-        'override',
-        'JsonKey(name: \'${context.schemaMap.typeNameField}\')'
-      ],
-      isResolveType: true,
-    );
-  }
-
   var finalFields = <Node>[];
 
   if (context.currentType is ObjectTypeDefinitionNode) {
@@ -408,13 +396,30 @@ class _GeneratorVisitor extends RecursiveVisitor {
 
   @override
   void visitFieldNode(FieldNode node) {
-    final fieldName = node.name.value;
+    final fieldName = ClassPropertyName(name: node.name.value);
+
+    if (fieldName.name == context.schemaMap.typeNameField) {
+      final typedName = FragmentName(name: 'ArtemisTyped');
+
+      _mixins.add(typedName);
+
+      if (context.generatedClasses.indexWhere((c) => c.name == typedName) == -1) {
+        context.generatedClasses.add(FragmentClassDefinition(name: typedName, properties: [
+          ClassProperty(
+            type: TypeName(name: 'String'),
+            name: ClassPropertyName(name: context.schemaMap.typeNameField),
+            annotations: ['override', 'JsonKey(name: \'${context.schemaMap.typeNameField}\')'],
+            isResolveType: true,
+          )
+        ]));
+      }
+
+      return;
+    }
 
     final property = _createClassProperty(
-      fieldName: ClassPropertyName(name: fieldName),
-      fieldAlias: node.alias?.value != null
-          ? ClassPropertyName(name: node.alias?.value)
-          : null,
+      fieldName: fieldName,
+      fieldAlias: node.alias?.value != null ? ClassPropertyName(name: node.alias?.value) : null,
       context: context,
       onNewClassFound: (nextContext) {
         node.visitChildren(_GeneratorVisitor(

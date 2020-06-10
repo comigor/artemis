@@ -77,6 +77,14 @@ final LibraryDefinition libraryDefinition =
       name: QueryName(name: r'SomeQuery$_SomeObject'),
       operationName: r'some_query',
       classes: [
+        FragmentClassDefinition(name: FragmentName(name:'ArtemisTyped'), properties: [
+          ClassProperty(
+            type: TypeName(name: 'String'),
+            name: ClassPropertyName(name: '__typename'),
+            annotations: ['override', 'JsonKey(name: \'__typename\')'],
+            isResolveType: true,
+          )
+        ]),
         ClassDefinition(
             name: ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion$_TypeA'),
             properties: [
@@ -165,17 +173,8 @@ final LibraryDefinition libraryDefinition =
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion'),
-            properties: [
-              ClassProperty(
-                  type: TypeName(name: r'String'),
-                  name: ClassPropertyName(name: r'__typename'),
-                  annotations: [
-                    r'override',
-                    r'''JsonKey(name: '__typename')'''
-                  ],
-                  isNonNull: false,
-                  isResolveType: true)
-            ],
+            properties: [],
+            mixins: [FragmentName(name: 'ArtemisTyped')],
             factoryPossibilities: {
               r'TypeA':
                   ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion$_TypeA'),
@@ -207,6 +206,12 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
+
+mixin ArtemisTypedMixin {
+  @override
+  @JsonKey(name: '__typename')
+  String $$typename;
+}
 
 @JsonSerializable(explicitToJson: true)
 class SomeQuery$SomeObject$SomeUnion$TypeA
@@ -273,7 +278,7 @@ class SomeQuery$SomeObject$SomeUnion$TypeB
 }
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery$SomeObject$SomeUnion with EquatableMixin {
+class SomeQuery$SomeObject$SomeUnion with EquatableMixin, ArtemisTypedMixin {
   SomeQuery$SomeObject$SomeUnion();
 
   factory SomeQuery$SomeObject$SomeUnion.fromJson(Map<String, dynamic> json) {
@@ -286,10 +291,6 @@ class SomeQuery$SomeObject$SomeUnion with EquatableMixin {
     }
     return _$SomeQuery$SomeObject$SomeUnionFromJson(json);
   }
-
-  @override
-  @JsonKey(name: '__typename')
-  String $$typename;
 
   @override
   List<Object> get props => [$$typename];
