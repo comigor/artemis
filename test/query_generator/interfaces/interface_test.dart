@@ -75,6 +75,14 @@ final LibraryDefinition libraryDefinition =
       name: QueryName(name: r'Custom$_Query'),
       operationName: r'custom',
       classes: [
+        FragmentClassDefinition(name: FragmentName(name:'ArtemisTyped'), properties: [
+          ClassProperty(
+            type: TypeName(name: 'String'),
+            name: ClassPropertyName(name: '__typename'),
+            annotations: ['override', 'JsonKey(name: \'__typename\')'],
+            isResolveType: true,
+          )
+        ]),
         ClassDefinition(
             name: ClassName(name: r'Custom$_Query$_Node$_User'),
             extension: ClassName(name: r'Custom$_Query$_Node'),
@@ -114,17 +122,9 @@ final LibraryDefinition libraryDefinition =
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'id'),
                   isNonNull: true,
-                  isResolveType: false),
-              ClassProperty(
-                  type: TypeName(name: r'String'),
-                  name: ClassPropertyName(name: r'__typename'),
-                  annotations: [
-                    r'override',
-                    r'''JsonKey(name: '__typename')'''
-                  ],
-                  isNonNull: false,
-                  isResolveType: true)
+                  isResolveType: false)
             ],
+            mixins: [FragmentName(name: 'ArtemisTyped')],
             factoryPossibilities: {
               r'User': ClassName(name: r'Custom$_Query$_Node$_User'),
               r'ChatMessage':
@@ -177,6 +177,11 @@ import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
 
+mixin ArtemisTypedMixin {
+  @override
+  @JsonKey(name: '__typename')
+  String $$typename;
+}
 mixin UserFragMixin {
   String id;
   String username;
@@ -228,7 +233,7 @@ class Custom$Query$Node$ChatMessage extends Custom$Query$Node
 }
 
 @JsonSerializable(explicitToJson: true)
-class Custom$Query$Node with EquatableMixin {
+class Custom$Query$Node with EquatableMixin, ArtemisTypedMixin {
   Custom$Query$Node();
 
   factory Custom$Query$Node.fromJson(Map<String, dynamic> json) {
@@ -245,11 +250,7 @@ class Custom$Query$Node with EquatableMixin {
   String id;
 
   @override
-  @JsonKey(name: '__typename')
-  String $$typename;
-
-  @override
-  List<Object> get props => [id, $$typename];
+  List<Object> get props => [$$typename, id];
   Map<String, dynamic> toJson() {
     switch ($$typename) {
       case r'User':
