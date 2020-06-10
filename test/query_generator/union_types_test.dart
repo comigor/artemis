@@ -77,7 +77,7 @@ final LibraryDefinition libraryDefinition =
       name: QueryName(name: r'SomeQuery$_SomeObject'),
       operationName: r'some_query',
       classes: [
-        FragmentClassDefinition(name: FragmentName(name:'ArtemisTyped'), properties: [
+        FragmentClassDefinition(name: FragmentName(name:'TypeName\$_\$\$typename'), properties: [
           ClassProperty(
             type: TypeName(name: 'String'),
             name: ClassPropertyName(name: '__typename'),
@@ -174,7 +174,7 @@ final LibraryDefinition libraryDefinition =
         ClassDefinition(
             name: ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion'),
             properties: [],
-            mixins: [FragmentName(name: 'ArtemisTyped')],
+            mixins: [FragmentName(name: 'TypeName\$_\$\$typename')],
             factoryPossibilities: {
               r'TypeA':
                   ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion$_TypeA'),
@@ -207,7 +207,7 @@ import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
 
-mixin ArtemisTypedMixin {
+mixin TypeName$$$typenameMixin {
   @override
   @JsonKey(name: '__typename')
   String $$typename;
@@ -278,7 +278,8 @@ class SomeQuery$SomeObject$SomeUnion$TypeB
 }
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery$SomeObject$SomeUnion with EquatableMixin, ArtemisTypedMixin {
+class SomeQuery$SomeObject$SomeUnion
+    with EquatableMixin, TypeName$$$typenameMixin {
   SomeQuery$SomeObject$SomeUnion();
 
   factory SomeQuery$SomeObject$SomeUnion.fromJson(Map<String, dynamic> json) {

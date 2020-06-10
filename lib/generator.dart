@@ -397,9 +397,11 @@ class _GeneratorVisitor extends RecursiveVisitor {
   @override
   void visitFieldNode(FieldNode node) {
     final fieldName = ClassPropertyName(name: node.name.value);
+    final typeNameField = context.schemaMap.typeNameField;
 
-    if (fieldName.name == context.schemaMap.typeNameField) {
-      final typedName = FragmentName(name: 'ArtemisTyped');
+    if (fieldName.name == typeNameField) {
+      final typedName =
+          FragmentName.fromPath(path: [ClassName(name: 'TypeName'), fieldName]);
 
       _mixins.add(typedName);
 
@@ -407,8 +409,8 @@ class _GeneratorVisitor extends RecursiveVisitor {
         context.generatedClasses.add(FragmentClassDefinition(name: typedName, properties: [
           ClassProperty(
             type: TypeName(name: 'String'),
-            name: ClassPropertyName(name: context.schemaMap.typeNameField),
-            annotations: ['override', 'JsonKey(name: \'${context.schemaMap.typeNameField}\')'],
+            name: fieldName,
+            annotations: ['override', 'JsonKey(name: \'${typeNameField}\')'],
             isResolveType: true,
           )
         ]));

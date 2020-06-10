@@ -83,7 +83,7 @@ final LibraryDefinition libraryDefinition =
       name: QueryName(name: r'Custom$_Query'),
       operationName: r'custom',
       classes: [
-        FragmentClassDefinition(name: FragmentName(name:'ArtemisTyped'), properties: [
+        FragmentClassDefinition(name: FragmentName(name:'TypeName\$_\$\$typename'), properties: [
           ClassProperty(
             type: TypeName(name: 'String'),
             name: ClassPropertyName(name: '__typename'),
@@ -134,7 +134,7 @@ final LibraryDefinition libraryDefinition =
                   isNonNull: true,
                   isResolveType: false)
             ],
-            mixins: [FragmentName(name: 'ArtemisTyped')],
+            mixins: [FragmentName(name: 'TypeName\$_\$\$typename')],
             factoryPossibilities: {
               r'User': ClassName(name: r'Custom$_Query$_nodeById$_User'),
               r'ChatMessage':
@@ -187,7 +187,7 @@ import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
 
-mixin ArtemisTypedMixin {
+mixin TypeName$$$typenameMixin {
   @override
   @JsonKey(name: '__typename')
   String $$typename;
@@ -246,7 +246,7 @@ class Custom$Query$NodeById$ChatMessage extends Custom$Query$NodeById
 }
 
 @JsonSerializable(explicitToJson: true)
-class Custom$Query$NodeById with EquatableMixin, ArtemisTypedMixin {
+class Custom$Query$NodeById with EquatableMixin, TypeName$$$typenameMixin {
   Custom$Query$NodeById();
 
   factory Custom$Query$NodeById.fromJson(Map<String, dynamic> json) {
