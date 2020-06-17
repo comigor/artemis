@@ -1,5 +1,6 @@
 import 'package:gql/ast.dart';
 
+import '../generator/data/data.dart';
 import '../generator/errors.dart';
 import '../schema/options.dart';
 import '../visitor.dart';
@@ -32,12 +33,11 @@ Make sure your query is correct and your schema is updated.''');
 }
 
 /// Build a string representing a Dart type, given a GraphQL type.
-String buildTypeString(
+TypeName buildTypeName(
   Node node,
   GeneratorOptions options, {
   bool dartType = true,
   Name replaceLeafWith,
-  String prefix = '',
   DocumentNode schema,
 }) {
   if (node is NamedTypeNode) {
@@ -48,29 +48,32 @@ String buildTypeString(
     if (type != null) {
       if (type is ScalarTypeDefinitionNode) {
         final scalar = getSingleScalarMap(options, node.name.value);
-        return dartType ? scalar.dartType.name : scalar.graphQLType;
+        return TypeName(
+            name: dartType ? scalar.dartType.name : scalar.graphQLType);
       }
 
       if (type is EnumTypeDefinitionNode ||
           type is InputObjectTypeDefinitionNode) {
-        return type.name.value;
+        return TypeName(name: type.name.value);
       }
 
       if (replaceLeafWith != null) {
-        return '$prefix${replaceLeafWith.namePrintable}';
+        return TypeName(name: replaceLeafWith.name);
       } else {
-        return '$prefix${type.name.value}';
+        return TypeName(name: type.name.value);
       }
     }
 
-    return node.name.value;
+    return TypeName(name: node.name.value);
   }
 
   if (node is ListTypeNode) {
-    return 'List<${buildTypeString(node.type, options, dartType: dartType, replaceLeafWith: replaceLeafWith, prefix: prefix, schema: schema)}>';
+    final typeName = buildTypeName(node.type, options,
+        dartType: dartType, replaceLeafWith: replaceLeafWith, schema: schema);
+    return TypeName(name: 'List<${typeName.namePrintable}>');
   }
 
-  throw Exception('Unable to build type string');
+  throw Exception('Unable to build type name');
 }
 
 Map<String, ScalarMap> _defaultScalarMapping = {

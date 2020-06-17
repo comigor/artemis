@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.4.4-beta.1
+- Build type name recursively, considering casing changes.
+
 ## 6.4.3-beta.1
 - Mass package update
 

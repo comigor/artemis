@@ -78,7 +78,8 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Custom$_MutationRoot'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'Custom$MutationRoot$MutationResponse'),
+                  type:
+                      TypeName(name: r'Custom$_MutationRoot$_MutationResponse'),
                   name: ClassPropertyName(name: r'mut'),
                   isNonNull: false,
                   isResolveType: false)

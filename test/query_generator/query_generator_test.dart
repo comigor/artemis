@@ -145,8 +145,8 @@ class SomeQuery$SomeObject with EquatableMixin {
                         name: ClassName(name: r'SomeQuery$_Query'),
                         properties: [
                           ClassProperty(
-                              type:
-                                  TypeName(name: r'SomeQuery$Query$SomeObject'),
+                              type: TypeName(
+                                  name: r'SomeQuery$_Query$_SomeObject'),
                               name: ClassPropertyName(name: r'someQuery'),
                               isNonNull: false,
                               isResolveType: false)
@@ -390,7 +390,7 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
                               isResolveType: false),
                           ClassProperty(
                               type: TypeName(
-                                  name: r'SomeQuery$Result$SomeObject'),
+                                  name: r'SomeQuery$_Result$_SomeObject'),
                               name: ClassPropertyName(name: r'o'),
                               isNonNull: false,
                               isResolveType: false)

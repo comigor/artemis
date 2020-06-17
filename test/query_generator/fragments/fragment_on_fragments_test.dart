@@ -80,7 +80,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Query$_Query'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'Query$Query$Pokemon'),
+                  type: TypeName(name: r'Query$_Query$_Pokemon'),
                   name: ClassPropertyName(name: r'pokemon'),
                   isNonNull: false,
                   isResolveType: false)
@@ -103,7 +103,7 @@ final LibraryDefinition libraryDefinition =
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'PokemonMixin$Pokemon'),
+                  type: TypeName(name: r'PokemonMixin$_Pokemon'),
                   name: ClassPropertyName(name: r'evolution'),
                   isNonNull: false,
                   isResolveType: false)

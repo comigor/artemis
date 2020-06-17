@@ -284,13 +284,13 @@ Make sure your query is correct and your schema is updated.''');
 
   final nextClassName = aliasedContext.fullPathName();
 
-  final dartTypeStr = gql.buildTypeString(fieldType, context.options,
+  final dartTypeName = gql.buildTypeName(fieldType, context.options,
       dartType: true,
       replaceLeafWith: ClassName.fromPath(path: nextClassName),
       schema: context.schema);
 
   _log(context, aliasedContext.align + 1,
-      '${aliasedContext.path}[${aliasedContext.currentType.name.value}][${aliasedContext.currentClassName} ${aliasedContext.currentFieldName}] ${fieldAlias == null ? '' : '(${fieldAlias}) '}-> $dartTypeStr');
+      '${aliasedContext.path}[${aliasedContext.currentType.name.value}][${aliasedContext.currentClassName} ${aliasedContext.currentFieldName}] ${fieldAlias == null ? '' : '(${fieldAlias}) '}-> ${dartTypeName.namePrintable}');
 
   if ((nextType is ObjectTypeDefinitionNode ||
           nextType is UnionTypeDefinitionNode ||
@@ -316,11 +316,10 @@ Make sure your query is correct and your schema is updated.''');
         nextType.name.value == scalar.graphQLType) {
       final graphqlTypeSafeStr = TypeName(
           name: gql
-              .buildTypeString(fieldType, context.options,
+              .buildTypeName(fieldType, context.options,
                   dartType: false, schema: context.schema)
-              .replaceAll(RegExp(r'[<>]'), ''));
-      final dartTypeSafeStr =
-          TypeName(name: dartTypeStr.replaceAll(RegExp(r'[<>]'), ''));
+              .dartTypeSafe);
+      final dartTypeSafeStr = TypeName(name: dartTypeName.dartTypeSafe);
       annotations.add(
           'JsonKey(fromJson: fromGraphQL${graphqlTypeSafeStr.namePrintable}ToDart${dartTypeSafeStr.namePrintable}, toJson: fromDart${dartTypeSafeStr.namePrintable}ToGraphQL${graphqlTypeSafeStr.namePrintable},)');
     }
@@ -332,7 +331,7 @@ Make sure your query is correct and your schema is updated.''');
 
     if (fieldType is! ListTypeNode) {
       annotations.add(
-          'JsonKey(unknownEnumValue: ${TypeName(name: dartTypeStr).namePrintable}.${ARTEMIS_UNKNOWN.namePrintable})');
+          'JsonKey(unknownEnumValue: ${dartTypeName.namePrintable}.${ARTEMIS_UNKNOWN.namePrintable})');
     }
   }
 
@@ -343,7 +342,7 @@ Make sure your query is correct and your schema is updated.''');
   }
 
   return ClassProperty(
-    type: TypeName(name: dartTypeStr),
+    type: dartTypeName,
     name: name,
     annotations: annotations,
     isNonNull: fieldType.isNonNull,
@@ -488,7 +487,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
         )
         .fullPathName();
 
-    final dartTypeStr = gql.buildTypeString(node.type, context.options,
+    final dartTypeName = gql.buildTypeName(node.type, context.options,
         dartType: true,
         replaceLeafWith: ClassName.fromPath(path: nextClassName),
         schema: context.schema);
@@ -498,7 +497,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
       context.usedEnums.add(EnumName(name: leafType.name.value));
       if (leafType is! ListTypeNode) {
         annotations.add(
-            'JsonKey(unknownEnumValue: ${EnumName(name: dartTypeStr).namePrintable}.${ARTEMIS_UNKNOWN.namePrintable})');
+            'JsonKey(unknownEnumValue: ${EnumName(name: dartTypeName.name).namePrintable}.${ARTEMIS_UNKNOWN.namePrintable})');
       }
     } else if (leafType is InputObjectTypeDefinitionNode) {
       addUsedInputObjectsAndEnums(leafType);
@@ -510,18 +509,17 @@ class _GeneratorVisitor extends RecursiveVisitor {
           leafType.name.value == scalar.graphQLType) {
         final graphqlTypeSafeStr = TypeName(
             name: gql
-                .buildTypeString(node.type, context.options,
+                .buildTypeName(node.type, context.options,
                     dartType: false, schema: context.schema)
-                .replaceAll(RegExp(r'[<>]'), ''));
-        final dartTypeSafeStr =
-            TypeName(name: dartTypeStr.replaceAll(RegExp(r'[<>]'), ''));
+                .dartTypeSafe);
+        final dartTypeSafeStr = TypeName(name: dartTypeName.dartTypeSafe);
         annotations.add(
             'JsonKey(fromJson: fromGraphQL${graphqlTypeSafeStr.namePrintable}ToDart${dartTypeSafeStr.namePrintable}, toJson: fromDart${dartTypeSafeStr.namePrintable}ToGraphQL${graphqlTypeSafeStr.namePrintable},)');
       }
     }
 
     context.inputsClasses.add(QueryInput(
-      type: TypeName(name: dartTypeStr),
+      type: dartTypeName,
       name: QueryInputName(name: node.variable.name.value),
       isNonNull: node.type.isNonNull,
       annotations: annotations,

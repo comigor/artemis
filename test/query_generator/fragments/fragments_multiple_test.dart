@@ -157,7 +157,7 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(
                       name:
-                          r'VoyagesData$Query$VoyageList$VoyageDetails$Voyage'),
+                          r'VoyagesData$_Query$_VoyageList$_VoyageDetails$_Voyage'),
                   name: ClassPropertyName(name: r'voyage'),
                   isNonNull: true,
                   isResolveType: false)
@@ -183,7 +183,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'VoyagesData$_Query'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'VoyagesData$Query$VoyageList'),
+                  type: TypeName(name: r'VoyagesData$_Query$_VoyageList'),
                   name: ClassPropertyName(name: r'voyages'),
                   isNonNull: true,
                   isResolveType: false)
