@@ -318,10 +318,8 @@ Make sure your query is correct and your schema is updated.''');
           name: gql
               .buildTypeName(fieldType, context.options,
                   dartType: false, schema: context.schema)
-              .namePrintable
-              .replaceAll(RegExp(r'[<>]'), ''));
-      final dartTypeSafeStr = TypeName(
-          name: dartTypeName.namePrintable.replaceAll(RegExp(r'[<>]'), ''));
+              .dartTypeSafe);
+      final dartTypeSafeStr = TypeName(name: dartTypeName.dartTypeSafe);
       annotations.add(
           'JsonKey(fromJson: fromGraphQL${graphqlTypeSafeStr.namePrintable}ToDart${dartTypeSafeStr.namePrintable}, toJson: fromDart${dartTypeSafeStr.namePrintable}ToGraphQL${graphqlTypeSafeStr.namePrintable},)');
     }
@@ -513,10 +511,8 @@ class _GeneratorVisitor extends RecursiveVisitor {
             name: gql
                 .buildTypeName(node.type, context.options,
                     dartType: false, schema: context.schema)
-                .namePrintable
-                .replaceAll(RegExp(r'[<>]'), ''));
-        final dartTypeSafeStr = TypeName(
-            name: dartTypeName.namePrintable.replaceAll(RegExp(r'[<>]'), ''));
+                .dartTypeSafe);
+        final dartTypeSafeStr = TypeName(name: dartTypeName.dartTypeSafe);
         annotations.add(
             'JsonKey(fromJson: fromGraphQL${graphqlTypeSafeStr.namePrintable}ToDart${dartTypeSafeStr.namePrintable}, toJson: fromDart${dartTypeSafeStr.namePrintable}ToGraphQL${graphqlTypeSafeStr.namePrintable},)');
       }
