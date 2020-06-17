@@ -1,3 +1,5 @@
+// @dart = 2.8
+
 import 'package:artemis/generator/data/data.dart';
 
 typedef _IterableFunction<T, U> = U Function(T i);

@@ -1,3 +1,5 @@
+// @dart = 2.8
+
 import 'package:json_annotation/json_annotation.dart';
 import 'package:yaml/yaml.dart';
 

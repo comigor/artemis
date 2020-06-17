@@ -1,3 +1,5 @@
+// @dart = 2.8
+
 import 'package:artemis/generator/data/class_property.dart';
 import 'package:artemis/generator/data/definition.dart';
 import 'package:artemis/generator/data_printer.dart';

@@ -1,3 +1,5 @@
+// @dart = 2.8
+
 import 'dart:async';
 
 import 'package:gql_dedupe_link/gql_dedupe_link.dart';

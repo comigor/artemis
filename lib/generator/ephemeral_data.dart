@@ -1,3 +1,5 @@
+// @dart = 2.8
+
 import 'package:artemis/generator/data/data.dart';
 import 'package:meta/meta.dart';
 import 'package:gql/ast.dart';

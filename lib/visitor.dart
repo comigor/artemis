@@ -1,3 +1,5 @@
+// @dart = 2.8
+
 import 'package:gql/ast.dart';
 
 /// Visits all object definition nodes recursively

@@ -1,3 +1,5 @@
+// @dart = 2.8
+
 import 'package:equatable/equatable.dart';
 
 import 'helpers.dart';

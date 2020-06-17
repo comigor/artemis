@@ -1,3 +1,5 @@
+// @dart = 2.8
+
 import 'package:artemis/generator/data/class_definition.dart';
 import 'package:artemis/generator/data/definition.dart';
 import 'package:artemis/generator/data/query_input.dart';

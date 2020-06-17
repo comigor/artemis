@@ -1,3 +1,5 @@
+// @dart = 2.8
+
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'options.dart';

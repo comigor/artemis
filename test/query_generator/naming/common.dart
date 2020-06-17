@@ -1,3 +1,5 @@
+// @dart = 2.8
+
 const schema = r'''
 enum Enum {
   e1
