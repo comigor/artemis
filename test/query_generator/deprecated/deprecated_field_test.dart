@@ -94,7 +94,8 @@ final LibraryDefinition libraryDefinition =
           name: ClassName(name: r'SomeQuery$_QueryResponse'),
           properties: [
             ClassProperty(
-              type: TypeName(name: r'SomeQuery$QueryResponse$DeprecatedObject'),
+              type:
+                  TypeName(name: r'SomeQuery$_QueryResponse$_deprecatedObject'),
               name: ClassPropertyName(name: r'deprecatedObject'),
               isNonNull: false,
               annotations: [r"Deprecated('message')"],

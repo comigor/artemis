@@ -1,4 +1,5 @@
 import 'package:artemis/generator/data/data.dart';
+import 'package:artemis/generator/data/enum_value_definition.dart';
 import 'package:gql/language.dart';
 import 'package:test/test.dart';
 
@@ -49,15 +50,21 @@ final LibraryDefinition libraryDefinition =
         EnumDefinition(
           name: EnumName(name: r'StarWarsMovies'),
           values: [
-            EnumValue(
-              name: 'NEW_HOPE',
+            EnumValueDefinition(
+              name: EnumValueName(name: 'NEW_HOPE'),
               annotations: [
                 r"Deprecated('deprecated movie')",
               ],
             ),
-            EnumValue(name: 'EMPIRE'),
-            EnumValue(name: 'JEDI'),
-            EnumValue(name: 'ARTEMIS_UNKNOWN'),
+            EnumValueDefinition(
+              name: EnumValueName(name: 'EMPIRE'),
+            ),
+            EnumValueDefinition(
+              name: EnumValueName(name: 'JEDI'),
+            ),
+            EnumValueDefinition(
+              name: EnumValueName(name: 'ARTEMIS_UNKNOWN'),
+            ),
           ],
         ),
         ClassDefinition(
