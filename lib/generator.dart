@@ -344,7 +344,7 @@ Make sure your query is correct and your schema is updated.''');
   final fieldDirectives =
       regularField?.directives ?? regularInputField?.directives;
 
-  _addDeprecatedAnnotationIfNecessary(annotations, fieldDirectives);
+  annotations.addAll(_proceedDeprecated(fieldDirectives));
 
   return ClassProperty(
     type: dartTypeName,
@@ -354,10 +354,11 @@ Make sure your query is correct and your schema is updated.''');
   );
 }
 
-void _addDeprecatedAnnotationIfNecessary(
-  List<String> annotations,
+List<String> _proceedDeprecated(
   List<DirectiveNode> directives,
 ) {
+  final annotations = <String>[];
+
   final deprecatedDirective = directives?.firstWhere(
     (directive) => directive.name.value == 'deprecated',
     orElse: () => null,
@@ -374,6 +375,8 @@ void _addDeprecatedAnnotationIfNecessary(
 
     annotations.add("Deprecated('$reason')");
   }
+
+  return annotations;
 }
 
 class _GeneratorVisitor extends RecursiveVisitor {
@@ -660,18 +663,14 @@ class _CanonicalVisitor extends RecursiveVisitor {
 
     enums.add(EnumDefinition(
       name: enumName,
-      values: node.values.map(_getEnumValue).toList()..add(ARTEMIS_UNKNOWN),
+      values: node.values
+          .map((ev) => EnumValue(
+                name: ev.name.value,
+                annotations: _proceedDeprecated(ev.directives),
+              ))
+          .toList()
+            ..add(ARTEMIS_UNKNOWN),
     ));
-  }
-
-  EnumValue _getEnumValue(EnumValueDefinitionNode enumValue) {
-    final annotations = <String>[];
-    _addDeprecatedAnnotationIfNecessary(annotations, enumValue.directives);
-
-    return EnumValue(
-      name: enumValue.name.value,
-      annotations: annotations,
-    );
   }
 
   @override
