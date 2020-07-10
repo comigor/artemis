@@ -1,8 +1,8 @@
 name: "Check version and changelog"
 description: "Make sure the version is bumped and it has a changelog entry"
 inputs:
-  actions_user_token:
-    description: "User access token for sending errors as a PR message. This is not default repo token for actions, or else non-maintainers will not see the comments."
+  repo_token:
+    description: "Access token for sending errors as a PR message"
     required: false
     default: ""
   base_ref:
@@ -16,5 +16,5 @@ runs:
   using: "docker"
   image: "Dockerfile"
   args:
-    - "${{ inputs.actions_user_token }}"
+    - "${{ inputs.repo_token }}"
     - "${{ inputs.base_ref }}"

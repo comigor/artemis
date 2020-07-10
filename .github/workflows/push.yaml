@@ -27,7 +27,6 @@ jobs:
         name: Check if version on pubspec.yaml was changed and if there's an entry for this new version on CHANGELOG
         uses: ./.github/actions/check-version-and-changelog
         with:
-          actions_user_token: "${{ secrets.ACTIONS_USER_TOKEN }}"
           base_ref: "${{ github.ref }}"
       - name: Push tag
         uses: anothrNick/github-tag-action@master

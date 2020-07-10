@@ -1,50 +1,32 @@
 #!/bin/ash
 
-function debug {
-    echo "$1"
-}
-
 cd "$GITHUB_WORKSPACE"
 
-ACTIONS_USER_TOKEN="$1"
-echo "LENGTH $(echo "$ACTIONS_USER_TOKEN" | wc -c)"
+REPO_TOKEN="$1"
 github_ref="$2"
-
-debug "$(env)"
-debug "$(cat "$GITHUB_EVENT_PATH" | jq .)"
-
-PR_CREATOR=$(cat "$GITHUB_EVENT_PATH" | jq -r '.pull_request.user.login')
-[ "$PR_CREATOR" = "comigor" ] && EVENT_TYPE="COMMENT" || EVENT_TYPE="REQUEST_CHANGES"
 
 PR_HREF=$(cat "$GITHUB_EVENT_PATH" | jq -r '.pull_request._links.self.href')
 
 function send_message_and_bail {
-    ERROR="$1"
-    echo "-------------------------------------------------"
-    echo "$ERROR"
-    echo "-------------------------------------------------"
+    if [ ! -z "$REPO_TOKEN" ]; then
+        ERROR="$1"
 
-    if [ ! -z "$ACTIONS_USER_TOKEN" ]; then
-        jq -c -n --arg body "$ERROR" --arg event_type "$EVENT_TYPE" '{"event":$event_type, "body":$body}' > /tmp/payload.json
-        echo "CURL::"
-        cat /tmp/payload.json
+        jq -c -n --arg body "$ERROR" '{"event":"COMMENT", "body":$body}' > /tmp/payload.json
         curl -f -X POST \
-            -H 'Content-Type: application/vnd.github.v3.full+json' \
-            -H "Authorization: Bearer $ACTIONS_USER_TOKEN" \
+            -H 'Content-Type: application/json' \
+            -H "Authorization: Bearer $REPO_TOKEN" \
             --data "@/tmp/payload.json" \
             "$PR_HREF/reviews" -vv
-        # || true
-
     fi
 
     exit 1
 }
 
-debug "PARAM GITHUB REF: $github_ref"
-debug "GITHUB EVENT NAME: $GITHUB_EVENT_NAME"
-debug "GITHUB REF: $GITHUB_REF"
-debug "GITHUB BASE REF: $GITHUB_BASE_REF"
-debug "GITHUB HEAD REF: $GITHUB_HEAD_REF"
+# echo "PARAM GITHUB REF: $github_ref"
+# echo "GITHUB EVENT NAME: $GITHUB_EVENT_NAME"
+# echo "GITHUB REF: $GITHUB_REF"
+# echo "GITHUB BASE REF: $GITHUB_BASE_REF"
+# echo "GITHUB HEAD REF: $GITHUB_HEAD_REF"
 
 git fetch --prune --unshallow
 

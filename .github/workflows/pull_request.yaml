@@ -9,7 +9,7 @@ jobs:
       - uses: actions/checkout@master
       - uses: ./.github/actions/check-version-and-changelog
         with:
-          actions_user_token: "${{ secrets.ACTIONS_USER_TOKEN }}"
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
           base_ref: "${{ github.base_ref }}"
   test:
     runs-on: ubuntu-latest
