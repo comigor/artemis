@@ -22,10 +22,6 @@ PR_HREF=$(cat "$GITHUB_EVENT_PATH" | jq -r '.pull_request._links.self.href')
 function send_message_and_bail {
     ERROR="$1"
     DETAIL="$2"
-    echo "------------------------------------------------"
-    echo "$ERROR"
-    echo "$DETAIL"
-    echo "------------------------------------------------"
 
     if [ ! -z "$REPO_TOKEN" ]; then
         BODY=$(cat <<EOF
@@ -47,6 +43,10 @@ EOF
             "$PR_HREF/reviews" -vv || true
     fi
 
+    echo "------------------------------------------------"
+    echo "$ERROR"
+    echo "$DETAIL"
+    echo "------------------------------------------------"
     exit 1
 }
 
