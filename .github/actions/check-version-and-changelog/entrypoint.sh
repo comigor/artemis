@@ -7,6 +7,7 @@ function debug {
 cd "$GITHUB_WORKSPACE"
 
 ACTIONS_USER_TOKEN="$1"
+echo "LENGTH $(echo "$ACTIONS_USER_TOKEN" | wc -c)"
 github_ref="$2"
 
 debug "$(env)"
