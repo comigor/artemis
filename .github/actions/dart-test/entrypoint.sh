@@ -20,11 +20,14 @@ cd "$GITHUB_WORKSPACE"
 PR_HREF=$(cat "$GITHUB_EVENT_PATH" | jq -r '.pull_request._links.self.href')
 
 function send_message_and_bail {
-    if [ ! -z "$REPO_TOKEN" ]; then
-        ERROR="$1"
-        DETAIL="$2"
-        # DETAIL=$(echo "$2" | sed -zE 's/\n/\\n/g')
+    ERROR="$1"
+    DETAIL="$2"
+    echo "------------------------------------------------"
+    echo "$ERROR"
+    echo "$DETAIL"
+    echo "------------------------------------------------"
 
+    if [ ! -z "$REPO_TOKEN" ]; then
         BODY=$(cat <<EOF
 $ERROR
 
@@ -41,7 +44,7 @@ EOF
             -H 'Content-Type: application/json' \
             -H "Authorization: Bearer $REPO_TOKEN" \
             --data "@/tmp/payload.json" \
-            "$PR_HREF/reviews" -vv
+            "$PR_HREF/reviews" -vv || true
     fi
 
     exit 1

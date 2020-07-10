@@ -8,15 +8,18 @@ github_ref="$2"
 PR_HREF=$(cat "$GITHUB_EVENT_PATH" | jq -r '.pull_request._links.self.href')
 
 function send_message_and_bail {
-    if [ ! -z "$REPO_TOKEN" ]; then
-        ERROR="$1"
+    ERROR="$1"
+    echo "------------------------------------------------"
+    echo "$ERROR"
+    echo "------------------------------------------------"
 
+    if [ ! -z "$REPO_TOKEN" ]; then
         jq -c -n --arg body "$ERROR" '{"event":"COMMENT", "body":$body}' > /tmp/payload.json
         curl -f -X POST \
             -H 'Content-Type: application/json' \
             -H "Authorization: Bearer $REPO_TOKEN" \
             --data "@/tmp/payload.json" \
-            "$PR_HREF/reviews" -vv
+            "$PR_HREF/reviews" -vv || true
     fi
 
     exit 1
