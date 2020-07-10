@@ -1,10 +1,16 @@
 #!/bin/ash
 
+function debug {
+    echo "$1"
+}
+
 cd "$GITHUB_WORKSPACE"
 
 REPO_TOKEN="$1"
 github_ref="$2"
 
+debug "$(env)"
+debug "$(cat "$GITHUB_EVENT_PATH" | jq .)"
 PR_HREF=$(cat "$GITHUB_EVENT_PATH" | jq -r '.pull_request._links.self.href')
 
 function send_message_and_bail {
@@ -22,11 +28,11 @@ function send_message_and_bail {
     exit 1
 }
 
-# echo "PARAM GITHUB REF: $github_ref"
-# echo "GITHUB EVENT NAME: $GITHUB_EVENT_NAME"
-# echo "GITHUB REF: $GITHUB_REF"
-# echo "GITHUB BASE REF: $GITHUB_BASE_REF"
-# echo "GITHUB HEAD REF: $GITHUB_HEAD_REF"
+debug "PARAM GITHUB REF: $github_ref"
+debug "GITHUB EVENT NAME: $GITHUB_EVENT_NAME"
+debug "GITHUB REF: $GITHUB_REF"
+debug "GITHUB BASE REF: $GITHUB_BASE_REF"
+debug "GITHUB HEAD REF: $GITHUB_HEAD_REF"
 
 git fetch --prune --unshallow
 
