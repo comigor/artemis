@@ -16,7 +16,7 @@ void main() {
           }
 
           type QueryRoot {
-            q(e: InputEnum!, i: Input!): QueryResponse
+            q(e: input_enum!, i: Input!): QueryResponse
           }
 
           input Input {
@@ -32,7 +32,7 @@ void main() {
             B
           }
 
-          enum InputEnum {
+          enum input_enum {
             C
             D
           }
@@ -65,7 +65,7 @@ void main() {
 }
 
 const query = r'''
-  query custom($e: InputEnum!, $i: Input!) {
+  query custom($e: input_enum!, $i: Input!) {
     q(e: $e, i: $i) {
       e
     }
@@ -79,46 +79,21 @@ final LibraryDefinition libraryDefinition =
       operationName: r'custom',
       classes: [
         EnumDefinition(name: EnumName(name: r'MyEnum'), values: [
-          EnumValueDefinition(
-            name: EnumValueName(name: r'A'),
-          ),
-          EnumValueDefinition(
-            name: EnumValueName(name: r'B'),
-          ),
-          EnumValueDefinition(
-              name: EnumValueName(
-            name: r'ARTEMIS_UNKNOWN',
-          ))
+          EnumValueDefinition(name: EnumValueName(name: r'A')),
+          EnumValueDefinition(name: EnumValueName(name: r'B')),
+          EnumValueDefinition(name: EnumValueName(name: r'ARTEMIS_UNKNOWN'))
         ]),
-        EnumDefinition(name: EnumName(name: r'InputEnum'), values: [
-          EnumValueDefinition(
-            name: EnumValueName(name: r'C'),
-          ),
-          EnumValueDefinition(
-            name: EnumValueName(name: r'D'),
-          ),
-          EnumValueDefinition(
-              name: EnumValueName(
-            name: r'ARTEMIS_UNKNOWN',
-          ))
+        EnumDefinition(name: EnumName(name: r'input_enum'), values: [
+          EnumValueDefinition(name: EnumValueName(name: r'C')),
+          EnumValueDefinition(name: EnumValueName(name: r'D')),
+          EnumValueDefinition(name: EnumValueName(name: r'ARTEMIS_UNKNOWN'))
         ]),
         EnumDefinition(name: EnumName(name: r'_InputInputEnum'), values: [
-          EnumValueDefinition(
-            name: EnumValueName(name: r'_E'),
-          ),
-          EnumValueDefinition(
-            name: EnumValueName(name: r'_F'),
-          ),
-          EnumValueDefinition(
-            name: EnumValueName(name: r'_new'),
-          ),
-          EnumValueDefinition(
-            name: EnumValueName(name: r'new'),
-          ),
-          EnumValueDefinition(
-              name: EnumValueName(
-            name: r'ARTEMIS_UNKNOWN',
-          ))
+          EnumValueDefinition(name: EnumValueName(name: r'_E')),
+          EnumValueDefinition(name: EnumValueName(name: r'_F')),
+          EnumValueDefinition(name: EnumValueName(name: r'_new')),
+          EnumValueDefinition(name: EnumValueName(name: r'new')),
+          EnumValueDefinition(name: EnumValueName(name: r'ARTEMIS_UNKNOWN'))
         ]),
         ClassDefinition(
             name: ClassName(name: r'Custom$_QueryRoot$_QueryResponse'),
@@ -165,7 +140,7 @@ final LibraryDefinition libraryDefinition =
       ],
       inputs: [
         QueryInput(
-            type: TypeName(name: r'InputEnum'),
+            type: TypeName(name: r'input_enum'),
             name: QueryInputName(name: r'e'),
             isNonNull: true,
             annotations: [
