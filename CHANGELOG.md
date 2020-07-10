@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.5.0-beta.1
+- Add deprecated annotations in fields.
+
 ## 6.4.4-beta.1
 - Build type name recursively, considering casing changes.
 
