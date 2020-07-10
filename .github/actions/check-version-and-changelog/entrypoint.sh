@@ -6,23 +6,34 @@ function debug {
 
 cd "$GITHUB_WORKSPACE"
 
-REPO_TOKEN="$1"
+ACTIONS_USER_TOKEN="$1"
 github_ref="$2"
 
 debug "$(env)"
 debug "$(cat "$GITHUB_EVENT_PATH" | jq .)"
+
+PR_CREATOR=$(cat "$GITHUB_EVENT_PATH" | jq -r '.pull_request.user.login')
+[ "$PR_CREATOR" = "comigor" ] && EVENT_TYPE="COMMENT" || EVENT_TYPE="REQUEST_CHANGES"
+
 PR_HREF=$(cat "$GITHUB_EVENT_PATH" | jq -r '.pull_request._links.self.href')
 
 function send_message_and_bail {
-    if [ ! -z "$REPO_TOKEN" ]; then
-        ERROR="$1"
+    ERROR="$1"
+    echo "-------------------------------------------------"
+    echo "$ERROR"
+    echo "-------------------------------------------------"
 
-        jq -c -n --arg body "$ERROR" '{"event":"COMMENT", "body":$body}' > /tmp/payload.json
+    if [ ! -z "$ACTIONS_USER_TOKEN" ]; then
+        jq -c -n --arg body "$ERROR" --arg event_type "$EVENT_TYPE" '{"event":$event_type, "body":$body}' > /tmp/payload.json
+        echo "CURL"
+        cat /tmp/payload.json
         curl -f -X POST \
-            -H 'Content-Type: application/json' \
-            -H "Authorization: Bearer $REPO_TOKEN" \
+            -H 'Content-Type: application/vnd.github.v3.full+json' \
+            -H "Authorization: Bearer $ACTIONS_USER_TOKEN" \
             --data "@/tmp/payload.json" \
             "$PR_HREF/reviews" -vv
+        # || true
+
     fi
 
     exit 1
