@@ -1,4 +1,5 @@
 import 'package:artemis/generator/data/data.dart';
+import 'package:artemis/generator/data/enum_value_definition.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:gql_code_gen/gql_code_gen.dart' as dart;
@@ -8,8 +9,16 @@ import '../generator/helpers.dart';
 /// Generates a [Spec] of a single enum definition.
 Spec enumDefinitionToSpec(EnumDefinition definition) =>
     CodeExpression(Code('''enum ${definition.name.namePrintable} {
-  ${definition.values.removeDuplicatedBy((i) => i).map((v) => '@JsonValue("${v.name}")${v.namePrintable}, ').join()}
+  ${definition.values.removeDuplicatedBy((i) => i).map(_enumValueToSpec).join()}
 }'''));
+
+String _enumValueToSpec(EnumValueDefinition value) {
+  final annotations = value.annotations
+      .map((annotation) => '@$annotation')
+      .followedBy(['@JsonValue("${value.name.name}")']).join(' ');
+
+  return '$annotations${value.name.namePrintable}, ';
+}
 
 String _fromJsonBody(ClassDefinition definition) {
   final buffer = StringBuffer();

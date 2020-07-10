@@ -1,4 +1,5 @@
 import 'package:artemis/generator/data/data.dart';
+import 'package:artemis/generator/data/enum_value_definition.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
@@ -78,21 +79,46 @@ final LibraryDefinition libraryDefinition =
       operationName: r'custom',
       classes: [
         EnumDefinition(name: EnumName(name: r'MyEnum'), values: [
-          EnumValue(name: r'A'),
-          EnumValue(name: r'B'),
-          EnumValue(name: r'ARTEMIS_UNKNOWN')
+          EnumValueDefinition(
+            name: EnumValueName(name: r'A'),
+          ),
+          EnumValueDefinition(
+            name: EnumValueName(name: r'B'),
+          ),
+          EnumValueDefinition(
+              name: EnumValueName(
+            name: r'ARTEMIS_UNKNOWN',
+          ))
         ]),
         EnumDefinition(name: EnumName(name: r'InputEnum'), values: [
-          EnumValue(name: r'C'),
-          EnumValue(name: r'D'),
-          EnumValue(name: r'ARTEMIS_UNKNOWN')
+          EnumValueDefinition(
+            name: EnumValueName(name: r'C'),
+          ),
+          EnumValueDefinition(
+            name: EnumValueName(name: r'D'),
+          ),
+          EnumValueDefinition(
+              name: EnumValueName(
+            name: r'ARTEMIS_UNKNOWN',
+          ))
         ]),
         EnumDefinition(name: EnumName(name: r'_InputInputEnum'), values: [
-          EnumValue(name: r'_E'),
-          EnumValue(name: r'_F'),
-          EnumValue(name: r'_new'),
-          EnumValue(name: r'new'),
-          EnumValue(name: r'ARTEMIS_UNKNOWN')
+          EnumValueDefinition(
+            name: EnumValueName(name: r'_E'),
+          ),
+          EnumValueDefinition(
+            name: EnumValueName(name: r'_F'),
+          ),
+          EnumValueDefinition(
+            name: EnumValueName(name: r'_new'),
+          ),
+          EnumValueDefinition(
+            name: EnumValueName(name: r'new'),
+          ),
+          EnumValueDefinition(
+              name: EnumValueName(
+            name: r'ARTEMIS_UNKNOWN',
+          ))
         ]),
         ClassDefinition(
             name: ClassName(name: r'Custom$_QueryRoot$_QueryResponse'),

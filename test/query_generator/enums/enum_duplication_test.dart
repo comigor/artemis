@@ -1,4 +1,5 @@
 import 'package:artemis/generator/data/data.dart';
+import 'package:artemis/generator/data/enum_value_definition.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
@@ -62,9 +63,16 @@ final LibraryDefinition libraryDefinition =
       operationName: r'custom',
       classes: [
         EnumDefinition(name: EnumName(name: r'MyEnum'), values: [
-          EnumValue(name: r'A'),
-          EnumValue(name: r'B'),
-          EnumValue(name: r'ARTEMIS_UNKNOWN')
+          EnumValueDefinition(
+            name: EnumValueName(name: r'A'),
+          ),
+          EnumValueDefinition(
+            name: EnumValueName(name: r'B'),
+          ),
+          EnumValueDefinition(
+              name: EnumValueName(
+            name: r'ARTEMIS_UNKNOWN',
+          ))
         ]),
         ClassDefinition(
             name: ClassName(name: r'Custom$_Query$_q'),
@@ -101,9 +109,16 @@ final LibraryDefinition libraryDefinition =
       operationName: r'customList',
       classes: [
         EnumDefinition(name: EnumName(name: r'MyEnum'), values: [
-          EnumValue(name: r'A'),
-          EnumValue(name: r'B'),
-          EnumValue(name: r'ARTEMIS_UNKNOWN')
+          EnumValueDefinition(
+            name: EnumValueName(name: r'A'),
+          ),
+          EnumValueDefinition(
+            name: EnumValueName(name: r'B'),
+          ),
+          EnumValueDefinition(
+              name: EnumValueName(
+            name: r'ARTEMIS_UNKNOWN',
+          ))
         ]),
         ClassDefinition(
             name: ClassName(name: r'CustomList$_Query$_qList'),

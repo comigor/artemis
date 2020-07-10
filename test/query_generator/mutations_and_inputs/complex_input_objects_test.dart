@@ -1,4 +1,5 @@
 import 'package:artemis/generator/data/data.dart';
+import 'package:artemis/generator/data/enum_value_definition.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
@@ -54,9 +55,15 @@ final LibraryDefinition libraryDefinition =
       operationName: r'some_query',
       classes: [
         EnumDefinition(name: EnumName(name: r'MyEnum'), values: [
-          EnumValue(name: r'value1'),
-          EnumValue(name: r'value2'),
-          EnumValue(name: r'ARTEMIS_UNKNOWN')
+          EnumValueDefinition(
+            name: EnumValueName(name: r'value1'),
+          ),
+          EnumValueDefinition(
+            name: EnumValueName(name: r'value2'),
+          ),
+          EnumValueDefinition(
+            name: EnumValueName(name: r'ARTEMIS_UNKNOWN'),
+          ),
         ]),
         ClassDefinition(
             name: ClassName(name: r'SomeQuery$_QueryRoot$_SomeObject'),

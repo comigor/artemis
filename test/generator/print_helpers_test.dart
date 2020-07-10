@@ -1,4 +1,5 @@
 import 'package:artemis/generator/data/data.dart';
+import 'package:artemis/generator/data/enum_value_definition.dart';
 import 'package:artemis/generator/print_helpers.dart';
 import 'package:gql/language.dart';
 import 'package:test/test.dart';
@@ -27,10 +28,18 @@ void main() {
 
     test('It will generate an Enum declaration.', () {
       final definition = EnumDefinition(name: EnumName(name: 'Name'), values: [
-        EnumValue(name: 'Option'),
-        EnumValue(name: 'anotherOption'),
-        EnumValue(name: 'third_option'),
-        EnumValue(name: 'FORTH_OPTION'),
+        EnumValueDefinition(
+          name: EnumValueName(name: 'Option'),
+        ),
+        EnumValueDefinition(
+          name: EnumValueName(name: 'anotherOption'),
+        ),
+        EnumValueDefinition(
+          name: EnumValueName(name: 'third_option'),
+        ),
+        EnumValueDefinition(
+          name: EnumValueName(name: 'FORTH_OPTION'),
+        ),
       ]);
 
       final str = specToString(enumDefinitionToSpec(definition));
@@ -50,10 +59,18 @@ void main() {
 
     test('It will ignore duplicate options.', () {
       final definition = EnumDefinition(name: EnumName(name: 'Name'), values: [
-        EnumValue(name: 'Option'),
-        EnumValue(name: 'AnotherOption'),
-        EnumValue(name: 'Option'),
-        EnumValue(name: 'AnotherOption'),
+        EnumValueDefinition(
+          name: EnumValueName(name: 'Option'),
+        ),
+        EnumValueDefinition(
+          name: EnumValueName(name: 'AnotherOption'),
+        ),
+        EnumValueDefinition(
+          name: EnumValueName(name: 'Option'),
+        ),
+        EnumValueDefinition(
+          name: EnumValueName(name: 'AnotherOption'),
+        ),
       ]);
 
       final str = specToString(enumDefinitionToSpec(definition));
@@ -637,9 +654,11 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
           operationName: 'test_query',
           document: parseString('query test_query {}'),
           classes: [
-            EnumDefinition(
-                name: EnumName(name: 'Enum'),
-                values: [EnumValue(name: 'Value')]),
+            EnumDefinition(name: EnumName(name: 'Enum'), values: [
+              EnumValueDefinition(
+                name: EnumValueName(name: 'Value'),
+              )
+            ]),
             ClassDefinition(name: ClassName(name: 'AClass'), properties: [])
           ],
         ),

@@ -1,4 +1,5 @@
 import 'package:artemis/generator/data/data.dart';
+import 'package:artemis/generator/data/enum_value_definition.dart';
 import 'package:build/build.dart';
 import 'package:meta/meta.dart';
 import 'package:gql/ast.dart';
@@ -19,7 +20,9 @@ void _log(Context context, int align, Object logObject) {
 }
 
 /// Enum value for values not mapped in the GraphQL enum
-final EnumValue ARTEMIS_UNKNOWN = EnumValue(name: 'ARTEMIS_UNKNOWN');
+final EnumValueDefinition ARTEMIS_UNKNOWN = EnumValueDefinition(
+  name: EnumValueName(name: 'ARTEMIS_UNKNOWN'),
+);
 
 /// Generate queries definitions from a GraphQL schema and a list of queries,
 /// given Artemis options and schema mappings.
@@ -331,7 +334,7 @@ Make sure your query is correct and your schema is updated.''');
 
     if (fieldType is! ListTypeNode) {
       annotations.add(
-          'JsonKey(unknownEnumValue: ${dartTypeName.namePrintable}.${ARTEMIS_UNKNOWN.namePrintable})');
+          'JsonKey(unknownEnumValue: ${dartTypeName.namePrintable}.${ARTEMIS_UNKNOWN.name.namePrintable})');
     }
   }
 
@@ -341,12 +344,42 @@ Make sure your query is correct and your schema is updated.''');
     annotations.add('JsonKey(name: \'${name.name}\')');
   }
 
+  final fieldDirectives =
+      regularField?.directives ?? regularInputField?.directives;
+
+  annotations.addAll(_proceedDeprecated(fieldDirectives));
+
   return ClassProperty(
     type: dartTypeName,
     name: name,
     annotations: annotations,
     isNonNull: fieldType.isNonNull,
   );
+}
+
+List<String> _proceedDeprecated(
+  List<DirectiveNode> directives,
+) {
+  final annotations = <String>[];
+
+  final deprecatedDirective = directives?.firstWhere(
+    (directive) => directive.name.value == 'deprecated',
+    orElse: () => null,
+  );
+
+  if (deprecatedDirective != null) {
+    final reasonValueNode = deprecatedDirective?.arguments
+        ?.firstWhere((argument) => argument.name.value == 'reason')
+        ?.value;
+
+    final reason = reasonValueNode is StringValueNode
+        ? reasonValueNode.value
+        : 'No longer supported';
+
+    annotations.add("Deprecated('$reason')");
+  }
+
+  return annotations;
 }
 
 class _GeneratorVisitor extends RecursiveVisitor {
@@ -497,7 +530,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
       context.usedEnums.add(EnumName(name: leafType.name.value));
       if (leafType is! ListTypeNode) {
         annotations.add(
-            'JsonKey(unknownEnumValue: ${EnumName(name: dartTypeName.name).namePrintable}.${ARTEMIS_UNKNOWN.namePrintable})');
+            'JsonKey(unknownEnumValue: ${EnumName(name: dartTypeName.name).namePrintable}.${ARTEMIS_UNKNOWN.name.namePrintable})');
       }
     } else if (leafType is InputObjectTypeDefinitionNode) {
       addUsedInputObjectsAndEnums(leafType);
@@ -633,8 +666,13 @@ class _CanonicalVisitor extends RecursiveVisitor {
 
     enums.add(EnumDefinition(
       name: enumName,
-      values: node.values.map((eV) => EnumValue(name: eV.name.value)).toList()
-        ..add(ARTEMIS_UNKNOWN),
+      values: node.values
+          .map((ev) => EnumValueDefinition(
+                name: EnumValueName(name: ev.name.value),
+                annotations: _proceedDeprecated(ev.directives),
+              ))
+          .toList()
+            ..add(ARTEMIS_UNKNOWN),
     ));
   }
 

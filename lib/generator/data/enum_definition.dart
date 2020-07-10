@@ -1,8 +1,8 @@
 import 'package:artemis/generator/data/definition.dart';
+import 'package:artemis/generator/data/enum_value_definition.dart';
 import 'package:artemis/generator/data_printer.dart';
 import 'package:artemis/generator/helpers.dart';
 import 'package:meta/meta.dart';
-import 'package:recase/recase.dart';
 
 /// Define a Dart enum parsed from GraphQL schema.
 class EnumDefinition extends Definition with DataPrinter {
@@ -10,7 +10,7 @@ class EnumDefinition extends Definition with DataPrinter {
   final EnumName name;
 
   /// The possible values of this enum.
-  final Iterable<EnumValue> values;
+  final Iterable<EnumValueDefinition> values;
 
   /// Instantiate an enum definition.
   EnumDefinition({
@@ -24,22 +24,6 @@ class EnumDefinition extends Definition with DataPrinter {
         'name': name,
         'values': values,
       };
-}
-
-/// Enum value name
-class EnumValue extends Name with DataPrinter {
-  /// Instantiate a enum value name definition.
-  EnumValue({@required String name}) : super(name: name);
-
-  @override
-  Map<String, Object> get namedProps => {
-        'name': name,
-      };
-
-  @override
-  String normalize(String name) {
-    return ReCase(super.normalize(name)).camelCase;
-  }
 }
 
 /// Enum name
