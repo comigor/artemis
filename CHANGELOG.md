@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.5.1-beta.1
+- enum name pascal casing.
+
 ## 6.5.0-beta.1
 - Add deprecated annotations in fields.
 
