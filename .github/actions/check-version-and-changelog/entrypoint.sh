@@ -25,7 +25,7 @@ function send_message_and_bail {
 
     if [ ! -z "$ACTIONS_USER_TOKEN" ]; then
         jq -c -n --arg body "$ERROR" --arg event_type "$EVENT_TYPE" '{"event":$event_type, "body":$body}' > /tmp/payload.json
-        echo "CURL"
+        echo "CURL::"
         cat /tmp/payload.json
         curl -f -X POST \
             -H 'Content-Type: application/vnd.github.v3.full+json' \
