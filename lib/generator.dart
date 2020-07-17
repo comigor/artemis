@@ -96,6 +96,8 @@ Set<FragmentDefinitionNode> _extractFragments(SelectionSetNode selectionSet,
   return result;
 }
 
+_CanonicalVisitor _canonicalVisitor;
+
 /// Generate a query definition from a GraphQL schema and a query, given
 /// Artemis options and schema mappings.
 QueryDefinition generateQuery(
@@ -192,22 +194,27 @@ QueryDefinition generateQuery(
   final visitor = _GeneratorVisitor(
     context: context,
   );
-  final canonicalVisitor = _CanonicalVisitor(
-    context: context.sameTypeWithNoPath(),
-  );
+
+  // scans schema for canonical types only once
+  if (_canonicalVisitor == null) {
+    _canonicalVisitor = _CanonicalVisitor(
+      context: context.sameTypeWithNoPath(),
+    );
+
+    schema.accept(_canonicalVisitor);
+  }
 
   document.accept(visitor);
-  schema.accept(canonicalVisitor);
 
   return QueryDefinition(
     name: name,
     operationName: operationName,
     document: document,
     classes: [
-      ...canonicalVisitor.enums
+      ..._canonicalVisitor.enums
           .where((e) => context.usedEnums.contains(e.name)),
       ...visitor.context.generatedClasses,
-      ...canonicalVisitor.inputObjects
+      ..._canonicalVisitor.inputObjects
           .where((i) => context.usedInputObjects.contains(i.name)),
     ],
     inputs: visitor.context.inputsClasses,

@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.5.2-beta.1
+- performance improvements - scan schema for canonical types only once
+
 ## 6.5.1-beta.1
 - enum name pascal casing.
 
