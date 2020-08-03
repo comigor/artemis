@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.6.2-beta.1
+- nnbd preparation
+
 ## 6.6.1-beta.1
 - allow multiple operations per file
 

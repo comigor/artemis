@@ -1,3 +1,5 @@
+// @dart = 2.8
+
 import 'package:artemis/generator/data/data.dart';
 
 /// Define an exception thrown when duplicated classes names were generated.

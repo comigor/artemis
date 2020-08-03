@@ -1,3 +1,5 @@
+// @dart = 2.8
+
 import 'package:artemis/generator/data_printer.dart';
 import 'package:artemis/generator/helpers.dart';
 import 'package:equatable/equatable.dart';

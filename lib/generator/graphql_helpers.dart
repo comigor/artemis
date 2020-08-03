@@ -1,3 +1,5 @@
+// @dart = 2.8
+
 import 'package:gql/ast.dart';
 
 import '../generator/data/data.dart';

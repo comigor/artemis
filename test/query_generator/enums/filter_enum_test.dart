@@ -191,6 +191,8 @@ class Custom$QueryRoot with EquatableMixin {
   List<Object> get props => [q];
   Map<String, dynamic> toJson() => _$Custom$QueryRootToJson(this);
 }
+// @dart = 2.8
+
 
 @JsonSerializable(explicitToJson: true)
 class Input with EquatableMixin {

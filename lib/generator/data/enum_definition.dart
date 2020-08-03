@@ -1,3 +1,5 @@
+// @dart = 2.8
+
 import 'package:artemis/generator/data/definition.dart';
 import 'package:artemis/generator/data/enum_value_definition.dart';
 import 'package:artemis/generator/data_printer.dart';
