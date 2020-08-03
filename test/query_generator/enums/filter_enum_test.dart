@@ -1,3 +1,5 @@
+// @dart = 2.8
+
 import 'package:artemis/generator/data/data.dart';
 import 'package:artemis/generator/data/enum_value_definition.dart';
 import 'package:test/test.dart';
@@ -191,8 +193,6 @@ class Custom$QueryRoot with EquatableMixin {
   List<Object> get props => [q];
   Map<String, dynamic> toJson() => _$Custom$QueryRootToJson(this);
 }
-// @dart = 2.8
-
 
 @JsonSerializable(explicitToJson: true)
 class Input with EquatableMixin {
