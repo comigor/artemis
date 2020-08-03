@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.6.3-beta.1
+- test fix
+
 ## 6.6.2-beta.1
 - nnbd preparation
 
