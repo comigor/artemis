@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.6.4-beta.1
+- pubspec fix
+
 ## 6.6.3-beta.1
 - test fix
 
