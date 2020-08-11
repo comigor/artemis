@@ -656,7 +656,7 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
           operationName: 'test_query',
           document: parseString('query test_query {}'),
           classes: [
-            EnumDefinition(name: EnumName(name: 'Enum'), values: [
+            EnumDefinition(name: EnumName(name: 'SomeEnum'), values: [
               EnumValueDefinition(
                 name: EnumValueName(name: 'Value'),
               )
@@ -686,7 +686,7 @@ class AClass with EquatableMixin {
   Map<String, dynamic> toJson() => _\$AClassToJson(this);
 }
 
-enum Enum {
+enum SomeEnum {
   @JsonValue("Value")
   value,
 }

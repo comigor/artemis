@@ -20,7 +20,7 @@ void main() {
 }
 
 final _expectedNames = [
-  r'Enum',
+  r'SomeEnum',
   r'BigQuery$Query$Thing$AThing',
   r'BigQuery$Query$Thing$BThing',
   r'BigQuery$Query$Thing$AliasOnAThing',

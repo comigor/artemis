@@ -1,14 +1,14 @@
 // @dart = 2.8
 
 const schema = r'''
-enum Enum {
+enum SomeEnum {
   e1
   e2
 }
 
 input Input {
   i: String
-  e: Enum
+  e: SomeEnum
   s: SubInput
 }
 
@@ -18,7 +18,7 @@ input SubInput {
 
 type Thing {
   id: String
-  e: Enum
+  e: SomeEnum
   aThing: Thing
   bThing: Thing
   fThing: Thing
