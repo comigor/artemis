@@ -547,7 +547,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
     final annotations = <String>[];
     if (leafType is EnumTypeDefinitionNode) {
       context.usedEnums.add(EnumName(name: leafType.name.value));
-      if (leafType is! ListTypeNode) {
+      if (node.type is! ListTypeNode) {
         annotations.add(
             'JsonKey(unknownEnumValue: ${EnumName(name: dartTypeName.name).namePrintable}.${ARTEMIS_UNKNOWN.name.namePrintable})');
       }

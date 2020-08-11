@@ -28,6 +28,7 @@ void main() {
           enum MyEnum {
             A
             B
+            IN
           }
         ''',
         libraryDefinition: libraryDefinition,
@@ -52,16 +53,10 @@ final LibraryDefinition libraryDefinition =
       operationName: r'custom',
       classes: [
         EnumDefinition(name: EnumName(name: r'MyEnum'), values: [
-          EnumValueDefinition(
-            name: EnumValueName(name: 'A'),
-          ),
-          EnumValueDefinition(
-            name: EnumValueName(name: 'B'),
-          ),
-          EnumValueDefinition(
-              name: EnumValueName(
-            name: 'ARTEMIS_UNKNOWN',
-          ))
+          EnumValueDefinition(name: EnumValueName(name: r'A')),
+          EnumValueDefinition(name: EnumValueName(name: r'B')),
+          EnumValueDefinition(name: EnumValueName(name: r'IN')),
+          EnumValueDefinition(name: EnumValueName(name: r'ARTEMIS_UNKNOWN'))
         ]),
         ClassDefinition(
             name: ClassName(name: r'Custom$_QueryRoot$_QueryResponse'),
@@ -136,6 +131,8 @@ enum MyEnum {
   a,
   @JsonValue("B")
   b,
+  @JsonValue("IN")
+  kw$IN,
   @JsonValue("ARTEMIS_UNKNOWN")
   artemisUnknown,
 }

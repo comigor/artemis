@@ -98,7 +98,7 @@ String normalizeName(String name) {
     return fieldName.padLeft(name.length, r'$');
   }
 
-  if (dartKeywords.contains(name)) {
+  if (dartKeywords.contains(name.toLowerCase())) {
     return 'kw\$$name';
   }
 

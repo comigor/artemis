@@ -38,6 +38,7 @@ final String query = r'''
         _b_b
         _b_b_
         new
+        IN
       } 
     } 
   }
@@ -70,6 +71,7 @@ final String graphQLSchema = '''
     _b_b: String
     _b_b_: String
     new: String
+    IN: String
   }
 ''';
 
@@ -158,6 +160,12 @@ final LibraryDefinition libraryDefinition =
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'new'),
                   annotations: [r'''JsonKey(name: 'new')'''],
+                  isNonNull: false,
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'IN'),
+                  annotations: [r'''JsonKey(name: 'IN')'''],
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -268,8 +276,11 @@ class SomeQuery$SomeObject$SomeUnion$TypeB
   @JsonKey(name: 'new')
   String kw$new;
 
+  @JsonKey(name: 'IN')
+  String kw$IN;
+
   @override
-  List<Object> get props => [b, $, $b, $bB, $bB_, kw$new];
+  List<Object> get props => [b, $, $b, $bB, $bB_, kw$new, kw$IN];
   Map<String, dynamic> toJson() =>
       _$SomeQuery$SomeObject$SomeUnion$TypeBToJson(this);
 }

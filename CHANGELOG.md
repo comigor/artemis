@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.7.1-beta.1
+- uppercase keyword fix
+
 ## 6.6.4-beta.1
 - pubspec fix
 
