@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.8.1-beta.1
+- fix for multiple schema_mapping
+
 ## 6.7.1-beta.1
 - uppercase keyword fix
 
