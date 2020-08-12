@@ -1,0 +1,455 @@
+// @dart = 2.8
+
+import 'package:artemis/generator/data/data.dart';
+import 'package:test/test.dart';
+
+import '../../helpers.dart';
+
+void main() {
+  group('On treatAsCanonical', () {
+    test(
+      'It works with union types',
+      () async => testGenerator(
+        query: query,
+        libraryDefinition: libraryDefinition,
+        generatedFile: generatedFile,
+        schemaMappingMap: {
+          'treat_as_canonical_glob': 'Localized',
+        },
+        schema: r'''
+          type Query {
+            q: QueryResponse!
+          }
+          
+          type QueryResponse {
+            localized1: Localized!
+            localized2: [Localized!]!
+            secondLevel: SecondLevel!
+          }
+
+          type SecondLevel {
+            localized3: Localized!
+          }
+
+          union Localized = LocalizedText | LocalizedImage
+          
+          type LocalizedText {
+            text: String!
+          }
+
+          type LocalizedImage {
+            src: String!
+          }
+          ''',
+      ),
+    );
+  });
+}
+
+const query = r'''
+query custom {
+  q {
+    localized1 { ... on LocalizedText { text } ... on LocalizedImage { src } }
+    localized2 { ... on LocalizedText { text } ... on LocalizedImage { src } }
+    secondLevel {
+      localized3 { ... on LocalizedText { text } ... on LocalizedImage { src } }
+    }
+  }
+}
+''';
+
+final LibraryDefinition libraryDefinition =
+    LibraryDefinition(basename: r'query.graphql', queries: [
+  QueryDefinition(
+      name: QueryName(name: r'Custom$_Query'),
+      operationName: r'custom',
+      classes: [
+        ClassDefinition(
+            name: ClassName(
+                name:
+                    r'Custom$_Query$_QueryResponse$_Localized$_LocalizedText'),
+            properties: [
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'text'),
+                  isNonNull: true,
+                  isResolveType: false)
+            ],
+            extension:
+                ClassName(name: r'Custom$_Query$_QueryResponse$_Localized'),
+            factoryPossibilities: {},
+            typeNameField: TypeName(name: r'__typename'),
+            isInput: false),
+        ClassDefinition(
+            name: ClassName(
+                name:
+                    r'Custom$_Query$_QueryResponse$_Localized$_LocalizedImage'),
+            properties: [
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'src'),
+                  isNonNull: true,
+                  isResolveType: false)
+            ],
+            extension:
+                ClassName(name: r'Custom$_Query$_QueryResponse$_Localized'),
+            factoryPossibilities: {},
+            typeNameField: TypeName(name: r'__typename'),
+            isInput: false),
+        ClassDefinition(
+            name: ClassName(name: r'Custom$_Query$_QueryResponse$_Localized'),
+            factoryPossibilities: {
+              r'LocalizedText': ClassName(
+                  name:
+                      r'Custom$_Query$_QueryResponse$_Localized$_LocalizedText'),
+              r'LocalizedImage': ClassName(
+                  name:
+                      r'Custom$_Query$_QueryResponse$_Localized$_LocalizedImage')
+            },
+            typeNameField: TypeName(name: r'__typename'),
+            isInput: false),
+        ClassDefinition(
+            name: ClassName(
+                name:
+                    r'Custom$_Query$_QueryResponse$_Localized$_LocalizedText'),
+            properties: [
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'text'),
+                  isNonNull: true,
+                  isResolveType: false)
+            ],
+            extension:
+                ClassName(name: r'Custom$_Query$_QueryResponse$_Localized'),
+            factoryPossibilities: {},
+            typeNameField: TypeName(name: r'__typename'),
+            isInput: false),
+        ClassDefinition(
+            name: ClassName(
+                name:
+                    r'Custom$_Query$_QueryResponse$_Localized$_LocalizedImage'),
+            properties: [
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'src'),
+                  isNonNull: true,
+                  isResolveType: false)
+            ],
+            extension:
+                ClassName(name: r'Custom$_Query$_QueryResponse$_Localized'),
+            factoryPossibilities: {},
+            typeNameField: TypeName(name: r'__typename'),
+            isInput: false),
+        ClassDefinition(
+            name: ClassName(name: r'Custom$_Query$_QueryResponse$_Localized'),
+            factoryPossibilities: {
+              r'LocalizedText': ClassName(
+                  name:
+                      r'Custom$_Query$_QueryResponse$_Localized$_LocalizedText'),
+              r'LocalizedImage': ClassName(
+                  name:
+                      r'Custom$_Query$_QueryResponse$_Localized$_LocalizedImage')
+            },
+            typeNameField: TypeName(name: r'__typename'),
+            isInput: false),
+        ClassDefinition(
+            name: ClassName(
+                name:
+                    r'Custom$_Query$_QueryResponse$_SecondLevel$_Localized$_LocalizedText'),
+            properties: [
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'text'),
+                  isNonNull: true,
+                  isResolveType: false)
+            ],
+            extension: ClassName(
+                name: r'Custom$_Query$_QueryResponse$_SecondLevel$_Localized'),
+            factoryPossibilities: {},
+            typeNameField: TypeName(name: r'__typename'),
+            isInput: false),
+        ClassDefinition(
+            name: ClassName(
+                name:
+                    r'Custom$_Query$_QueryResponse$_SecondLevel$_Localized$_LocalizedImage'),
+            properties: [
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'src'),
+                  isNonNull: true,
+                  isResolveType: false)
+            ],
+            extension: ClassName(
+                name: r'Custom$_Query$_QueryResponse$_SecondLevel$_Localized'),
+            factoryPossibilities: {},
+            typeNameField: TypeName(name: r'__typename'),
+            isInput: false),
+        ClassDefinition(
+            name: ClassName(
+                name: r'Custom$_Query$_QueryResponse$_SecondLevel$_Localized'),
+            factoryPossibilities: {
+              r'LocalizedText': ClassName(
+                  name:
+                      r'Custom$_Query$_QueryResponse$_SecondLevel$_Localized$_LocalizedText'),
+              r'LocalizedImage': ClassName(
+                  name:
+                      r'Custom$_Query$_QueryResponse$_SecondLevel$_Localized$_LocalizedImage')
+            },
+            typeNameField: TypeName(name: r'__typename'),
+            isInput: false),
+        ClassDefinition(
+            name: ClassName(name: r'Custom$_Query$_QueryResponse$_SecondLevel'),
+            properties: [
+              ClassProperty(
+                  type: TypeName(
+                      name:
+                          r'Custom$_Query$_QueryResponse$_SecondLevel$_Localized'),
+                  name: ClassPropertyName(name: r'localized3'),
+                  isNonNull: true,
+                  isResolveType: false)
+            ],
+            factoryPossibilities: {},
+            typeNameField: TypeName(name: r'__typename'),
+            isInput: false),
+        ClassDefinition(
+            name: ClassName(name: r'Custom$_Query$_QueryResponse'),
+            properties: [
+              ClassProperty(
+                  type: TypeName(
+                      name: r'Custom$_Query$_QueryResponse$_Localized'),
+                  name: ClassPropertyName(name: r'localized1'),
+                  isNonNull: true,
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(
+                      name: r'List<Custom$Query$QueryResponse$Localized>'),
+                  name: ClassPropertyName(name: r'localized2'),
+                  isNonNull: true,
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(
+                      name: r'Custom$_Query$_QueryResponse$_SecondLevel'),
+                  name: ClassPropertyName(name: r'secondLevel'),
+                  isNonNull: true,
+                  isResolveType: false)
+            ],
+            factoryPossibilities: {},
+            typeNameField: TypeName(name: r'__typename'),
+            isInput: false),
+        ClassDefinition(
+            name: ClassName(name: r'Custom$_Query'),
+            properties: [
+              ClassProperty(
+                  type: TypeName(name: r'Custom$_Query$_QueryResponse'),
+                  name: ClassPropertyName(name: r'q'),
+                  isNonNull: true,
+                  isResolveType: false)
+            ],
+            factoryPossibilities: {},
+            typeNameField: TypeName(name: r'__typename'),
+            isInput: false)
+      ],
+      generateHelpers: false,
+      suffix: r'Query')
+]);
+
+const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+
+import 'package:meta/meta.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:equatable/equatable.dart';
+import 'package:gql/ast.dart';
+part 'query.graphql.g.dart';
+
+@JsonSerializable(explicitToJson: true)
+class Custom$Query$QueryResponse$Localized$LocalizedText
+    extends Custom$Query$QueryResponse$Localized with EquatableMixin {
+  Custom$Query$QueryResponse$Localized$LocalizedText();
+
+  factory Custom$Query$QueryResponse$Localized$LocalizedText.fromJson(
+          Map<String, dynamic> json) =>
+      _$Custom$Query$QueryResponse$Localized$LocalizedTextFromJson(json);
+
+  String text;
+
+  @override
+  List<Object> get props => [text];
+  Map<String, dynamic> toJson() =>
+      _$Custom$Query$QueryResponse$Localized$LocalizedTextToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class Custom$Query$QueryResponse$Localized$LocalizedImage
+    extends Custom$Query$QueryResponse$Localized with EquatableMixin {
+  Custom$Query$QueryResponse$Localized$LocalizedImage();
+
+  factory Custom$Query$QueryResponse$Localized$LocalizedImage.fromJson(
+          Map<String, dynamic> json) =>
+      _$Custom$Query$QueryResponse$Localized$LocalizedImageFromJson(json);
+
+  String src;
+
+  @override
+  List<Object> get props => [src];
+  Map<String, dynamic> toJson() =>
+      _$Custom$Query$QueryResponse$Localized$LocalizedImageToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class Custom$Query$QueryResponse$Localized with EquatableMixin {
+  Custom$Query$QueryResponse$Localized();
+
+  factory Custom$Query$QueryResponse$Localized.fromJson(
+      Map<String, dynamic> json) {
+    switch (json['__typename'].toString()) {
+      case r'LocalizedText':
+        return Custom$Query$QueryResponse$Localized$LocalizedText.fromJson(
+            json);
+      case r'LocalizedImage':
+        return Custom$Query$QueryResponse$Localized$LocalizedImage.fromJson(
+            json);
+      default:
+    }
+    return _$Custom$Query$QueryResponse$LocalizedFromJson(json);
+  }
+
+  @override
+  List<Object> get props => [];
+  Map<String, dynamic> toJson() {
+    switch ($$typename) {
+      case r'LocalizedText':
+        return (this as Custom$Query$QueryResponse$Localized$LocalizedText)
+            .toJson();
+      case r'LocalizedImage':
+        return (this as Custom$Query$QueryResponse$Localized$LocalizedImage)
+            .toJson();
+      default:
+    }
+    return _$Custom$Query$QueryResponse$LocalizedToJson(this);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class Custom$Query$QueryResponse$SecondLevel$Localized$LocalizedText
+    extends Custom$Query$QueryResponse$SecondLevel$Localized
+    with EquatableMixin {
+  Custom$Query$QueryResponse$SecondLevel$Localized$LocalizedText();
+
+  factory Custom$Query$QueryResponse$SecondLevel$Localized$LocalizedText.fromJson(
+          Map<String, dynamic> json) =>
+      _$Custom$Query$QueryResponse$SecondLevel$Localized$LocalizedTextFromJson(
+          json);
+
+  String text;
+
+  @override
+  List<Object> get props => [text];
+  Map<String, dynamic> toJson() =>
+      _$Custom$Query$QueryResponse$SecondLevel$Localized$LocalizedTextToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class Custom$Query$QueryResponse$SecondLevel$Localized$LocalizedImage
+    extends Custom$Query$QueryResponse$SecondLevel$Localized
+    with EquatableMixin {
+  Custom$Query$QueryResponse$SecondLevel$Localized$LocalizedImage();
+
+  factory Custom$Query$QueryResponse$SecondLevel$Localized$LocalizedImage.fromJson(
+          Map<String, dynamic> json) =>
+      _$Custom$Query$QueryResponse$SecondLevel$Localized$LocalizedImageFromJson(
+          json);
+
+  String src;
+
+  @override
+  List<Object> get props => [src];
+  Map<String, dynamic> toJson() =>
+      _$Custom$Query$QueryResponse$SecondLevel$Localized$LocalizedImageToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class Custom$Query$QueryResponse$SecondLevel$Localized with EquatableMixin {
+  Custom$Query$QueryResponse$SecondLevel$Localized();
+
+  factory Custom$Query$QueryResponse$SecondLevel$Localized.fromJson(
+      Map<String, dynamic> json) {
+    switch (json['__typename'].toString()) {
+      case r'LocalizedText':
+        return Custom$Query$QueryResponse$SecondLevel$Localized$LocalizedText
+            .fromJson(json);
+      case r'LocalizedImage':
+        return Custom$Query$QueryResponse$SecondLevel$Localized$LocalizedImage
+            .fromJson(json);
+      default:
+    }
+    return _$Custom$Query$QueryResponse$SecondLevel$LocalizedFromJson(json);
+  }
+
+  @override
+  List<Object> get props => [];
+  Map<String, dynamic> toJson() {
+    switch ($$typename) {
+      case r'LocalizedText':
+        return (this
+                as Custom$Query$QueryResponse$SecondLevel$Localized$LocalizedText)
+            .toJson();
+      case r'LocalizedImage':
+        return (this
+                as Custom$Query$QueryResponse$SecondLevel$Localized$LocalizedImage)
+            .toJson();
+      default:
+    }
+    return _$Custom$Query$QueryResponse$SecondLevel$LocalizedToJson(this);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class Custom$Query$QueryResponse$SecondLevel with EquatableMixin {
+  Custom$Query$QueryResponse$SecondLevel();
+
+  factory Custom$Query$QueryResponse$SecondLevel.fromJson(
+          Map<String, dynamic> json) =>
+      _$Custom$Query$QueryResponse$SecondLevelFromJson(json);
+
+  Custom$Query$QueryResponse$SecondLevel$Localized localized3;
+
+  @override
+  List<Object> get props => [localized3];
+  Map<String, dynamic> toJson() =>
+      _$Custom$Query$QueryResponse$SecondLevelToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class Custom$Query$QueryResponse with EquatableMixin {
+  Custom$Query$QueryResponse();
+
+  factory Custom$Query$QueryResponse.fromJson(Map<String, dynamic> json) =>
+      _$Custom$Query$QueryResponseFromJson(json);
+
+  Custom$Query$QueryResponse$Localized localized1;
+
+  List<Custom$Query$QueryResponse$Localized> localized2;
+
+  Custom$Query$QueryResponse$SecondLevel secondLevel;
+
+  @override
+  List<Object> get props => [localized1, localized2, secondLevel];
+  Map<String, dynamic> toJson() => _$Custom$Query$QueryResponseToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class Custom$Query with EquatableMixin {
+  Custom$Query();
+
+  factory Custom$Query.fromJson(Map<String, dynamic> json) =>
+      _$Custom$QueryFromJson(json);
+
+  Custom$Query$QueryResponse q;
+
+  @override
+  List<Object> get props => [q];
+  Map<String, dynamic> toJson() => _$Custom$QueryToJson(this);
+}
+''';
