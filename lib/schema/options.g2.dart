@@ -75,6 +75,7 @@ SchemaMap _$SchemaMapFromJson(Map<String, dynamic> json) {
     namingScheme: _$enumDecodeNullable(
         _$NamingSchemeEnumMap, json['naming_scheme'],
         unknownValue: NamingScheme.pathedWithTypes),
+    treatAsCanonicalGlob: json['treat_as_canonical_glob'] as String,
   );
 }
 
@@ -84,6 +85,7 @@ Map<String, dynamic> _$SchemaMapToJson(SchemaMap instance) => <String, dynamic>{
       'queries_glob': instance.queriesGlob,
       'type_name_field': instance.typeNameField,
       'naming_scheme': _$NamingSchemeEnumMap[instance.namingScheme],
+      'treat_as_canonical_glob': instance.treatAsCanonicalGlob,
     };
 
 T _$enumDecode<T>(

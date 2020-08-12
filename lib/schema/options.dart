@@ -147,6 +147,9 @@ class SchemaMap {
   @JsonKey(unknownEnumValue: NamingScheme.pathedWithTypes)
   final NamingScheme namingScheme;
 
+  ///
+  final String treatAsCanonicalGlob;
+
   /// Instantiates a schema mapping.
   SchemaMap({
     this.output,
@@ -154,6 +157,7 @@ class SchemaMap {
     this.queriesGlob,
     this.typeNameField = '__typename',
     this.namingScheme = NamingScheme.pathedWithTypes,
+    this.treatAsCanonicalGlob = '',
   });
 
   /// Build a schema mapping from a JSON map.

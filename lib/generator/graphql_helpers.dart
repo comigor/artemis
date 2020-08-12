@@ -41,11 +41,16 @@ TypeName buildTypeName(
   bool dartType = true,
   Name replaceLeafWith,
   DocumentNode schema,
+  List<String> canonicalGraphQLClassNames = const [],
 }) {
   if (node is NamedTypeNode) {
     final typeVisitor = TypeDefinitionNodeVisitor();
     schema.accept(typeVisitor);
     final type = typeVisitor.getByName(node.name.value);
+
+    if (canonicalGraphQLClassNames.contains(node.name.value)) {
+      return TypeName(name: node.name.value);
+    }
 
     if (type != null) {
       if (type is ScalarTypeDefinitionNode) {
@@ -70,8 +75,14 @@ TypeName buildTypeName(
   }
 
   if (node is ListTypeNode) {
-    final typeName = buildTypeName(node.type, options,
-        dartType: dartType, replaceLeafWith: replaceLeafWith, schema: schema);
+    final typeName = buildTypeName(
+      node.type,
+      options,
+      dartType: dartType,
+      replaceLeafWith: replaceLeafWith,
+      schema: schema,
+      canonicalGraphQLClassNames: canonicalGraphQLClassNames,
+    );
     return TypeName(name: 'List<${typeName.namePrintable}>');
   }
 
