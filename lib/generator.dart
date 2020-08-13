@@ -750,7 +750,8 @@ class _CanonicalVisitor extends RecursiveVisitor {
     ));
   }
 
-  void sbrubbles(Context context, ObjectTypeDefinitionNode node) {
+  void processObjectAsCanonical(
+      Context context, ObjectTypeDefinitionNode node) {
     final canonicalName = node.name.value;
 
     _log(context, context.align, '-> Class');
@@ -768,7 +769,7 @@ class _CanonicalVisitor extends RecursiveVisitor {
         context: thisContext,
         onNewClassFound: (nextContext) {
           if (nextContext.currentType is ObjectTypeDefinitionNode) {
-            sbrubbles(nextContext,
+            processObjectAsCanonical(nextContext,
                 nextContext.currentType as ObjectTypeDefinitionNode);
           }
         },
@@ -776,19 +777,11 @@ class _CanonicalVisitor extends RecursiveVisitor {
       return property;
     }).toList();
 
-    final possibleTypes = <String, Name>{}..addEntries(
-        node.interfaces.map(
-          (i) => MapEntry<String, Name>(
-              i.name.value, ClassName(name: i.name.value)),
-        ),
-      );
-
     final name = ClassName(name: canonicalName);
     canonicalGraphQLNames.add(canonicalName);
     canonicalObjects.add(ClassDefinition(
       name: name,
       properties: properties,
-      factoryPossibilities: possibleTypes,
     ));
     _log(context, context.align,
         '└ ${context.path.map((p) => p.namePrintable)}[${context.currentType.name.value}][${context.currentClassName?.namePrintable} ${context.currentFieldName?.namePrintable}] (${context.alias?.namePrintable ?? ''})');
@@ -799,7 +792,7 @@ class _CanonicalVisitor extends RecursiveVisitor {
   void visitObjectTypeDefinitionNode(ObjectTypeDefinitionNode node) {
     final canonicalName = node.name.value;
     if (Glob(context.schemaMap.treatAsCanonicalGlob).matches(canonicalName)) {
-      sbrubbles(context, node);
+      processObjectAsCanonical(context, node);
     }
   }
 }
