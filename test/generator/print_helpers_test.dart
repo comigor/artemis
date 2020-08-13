@@ -537,6 +537,7 @@ part 'test_query.graphql.g.dart';
 class TestQueryArguments extends JsonSerializable with EquatableMixin {
   TestQueryArguments({this.name});
 
+  @override
   factory TestQueryArguments.fromJson(Map<String, dynamic> json) =>
       _\$TestQueryArgumentsFromJson(json);
 
@@ -544,6 +545,7 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object> get props => [name];
+  @override
   Map<String, dynamic> toJson() => _\$TestQueryArgumentsToJson(this);
 }
 
@@ -592,6 +594,7 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
 class TestQueryArguments extends JsonSerializable with EquatableMixin {
   TestQueryArguments({this.name});
 
+  @override
   factory TestQueryArguments.fromJson(Map<String, dynamic> json) =>
       _\$TestQueryArgumentsFromJson(json);
 
@@ -599,6 +602,7 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object> get props => [name];
+  @override
   Map<String, dynamic> toJson() => _\$TestQueryArgumentsToJson(this);
 }
 ''');

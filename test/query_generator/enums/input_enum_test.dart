@@ -240,6 +240,7 @@ enum OtherEnum {
 class CustomArguments extends JsonSerializable with EquatableMixin {
   CustomArguments({@required this.input, @required this.o});
 
+  @override
   factory CustomArguments.fromJson(Map<String, dynamic> json) =>
       _$CustomArgumentsFromJson(json);
 
@@ -250,6 +251,7 @@ class CustomArguments extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object> get props => [input, o];
+  @override
   Map<String, dynamic> toJson() => _$CustomArgumentsToJson(this);
 }
 

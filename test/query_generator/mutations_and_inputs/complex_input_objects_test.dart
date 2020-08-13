@@ -203,6 +203,7 @@ enum MyEnum {
 class SomeQueryArguments extends JsonSerializable with EquatableMixin {
   SomeQueryArguments({@required this.filter});
 
+  @override
   factory SomeQueryArguments.fromJson(Map<String, dynamic> json) =>
       _$SomeQueryArgumentsFromJson(json);
 
@@ -210,6 +211,7 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object> get props => [filter];
+  @override
   Map<String, dynamic> toJson() => _$SomeQueryArgumentsToJson(this);
 }
 
