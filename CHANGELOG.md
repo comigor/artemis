@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.7.2-beta.1
+- analyzer and linter warnings fix
+
 ## 6.7.1-beta.1
 - uppercase keyword fix
 
