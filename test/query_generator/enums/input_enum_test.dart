@@ -220,19 +220,19 @@ class Input with EquatableMixin {
 }
 
 enum MyEnum {
-  @JsonValue("A")
+  @JsonValue('A')
   a,
-  @JsonValue("B")
+  @JsonValue('B')
   b,
-  @JsonValue("ARTEMIS_UNKNOWN")
+  @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
 enum OtherEnum {
-  @JsonValue("O1")
+  @JsonValue('O1')
   o1,
-  @JsonValue("O2")
+  @JsonValue('O2')
   o2,
-  @JsonValue("ARTEMIS_UNKNOWN")
+  @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
 

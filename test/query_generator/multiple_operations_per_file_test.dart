@@ -255,6 +255,7 @@ class QueData$Query with EquatableMixin {
 class MutDataArguments extends JsonSerializable with EquatableMixin {
   MutDataArguments({@required this.input});
 
+  @override
   factory MutDataArguments.fromJson(Map<String, dynamic> json) =>
       _$MutDataArgumentsFromJson(json);
 
@@ -262,6 +263,7 @@ class MutDataArguments extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object> get props => [input];
+  @override
   Map<String, dynamic> toJson() => _$MutDataArgumentsToJson(this);
 }
 
@@ -381,6 +383,7 @@ class MutDataMutation extends GraphQLQuery<MutData$Mutation, MutDataArguments> {
 class QueDataArguments extends JsonSerializable with EquatableMixin {
   QueDataArguments({@required this.intsNonNullable, this.stringNullable});
 
+  @override
   factory QueDataArguments.fromJson(Map<String, dynamic> json) =>
       _$QueDataArgumentsFromJson(json);
 
@@ -390,6 +393,7 @@ class QueDataArguments extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object> get props => [intsNonNullable, stringNullable];
+  @override
   Map<String, dynamic> toJson() => _$QueDataArgumentsToJson(this);
 }
 

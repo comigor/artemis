@@ -17,7 +17,7 @@ Spec enumDefinitionToSpec(EnumDefinition definition) =>
 String _enumValueToSpec(EnumValueDefinition value) {
   final annotations = value.annotations
       .map((annotation) => '@$annotation')
-      .followedBy(['@JsonValue("${value.name.name}")']).join(' ');
+      .followedBy(['@JsonValue(\'${value.name.name}\')']).join(' ');
 
   return '$annotations${value.name.namePrintable}, ';
 }

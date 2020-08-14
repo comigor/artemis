@@ -191,11 +191,11 @@ class ComplexInput with EquatableMixin {
 }
 
 enum MyEnum {
-  @JsonValue("value1")
+  @JsonValue('value1')
   value1,
-  @JsonValue("value2")
+  @JsonValue('value2')
   value2,
-  @JsonValue("ARTEMIS_UNKNOWN")
+  @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
 

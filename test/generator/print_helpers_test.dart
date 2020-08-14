@@ -47,13 +47,13 @@ void main() {
       final str = specToString(enumDefinitionToSpec(definition));
 
       expect(str, '''enum Name {
-  @JsonValue("Option")
+  @JsonValue('Option')
   option,
-  @JsonValue("anotherOption")
+  @JsonValue('anotherOption')
   anotherOption,
-  @JsonValue("third_option")
+  @JsonValue('third_option')
   thirdOption,
-  @JsonValue("FORTH_OPTION")
+  @JsonValue('FORTH_OPTION')
   forthOption,
 }
 ''');
@@ -78,9 +78,9 @@ void main() {
       final str = specToString(enumDefinitionToSpec(definition));
 
       expect(str, '''enum Name {
-  @JsonValue("Option")
+  @JsonValue('Option')
   option,
-  @JsonValue("AnotherOption")
+  @JsonValue('AnotherOption')
   anotherOption,
 }
 ''');
@@ -691,7 +691,7 @@ class AClass with EquatableMixin {
 }
 
 enum SomeEnum {
-  @JsonValue("Value")
+  @JsonValue('Value')
   value,
 }
 ''');
