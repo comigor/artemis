@@ -302,7 +302,6 @@ final libraryDefinitionB =
 
 const generatedFileA = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
-import 'package:meta/meta.dart';
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -343,11 +342,11 @@ class BrowseArticles$Query with EquatableMixin {
 }
 
 enum ArticleType {
-  @JsonValue("NEWS")
+  @JsonValue('NEWS')
   news,
-  @JsonValue("TUTORIAL")
+  @JsonValue('TUTORIAL')
   tutorial,
-  @JsonValue("ARTEMIS_UNKNOWN")
+  @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
 
@@ -404,7 +403,6 @@ class BrowseArticlesQuery
 
 const generatedFileB = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
-import 'package:meta/meta.dart';
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -467,31 +465,31 @@ class NotificationOptionInput with EquatableMixin {
 }
 
 enum Privacy {
-  @JsonValue("PRIVATE")
+  @JsonValue('PRIVATE')
   private,
-  @JsonValue("PUBLIC")
+  @JsonValue('PUBLIC')
   public,
-  @JsonValue("ARTEMIS_UNKNOWN")
+  @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
 enum Status {
-  @JsonValue("ARCHIVED")
+  @JsonValue('ARCHIVED')
   archived,
-  @JsonValue("NORMAL")
+  @JsonValue('NORMAL')
   normal,
-  @JsonValue("ARTEMIS_UNKNOWN")
+  @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
 enum NotificationType {
-  @JsonValue("ACTIVITY_MESSAGE")
+  @JsonValue('ACTIVITY_MESSAGE')
   activityMessage,
-  @JsonValue("ACTIVITY_REPLY")
+  @JsonValue('ACTIVITY_REPLY')
   activityReply,
-  @JsonValue("FOLLOWING")
+  @JsonValue('FOLLOWING')
   following,
-  @JsonValue("ACTIVITY_MENTION")
+  @JsonValue('ACTIVITY_MENTION')
   activityMention,
-  @JsonValue("ARTEMIS_UNKNOWN")
+  @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
 
@@ -499,6 +497,7 @@ enum NotificationType {
 class BrowseRepositoriesArguments extends JsonSerializable with EquatableMixin {
   BrowseRepositoriesArguments({this.notificationTypes});
 
+  @override
   factory BrowseRepositoriesArguments.fromJson(Map<String, dynamic> json) =>
       _$BrowseRepositoriesArgumentsFromJson(json);
 
@@ -506,6 +505,7 @@ class BrowseRepositoriesArguments extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object> get props => [notificationTypes];
+  @override
   Map<String, dynamic> toJson() => _$BrowseRepositoriesArgumentsToJson(this);
 }
 

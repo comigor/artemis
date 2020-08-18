@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.8.2-beta.1
+- test fix
+
 ## 6.8.1-beta.1
 - fix for multiple schema_mapping
 
