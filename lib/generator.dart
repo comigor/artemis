@@ -209,6 +209,15 @@ Iterable<QueryDefinition> generateDefinitions(
 
       schema.accept(_canonicalVisitor);
     }
+    // re-scan if schema changes
+    else if (_canonicalVisitor != null &&
+        _canonicalVisitor.context.schema != schema) {
+      _canonicalVisitor = _CanonicalVisitor(
+        context: context.sameTypeWithNoPath(),
+      );
+
+      schema.accept(_canonicalVisitor);
+    }
 
     DocumentNode(
       definitions: document.definitions
