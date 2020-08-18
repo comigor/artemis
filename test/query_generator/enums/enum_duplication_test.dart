@@ -220,11 +220,11 @@ class CustomList$Query with EquatableMixin {
 }
 
 enum MyEnum {
-  @JsonValue("A")
+  @JsonValue('A')
   a,
-  @JsonValue("B")
+  @JsonValue('B')
   b,
-  @JsonValue("ARTEMIS_UNKNOWN")
+  @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
 ''';

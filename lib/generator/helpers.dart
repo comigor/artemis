@@ -130,20 +130,20 @@ extension ExtensionsOnIterable<T, U> on Iterable<T> {
       _removeDuplicatedBy(this, fn);
 }
 
-/// checks if the passed queries contain at least one non nullable field
+/// Checks if the passed queries contain either:
+/// - A [ClassDefinition] that's an input object with at least one non nullable
+///     property.
+/// - A [QueryInput] which is non nullable.
 bool hasNonNullableInput(Iterable<QueryDefinition> queries) {
   for (final query in queries) {
     for (final clazz in query.classes.whereType<ClassDefinition>()) {
-      for (final property in clazz.properties) {
-        if (property.isNonNull) {
-          return true;
-        }
-      }
-    }
-    for (final input in query.inputs) {
-      if (input.isNonNull) {
+      if (clazz.isInput && clazz.properties.any((p) => p.isNonNull)) {
         return true;
       }
+    }
+
+    if (query.inputs.any((i) => i.isNonNull)) {
+      return true;
     }
   }
 

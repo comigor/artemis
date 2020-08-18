@@ -209,31 +209,31 @@ class Input with EquatableMixin {
 }
 
 enum MyEnum {
-  @JsonValue("A")
+  @JsonValue('A')
   a,
-  @JsonValue("B")
+  @JsonValue('B')
   b,
-  @JsonValue("ARTEMIS_UNKNOWN")
+  @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
 enum InputEnum {
-  @JsonValue("C")
+  @JsonValue('C')
   c,
-  @JsonValue("D")
+  @JsonValue('D')
   d,
-  @JsonValue("ARTEMIS_UNKNOWN")
+  @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
 enum $InputInputEnum {
-  @JsonValue("_E")
+  @JsonValue('_E')
   $e,
-  @JsonValue("_F")
+  @JsonValue('_F')
   $f,
-  @JsonValue("_new")
+  @JsonValue('_new')
   $new,
-  @JsonValue("new")
+  @JsonValue('new')
   kw$new,
-  @JsonValue("ARTEMIS_UNKNOWN")
+  @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
 ''';

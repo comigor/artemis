@@ -127,13 +127,13 @@ class Custom$QueryRoot with EquatableMixin {
 }
 
 enum MyEnum {
-  @JsonValue("A")
+  @JsonValue('A')
   a,
-  @JsonValue("B")
+  @JsonValue('B')
   b,
-  @JsonValue("IN")
+  @JsonValue('IN')
   kw$IN,
-  @JsonValue("ARTEMIS_UNKNOWN")
+  @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
 ''';

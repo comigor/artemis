@@ -220,19 +220,19 @@ class Input with EquatableMixin {
 }
 
 enum MyEnum {
-  @JsonValue("A")
+  @JsonValue('A')
   a,
-  @JsonValue("B")
+  @JsonValue('B')
   b,
-  @JsonValue("ARTEMIS_UNKNOWN")
+  @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
 enum OtherEnum {
-  @JsonValue("O1")
+  @JsonValue('O1')
   o1,
-  @JsonValue("O2")
+  @JsonValue('O2')
   o2,
-  @JsonValue("ARTEMIS_UNKNOWN")
+  @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
 
@@ -240,6 +240,7 @@ enum OtherEnum {
 class CustomArguments extends JsonSerializable with EquatableMixin {
   CustomArguments({@required this.input, @required this.o});
 
+  @override
   factory CustomArguments.fromJson(Map<String, dynamic> json) =>
       _$CustomArgumentsFromJson(json);
 
@@ -250,6 +251,7 @@ class CustomArguments extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object> get props => [input, o];
+  @override
   Map<String, dynamic> toJson() => _$CustomArgumentsToJson(this);
 }
 

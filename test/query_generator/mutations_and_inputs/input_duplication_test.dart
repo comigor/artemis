@@ -241,6 +241,7 @@ class CustomList$Mutation with EquatableMixin {
 class CustomArguments extends JsonSerializable with EquatableMixin {
   CustomArguments({@required this.input});
 
+  @override
   factory CustomArguments.fromJson(Map<String, dynamic> json) =>
       _$CustomArgumentsFromJson(json);
 
@@ -248,6 +249,7 @@ class CustomArguments extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object> get props => [input];
+  @override
   Map<String, dynamic> toJson() => _$CustomArgumentsToJson(this);
 }
 
@@ -306,6 +308,7 @@ class CustomMutation extends GraphQLQuery<Custom$Mutation, CustomArguments> {
 class CustomListArguments extends JsonSerializable with EquatableMixin {
   CustomListArguments({@required this.input});
 
+  @override
   factory CustomListArguments.fromJson(Map<String, dynamic> json) =>
       _$CustomListArgumentsFromJson(json);
 
@@ -313,6 +316,7 @@ class CustomListArguments extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object> get props => [input];
+  @override
   Map<String, dynamic> toJson() => _$CustomListArgumentsToJson(this);
 }
 

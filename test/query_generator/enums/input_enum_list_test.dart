@@ -112,7 +112,6 @@ final LibraryDefinition libraryDefinition =
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
-import 'package:meta/meta.dart';
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -154,11 +153,11 @@ class BrowseArticles$Query with EquatableMixin {
 }
 
 enum ArticleType {
-  @JsonValue("NEWS")
+  @JsonValue('NEWS')
   news,
-  @JsonValue("TUTORIAL")
+  @JsonValue('TUTORIAL')
   tutorial,
-  @JsonValue("ARTEMIS_UNKNOWN")
+  @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
 
@@ -166,6 +165,7 @@ enum ArticleType {
 class BrowseArticlesArguments extends JsonSerializable with EquatableMixin {
   BrowseArticlesArguments({this.article_type_in});
 
+  @override
   factory BrowseArticlesArguments.fromJson(Map<String, dynamic> json) =>
       _$BrowseArticlesArgumentsFromJson(json);
 
@@ -173,6 +173,7 @@ class BrowseArticlesArguments extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object> get props => [article_type_in];
+  @override
   Map<String, dynamic> toJson() => _$BrowseArticlesArgumentsToJson(this);
 }
 

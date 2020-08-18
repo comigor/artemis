@@ -47,13 +47,13 @@ void main() {
       final str = specToString(enumDefinitionToSpec(definition));
 
       expect(str, '''enum Name {
-  @JsonValue("Option")
+  @JsonValue('Option')
   option,
-  @JsonValue("anotherOption")
+  @JsonValue('anotherOption')
   anotherOption,
-  @JsonValue("third_option")
+  @JsonValue('third_option')
   thirdOption,
-  @JsonValue("FORTH_OPTION")
+  @JsonValue('FORTH_OPTION')
   forthOption,
 }
 ''');
@@ -78,9 +78,9 @@ void main() {
       final str = specToString(enumDefinitionToSpec(definition));
 
       expect(str, '''enum Name {
-  @JsonValue("Option")
+  @JsonValue('Option')
   option,
-  @JsonValue("AnotherOption")
+  @JsonValue('AnotherOption')
   anotherOption,
 }
 ''');
@@ -537,6 +537,7 @@ part 'test_query.graphql.g.dart';
 class TestQueryArguments extends JsonSerializable with EquatableMixin {
   TestQueryArguments({this.name});
 
+  @override
   factory TestQueryArguments.fromJson(Map<String, dynamic> json) =>
       _\$TestQueryArgumentsFromJson(json);
 
@@ -544,6 +545,7 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object> get props => [name];
+  @override
   Map<String, dynamic> toJson() => _\$TestQueryArgumentsToJson(this);
 }
 
@@ -592,6 +594,7 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
 class TestQueryArguments extends JsonSerializable with EquatableMixin {
   TestQueryArguments({this.name});
 
+  @override
   factory TestQueryArguments.fromJson(Map<String, dynamic> json) =>
       _\$TestQueryArgumentsFromJson(json);
 
@@ -599,6 +602,7 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object> get props => [name];
+  @override
   Map<String, dynamic> toJson() => _\$TestQueryArgumentsToJson(this);
 }
 ''');
@@ -687,7 +691,7 @@ class AClass with EquatableMixin {
 }
 
 enum SomeEnum {
-  @JsonValue("Value")
+  @JsonValue('Value')
   value,
 }
 ''');

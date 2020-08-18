@@ -113,13 +113,13 @@ class SomeQuery$QueryResponse with EquatableMixin {
 
 enum StarWarsMovies {
   @Deprecated('deprecated movie')
-  @JsonValue("NEW_HOPE")
+  @JsonValue('NEW_HOPE')
   newHope,
-  @JsonValue("EMPIRE")
+  @JsonValue('EMPIRE')
   empire,
-  @JsonValue("JEDI")
+  @JsonValue('JEDI')
   jedi,
-  @JsonValue("ARTEMIS_UNKNOWN")
+  @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
 ''';

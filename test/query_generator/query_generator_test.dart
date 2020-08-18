@@ -215,6 +215,7 @@ class SomeQuery$Query with EquatableMixin {
 class SomeQueryArguments extends JsonSerializable with EquatableMixin {
   SomeQueryArguments({@required this.intsNonNullable, this.stringNullable});
 
+  @override
   factory SomeQueryArguments.fromJson(Map<String, dynamic> json) =>
       _$SomeQueryArgumentsFromJson(json);
 
@@ -224,6 +225,7 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object> get props => [intsNonNullable, stringNullable];
+  @override
   Map<String, dynamic> toJson() => _$SomeQueryArgumentsToJson(this);
 }
 

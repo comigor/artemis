@@ -273,6 +273,7 @@ class $Input with EquatableMixin {
 class CustomArguments extends JsonSerializable with EquatableMixin {
   CustomArguments({@required this.input});
 
+  @override
   factory CustomArguments.fromJson(Map<String, dynamic> json) =>
       _$CustomArgumentsFromJson(json);
 
@@ -280,6 +281,7 @@ class CustomArguments extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object> get props => [input];
+  @override
   Map<String, dynamic> toJson() => _$CustomArgumentsToJson(this);
 }
 
@@ -339,6 +341,7 @@ class CustomMutation
 class $customArguments extends JsonSerializable with EquatableMixin {
   $customArguments({@required this.input});
 
+  @override
   factory $customArguments.fromJson(Map<String, dynamic> json) =>
       _$$customArgumentsFromJson(json);
 
@@ -346,6 +349,7 @@ class $customArguments extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object> get props => [input];
+  @override
   Map<String, dynamic> toJson() => _$$customArgumentsToJson(this);
 }
 
