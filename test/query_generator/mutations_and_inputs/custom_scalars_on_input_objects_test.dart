@@ -96,7 +96,7 @@ final LibraryDefinition libraryDefinition =
                   type: TypeName(name: r'MyUuid'),
                   name: ClassPropertyName(name: r'id'),
                   annotations: [
-                    r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid,)'
+                    r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid)'
                   ],
                   isNonNull: true,
                   isResolveType: false)
@@ -115,14 +115,14 @@ final LibraryDefinition libraryDefinition =
             name: QueryInputName(name: r'previousId'),
             isNonNull: false,
             annotations: [
-              r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid,)'
+              r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid)'
             ]),
         QueryInput(
             type: TypeName(name: r'List<MyUuid>'),
             name: QueryInputName(name: r'listIds'),
             isNonNull: false,
             annotations: [
-              r'JsonKey(fromJson: fromGraphQLListMyUuidToDartListMyUuid, toJson: fromDartListMyUuidToGraphQLListMyUuid,)'
+              r'JsonKey(fromJson: fromGraphQLListMyUuidToDartListMyUuid, toJson: fromDartListMyUuidToGraphQLListMyUuid)'
             ])
       ],
       generateHelpers: true,
@@ -180,9 +180,8 @@ class Input with EquatableMixin {
   factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
 
   @JsonKey(
-    fromJson: fromGraphQLMyUuidToDartMyUuid,
-    toJson: fromDartMyUuidToGraphQLMyUuid,
-  )
+      fromJson: fromGraphQLMyUuidToDartMyUuid,
+      toJson: fromDartMyUuidToGraphQLMyUuid)
   MyUuid id;
 
   @override
@@ -201,15 +200,13 @@ class CustomArguments extends JsonSerializable with EquatableMixin {
   final Input input;
 
   @JsonKey(
-    fromJson: fromGraphQLMyUuidToDartMyUuid,
-    toJson: fromDartMyUuidToGraphQLMyUuid,
-  )
+      fromJson: fromGraphQLMyUuidToDartMyUuid,
+      toJson: fromDartMyUuidToGraphQLMyUuid)
   final MyUuid previousId;
 
   @JsonKey(
-    fromJson: fromGraphQLListMyUuidToDartListMyUuid,
-    toJson: fromDartListMyUuidToGraphQLListMyUuid,
-  )
+      fromJson: fromGraphQLListMyUuidToDartListMyUuid,
+      toJson: fromDartListMyUuidToGraphQLListMyUuid)
   final List<MyUuid> listIds;
 
   @override

@@ -338,8 +338,14 @@ Make sure your query is correct and your schema is updated.''');
     );
   }
 
+  final name = fieldAlias ?? fieldName;
+
   // On custom scalars
-  final annotations = <String>[];
+  final jsonKeyAnnotation = <String, String>{};
+  if (name.namePrintable != name.name) {
+    jsonKeyAnnotation['name'] = '\'${name.name}\'';
+  }
+
   if (nextType is ScalarTypeDefinitionNode) {
     final scalar = gql.getSingleScalarMap(context.options, nextType.name.value);
 
@@ -351,8 +357,10 @@ Make sure your query is correct and your schema is updated.''');
                   dartType: false, schema: context.schema)
               .dartTypeSafe);
       final dartTypeSafeStr = TypeName(name: dartTypeName.dartTypeSafe);
-      annotations.add(
-          'JsonKey(fromJson: fromGraphQL${graphqlTypeSafeStr.namePrintable}ToDart${dartTypeSafeStr.namePrintable}, toJson: fromDart${dartTypeSafeStr.namePrintable}ToGraphQL${graphqlTypeSafeStr.namePrintable},)');
+      jsonKeyAnnotation['fromJson'] =
+          'fromGraphQL${graphqlTypeSafeStr.namePrintable}ToDart${dartTypeSafeStr.namePrintable}';
+      jsonKeyAnnotation['toJson'] =
+          'fromDart${dartTypeSafeStr.namePrintable}ToGraphQL${graphqlTypeSafeStr.namePrintable}';
     }
   } // On enums
   else if (nextType is EnumTypeDefinitionNode) {
@@ -361,20 +369,22 @@ Make sure your query is correct and your schema is updated.''');
     }
 
     if (fieldType is! ListTypeNode) {
-      annotations.add(
-          'JsonKey(unknownEnumValue: ${dartTypeName.namePrintable}.${ARTEMIS_UNKNOWN.name.namePrintable})');
+      jsonKeyAnnotation['unknownEnumValue'] =
+          '${dartTypeName.namePrintable}.${ARTEMIS_UNKNOWN.name.namePrintable}';
     }
-  }
-
-  final name = fieldAlias ?? fieldName;
-
-  if (name.namePrintable != name.name) {
-    annotations.add('JsonKey(name: \'${name.name}\')');
   }
 
   final fieldDirectives =
       regularField?.directives ?? regularInputField?.directives;
 
+  var annotations = <String>[];
+
+  if (jsonKeyAnnotation.isNotEmpty) {
+    final jsonKey = jsonKeyAnnotation.entries
+        .map<String>((e) => '${e.key}: ${e.value}')
+        .join(', ');
+    annotations.add('JsonKey(${jsonKey})');
+  }
   annotations.addAll(_proceedDeprecated(fieldDirectives));
 
   return ClassProperty(
@@ -553,12 +563,13 @@ class _GeneratorVisitor extends RecursiveVisitor {
         replaceLeafWith: ClassName.fromPath(path: nextClassName),
         schema: context.schema);
 
-    final annotations = <String>[];
+    final jsonKeyAnnotation = <String, String>{};
+
     if (leafType is EnumTypeDefinitionNode) {
       context.usedEnums.add(EnumName(name: leafType.name.value));
       if (node.type is! ListTypeNode) {
-        annotations.add(
-            'JsonKey(unknownEnumValue: ${EnumName(name: dartTypeName.name).namePrintable}.${ARTEMIS_UNKNOWN.name.namePrintable})');
+        jsonKeyAnnotation['unknownEnumValue'] =
+            '${EnumName(name: dartTypeName.name).namePrintable}.${ARTEMIS_UNKNOWN.name.namePrintable}';
       }
     } else if (leafType is InputObjectTypeDefinitionNode) {
       addUsedInputObjectsAndEnums(leafType);
@@ -574,9 +585,20 @@ class _GeneratorVisitor extends RecursiveVisitor {
                     dartType: false, schema: context.schema)
                 .dartTypeSafe);
         final dartTypeSafeStr = TypeName(name: dartTypeName.dartTypeSafe);
-        annotations.add(
-            'JsonKey(fromJson: fromGraphQL${graphqlTypeSafeStr.namePrintable}ToDart${dartTypeSafeStr.namePrintable}, toJson: fromDart${dartTypeSafeStr.namePrintable}ToGraphQL${graphqlTypeSafeStr.namePrintable},)');
+        jsonKeyAnnotation['fromJson'] =
+            'fromGraphQL${graphqlTypeSafeStr.namePrintable}ToDart${dartTypeSafeStr.namePrintable}';
+        jsonKeyAnnotation['toJson'] =
+            'fromDart${dartTypeSafeStr.namePrintable}ToGraphQL${graphqlTypeSafeStr.namePrintable}';
       }
+    }
+
+    var annotations = <String>[];
+
+    if (jsonKeyAnnotation.isNotEmpty) {
+      final jsonKey = jsonKeyAnnotation.entries
+          .map<String>((e) => '${e.key}: ${e.value}')
+          .join(', ');
+      annotations.add('JsonKey(${jsonKey})');
     }
 
     context.inputsClasses.add(QueryInput(
