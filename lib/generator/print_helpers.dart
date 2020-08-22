@@ -161,7 +161,9 @@ Spec classDefinitionToSpec(
             ..name = p.name.namePrintable
             ..type = refer(p.type.namePrintable)
             ..annotations.addAll(
-              p.annotations.map((e) => CodeExpression(Code(e))),
+              p.annotations.map((e) {
+                return CodeExpression(Code(e));
+              }),
             ),
         );
         return field;

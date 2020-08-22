@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.9.2-beta.1
+- Fixed `toJson() doesn't remove "kw$" prefix`
+
 ## 6.8.2-beta.1
 - test fix
 

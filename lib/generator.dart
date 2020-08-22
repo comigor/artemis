@@ -338,8 +338,14 @@ Make sure your query is correct and your schema is updated.''');
     );
   }
 
+  final name = fieldAlias ?? fieldName;
+
   // On custom scalars
   final annotations = <String>[];
+  if (name.namePrintable != name.name) {
+    annotations.add('JsonKey(name: \'${name.name}\')');
+  }
+
   if (nextType is ScalarTypeDefinitionNode) {
     final scalar = gql.getSingleScalarMap(context.options, nextType.name.value);
 
@@ -364,12 +370,6 @@ Make sure your query is correct and your schema is updated.''');
       annotations.add(
           'JsonKey(unknownEnumValue: ${dartTypeName.namePrintable}.${ARTEMIS_UNKNOWN.name.namePrintable})');
     }
-  }
-
-  final name = fieldAlias ?? fieldName;
-
-  if (name.namePrintable != name.name) {
-    annotations.add('JsonKey(name: \'${name.name}\')');
   }
 
   final fieldDirectives =
