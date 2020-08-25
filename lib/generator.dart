@@ -3,6 +3,7 @@
 import 'package:artemis/generator/data/data.dart';
 import 'package:artemis/generator/data/enum_value_definition.dart';
 import 'package:build/build.dart';
+import 'package:glob/glob.dart';
 import 'package:meta/meta.dart';
 import 'package:gql/ast.dart';
 import 'package:path/path.dart' as p;
@@ -47,8 +48,6 @@ LibraryDefinition generateLibrary(
           ))
       .expand((e) => e)
       .toList();
-
-//  final queryDefinitions = definitions.expand((e) => e).toList();
 
   final allClassesNames = queryDefinitions
       .map((def) => def.classes.map((c) => c))
@@ -198,9 +197,6 @@ Iterable<QueryDefinition> generateDefinitions(
       usedInputObjects: {},
     );
 
-    final visitor = _GeneratorVisitor(
-      context: context,
-    );
     // scans schema for canonical types only once
     if (_canonicalVisitor == null) {
       _canonicalVisitor = _CanonicalVisitor(
@@ -219,6 +215,11 @@ Iterable<QueryDefinition> generateDefinitions(
       schema.accept(_canonicalVisitor);
     }
 
+    final visitor = _GeneratorVisitor(
+      context: context.copyWithCanonical(
+          canonicalGraphQLClassNames: _canonicalVisitor.canonicalGraphQLNames),
+    );
+
     DocumentNode(
       definitions: document.definitions
           // filtering unused operations
@@ -236,6 +237,8 @@ Iterable<QueryDefinition> generateDefinitions(
         ...visitor.context.generatedClasses,
         ..._canonicalVisitor.inputObjects
             .where((i) => context.usedInputObjects.contains(i.name)),
+        ..._canonicalVisitor.canonicalObjects
+            .mergeDuplicatesBy((c) => c.name, (a, b) => a),
       ],
       inputs: visitor.context.inputsClasses,
       generateHelpers: options.generateHelpers,
@@ -315,13 +318,17 @@ Make sure your query is correct and your schema is updated.''');
 
   final nextClassName = aliasedContext.fullPathName();
 
-  final dartTypeName = gql.buildTypeName(fieldType, context.options,
-      dartType: true,
-      replaceLeafWith: ClassName.fromPath(path: nextClassName),
-      schema: context.schema);
+  final dartTypeName = gql.buildTypeName(
+    fieldType,
+    context.options,
+    dartType: true,
+    replaceLeafWith: ClassName.fromPath(path: nextClassName),
+    schema: context.schema,
+    canonicalGraphQLClassNames: context.canonicalGraphQLClassNames,
+  );
 
   _log(context, aliasedContext.align + 1,
-      '${aliasedContext.path}[${aliasedContext.currentType.name.value}][${aliasedContext.currentClassName} ${aliasedContext.currentFieldName}] ${fieldAlias == null ? '' : '(${fieldAlias}) '}-> ${dartTypeName.namePrintable}');
+      '${aliasedContext.path.map((p) => p.namePrintable)}[${aliasedContext.currentType.name.value}][${aliasedContext.currentClassName?.namePrintable} ${aliasedContext.currentFieldName?.namePrintable}] ${fieldAlias == null ? '' : '(${fieldAlias?.namePrintable}) '}-> ${dartTypeName?.namePrintable}');
 
   if ((nextType is ObjectTypeDefinitionNode ||
           nextType is UnionTypeDefinitionNode ||
@@ -354,7 +361,10 @@ Make sure your query is correct and your schema is updated.''');
       final graphqlTypeSafeStr = TypeName(
           name: gql
               .buildTypeName(fieldType, context.options,
-                  dartType: false, schema: context.schema)
+                  dartType: false,
+                  schema: context.schema,
+                  canonicalGraphQLClassNames:
+                      context.canonicalGraphQLClassNames)
               .dartTypeSafe);
       final dartTypeSafeStr = TypeName(name: dartTypeName.dartTypeSafe);
       jsonKeyAnnotation['fromJson'] =
@@ -427,7 +437,6 @@ class _GeneratorVisitor extends RecursiveVisitor {
 
   final Context context;
 
-  SelectionSetNode selectionSetNode;
   final List<ClassProperty> _classProperties = [];
   final List<FragmentName> _mixins = [];
 
@@ -435,45 +444,50 @@ class _GeneratorVisitor extends RecursiveVisitor {
   void visitSelectionSetNode(SelectionSetNode node) {
     final nextContext = context.withAlias();
 
-    _log(context, nextContext.align, '-> Class');
-    _log(context, nextContext.align,
-        '┌ ${nextContext.path}[${nextContext.currentType.name.value}][${nextContext.currentClassName} ${nextContext.currentFieldName}] (${nextContext.alias ?? ''})');
-    super.visitSelectionSetNode(node);
+    if (!context.canonicalGraphQLClassNames
+        .contains(nextContext.currentType.name.value)) {
+      _log(context, nextContext.align, '-> Class');
+      _log(context, nextContext.align,
+          '┌ ${nextContext.path.map((p) => p.namePrintable)}[${nextContext.currentType.name.value}][${nextContext.currentClassName?.namePrintable} ${nextContext.currentFieldName?.namePrintable}] (${nextContext.alias?.namePrintable ?? ''})');
+      super.visitSelectionSetNode(node);
 
-    final possibleTypes = <String, Name>{};
+      final possibleTypes = <String, Name>{};
 
-    if (nextContext.currentType is UnionTypeDefinitionNode ||
-        nextContext.currentType is InterfaceTypeDefinitionNode) {
-      // Filter by requested types
-      final keys = node.selections
-          .whereType<InlineFragmentNode>()
-          .map((n) => n.typeCondition.on.name.value);
+      if (nextContext.currentType is UnionTypeDefinitionNode ||
+          nextContext.currentType is InterfaceTypeDefinitionNode) {
+        // Filter by requested types
+        final keys = node.selections
+            .whereType<InlineFragmentNode>()
+            .map((n) => n.typeCondition.on.name.value);
 
-      final values = keys.map((t) => ClassName.fromPath(
-          path:
-              nextContext.withAlias(alias: ClassName(name: t)).fullPathName()));
+        final values = keys.map((t) => ClassName.fromPath(
+            path: nextContext
+                .withAlias(alias: ClassName(name: t))
+                .fullPathName()));
 
-      possibleTypes.addAll(Map.fromIterables(keys, values));
+        possibleTypes.addAll(Map.fromIterables(keys, values));
+      }
+
+      final partOfUnion = nextContext.ofUnion != null;
+      if (partOfUnion) {}
+
+      final name = ClassName.fromPath(path: nextContext.fullPathName());
+      _log(context, nextContext.align,
+          '└ ${nextContext.path.map((p) => p.namePrintable)}[${nextContext.currentType.name.value}][${nextContext.currentClassName?.namePrintable} ${nextContext.currentFieldName?.namePrintable}] (${nextContext.alias?.namePrintable ?? ''})');
+      _log(context, nextContext.align,
+          '<- Generated class ${name.namePrintable}.');
+
+      nextContext.generatedClasses.add(ClassDefinition(
+        name: name,
+        properties: _classProperties,
+        mixins: _mixins,
+        extension: partOfUnion
+            ? ClassName.fromPath(
+                path: nextContext.rollbackPath().fullPathName())
+            : null,
+        factoryPossibilities: possibleTypes,
+      ));
     }
-
-    final partOfUnion = nextContext.ofUnion != null;
-    if (partOfUnion) {}
-
-    final name = ClassName.fromPath(path: nextContext.fullPathName());
-    _log(context, nextContext.align,
-        '└ ${nextContext.path}[${nextContext.currentType.name.value}][${nextContext.currentClassName} ${nextContext.currentFieldName}] (${nextContext.alias ?? ''})');
-    _log(context, nextContext.align,
-        '<- Generated class ${name.namePrintable}.');
-
-    nextContext.generatedClasses.add(ClassDefinition(
-      name: name,
-      properties: _classProperties,
-      mixins: _mixins,
-      extension: partOfUnion
-          ? ClassName.fromPath(path: nextContext.rollbackPath().fullPathName())
-          : null,
-      factoryPossibilities: possibleTypes,
-    ));
   }
 
   @override
@@ -498,7 +512,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
   @override
   void visitInlineFragmentNode(InlineFragmentNode node) {
     _log(context, context.align + 1,
-        '${context.path}: ... on ${node.typeCondition.on.name.value}');
+        '${context.path.map((p) => p.namePrintable)}: ... on ${node.typeCondition.on.name.value}');
     final nextType = gql.getTypeByName(context.schema, node.typeCondition.on,
         context: 'inline fragment');
 
@@ -561,7 +575,8 @@ class _GeneratorVisitor extends RecursiveVisitor {
     final dartTypeName = gql.buildTypeName(node.type, context.options,
         dartType: true,
         replaceLeafWith: ClassName.fromPath(path: nextClassName),
-        schema: context.schema);
+        schema: context.schema,
+        canonicalGraphQLClassNames: context.canonicalGraphQLClassNames);
 
     final jsonKeyAnnotation = <String, String>{};
 
@@ -582,7 +597,10 @@ class _GeneratorVisitor extends RecursiveVisitor {
         final graphqlTypeSafeStr = TypeName(
             name: gql
                 .buildTypeName(node.type, context.options,
-                    dartType: false, schema: context.schema)
+                    dartType: false,
+                    schema: context.schema,
+                    canonicalGraphQLClassNames:
+                        context.canonicalGraphQLClassNames)
                 .dartTypeSafe);
         final dartTypeSafeStr = TypeName(name: dartTypeName.dartTypeSafe);
         jsonKeyAnnotation['fromJson'] =
@@ -612,7 +630,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
   @override
   void visitFragmentSpreadNode(FragmentSpreadNode node) {
     _log(context, context.align + 1,
-        '${context.path}: ... expanding ${node.name.value}');
+        '${context.path.map((p) => p.namePrintable)}: ... expanding ${node.name.value}');
     final fragmentName = FragmentName.fromPath(
         path: context
             .sameTypeWithNoPath(alias: FragmentName(name: node.name.value))
@@ -642,7 +660,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
 
     _log(context, nextContext.align, '-> Fragment');
     _log(context, nextContext.align,
-        '┌ ${nextContext.path}[${node.name.value}]');
+        '┌ ${nextContext.path.map((p) => p.namePrintable)}[${node.name.value}]');
     nextContext.fragments.add(node);
 
     final nextType = gql.getTypeByName(
@@ -681,7 +699,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
     final fragmentName =
         FragmentName.fromPath(path: nextContext.fullPathName());
     _log(context, nextContext.align,
-        '└ ${nextContext.path}[${node.name.value}]');
+        '└ ${nextContext.path.map((p) => p.namePrintable)}[${node.name.value}]');
     _log(context, nextContext.align,
         '<- Generated fragment ${fragmentName.namePrintable}.');
 
@@ -702,6 +720,8 @@ class _CanonicalVisitor extends RecursiveVisitor {
 
   final Context context;
   final List<ClassDefinition> inputObjects = [];
+  final List<String> canonicalGraphQLNames = [];
+  final List<ClassDefinition> canonicalObjects = [];
   final List<EnumDefinition> enums = [];
 
   @override
@@ -733,7 +753,7 @@ class _CanonicalVisitor extends RecursiveVisitor {
 
     _log(context, nextContext.align, '-> Input class');
     _log(context, nextContext.align,
-        '┌ ${nextContext.path}[${node.name.value}]');
+        '┌ ${nextContext.path.map((p) => p.namePrintable)}[${node.name.value}]');
     final properties = <ClassProperty>[];
 
     properties.addAll(node.fields.map((i) {
@@ -750,7 +770,7 @@ class _CanonicalVisitor extends RecursiveVisitor {
     }));
 
     _log(context, nextContext.align,
-        '└ ${nextContext.path}[${node.name.value}]');
+        '└ ${nextContext.path.map((p) => p.namePrintable)}[${node.name.value}]');
     _log(context, nextContext.align,
         '<- Generated input class ${name.namePrintable}.');
 
@@ -759,5 +779,51 @@ class _CanonicalVisitor extends RecursiveVisitor {
       name: name,
       properties: properties,
     ));
+  }
+
+  void processObjectAsCanonical(
+      Context context, ObjectTypeDefinitionNode node) {
+    final canonicalName = node.name.value;
+
+    _log(context, context.align, '-> Class');
+    _log(context, context.align,
+        '┌ ${context.path.map((p) => p.namePrintable)}[${context.currentType.name.value}][${context.currentClassName?.namePrintable} ${context.currentFieldName?.namePrintable}] (${context.alias?.namePrintable ?? ''})');
+    final properties = node.fields.map((fieldNode) {
+      final thisContext = context.nextTypeWithNoPath(
+        nextType: node,
+        nextFieldName: null,
+        nextClassName: null,
+        align: context.align,
+      );
+      final property = _createClassProperty(
+        fieldName: ClassPropertyName(name: fieldNode.name.value),
+        context: thisContext,
+        onNewClassFound: (nextContext) {
+          if (nextContext.currentType is ObjectTypeDefinitionNode) {
+            processObjectAsCanonical(nextContext,
+                nextContext.currentType as ObjectTypeDefinitionNode);
+          }
+        },
+      );
+      return property;
+    }).toList();
+
+    final name = ClassName(name: canonicalName);
+    canonicalGraphQLNames.add(canonicalName);
+    canonicalObjects.add(ClassDefinition(
+      name: name,
+      properties: properties,
+    ));
+    _log(context, context.align,
+        '└ ${context.path.map((p) => p.namePrintable)}[${context.currentType.name.value}][${context.currentClassName?.namePrintable} ${context.currentFieldName?.namePrintable}] (${context.alias?.namePrintable ?? ''})');
+    _log(context, context.align, '<- Generated class ${name.namePrintable}.');
+  }
+
+  @override
+  void visitObjectTypeDefinitionNode(ObjectTypeDefinitionNode node) {
+    final canonicalName = node.name.value;
+    if (Glob(context.schemaMap.treatAsCanonicalGlob).matches(canonicalName)) {
+      processObjectAsCanonical(context, node);
+    }
   }
 }

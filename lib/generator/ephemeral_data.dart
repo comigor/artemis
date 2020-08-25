@@ -47,6 +47,7 @@ class Context {
     @required this.fragments,
     this.usedEnums = const {},
     this.usedInputObjects = const {},
+    this.canonicalGraphQLClassNames = const [],
     this.align = 0,
     this.log = true,
   });
@@ -99,6 +100,9 @@ class Context {
   /// A list of used input objects (to filtered on generation).
   final Set<ClassName> usedInputObjects;
 
+  ///
+  final List<String> canonicalGraphQLClassNames;
+
   Name _stringForNaming(Name withFieldNames, Name withClassNames) =>
       schemaMap.namingScheme == NamingScheme.pathedWithFields
           ? withFieldNames
@@ -134,6 +138,7 @@ class Context {
         align: align,
         usedEnums: usedEnums,
         usedInputObjects: usedInputObjects,
+        canonicalGraphQLClassNames: canonicalGraphQLClassNames,
       );
 
   /// Returns a copy of this context, with a new type on a new path.
@@ -168,6 +173,7 @@ class Context {
       align: align + 1,
       usedEnums: usedEnums,
       usedInputObjects: usedInputObjects,
+      canonicalGraphQLClassNames: canonicalGraphQLClassNames,
     );
   }
 
@@ -193,6 +199,7 @@ class Context {
         align: align,
         usedEnums: usedEnums,
         usedInputObjects: usedInputObjects,
+        canonicalGraphQLClassNames: canonicalGraphQLClassNames,
       );
 
   /// Returns a copy of this context, with the same type, but on a new path.
@@ -228,6 +235,7 @@ class Context {
       align: align + 1,
       usedEnums: usedEnums,
       usedInputObjects: usedInputObjects,
+      canonicalGraphQLClassNames: canonicalGraphQLClassNames,
       log: log ?? this.log,
     );
   }
@@ -250,6 +258,7 @@ class Context {
       align: align - 1,
       usedEnums: usedEnums,
       usedInputObjects: usedInputObjects,
+      canonicalGraphQLClassNames: canonicalGraphQLClassNames,
     );
   }
 
@@ -277,6 +286,7 @@ class Context {
         align: align,
         usedEnums: usedEnums,
         usedInputObjects: usedInputObjects,
+        canonicalGraphQLClassNames: canonicalGraphQLClassNames,
       );
 
   /// Returns a copy of this context, with next type, but on the first path.
@@ -289,6 +299,8 @@ class Context {
     List<Definition> generatedClasses,
     List<QueryInput> inputsClasses,
     List<FragmentDefinitionNode> fragments,
+    int align,
+    bool log,
   }) =>
       Context(
         schema: schema,
@@ -303,8 +315,35 @@ class Context {
         generatedClasses: generatedClasses ?? this.generatedClasses,
         inputsClasses: inputsClasses ?? this.inputsClasses,
         fragments: fragments ?? this.fragments,
-        align: 0,
+        align: align ?? 0,
         usedEnums: usedEnums,
         usedInputObjects: usedInputObjects,
+        canonicalGraphQLClassNames: canonicalGraphQLClassNames,
+        log: log ?? this.log,
+      );
+
+  ///
+  Context copyWithCanonical({
+    List<String> canonicalGraphQLClassNames,
+  }) =>
+      Context(
+        schema: schema,
+        options: options,
+        schemaMap: schemaMap,
+        path: path,
+        currentType: currentType,
+        currentFieldName: currentFieldName,
+        currentClassName: currentClassName,
+        ofUnion: ofUnion,
+        alias: alias,
+        generatedClasses: generatedClasses,
+        inputsClasses: inputsClasses,
+        fragments: fragments,
+        align: align,
+        usedEnums: usedEnums,
+        usedInputObjects: usedInputObjects,
+        canonicalGraphQLClassNames:
+            canonicalGraphQLClassNames ?? this.canonicalGraphQLClassNames,
+        log: log,
       );
 }
