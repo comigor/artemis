@@ -136,7 +136,7 @@ final LibraryDefinition libraryDefinitionWithCustomParserFns =
                   type: TypeName(name: r'MyDartUuid'),
                   name: ClassPropertyName(name: r'a'),
                   annotations: [
-                    r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyDartUuid, toJson: fromDartMyDartUuidToGraphQLMyUuid,)'
+                    r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyDartUuid, toJson: fromDartMyDartUuidToGraphQLMyUuid)'
                   ],
                   isNonNull: false,
                   isResolveType: false)
@@ -164,7 +164,7 @@ final LibraryDefinition libraryDefinitionWithCustomImports =
                   type: TypeName(name: r'MyUuid'),
                   name: ClassPropertyName(name: r'a'),
                   annotations: [
-                    r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid,)'
+                    r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid)'
                   ],
                   isNonNull: false,
                   isResolveType: false)
@@ -219,9 +219,8 @@ class Query$SomeObject with EquatableMixin {
       _$Query$SomeObjectFromJson(json);
 
   @JsonKey(
-    fromJson: fromGraphQLMyUuidToDartMyDartUuid,
-    toJson: fromDartMyDartUuidToGraphQLMyUuid,
-  )
+      fromJson: fromGraphQLMyUuidToDartMyDartUuid,
+      toJson: fromDartMyDartUuidToGraphQLMyUuid)
   MyDartUuid a;
 
   @override
@@ -248,9 +247,8 @@ class Query$SomeObject with EquatableMixin {
       _$Query$SomeObjectFromJson(json);
 
   @JsonKey(
-    fromJson: fromGraphQLMyUuidToDartMyUuid,
-    toJson: fromDartMyUuidToGraphQLMyUuid,
-  )
+      fromJson: fromGraphQLMyUuidToDartMyUuid,
+      toJson: fromDartMyUuidToGraphQLMyUuid)
   MyUuid a;
 
   @override

@@ -78,8 +78,7 @@ final LibraryDefinition libraryDefinition =
                   type: TypeName(name: r'ArticleType'),
                   name: ClassPropertyName(name: r'article_type'),
                   annotations: [
-                    r'JsonKey(unknownEnumValue: ArticleType.artemisUnknown)',
-                    r'''JsonKey(name: 'article_type')'''
+                    r'''JsonKey(name: 'article_type', unknownEnumValue: ArticleType.artemisUnknown)'''
                   ],
                   isNonNull: true,
                   isResolveType: false)
@@ -129,8 +128,7 @@ class BrowseArticles$Query$Article with EquatableMixin {
 
   String title;
 
-  @JsonKey(unknownEnumValue: ArticleType.artemisUnknown)
-  @JsonKey(name: 'article_type')
+  @JsonKey(name: 'article_type', unknownEnumValue: ArticleType.artemisUnknown)
   ArticleType articleType;
 
   @override
