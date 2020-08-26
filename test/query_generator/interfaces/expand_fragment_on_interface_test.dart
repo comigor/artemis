@@ -23,13 +23,16 @@ const query = r'''
   query custom($id: ID!) {
     nodeById(id: $id) {
       id
+      # ...UserFrag
+      ... on User {
+        ...UserFrag
+      }
       ... on ChatMessage {
         message
         user {
           ...UserFrag
         }
       }
-      ...UserFrag
     }
   }
   
