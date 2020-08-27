@@ -107,17 +107,18 @@ Spec classDefinitionToSpec(
             ..body = Code('_\$${definition.name.namePrintable}ToJson(this)'),
         );
 
-  final props = definition.mixins
-      .map((i) {
-        return fragments
-            .firstWhere((f) {
-              return f.name == i;
-            })
-            .properties
-            .map((p) => p.name.namePrintable);
-      })
-      .expand((i) => i)
-      .followedBy(definition.properties.map((p) => p.name.namePrintable));
+  final propsFromFragments = definition.mixins.map((i) {
+    return fragments.firstWhere((f) {
+      return f.name == i;
+    }).properties;
+  }).expand((i) => i);
+  final propsFromFragmentsNames =
+      propsFromFragments.map((p) => p.name.namePrintable).toList();
+  final allProps = propsFromFragments
+      .followedBy(definition.properties)
+      .removeDuplicatedBy((i) => i.name.namePrintable);
+  final propsOfClass = allProps
+      .where((p) => !propsFromFragmentsNames.contains(p.name.namePrintable));
 
   return Class(
     (b) => b
@@ -126,7 +127,8 @@ Spec classDefinitionToSpec(
       ..name = definition.name.namePrintable
       ..mixins.add(refer('EquatableMixin'))
       ..mixins.addAll(definition.mixins.map((i) => refer(i.namePrintable)))
-      ..methods.add(_propsMethod('[${props.join(',')}]'))
+      ..methods.add(_propsMethod(
+          '[${allProps.map((p) => p.name.namePrintable).join(',')}]'))
       ..extend = definition.extension != null
           ? refer(definition.extension.namePrintable)
           : null
@@ -134,7 +136,7 @@ Spec classDefinitionToSpec(
       ..constructors.add(Constructor((b) {
         if (definition.isInput) {
           b
-            ..optionalParameters.addAll(definition.properties
+            ..optionalParameters.addAll(allProps
                 .where((property) =>
                     !property.isOverride && !property.isResolveType)
                 .map(
@@ -155,7 +157,7 @@ Spec classDefinitionToSpec(
       }))
       ..constructors.add(fromJson)
       ..methods.add(toJson)
-      ..fields.addAll(definition.properties.map((p) {
+      ..fields.addAll(propsOfClass.map((p) {
         final field = Field(
           (f) => f
             ..name = p.name.namePrintable
