@@ -66,6 +66,11 @@ final String graphQLSchema = r'''
     message: String!
     user: User!
   }
+  
+  type OtherImpl implements Node {
+    id: ID!
+    code: String!
+  }
 ''';
 
 final LibraryDefinition libraryDefinition =
