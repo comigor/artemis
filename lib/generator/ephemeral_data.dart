@@ -146,6 +146,7 @@ class Context {
     List<Definition> generatedClasses,
     List<QueryInput> inputsClasses,
     List<FragmentDefinitionNode> fragments,
+    bool log,
   }) {
     assert(alias != null || (nextFieldName != null && nextClassName != null));
     return Context(
@@ -168,6 +169,7 @@ class Context {
       align: align + 1,
       usedEnums: usedEnums,
       usedInputObjects: usedInputObjects,
+      log: log ?? this.log,
     );
   }
 
