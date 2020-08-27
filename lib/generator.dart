@@ -300,7 +300,7 @@ ClassProperty _createClassProperty({
 
   if (fieldType == null) {
     throw Exception(
-        '''Field $fieldName was not found in GraphQL type ${context.currentType?.name?.value}.
+        '''Field ${fieldName.namePrintable} was not found in GraphQL type ${context.currentType?.name?.value}.
 Make sure your query is correct and your schema is updated.''');
   }
 
@@ -423,13 +423,14 @@ List<String> _proceedDeprecated(
 class _GeneratorVisitor extends RecursiveVisitor {
   _GeneratorVisitor({
     @required this.context,
-  });
+    Set<FragmentName> initialMixins = const {},
+  }) : _mixins = initialMixins.toSet();
 
   final Context context;
 
   SelectionSetNode selectionSetNode;
   final List<ClassProperty> _classProperties = [];
-  final List<FragmentName> _mixins = [];
+  final Set<FragmentName> _mixins;
 
   @override
   void visitSelectionSetNode(SelectionSetNode node) {
@@ -445,9 +446,19 @@ class _GeneratorVisitor extends RecursiveVisitor {
     if (nextContext.currentType is UnionTypeDefinitionNode ||
         nextContext.currentType is InterfaceTypeDefinitionNode) {
       // Filter by requested types
+      // Inline fragment spreads
       final keys = node.selections
           .whereType<InlineFragmentNode>()
-          .map((n) => n.typeCondition.on.name.value);
+          .map((n) => n.typeCondition.on.name.value)
+          .toList();
+      // Named fragment spreads
+      keys.addAll(node.selections.whereType<FragmentSpreadNode>().map((node) {
+        final foundFrag = context.fragments.firstWhere(
+          (fragment) => fragment.name.value == node.name.value,
+          orElse: () => null,
+        );
+        return foundFrag?.typeCondition?.on?.name?.value;
+      }).where((x) => x != null));
 
       final values = keys.map((t) => ClassName.fromPath(
           path:
@@ -468,7 +479,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
     nextContext.generatedClasses.add(ClassDefinition(
       name: name,
       properties: _classProperties,
-      mixins: _mixins,
+      mixins: _mixins.toList(),
       extension: partOfUnion
           ? ClassName.fromPath(path: nextContext.rollbackPath().fullPathName())
           : null,
@@ -498,7 +509,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
   @override
   void visitInlineFragmentNode(InlineFragmentNode node) {
     _log(context, context.align + 1,
-        '${context.path}: ... on ${node.typeCondition.on.name.value}');
+        '${context.path}: ... expanding on ${node.typeCondition.on.name.value} of ${context.currentType.name.value}');
     final nextType = gql.getTypeByName(context.schema, node.typeCondition.on,
         context: 'inline fragment');
 
@@ -510,7 +521,6 @@ class _GeneratorVisitor extends RecursiveVisitor {
           nextFieldName: null,
           ofUnion: context.currentType,
           inputsClasses: [],
-          fragments: [],
         ),
       );
       node.selectionSet.visitChildren(visitor);
@@ -522,7 +532,6 @@ class _GeneratorVisitor extends RecursiveVisitor {
           nextFieldName: ClassPropertyName(name: nextType.name.value),
           ofUnion: context.currentType,
           inputsClasses: [],
-          fragments: [],
         ),
       );
       node.visitChildren(visitor);
@@ -611,28 +620,49 @@ class _GeneratorVisitor extends RecursiveVisitor {
 
   @override
   void visitFragmentSpreadNode(FragmentSpreadNode node) {
+    final fragmentDef = context.fragments.firstWhere(
+        (fragment) => fragment.name.value == node.name.value,
+        orElse: () => null);
     _log(context, context.align + 1,
-        '${context.path}: ... expanding ${node.name.value}');
+        '${context.path}: ... expanding ${node.name.value} on ${fragmentDef.typeCondition.on.name.value} of ${context.currentType.name.value}');
+
     final fragmentName = FragmentName.fromPath(
         path: context
             .sameTypeWithNoPath(alias: FragmentName(name: node.name.value))
             .fullPathName());
+    final nextType = gql.getTypeByName(
+        context.schema, fragmentDef.typeCondition.on,
+        context: 'inline fragment');
 
-    final visitor = _GeneratorVisitor(
-      context: context.sameTypeWithNextPath(
-        alias: fragmentName,
-        generatedClasses: [],
-        log: false,
-      ),
-    );
-    final fragmentDef = context.fragments.firstWhere(
-        (fragment) => fragment.name.value == node.name.value,
-        orElse: () => null);
-    fragmentDef?.visitChildren(visitor);
-
-    _mixins
-      ..add(fragmentName)
-      ..addAll(visitor._mixins);
+    _GeneratorVisitor visitor;
+    if (context.ofUnion == null) {
+      visitor = _GeneratorVisitor(
+        context: context.next(
+          nextType: nextType,
+          nextClassName: ClassName(name: nextType.name.value),
+          nextFieldName: ClassPropertyName(name: nextType.name.value),
+          ofUnion: context.currentType,
+          inputsClasses: [],
+          generatedClasses: [],
+        ),
+        initialMixins: {fragmentName},
+      );
+      fragmentDef?.visitChildren(visitor);
+      context.generatedClasses.addAll(visitor.context.generatedClasses);
+    } else {
+      visitor = _GeneratorVisitor(
+        context: context.next(
+          nextType: nextType,
+          alias: fragmentName,
+          ofUnion: context.currentType,
+          inputsClasses: [],
+          generatedClasses: [],
+          log: false,
+        ),
+      );
+      fragmentDef?.visitChildren(visitor);
+      _mixins.add(fragmentName);
+    }
   }
 
   @override

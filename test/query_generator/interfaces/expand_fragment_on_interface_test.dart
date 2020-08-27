@@ -23,10 +23,7 @@ const query = r'''
   query custom($id: ID!) {
     nodeById(id: $id) {
       id
-      # ...UserFrag
-      ... on User {
-        ...UserFrag
-      }
+      ...UserFrag
       ... on ChatMessage {
         message
         user {
@@ -79,6 +76,18 @@ final LibraryDefinition libraryDefinition =
       classes: [
         ClassDefinition(
             name: ClassName(name: r'Custom$_Query$_Node$_User'),
+            properties: [
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'id'),
+                  isNonNull: true,
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'username'),
+                  isNonNull: true,
+                  isResolveType: false)
+            ],
             extension: ClassName(name: r'Custom$_Query$_Node'),
             mixins: [FragmentName(name: r'UserFragMixin')],
             factoryPossibilities: {},
@@ -120,9 +129,9 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {
-              r'User': ClassName(name: r'Custom$_Query$_Node$_User'),
               r'ChatMessage':
-                  ClassName(name: r'Custom$_Query$_Node$_ChatMessage')
+                  ClassName(name: r'Custom$_Query$_Node$_ChatMessage'),
+              r'User': ClassName(name: r'Custom$_Query$_Node$_User')
             },
             typeNameField: TypeName(name: r'__typename'),
             isInput: false),
@@ -227,10 +236,10 @@ class Custom$Query$Node with EquatableMixin {
 
   factory Custom$Query$Node.fromJson(Map<String, dynamic> json) {
     switch (json['__typename'].toString()) {
-      case r'User':
-        return Custom$Query$Node$User.fromJson(json);
       case r'ChatMessage':
         return Custom$Query$Node$ChatMessage.fromJson(json);
+      case r'User':
+        return Custom$Query$Node$User.fromJson(json);
       default:
     }
     return _$Custom$Query$NodeFromJson(json);
@@ -242,10 +251,10 @@ class Custom$Query$Node with EquatableMixin {
   List<Object> get props => [id];
   Map<String, dynamic> toJson() {
     switch ($$typename) {
-      case r'User':
-        return (this as Custom$Query$Node$User).toJson();
       case r'ChatMessage':
         return (this as Custom$Query$Node$ChatMessage).toJson();
+      case r'User':
+        return (this as Custom$Query$Node$User).toJson();
       default:
     }
     return _$Custom$Query$NodeToJson(this);
