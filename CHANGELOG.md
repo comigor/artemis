@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.11.1-beta.1
+- improved canonical types handling
+
 ## 6.10.1-beta.1
 - Package updates
 
