@@ -2,7 +2,10 @@
 
 import 'package:artemis/generator/data/data.dart';
 import 'package:artemis/generator/data/enum_value_definition.dart';
-import 'package:build/build.dart';
+import 'package:artemis/visitor/canonical_visitor.dart';
+import 'package:artemis/visitor/object_type_definition_visitor.dart';
+import 'package:artemis/visitor/schema_definition_visitor.dart';
+import 'package:artemis/visitor/type_definition_node_visitor.dart';
 import 'package:meta/meta.dart';
 import 'package:gql/ast.dart';
 import 'package:path/path.dart' as p;
@@ -12,14 +15,8 @@ import './generator/errors.dart';
 import './generator/graphql_helpers.dart' as gql;
 import './generator/helpers.dart';
 import './schema/options.dart';
-import 'visitor.dart';
 
 typedef _OnNewClassFoundCallback = void Function(Context context);
-
-void _log(Context context, int align, Object logObject) {
-  if (!context.log) return;
-  log.fine('${List.filled(align, '|   ').join()}${logObject.toString()}');
-}
 
 /// Enum value for values not mapped in the GraphQL enum
 final EnumValueDefinition ARTEMIS_UNKNOWN = EnumValueDefinition(
@@ -36,6 +33,25 @@ LibraryDefinition generateLibrary(
   List<FragmentDefinitionNode> fragmentsCommon,
   DocumentNode schema,
 ) {
+  final canonicalVisitor = CanonicalVisitor(
+    context: Context(
+      schema: schema,
+      options: options,
+      schemaMap: schemaMap,
+      path: [],
+      currentType: null,
+      currentFieldName: null,
+      currentClassName: null,
+      generatedClasses: [],
+      inputsClasses: [],
+      fragments: [],
+      usedEnums: {},
+      usedInputObjects: {},
+    ),
+  );
+
+  schema.accept(canonicalVisitor);
+
   final queryDefinitions = gqlDocs
       .map((doc) => generateDefinitions(
             schema,
@@ -44,11 +60,10 @@ LibraryDefinition generateLibrary(
             options,
             schemaMap,
             fragmentsCommon,
+            canonicalVisitor,
           ))
       .expand((e) => e)
       .toList();
-
-//  final queryDefinitions = definitions.expand((e) => e).toList();
 
   final allClassesNames = queryDefinitions
       .map((def) => def.classes.map((c) => c))
@@ -101,8 +116,6 @@ Set<FragmentDefinitionNode> _extractFragments(SelectionSetNode selectionSet,
   return result;
 }
 
-_CanonicalVisitor _canonicalVisitor;
-
 /// Generate a query definition from a GraphQL schema and a query, given
 /// Artemis options and schema mappings.
 Iterable<QueryDefinition> generateDefinitions(
@@ -112,6 +125,7 @@ Iterable<QueryDefinition> generateDefinitions(
   GeneratorOptions options,
   SchemaMap schemaMap,
   List<FragmentDefinitionNode> fragmentsCommon,
+  CanonicalVisitor canonicalVisitor,
 ) {
   final fragments = <FragmentDefinitionNode>[];
 
@@ -201,23 +215,6 @@ Iterable<QueryDefinition> generateDefinitions(
     final visitor = _GeneratorVisitor(
       context: context,
     );
-    // scans schema for canonical types only once
-    if (_canonicalVisitor == null) {
-      _canonicalVisitor = _CanonicalVisitor(
-        context: context.sameTypeWithNoPath(),
-      );
-
-      schema.accept(_canonicalVisitor);
-    }
-    // re-scan if schema changes
-    else if (_canonicalVisitor != null &&
-        _canonicalVisitor.context.schema != schema) {
-      _canonicalVisitor = _CanonicalVisitor(
-        context: context.sameTypeWithNoPath(),
-      );
-
-      schema.accept(_canonicalVisitor);
-    }
 
     DocumentNode(
       definitions: document.definitions
@@ -231,10 +228,10 @@ Iterable<QueryDefinition> generateDefinitions(
       operationName: operationName,
       document: document,
       classes: [
-        ..._canonicalVisitor.enums
+        ...canonicalVisitor.enums
             .where((e) => context.usedEnums.contains(e.name)),
         ...visitor.context.generatedClasses,
-        ..._canonicalVisitor.inputObjects
+        ...canonicalVisitor.inputObjects
             .where((i) => context.usedInputObjects.contains(i.name)),
       ],
       inputs: visitor.context.inputsClasses,
@@ -260,7 +257,8 @@ List<String> _extractCustomImports(
       .toList();
 }
 
-ClassProperty _createClassProperty({
+/// Creates class property object
+ClassProperty createClassProperty({
   @required ClassPropertyName fieldName,
   ClassPropertyName fieldAlias,
   @required Context context,
@@ -320,7 +318,7 @@ Make sure your query is correct and your schema is updated.''');
       replaceLeafWith: ClassName.fromPath(path: nextClassName),
       schema: context.schema);
 
-  _log(context, aliasedContext.align + 1,
+  logFn(context, aliasedContext.align + 1,
       '${aliasedContext.path}[${aliasedContext.currentType.name.value}][${aliasedContext.currentClassName} ${aliasedContext.currentFieldName}] ${fieldAlias == null ? '' : '(${fieldAlias}) '}-> ${dartTypeName.namePrintable}');
 
   if ((nextType is ObjectTypeDefinitionNode ||
@@ -385,7 +383,7 @@ Make sure your query is correct and your schema is updated.''');
         .join(', ');
     annotations.add('JsonKey(${jsonKey})');
   }
-  annotations.addAll(_proceedDeprecated(fieldDirectives));
+  annotations.addAll(proceedDeprecated(fieldDirectives));
 
   return ClassProperty(
     type: dartTypeName,
@@ -393,31 +391,6 @@ Make sure your query is correct and your schema is updated.''');
     annotations: annotations,
     isNonNull: fieldType.isNonNull,
   );
-}
-
-List<String> _proceedDeprecated(
-  List<DirectiveNode> directives,
-) {
-  final annotations = <String>[];
-
-  final deprecatedDirective = directives?.firstWhere(
-    (directive) => directive.name.value == 'deprecated',
-    orElse: () => null,
-  );
-
-  if (deprecatedDirective != null) {
-    final reasonValueNode = deprecatedDirective?.arguments
-        ?.firstWhere((argument) => argument.name.value == 'reason')
-        ?.value;
-
-    final reason = reasonValueNode is StringValueNode
-        ? reasonValueNode.value
-        : 'No longer supported';
-
-    annotations.add("Deprecated('$reason')");
-  }
-
-  return annotations;
 }
 
 class _GeneratorVisitor extends RecursiveVisitor {
@@ -435,8 +408,8 @@ class _GeneratorVisitor extends RecursiveVisitor {
   void visitSelectionSetNode(SelectionSetNode node) {
     final nextContext = context.withAlias();
 
-    _log(context, nextContext.align, '-> Class');
-    _log(context, nextContext.align,
+    logFn(context, nextContext.align, '-> Class');
+    logFn(context, nextContext.align,
         '┌ ${nextContext.path}[${nextContext.currentType.name.value}][${nextContext.currentClassName} ${nextContext.currentFieldName}] (${nextContext.alias ?? ''})');
     super.visitSelectionSetNode(node);
 
@@ -460,9 +433,9 @@ class _GeneratorVisitor extends RecursiveVisitor {
     if (partOfUnion) {}
 
     final name = ClassName.fromPath(path: nextContext.fullPathName());
-    _log(context, nextContext.align,
+    logFn(context, nextContext.align,
         '└ ${nextContext.path}[${nextContext.currentType.name.value}][${nextContext.currentClassName} ${nextContext.currentFieldName}] (${nextContext.alias ?? ''})');
-    _log(context, nextContext.align,
+    logFn(context, nextContext.align,
         '<- Generated class ${name.namePrintable}.');
 
     nextContext.generatedClasses.add(ClassDefinition(
@@ -480,7 +453,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
   void visitFieldNode(FieldNode node) {
     final fieldName = node.name.value;
 
-    final property = _createClassProperty(
+    final property = createClassProperty(
       fieldName: ClassPropertyName(name: fieldName),
       fieldAlias: node.alias?.value != null
           ? ClassPropertyName(name: node.alias?.value)
@@ -497,7 +470,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
 
   @override
   void visitInlineFragmentNode(InlineFragmentNode node) {
-    _log(context, context.align + 1,
+    logFn(context, context.align + 1,
         '${context.path}: ... on ${node.typeCondition.on.name.value}');
     final nextType = gql.getTypeByName(context.schema, node.typeCondition.on,
         context: 'inline fragment');
@@ -611,7 +584,7 @@ class _GeneratorVisitor extends RecursiveVisitor {
 
   @override
   void visitFragmentSpreadNode(FragmentSpreadNode node) {
-    _log(context, context.align + 1,
+    logFn(context, context.align + 1,
         '${context.path}: ... expanding ${node.name.value}');
     final fragmentName = FragmentName.fromPath(
         path: context
@@ -640,8 +613,8 @@ class _GeneratorVisitor extends RecursiveVisitor {
     final partName = FragmentName(name: node.name.value);
     final nextContext = context.sameTypeWithNoPath(alias: partName);
 
-    _log(context, nextContext.align, '-> Fragment');
-    _log(context, nextContext.align,
+    logFn(context, nextContext.align, '-> Fragment');
+    logFn(context, nextContext.align,
         '┌ ${nextContext.path}[${node.name.value}]');
     nextContext.fragments.add(node);
 
@@ -680,9 +653,9 @@ class _GeneratorVisitor extends RecursiveVisitor {
 
     final fragmentName =
         FragmentName.fromPath(path: nextContext.fullPathName());
-    _log(context, nextContext.align,
+    logFn(context, nextContext.align,
         '└ ${nextContext.path}[${node.name.value}]');
-    _log(context, nextContext.align,
+    logFn(context, nextContext.align,
         '<- Generated fragment ${fragmentName.namePrintable}.');
 
     nextContext.generatedClasses.add(
@@ -692,72 +665,5 @@ class _GeneratorVisitor extends RecursiveVisitor {
             visitor._classProperties.followedBy(otherMixinsProps).toList(),
       ),
     );
-  }
-}
-
-class _CanonicalVisitor extends RecursiveVisitor {
-  _CanonicalVisitor({
-    @required this.context,
-  });
-
-  final Context context;
-  final List<ClassDefinition> inputObjects = [];
-  final List<EnumDefinition> enums = [];
-
-  @override
-  void visitEnumTypeDefinitionNode(EnumTypeDefinitionNode node) {
-    final enumName = EnumName(name: node.name.value);
-
-    final nextContext = context.sameTypeWithNoPath(alias: enumName);
-
-    _log(context, nextContext.align, '-> Enum');
-    _log(context, nextContext.align,
-        '<- Generated enum ${enumName.namePrintable}.');
-
-    enums.add(EnumDefinition(
-      name: enumName,
-      values: node.values
-          .map((ev) => EnumValueDefinition(
-                name: EnumValueName(name: ev.name.value),
-                annotations: _proceedDeprecated(ev.directives),
-              ))
-          .toList()
-            ..add(ARTEMIS_UNKNOWN),
-    ));
-  }
-
-  @override
-  void visitInputObjectTypeDefinitionNode(InputObjectTypeDefinitionNode node) {
-    final name = ClassName(name: node.name.value);
-    final nextContext = context.sameTypeWithNoPath(alias: name);
-
-    _log(context, nextContext.align, '-> Input class');
-    _log(context, nextContext.align,
-        '┌ ${nextContext.path}[${node.name.value}]');
-    final properties = <ClassProperty>[];
-
-    properties.addAll(node.fields.map((i) {
-      final nextType = gql.getTypeByName(nextContext.schema, i.type);
-      return _createClassProperty(
-        fieldName: ClassPropertyName(name: i.name.value),
-        context: nextContext.nextTypeWithNoPath(
-          nextType: node,
-          nextClassName: ClassName(name: nextType.name.value),
-          nextFieldName: ClassName(name: i.name.value),
-        ),
-        markAsUsed: false,
-      );
-    }));
-
-    _log(context, nextContext.align,
-        '└ ${nextContext.path}[${node.name.value}]');
-    _log(context, nextContext.align,
-        '<- Generated input class ${name.namePrintable}.');
-
-    inputObjects.add(ClassDefinition(
-      isInput: true,
-      name: name,
-      properties: properties,
-    ));
   }
 }
