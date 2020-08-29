@@ -145,7 +145,11 @@ ${e}
       if (onBuild != null) {
         onBuild(libDefinition);
       }
-      writeLibraryDefinitionToBuffer(buffer, libDefinition);
+      writeLibraryDefinitionToBuffer(
+        buffer,
+        options.ignoreForFile,
+        libDefinition,
+      );
 
       await buildStep.writeAsString(outputFileId, buffer.toString());
 

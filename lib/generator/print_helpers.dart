@@ -391,8 +391,16 @@ String specToString(Spec spec) {
 /// Generate Dart code typings from a query or mutation and its response from
 /// a [QueryDefinition] into a buffer.
 void writeLibraryDefinitionToBuffer(
-    StringBuffer buffer, LibraryDefinition definition) {
-  buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND\n');
+  StringBuffer buffer,
+  List<String> ignoreForFile,
+  LibraryDefinition definition,
+) {
+  buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND');
+  if (ignoreForFile != null && ignoreForFile.isNotEmpty) {
+    buffer.writeln(
+      '// ignore_for_file: ${Set<String>.from(ignoreForFile).join(', ')}\n',
+    );
+  }
   buffer.write(specToString(generateLibrarySpec(definition)));
 }
 

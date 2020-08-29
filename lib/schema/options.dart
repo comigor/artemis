@@ -25,12 +25,18 @@ class GeneratorOptions {
   @JsonKey(defaultValue: [])
   final List<SchemaMap> schemaMapping;
 
+  /// A list of linter rules to ignore
+  /// in generated files.
+  @JsonKey(defaultValue: [])
+  final List<String> ignoreForFile;
+
   /// Instantiate generator options.
   GeneratorOptions({
     this.generateHelpers = true,
     this.scalarMapping = const [],
     this.fragmentsGlob,
     this.schemaMapping = const [],
+    this.ignoreForFile = const [],
   });
 
   /// Build options from a JSON map.
