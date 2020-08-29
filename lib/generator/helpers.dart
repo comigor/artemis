@@ -1,6 +1,7 @@
 // @dart = 2.8
 
 import 'package:artemis/generator/data/data.dart';
+import 'package:artemis/generator/ephemeral_data.dart';
 import 'package:build/build.dart';
 import 'package:gql/ast.dart';
 
@@ -187,6 +188,7 @@ List<String> proceedDeprecated(
 }
 
 /// Logger function
-void logFn(int align, Object logObject) {
+void logFn(Context context, int align, Object logObject) {
+  if (!context.log) return;
   log.fine('${List.filled(align, '|   ').join()}${logObject.toString()}');
 }

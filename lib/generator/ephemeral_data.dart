@@ -48,6 +48,7 @@ class Context {
     this.usedEnums = const {},
     this.usedInputObjects = const {},
     this.align = 0,
+    this.log = true,
   });
 
   /// The [DocumentNode] parsed from `build.yaml` configuration.
@@ -88,6 +89,9 @@ class Context {
 
   /// The indentation used to debugging purposes.
   final int align;
+
+  /// If debug log should be printed.
+  final bool log;
 
   /// A list of used enums (to filtered on generation).
   final Set<EnumName> usedEnums;
@@ -224,6 +228,7 @@ class Context {
       align: align + 1,
       usedEnums: usedEnums,
       usedInputObjects: usedInputObjects,
+      log: log ?? this.log,
     );
   }
 
