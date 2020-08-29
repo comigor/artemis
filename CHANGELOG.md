@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.10.1-beta.1
+- Package updates
+
 ## 6.9.2-beta.1
 - Fixed `toJson() doesn't remove "kw$" prefix`
 
