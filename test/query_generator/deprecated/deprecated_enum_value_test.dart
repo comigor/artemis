@@ -9,7 +9,6 @@ import '../../helpers.dart';
 
 void main() {
   group('On deprecated value', () {
-    print(libraryDefinition);
     test(
       'Enum values can be deprecated',
       () async => testGenerator(

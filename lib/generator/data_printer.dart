@@ -20,7 +20,9 @@ String _formatPrint(Object obj) {
   return str;
 }
 
+/// Data printer mixin
 mixin DataPrinter on Equatable {
+  ///
   Map<String, Object> get namedProps;
 
   @override

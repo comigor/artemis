@@ -2,69 +2,6 @@
 
 import 'package:gql/ast.dart';
 
-/// Visits all object definition nodes recursively
-class ObjectTypeDefinitionVisitor extends RecursiveVisitor {
-  /// Stores all object definition nodes
-  Iterable<ObjectTypeDefinitionNode> types = [];
-
-  @override
-  void visitObjectTypeDefinitionNode(
-    ObjectTypeDefinitionNode node,
-  ) {
-    types = types.followedBy([node]);
-    super.visitObjectTypeDefinitionNode(node);
-  }
-
-  /// Gets object type definition node by operation name
-  ObjectTypeDefinitionNode getByName(String name) {
-    final type = types.where((type) => type.name.value == name);
-
-    if (type.isNotEmpty) {
-      return type.first;
-    }
-
-    return null;
-  }
-}
-
-/// Visits the schema definition node.
-class SchemaDefinitionVisitor extends RecursiveVisitor {
-  /// Store the schema definition.
-  SchemaDefinitionNode schemaDefinitionNode;
-
-  @override
-  void visitSchemaDefinitionNode(
-    SchemaDefinitionNode node,
-  ) {
-    schemaDefinitionNode = node;
-  }
-}
-
-/// Visits all operation definition nodes recursively
-class OperationTypeDefinitionNodeVisitor extends RecursiveVisitor {
-  /// Stores all operation definition nodes
-  Iterable<OperationTypeDefinitionNode> types = [];
-
-  @override
-  void visitOperationTypeDefinitionNode(
-    OperationTypeDefinitionNode node,
-  ) {
-    types = types.followedBy([node]);
-    super.visitOperationTypeDefinitionNode(node);
-  }
-
-  /// Gets operation type definition node by operation name
-  OperationTypeDefinitionNode getByType(OperationType operationType) {
-    final type = types.where((type) => type.operation == operationType);
-
-    if (type.isNotEmpty) {
-      return type.first;
-    }
-
-    return null;
-  }
-}
-
 List<TypeDefinitionNode> _defaultScalars =
     ['Boolean', 'Float', 'ID', 'Int', 'String']
         .map((e) => ScalarTypeDefinitionNode(
