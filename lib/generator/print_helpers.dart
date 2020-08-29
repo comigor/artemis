@@ -398,9 +398,10 @@ void writeLibraryDefinitionToBuffer(
   buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND');
   if (ignoreForFile != null && ignoreForFile.isNotEmpty) {
     buffer.writeln(
-      '// ignore_for_file: ${Set<String>.from(ignoreForFile).join(', ')}\n',
+      '// ignore_for_file: ${Set<String>.from(ignoreForFile).join(', ')}',
     );
   }
+  buffer.write('\n');
   buffer.write(specToString(generateLibrarySpec(definition)));
 }
 
