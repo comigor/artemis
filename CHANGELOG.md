@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.12.1-beta.1
+- Added `ignore_for_file` option to ignore linter rules on generated files.
+
 ## 6.11.1-beta.1
 - improved canonical types handling
 

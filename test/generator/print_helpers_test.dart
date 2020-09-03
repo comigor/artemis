@@ -429,8 +429,8 @@ class AClass with EquatableMixin {
     test('It should generated an empty file by default.', () {
       final buffer = StringBuffer();
       final definition = LibraryDefinition(basename: r'test_query.graphql');
-
-      writeLibraryDefinitionToBuffer(buffer, definition);
+      final ignoreForFile = <String>[];
+      writeLibraryDefinitionToBuffer(buffer, ignoreForFile, definition);
 
       expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
@@ -445,8 +445,9 @@ part 'test_query.graphql.g.dart';
       final buffer = StringBuffer();
       final definition = LibraryDefinition(
           basename: r'test_query.graphql', customImports: ['some_file.dart']);
+      final ignoreForFile = <String>[];
 
-      writeLibraryDefinitionToBuffer(buffer, definition);
+      writeLibraryDefinitionToBuffer(buffer, ignoreForFile, definition);
 
       expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
@@ -471,8 +472,9 @@ part 'test_query.graphql.g.dart';
           )
         ],
       );
+      final ignoreForFile = <String>[];
 
-      writeLibraryDefinitionToBuffer(buffer, definition);
+      writeLibraryDefinitionToBuffer(buffer, ignoreForFile, definition);
 
       expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
@@ -522,8 +524,9 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, JsonSerializable> {
           ],
         ),
       ]);
+      final ignoreForFile = <String>[];
 
-      writeLibraryDefinitionToBuffer(buffer, definition);
+      writeLibraryDefinitionToBuffer(buffer, ignoreForFile, definition);
 
       expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
@@ -669,8 +672,9 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
           ],
         ),
       ]);
+      final ignoreForFile = <String>[];
 
-      writeLibraryDefinitionToBuffer(buffer, definition);
+      writeLibraryDefinitionToBuffer(buffer, ignoreForFile, definition);
 
       expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
 
@@ -696,5 +700,55 @@ enum SomeEnum {
 }
 ''');
     });
+  });
+
+  test('Should not add ignore_for_file when ignoreForFile is null', () {
+    final buffer = StringBuffer();
+    final definition = LibraryDefinition(basename: r'test_query.graphql');
+    final List<String> ignoreForFile = null;
+
+    writeLibraryDefinitionToBuffer(buffer, ignoreForFile, definition);
+
+    expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
+
+import 'package:json_annotation/json_annotation.dart';
+import 'package:equatable/equatable.dart';
+import 'package:gql/ast.dart';
+part 'test_query.graphql.g.dart';
+''');
+  });
+
+  test('Should not add ignore_for_file when ignoreForFile is empty', () {
+    final buffer = StringBuffer();
+    final definition = LibraryDefinition(basename: r'test_query.graphql');
+    final ignoreForFile = <String>[];
+
+    writeLibraryDefinitionToBuffer(buffer, ignoreForFile, definition);
+
+    expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
+
+import 'package:json_annotation/json_annotation.dart';
+import 'package:equatable/equatable.dart';
+import 'package:gql/ast.dart';
+part 'test_query.graphql.g.dart';
+''');
+  });
+
+  test('Should add // ignore_for_file: ... when ignoreForFile is not empty',
+      () {
+    final buffer = StringBuffer();
+    final definition = LibraryDefinition(basename: r'test_query.graphql');
+    final ignoreForFile = <String>['my_rule_1', 'my_rule_2'];
+
+    writeLibraryDefinitionToBuffer(buffer, ignoreForFile, definition);
+
+    expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: my_rule_1, my_rule_2
+
+import 'package:json_annotation/json_annotation.dart';
+import 'package:equatable/equatable.dart';
+import 'package:gql/ast.dart';
+part 'test_query.graphql.g.dart';
+''');
   });
 }
