@@ -90,6 +90,7 @@ targets:
 | `scalar_mapping` | `[]` | Mapping of GraphQL and Dart types. See [Custom scalars](#custom-scalars). |
 | `schema_mapping` | `[]` | Mapping of queries and which schemas they will use for code generation. See [Schema mapping](#schema-mapping). |
 | `fragments_glob` | `null` | Import path to the file implementing fragments for all queries mapped in schema_mapping. If it's assigned, fragments defined in schema_mapping will be ignored. |
+| `ignore_for_file` | `[]`  | The linter rules to ignore for artemis generated files. |
 
 It's important to remember that, by default, [build](https://github.com/dart-lang/build) will follow [Dart's package layout conventions](https://dart.dev/tools/pub/package-layout), meaning that only some folders will be considered to parse the input files. So, if you want to reference files from a folder other than `lib/`, make sure you've included it on `sources`:
 ```yaml
@@ -126,7 +127,6 @@ Each `SchemaMap` is configured this way:
 | `queries_glob` |  | Glob that selects all query files to be used with this schema. |
 | `naming_scheme` | `pathedWithTypes` | The naming scheme to be used on generated classes names. `pathedWithTypes` is the default for retrocompatibility, where the names of previous types are used as prefix of the next class. This can generate duplication on certain schemas. With `pathedWithFields`, the names of previous fields are used as prefix of the next class and with `simple`, only the actual GraphQL class nameis considered. | 
 | `type_name_field` | `__typename` | The name of the field used to differentiatiate interfaces and union types (commonly `__typename` or `__resolveType`). Note that `__typename` field are not added automatically to the query. If you want interface/union type resolution, you need to manually add it there. |
-| `ignore_for_file` | `[]`  | The linter rules to ignore for artemis generated files. |
 
 See [examples](./example) for more information and configuration options.
 

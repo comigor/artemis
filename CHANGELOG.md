@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.12.2-beta.1
+- Fixed `ignore_for_file` documentation.
+
 ## 6.12.1-beta.1
 - Added `ignore_for_file` option to ignore linter rules on generated files.
 
