@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.12.3-beta.1
+- Readme fix
+
 ## 6.12.2-beta.1
 - Fixed `ignore_for_file` documentation.
 
