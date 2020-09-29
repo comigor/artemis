@@ -49,7 +49,7 @@ The generated code uses the following packages in run-time:
 ```yaml
 dependencies:
   artemis: '>=5.0.0 <6.0.0' # only if you're using ArtemisClient!
-  json_serializable: ^3.0.0
+  json_annotation: ^3.0.0
   equatable: ^0.6.1
   meta: '>=1.0.0 <2.0.0' # only if you have non nullable fields
   gql: '>=0.7.3 <1.0.0'
@@ -90,6 +90,7 @@ targets:
 | `scalar_mapping` | `[]` | Mapping of GraphQL and Dart types. See [Custom scalars](#custom-scalars). |
 | `schema_mapping` | `[]` | Mapping of queries and which schemas they will use for code generation. See [Schema mapping](#schema-mapping). |
 | `fragments_glob` | `null` | Import path to the file implementing fragments for all queries mapped in schema_mapping. If it's assigned, fragments defined in schema_mapping will be ignored. |
+| `ignore_for_file` | `[]`  | The linter rules to ignore for artemis generated files. |
 
 It's important to remember that, by default, [build](https://github.com/dart-lang/build) will follow [Dart's package layout conventions](https://dart.dev/tools/pub/package-layout), meaning that only some folders will be considered to parse the input files. So, if you want to reference files from a folder other than `lib/`, make sure you've included it on `sources`:
 ```yaml

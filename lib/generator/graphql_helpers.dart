@@ -1,11 +1,11 @@
 // @dart = 2.8
 
+import 'package:artemis/visitor/type_definition_node_visitor.dart';
 import 'package:gql/ast.dart';
 
 import '../generator/data/data.dart';
 import '../generator/errors.dart';
 import '../schema/options.dart';
-import '../visitor.dart';
 import 'data/definition.dart';
 
 /// Get a full [TypeDefinitionNode] from a type node.
