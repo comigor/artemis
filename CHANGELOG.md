@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.12.4-beta.1
+- Update pubspec.yaml
+
 ## 6.12.3-beta.1
 - Readme fix
 
