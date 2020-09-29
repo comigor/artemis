@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.12.3-beta.2
+- Subscription test added
+
 ## 6.12.3-beta.1
 - Readme fix
 
