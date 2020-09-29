@@ -1,5 +1,5 @@
 name: artemis
-version: 6.12.4-beta.1
+version: 6.13.1-beta.1
 
 description: Build dart types from GraphQL schemas and queries (using Introspection Query).
 homepage: https://github.com/comigor/artemis
@@ -31,7 +31,7 @@ dependencies:
 
 dev_dependencies:
   args: ^1.6.0
-  build_runner: ^1.10.3
+  build_runner: ^1.10.2
   build_test: ^1.2.2
   json_serializable: ^3.5.0
   pedantic: ^1.9.2
