@@ -28,6 +28,10 @@ GeneratorOptions _$GeneratorOptionsFromJson(Map json) {
                   )))
             ?.toList() ??
         [],
+    ignoreForFile: (json['ignore_for_file'] as List)
+            ?.map((e) => e == null ? null : e as String)
+            ?.toList() ??
+        [],
   );
 }
 
@@ -37,6 +41,7 @@ Map<String, dynamic> _$GeneratorOptionsToJson(GeneratorOptions instance) =>
       'scalar_mapping': instance.scalarMapping,
       'fragments_glob': instance.fragmentsGlob,
       'schema_mapping': instance.schemaMapping,
+      'ignore_for_file': instance.ignoreForFile,
     };
 
 DartType _$DartTypeFromJson(Map<String, dynamic> json) {

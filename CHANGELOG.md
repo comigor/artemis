@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## 6.12.3-beta.1
+- Readme fix
+
+## 6.12.2-beta.1
+- Fixed `ignore_for_file` documentation.
+
+## 6.12.1-beta.1
+- Added `ignore_for_file` option to ignore linter rules on generated files.
+
+## 6.11.1-beta.1
+- improved canonical types handling
+
+## 6.10.1-beta.1
+- Package updates
+
 ## 6.9.2-beta.1
 - Fixed `toJson() doesn't remove "kw$" prefix`
 

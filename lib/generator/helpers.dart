@@ -1,6 +1,9 @@
 // @dart = 2.8
 
 import 'package:artemis/generator/data/data.dart';
+import 'package:artemis/generator/ephemeral_data.dart';
+import 'package:build/build.dart';
+import 'package:gql/ast.dart';
 
 typedef _IterableFunction<T, U> = U Function(T i);
 typedef _MergeableFunction<T> = T Function(T oldT, T newT);
@@ -156,4 +159,36 @@ bool hasValue(Object obj) {
     return obj != null && obj.isNotEmpty;
   }
   return obj != null && obj.toString().isNotEmpty;
+}
+
+/// Proceeds deprecated annotation
+List<String> proceedDeprecated(
+  List<DirectiveNode> directives,
+) {
+  final annotations = <String>[];
+
+  final deprecatedDirective = directives?.firstWhere(
+    (directive) => directive.name.value == 'deprecated',
+    orElse: () => null,
+  );
+
+  if (deprecatedDirective != null) {
+    final reasonValueNode = deprecatedDirective?.arguments
+        ?.firstWhere((argument) => argument.name.value == 'reason')
+        ?.value;
+
+    final reason = reasonValueNode is StringValueNode
+        ? reasonValueNode.value
+        : 'No longer supported';
+
+    annotations.add("Deprecated('$reason')");
+  }
+
+  return annotations;
+}
+
+/// Logger function
+void logFn(Context context, int align, Object logObject) {
+  if (!context.log) return;
+  log.fine('${List.filled(align, '|   ').join()}${logObject.toString()}');
 }
