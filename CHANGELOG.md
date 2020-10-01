@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.14.1-beta.1
+- Package updates
+
 ## 6.13.1-beta.1
 - input underscore bugfix https://github.com/comigor/artemis/issues/223
 
