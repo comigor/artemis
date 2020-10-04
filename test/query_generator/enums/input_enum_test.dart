@@ -18,7 +18,7 @@ void main() {
           }
           
           type QueryRoot {
-            q(input: Input!, o: OtherEnum!): QueryResponse
+            q(_id: ID!, input: Input!, o: OtherEnum!): QueryResponse
           }
           
           type QueryResponse {
@@ -50,8 +50,8 @@ void main() {
 }
 
 const query = r'''
-  query custom($input: Input!, $o: OtherEnum!) {
-    q(input: $input, o: $o) {
+  query custom($_id: ID!, $input: Input!, $o: OtherEnum!) {
+    q(_id: $_id, input: $input, o: $o) {
       s
       my
       other
@@ -66,28 +66,14 @@ final LibraryDefinition libraryDefinition =
       operationName: r'custom',
       classes: [
         EnumDefinition(name: EnumName(name: r'MyEnum'), values: [
-          EnumValueDefinition(
-            name: EnumValueName(name: r'A'),
-          ),
-          EnumValueDefinition(
-            name: EnumValueName(name: r'B'),
-          ),
-          EnumValueDefinition(
-              name: EnumValueName(
-            name: r'ARTEMIS_UNKNOWN',
-          ))
+          EnumValueDefinition(name: EnumValueName(name: r'A')),
+          EnumValueDefinition(name: EnumValueName(name: r'B')),
+          EnumValueDefinition(name: EnumValueName(name: r'ARTEMIS_UNKNOWN'))
         ]),
         EnumDefinition(name: EnumName(name: r'OtherEnum'), values: [
-          EnumValueDefinition(
-            name: EnumValueName(name: r'O1'),
-          ),
-          EnumValueDefinition(
-            name: EnumValueName(name: r'O2'),
-          ),
-          EnumValueDefinition(
-              name: EnumValueName(
-            name: r'ARTEMIS_UNKNOWN',
-          ))
+          EnumValueDefinition(name: EnumValueName(name: r'O1')),
+          EnumValueDefinition(name: EnumValueName(name: r'O2')),
+          EnumValueDefinition(name: EnumValueName(name: r'ARTEMIS_UNKNOWN'))
         ]),
         ClassDefinition(
             name: ClassName(name: r'Custom$_QueryRoot$_QueryResponse'),
@@ -146,6 +132,11 @@ final LibraryDefinition libraryDefinition =
             isInput: true)
       ],
       inputs: [
+        QueryInput(
+            type: TypeName(name: r'String'),
+            name: QueryInputName(name: r'_id'),
+            isNonNull: true,
+            annotations: [r'''JsonKey(name: '_id')''']),
         QueryInput(
             type: TypeName(name: r'Input'),
             name: QueryInputName(name: r'input'),
@@ -238,11 +229,14 @@ enum OtherEnum {
 
 @JsonSerializable(explicitToJson: true)
 class CustomArguments extends JsonSerializable with EquatableMixin {
-  CustomArguments({@required this.input, @required this.o});
+  CustomArguments({@required this.$id, @required this.input, @required this.o});
 
   @override
   factory CustomArguments.fromJson(Map<String, dynamic> json) =>
       _$CustomArgumentsFromJson(json);
+
+  @JsonKey(name: '_id')
+  final String $id;
 
   final Input input;
 
@@ -250,7 +244,7 @@ class CustomArguments extends JsonSerializable with EquatableMixin {
   final OtherEnum o;
 
   @override
-  List<Object> get props => [input, o];
+  List<Object> get props => [$id, input, o];
   @override
   Map<String, dynamic> toJson() => _$CustomArgumentsToJson(this);
 }
@@ -264,6 +258,11 @@ class CustomQuery extends GraphQLQuery<Custom$QueryRoot, CustomArguments> {
         type: OperationType.query,
         name: NameNode(value: 'custom'),
         variableDefinitions: [
+          VariableDefinitionNode(
+              variable: VariableNode(name: NameNode(value: '_id')),
+              type: NamedTypeNode(name: NameNode(value: 'ID'), isNonNull: true),
+              defaultValue: DefaultValueNode(value: null),
+              directives: []),
           VariableDefinitionNode(
               variable: VariableNode(name: NameNode(value: 'input')),
               type: NamedTypeNode(
@@ -283,6 +282,9 @@ class CustomQuery extends GraphQLQuery<Custom$QueryRoot, CustomArguments> {
               name: NameNode(value: 'q'),
               alias: null,
               arguments: [
+                ArgumentNode(
+                    name: NameNode(value: '_id'),
+                    value: VariableNode(name: NameNode(value: '_id'))),
                 ArgumentNode(
                     name: NameNode(value: 'input'),
                     value: VariableNode(name: NameNode(value: 'input'))),

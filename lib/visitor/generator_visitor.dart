@@ -188,6 +188,12 @@ class GeneratorVisitor extends RecursiveVisitor {
       }
     }
 
+    final inputName = QueryInputName(name: node.variable.name.value);
+
+    if (inputName.namePrintable != inputName.name) {
+      jsonKeyAnnotation['name'] = '\'${inputName.name}\'';
+    }
+
     var annotations = <String>[];
 
     if (jsonKeyAnnotation.isNotEmpty) {
@@ -199,7 +205,7 @@ class GeneratorVisitor extends RecursiveVisitor {
 
     context.inputsClasses.add(QueryInput(
       type: dartTypeName,
-      name: QueryInputName(name: node.variable.name.value),
+      name: inputName,
       isNonNull: node.type.isNonNull,
       annotations: annotations,
     ));
