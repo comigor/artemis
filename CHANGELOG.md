@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.13.1-beta.1
+- input underscore bugfix https://github.com/comigor/artemis/issues/223
+
 ## 6.12.3-beta.2
 - Subscription test added
 
