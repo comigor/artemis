@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.16.1-beta.1
+- simple naming schema fix https://github.com/comigor/artemis/issues/226
+
 ## 6.15.1-beta.1
 - Override annotation fix
 
