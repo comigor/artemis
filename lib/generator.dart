@@ -270,10 +270,7 @@ ClassProperty createClassProperty({
     return ClassProperty(
       type: TypeName(name: 'String'),
       name: fieldName,
-      annotations: [
-        'override',
-        'JsonKey(name: \'${context.schemaMap.typeNameField}\')'
-      ],
+      annotations: ['JsonKey(name: \'${context.schemaMap.typeNameField}\')'],
       isResolveType: true,
     );
   }

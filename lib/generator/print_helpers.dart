@@ -66,7 +66,9 @@ Method _propsMethod(String body) {
 
 /// Generates a [Spec] of a single class definition.
 Spec classDefinitionToSpec(
-    ClassDefinition definition, Iterable<FragmentClassDefinition> fragments) {
+    ClassDefinition definition,
+    Iterable<FragmentClassDefinition> fragments,
+    Iterable<ClassDefinition> classes) {
   final fromJson = definition.factoryPossibilities.isNotEmpty
       ? Constructor(
           (b) => b
@@ -119,6 +121,9 @@ Spec classDefinitionToSpec(
       .expand((i) => i)
       .followedBy(definition.properties.map((p) => p.name.namePrintable));
 
+  final extendedClass = classes
+      .firstWhere((e) => e.name == definition.extension, orElse: () => null);
+
   return Class(
     (b) => b
       ..annotations
@@ -156,6 +161,12 @@ Spec classDefinitionToSpec(
       ..constructors.add(fromJson)
       ..methods.add(toJson)
       ..fields.addAll(definition.properties.map((p) {
+        if (extendedClass != null &&
+            extendedClass.properties.any((e) => e == p)) {
+          // if class has the same prop as in extension
+          p.annotations.add('override');
+        }
+
         final field = Field(
           (f) => f
             ..name = p.name.namePrintable
@@ -364,8 +375,8 @@ Spec generateLibrarySpec(LibraryDefinition definition) {
   final enums = uniqueDefinitions.whereType<EnumDefinition>();
 
   bodyDirectives.addAll(fragments.map(fragmentClassDefinitionToSpec));
-  bodyDirectives
-      .addAll(classes.map((cDef) => classDefinitionToSpec(cDef, fragments)));
+  bodyDirectives.addAll(
+      classes.map((cDef) => classDefinitionToSpec(cDef, fragments, classes)));
   bodyDirectives.addAll(enums.map(enumDefinitionToSpec));
 
   for (final queryDef in definition.queries) {
