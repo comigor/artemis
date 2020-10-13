@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.15.1-beta.1
+- Override annotation fix
+
 ## 6.14.1-beta.1
 - Package updates
 

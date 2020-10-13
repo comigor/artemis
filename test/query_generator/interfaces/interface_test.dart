@@ -121,10 +121,7 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'__typename'),
-                  annotations: [
-                    r'override',
-                    r'''JsonKey(name: '__typename')'''
-                  ],
+                  annotations: [r'''JsonKey(name: '__typename')'''],
                   isNonNull: false,
                   isResolveType: true)
             ],
@@ -247,7 +244,6 @@ class Custom$Query$Node with EquatableMixin {
 
   String id;
 
-  @override
   @JsonKey(name: '__typename')
   String $$typename;
 

@@ -30,6 +30,7 @@ final String query = r'''
         _a_a
         _a_a_
         _new
+        __typename,
       }, 
       ... on TypeB { 
         b
@@ -39,6 +40,7 @@ final String query = r'''
         _b_b_
         new
         IN
+        __typename,
       } 
     } 
   }
@@ -118,7 +120,13 @@ final LibraryDefinition libraryDefinition =
                   name: ClassPropertyName(name: r'_new'),
                   annotations: [r'''JsonKey(name: '_new')'''],
                   isNonNull: false,
-                  isResolveType: false)
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'__typename'),
+                  annotations: [r'''JsonKey(name: '__typename')'''],
+                  isNonNull: false,
+                  isResolveType: true)
             ],
             extension: ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion'),
             factoryPossibilities: {},
@@ -167,7 +175,13 @@ final LibraryDefinition libraryDefinition =
                   name: ClassPropertyName(name: r'IN'),
                   annotations: [r'''JsonKey(name: 'IN')'''],
                   isNonNull: false,
-                  isResolveType: false)
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'__typename'),
+                  annotations: [r'''JsonKey(name: '__typename')'''],
+                  isNonNull: false,
+                  isResolveType: true)
             ],
             extension: ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion'),
             factoryPossibilities: {},
@@ -179,10 +193,7 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'__typename'),
-                  annotations: [
-                    r'override',
-                    r'''JsonKey(name: '__typename')'''
-                  ],
+                  annotations: [r'''JsonKey(name: '__typename')'''],
                   isNonNull: false,
                   isResolveType: true)
             ],
@@ -244,8 +255,12 @@ class SomeQuery$SomeObject$SomeUnion$TypeA
   @JsonKey(name: '_new')
   String $new;
 
+  @JsonKey(name: '__typename')
   @override
-  List<Object> get props => [a, $, $a, $aA, $aA_, $new];
+  String $$typename;
+
+  @override
+  List<Object> get props => [a, $, $a, $aA, $aA_, $new, $$typename];
   Map<String, dynamic> toJson() =>
       _$SomeQuery$SomeObject$SomeUnion$TypeAToJson(this);
 }
@@ -279,8 +294,12 @@ class SomeQuery$SomeObject$SomeUnion$TypeB
   @JsonKey(name: 'IN')
   String kw$IN;
 
+  @JsonKey(name: '__typename')
   @override
-  List<Object> get props => [b, $, $b, $bB, $bB_, kw$new, kw$IN];
+  String $$typename;
+
+  @override
+  List<Object> get props => [b, $, $b, $bB, $bB_, kw$new, kw$IN, $$typename];
   Map<String, dynamic> toJson() =>
       _$SomeQuery$SomeObject$SomeUnion$TypeBToJson(this);
 }
@@ -300,7 +319,6 @@ class SomeQuery$SomeObject$SomeUnion with EquatableMixin {
     return _$SomeQuery$SomeObject$SomeUnionFromJson(json);
   }
 
-  @override
   @JsonKey(name: '__typename')
   String $$typename;
 

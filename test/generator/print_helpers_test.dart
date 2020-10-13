@@ -133,11 +133,13 @@ void main() {
     test('It will throw if name is null or empty.', () {
       expect(
           () => classDefinitionToSpec(
-              ClassDefinition(name: null, properties: []), []),
+              ClassDefinition(name: null, properties: []), [], []),
           throwsA(TypeMatcher<AssertionError>()));
       expect(
           () => classDefinitionToSpec(
-              ClassDefinition(name: ClassName(name: ''), properties: []), []),
+              ClassDefinition(name: ClassName(name: ''), properties: []),
+              [],
+              []),
           throwsA(TypeMatcher<AssertionError>()));
     });
 
@@ -145,7 +147,7 @@ void main() {
       final definition =
           ClassDefinition(name: ClassName(name: 'AClass'), properties: []);
 
-      final str = specToString(classDefinitionToSpec(definition, []));
+      final str = specToString(classDefinitionToSpec(definition, [], []));
 
       expect(str, '''@JsonSerializable(explicitToJson: true)
 class AClass with EquatableMixin {
@@ -166,7 +168,7 @@ class AClass with EquatableMixin {
           properties: [],
           extension: ClassName(name: 'AnotherClass'));
 
-      final str = specToString(classDefinitionToSpec(definition, []));
+      final str = specToString(classDefinitionToSpec(definition, [], []));
 
       expect(str, '''@JsonSerializable(explicitToJson: true)
 class AClass extends AnotherClass with EquatableMixin {
@@ -194,7 +196,7 @@ class AClass extends AnotherClass with EquatableMixin {
         typeNameField: TypeName(name: '__typename'),
       );
 
-      final str = specToString(classDefinitionToSpec(definition, []));
+      final str = specToString(classDefinitionToSpec(definition, [], []));
 
       expect(str, r'''@JsonSerializable(explicitToJson: true)
 class AClass with EquatableMixin {
@@ -238,7 +240,7 @@ class AClass with EquatableMixin {
             name: ClassPropertyName(name: 'anotherName')),
       ]);
 
-      final str = specToString(classDefinitionToSpec(definition, []));
+      final str = specToString(classDefinitionToSpec(definition, [], []));
 
       expect(str, '''@JsonSerializable(explicitToJson: true)
 class AClass with EquatableMixin {
@@ -266,7 +268,7 @@ class AClass with EquatableMixin {
             type: TypeName(name: 'Type'),
             name: ClassPropertyName(name: 'name')),
         ClassProperty(
-            type: TypeName(name: 'AnnotedProperty'),
+            type: TypeName(name: 'AnnotatedProperty'),
             name: ClassPropertyName(name: 'name'),
             annotations: ['Hey()']),
         ClassProperty(
@@ -279,7 +281,7 @@ class AClass with EquatableMixin {
             annotations: ['override', 'Ho()']),
       ]);
 
-      final str = specToString(classDefinitionToSpec(definition, []));
+      final str = specToString(classDefinitionToSpec(definition, [], []));
 
       expect(str, '''@JsonSerializable(explicitToJson: true)
 class AClass with EquatableMixin {
@@ -290,7 +292,7 @@ class AClass with EquatableMixin {
   Type name;
 
   @Hey()
-  AnnotedProperty name;
+  AnnotatedProperty name;
 
   @override
   OverridenProperty name;
@@ -322,7 +324,7 @@ class AClass with EquatableMixin {
                   type: TypeName(name: 'Type'),
                   name: ClassPropertyName(name: 'name')),
             ])
-      ]));
+      ], []));
 
       expect(str, '''@JsonSerializable(explicitToJson: true)
 class AClass with EquatableMixin, FragmentMixin {
@@ -353,7 +355,7 @@ class AClass with EquatableMixin, FragmentMixin {
         isInput: true,
       );
 
-      final str = specToString(classDefinitionToSpec(definition, []));
+      final str = specToString(classDefinitionToSpec(definition, [], []));
 
       expect(str, '''@JsonSerializable(explicitToJson: true)
 class AClass with EquatableMixin {
