@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.16.1-beta.1
+- coercers for nullable scalars fix
+
 ## 6.15.1-beta.1
 - Override annotation fix
 

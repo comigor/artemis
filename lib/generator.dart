@@ -353,6 +353,9 @@ Make sure your query is correct and your schema is updated.''');
                   dartType: false, schema: context.schema)
               .dartTypeSafe);
       final dartTypeSafeStr = TypeName(name: dartTypeName.dartTypeSafe);
+      if (!fieldType.isNonNull) {
+        jsonKeyAnnotation['nullable'] = 'true';
+      }
       jsonKeyAnnotation['fromJson'] =
           'fromGraphQL${graphqlTypeSafeStr.namePrintable}ToDart${dartTypeSafeStr.namePrintable}';
       jsonKeyAnnotation['toJson'] =

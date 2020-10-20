@@ -28,6 +28,7 @@ void main() {
 
           input Input {
             id: MyUuid!
+            idNullable: MyUuid
           }
           ''',
         libraryDefinition: libraryDefinition,
@@ -99,6 +100,14 @@ final LibraryDefinition libraryDefinition =
                     r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid)'
                   ],
                   isNonNull: true,
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(name: r'MyUuid'),
+                  name: ClassPropertyName(name: r'idNullable'),
+                  annotations: [
+                    r'JsonKey(nullable: true, fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid)'
+                  ],
+                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -175,7 +184,7 @@ class Custom$MutationRoot with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class Input with EquatableMixin {
-  Input({@required this.id});
+  Input({@required this.id, this.idNullable});
 
   factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
 
@@ -184,8 +193,14 @@ class Input with EquatableMixin {
       toJson: fromDartMyUuidToGraphQLMyUuid)
   MyUuid id;
 
+  @JsonKey(
+      nullable: true,
+      fromJson: fromGraphQLMyUuidToDartMyUuid,
+      toJson: fromDartMyUuidToGraphQLMyUuid)
+  MyUuid idNullable;
+
   @override
-  List<Object> get props => [id];
+  List<Object> get props => [id, idNullable];
   Map<String, dynamic> toJson() => _$InputToJson(this);
 }
 
