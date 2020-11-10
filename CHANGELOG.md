@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.17.1-beta.1
+- package updates and one test fix
+
 ## 6.16.1-beta.1
 - simple naming schema fix https://github.com/comigor/artemis/issues/226
 
