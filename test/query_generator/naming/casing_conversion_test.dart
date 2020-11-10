@@ -20,6 +20,7 @@ void main() {
               SCREAMING_SNAKE_CASE_FIELD
               e
             }
+            
           }''',
         schema: r'''
           type Query {
@@ -105,7 +106,7 @@ final LibraryDefinition libraryDefinition =
           EnumValueDefinition(name: EnumValueName(name: r'ARTEMIS_UNKNOWN'))
         ]),
         ClassDefinition(
-            name: ClassName(name: r'SomeQuery$_Query$_SomeObject'),
+            name: ClassName(name: r'SomeObject'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'CamelCaseType'),
@@ -217,11 +218,11 @@ import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery$Query$SomeObject with EquatableMixin {
-  SomeQuery$Query$SomeObject();
+class SomeObject with EquatableMixin {
+  SomeObject();
 
-  factory SomeQuery$Query$SomeObject.fromJson(Map<String, dynamic> json) =>
-      _$SomeQuery$Query$SomeObjectFromJson(json);
+  factory SomeObject.fromJson(Map<String, dynamic> json) =>
+      _$SomeObjectFromJson(json);
 
   CamelCaseType camelCaseField;
 
@@ -245,7 +246,7 @@ class SomeQuery$Query$SomeObject with EquatableMixin {
         screamingSnakeCaseField,
         e
       ];
-  Map<String, dynamic> toJson() => _$SomeQuery$Query$SomeObjectToJson(this);
+  Map<String, dynamic> toJson() => _$SomeObjectToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
