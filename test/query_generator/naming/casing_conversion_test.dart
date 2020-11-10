@@ -93,28 +93,19 @@ void main() {
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      name: QueryName(name: r'Query'),
+      name: QueryName(name: r'SomeQuery$_Query'),
       operationName: r'some_query',
       classes: [
         EnumDefinition(name: EnumName(name: r'MyEnum'), values: [
+          EnumValueDefinition(name: EnumValueName(name: r'camelCase')),
+          EnumValueDefinition(name: EnumValueName(name: r'PascalCase')),
+          EnumValueDefinition(name: EnumValueName(name: r'snake_case')),
           EnumValueDefinition(
-            name: EnumValueName(name: r'camelCase'),
-          ),
-          EnumValueDefinition(
-            name: EnumValueName(name: r'PascalCase'),
-          ),
-          EnumValueDefinition(
-            name: EnumValueName(name: r'snake_case'),
-          ),
-          EnumValueDefinition(
-            name: EnumValueName(name: r'SCREAMING_SNAKE_CASE'),
-          ),
-          EnumValueDefinition(
-            name: EnumValueName(name: r'ARTEMIS_UNKNOWN'),
-          ),
+              name: EnumValueName(name: r'SCREAMING_SNAKE_CASE')),
+          EnumValueDefinition(name: EnumValueName(name: r'ARTEMIS_UNKNOWN'))
         ]),
         ClassDefinition(
-            name: ClassName(name: r'SomeObject'),
+            name: ClassName(name: r'SomeQuery$_Query$_SomeObject'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'CamelCaseType'),
@@ -154,7 +145,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: ClassName(name: r'Query'),
+            name: ClassName(name: r'SomeQuery$_Query'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'SomeObject'),
@@ -226,11 +217,11 @@ import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SomeObject with EquatableMixin {
-  SomeObject();
+class SomeQuery$Query$SomeObject with EquatableMixin {
+  SomeQuery$Query$SomeObject();
 
-  factory SomeObject.fromJson(Map<String, dynamic> json) =>
-      _$SomeObjectFromJson(json);
+  factory SomeQuery$Query$SomeObject.fromJson(Map<String, dynamic> json) =>
+      _$SomeQuery$Query$SomeObjectFromJson(json);
 
   CamelCaseType camelCaseField;
 
@@ -254,20 +245,21 @@ class SomeObject with EquatableMixin {
         screamingSnakeCaseField,
         e
       ];
-  Map<String, dynamic> toJson() => _$SomeObjectToJson(this);
+  Map<String, dynamic> toJson() => _$SomeQuery$Query$SomeObjectToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class Query with EquatableMixin {
-  Query();
+class SomeQuery$Query with EquatableMixin {
+  SomeQuery$Query();
 
-  factory Query.fromJson(Map<String, dynamic> json) => _$QueryFromJson(json);
+  factory SomeQuery$Query.fromJson(Map<String, dynamic> json) =>
+      _$SomeQuery$QueryFromJson(json);
 
   SomeObject query;
 
   @override
   List<Object> get props => [query];
-  Map<String, dynamic> toJson() => _$QueryToJson(this);
+  Map<String, dynamic> toJson() => _$SomeQuery$QueryToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -335,7 +327,7 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$SomeQueryArgumentsToJson(this);
 }
 
-class SomeQueryQuery extends GraphQLQuery<Query, SomeQueryArguments> {
+class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
   SomeQueryQuery({this.variables});
 
   @override
@@ -406,6 +398,7 @@ class SomeQueryQuery extends GraphQLQuery<Query, SomeQueryArguments> {
   @override
   List<Object> get props => [document, operationName, variables];
   @override
-  Query parse(Map<String, dynamic> json) => Query.fromJson(json);
+  SomeQuery$Query parse(Map<String, dynamic> json) =>
+      SomeQuery$Query.fromJson(json);
 }
 ''';
