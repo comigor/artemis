@@ -3,7 +3,6 @@
   <h1><b>Artemis</b></h1>
 </p>
 
-# :mega: [Use the latest `beta` version](https://github.com/comigor/artemis/tree/beta) :mega:
 **Build dart types from GraphQL schemas and queries**
 
 <!-- Badges -->
