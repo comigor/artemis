@@ -1,5 +1,7 @@
-import 'package:artemis/generator/data.dart';
-import 'package:gql/language.dart';
+// @dart = 2.8
+
+import 'package:artemis/generator/data/data.dart';
+import 'package:artemis/generator/data/enum_value_definition.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
@@ -49,46 +51,51 @@ const query = r'''
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      document: parseString(query),
-      queryName: r'some_query',
-      queryType: r'SomeQuery$Response',
+      name: QueryName(name: r'SomeQuery$_Response'),
+      operationName: r'some_query',
       classes: [
-        EnumDefinition(
-            name: r'SomeQuery$Response$SomeObject$ThisIsAnEnum',
-            values: [r'A', r'B', r'ARTEMIS_UNKNOWN']),
+        EnumDefinition(name: EnumName(name: r'MyEnum'), values: [
+          EnumValueDefinition(
+            name: EnumValueName(name: r'A'),
+          ),
+          EnumValueDefinition(
+            name: EnumValueName(name: r'B'),
+          ),
+          EnumValueDefinition(
+            name: EnumValueName(name: r'ARTEMIS_UNKNOWN'),
+          ),
+        ]),
         ClassDefinition(
-            name: r'SomeQuery$Response$SomeObject',
+            name: ClassName(name: r'SomeQuery$_Response$_SomeObject'),
             properties: [
               ClassProperty(
-                  type: r'SomeQuery$Response$SomeObject$ThisIsAnEnum',
-                  name: r'thisIsAnEnum',
-                  isOverride: false,
-                  annotation:
-                      r'JsonKey(unknownEnumValue: SomeQuery$Response$SomeObject$ThisIsAnEnum.ARTEMIS_UNKNOWN)',
+                  type: TypeName(name: r'MyEnum'),
+                  name: ClassPropertyName(name: r'thisIsAnEnum'),
+                  annotations: [
+                    r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
+                  ],
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'SomeQuery$Response',
+            name: ClassName(name: r'SomeQuery$_Response'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r'thisIsAString',
-                  isOverride: false,
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'thisIsAString'),
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
-                  type: r'SomeQuery$Response$SomeObject',
-                  name: r'o',
-                  isOverride: false,
+                  type: TypeName(name: r'SomeQuery$_Response$_SomeObject'),
+                  name: ClassPropertyName(name: r'o'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false)
       ],
       generateHelpers: false,
@@ -109,10 +116,8 @@ class SomeQuery$Response$SomeObject with EquatableMixin {
   factory SomeQuery$Response$SomeObject.fromJson(Map<String, dynamic> json) =>
       _$SomeQuery$Response$SomeObjectFromJson(json);
 
-  @JsonKey(
-      unknownEnumValue:
-          SomeQuery$Response$SomeObject$ThisIsAnEnum.ARTEMIS_UNKNOWN)
-  SomeQuery$Response$SomeObject$ThisIsAnEnum thisIsAnEnum;
+  @JsonKey(unknownEnumValue: MyEnum.artemisUnknown)
+  MyEnum thisIsAnEnum;
 
   @override
   List<Object> get props => [thisIsAnEnum];
@@ -135,9 +140,12 @@ class SomeQuery$Response with EquatableMixin {
   Map<String, dynamic> toJson() => _$SomeQuery$ResponseToJson(this);
 }
 
-enum SomeQuery$Response$SomeObject$ThisIsAnEnum {
-  A,
-  B,
-  ARTEMIS_UNKNOWN,
+enum MyEnum {
+  @JsonValue('A')
+  a,
+  @JsonValue('B')
+  b,
+  @JsonValue('ARTEMIS_UNKNOWN')
+  artemisUnknown,
 }
 ''';

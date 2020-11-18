@@ -1,4 +1,6 @@
-import 'package:artemis/generator/data.dart';
+// @dart = 2.8
+
+import 'package:artemis/generator/data/data.dart';
 import 'package:gql/language.dart';
 import 'package:test/test.dart';
 import 'package:artemis/generator/helpers.dart';
@@ -115,16 +117,25 @@ void main() {
         () {
       var input = [
         QueryDefinition(
-          queryName: 'some_query',
-          queryType: 'SomeQuery',
+          operationName: 'some_query',
+          name: QueryName(name: 'some_query'),
           document: parseString('query some_query {}'),
-          inputs: [QueryInput(type: 'Type', name: 'name', isNonNull: true)],
+          inputs: [
+            QueryInput(
+                type: TypeName(name: 'Type'),
+                name: QueryInputName(name: 'name'),
+                isNonNull: true)
+          ],
         ),
         QueryDefinition(
-          queryName: 'another_query',
-          queryType: 'AnotherQuery',
+          name: QueryName(name: 'another_query'),
+          operationName: 'another_query',
           document: parseString('query another_query {}'),
-          inputs: [QueryInput(type: 'Type', name: 'name')],
+          inputs: [
+            QueryInput(
+                type: TypeName(name: 'Type'),
+                name: QueryInputName(name: 'name'))
+          ],
         ),
       ];
       var result = hasNonNullableInput(input);
@@ -135,16 +146,24 @@ void main() {
     test('It will return `false` if there is no non nullable inputs', () {
       var input = [
         QueryDefinition(
-          queryName: 'some_query',
-          queryType: 'SomeQuery',
+          name: QueryName(name: 'some_query'),
+          operationName: 'some_query',
           document: parseString('query some_query {}'),
-          inputs: [QueryInput(type: 'Type', name: 'name')],
+          inputs: [
+            QueryInput(
+                type: TypeName(name: 'Type'),
+                name: QueryInputName(name: 'name'))
+          ],
         ),
         QueryDefinition(
-          queryName: 'another_query',
-          queryType: 'AnotherQuery',
+          name: QueryName(name: 'another_query'),
+          operationName: 'another_query',
           document: parseString('query another_query {}'),
-          inputs: [QueryInput(type: 'Type', name: 'name')],
+          inputs: [
+            QueryInput(
+                type: TypeName(name: 'Type'),
+                name: QueryInputName(name: 'name'))
+          ],
         ),
       ];
       var result = hasNonNullableInput(input);

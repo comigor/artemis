@@ -1,3 +1,5 @@
+// @dart = 2.8
+
 import 'package:gql_exec/gql_exec.dart';
 import 'package:meta/meta.dart';
 

@@ -1,7 +1,9 @@
-import 'package:artemis/generator/data.dart';
+// @dart = 2.8
+
+import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
-import '../helpers.dart';
+import '../../helpers.dart';
 
 void main() {
   group('On mutations', () {
@@ -24,6 +26,7 @@ void main() {
           
           input Input {
             s: String!
+            d: String @deprecated(reason: "deprecated input field")
           }
         ''',
         libraryDefinition: libraryDefinition,
@@ -42,55 +45,73 @@ mutation custom($input: Input!) {
 }
 ''';
 
-final LibraryDefinition libraryDefinition =
-    LibraryDefinition(basename: r'query.graphql', queries: [
-  QueryDefinition(
-      queryName: r'custom',
-      queryType: r'Custom$MutationRoot',
+final LibraryDefinition libraryDefinition = LibraryDefinition(
+  basename: r'query.graphql',
+  queries: [
+    QueryDefinition(
+      operationName: r'custom',
+      name: QueryName(name: r'Custom$_MutationRoot'),
       classes: [
         ClassDefinition(
-            name: r'Custom$MutationRoot$MutationResponse',
-            properties: [
-              ClassProperty(
-                  type: r'String',
-                  name: r's',
-                  isOverride: false,
-                  isNonNull: false)
-            ],
-            factoryPossibilities: {},
-            typeNameField: r'__typename',
-            isInput: false),
+          name: ClassName(name: r'Custom$_MutationRoot$_MutationResponse'),
+          properties: [
+            ClassProperty(
+              type: TypeName(name: r'String'),
+              name: ClassPropertyName(name: r's'),
+              isNonNull: false,
+            ),
+          ],
+          factoryPossibilities: {},
+          typeNameField: TypeName(name: r'__typename'),
+          isInput: false,
+        ),
         ClassDefinition(
-            name: r'Custom$MutationRoot',
-            properties: [
-              ClassProperty(
-                  type: r'Custom$MutationRoot$MutationResponse',
-                  name: r'mut',
-                  isOverride: false,
-                  isNonNull: false)
-            ],
-            factoryPossibilities: {},
-            typeNameField: r'__typename',
-            isInput: false),
+          name: ClassName(name: r'Custom$_MutationRoot'),
+          properties: [
+            ClassProperty(
+              type: TypeName(name: r'Custom$_MutationRoot$_MutationResponse'),
+              name: ClassPropertyName(name: r'mut'),
+              isNonNull: false,
+            ),
+          ],
+          factoryPossibilities: {},
+          typeNameField: TypeName(name: r'__typename'),
+          isInput: false,
+        ),
         ClassDefinition(
-            name: r'Custom$Input',
-            properties: [
-              ClassProperty(
-                  type: r'String',
-                  name: r's',
-                  isOverride: false,
-                  isNonNull: true)
-            ],
-            factoryPossibilities: {},
-            typeNameField: r'__typename',
-            isInput: true)
+          name: ClassName(name: r'Input'),
+          properties: [
+            ClassProperty(
+              type: TypeName(name: r'String'),
+              name: ClassPropertyName(name: r's'),
+              isNonNull: true,
+            ),
+            ClassProperty(
+              type: TypeName(name: r'String'),
+              name: ClassPropertyName(name: r'd'),
+              isNonNull: false,
+              annotations: [
+                r"Deprecated('deprecated input field')",
+              ],
+            ),
+          ],
+          factoryPossibilities: {},
+          typeNameField: TypeName(name: r'__typename'),
+          isInput: true,
+        ),
       ],
       inputs: [
-        QueryInput(type: r'Custom$Input', name: r'input', isNonNull: true)
+        QueryInput(
+          type: TypeName(name: r'Input'),
+          name: QueryInputName(name: r'input'),
+          isNonNull: true,
+        ),
       ],
       generateHelpers: true,
-      suffix: r'Mutation')
-]);
+      suffix: r'Mutation',
+    ),
+  ],
+);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
@@ -132,30 +153,34 @@ class Custom$MutationRoot with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class Custom$Input with EquatableMixin {
-  Custom$Input({@required this.s});
+class Input with EquatableMixin {
+  Input({@required this.s, this.d});
 
-  factory Custom$Input.fromJson(Map<String, dynamic> json) =>
-      _$Custom$InputFromJson(json);
+  factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
 
   String s;
 
+  @Deprecated('deprecated input field')
+  String d;
+
   @override
-  List<Object> get props => [s];
-  Map<String, dynamic> toJson() => _$Custom$InputToJson(this);
+  List<Object> get props => [s, d];
+  Map<String, dynamic> toJson() => _$InputToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
 class CustomArguments extends JsonSerializable with EquatableMixin {
   CustomArguments({@required this.input});
 
+  @override
   factory CustomArguments.fromJson(Map<String, dynamic> json) =>
       _$CustomArgumentsFromJson(json);
 
-  final Custom$Input input;
+  final Input input;
 
   @override
   List<Object> get props => [input];
+  @override
   Map<String, dynamic> toJson() => _$CustomArgumentsToJson(this);
 }
 

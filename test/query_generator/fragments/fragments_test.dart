@@ -1,4 +1,6 @@
-import 'package:artemis/generator/data.dart';
+// @dart = 2.8
+
+import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
@@ -37,25 +39,28 @@ void main() {
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      queryName: r'some_query',
-      queryType: r'SomeQuery$SomeObject',
+      name: QueryName(name: r'SomeQuery$_SomeObject'),
+      operationName: r'some_query',
       classes: [
         FragmentClassDefinition(
-            name: r'SomeQuery$MyFragmentMixin',
+            name: FragmentName(name: r'MyFragmentMixin'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r's',
-                  isOverride: false,
-                  isNonNull: false),
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r's'),
+                  isNonNull: false,
+                  isResolveType: false),
               ClassProperty(
-                  type: r'int', name: r'i', isOverride: false, isNonNull: false)
+                  type: TypeName(name: r'int'),
+                  name: ClassPropertyName(name: r'i'),
+                  isNonNull: false,
+                  isResolveType: false)
             ]),
         ClassDefinition(
-            name: r'SomeQuery$SomeObject',
-            mixins: [r'SomeQuery$MyFragmentMixin'],
+            name: ClassName(name: r'SomeQuery$_SomeObject'),
+            mixins: [FragmentName(name: r'MyFragmentMixin')],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false)
       ],
       generateHelpers: false,
@@ -69,13 +74,13 @@ import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
 
-mixin SomeQuery$MyFragmentMixin {
+mixin MyFragmentMixin {
   String s;
   int i;
 }
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery$SomeObject with EquatableMixin, SomeQuery$MyFragmentMixin {
+class SomeQuery$SomeObject with EquatableMixin, MyFragmentMixin {
   SomeQuery$SomeObject();
 
   factory SomeQuery$SomeObject.fromJson(Map<String, dynamic> json) =>

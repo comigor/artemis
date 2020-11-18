@@ -1,0 +1,36 @@
+name: "Run linter and tests on a Dart package"
+description: "Run linter and tests on a Dart package"
+inputs:
+  repo_token:
+    description: "Access token for sending errors as a PR message"
+    required: false
+  is_flutter:
+    description: "Run everything on Flutter context instead of Dart's"
+    required: false
+    default: "false"
+  disable_linter:
+    description: "Disable dry-run dartfmt linter check"
+    required: false
+    default: "false"
+  disable_analyzer:
+    description: "Disable dartanalyzer"
+    required: false
+    default: "false"
+  disable_tests:
+    description: "Disable pub run test"
+    required: false
+    default: "false"
+  exclude_regex:
+    description: "Regex to be used to exclude folders when looking for pubspec.yaml files"
+    required: false
+    default: "__________________"
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - "${{ inputs.repo_token }}"
+    - "${{ inputs.is_flutter }}"
+    - "${{ inputs.disable_linter }}"
+    - "${{ inputs.disable_analyzer }}"
+    - "${{ inputs.disable_tests }}"
+    - "${{ inputs.exclude_regex }}"

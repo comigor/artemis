@@ -3,7 +3,6 @@
   <h1><b>Artemis</b></h1>
 </p>
 
-# :mega: [Use the latest `beta` version](https://github.com/comigor/artemis/tree/beta) :mega:
 **Build dart types from GraphQL schemas and queries**
 
 <!-- Badges -->
@@ -14,7 +13,7 @@
 [![Fork on GitHub][github-forks-badge]][github-forks-link]
 [![Discord][discord-badge]][discord-link]
 
-[pub-badge]: https://img.shields.io/pub/v/artemis?include_prereleases&style=for-the-badge
+[pub-badge]: https://img.shields.io/pub/v/artemis?style=for-the-badge
 [pub-link]: https://pub.dev/packages/artemis
 
 [actions-badge]: https://img.shields.io/github/workflow/status/comigor/artemis/test?style=for-the-badge
@@ -42,18 +41,18 @@ Artemis is a code generator that looks for `schema.graphql` (GraphQL SDL - Schem
 Add the following to your `pubspec.yaml` file to be able to do code generation:
 ```yaml
 dev_dependencies:
-  artemis: '>=5.0.0 <6.0.0'
-  build_runner: ^1.5.0
-  json_serializable: ^3.0.0
+  artemis: '>=6.0.0 <7.0.0'
+  build_runner: ^1.10.4
+  json_serializable: ^3.5.0
 ```
 The generated code uses the following packages in run-time:
 ```yaml
 dependencies:
-  artemis: '>=5.0.0 <6.0.0' # only if you're using ArtemisClient!
-  json_serializable: ^3.0.0
-  equatable: ^0.6.1
+  artemis: '>=6.0.0 <7.0.0' # only if you're using ArtemisClient!
+  json_annotation: ^3.1.0
+  equatable: ^1.2.5
   meta: '>=1.0.0 <2.0.0' # only if you have non nullable fields
-  gql: '>=0.7.3 <1.0.0'
+  gql: '>=0.12.3 <1.0.0'
 ```
 
 Then run:
@@ -91,6 +90,7 @@ targets:
 | `scalar_mapping` | `[]` | Mapping of GraphQL and Dart types. See [Custom scalars](#custom-scalars). |
 | `schema_mapping` | `[]` | Mapping of queries and which schemas they will use for code generation. See [Schema mapping](#schema-mapping). |
 | `fragments_glob` | `null` | Import path to the file implementing fragments for all queries mapped in schema_mapping. If it's assigned, fragments defined in schema_mapping will be ignored. |
+| `ignore_for_file` | `[]`  | The linter rules to ignore for artemis generated files. |
 
 It's important to remember that, by default, [build](https://github.com/dart-lang/build) will follow [Dart's package layout conventions](https://dart.dev/tools/pub/package-layout), meaning that only some folders will be considered to parse the input files. So, if you want to reference files from a folder other than `lib/`, make sure you've included it on `sources`:
 ```yaml
@@ -125,6 +125,7 @@ Each `SchemaMap` is configured this way:
 | `output` |  | Relative path to output the generated code. It should end with `.graphql.dart` or else the generator will need to generate one more file. |
 | `schema` |  | Relative path to the GraphQL schema. |
 | `queries_glob` |  | Glob that selects all query files to be used with this schema. |
+| `naming_scheme` | `pathedWithTypes` | The naming scheme to be used on generated classes names. `pathedWithTypes` is the default for retrocompatibility, where the names of previous types are used as prefix of the next class. This can generate duplication on certain schemas. With `pathedWithFields`, the names of previous fields are used as prefix of the next class and with `simple`, only the actual GraphQL class nameis considered. | 
 | `type_name_field` | `__typename` | The name of the field used to differentiatiate interfaces and union types (commonly `__typename` or `__resolveType`). Note that `__typename` field are not added automatically to the query. If you want interface/union type resolution, you need to manually add it there. |
 
 See [examples](./example) for more information and configuration options.

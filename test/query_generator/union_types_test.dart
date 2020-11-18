@@ -1,5 +1,6 @@
-import 'package:artemis/generator/data.dart';
-import 'package:gql/language.dart';
+// @dart = 2.8
+
+import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -23,10 +24,23 @@ final String query = r'''
     o { 
       __typename, 
       ... on TypeA { 
-        a 
+        a
+        _
+        _a
+        _a_a
+        _a_a_
+        _new
+        __typename,
       }, 
       ... on TypeB { 
-        b 
+        b
+        _
+        _b
+        _b_b
+        _b_b_
+        new
+        IN
+        __typename,
       } 
     } 
   }
@@ -45,77 +59,163 @@ final String graphQLSchema = '''
   
   type TypeA {
     a: Int
+    _: String
+    _a: String
+    _a_a: String
+    _a_a_: String
+    _new: String    
   }
   
   type TypeB {
     b: Int
+    _: String
+    _b: String
+    _b_b: String
+    _b_b_: String
+    new: String
+    IN: String
   }
 ''';
 
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      document: parseString(query),
-      queryName: r'some_query',
-      queryType: r'SomeQuery$SomeObject',
+      name: QueryName(name: r'SomeQuery$_SomeObject'),
+      operationName: r'some_query',
       classes: [
         ClassDefinition(
-            name: r'SomeQuery$SomeObject$SomeUnion$TypeA',
+            name: ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion$_TypeA'),
             properties: [
               ClassProperty(
-                  type: r'int',
-                  name: r'a',
-                  isOverride: false,
+                  type: TypeName(name: r'int'),
+                  name: ClassPropertyName(name: r'a'),
                   isNonNull: false,
-                  isResolveType: false)
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'_'),
+                  annotations: [r'''JsonKey(name: '_')'''],
+                  isNonNull: false,
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'_a'),
+                  annotations: [r'''JsonKey(name: '_a')'''],
+                  isNonNull: false,
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'_a_a'),
+                  annotations: [r'''JsonKey(name: '_a_a')'''],
+                  isNonNull: false,
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'_a_a_'),
+                  annotations: [r'''JsonKey(name: '_a_a_')'''],
+                  isNonNull: false,
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'_new'),
+                  annotations: [r'''JsonKey(name: '_new')'''],
+                  isNonNull: false,
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'__typename'),
+                  annotations: [r'''JsonKey(name: '__typename')'''],
+                  isNonNull: false,
+                  isResolveType: true)
             ],
-            extension: r'SomeQuery$SomeObject$SomeUnion',
+            extension: ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion'),
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'SomeQuery$SomeObject$SomeUnion$TypeB',
+            name: ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion$_TypeB'),
             properties: [
               ClassProperty(
-                  type: r'int',
-                  name: r'b',
-                  isOverride: false,
+                  type: TypeName(name: r'int'),
+                  name: ClassPropertyName(name: r'b'),
                   isNonNull: false,
-                  isResolveType: false)
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'_'),
+                  annotations: [r'''JsonKey(name: '_')'''],
+                  isNonNull: false,
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'_b'),
+                  annotations: [r'''JsonKey(name: '_b')'''],
+                  isNonNull: false,
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'_b_b'),
+                  annotations: [r'''JsonKey(name: '_b_b')'''],
+                  isNonNull: false,
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'_b_b_'),
+                  annotations: [r'''JsonKey(name: '_b_b_')'''],
+                  isNonNull: false,
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'new'),
+                  annotations: [r'''JsonKey(name: 'new')'''],
+                  isNonNull: false,
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'IN'),
+                  annotations: [r'''JsonKey(name: 'IN')'''],
+                  isNonNull: false,
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'__typename'),
+                  annotations: [r'''JsonKey(name: '__typename')'''],
+                  isNonNull: false,
+                  isResolveType: true)
             ],
-            extension: r'SomeQuery$SomeObject$SomeUnion',
+            extension: ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion'),
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'SomeQuery$SomeObject$SomeUnion',
+            name: ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r'typeName',
-                  isOverride: true,
-                  annotation: r'''JsonKey(name: '__typename')''',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'__typename'),
+                  annotations: [r'''JsonKey(name: '__typename')'''],
                   isNonNull: false,
                   isResolveType: true)
             ],
             factoryPossibilities: {
-              r'TypeA': r'SomeQuery$SomeObject$SomeUnion$TypeA',
-              r'TypeB': r'SomeQuery$SomeObject$SomeUnion$TypeB'
+              r'TypeA':
+                  ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion$_TypeA'),
+              r'TypeB':
+                  ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion$_TypeB')
             },
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'SomeQuery$SomeObject',
+            name: ClassName(name: r'SomeQuery$_SomeObject'),
             properties: [
               ClassProperty(
-                  type: r'SomeQuery$SomeObject$SomeUnion',
-                  name: r'o',
-                  isOverride: false,
+                  type: TypeName(name: r'SomeQuery$_SomeObject$_SomeUnion'),
+                  name: ClassPropertyName(name: r'o'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false)
       ],
       generateHelpers: false,
@@ -140,8 +240,27 @@ class SomeQuery$SomeObject$SomeUnion$TypeA
 
   int a;
 
+  @JsonKey(name: '_')
+  String $;
+
+  @JsonKey(name: '_a')
+  String $a;
+
+  @JsonKey(name: '_a_a')
+  String $aA;
+
+  @JsonKey(name: '_a_a_')
+  String $aA_;
+
+  @JsonKey(name: '_new')
+  String $new;
+
+  @JsonKey(name: '__typename')
   @override
-  List<Object> get props => [a];
+  String $$typename;
+
+  @override
+  List<Object> get props => [a, $, $a, $aA, $aA_, $new, $$typename];
   Map<String, dynamic> toJson() =>
       _$SomeQuery$SomeObject$SomeUnion$TypeAToJson(this);
 }
@@ -157,8 +276,30 @@ class SomeQuery$SomeObject$SomeUnion$TypeB
 
   int b;
 
+  @JsonKey(name: '_')
+  String $;
+
+  @JsonKey(name: '_b')
+  String $b;
+
+  @JsonKey(name: '_b_b')
+  String $bB;
+
+  @JsonKey(name: '_b_b_')
+  String $bB_;
+
+  @JsonKey(name: 'new')
+  String kw$new;
+
+  @JsonKey(name: 'IN')
+  String kw$IN;
+
+  @JsonKey(name: '__typename')
   @override
-  List<Object> get props => [b];
+  String $$typename;
+
+  @override
+  List<Object> get props => [b, $, $b, $bB, $bB_, kw$new, kw$IN, $$typename];
   Map<String, dynamic> toJson() =>
       _$SomeQuery$SomeObject$SomeUnion$TypeBToJson(this);
 }
@@ -178,14 +319,13 @@ class SomeQuery$SomeObject$SomeUnion with EquatableMixin {
     return _$SomeQuery$SomeObject$SomeUnionFromJson(json);
   }
 
-  @override
   @JsonKey(name: '__typename')
-  String typeName;
+  String $$typename;
 
   @override
-  List<Object> get props => [typeName];
+  List<Object> get props => [$$typename];
   Map<String, dynamic> toJson() {
-    switch (typeName) {
+    switch ($$typename) {
       case r'TypeA':
         return (this as SomeQuery$SomeObject$SomeUnion$TypeA).toJson();
       case r'TypeB':

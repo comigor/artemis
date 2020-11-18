@@ -32,12 +32,8 @@ EdSheeran$Query$Node$Artist$ReleaseConnection$Release
                 e as Map<String, dynamic>))
         ?.toList()
     ..id = json['id'] as String
-    ..status = _$enumDecodeNullable(
-        _$EdSheeran$Query$Node$Artist$ReleaseConnection$Release$ReleaseStatusEnumMap,
-        json['status'],
-        unknownValue:
-            EdSheeran$Query$Node$Artist$ReleaseConnection$Release$ReleaseStatus
-                .ARTEMIS_UNKNOWN);
+    ..status = _$enumDecodeNullable(_$ReleaseStatusEnumMap, json['status'],
+        unknownValue: ReleaseStatus.ARTEMIS_UNKNOWN);
 }
 
 Map<String, dynamic>
@@ -52,9 +48,7 @@ Map<String, dynamic>
           'spotify': instance.spotify?.toJson(),
           'nodes': instance.nodes?.map((e) => e?.toJson())?.toList(),
           'id': instance.id,
-          'status':
-              _$EdSheeran$Query$Node$Artist$ReleaseConnection$Release$ReleaseStatusEnumMap[
-                  instance.status],
+          'status': _$ReleaseStatusEnumMap[instance.status],
         };
 
 T _$enumDecode<T>(
@@ -89,18 +83,12 @@ T _$enumDecodeNullable<T>(
   return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
 }
 
-const _$EdSheeran$Query$Node$Artist$ReleaseConnection$Release$ReleaseStatusEnumMap =
-    {
-  EdSheeran$Query$Node$Artist$ReleaseConnection$Release$ReleaseStatus.OFFICIAL:
-      'OFFICIAL',
-  EdSheeran$Query$Node$Artist$ReleaseConnection$Release$ReleaseStatus.PROMOTION:
-      'PROMOTION',
-  EdSheeran$Query$Node$Artist$ReleaseConnection$Release$ReleaseStatus.BOOTLEG:
-      'BOOTLEG',
-  EdSheeran$Query$Node$Artist$ReleaseConnection$Release$ReleaseStatus
-      .PSEUDORELEASE: 'PSEUDORELEASE',
-  EdSheeran$Query$Node$Artist$ReleaseConnection$Release$ReleaseStatus
-      .ARTEMIS_UNKNOWN: 'ARTEMIS_UNKNOWN',
+const _$ReleaseStatusEnumMap = {
+  ReleaseStatus.OFFICIAL: 'OFFICIAL',
+  ReleaseStatus.PROMOTION: 'PROMOTION',
+  ReleaseStatus.BOOTLEG: 'BOOTLEG',
+  ReleaseStatus.PSEUDORELEASE: 'PSEUDORELEASE',
+  ReleaseStatus.ARTEMIS_UNKNOWN: 'ARTEMIS_UNKNOWN',
 };
 
 EdSheeran$Query$Node$Artist$ReleaseConnection

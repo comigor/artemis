@@ -1,4 +1,6 @@
-import 'package:artemis/generator/data.dart';
+// @dart = 2.8
+
+import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -32,30 +34,48 @@ void main() {
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      queryName: r'some_query',
-      queryType: r'SomeQuery$SomeObject',
+      name: QueryName(name: r'SomeQuery$_SomeObject'),
+      operationName: r'some_query',
       classes: [
         ClassDefinition(
-            name: r'SomeQuery$SomeObject',
+            name: ClassName(name: r'SomeQuery$_SomeObject'),
             properties: [
-              ClassProperty(type: r'String', name: r's', isOverride: false),
-              ClassProperty(type: r'int', name: r'i', isOverride: false)
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r's'),
+                  isNonNull: false,
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(name: r'int'),
+                  name: ClassPropertyName(name: r'i'),
+                  isNonNull: false,
+                  isResolveType: false)
             ],
-            typeNameField: r'__typename')
+            factoryPossibilities: {},
+            typeNameField: TypeName(name: r'__typename'),
+            isInput: false)
       ],
-      generateHelpers: false),
+      generateHelpers: false,
+      suffix: r'Query'),
   QueryDefinition(
-      queryName: r'another_query',
-      queryType: r'AnotherQuery$SomeObject',
+      name: QueryName(name: r'AnotherQuery$_SomeObject'),
+      operationName: r'another_query',
       classes: [
         ClassDefinition(
-            name: r'AnotherQuery$SomeObject',
+            name: ClassName(name: r'AnotherQuery$_SomeObject'),
             properties: [
-              ClassProperty(type: r'String', name: r's', isOverride: false)
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r's'),
+                  isNonNull: false,
+                  isResolveType: false)
             ],
-            typeNameField: r'__typename')
+            factoryPossibilities: {},
+            typeNameField: TypeName(name: r'__typename'),
+            isInput: false)
       ],
-      generateHelpers: false)
+      generateHelpers: false,
+      suffix: r'Query')
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND

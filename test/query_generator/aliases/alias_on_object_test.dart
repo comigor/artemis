@@ -1,5 +1,6 @@
-import 'package:artemis/generator/data.dart';
-import 'package:gql/language.dart';
+// @dart = 2.8
+
+import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
@@ -48,55 +49,55 @@ const query = r'''
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      document: parseString(query),
-      queryName: r'some_query',
-      queryType: r'SomeQuery$QueryResponse',
+      name: QueryName(name: r'SomeQuery$_QueryResponse'),
+      operationName: r'some_query',
       classes: [
         ClassDefinition(
-            name: r'SomeQuery$QueryResponse$SomeObject',
+            name: ClassName(name: r'SomeQuery$_QueryResponse$_SomeObject'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r'st',
-                  isOverride: false,
-                  isNonNull: false)
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'st'),
+                  isNonNull: false,
+                  isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'SomeQuery$QueryResponse$AnotherObject',
+            name: ClassName(name: r'SomeQuery$_QueryResponse$_anotherObject'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r'str',
-                  isOverride: false,
-                  isNonNull: false)
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'str'),
+                  isNonNull: false,
+                  isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'SomeQuery$QueryResponse',
+            name: ClassName(name: r'SomeQuery$_QueryResponse'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r's',
-                  isOverride: false,
-                  isNonNull: false),
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r's'),
+                  isNonNull: false,
+                  isResolveType: false),
               ClassProperty(
-                  type: r'SomeQuery$QueryResponse$SomeObject',
-                  name: r'o',
-                  isOverride: false,
-                  isNonNull: false),
+                  type: TypeName(name: r'SomeQuery$_QueryResponse$_SomeObject'),
+                  name: ClassPropertyName(name: r'o'),
+                  isNonNull: false,
+                  isResolveType: false),
               ClassProperty(
-                  type: r'List<SomeQuery$QueryResponse$AnotherObject>',
-                  name: r'anotherObject',
-                  isOverride: false,
-                  isNonNull: false)
+                  type: TypeName(
+                      name: r'List<SomeQuery$QueryResponse$AnotherObject>'),
+                  name: ClassPropertyName(name: r'anotherObject'),
+                  isNonNull: false,
+                  isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false)
       ],
       generateHelpers: false,

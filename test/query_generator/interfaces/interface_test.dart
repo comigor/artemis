@@ -1,4 +1,6 @@
-import 'package:artemis/generator/data.dart';
+// @dart = 2.8
+
+import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
@@ -21,6 +23,7 @@ const query = r'''
   query custom($id: ID!) {
     nodeById(id: $id) {
       id
+      __typename
       ... on User {
         ...UserFrag
       }
@@ -71,95 +74,97 @@ final String graphQLSchema = r'''
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      queryName: r'custom',
-      queryType: r'Custom$Query',
+      name: QueryName(name: r'Custom$_Query'),
+      operationName: r'custom',
       classes: [
         ClassDefinition(
-            name: r'Custom$Query$Node$User',
-            extension: r'Custom$Query$Node',
-            mixins: [r'Custom$UserFragMixin'],
+            name: ClassName(name: r'Custom$_Query$_Node$_User'),
+            extension: ClassName(name: r'Custom$_Query$_Node'),
+            mixins: [FragmentName(name: r'UserFragMixin')],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'Custom$Query$Node$ChatMessage$User',
-            extension: r'Custom$Query$Node$ChatMessage',
-            mixins: [r'Custom$UserFragMixin'],
+            name: ClassName(name: r'Custom$_Query$_Node$_ChatMessage$_User'),
+            extension: ClassName(name: r'Custom$_Query$_Node$_ChatMessage'),
+            mixins: [FragmentName(name: r'UserFragMixin')],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'Custom$Query$Node$ChatMessage',
+            name: ClassName(name: r'Custom$_Query$_Node$_ChatMessage'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r'message',
-                  isOverride: false,
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'message'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: r'Custom$Query$Node$ChatMessage$User',
-                  name: r'user',
-                  isOverride: false,
+                  type:
+                      TypeName(name: r'Custom$_Query$_Node$_ChatMessage$_User'),
+                  name: ClassPropertyName(name: r'user'),
                   isNonNull: true,
                   isResolveType: false)
             ],
-            extension: r'Custom$Query$Node',
+            extension: ClassName(name: r'Custom$_Query$_Node'),
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'Custom$Query$Node',
+            name: ClassName(name: r'Custom$_Query$_Node'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r'id',
-                  isOverride: false,
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'id'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: r'String',
-                  name: r'typeName',
-                  isOverride: true,
-                  annotation: r'''JsonKey(name: '__typename')''',
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'__typename'),
+                  annotations: [r'''JsonKey(name: '__typename')'''],
                   isNonNull: false,
                   isResolveType: true)
             ],
             factoryPossibilities: {
-              r'User': r'Custom$Query$Node$User',
-              r'ChatMessage': r'Custom$Query$Node$ChatMessage'
+              r'User': ClassName(name: r'Custom$_Query$_Node$_User'),
+              r'ChatMessage':
+                  ClassName(name: r'Custom$_Query$_Node$_ChatMessage')
             },
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'Custom$Query',
+            name: ClassName(name: r'Custom$_Query'),
             properties: [
               ClassProperty(
-                  type: r'Custom$Query$Node',
-                  name: r'nodeById',
-                  isOverride: false,
+                  type: TypeName(name: r'Custom$_Query$_Node'),
+                  name: ClassPropertyName(name: r'nodeById'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
-        FragmentClassDefinition(name: r'Custom$UserFragMixin', properties: [
-          ClassProperty(
-              type: r'String',
-              name: r'id',
-              isOverride: false,
-              isNonNull: true,
-              isResolveType: false),
-          ClassProperty(
-              type: r'String',
-              name: r'username',
-              isOverride: false,
-              isNonNull: true,
-              isResolveType: false)
-        ])
+        FragmentClassDefinition(
+            name: FragmentName(name: r'UserFragMixin'),
+            properties: [
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'id'),
+                  isNonNull: true,
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'username'),
+                  isNonNull: true,
+                  isResolveType: false)
+            ])
       ],
-      inputs: [QueryInput(type: r'String', name: r'id', isNonNull: true)],
+      inputs: [
+        QueryInput(
+            type: TypeName(name: r'String'),
+            name: QueryInputName(name: r'id'),
+            isNonNull: true)
+      ],
       generateHelpers: false,
       suffix: r'Query')
 ]);
@@ -172,14 +177,14 @@ import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
 
-mixin Custom$UserFragMixin {
+mixin UserFragMixin {
   String id;
   String username;
 }
 
 @JsonSerializable(explicitToJson: true)
 class Custom$Query$Node$User extends Custom$Query$Node
-    with EquatableMixin, Custom$UserFragMixin {
+    with EquatableMixin, UserFragMixin {
   Custom$Query$Node$User();
 
   factory Custom$Query$Node$User.fromJson(Map<String, dynamic> json) =>
@@ -192,7 +197,7 @@ class Custom$Query$Node$User extends Custom$Query$Node
 
 @JsonSerializable(explicitToJson: true)
 class Custom$Query$Node$ChatMessage$User extends Custom$Query$Node$ChatMessage
-    with EquatableMixin, Custom$UserFragMixin {
+    with EquatableMixin, UserFragMixin {
   Custom$Query$Node$ChatMessage$User();
 
   factory Custom$Query$Node$ChatMessage$User.fromJson(
@@ -239,14 +244,13 @@ class Custom$Query$Node with EquatableMixin {
 
   String id;
 
-  @override
   @JsonKey(name: '__typename')
-  String typeName;
+  String $$typename;
 
   @override
-  List<Object> get props => [id, typeName];
+  List<Object> get props => [id, $$typename];
   Map<String, dynamic> toJson() {
-    switch (typeName) {
+    switch ($$typename) {
       case r'User':
         return (this as Custom$Query$Node$User).toJson();
       case r'ChatMessage':

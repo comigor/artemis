@@ -1,5 +1,6 @@
-import 'package:artemis/generator/data.dart';
-import 'package:gql/language.dart';
+// @dart = 2.8
+
+import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
@@ -36,7 +37,7 @@ void main() {
       );
 
       test(
-        'If they are NOT explicitly defined on schema',
+        'All default GraphQL scalars are parsed correctly even if they are NOT explicitly defined on schema',
         () async => testGenerator(
           schema: r'''
             schema {
@@ -65,19 +66,44 @@ final String query = 'query some_query { i, f, s, b, id }';
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-    document: parseString(query),
-    queryName: r'some_query',
-    queryType: r'SomeQuery$SomeObject',
-    classes: [
-      ClassDefinition(name: r'SomeQuery$SomeObject', properties: [
-        ClassProperty(type: 'int', name: 'i'),
-        ClassProperty(type: 'double', name: 'f'),
-        ClassProperty(type: 'String', name: 's'),
-        ClassProperty(type: 'bool', name: 'b'),
-        ClassProperty(type: 'String', name: 'id'),
-      ]),
-    ],
-  )
+      name: QueryName(name: r'SomeQuery$_SomeObject'),
+      operationName: r'some_query',
+      classes: [
+        ClassDefinition(
+            name: ClassName(name: r'SomeQuery$_SomeObject'),
+            properties: [
+              ClassProperty(
+                  type: TypeName(name: r'int'),
+                  name: ClassPropertyName(name: r'i'),
+                  isNonNull: false,
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(name: r'double'),
+                  name: ClassPropertyName(name: r'f'),
+                  isNonNull: false,
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r's'),
+                  isNonNull: false,
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(name: r'bool'),
+                  name: ClassPropertyName(name: r'b'),
+                  isNonNull: false,
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'id'),
+                  isNonNull: false,
+                  isResolveType: false)
+            ],
+            factoryPossibilities: {},
+            typeNameField: TypeName(name: r'__typename'),
+            isInput: false)
+      ],
+      generateHelpers: false,
+      suffix: r'Query')
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND

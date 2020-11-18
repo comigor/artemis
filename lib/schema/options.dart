@@ -1,4 +1,7 @@
+// @dart = 2.8
+
 import 'package:json_annotation/json_annotation.dart';
+import 'package:yaml/yaml.dart';
 
 // I can't use the default json_serializable flow because the artemis generator
 // would crash when importing options.dart file.
@@ -22,12 +25,18 @@ class GeneratorOptions {
   @JsonKey(defaultValue: [])
   final List<SchemaMap> schemaMapping;
 
+  /// A list of linter rules to ignore
+  /// in generated files.
+  @JsonKey(defaultValue: [])
+  final List<String> ignoreForFile;
+
   /// Instantiate generator options.
   GeneratorOptions({
     this.generateHelpers = true,
     this.scalarMapping = const [],
     this.fragmentsGlob,
     this.schemaMapping = const [],
+    this.ignoreForFile = const [],
   });
 
   /// Build options from a JSON map.
@@ -60,8 +69,13 @@ class DartType {
       return DartType(name: json);
     } else if (json is Map<String, dynamic>) {
       return _$DartTypeFromJson(json);
+    } else if (json is YamlMap) {
+      return _$DartTypeFromJson({
+        'name': json['name'],
+        'imports': (json['imports'] as YamlList).map((s) => s).toList(),
+      });
     } else {
-      throw 'Invalid json: $json';
+      throw 'Invalid YAML: $json';
     }
   }
 
@@ -97,6 +111,20 @@ class ScalarMap {
   Map<String, dynamic> toJson() => _$ScalarMapToJson(this);
 }
 
+/// The naming scheme to be used on generated classes names.
+enum NamingScheme {
+  /// Default, where the names of previous types are used as prefix of the
+  /// next class. This can generate duplication on certain schemas.
+  pathedWithTypes,
+
+  /// The names of previous fields are used as prefix of the next class.
+  pathedWithFields,
+
+  /// Considers only the actual GraphQL class name. This will probably lead to
+  /// duplication and an Artemis error unless user uses aliases.
+  simple,
+}
+
 /// Maps a GraphQL schema to queries files.
 @JsonSerializable(fieldRename: FieldRename.snake)
 class SchemaMap {
@@ -113,12 +141,25 @@ class SchemaMap {
   @JsonKey(defaultValue: '__typename')
   final String typeNameField;
 
+  /// The naming scheme to be used.
+  ///
+  /// - [NamingScheme.pathedWithTypes]: default, where the names of
+  /// previous classes are used to generate the prefix.
+  /// - [NamingScheme.pathedWithFields]: the field names are joined
+  /// together to generate the path.
+  /// - [NamingScheme.simple]: considers only the actual GraphQL class name.
+  /// This will probably lead to duplication and an Artemis error unless you
+  /// use aliases.
+  @JsonKey(unknownEnumValue: NamingScheme.pathedWithTypes)
+  final NamingScheme namingScheme;
+
   /// Instantiates a schema mapping.
   SchemaMap({
     this.output,
     this.schema,
     this.queriesGlob,
     this.typeNameField = '__typename',
+    this.namingScheme = NamingScheme.pathedWithTypes,
   });
 
   /// Build a schema mapping from a JSON map.

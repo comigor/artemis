@@ -1,4 +1,6 @@
-import 'package:artemis/generator/data.dart';
+// @dart = 2.8
+
+import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
@@ -57,7 +59,7 @@ void main() {
             {
               'graphql_type': 'MyUuid',
               'custom_parser_import': 'package:example/src/custom_parser.dart',
-              'dart_type': 'MyUuid',
+              'dart_type': 'MyDartUuid',
             },
           ],
         },
@@ -101,47 +103,50 @@ void main() {
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      queryName: r'query',
-      queryType: r'Query$SomeObject',
+      name: QueryName(name: r'Query$_SomeObject'),
+      operationName: r'query',
       classes: [
         ClassDefinition(
-            name: r'Query$SomeObject',
+            name: ClassName(name: r'Query$_SomeObject'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r'a',
-                  isOverride: false,
-                  isNonNull: false)
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'a'),
+                  isNonNull: false,
+                  isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false)
       ],
-      generateHelpers: false)
+      generateHelpers: false,
+      suffix: r'Query')
 ]);
 
 final LibraryDefinition libraryDefinitionWithCustomParserFns =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      queryName: r'query',
-      queryType: r'Query$SomeObject',
+      name: QueryName(name: r'Query$_SomeObject'),
+      operationName: r'query',
       classes: [
         ClassDefinition(
-            name: r'Query$SomeObject',
+            name: ClassName(name: r'Query$_SomeObject'),
             properties: [
               ClassProperty(
-                  type: r'MyUuid',
-                  name: r'a',
-                  isOverride: false,
-                  annotation:
-                      r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid)',
-                  isNonNull: false)
+                  type: TypeName(name: r'MyDartUuid'),
+                  name: ClassPropertyName(name: r'a'),
+                  annotations: [
+                    r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyDartUuid, toJson: fromDartMyDartUuidToGraphQLMyUuid)'
+                  ],
+                  isNonNull: false,
+                  isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false)
       ],
-      generateHelpers: false)
+      generateHelpers: false,
+      suffix: r'Query')
 ], customImports: [
   r'package:example/src/custom_parser.dart'
 ]);
@@ -149,25 +154,27 @@ final LibraryDefinition libraryDefinitionWithCustomParserFns =
 final LibraryDefinition libraryDefinitionWithCustomImports =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      queryName: r'query',
-      queryType: r'Query$SomeObject',
+      name: QueryName(name: r'Query$_SomeObject'),
+      operationName: r'query',
       classes: [
         ClassDefinition(
-            name: r'Query$SomeObject',
+            name: ClassName(name: r'Query$_SomeObject'),
             properties: [
               ClassProperty(
-                  type: r'MyUuid',
-                  name: r'a',
-                  isOverride: false,
-                  annotation:
-                      r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid)',
-                  isNonNull: false)
+                  type: TypeName(name: r'MyUuid'),
+                  name: ClassPropertyName(name: r'a'),
+                  annotations: [
+                    r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid)'
+                  ],
+                  isNonNull: false,
+                  isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false)
       ],
-      generateHelpers: false)
+      generateHelpers: false,
+      suffix: r'Query')
 ], customImports: [
   r'package:uuid/uuid.dart',
   r'package:example/src/custom_parser.dart'
@@ -212,9 +219,9 @@ class Query$SomeObject with EquatableMixin {
       _$Query$SomeObjectFromJson(json);
 
   @JsonKey(
-      fromJson: fromGraphQLMyUuidToDartMyUuid,
-      toJson: fromDartMyUuidToGraphQLMyUuid)
-  MyUuid a;
+      fromJson: fromGraphQLMyUuidToDartMyDartUuid,
+      toJson: fromDartMyDartUuidToGraphQLMyUuid)
+  MyDartUuid a;
 
   @override
   List<Object> get props => [a];

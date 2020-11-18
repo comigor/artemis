@@ -1,4 +1,6 @@
-import 'package:artemis/generator/data.dart';
+// @dart = 2.8
+
+import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
@@ -58,97 +60,94 @@ mutation createThing($createThingInput: CreateThingInput) {
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      queryName: r'createThing',
-      queryType: r'CreateThing$MutationRoot',
+      name: QueryName(name: r'CreateThing$_MutationRoot'),
+      operationName: r'createThing',
       classes: [
         ClassDefinition(
-            name: r'CreateThing$MutationRoot$CreateThingResponse$Thing',
+            name: ClassName(
+                name: r'CreateThing$_MutationRoot$_CreateThingResponse$_Thing'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r'id',
-                  isOverride: false,
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'id'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: r'String',
-                  name: r'message',
-                  isOverride: false,
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'message'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'CreateThing$MutationRoot$CreateThingResponse',
+            name: ClassName(
+                name: r'CreateThing$_MutationRoot$_CreateThingResponse'),
             properties: [
               ClassProperty(
-                  type: r'CreateThing$MutationRoot$CreateThingResponse$Thing',
-                  name: r'thing',
-                  isOverride: false,
+                  type: TypeName(
+                      name:
+                          r'CreateThing$_MutationRoot$_CreateThingResponse$_Thing'),
+                  name: ClassPropertyName(name: r'thing'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'CreateThing$MutationRoot',
+            name: ClassName(name: r'CreateThing$_MutationRoot'),
             properties: [
               ClassProperty(
-                  type: r'CreateThing$MutationRoot$CreateThingResponse',
-                  name: r'createThing',
-                  isOverride: false,
+                  type: TypeName(
+                      name: r'CreateThing$_MutationRoot$_CreateThingResponse'),
+                  name: ClassPropertyName(name: r'createThing'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'CreateThing$CreateThingInput$OtherObjectInput',
+            name: ClassName(name: r'OtherObjectInput'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r'id',
-                  isOverride: false,
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'id'),
                   isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: r'__typename'),
             isInput: true),
         ClassDefinition(
-            name: r'CreateThing$CreateThingInput',
+            name: ClassName(name: r'CreateThingInput'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r'clientId',
-                  isOverride: false,
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'clientId'),
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: r'String',
-                  name: r'message',
-                  isOverride: false,
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'message'),
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
-                  type: r'List<CreateThing$CreateThingInput$OtherObjectInput>',
-                  name: r'shares',
-                  isOverride: false,
+                  type: TypeName(name: r'List<OtherObjectInput>'),
+                  name: ClassPropertyName(name: r'shares'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: r'__typename'),
             isInput: true)
       ],
       inputs: [
         QueryInput(
-            type: r'CreateThing$CreateThingInput',
-            name: r'createThingInput',
+            type: TypeName(name: r'CreateThingInput'),
+            name: QueryInputName(name: r'createThingInput'),
             isNonNull: false)
       ],
       generateHelpers: false,
@@ -212,37 +211,34 @@ class CreateThing$MutationRoot with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class CreateThing$CreateThingInput$OtherObjectInput with EquatableMixin {
-  CreateThing$CreateThingInput$OtherObjectInput({@required this.id});
+class OtherObjectInput with EquatableMixin {
+  OtherObjectInput({@required this.id});
 
-  factory CreateThing$CreateThingInput$OtherObjectInput.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateThing$CreateThingInput$OtherObjectInputFromJson(json);
+  factory OtherObjectInput.fromJson(Map<String, dynamic> json) =>
+      _$OtherObjectInputFromJson(json);
 
   String id;
 
   @override
   List<Object> get props => [id];
-  Map<String, dynamic> toJson() =>
-      _$CreateThing$CreateThingInput$OtherObjectInputToJson(this);
+  Map<String, dynamic> toJson() => _$OtherObjectInputToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class CreateThing$CreateThingInput with EquatableMixin {
-  CreateThing$CreateThingInput(
-      {@required this.clientId, this.message, this.shares});
+class CreateThingInput with EquatableMixin {
+  CreateThingInput({@required this.clientId, this.message, this.shares});
 
-  factory CreateThing$CreateThingInput.fromJson(Map<String, dynamic> json) =>
-      _$CreateThing$CreateThingInputFromJson(json);
+  factory CreateThingInput.fromJson(Map<String, dynamic> json) =>
+      _$CreateThingInputFromJson(json);
 
   String clientId;
 
   String message;
 
-  List<CreateThing$CreateThingInput$OtherObjectInput> shares;
+  List<OtherObjectInput> shares;
 
   @override
   List<Object> get props => [clientId, message, shares];
-  Map<String, dynamic> toJson() => _$CreateThing$CreateThingInputToJson(this);
+  Map<String, dynamic> toJson() => _$CreateThingInputToJson(this);
 }
 ''';

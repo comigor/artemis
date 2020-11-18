@@ -1,4 +1,6 @@
-import 'package:artemis/generator/data.dart';
+// @dart = 2.8
+
+import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
@@ -30,21 +32,20 @@ query {
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      queryName: r'query',
-      queryType: r'Query$Query',
+      name: QueryName(name: r'Query$_Query'),
+      operationName: r'query',
       classes: [
         ClassDefinition(
-            name: r'Query$Query',
+            name: ClassName(name: r'Query$_Query'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r'a',
-                  isOverride: false,
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'a'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false)
       ],
       generateHelpers: false,

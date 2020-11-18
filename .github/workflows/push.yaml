@@ -1,0 +1,52 @@
+on:
+  push:
+    branches:
+      - master
+      - beta
+
+name: CI
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/beta'
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@master
+      - name: Run tests
+        uses: comigor/actions/dart-test@master
+        env:
+          DTA_EXCLUDE_REGEX: example
+  create-tag-and-release:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/beta'
+    steps:
+      - uses: actions/checkout@master
+      - id: check_version_and_changelog
+        name: Check if version on pubspec.yaml was changed and if there's an entry for this new version on CHANGELOG
+        uses: ./.github/actions/check-version-and-changelog
+        with:
+          base_ref: "${{ github.ref }}"
+      - name: Push tag
+        uses: anothrNick/github-tag-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CUSTOM_TAG: "v${{ steps.check_version_and_changelog.outputs.package_version }}"
+      - name: Create release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: "v${{ steps.check_version_and_changelog.outputs.package_version }}"
+          release_name: "Release v${{ steps.check_version_and_changelog.outputs.package_version }}"
+  deploy:
+    needs: create-tag-and-release
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/beta'
+    steps:
+      - uses: actions/checkout@master
+      - name: Publish to pub.dev
+        uses: comigor/actions/pub-publish@master
+        env:
+          PUB_CREDENTIALS: ${{ secrets.PUB_CREDENTIALS }}

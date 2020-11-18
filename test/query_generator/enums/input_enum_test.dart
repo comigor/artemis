@@ -1,4 +1,7 @@
-import 'package:artemis/generator/data.dart';
+// @dart = 2.8
+
+import 'package:artemis/generator/data/data.dart';
+import 'package:artemis/generator/data/enum_value_definition.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';
@@ -15,11 +18,13 @@ void main() {
           }
           
           type QueryRoot {
-            q(input: Input!, o: OtherEnum!): QueryResponse
+            q(_id: ID!, input: Input!, o: OtherEnum!): QueryResponse
           }
           
           type QueryResponse {
             s: String
+            my: MyEnum
+            other: OtherEnum
           }
           
           input Input {
@@ -45,9 +50,11 @@ void main() {
 }
 
 const query = r'''
-  query custom($input: Input!, $o: OtherEnum!) {
-    q(input: $input, o: $o) {
+  query custom($_id: ID!, $input: Input!, $o: OtherEnum!) {
+    q(_id: $_id, input: $input, o: $o) {
       s
+      my
+      other
     }
   }
 ''';
@@ -55,60 +62,92 @@ const query = r'''
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      queryName: r'custom',
-      queryType: r'Custom$QueryRoot',
+      name: QueryName(name: r'Custom$_QueryRoot'),
+      operationName: r'custom',
       classes: [
+        EnumDefinition(name: EnumName(name: r'MyEnum'), values: [
+          EnumValueDefinition(name: EnumValueName(name: r'A')),
+          EnumValueDefinition(name: EnumValueName(name: r'B')),
+          EnumValueDefinition(name: EnumValueName(name: r'ARTEMIS_UNKNOWN'))
+        ]),
+        EnumDefinition(name: EnumName(name: r'OtherEnum'), values: [
+          EnumValueDefinition(name: EnumValueName(name: r'O1')),
+          EnumValueDefinition(name: EnumValueName(name: r'O2')),
+          EnumValueDefinition(name: EnumValueName(name: r'ARTEMIS_UNKNOWN'))
+        ]),
         ClassDefinition(
-            name: r'Custom$QueryRoot$QueryResponse',
+            name: ClassName(name: r'Custom$_QueryRoot$_QueryResponse'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r's',
-                  isOverride: false,
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r's'),
+                  isNonNull: false,
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(name: r'MyEnum'),
+                  name: ClassPropertyName(name: r'my'),
+                  annotations: [
+                    r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
+                  ],
+                  isNonNull: false,
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(name: r'OtherEnum'),
+                  name: ClassPropertyName(name: r'other'),
+                  annotations: [
+                    r'JsonKey(unknownEnumValue: OtherEnum.artemisUnknown)'
+                  ],
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'Custom$QueryRoot',
+            name: ClassName(name: r'Custom$_QueryRoot'),
             properties: [
               ClassProperty(
-                  type: r'Custom$QueryRoot$QueryResponse',
-                  name: r'q',
-                  isOverride: false,
+                  type: TypeName(name: r'Custom$_QueryRoot$_QueryResponse'),
+                  name: ClassPropertyName(name: r'q'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
-        EnumDefinition(
-            name: r'Custom$Input$MyEnum',
-            values: [r'A', r'B', r'ARTEMIS_UNKNOWN']),
         ClassDefinition(
-            name: r'Custom$Input',
+            name: ClassName(name: r'Input'),
             properties: [
               ClassProperty(
-                  type: r'Custom$Input$MyEnum',
-                  name: r'e',
-                  isOverride: false,
-                  annotation:
-                      r'JsonKey(unknownEnumValue: Custom$Input$MyEnum.ARTEMIS_UNKNOWN)',
+                  type: TypeName(name: r'MyEnum'),
+                  name: ClassPropertyName(name: r'e'),
+                  annotations: [
+                    r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
+                  ],
                   isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
-            isInput: true),
-        EnumDefinition(
-            name: r'Custom$OtherEnum',
-            values: [r'O1', r'O2', r'ARTEMIS_UNKNOWN'])
+            typeNameField: TypeName(name: r'__typename'),
+            isInput: true)
       ],
       inputs: [
-        QueryInput(type: r'Custom$Input', name: r'input', isNonNull: true),
-        QueryInput(type: r'Custom$OtherEnum', name: r'o', isNonNull: true)
+        QueryInput(
+            type: TypeName(name: r'String'),
+            name: QueryInputName(name: r'_id'),
+            isNonNull: true,
+            annotations: [r'''JsonKey(name: '_id')''']),
+        QueryInput(
+            type: TypeName(name: r'Input'),
+            name: QueryInputName(name: r'input'),
+            isNonNull: true),
+        QueryInput(
+            type: TypeName(name: r'OtherEnum'),
+            name: QueryInputName(name: r'o'),
+            isNonNull: true,
+            annotations: [
+              r'JsonKey(unknownEnumValue: OtherEnum.artemisUnknown)'
+            ])
       ],
       generateHelpers: true,
       suffix: r'Query')
@@ -132,8 +171,14 @@ class Custom$QueryRoot$QueryResponse with EquatableMixin {
 
   String s;
 
+  @JsonKey(unknownEnumValue: MyEnum.artemisUnknown)
+  MyEnum my;
+
+  @JsonKey(unknownEnumValue: OtherEnum.artemisUnknown)
+  OtherEnum other;
+
   @override
-  List<Object> get props => [s];
+  List<Object> get props => [s, my, other];
   Map<String, dynamic> toJson() => _$Custom$QueryRoot$QueryResponseToJson(this);
 }
 
@@ -152,44 +197,55 @@ class Custom$QueryRoot with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class Custom$Input with EquatableMixin {
-  Custom$Input({@required this.e});
+class Input with EquatableMixin {
+  Input({@required this.e});
 
-  factory Custom$Input.fromJson(Map<String, dynamic> json) =>
-      _$Custom$InputFromJson(json);
+  factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
 
-  @JsonKey(unknownEnumValue: Custom$Input$MyEnum.ARTEMIS_UNKNOWN)
-  Custom$Input$MyEnum e;
+  @JsonKey(unknownEnumValue: MyEnum.artemisUnknown)
+  MyEnum e;
 
   @override
   List<Object> get props => [e];
-  Map<String, dynamic> toJson() => _$Custom$InputToJson(this);
+  Map<String, dynamic> toJson() => _$InputToJson(this);
 }
 
-enum Custom$Input$MyEnum {
-  A,
-  B,
-  ARTEMIS_UNKNOWN,
+enum MyEnum {
+  @JsonValue('A')
+  a,
+  @JsonValue('B')
+  b,
+  @JsonValue('ARTEMIS_UNKNOWN')
+  artemisUnknown,
 }
-enum Custom$OtherEnum {
-  O1,
-  O2,
-  ARTEMIS_UNKNOWN,
+enum OtherEnum {
+  @JsonValue('O1')
+  o1,
+  @JsonValue('O2')
+  o2,
+  @JsonValue('ARTEMIS_UNKNOWN')
+  artemisUnknown,
 }
 
 @JsonSerializable(explicitToJson: true)
 class CustomArguments extends JsonSerializable with EquatableMixin {
-  CustomArguments({@required this.input, @required this.o});
+  CustomArguments({@required this.$id, @required this.input, @required this.o});
 
+  @override
   factory CustomArguments.fromJson(Map<String, dynamic> json) =>
       _$CustomArgumentsFromJson(json);
 
-  final Custom$Input input;
+  @JsonKey(name: '_id')
+  final String $id;
 
-  final Custom$OtherEnum o;
+  final Input input;
+
+  @JsonKey(unknownEnumValue: OtherEnum.artemisUnknown)
+  final OtherEnum o;
 
   @override
-  List<Object> get props => [input, o];
+  List<Object> get props => [$id, input, o];
+  @override
   Map<String, dynamic> toJson() => _$CustomArgumentsToJson(this);
 }
 
@@ -202,6 +258,11 @@ class CustomQuery extends GraphQLQuery<Custom$QueryRoot, CustomArguments> {
         type: OperationType.query,
         name: NameNode(value: 'custom'),
         variableDefinitions: [
+          VariableDefinitionNode(
+              variable: VariableNode(name: NameNode(value: '_id')),
+              type: NamedTypeNode(name: NameNode(value: 'ID'), isNonNull: true),
+              defaultValue: DefaultValueNode(value: null),
+              directives: []),
           VariableDefinitionNode(
               variable: VariableNode(name: NameNode(value: 'input')),
               type: NamedTypeNode(
@@ -222,6 +283,9 @@ class CustomQuery extends GraphQLQuery<Custom$QueryRoot, CustomArguments> {
               alias: null,
               arguments: [
                 ArgumentNode(
+                    name: NameNode(value: '_id'),
+                    value: VariableNode(name: NameNode(value: '_id'))),
+                ArgumentNode(
                     name: NameNode(value: 'input'),
                     value: VariableNode(name: NameNode(value: 'input'))),
                 ArgumentNode(
@@ -232,6 +296,18 @@ class CustomQuery extends GraphQLQuery<Custom$QueryRoot, CustomArguments> {
               selectionSet: SelectionSetNode(selections: [
                 FieldNode(
                     name: NameNode(value: 's'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null),
+                FieldNode(
+                    name: NameNode(value: 'my'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null),
+                FieldNode(
+                    name: NameNode(value: 'other'),
                     alias: null,
                     arguments: [],
                     directives: [],

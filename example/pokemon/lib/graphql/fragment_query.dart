@@ -7,15 +7,14 @@ import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
 part 'fragment_query.g.dart';
 
-mixin FragmentQuery$PokemonPartsMixin {
+mixin PokemonPartsMixin {
   String number;
   String name;
   List<String> types;
 }
 
 @JsonSerializable(explicitToJson: true)
-class FragmentQuery$Query$Charmander
-    with EquatableMixin, FragmentQuery$PokemonPartsMixin {
+class FragmentQuery$Query$Charmander with EquatableMixin, PokemonPartsMixin {
   FragmentQuery$Query$Charmander();
 
   factory FragmentQuery$Query$Charmander.fromJson(Map<String, dynamic> json) =>
@@ -28,7 +27,7 @@ class FragmentQuery$Query$Charmander
 
 @JsonSerializable(explicitToJson: true)
 class FragmentQuery$Query$Pokemon$Evolutions
-    with EquatableMixin, FragmentQuery$PokemonPartsMixin {
+    with EquatableMixin, PokemonPartsMixin {
   FragmentQuery$Query$Pokemon$Evolutions();
 
   factory FragmentQuery$Query$Pokemon$Evolutions.fromJson(
@@ -42,8 +41,7 @@ class FragmentQuery$Query$Pokemon$Evolutions
 }
 
 @JsonSerializable(explicitToJson: true)
-class FragmentQuery$Query$Pokemon
-    with EquatableMixin, FragmentQuery$PokemonPartsMixin {
+class FragmentQuery$Query$Pokemon with EquatableMixin, PokemonPartsMixin {
   FragmentQuery$Query$Pokemon();
 
   factory FragmentQuery$Query$Pokemon.fromJson(Map<String, dynamic> json) =>

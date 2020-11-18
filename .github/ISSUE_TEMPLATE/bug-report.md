@@ -7,10 +7,12 @@ assignees: ''
 
 ---
 
-**Bug description**
+**Before reporting a bug, please test the beta branch!**
+
+## Bug description
 Please describe what happened wrong and the expected behaviour/output.
 
-**Specs**
+## Specs
 Artemis version: [e.g. 6.0.3-beta.1]
 <details>
 <summary>build.yaml:</summary>

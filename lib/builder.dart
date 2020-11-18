@@ -1,14 +1,17 @@
+// @dart = 2.8
+
 import 'dart:async';
 
+import 'package:artemis/generator/data/data.dart';
 import 'package:build/build.dart';
 import 'package:glob/glob.dart';
 import 'package:gql/ast.dart';
 import 'package:gql/language.dart';
 
 import './generator.dart';
-import './generator/data.dart';
 import './generator/print_helpers.dart';
 import './schema/options.dart';
+import 'generator/errors.dart';
 
 /// [GraphQLQueryBuilder] instance, to be used by `build_runner`.
 GraphQLQueryBuilder graphQLQueryBuilder(BuilderOptions options) =>
@@ -94,7 +97,12 @@ class GraphQLQueryBuilder implements Builder {
         throw Exception('''No queries were considered on this generation!
 Make sure that `queries_glob` your build.yaml file include GraphQL queries files.
 ''');
+      } else if (Glob(schemaMap.queriesGlob).matches(schemaMap.schema)) {
+        throw QueryGlobsSchemaException();
+      } else if (Glob(schemaMap.queriesGlob).matches(schemaMap.output)) {
+        throw QueryGlobsOutputException();
       }
+
       final assetStream = buildStep.findAssets(Glob(schemaMap.queriesGlob));
       final gqlDocs = await assetStream
           .asyncMap(
@@ -137,7 +145,11 @@ ${e}
       if (onBuild != null) {
         onBuild(libDefinition);
       }
-      writeLibraryDefinitionToBuffer(buffer, libDefinition);
+      writeLibraryDefinitionToBuffer(
+        buffer,
+        options.ignoreForFile,
+        libDefinition,
+      );
 
       await buildStep.writeAsString(outputFileId, buffer.toString());
 

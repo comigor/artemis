@@ -1,41 +1,49 @@
-import 'package:artemis/generator/data.dart';
+// @dart = 2.8
+
+import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
-import '../helpers.dart';
+import '../../helpers.dart';
 
 void main() {
   group('On complex input objects', () {
     test(
-      'On complex input objects',
+      'Unused input objects will be filtered out',
       () async => testGenerator(
         query: r'''
-          query some_query($filter: ComplexType!) { 
-            o(filter: $filter) { 
-              s 
-            } 
+          query some_query($input: Input!) {
+            o(input: $input) {
+              s
+            }
           }''',
         schema: r'''
           schema {
             query: QueryRoot
           }
-          
+
           type QueryRoot {
-            o(filter: ComplexType!): SomeObject
+            o(input: Input!): SomeObject
           }
-          
-          input ComplexType {
-            s: String!
-            e: MyEnum
-            ls: [String]
+
+          input Input {
+            s: SubInput
           }
-          
-          type SomeObject {
+
+          input SubInput {
             s: String
           }
-          
-          enum MyEnum {
-            value1
-            value2
+
+          input UnusedInput {
+            a: String
+            u: UnusedSubInput
+          }
+
+          input UnusedSubInput {
+            a: String
+          }
+
+          type SomeObject {
+            s: String
           }
         ''',
         libraryDefinition: libraryDefinition,
@@ -49,69 +57,63 @@ void main() {
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      queryName: r'some_query',
-      queryType: r'SomeQuery$QueryRoot',
+      name: QueryName(name: r'SomeQuery$_QueryRoot'),
+      operationName: r'some_query',
       classes: [
         ClassDefinition(
-            name: r'SomeQuery$QueryRoot$SomeObject',
+            name: ClassName(name: r'SomeQuery$_QueryRoot$_SomeObject'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r's',
-                  isOverride: false,
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r's'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: r'SomeQuery$QueryRoot',
+            name: ClassName(name: r'SomeQuery$_QueryRoot'),
             properties: [
               ClassProperty(
-                  type: r'SomeQuery$QueryRoot$SomeObject',
-                  name: r'o',
-                  isOverride: false,
+                  type: TypeName(name: r'SomeQuery$_QueryRoot$_SomeObject'),
+                  name: ClassPropertyName(name: r'o'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false),
-        EnumDefinition(
-            name: r'SomeQuery$ComplexType$MyEnum',
-            values: [r'value1', r'value2', r'ARTEMIS_UNKNOWN']),
         ClassDefinition(
-            name: r'SomeQuery$ComplexType',
+            name: ClassName(name: r'Input'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r's',
-                  isOverride: false,
-                  isNonNull: true,
-                  isResolveType: false),
-              ClassProperty(
-                  type: r'SomeQuery$ComplexType$MyEnum',
-                  name: r'e',
-                  isOverride: false,
-                  annotation:
-                      r'JsonKey(unknownEnumValue: SomeQuery$ComplexType$MyEnum.ARTEMIS_UNKNOWN)',
-                  isNonNull: false,
-                  isResolveType: false),
-              ClassProperty(
-                  type: r'List<String>',
-                  name: r'ls',
-                  isOverride: false,
+                  type: TypeName(name: r'SubInput'),
+                  name: ClassPropertyName(name: r's'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: r'__typename'),
+            isInput: true),
+        ClassDefinition(
+            name: ClassName(name: r'SubInput'),
+            properties: [
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r's'),
+                  isNonNull: false,
+                  isResolveType: false)
+            ],
+            factoryPossibilities: {},
+            typeNameField: TypeName(name: r'__typename'),
             isInput: true)
       ],
       inputs: [
         QueryInput(
-            type: r'SomeQuery$ComplexType', name: r'filter', isNonNull: true)
+            type: TypeName(name: r'Input'),
+            name: QueryInputName(name: r'input'),
+            isNonNull: true)
       ],
       generateHelpers: true,
       suffix: r'Query')
@@ -155,41 +157,45 @@ class SomeQuery$QueryRoot with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery$ComplexType with EquatableMixin {
-  SomeQuery$ComplexType({@required this.s, this.e, this.ls});
+class Input with EquatableMixin {
+  Input({this.s});
 
-  factory SomeQuery$ComplexType.fromJson(Map<String, dynamic> json) =>
-      _$SomeQuery$ComplexTypeFromJson(json);
+  factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
+
+  SubInput s;
+
+  @override
+  List<Object> get props => [s];
+  Map<String, dynamic> toJson() => _$InputToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class SubInput with EquatableMixin {
+  SubInput({this.s});
+
+  factory SubInput.fromJson(Map<String, dynamic> json) =>
+      _$SubInputFromJson(json);
 
   String s;
 
-  @JsonKey(unknownEnumValue: SomeQuery$ComplexType$MyEnum.ARTEMIS_UNKNOWN)
-  SomeQuery$ComplexType$MyEnum e;
-
-  List<String> ls;
-
   @override
-  List<Object> get props => [s, e, ls];
-  Map<String, dynamic> toJson() => _$SomeQuery$ComplexTypeToJson(this);
-}
-
-enum SomeQuery$ComplexType$MyEnum {
-  value1,
-  value2,
-  ARTEMIS_UNKNOWN,
+  List<Object> get props => [s];
+  Map<String, dynamic> toJson() => _$SubInputToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
 class SomeQueryArguments extends JsonSerializable with EquatableMixin {
-  SomeQueryArguments({@required this.filter});
+  SomeQueryArguments({@required this.input});
 
+  @override
   factory SomeQueryArguments.fromJson(Map<String, dynamic> json) =>
       _$SomeQueryArgumentsFromJson(json);
 
-  final SomeQuery$ComplexType filter;
+  final Input input;
 
   @override
-  List<Object> get props => [filter];
+  List<Object> get props => [input];
+  @override
   Map<String, dynamic> toJson() => _$SomeQueryArgumentsToJson(this);
 }
 
@@ -204,9 +210,9 @@ class SomeQueryQuery
         name: NameNode(value: 'some_query'),
         variableDefinitions: [
           VariableDefinitionNode(
-              variable: VariableNode(name: NameNode(value: 'filter')),
+              variable: VariableNode(name: NameNode(value: 'input')),
               type: NamedTypeNode(
-                  name: NameNode(value: 'ComplexType'), isNonNull: true),
+                  name: NameNode(value: 'Input'), isNonNull: true),
               defaultValue: DefaultValueNode(value: null),
               directives: [])
         ],
@@ -217,8 +223,8 @@ class SomeQueryQuery
               alias: null,
               arguments: [
                 ArgumentNode(
-                    name: NameNode(value: 'filter'),
-                    value: VariableNode(name: NameNode(value: 'filter')))
+                    name: NameNode(value: 'input'),
+                    value: VariableNode(name: NameNode(value: 'input')))
               ],
               directives: [],
               selectionSet: SelectionSetNode(selections: [

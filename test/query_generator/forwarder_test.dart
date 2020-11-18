@@ -1,4 +1,6 @@
-import 'package:artemis/generator/data.dart';
+// @dart = 2.8
+
+import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -31,7 +33,8 @@ void main() {
         outputsMap: {
           'a|lib/query.graphql.dart': generatedFile,
           'a|lib/query.dart': r'''// GENERATED CODE - DO NOT MODIFY BY HAND
-export 'query.graphql.dart';''',
+export 'query.graphql.dart';
+''',
         },
       ),
     );
@@ -47,21 +50,20 @@ query custom {
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      queryName: r'custom',
-      queryType: r'Custom$QueryRoot',
+      name: QueryName(name: r'Custom$_QueryRoot'),
+      operationName: r'custom',
       classes: [
         ClassDefinition(
-            name: r'Custom$QueryRoot',
+            name: ClassName(name: r'Custom$_QueryRoot'),
             properties: [
               ClassProperty(
-                  type: r'String',
-                  name: r'a',
-                  isOverride: false,
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'a'),
                   isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: r'__typename',
+            typeNameField: TypeName(name: r'__typename'),
             isInput: false)
       ],
       generateHelpers: false,
