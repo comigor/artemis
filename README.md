@@ -13,7 +13,7 @@
 [![Fork on GitHub][github-forks-badge]][github-forks-link]
 [![Discord][discord-badge]][discord-link]
 
-[pub-badge]: https://img.shields.io/pub/v/artemis?include_prereleases&style=for-the-badge
+[pub-badge]: https://img.shields.io/pub/v/artemis?style=for-the-badge
 [pub-link]: https://pub.dev/packages/artemis
 
 [actions-badge]: https://img.shields.io/github/workflow/status/comigor/artemis/test?style=for-the-badge
@@ -41,18 +41,18 @@ Artemis is a code generator that looks for `schema.graphql` (GraphQL SDL - Schem
 Add the following to your `pubspec.yaml` file to be able to do code generation:
 ```yaml
 dev_dependencies:
-  artemis: '>=5.0.0 <6.0.0'
-  build_runner: ^1.5.0
-  json_serializable: ^3.0.0
+  artemis: '>=6.0.0 <7.0.0'
+  build_runner: ^1.10.4
+  json_serializable: ^3.5.0
 ```
 The generated code uses the following packages in run-time:
 ```yaml
 dependencies:
-  artemis: '>=5.0.0 <6.0.0' # only if you're using ArtemisClient!
-  json_annotation: ^3.0.0
-  equatable: ^0.6.1
+  artemis: '>=6.0.0 <7.0.0' # only if you're using ArtemisClient!
+  json_annotation: ^3.1.0
+  equatable: ^1.2.5
   meta: '>=1.0.0 <2.0.0' # only if you have non nullable fields
-  gql: '>=0.7.3 <1.0.0'
+  gql: '>=0.12.3 <1.0.0'
 ```
 
 Then run:
