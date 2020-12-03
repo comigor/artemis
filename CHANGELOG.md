@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 7.0.0-beta.nullsafety.0
+- starting migration to nullsafety
+- several packages updated
+
 ## 6.17.1-beta.1
 - package updates and one test fix
 
