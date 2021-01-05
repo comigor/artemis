@@ -5,6 +5,13 @@ import 'package:test/test.dart';
 
 import '../../helpers.dart';
 
+// While we don't have canonical classes generation, we can leverage class
+// deduplication on fragments expansion and use the generated fragment mixin
+// as "canonical data" when the fragment is the only selection of the field.
+// Example:
+// someObject {
+//   ...myFragment
+// }
 void main() {
   test(
     'On multiple reference of same fragment on simple naming',
