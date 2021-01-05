@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.17.2
+- Update dependencies versions
+
 ## 6.17.1-beta.1
 - package updates and one test fix
 
