@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.17.3
+- Add test case, warning to README, fix CI pipeline
+
 ## 6.17.2
 - Update dependencies versions
 

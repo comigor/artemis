@@ -84,6 +84,8 @@ targets:
           # custom configuration options!
 ```
 
+> ⚠️ Make sure your configuration file is called `build.yaml` (with `.yaml` extension, not `.yml`)!
+
 | Option | Default value | Description |
 | - | - | - |
 | `generate_helpers` | `true` | If Artemis should generate query/mutation helper GraphQLQuery subclasses. |
