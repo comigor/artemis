@@ -68,6 +68,9 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'List<MyEnum>'),
                   name: ClassPropertyName(name: r'le'),
+                  annotations: [
+                    r'''JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'''
+                  ],
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -105,6 +108,7 @@ class Custom$QueryRoot$QueryResponse with EquatableMixin {
   factory Custom$QueryRoot$QueryResponse.fromJson(Map<String, dynamic> json) =>
       _$Custom$QueryRoot$QueryResponseFromJson(json);
 
+  @JsonKey(unknownEnumValue: MyEnum.artemisUnknown)
   List<MyEnum> le;
 
   @override

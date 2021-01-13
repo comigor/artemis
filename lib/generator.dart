@@ -364,7 +364,14 @@ Make sure your query is correct and your schema is updated.''');
       context.usedEnums.add(EnumName(name: nextType.name.value));
     }
 
-    if (fieldType is! ListTypeNode) {
+    if (fieldType is ListTypeNode) {
+      final innerDartTypeName = gql.buildTypeName(fieldType.type, context.options,
+          dartType: true,
+          replaceLeafWith: ClassName.fromPath(path: nextClassName),
+          schema: context.schema);
+      jsonKeyAnnotation['unknownEnumValue'] =
+          '${innerDartTypeName.namePrintable}.${ARTEMIS_UNKNOWN.name.namePrintable}';
+    } else {
       jsonKeyAnnotation['unknownEnumValue'] =
           '${dartTypeName.namePrintable}.${ARTEMIS_UNKNOWN.name.namePrintable}';
     }

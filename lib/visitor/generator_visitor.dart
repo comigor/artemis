@@ -163,7 +163,15 @@ class GeneratorVisitor extends RecursiveVisitor {
 
     if (leafType is EnumTypeDefinitionNode) {
       context.usedEnums.add(EnumName(name: leafType.name.value));
-      if (node.type is! ListTypeNode) {
+      final variableNodeType = node.type;
+      if (variableNodeType is ListTypeNode) {
+        final innerDartTypeName = gql.buildTypeName(variableNodeType.type, context.options,
+            dartType: true,
+            replaceLeafWith: ClassName.fromPath(path: nextClassName),
+            schema: context.schema);
+        jsonKeyAnnotation['unknownEnumValue'] =
+            '${EnumName(name: innerDartTypeName.name).namePrintable}.${ARTEMIS_UNKNOWN.name.namePrintable}';
+      } else {
         jsonKeyAnnotation['unknownEnumValue'] =
             '${EnumName(name: dartTypeName.name).namePrintable}.${ARTEMIS_UNKNOWN.name.namePrintable}';
       }
