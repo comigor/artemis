@@ -103,6 +103,9 @@ final LibraryDefinition libraryDefinition =
         QueryInput(
             type: TypeName(name: r'List<ArticleType>'),
             name: QueryInputName(name: r'article_type_in'),
+            annotations: [
+              r'''JsonKey(unknownEnumValue: ArticleType.artemisUnknown)'''
+            ],
             isNonNull: false)
       ],
       generateHelpers: true,
@@ -167,6 +170,7 @@ class BrowseArticlesArguments extends JsonSerializable with EquatableMixin {
   factory BrowseArticlesArguments.fromJson(Map<String, dynamic> json) =>
       _$BrowseArticlesArgumentsFromJson(json);
 
+  @JsonKey(unknownEnumValue: ArticleType.artemisUnknown)
   final List<ArticleType> article_type_in;
 
   @override

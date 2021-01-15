@@ -7,8 +7,8 @@ import 'package:artemis/visitor/generator_visitor.dart';
 import 'package:artemis/visitor/object_type_definition_visitor.dart';
 import 'package:artemis/visitor/schema_definition_visitor.dart';
 import 'package:artemis/visitor/type_definition_node_visitor.dart';
-import 'package:meta/meta.dart';
 import 'package:gql/ast.dart';
+import 'package:meta/meta.dart';
 import 'package:path/path.dart' as p;
 
 import './generator/ephemeral_data.dart';
@@ -364,7 +364,15 @@ Make sure your query is correct and your schema is updated.''');
       context.usedEnums.add(EnumName(name: nextType.name.value));
     }
 
-    if (fieldType is! ListTypeNode) {
+    if (fieldType is ListTypeNode) {
+      final innerDartTypeName = gql.buildTypeName(
+          fieldType.type, context.options,
+          dartType: true,
+          replaceLeafWith: ClassName.fromPath(path: nextClassName),
+          schema: context.schema);
+      jsonKeyAnnotation['unknownEnumValue'] =
+          '${innerDartTypeName.namePrintable}.${ARTEMIS_UNKNOWN.name.namePrintable}';
+    } else {
       jsonKeyAnnotation['unknownEnumValue'] =
           '${dartTypeName.namePrintable}.${ARTEMIS_UNKNOWN.name.namePrintable}';
     }
