@@ -16,5 +16,5 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - uses: comigor/actions/dart-test@master
-        env:
+        with:
           exclude_regex: "example"

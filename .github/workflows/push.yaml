@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@master
       - name: Run tests
         uses: comigor/actions/dart-test@master
-        env:
+        with:
           exclude_regex: "example"
   create-tag-and-release:
     needs: test
@@ -49,5 +49,6 @@ jobs:
       - name: Publish to pub.dev
         uses: comigor/actions/pub-publish@master
         env:
-          pub_credentials: ${{ secrets.PUB_CREDENTIALS }}
           PUB_CREDENTIALS: ${{ secrets.PUB_CREDENTIALS }}
+        with:
+          pub_credentials: ${{ secrets.PUB_CREDENTIALS }}
