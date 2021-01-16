@@ -217,17 +217,20 @@ Iterable<QueryDefinition> generateDefinitions(
       context: context,
     );
 
-    DocumentNode(
+    final filteredDefinition = DocumentNode(
       definitions: document.definitions
           // filtering unused operations
-          .where((e) => e is! OperationDefinitionNode || e == operation)
-          .toList(),
-    ).accept(visitor);
+          .where((e) {
+        return e is! OperationDefinitionNode || e == operation;
+      }).toList(),
+    );
+
+    filteredDefinition.accept(visitor);
 
     return QueryDefinition(
       name: name,
       operationName: operationName,
-      document: document,
+      document: filteredDefinition,
       classes: [
         ...canonicalVisitor.enums
             .where((e) => context.usedEnums.contains(e.name)),

@@ -303,67 +303,6 @@ class MutDataMutation extends GraphQLQuery<MutData$Mutation, MutDataArguments> {
                     directives: [],
                     selectionSet: null)
               ]))
-        ])),
-    OperationDefinitionNode(
-        type: OperationType.query,
-        name: NameNode(value: 'QueData'),
-        variableDefinitions: [
-          VariableDefinitionNode(
-              variable: VariableNode(name: NameNode(value: 'intsNonNullable')),
-              type: ListTypeNode(
-                  type: NamedTypeNode(
-                      name: NameNode(value: 'Int'), isNonNull: false),
-                  isNonNull: true),
-              defaultValue: DefaultValueNode(value: null),
-              directives: []),
-          VariableDefinitionNode(
-              variable: VariableNode(name: NameNode(value: 'stringNullable')),
-              type: NamedTypeNode(
-                  name: NameNode(value: 'String'), isNonNull: false),
-              defaultValue: DefaultValueNode(value: null),
-              directives: [])
-        ],
-        directives: [],
-        selectionSet: SelectionSetNode(selections: [
-          FieldNode(
-              name: NameNode(value: 'que'),
-              alias: null,
-              arguments: [
-                ArgumentNode(
-                    name: NameNode(value: 'intsNonNullable'),
-                    value:
-                        VariableNode(name: NameNode(value: 'intsNonNullable'))),
-                ArgumentNode(
-                    name: NameNode(value: 'stringNullable'),
-                    value:
-                        VariableNode(name: NameNode(value: 'stringNullable')))
-              ],
-              directives: [],
-              selectionSet: SelectionSetNode(selections: [
-                FieldNode(
-                    name: NameNode(value: 's'),
-                    alias: null,
-                    arguments: [],
-                    directives: [],
-                    selectionSet: null),
-                FieldNode(
-                    name: NameNode(value: 'i'),
-                    alias: null,
-                    arguments: [],
-                    directives: [],
-                    selectionSet: null),
-                FieldNode(
-                    name: NameNode(value: 'list'),
-                    alias: null,
-                    arguments: [
-                      ArgumentNode(
-                          name: NameNode(value: 'intsNonNullable'),
-                          value: VariableNode(
-                              name: NameNode(value: 'intsNonNullable')))
-                    ],
-                    directives: [],
-                    selectionSet: null)
-              ]))
         ]))
   ]);
 
@@ -403,37 +342,6 @@ class QueDataQuery extends GraphQLQuery<QueData$Query, QueDataArguments> {
 
   @override
   final DocumentNode document = DocumentNode(definitions: [
-    OperationDefinitionNode(
-        type: OperationType.mutation,
-        name: NameNode(value: 'MutData'),
-        variableDefinitions: [
-          VariableDefinitionNode(
-              variable: VariableNode(name: NameNode(value: 'input')),
-              type: NamedTypeNode(
-                  name: NameNode(value: 'Input'), isNonNull: true),
-              defaultValue: DefaultValueNode(value: null),
-              directives: [])
-        ],
-        directives: [],
-        selectionSet: SelectionSetNode(selections: [
-          FieldNode(
-              name: NameNode(value: 'mut'),
-              alias: null,
-              arguments: [
-                ArgumentNode(
-                    name: NameNode(value: 'input'),
-                    value: VariableNode(name: NameNode(value: 'input')))
-              ],
-              directives: [],
-              selectionSet: SelectionSetNode(selections: [
-                FieldNode(
-                    name: NameNode(value: 's'),
-                    alias: null,
-                    arguments: [],
-                    directives: [],
-                    selectionSet: null)
-              ]))
-        ])),
     OperationDefinitionNode(
         type: OperationType.query,
         name: NameNode(value: 'QueData'),
