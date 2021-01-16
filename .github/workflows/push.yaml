@@ -16,7 +16,7 @@ jobs:
       - name: Run tests
         uses: comigor/actions/dart-test@master
         env:
-          DTA_EXCLUDE_REGEX: example
+          exclude_regex: "example"
   create-tag-and-release:
     needs: test
     runs-on: ubuntu-latest
@@ -25,7 +25,7 @@ jobs:
       - uses: actions/checkout@master
       - id: check_version_and_changelog
         name: Check if version on pubspec.yaml was changed and if there's an entry for this new version on CHANGELOG
-        uses: ./.github/actions/check-version-and-changelog
+        uses: comigor/actions/check-version-and-changelog@master
         with:
           base_ref: "${{ github.ref }}"
       - name: Push tag
@@ -49,4 +49,5 @@ jobs:
       - name: Publish to pub.dev
         uses: comigor/actions/pub-publish@master
         env:
+          pub_credentials: ${{ secrets.PUB_CREDENTIALS }}
           PUB_CREDENTIALS: ${{ secrets.PUB_CREDENTIALS }}
