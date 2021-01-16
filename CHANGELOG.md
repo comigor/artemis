@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.18.2
+- Merging beta into master
+
 ## 6.18.1-beta.1
 - add unknownEnumValue on list enums https://github.com/comigor/artemis/issues/246
 
