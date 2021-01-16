@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.18.3
+- fix for the case when multiple documents were included in request https://github.com/comigor/artemis/issues/251
+
 ## 6.18.2
 - Merging beta into master
 
