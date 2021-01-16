@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - uses: ./.github/actions/check-version-and-changelog
+      - uses: comigor/actions/check-version-and-changelog@master
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           base_ref: "${{ github.base_ref }}"
@@ -15,7 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - uses: ./.github/actions/dart-test
+      - uses: comigor/actions/dart-test@master
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
           exclude_regex: "example"
