@@ -77,6 +77,7 @@ SchemaMap _$SchemaMapFromJson(Map<String, dynamic> json) {
     schema: json['schema'] as String,
     queriesGlob: json['queries_glob'] as String,
     typeNameField: json['type_name_field'] as String ?? '__typename',
+    appendTypeName: json['append_type_name'] as bool ?? false,
     namingScheme: _$enumDecodeNullable(
         _$NamingSchemeEnumMap, json['naming_scheme'],
         unknownValue: NamingScheme.pathedWithTypes),
