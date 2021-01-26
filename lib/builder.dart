@@ -115,10 +115,19 @@ Make sure that `queries_glob` your build.yaml file include GraphQL queries files
           .toList();
 
       if (schemaMap.appendTypeName) {
-        gqlDocs = gqlDocs
-            .map((doc) =>
-                transform(doc, [AppendTypename(schemaMap.typeNameField)]))
-            .toList();
+        gqlDocs = gqlDocs.map(
+          (doc) {
+            final transformed =
+                transform(doc, [AppendTypename(schemaMap.typeNameField)]);
+
+            // transform makes definitions growable: false so just recreate it again
+            // as far as we need to add some elements there lately
+            return DocumentNode(
+              definitions: List.from(transformed.definitions),
+              span: transformed.span,
+            );
+          },
+        ).toList();
       }
 
       final schemaAssetStream = buildStep.findAssets(Glob(schemaMap.schema));
