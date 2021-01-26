@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.19.2-beta.1
+- bugfix of append typename
+
 ## 6.19.1-beta.1
 - Append typename flag
 
