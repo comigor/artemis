@@ -3,6 +3,7 @@
 import 'dart:async';
 
 import 'package:artemis/generator/data/data.dart';
+import 'package:artemis/transformer/add_typename_transformer.dart';
 import 'package:build/build.dart';
 import 'package:glob/glob.dart';
 import 'package:gql/ast.dart';
@@ -104,7 +105,7 @@ Make sure that `queries_glob` your build.yaml file include GraphQL queries files
       }
 
       final assetStream = buildStep.findAssets(Glob(schemaMap.queriesGlob));
-      final gqlDocs = await assetStream
+      var gqlDocs = await assetStream
           .asyncMap(
             (asset) async => parseString(
               await buildStep.readAsString(asset),
@@ -112,6 +113,13 @@ Make sure that `queries_glob` your build.yaml file include GraphQL queries files
             ),
           )
           .toList();
+
+      if (schemaMap.appendTypeName) {
+        gqlDocs = gqlDocs
+            .map((doc) =>
+                transform(doc, [AppendTypename(schemaMap.typeNameField)]))
+            .toList();
+      }
 
       final schemaAssetStream = buildStep.findAssets(Glob(schemaMap.schema));
 

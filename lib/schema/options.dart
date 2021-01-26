@@ -141,6 +141,10 @@ class SchemaMap {
   @JsonKey(defaultValue: '__typename')
   final String typeNameField;
 
+  /// The resolve type field used on this schema.
+  @JsonKey(defaultValue: false)
+  final bool appendTypeName;
+
   /// The naming scheme to be used.
   ///
   /// - [NamingScheme.pathedWithTypes]: default, where the names of
@@ -159,6 +163,7 @@ class SchemaMap {
     this.schema,
     this.queriesGlob,
     this.typeNameField = '__typename',
+    this.appendTypeName = false,
     this.namingScheme = NamingScheme.pathedWithTypes,
   });
 

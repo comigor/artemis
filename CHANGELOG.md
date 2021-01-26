@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.19.1-beta.1
+- Append typename flag
+
 ## 6.18.2
 - Merging beta into master
 
