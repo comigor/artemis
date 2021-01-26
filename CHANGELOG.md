@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.19.3-beta.1
+- bugfix of append typename - common fragments
+
 ## 6.19.2-beta.1
 - bugfix of append typename
 
