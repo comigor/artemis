@@ -59,7 +59,7 @@ class GraphQLQueryBuilder implements Builder {
   final GeneratorOptions options;
 
   /// List FragmentDefinitionNode in fragments_glob.
-  final List<FragmentDefinitionNode> fragmentsCommon = [];
+  List<FragmentDefinitionNode> fragmentsCommon = [];
 
   /// The generated output file.
   final List<String> expectedOutputs;
@@ -84,8 +84,10 @@ class GraphQLQueryBuilder implements Builder {
             ),
           )
           .toList();
-      fDocs.forEach((fDoc) => fragmentsCommon.addAll(
-          fDoc.definitions.whereType<FragmentDefinitionNode>().toList()));
+      fDocs.forEach(
+        (fDoc) => fragmentsCommon.addAll(
+            fDoc.definitions.whereType<FragmentDefinitionNode>().toList()),
+      );
     }
 
     for (final schemaMap in options.schemaMapping) {
@@ -128,6 +130,13 @@ Make sure that `queries_glob` your build.yaml file include GraphQL queries files
             );
           },
         ).toList();
+
+        fragmentsCommon = fragmentsCommon
+            .map((fragments) => transform(
+                  fragments,
+                  [AppendTypename(schemaMap.typeNameField)],
+                ))
+            .toList();
       }
 
       final schemaAssetStream = buildStep.findAssets(Glob(schemaMap.schema));
