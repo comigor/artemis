@@ -305,7 +305,8 @@ class SomeQuery$SomeObject$SomeUnion$TypeB
 }
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery$SomeObject$SomeUnion with EquatableMixin {
+class SomeQuery$SomeObject$SomeUnion extends JsonSerializable
+    with EquatableMixin {
   SomeQuery$SomeObject$SomeUnion();
 
   factory SomeQuery$SomeObject$SomeUnion.fromJson(Map<String, dynamic> json) {
@@ -337,7 +338,7 @@ class SomeQuery$SomeObject$SomeUnion with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery$SomeObject with EquatableMixin {
+class SomeQuery$SomeObject extends JsonSerializable with EquatableMixin {
   SomeQuery$SomeObject();
 
   factory SomeQuery$SomeObject.fromJson(Map<String, dynamic> json) =>

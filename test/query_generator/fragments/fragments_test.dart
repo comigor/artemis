@@ -80,7 +80,8 @@ mixin MyFragmentMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery$SomeObject with EquatableMixin, MyFragmentMixin {
+class SomeQuery$SomeObject extends JsonSerializable
+    with EquatableMixin, MyFragmentMixin {
   SomeQuery$SomeObject();
 
   factory SomeQuery$SomeObject.fromJson(Map<String, dynamic> json) =>

@@ -163,7 +163,8 @@ import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class CreateThing$MutationRoot$CreateThingResponse$Thing with EquatableMixin {
+class CreateThing$MutationRoot$CreateThingResponse$Thing
+    extends JsonSerializable with EquatableMixin {
   CreateThing$MutationRoot$CreateThingResponse$Thing();
 
   factory CreateThing$MutationRoot$CreateThingResponse$Thing.fromJson(
@@ -181,7 +182,8 @@ class CreateThing$MutationRoot$CreateThingResponse$Thing with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class CreateThing$MutationRoot$CreateThingResponse with EquatableMixin {
+class CreateThing$MutationRoot$CreateThingResponse extends JsonSerializable
+    with EquatableMixin {
   CreateThing$MutationRoot$CreateThingResponse();
 
   factory CreateThing$MutationRoot$CreateThingResponse.fromJson(
@@ -197,7 +199,7 @@ class CreateThing$MutationRoot$CreateThingResponse with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class CreateThing$MutationRoot with EquatableMixin {
+class CreateThing$MutationRoot extends JsonSerializable with EquatableMixin {
   CreateThing$MutationRoot();
 
   factory CreateThing$MutationRoot.fromJson(Map<String, dynamic> json) =>
@@ -211,7 +213,7 @@ class CreateThing$MutationRoot with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class OtherObjectInput with EquatableMixin {
+class OtherObjectInput extends JsonSerializable with EquatableMixin {
   OtherObjectInput({@required this.id});
 
   factory OtherObjectInput.fromJson(Map<String, dynamic> json) =>
@@ -225,7 +227,7 @@ class OtherObjectInput with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class CreateThingInput with EquatableMixin {
+class CreateThingInput extends JsonSerializable with EquatableMixin {
   CreateThingInput({@required this.clientId, this.message, this.shares});
 
   factory CreateThingInput.fromJson(Map<String, dynamic> json) =>

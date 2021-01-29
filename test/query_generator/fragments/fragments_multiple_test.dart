@@ -239,7 +239,8 @@ mixin DepartureMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class VoyagesData$Query$VoyageList$VoyageDetails$Voyage with EquatableMixin {
+class VoyagesData$Query$VoyageList$VoyageDetails$Voyage extends JsonSerializable
+    with EquatableMixin {
   VoyagesData$Query$VoyageList$VoyageDetails$Voyage();
 
   factory VoyagesData$Query$VoyageList$VoyageDetails$Voyage.fromJson(
@@ -261,7 +262,8 @@ class VoyagesData$Query$VoyageList$VoyageDetails$Voyage with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class VoyagesData$Query$VoyageList$VoyageDetails with EquatableMixin {
+class VoyagesData$Query$VoyageList$VoyageDetails extends JsonSerializable
+    with EquatableMixin {
   VoyagesData$Query$VoyageList$VoyageDetails();
 
   factory VoyagesData$Query$VoyageList$VoyageDetails.fromJson(
@@ -279,7 +281,8 @@ class VoyagesData$Query$VoyageList$VoyageDetails with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class VoyagesData$Query$VoyageList with EquatableMixin {
+class VoyagesData$Query$VoyageList extends JsonSerializable
+    with EquatableMixin {
   VoyagesData$Query$VoyageList();
 
   factory VoyagesData$Query$VoyageList.fromJson(Map<String, dynamic> json) =>
@@ -293,7 +296,7 @@ class VoyagesData$Query$VoyageList with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class VoyagesData$Query with EquatableMixin {
+class VoyagesData$Query extends JsonSerializable with EquatableMixin {
   VoyagesData$Query();
 
   factory VoyagesData$Query.fromJson(Map<String, dynamic> json) =>
@@ -307,7 +310,7 @@ class VoyagesData$Query with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class PaginationInput with EquatableMixin {
+class PaginationInput extends JsonSerializable with EquatableMixin {
   PaginationInput({@required this.limit, @required this.offset});
 
   factory PaginationInput.fromJson(Map<String, dynamic> json) =>

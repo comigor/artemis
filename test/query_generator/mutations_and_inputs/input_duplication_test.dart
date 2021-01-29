@@ -169,7 +169,7 @@ import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class Custom$Mutation$Mut with EquatableMixin {
+class Custom$Mutation$Mut extends JsonSerializable with EquatableMixin {
   Custom$Mutation$Mut();
 
   factory Custom$Mutation$Mut.fromJson(Map<String, dynamic> json) =>
@@ -183,7 +183,7 @@ class Custom$Mutation$Mut with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class Custom$Mutation with EquatableMixin {
+class Custom$Mutation extends JsonSerializable with EquatableMixin {
   Custom$Mutation();
 
   factory Custom$Mutation.fromJson(Map<String, dynamic> json) =>
@@ -197,7 +197,7 @@ class Custom$Mutation with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class Input with EquatableMixin {
+class Input extends JsonSerializable with EquatableMixin {
   Input({@required this.s});
 
   factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
@@ -210,7 +210,7 @@ class Input with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class CustomList$Mutation$MutList with EquatableMixin {
+class CustomList$Mutation$MutList extends JsonSerializable with EquatableMixin {
   CustomList$Mutation$MutList();
 
   factory CustomList$Mutation$MutList.fromJson(Map<String, dynamic> json) =>
@@ -224,7 +224,7 @@ class CustomList$Mutation$MutList with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class CustomList$Mutation with EquatableMixin {
+class CustomList$Mutation extends JsonSerializable with EquatableMixin {
   CustomList$Mutation();
 
   factory CustomList$Mutation.fromJson(Map<String, dynamic> json) =>

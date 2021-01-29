@@ -150,7 +150,7 @@ void main() {
       final str = specToString(classDefinitionToSpec(definition, [], []));
 
       expect(str, '''@JsonSerializable(explicitToJson: true)
-class AClass with EquatableMixin {
+class AClass extends JsonSerializable with EquatableMixin {
   AClass();
 
   factory AClass.fromJson(Map<String, dynamic> json) => _\$AClassFromJson(json);
@@ -199,7 +199,7 @@ class AClass extends AnotherClass with EquatableMixin {
       final str = specToString(classDefinitionToSpec(definition, [], []));
 
       expect(str, r'''@JsonSerializable(explicitToJson: true)
-class AClass with EquatableMixin {
+class AClass extends JsonSerializable with EquatableMixin {
   AClass();
 
   factory AClass.fromJson(Map<String, dynamic> json) {
@@ -243,7 +243,7 @@ class AClass with EquatableMixin {
       final str = specToString(classDefinitionToSpec(definition, [], []));
 
       expect(str, '''@JsonSerializable(explicitToJson: true)
-class AClass with EquatableMixin {
+class AClass extends JsonSerializable with EquatableMixin {
   AClass();
 
   factory AClass.fromJson(Map<String, dynamic> json) => _\$AClassFromJson(json);
@@ -284,7 +284,7 @@ class AClass with EquatableMixin {
       final str = specToString(classDefinitionToSpec(definition, [], []));
 
       expect(str, '''@JsonSerializable(explicitToJson: true)
-class AClass with EquatableMixin {
+class AClass extends JsonSerializable with EquatableMixin {
   AClass();
 
   factory AClass.fromJson(Map<String, dynamic> json) => _\$AClassFromJson(json);
@@ -327,7 +327,7 @@ class AClass with EquatableMixin {
       ], []));
 
       expect(str, '''@JsonSerializable(explicitToJson: true)
-class AClass with EquatableMixin, FragmentMixin {
+class AClass extends JsonSerializable with EquatableMixin, FragmentMixin {
   AClass();
 
   factory AClass.fromJson(Map<String, dynamic> json) => _\$AClassFromJson(json);
@@ -358,7 +358,7 @@ class AClass with EquatableMixin, FragmentMixin {
       final str = specToString(classDefinitionToSpec(definition, [], []));
 
       expect(str, '''@JsonSerializable(explicitToJson: true)
-class AClass with EquatableMixin {
+class AClass extends JsonSerializable with EquatableMixin {
   AClass({this.name, @required this.anotherName});
 
   factory AClass.fromJson(Map<String, dynamic> json) => _\$AClassFromJson(json);
@@ -686,7 +686,7 @@ import 'package:gql/ast.dart';
 part 'test_query.graphql.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class AClass with EquatableMixin {
+class AClass extends JsonSerializable with EquatableMixin {
   AClass();
 
   factory AClass.fromJson(Map<String, dynamic> json) => _\$AClassFromJson(json);

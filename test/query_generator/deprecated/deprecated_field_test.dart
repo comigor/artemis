@@ -125,7 +125,8 @@ import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery$QueryResponse$DeprecatedObject with EquatableMixin {
+class SomeQuery$QueryResponse$DeprecatedObject extends JsonSerializable
+    with EquatableMixin {
   SomeQuery$QueryResponse$DeprecatedObject();
 
   factory SomeQuery$QueryResponse$DeprecatedObject.fromJson(
@@ -144,7 +145,8 @@ class SomeQuery$QueryResponse$DeprecatedObject with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery$QueryResponse$SomeObject with EquatableMixin {
+class SomeQuery$QueryResponse$SomeObject extends JsonSerializable
+    with EquatableMixin {
   SomeQuery$QueryResponse$SomeObject();
 
   factory SomeQuery$QueryResponse$SomeObject.fromJson(
@@ -163,7 +165,7 @@ class SomeQuery$QueryResponse$SomeObject with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery$QueryResponse with EquatableMixin {
+class SomeQuery$QueryResponse extends JsonSerializable with EquatableMixin {
   SomeQuery$QueryResponse();
 
   factory SomeQuery$QueryResponse.fromJson(Map<String, dynamic> json) =>

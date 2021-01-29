@@ -71,7 +71,7 @@ import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery$SomeObject with EquatableMixin {
+class SomeQuery$SomeObject extends JsonSerializable with EquatableMixin {
   SomeQuery$SomeObject();
 
   factory SomeQuery$SomeObject.fromJson(Map<String, dynamic> json) =>
@@ -180,7 +180,7 @@ import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery$Query$SomeObject with EquatableMixin {
+class SomeQuery$Query$SomeObject extends JsonSerializable with EquatableMixin {
   SomeQuery$Query$SomeObject();
 
   factory SomeQuery$Query$SomeObject.fromJson(Map<String, dynamic> json) =>
@@ -198,7 +198,7 @@ class SomeQuery$Query$SomeObject with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery$Query with EquatableMixin {
+class SomeQuery$Query extends JsonSerializable with EquatableMixin {
   SomeQuery$Query();
 
   factory SomeQuery$Query.fromJson(Map<String, dynamic> json) =>
@@ -414,7 +414,8 @@ import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery$Result$SomeObject$AnotherObject with EquatableMixin {
+class SomeQuery$Result$SomeObject$AnotherObject extends JsonSerializable
+    with EquatableMixin {
   SomeQuery$Result$SomeObject$AnotherObject();
 
   factory SomeQuery$Result$SomeObject$AnotherObject.fromJson(
@@ -430,7 +431,7 @@ class SomeQuery$Result$SomeObject$AnotherObject with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery$Result$SomeObject with EquatableMixin {
+class SomeQuery$Result$SomeObject extends JsonSerializable with EquatableMixin {
   SomeQuery$Result$SomeObject();
 
   factory SomeQuery$Result$SomeObject.fromJson(Map<String, dynamic> json) =>
@@ -446,7 +447,7 @@ class SomeQuery$Result$SomeObject with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery$Result with EquatableMixin {
+class SomeQuery$Result extends JsonSerializable with EquatableMixin {
   SomeQuery$Result();
 
   factory SomeQuery$Result.fromJson(Map<String, dynamic> json) =>
@@ -512,7 +513,7 @@ import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery$Result with EquatableMixin {
+class SomeQuery$Result extends JsonSerializable with EquatableMixin {
   SomeQuery$Result();
 
   factory SomeQuery$Result.fromJson(Map<String, dynamic> json) =>
@@ -599,7 +600,7 @@ import 'package:decimal/decimal.dart';
 part 'query.graphql.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery$SomeObject with EquatableMixin {
+class SomeQuery$SomeObject extends JsonSerializable with EquatableMixin {
   SomeQuery$SomeObject();
 
   factory SomeQuery$SomeObject.fromJson(Map<String, dynamic> json) =>
@@ -661,7 +662,8 @@ import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class PascalCasingQuery$PascalCasingQuery with EquatableMixin {
+class PascalCasingQuery$PascalCasingQuery extends JsonSerializable
+    with EquatableMixin {
   PascalCasingQuery$PascalCasingQuery();
 
   factory PascalCasingQuery$PascalCasingQuery.fromJson(

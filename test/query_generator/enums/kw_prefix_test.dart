@@ -127,7 +127,8 @@ import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SearchArticles$Query$Article with EquatableMixin {
+class SearchArticles$Query$Article extends JsonSerializable
+    with EquatableMixin {
   SearchArticles$Query$Article();
 
   factory SearchArticles$Query$Article.fromJson(Map<String, dynamic> json) =>
@@ -143,7 +144,7 @@ class SearchArticles$Query$Article with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class SearchArticles$Query with EquatableMixin {
+class SearchArticles$Query extends JsonSerializable with EquatableMixin {
   SearchArticles$Query();
 
   factory SearchArticles$Query.fromJson(Map<String, dynamic> json) =>
@@ -157,7 +158,7 @@ class SearchArticles$Query with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class ArticleTitleWhereConditions with EquatableMixin {
+class ArticleTitleWhereConditions extends JsonSerializable with EquatableMixin {
   ArticleTitleWhereConditions({this.kw$operator, this.value});
 
   factory ArticleTitleWhereConditions.fromJson(Map<String, dynamic> json) =>
