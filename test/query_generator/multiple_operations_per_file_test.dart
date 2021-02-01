@@ -177,7 +177,8 @@ import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class MutData$Mutation$MutationResponse with EquatableMixin {
+class MutData$Mutation$MutationResponse extends JsonSerializable
+    with EquatableMixin {
   MutData$Mutation$MutationResponse();
 
   factory MutData$Mutation$MutationResponse.fromJson(
@@ -193,7 +194,7 @@ class MutData$Mutation$MutationResponse with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class MutData$Mutation with EquatableMixin {
+class MutData$Mutation extends JsonSerializable with EquatableMixin {
   MutData$Mutation();
 
   factory MutData$Mutation.fromJson(Map<String, dynamic> json) =>
@@ -207,7 +208,7 @@ class MutData$Mutation with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class Input with EquatableMixin {
+class Input extends JsonSerializable with EquatableMixin {
   Input({@required this.s});
 
   factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
@@ -220,7 +221,7 @@ class Input with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class QueData$Query$QueryResponse with EquatableMixin {
+class QueData$Query$QueryResponse extends JsonSerializable with EquatableMixin {
   QueData$Query$QueryResponse();
 
   factory QueData$Query$QueryResponse.fromJson(Map<String, dynamic> json) =>
@@ -238,7 +239,7 @@ class QueData$Query$QueryResponse with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class QueData$Query with EquatableMixin {
+class QueData$Query extends JsonSerializable with EquatableMixin {
   QueData$Query();
 
   factory QueData$Query.fromJson(Map<String, dynamic> json) =>

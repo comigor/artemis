@@ -240,7 +240,7 @@ class Custom$Query$NodeById$ChatMessage extends Custom$Query$NodeById
 }
 
 @JsonSerializable(explicitToJson: true)
-class Custom$Query$NodeById with EquatableMixin {
+class Custom$Query$NodeById extends JsonSerializable with EquatableMixin {
   Custom$Query$NodeById();
 
   factory Custom$Query$NodeById.fromJson(Map<String, dynamic> json) {
@@ -274,7 +274,7 @@ class Custom$Query$NodeById with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class Custom$Query with EquatableMixin {
+class Custom$Query extends JsonSerializable with EquatableMixin {
   Custom$Query();
 
   factory Custom$Query.fromJson(Map<String, dynamic> json) =>

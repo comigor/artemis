@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.20.1-beta.1
+- Allow for auto generated response and inputs to extend JsonSerializable
+
 ## 6.19.3-beta.1
 - bugfix of append typename - common fragments
 

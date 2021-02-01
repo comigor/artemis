@@ -129,7 +129,8 @@ import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery$QueryRoot$SomeObject with EquatableMixin {
+class SomeQuery$QueryRoot$SomeObject extends JsonSerializable
+    with EquatableMixin {
   SomeQuery$QueryRoot$SomeObject();
 
   factory SomeQuery$QueryRoot$SomeObject.fromJson(Map<String, dynamic> json) =>
@@ -143,7 +144,7 @@ class SomeQuery$QueryRoot$SomeObject with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class SomeQuery$QueryRoot with EquatableMixin {
+class SomeQuery$QueryRoot extends JsonSerializable with EquatableMixin {
   SomeQuery$QueryRoot();
 
   factory SomeQuery$QueryRoot.fromJson(Map<String, dynamic> json) =>
@@ -157,7 +158,7 @@ class SomeQuery$QueryRoot with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class Input with EquatableMixin {
+class Input extends JsonSerializable with EquatableMixin {
   Input({this.s});
 
   factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
@@ -170,7 +171,7 @@ class Input with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class SubInput with EquatableMixin {
+class SubInput extends JsonSerializable with EquatableMixin {
   SubInput({this.s});
 
   factory SubInput.fromJson(Map<String, dynamic> json) =>

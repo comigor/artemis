@@ -111,7 +111,7 @@ import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class ClientEventItem with EquatableMixin {
+class ClientEventItem extends JsonSerializable with EquatableMixin {
   ClientEventItem();
 
   factory ClientEventItem.fromJson(Map<String, dynamic> json) =>
@@ -125,7 +125,7 @@ class ClientEventItem with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class ClientEventPage with EquatableMixin {
+class ClientEventPage extends JsonSerializable with EquatableMixin {
   ClientEventPage();
 
   factory ClientEventPage.fromJson(Map<String, dynamic> json) =>
@@ -139,7 +139,7 @@ class ClientEventPage with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class ClientEventsData$Query with EquatableMixin {
+class ClientEventsData$Query extends JsonSerializable with EquatableMixin {
   ClientEventsData$Query();
 
   factory ClientEventsData$Query.fromJson(Map<String, dynamic> json) =>

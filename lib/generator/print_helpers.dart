@@ -134,7 +134,7 @@ Spec classDefinitionToSpec(
       ..methods.add(_propsMethod('[${props.join(',')}]'))
       ..extend = definition.extension != null
           ? refer(definition.extension.namePrintable)
-          : null
+          : refer('JsonSerializable')
       ..implements.addAll(definition.implementations.map((i) => refer(i)))
       ..constructors.add(Constructor((b) {
         if (definition.isInput) {

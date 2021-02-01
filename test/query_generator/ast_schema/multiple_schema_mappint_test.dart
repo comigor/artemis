@@ -309,7 +309,8 @@ import 'package:gql/ast.dart';
 part 'outputA.graphql.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class BrowseArticles$Query$Articles with EquatableMixin {
+class BrowseArticles$Query$Articles extends JsonSerializable
+    with EquatableMixin {
   BrowseArticles$Query$Articles();
 
   factory BrowseArticles$Query$Articles.fromJson(Map<String, dynamic> json) =>
@@ -328,7 +329,7 @@ class BrowseArticles$Query$Articles with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class BrowseArticles$Query with EquatableMixin {
+class BrowseArticles$Query extends JsonSerializable with EquatableMixin {
   BrowseArticles$Query();
 
   factory BrowseArticles$Query.fromJson(Map<String, dynamic> json) =>
@@ -410,7 +411,8 @@ import 'package:gql/ast.dart';
 part 'outputB.graphql.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class BrowseRepositories$Query$Repositories with EquatableMixin {
+class BrowseRepositories$Query$Repositories extends JsonSerializable
+    with EquatableMixin {
   BrowseRepositories$Query$Repositories();
 
   factory BrowseRepositories$Query$Repositories.fromJson(
@@ -434,7 +436,7 @@ class BrowseRepositories$Query$Repositories with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class BrowseRepositories$Query with EquatableMixin {
+class BrowseRepositories$Query extends JsonSerializable with EquatableMixin {
   BrowseRepositories$Query();
 
   factory BrowseRepositories$Query.fromJson(Map<String, dynamic> json) =>
@@ -448,7 +450,7 @@ class BrowseRepositories$Query with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class NotificationOptionInput with EquatableMixin {
+class NotificationOptionInput extends JsonSerializable with EquatableMixin {
   NotificationOptionInput({this.type, this.enabled});
 
   factory NotificationOptionInput.fromJson(Map<String, dynamic> json) =>
