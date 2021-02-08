@@ -48,8 +48,7 @@ const query = r'''
   }
 ''';
 
-final LibraryDefinition libraryDefinition =
-    LibraryDefinition(basename: r'query.graphql', queries: [
+final LibraryDefinition libraryDefinition = LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       name: QueryName(name: r'SearchArticles$_Query'),
       operationName: r'SearchArticles',
@@ -94,9 +93,7 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'SQLOperator'),
                   name: ClassPropertyName(name: r'operator'),
-                  annotations: [
-                    r'''JsonKey(name: 'operator', unknownEnumValue: SQLOperator.artemisUnknown)'''
-                  ],
+                  annotations: [r'''JsonKey(name: 'operator', unknownEnumValue: SQLOperator.artemisUnknown)'''],
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
@@ -139,7 +136,7 @@ class SearchArticles$Query$Article extends JsonSerializable
   String title;
 
   @override
-  List<Object> get props => [id, title];
+  List<Object?> get props => [id, title];
   Map<String, dynamic> toJson() => _$SearchArticles$Query$ArticleToJson(this);
 }
 
@@ -150,10 +147,10 @@ class SearchArticles$Query extends JsonSerializable with EquatableMixin {
   factory SearchArticles$Query.fromJson(Map<String, dynamic> json) =>
       _$SearchArticles$QueryFromJson(json);
 
-  List<SearchArticles$Query$Article> articles;
+  List<SearchArticles$Query$Article>? articles;
 
   @override
-  List<Object> get props => [articles];
+  List<Object?> get props => [articles];
   Map<String, dynamic> toJson() => _$SearchArticles$QueryToJson(this);
 }
 
@@ -165,12 +162,12 @@ class ArticleTitleWhereConditions extends JsonSerializable with EquatableMixin {
       _$ArticleTitleWhereConditionsFromJson(json);
 
   @JsonKey(name: 'operator', unknownEnumValue: SQLOperator.artemisUnknown)
-  SQLOperator kw$operator;
+  SQLOperator? kw$operator;
 
-  String value;
+  String? value;
 
   @override
-  List<Object> get props => [kw$operator, value];
+  List<Object?> get props => [kw$operator, value];
   Map<String, dynamic> toJson() => _$ArticleTitleWhereConditionsToJson(this);
 }
 

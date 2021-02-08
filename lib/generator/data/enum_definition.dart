@@ -1,5 +1,3 @@
-// @dart = 2.8
-
 import 'package:artemis/generator/data/definition.dart';
 import 'package:artemis/generator/data/enum_value_definition.dart';
 import 'package:artemis/generator/data_printer.dart';
@@ -13,17 +11,17 @@ class EnumDefinition extends Definition with DataPrinter {
   final EnumName name;
 
   /// The possible values of this enum.
-  final Iterable<EnumValueDefinition> values;
+  final Iterable<EnumValueDefinition>? values;
 
   /// Instantiate an enum definition.
   EnumDefinition({
-    @required this.name,
+    required this.name,
     this.values,
   })  : assert(hasValue(name) && hasValue(values)),
         super(name: name);
 
   @override
-  Map<String, Object> get namedProps => {
+  Map<String, Object?> get namedProps => {
         'name': name,
         'values': values,
       };
@@ -32,15 +30,15 @@ class EnumDefinition extends Definition with DataPrinter {
 /// Enum name
 class EnumName extends Name with DataPrinter {
   /// Instantiate a enum name definition.
-  EnumName({String name}) : super(name: name);
+  EnumName({String? name}) : super(name: name);
 
   @override
-  String normalize(String name) {
-    return ReCase(super.normalize(name)).pascalCase;
+  String normalize(String? name) {
+    return ReCase(super.normalize(name)!).pascalCase;
   }
 
   @override
-  Map<String, Object> get namedProps => {
+  Map<String, Object?> get namedProps => {
         'name': name,
       };
 }

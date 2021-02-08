@@ -54,8 +54,7 @@ void main() {
   });
 }
 
-final LibraryDefinition libraryDefinition =
-    LibraryDefinition(basename: r'query.graphql', queries: [
+final LibraryDefinition libraryDefinition = LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       name: QueryName(name: r'SomeQuery$_QueryRoot'),
       operationName: r'some_query',
@@ -109,12 +108,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: TypeName(name: r'__typename'),
             isInput: true)
       ],
-      inputs: [
-        QueryInput(
-            type: TypeName(name: r'Input'),
-            name: QueryInputName(name: r'input'),
-            isNonNull: true)
-      ],
+      inputs: [QueryInput(type: TypeName(name: r'Input'), name: QueryInputName(name: r'input'), isNonNull: true)],
       generateHelpers: true,
       suffix: r'Query')
 ]);
@@ -139,7 +133,7 @@ class SomeQuery$QueryRoot$SomeObject extends JsonSerializable
   String s;
 
   @override
-  List<Object> get props => [s];
+  List<Object?> get props => [s];
   Map<String, dynamic> toJson() => _$SomeQuery$QueryRoot$SomeObjectToJson(this);
 }
 
@@ -153,7 +147,7 @@ class SomeQuery$QueryRoot extends JsonSerializable with EquatableMixin {
   SomeQuery$QueryRoot$SomeObject o;
 
   @override
-  List<Object> get props => [o];
+  List<Object?> get props => [o];
   Map<String, dynamic> toJson() => _$SomeQuery$QueryRootToJson(this);
 }
 
@@ -166,7 +160,7 @@ class Input extends JsonSerializable with EquatableMixin {
   SubInput s;
 
   @override
-  List<Object> get props => [s];
+  List<Object?> get props => [s];
   Map<String, dynamic> toJson() => _$InputToJson(this);
 }
 
@@ -180,7 +174,7 @@ class SubInput extends JsonSerializable with EquatableMixin {
   String s;
 
   @override
-  List<Object> get props => [s];
+  List<Object?> get props => [s];
   Map<String, dynamic> toJson() => _$SubInputToJson(this);
 }
 
@@ -195,7 +189,7 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
   final Input input;
 
   @override
-  List<Object> get props => [input];
+  List<Object?> get props => [input];
   @override
   Map<String, dynamic> toJson() => _$SomeQueryArgumentsToJson(this);
 }
@@ -246,7 +240,7 @@ class SomeQueryQuery
   final SomeQueryArguments variables;
 
   @override
-  List<Object> get props => [document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
   @override
   SomeQuery$QueryRoot parse(Map<String, dynamic> json) =>
       SomeQuery$QueryRoot.fromJson(json);

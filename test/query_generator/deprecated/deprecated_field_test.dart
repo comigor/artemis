@@ -47,8 +47,7 @@ const query = r'''
   }
 ''';
 
-final LibraryDefinition libraryDefinition =
-    LibraryDefinition(basename: r'query.graphql', queries: [
+final LibraryDefinition libraryDefinition = LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       document: parseString(query),
       operationName: r'some_query',
@@ -96,8 +95,7 @@ final LibraryDefinition libraryDefinition =
           name: ClassName(name: r'SomeQuery$_QueryResponse'),
           properties: [
             ClassProperty(
-              type:
-                  TypeName(name: r'SomeQuery$_QueryResponse$_deprecatedObject'),
+              type: TypeName(name: r'SomeQuery$_QueryResponse$_deprecatedObject'),
               name: ClassPropertyName(name: r'deprecatedObject'),
               isNonNull: false,
               annotations: [r"Deprecated('message')"],
@@ -139,7 +137,7 @@ class SomeQuery$QueryResponse$DeprecatedObject extends JsonSerializable
   String deprecatedField;
 
   @override
-  List<Object> get props => [someField, deprecatedField];
+  List<Object?> get props => [someField, deprecatedField];
   Map<String, dynamic> toJson() =>
       _$SomeQuery$QueryResponse$DeprecatedObjectToJson(this);
 }
@@ -159,7 +157,7 @@ class SomeQuery$QueryResponse$SomeObject extends JsonSerializable
   String deprecatedField;
 
   @override
-  List<Object> get props => [someField, deprecatedField];
+  List<Object?> get props => [someField, deprecatedField];
   Map<String, dynamic> toJson() =>
       _$SomeQuery$QueryResponse$SomeObjectToJson(this);
 }
@@ -177,7 +175,7 @@ class SomeQuery$QueryResponse extends JsonSerializable with EquatableMixin {
   List<SomeQuery$QueryResponse$SomeObject> someObjects;
 
   @override
-  List<Object> get props => [deprecatedObject, someObjects];
+  List<Object?> get props => [deprecatedObject, someObjects];
   Map<String, dynamic> toJson() => _$SomeQuery$QueryResponseToJson(this);
 }
 ''';

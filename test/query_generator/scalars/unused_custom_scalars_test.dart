@@ -39,8 +39,7 @@ void main() {
   });
 }
 
-final LibraryDefinition libraryDefinition =
-    LibraryDefinition(basename: r'query.graphql', queries: [
+final LibraryDefinition libraryDefinition = LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       name: QueryName(name: r'Query$_SomeObject'),
       operationName: r'query',
@@ -79,7 +78,7 @@ class Query$SomeObject extends JsonSerializable with EquatableMixin {
   String a;
 
   @override
-  List<Object> get props => [a];
+  List<Object?> get props => [a];
   Map<String, dynamic> toJson() => _$Query$SomeObjectToJson(this);
 }
 ''';

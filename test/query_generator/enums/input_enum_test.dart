@@ -59,8 +59,7 @@ const query = r'''
   }
 ''';
 
-final LibraryDefinition libraryDefinition =
-    LibraryDefinition(basename: r'query.graphql', queries: [
+final LibraryDefinition libraryDefinition = LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       name: QueryName(name: r'Custom$_QueryRoot'),
       operationName: r'custom',
@@ -86,17 +85,13 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'MyEnum'),
                   name: ClassPropertyName(name: r'my'),
-                  annotations: [
-                    r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
-                  ],
+                  annotations: [r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'],
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'OtherEnum'),
                   name: ClassPropertyName(name: r'other'),
-                  annotations: [
-                    r'JsonKey(unknownEnumValue: OtherEnum.artemisUnknown)'
-                  ],
+                  annotations: [r'JsonKey(unknownEnumValue: OtherEnum.artemisUnknown)'],
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -121,9 +116,7 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'MyEnum'),
                   name: ClassPropertyName(name: r'e'),
-                  annotations: [
-                    r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
-                  ],
+                  annotations: [r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'],
                   isNonNull: true,
                   isResolveType: false)
             ],
@@ -137,17 +130,12 @@ final LibraryDefinition libraryDefinition =
             name: QueryInputName(name: r'_id'),
             isNonNull: true,
             annotations: [r'''JsonKey(name: '_id')''']),
-        QueryInput(
-            type: TypeName(name: r'Input'),
-            name: QueryInputName(name: r'input'),
-            isNonNull: true),
+        QueryInput(type: TypeName(name: r'Input'), name: QueryInputName(name: r'input'), isNonNull: true),
         QueryInput(
             type: TypeName(name: r'OtherEnum'),
             name: QueryInputName(name: r'o'),
             isNonNull: true,
-            annotations: [
-              r'JsonKey(unknownEnumValue: OtherEnum.artemisUnknown)'
-            ])
+            annotations: [r'JsonKey(unknownEnumValue: OtherEnum.artemisUnknown)'])
       ],
       generateHelpers: true,
       suffix: r'Query')
@@ -179,7 +167,7 @@ class Custom$QueryRoot$QueryResponse extends JsonSerializable
   OtherEnum other;
 
   @override
-  List<Object> get props => [s, my, other];
+  List<Object?> get props => [s, my, other];
   Map<String, dynamic> toJson() => _$Custom$QueryRoot$QueryResponseToJson(this);
 }
 
@@ -193,7 +181,7 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
   Custom$QueryRoot$QueryResponse q;
 
   @override
-  List<Object> get props => [q];
+  List<Object?> get props => [q];
   Map<String, dynamic> toJson() => _$Custom$QueryRootToJson(this);
 }
 
@@ -207,7 +195,7 @@ class Input extends JsonSerializable with EquatableMixin {
   MyEnum e;
 
   @override
-  List<Object> get props => [e];
+  List<Object?> get props => [e];
   Map<String, dynamic> toJson() => _$InputToJson(this);
 }
 
@@ -245,7 +233,7 @@ class CustomArguments extends JsonSerializable with EquatableMixin {
   final OtherEnum o;
 
   @override
-  List<Object> get props => [$id, input, o];
+  List<Object?> get props => [$id, input, o];
   @override
   Map<String, dynamic> toJson() => _$CustomArgumentsToJson(this);
 }
@@ -324,7 +312,7 @@ class CustomQuery extends GraphQLQuery<Custom$QueryRoot, CustomArguments> {
   final CustomArguments variables;
 
   @override
-  List<Object> get props => [document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
   @override
   Custom$QueryRoot parse(Map<String, dynamic> json) =>
       Custom$QueryRoot.fromJson(json);

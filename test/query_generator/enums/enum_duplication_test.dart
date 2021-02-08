@@ -58,8 +58,7 @@ const anotherQuery = r'''
   }
 ''';
 
-final LibraryDefinition libraryDefinition =
-    LibraryDefinition(basename: r'query.graphql', queries: [
+final LibraryDefinition libraryDefinition = LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       name: QueryName(name: r'Custom$_Query'),
       operationName: r'custom',
@@ -82,9 +81,7 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'MyEnum'),
                   name: ClassPropertyName(name: r'e'),
-                  annotations: [
-                    r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
-                  ],
+                  annotations: [r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'],
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -128,9 +125,7 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'MyEnum'),
                   name: ClassPropertyName(name: r'e'),
-                  annotations: [
-                    r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
-                  ],
+                  annotations: [r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'],
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -172,7 +167,7 @@ class Custom$Query$Q extends JsonSerializable with EquatableMixin {
   MyEnum e;
 
   @override
-  List<Object> get props => [e];
+  List<Object?> get props => [e];
   Map<String, dynamic> toJson() => _$Custom$Query$QToJson(this);
 }
 
@@ -186,7 +181,7 @@ class Custom$Query extends JsonSerializable with EquatableMixin {
   Custom$Query$Q q;
 
   @override
-  List<Object> get props => [q];
+  List<Object?> get props => [q];
   Map<String, dynamic> toJson() => _$Custom$QueryToJson(this);
 }
 
@@ -201,7 +196,7 @@ class CustomList$Query$QList extends JsonSerializable with EquatableMixin {
   MyEnum e;
 
   @override
-  List<Object> get props => [e];
+  List<Object?> get props => [e];
   Map<String, dynamic> toJson() => _$CustomList$Query$QListToJson(this);
 }
 
@@ -215,7 +210,7 @@ class CustomList$Query extends JsonSerializable with EquatableMixin {
   List<CustomList$Query$QList> qList;
 
   @override
-  List<Object> get props => [qList];
+  List<Object?> get props => [qList];
   Map<String, dynamic> toJson() => _$CustomList$QueryToJson(this);
 }
 

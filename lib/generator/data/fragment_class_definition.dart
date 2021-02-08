@@ -1,5 +1,3 @@
-// @dart = 2.8
-
 import 'package:artemis/generator/data/class_property.dart';
 import 'package:artemis/generator/data/definition.dart';
 import 'package:artemis/generator/data_printer.dart';
@@ -17,9 +15,9 @@ class FragmentClassDefinition extends Definition with DataPrinter {
 
   /// Instantiate a fragment class definition.
   FragmentClassDefinition({
-    @required this.name,
-    @required this.properties,
-  })  : assert(hasValue(name) && hasValue(properties)),
+    required this.name,
+    required this.properties,
+  })   : assert(hasValue(name) && hasValue(properties)),
         super(name: name);
 
   @override
@@ -32,21 +30,21 @@ class FragmentClassDefinition extends Definition with DataPrinter {
 /// Fragment name
 class FragmentName extends Name with DataPrinter {
   /// Instantiate a fragment name definition.
-  FragmentName({String name}) : super(name: name);
+  FragmentName({String? name}) : super(name: name);
 
   /// Generate class name from hierarchical path
-  factory FragmentName.fromPath({List<Name> path}) {
-    return FragmentName(name: path.map((e) => e.namePrintable).join(r'$_'));
+  factory FragmentName.fromPath({required List<Name?> path}) {
+    return FragmentName(name: path.map((e) => e!.namePrintable).join(r'$_'));
   }
 
   @override
-  Map<String, Object> get namedProps => {
+  Map<String, Object?> get namedProps => {
         'name': name,
       };
 
   @override
-  String normalize(String name) {
-    final normalizedName = ReCase(super.normalize(name)).pascalCase;
+  String? normalize(String? name) {
+    final normalizedName = ReCase(super.normalize(name)!).pascalCase;
     if (normalizedName.endsWith('Mixin')) {
       return name;
     }

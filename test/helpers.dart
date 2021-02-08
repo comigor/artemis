@@ -1,4 +1,4 @@
-// @dart = 2.8
+
 
 import 'package:artemis/builder.dart';
 import 'package:artemis/generator/data/data.dart';
@@ -13,10 +13,10 @@ final bool Function(Iterable, Iterable) listEquals =
     const DeepCollectionEquality.unordered().equals;
 
 Future testGenerator({
-  @required String query,
-  @required LibraryDefinition libraryDefinition,
-  @required String generatedFile,
-  @required String schema,
+  required String query,
+  required LibraryDefinition libraryDefinition,
+  required String generatedFile,
+  required String schema,
   String namingScheme = 'pathedWithTypes',
   bool appendTypeName = false,
   bool generateHelpers = false,
@@ -63,10 +63,10 @@ Future testGenerator({
 }
 
 Future testNaming({
-  @required String query,
-  @required String schema,
-  @required List<String> expectedNames,
-  @required String namingScheme,
+  required String query,
+  required String schema,
+  required List<String> expectedNames,
+  required String namingScheme,
   bool shouldFail = false,
 }) {
   assert((schema) != null);
@@ -87,7 +87,7 @@ Future testNaming({
   if (!shouldFail) {
     anotherBuilder.onBuild = expectAsync1((definition) {
       final names = definition.queries.first.classes
-          .map((e) => e.name.namePrintable)
+          .map((e) => e.name!.namePrintable)
           .toSet();
       log.fine(names);
       expect(names.toSet(), equals(expectedNames.toSet()));

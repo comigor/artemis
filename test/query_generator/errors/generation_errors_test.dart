@@ -247,8 +247,6 @@ type Query {
               'a|lib/queries/some_query.graphql': 'query some_query { s }',
             },
             onLog: print),
-        throwsA(predicate((e) =>
-            e is MissingScalarConfigurationException &&
-            e.scalarName == 'DateTime')));
+        throwsA(predicate((e) => e is MissingScalarConfigurationException && e.scalarName == 'DateTime')));
   });
 }

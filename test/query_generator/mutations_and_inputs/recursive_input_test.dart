@@ -34,8 +34,7 @@ mutation custom($input: Input!) {
 }
 ''';
 
-final LibraryDefinition libraryDefinition =
-    LibraryDefinition(basename: r'query.graphql', queries: [
+final LibraryDefinition libraryDefinition = LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       name: QueryName(name: r'Custom$_Mutation'),
       operationName: r'custom',
@@ -70,12 +69,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: TypeName(name: r'__typename'),
             isInput: true)
       ],
-      inputs: [
-        QueryInput(
-            type: TypeName(name: r'Input'),
-            name: QueryInputName(name: r'input'),
-            isNonNull: true)
-      ],
+      inputs: [QueryInput(type: TypeName(name: r'Input'), name: QueryInputName(name: r'input'), isNonNull: true)],
       generateHelpers: false,
       suffix: r'Mutation')
 ]);
@@ -98,7 +92,7 @@ class Custom$Mutation extends JsonSerializable with EquatableMixin {
   String mut;
 
   @override
-  List<Object> get props => [mut];
+  List<Object?> get props => [mut];
   Map<String, dynamic> toJson() => _$Custom$MutationToJson(this);
 }
 
@@ -113,7 +107,7 @@ class Input extends JsonSerializable with EquatableMixin {
   Input or;
 
   @override
-  List<Object> get props => [and, or];
+  List<Object?> get props => [and, or];
   Map<String, dynamic> toJson() => _$InputToJson(this);
 }
 ''';

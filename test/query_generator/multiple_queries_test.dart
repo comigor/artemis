@@ -31,8 +31,7 @@ void main() {
   });
 }
 
-final LibraryDefinition libraryDefinition =
-    LibraryDefinition(basename: r'query.graphql', queries: [
+final LibraryDefinition libraryDefinition = LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       name: QueryName(name: r'SomeQuery$_SomeObject'),
       operationName: r'some_query',
@@ -92,12 +91,12 @@ class SomeQuery$SomeObject extends JsonSerializable with EquatableMixin {
   factory SomeQuery$SomeObject.fromJson(Map<String, dynamic> json) =>
       _$SomeQuery$SomeObjectFromJson(json);
 
-  String s;
+  String? s;
 
-  int i;
+  int? i;
 
   @override
-  List<Object> get props => [s, i];
+  List<Object?> get props => [s, i];
   Map<String, dynamic> toJson() => _$SomeQuery$SomeObjectToJson(this);
 }
 
@@ -108,10 +107,10 @@ class AnotherQuery$SomeObject extends JsonSerializable with EquatableMixin {
   factory AnotherQuery$SomeObject.fromJson(Map<String, dynamic> json) =>
       _$AnotherQuery$SomeObjectFromJson(json);
 
-  String s;
+  String? s;
 
   @override
-  List<Object> get props => [s];
+  List<Object?> get props => [s];
   Map<String, dynamic> toJson() => _$AnotherQuery$SomeObjectToJson(this);
 }
 ''';

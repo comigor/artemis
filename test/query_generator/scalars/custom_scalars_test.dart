@@ -100,8 +100,7 @@ void main() {
   });
 }
 
-final LibraryDefinition libraryDefinition =
-    LibraryDefinition(basename: r'query.graphql', queries: [
+final LibraryDefinition libraryDefinition = LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       name: QueryName(name: r'Query$_SomeObject'),
       operationName: r'query',
@@ -123,8 +122,7 @@ final LibraryDefinition libraryDefinition =
       suffix: r'Query')
 ]);
 
-final LibraryDefinition libraryDefinitionWithCustomParserFns =
-    LibraryDefinition(basename: r'query.graphql', queries: [
+final LibraryDefinition libraryDefinitionWithCustomParserFns = LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       name: QueryName(name: r'Query$_SomeObject'),
       operationName: r'query',
@@ -151,8 +149,7 @@ final LibraryDefinition libraryDefinitionWithCustomParserFns =
   r'package:example/src/custom_parser.dart'
 ]);
 
-final LibraryDefinition libraryDefinitionWithCustomImports =
-    LibraryDefinition(basename: r'query.graphql', queries: [
+final LibraryDefinition libraryDefinitionWithCustomImports = LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       name: QueryName(name: r'Query$_SomeObject'),
       operationName: r'query',
@@ -197,13 +194,12 @@ class Query$SomeObject extends JsonSerializable with EquatableMixin {
   String a;
 
   @override
-  List<Object> get props => [a];
+  List<Object?> get props => [a];
   Map<String, dynamic> toJson() => _$Query$SomeObjectToJson(this);
 }
 ''';
 
-const generatedFileWithCustomParserFns =
-    r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+const generatedFileWithCustomParserFns = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -224,13 +220,12 @@ class Query$SomeObject extends JsonSerializable with EquatableMixin {
   MyDartUuid a;
 
   @override
-  List<Object> get props => [a];
+  List<Object?> get props => [a];
   Map<String, dynamic> toJson() => _$Query$SomeObjectToJson(this);
 }
 ''';
 
-const generatedFileWithCustomImports =
-    r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+const generatedFileWithCustomImports = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -252,7 +247,7 @@ class Query$SomeObject extends JsonSerializable with EquatableMixin {
   MyUuid a;
 
   @override
-  List<Object> get props => [a];
+  List<Object?> get props => [a];
   Map<String, dynamic> toJson() => _$Query$SomeObjectToJson(this);
 }
 ''';

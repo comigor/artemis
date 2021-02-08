@@ -57,8 +57,7 @@ mutation customList($input: [Input!]!) {
 }
 ''';
 
-final LibraryDefinition libraryDefinition =
-    LibraryDefinition(basename: r'query.graphql', queries: [
+final LibraryDefinition libraryDefinition = LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       name: QueryName(name: r'Custom$_Mutation'),
       operationName: r'custom',
@@ -100,12 +99,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: TypeName(name: r'__typename'),
             isInput: true)
       ],
-      inputs: [
-        QueryInput(
-            type: TypeName(name: r'Input'),
-            name: QueryInputName(name: r'input'),
-            isNonNull: true)
-      ],
+      inputs: [QueryInput(type: TypeName(name: r'Input'), name: QueryInputName(name: r'input'), isNonNull: true)],
       generateHelpers: true,
       suffix: r'Mutation'),
   QueryDefinition(
@@ -149,12 +143,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: TypeName(name: r'__typename'),
             isInput: true)
       ],
-      inputs: [
-        QueryInput(
-            type: TypeName(name: r'List<Input>'),
-            name: QueryInputName(name: r'input'),
-            isNonNull: true)
-      ],
+      inputs: [QueryInput(type: TypeName(name: r'List<Input>'), name: QueryInputName(name: r'input'), isNonNull: true)],
       generateHelpers: true,
       suffix: r'Mutation')
 ]);
@@ -178,7 +167,7 @@ class Custom$Mutation$Mut extends JsonSerializable with EquatableMixin {
   String s;
 
   @override
-  List<Object> get props => [s];
+  List<Object?> get props => [s];
   Map<String, dynamic> toJson() => _$Custom$Mutation$MutToJson(this);
 }
 
@@ -192,7 +181,7 @@ class Custom$Mutation extends JsonSerializable with EquatableMixin {
   Custom$Mutation$Mut mut;
 
   @override
-  List<Object> get props => [mut];
+  List<Object?> get props => [mut];
   Map<String, dynamic> toJson() => _$Custom$MutationToJson(this);
 }
 
@@ -205,7 +194,7 @@ class Input extends JsonSerializable with EquatableMixin {
   String s;
 
   @override
-  List<Object> get props => [s];
+  List<Object?> get props => [s];
   Map<String, dynamic> toJson() => _$InputToJson(this);
 }
 
@@ -219,7 +208,7 @@ class CustomList$Mutation$MutList extends JsonSerializable with EquatableMixin {
   String s;
 
   @override
-  List<Object> get props => [s];
+  List<Object?> get props => [s];
   Map<String, dynamic> toJson() => _$CustomList$Mutation$MutListToJson(this);
 }
 
@@ -233,7 +222,7 @@ class CustomList$Mutation extends JsonSerializable with EquatableMixin {
   CustomList$Mutation$MutList mutList;
 
   @override
-  List<Object> get props => [mutList];
+  List<Object?> get props => [mutList];
   Map<String, dynamic> toJson() => _$CustomList$MutationToJson(this);
 }
 
@@ -248,7 +237,7 @@ class CustomArguments extends JsonSerializable with EquatableMixin {
   final Input input;
 
   @override
-  List<Object> get props => [input];
+  List<Object?> get props => [input];
   @override
   Map<String, dynamic> toJson() => _$CustomArgumentsToJson(this);
 }
@@ -298,7 +287,7 @@ class CustomMutation extends GraphQLQuery<Custom$Mutation, CustomArguments> {
   final CustomArguments variables;
 
   @override
-  List<Object> get props => [document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
   @override
   Custom$Mutation parse(Map<String, dynamic> json) =>
       Custom$Mutation.fromJson(json);
@@ -315,7 +304,7 @@ class CustomListArguments extends JsonSerializable with EquatableMixin {
   final List<Input> input;
 
   @override
-  List<Object> get props => [input];
+  List<Object?> get props => [input];
   @override
   Map<String, dynamic> toJson() => _$CustomListArgumentsToJson(this);
 }
@@ -368,7 +357,7 @@ class CustomListMutation
   final CustomListArguments variables;
 
   @override
-  List<Object> get props => [document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
   @override
   CustomList$Mutation parse(Map<String, dynamic> json) =>
       CustomList$Mutation.fromJson(json);

@@ -79,8 +79,7 @@ final String graphQLSchema = r'''
   }
 ''';
 
-final LibraryDefinition libraryDefinition =
-    LibraryDefinition(basename: r'query.graphql', queries: [
+final LibraryDefinition libraryDefinition = LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       name: QueryName(name: r'Custom$_Query'),
       operationName: r'custom',
@@ -93,8 +92,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: TypeName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name:
-                ClassName(name: r'Custom$_Query$_nodeById$_chatMessage$_user'),
+            name: ClassName(name: r'Custom$_Query$_nodeById$_chatMessage$_user'),
             extension: ClassName(name: r'Custom$_Query$_nodeById$_chatMessage'),
             mixins: [FragmentName(name: r'UserFragMixin')],
             factoryPossibilities: {},
@@ -109,8 +107,7 @@ final LibraryDefinition libraryDefinition =
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(
-                      name: r'Custom$_Query$_nodeById$_chatMessage$_user'),
+                  type: TypeName(name: r'Custom$_Query$_nodeById$_chatMessage$_user'),
                   name: ClassPropertyName(name: r'user'),
                   isNonNull: true,
                   isResolveType: false)
@@ -136,8 +133,7 @@ final LibraryDefinition libraryDefinition =
             ],
             factoryPossibilities: {
               r'User': ClassName(name: r'Custom$_Query$_nodeById$_User'),
-              r'ChatMessage':
-                  ClassName(name: r'Custom$_Query$_nodeById$_ChatMessage')
+              r'ChatMessage': ClassName(name: r'Custom$_Query$_nodeById$_ChatMessage')
             },
             typeNameField: TypeName(name: r'__typename'),
             isInput: false),
@@ -153,27 +149,20 @@ final LibraryDefinition libraryDefinition =
             factoryPossibilities: {},
             typeNameField: TypeName(name: r'__typename'),
             isInput: false),
-        FragmentClassDefinition(
-            name: FragmentName(name: r'UserFragMixin'),
-            properties: [
-              ClassProperty(
-                  type: TypeName(name: r'String'),
-                  name: ClassPropertyName(name: r'id'),
-                  isNonNull: true,
-                  isResolveType: false),
-              ClassProperty(
-                  type: TypeName(name: r'String'),
-                  name: ClassPropertyName(name: r'username'),
-                  isNonNull: true,
-                  isResolveType: false)
-            ])
+        FragmentClassDefinition(name: FragmentName(name: r'UserFragMixin'), properties: [
+          ClassProperty(
+              type: TypeName(name: r'String'),
+              name: ClassPropertyName(name: r'id'),
+              isNonNull: true,
+              isResolveType: false),
+          ClassProperty(
+              type: TypeName(name: r'String'),
+              name: ClassPropertyName(name: r'username'),
+              isNonNull: true,
+              isResolveType: false)
+        ])
       ],
-      inputs: [
-        QueryInput(
-            type: TypeName(name: r'String'),
-            name: QueryInputName(name: r'id'),
-            isNonNull: true)
-      ],
+      inputs: [QueryInput(type: TypeName(name: r'String'), name: QueryInputName(name: r'id'), isNonNull: true)],
       generateHelpers: false,
       suffix: r'Query')
 ]);
@@ -200,7 +189,7 @@ class Custom$Query$NodeById$User extends Custom$Query$NodeById
       _$Custom$Query$NodeById$UserFromJson(json);
 
   @override
-  List<Object> get props => [id, username];
+  List<Object?> get props => [id, username];
   Map<String, dynamic> toJson() => _$Custom$Query$NodeById$UserToJson(this);
 }
 
@@ -215,7 +204,7 @@ class Custom$Query$NodeById$ChatMessage$User
       _$Custom$Query$NodeById$ChatMessage$UserFromJson(json);
 
   @override
-  List<Object> get props => [id, username];
+  List<Object?> get props => [id, username];
   Map<String, dynamic> toJson() =>
       _$Custom$Query$NodeById$ChatMessage$UserToJson(this);
 }
@@ -234,7 +223,7 @@ class Custom$Query$NodeById$ChatMessage extends Custom$Query$NodeById
   Custom$Query$NodeById$ChatMessage$User user;
 
   @override
-  List<Object> get props => [message, user];
+  List<Object?> get props => [message, user];
   Map<String, dynamic> toJson() =>
       _$Custom$Query$NodeById$ChatMessageToJson(this);
 }
@@ -260,7 +249,7 @@ class Custom$Query$NodeById extends JsonSerializable with EquatableMixin {
   String $$typename;
 
   @override
-  List<Object> get props => [id, $$typename];
+  List<Object?> get props => [id, $$typename];
   Map<String, dynamic> toJson() {
     switch ($$typename) {
       case r'User':
@@ -283,7 +272,7 @@ class Custom$Query extends JsonSerializable with EquatableMixin {
   Custom$Query$NodeById nodeById;
 
   @override
-  List<Object> get props => [nodeById];
+  List<Object?> get props => [nodeById];
   Map<String, dynamic> toJson() => _$Custom$QueryToJson(this);
 }
 ''';

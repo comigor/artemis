@@ -1,5 +1,3 @@
-// @dart = 2.8
-
 import 'package:artemis/generator/data/class_definition.dart';
 import 'package:artemis/generator/data/definition.dart';
 import 'package:artemis/generator/data/query_input.dart';
@@ -31,8 +29,8 @@ class QueryDefinition extends Definition with DataPrinter {
 
   /// Instantiate a query definition.
   QueryDefinition({
-    @required Name name,
-    @required this.operationName,
+    required Name name,
+    required this.operationName,
     this.document = const DocumentNode(),
     this.classes = const [],
     this.inputs = const [],
@@ -42,10 +40,10 @@ class QueryDefinition extends Definition with DataPrinter {
         super(name: name);
 
   /// class name for helper classes
-  String get className => ClassName(name: operationName).namePrintable;
+  String? get className => ClassName(name: operationName).namePrintable;
 
   @override
-  Map<String, Object> get namedProps => {
+  Map<String, Object?> get namedProps => {
         'name': name,
         'operationName': operationName,
         'classes': classes,
@@ -58,20 +56,20 @@ class QueryDefinition extends Definition with DataPrinter {
 /// Query name
 class QueryName extends Name with DataPrinter {
   /// Instantiate a query name definition.
-  QueryName({String name}) : super(name: name);
+  QueryName({String? name}) : super(name: name);
 
   /// Generate class name from hierarchical path
-  factory QueryName.fromPath({List<Name> path}) {
-    return QueryName(name: path.map((e) => e.namePrintable).join(r'$_'));
+  factory QueryName.fromPath({required List<Name?> path}) {
+    return QueryName(name: path.map((e) => e!.namePrintable).join(r'$_'));
   }
 
   @override
-  Map<String, Object> get namedProps => {
+  Map<String, Object?> get namedProps => {
         'name': name,
       };
 
   @override
-  String normalize(String name) {
-    return ReCase(super.normalize(name)).pascalCase;
+  String normalize(String? name) {
+    return ReCase(super.normalize(name)!).pascalCase;
   }
 }

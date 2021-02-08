@@ -46,8 +46,7 @@ const query = r'''
   }
 ''';
 
-final LibraryDefinition libraryDefinition =
-    LibraryDefinition(basename: r'query.graphql', queries: [
+final LibraryDefinition libraryDefinition = LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       name: QueryName(name: r'SomeQuery$_QueryResponse'),
       operationName: r'some_query',
@@ -90,8 +89,7 @@ final LibraryDefinition libraryDefinition =
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(
-                      name: r'List<SomeQuery$QueryResponse$AnotherObject>'),
+                  type: TypeName(name: r'List<SomeQuery$QueryResponse$AnotherObject>'),
                   name: ClassPropertyName(name: r'anotherObject'),
                   isNonNull: false,
                   isResolveType: false)
@@ -123,7 +121,7 @@ class SomeQuery$QueryResponse$SomeObject extends JsonSerializable
   String st;
 
   @override
-  List<Object> get props => [st];
+  List<Object?> get props => [st];
   Map<String, dynamic> toJson() =>
       _$SomeQuery$QueryResponse$SomeObjectToJson(this);
 }
@@ -140,7 +138,7 @@ class SomeQuery$QueryResponse$AnotherObject extends JsonSerializable
   String str;
 
   @override
-  List<Object> get props => [str];
+  List<Object?> get props => [str];
   Map<String, dynamic> toJson() =>
       _$SomeQuery$QueryResponse$AnotherObjectToJson(this);
 }
@@ -159,7 +157,7 @@ class SomeQuery$QueryResponse extends JsonSerializable with EquatableMixin {
   List<SomeQuery$QueryResponse$AnotherObject> anotherObject;
 
   @override
-  List<Object> get props => [s, o, anotherObject];
+  List<Object?> get props => [s, o, anotherObject];
   Map<String, dynamic> toJson() => _$SomeQuery$QueryResponseToJson(this);
 }
 ''';

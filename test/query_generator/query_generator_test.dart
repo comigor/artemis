@@ -36,8 +36,7 @@ void main() {
           i: Int
         }
       ''',
-            libraryDefinition:
-                LibraryDefinition(basename: r'query.graphql', queries: [
+            libraryDefinition: LibraryDefinition(basename: r'query.graphql', queries: [
               QueryDefinition(
                   name: QueryName(name: r'SomeQuery$_SomeObject'),
                   operationName: r'some_query',
@@ -77,12 +76,12 @@ class SomeQuery$SomeObject extends JsonSerializable with EquatableMixin {
   factory SomeQuery$SomeObject.fromJson(Map<String, dynamic> json) =>
       _$SomeQuery$SomeObjectFromJson(json);
 
-  String s;
+  String? s;
 
-  int i;
+  int? i;
 
   @override
-  List<Object> get props => [s, i];
+  List<Object?> get props => [s, i];
   Map<String, dynamic> toJson() => _$SomeQuery$SomeObjectToJson(this);
 }
 ''',
@@ -115,8 +114,7 @@ class SomeQuery$SomeObject extends JsonSerializable with EquatableMixin {
               list(intsNonNullable: [Int]!): [Int]!
             }
       ''',
-            libraryDefinition:
-                LibraryDefinition(basename: r'query.graphql', queries: [
+            libraryDefinition: LibraryDefinition(basename: r'query.graphql', queries: [
               QueryDefinition(
                   name: QueryName(name: r'SomeQuery$_Query'),
                   operationName: r'some_query',
@@ -135,7 +133,7 @@ class SomeQuery$SomeObject extends JsonSerializable with EquatableMixin {
                               isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
-                              type: TypeName(name: r'List<int>'),
+                              type: TypeName(name: r'List<int?>'),
                               name: ClassPropertyName(name: r'list'),
                               isNonNull: true,
                               isResolveType: false)
@@ -147,8 +145,7 @@ class SomeQuery$SomeObject extends JsonSerializable with EquatableMixin {
                         name: ClassName(name: r'SomeQuery$_Query'),
                         properties: [
                           ClassProperty(
-                              type: TypeName(
-                                  name: r'SomeQuery$_Query$_SomeObject'),
+                              type: TypeName(name: r'SomeQuery$_Query$_SomeObject'),
                               name: ClassPropertyName(name: r'someQuery'),
                               isNonNull: false,
                               isResolveType: false)
@@ -159,7 +156,7 @@ class SomeQuery$SomeObject extends JsonSerializable with EquatableMixin {
                   ],
                   inputs: [
                     QueryInput(
-                        type: TypeName(name: r'List<int>'),
+                        type: TypeName(name: r'List<int?>'),
                         name: QueryInputName(name: r'intsNonNullable'),
                         isNonNull: true),
                     QueryInput(
@@ -186,14 +183,14 @@ class SomeQuery$Query$SomeObject extends JsonSerializable with EquatableMixin {
   factory SomeQuery$Query$SomeObject.fromJson(Map<String, dynamic> json) =>
       _$SomeQuery$Query$SomeObjectFromJson(json);
 
-  String s;
+  String? s;
 
-  int i;
+  int? i;
 
-  List<int> list;
+  List<int?> list;
 
   @override
-  List<Object> get props => [s, i, list];
+  List<Object?> get props => [s, i, list];
   Map<String, dynamic> toJson() => _$SomeQuery$Query$SomeObjectToJson(this);
 }
 
@@ -204,10 +201,10 @@ class SomeQuery$Query extends JsonSerializable with EquatableMixin {
   factory SomeQuery$Query.fromJson(Map<String, dynamic> json) =>
       _$SomeQuery$QueryFromJson(json);
 
-  SomeQuery$Query$SomeObject someQuery;
+  SomeQuery$Query$SomeObject? someQuery;
 
   @override
-  List<Object> get props => [someQuery];
+  List<Object?> get props => [someQuery];
   Map<String, dynamic> toJson() => _$SomeQuery$QueryToJson(this);
 }
 
@@ -219,12 +216,12 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
   factory SomeQueryArguments.fromJson(Map<String, dynamic> json) =>
       _$SomeQueryArgumentsFromJson(json);
 
-  final List<int> intsNonNullable;
+  final List<int?> intsNonNullable;
 
-  final String stringNullable;
+  final String? stringNullable;
 
   @override
-  List<Object> get props => [intsNonNullable, stringNullable];
+  List<Object?> get props => [intsNonNullable, stringNullable];
   @override
   Map<String, dynamic> toJson() => _$SomeQueryArgumentsToJson(this);
 }
@@ -304,7 +301,7 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
   final SomeQueryArguments variables;
 
   @override
-  List<Object> get props => [document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
   @override
   SomeQuery$Query parse(Map<String, dynamic> json) =>
       SomeQuery$Query.fromJson(json);
@@ -345,16 +342,13 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
               str: String
             }
       ''',
-            libraryDefinition:
-                LibraryDefinition(basename: r'query.graphql', queries: [
+            libraryDefinition: LibraryDefinition(basename: r'query.graphql', queries: [
               QueryDefinition(
                   name: QueryName(name: r'SomeQuery$_Result'),
                   operationName: r'some_query',
                   classes: [
                     ClassDefinition(
-                        name: ClassName(
-                            name:
-                                r'SomeQuery$_Result$_SomeObject$_AnotherObject'),
+                        name: ClassName(name: r'SomeQuery$_Result$_SomeObject$_AnotherObject'),
                         properties: [
                           ClassProperty(
                               type: TypeName(name: r'String'),
@@ -374,9 +368,7 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
                               isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
-                              type: TypeName(
-                                  name:
-                                      r'List<SomeQuery$Result$SomeObject$AnotherObject>'),
+                              type: TypeName(name: r'List<SomeQuery$Result$SomeObject$AnotherObject?>'),
                               name: ClassPropertyName(name: r'ob'),
                               isNonNull: false,
                               isResolveType: false)
@@ -393,8 +385,7 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
                               isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
-                              type: TypeName(
-                                  name: r'SomeQuery$_Result$_SomeObject'),
+                              type: TypeName(name: r'SomeQuery$_Result$_SomeObject'),
                               name: ClassPropertyName(name: r'o'),
                               isNonNull: false,
                               isResolveType: false)
@@ -422,10 +413,10 @@ class SomeQuery$Result$SomeObject$AnotherObject extends JsonSerializable
           Map<String, dynamic> json) =>
       _$SomeQuery$Result$SomeObject$AnotherObjectFromJson(json);
 
-  String str;
+  String? str;
 
   @override
-  List<Object> get props => [str];
+  List<Object?> get props => [str];
   Map<String, dynamic> toJson() =>
       _$SomeQuery$Result$SomeObject$AnotherObjectToJson(this);
 }
@@ -437,12 +428,12 @@ class SomeQuery$Result$SomeObject extends JsonSerializable with EquatableMixin {
   factory SomeQuery$Result$SomeObject.fromJson(Map<String, dynamic> json) =>
       _$SomeQuery$Result$SomeObjectFromJson(json);
 
-  String st;
+  String? st;
 
-  List<SomeQuery$Result$SomeObject$AnotherObject> ob;
+  List<SomeQuery$Result$SomeObject$AnotherObject?>? ob;
 
   @override
-  List<Object> get props => [st, ob];
+  List<Object?> get props => [st, ob];
   Map<String, dynamic> toJson() => _$SomeQuery$Result$SomeObjectToJson(this);
 }
 
@@ -453,12 +444,12 @@ class SomeQuery$Result extends JsonSerializable with EquatableMixin {
   factory SomeQuery$Result.fromJson(Map<String, dynamic> json) =>
       _$SomeQuery$ResultFromJson(json);
 
-  String s;
+  String? s;
 
-  SomeQuery$Result$SomeObject o;
+  SomeQuery$Result$SomeObject? o;
 
   @override
-  List<Object> get props => [s, o];
+  List<Object?> get props => [s, o];
   Map<String, dynamic> toJson() => _$SomeQuery$ResultToJson(this);
 }
 ''',
@@ -478,8 +469,7 @@ class SomeQuery$Result extends JsonSerializable with EquatableMixin {
               st: String
             }
       ''',
-            libraryDefinition:
-                LibraryDefinition(basename: r'query.graphql', queries: [
+            libraryDefinition: LibraryDefinition(basename: r'query.graphql', queries: [
               QueryDefinition(
                   name: QueryName(name: r'SomeQuery$_Result'),
                   operationName: r'some_query',
@@ -519,12 +509,12 @@ class SomeQuery$Result extends JsonSerializable with EquatableMixin {
   factory SomeQuery$Result.fromJson(Map<String, dynamic> json) =>
       _$SomeQuery$ResultFromJson(json);
 
-  String firstName;
+  String? firstName;
 
-  String lastName;
+  String? lastName;
 
   @override
-  List<Object> get props => [firstName, lastName];
+  List<Object?> get props => [firstName, lastName];
   Map<String, dynamic> toJson() => _$SomeQuery$ResultToJson(this);
 }
 ''',
@@ -562,8 +552,7 @@ class SomeQuery$Result extends JsonSerializable with EquatableMixin {
                 },
               ],
             },
-            libraryDefinition:
-                LibraryDefinition(basename: r'query.graphql', queries: [
+            libraryDefinition: LibraryDefinition(basename: r'query.graphql', queries: [
               QueryDefinition(
                   name: QueryName(name: r'SomeQuery$_SomeObject'),
                   operationName: r'some_query',
@@ -606,12 +595,12 @@ class SomeQuery$SomeObject extends JsonSerializable with EquatableMixin {
   factory SomeQuery$SomeObject.fromJson(Map<String, dynamic> json) =>
       _$SomeQuery$SomeObjectFromJson(json);
 
-  Decimal bigDecimal;
+  Decimal? bigDecimal;
 
-  DateTime dateTime;
+  DateTime? dateTime;
 
   @override
-  List<Object> get props => [bigDecimal, dateTime];
+  List<Object?> get props => [bigDecimal, dateTime];
   Map<String, dynamic> toJson() => _$SomeQuery$SomeObjectToJson(this);
 }
 ''',
@@ -630,16 +619,13 @@ class SomeQuery$SomeObject extends JsonSerializable with EquatableMixin {
               s: String
             }
       ''',
-            libraryDefinition:
-                LibraryDefinition(basename: r'query.graphql', queries: [
+            libraryDefinition: LibraryDefinition(basename: r'query.graphql', queries: [
               QueryDefinition(
-                  name:
-                      QueryName(name: r'PascalCasingQuery$_PascalCasingQuery'),
+                  name: QueryName(name: r'PascalCasingQuery$_PascalCasingQuery'),
                   operationName: r'PascalCasingQuery',
                   classes: [
                     ClassDefinition(
-                        name: ClassName(
-                            name: r'PascalCasingQuery$_PascalCasingQuery'),
+                        name: ClassName(name: r'PascalCasingQuery$_PascalCasingQuery'),
                         properties: [
                           ClassProperty(
                               type: TypeName(name: r'String'),
@@ -670,10 +656,10 @@ class PascalCasingQuery$PascalCasingQuery extends JsonSerializable
           Map<String, dynamic> json) =>
       _$PascalCasingQuery$PascalCasingQueryFromJson(json);
 
-  String s;
+  String? s;
 
   @override
-  List<Object> get props => [s];
+  List<Object?> get props => [s];
   Map<String, dynamic> toJson() =>
       _$PascalCasingQuery$PascalCasingQueryToJson(this);
 }

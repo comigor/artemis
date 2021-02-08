@@ -1,10 +1,8 @@
-// @dart = 2.8
-
 import 'package:equatable/equatable.dart';
 
 import 'helpers.dart';
 
-String _formatPrint(Object obj) {
+String? _formatPrint(Object? obj) {
   if (obj is Map) {
     return '{${obj.entries.map((e) => '${_formatPrint(e.key)}: ${_formatPrint(e.value)}').join(', ')}}';
   } else if (obj is Iterable) {
@@ -23,7 +21,7 @@ String _formatPrint(Object obj) {
 /// Data printer mixin
 mixin DataPrinter on Equatable {
   ///
-  Map<String, Object> get namedProps;
+  Map<String, Object?> get namedProps;
 
   @override
   List get props => namedProps.values.toList();

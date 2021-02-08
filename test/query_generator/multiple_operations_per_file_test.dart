@@ -63,8 +63,7 @@ query QueData($intsNonNullable: [Int]!, $stringNullable: String) {
 }
 ''';
 
-final LibraryDefinition libraryDefinition =
-    LibraryDefinition(basename: r'query.graphql', queries: [
+final LibraryDefinition libraryDefinition = LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       name: QueryName(name: r'MutData$_Mutation'),
       operationName: r'MutData',
@@ -106,12 +105,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: TypeName(name: r'__typename'),
             isInput: true)
       ],
-      inputs: [
-        QueryInput(
-            type: TypeName(name: r'Input'),
-            name: QueryInputName(name: r'input'),
-            isNonNull: true)
-      ],
+      inputs: [QueryInput(type: TypeName(name: r'Input'), name: QueryInputName(name: r'input'), isNonNull: true)],
       generateHelpers: true,
       suffix: r'Mutation'),
   QueryDefinition(
@@ -154,14 +148,8 @@ final LibraryDefinition libraryDefinition =
             isInput: false)
       ],
       inputs: [
-        QueryInput(
-            type: TypeName(name: r'List<int>'),
-            name: QueryInputName(name: r'intsNonNullable'),
-            isNonNull: true),
-        QueryInput(
-            type: TypeName(name: r'String'),
-            name: QueryInputName(name: r'stringNullable'),
-            isNonNull: false)
+        QueryInput(type: TypeName(name: r'List<int>'), name: QueryInputName(name: r'intsNonNullable'), isNonNull: true),
+        QueryInput(type: TypeName(name: r'String'), name: QueryInputName(name: r'stringNullable'), isNonNull: false)
       ],
       generateHelpers: true,
       suffix: r'Query')
@@ -188,7 +176,7 @@ class MutData$Mutation$MutationResponse extends JsonSerializable
   String s;
 
   @override
-  List<Object> get props => [s];
+  List<Object?> get props => [s];
   Map<String, dynamic> toJson() =>
       _$MutData$Mutation$MutationResponseToJson(this);
 }
@@ -203,7 +191,7 @@ class MutData$Mutation extends JsonSerializable with EquatableMixin {
   MutData$Mutation$MutationResponse mut;
 
   @override
-  List<Object> get props => [mut];
+  List<Object?> get props => [mut];
   Map<String, dynamic> toJson() => _$MutData$MutationToJson(this);
 }
 
@@ -216,7 +204,7 @@ class Input extends JsonSerializable with EquatableMixin {
   String s;
 
   @override
-  List<Object> get props => [s];
+  List<Object?> get props => [s];
   Map<String, dynamic> toJson() => _$InputToJson(this);
 }
 
@@ -234,7 +222,7 @@ class QueData$Query$QueryResponse extends JsonSerializable with EquatableMixin {
   List<int> list;
 
   @override
-  List<Object> get props => [s, i, list];
+  List<Object?> get props => [s, i, list];
   Map<String, dynamic> toJson() => _$QueData$Query$QueryResponseToJson(this);
 }
 
@@ -248,7 +236,7 @@ class QueData$Query extends JsonSerializable with EquatableMixin {
   QueData$Query$QueryResponse que;
 
   @override
-  List<Object> get props => [que];
+  List<Object?> get props => [que];
   Map<String, dynamic> toJson() => _$QueData$QueryToJson(this);
 }
 
@@ -263,7 +251,7 @@ class MutDataArguments extends JsonSerializable with EquatableMixin {
   final Input input;
 
   @override
-  List<Object> get props => [input];
+  List<Object?> get props => [input];
   @override
   Map<String, dynamic> toJson() => _$MutDataArgumentsToJson(this);
 }
@@ -313,7 +301,7 @@ class MutDataMutation extends GraphQLQuery<MutData$Mutation, MutDataArguments> {
   final MutDataArguments variables;
 
   @override
-  List<Object> get props => [document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
   @override
   MutData$Mutation parse(Map<String, dynamic> json) =>
       MutData$Mutation.fromJson(json);
@@ -332,7 +320,7 @@ class QueDataArguments extends JsonSerializable with EquatableMixin {
   final String stringNullable;
 
   @override
-  List<Object> get props => [intsNonNullable, stringNullable];
+  List<Object?> get props => [intsNonNullable, stringNullable];
   @override
   Map<String, dynamic> toJson() => _$QueDataArgumentsToJson(this);
 }
@@ -412,7 +400,7 @@ class QueDataQuery extends GraphQLQuery<QueData$Query, QueDataArguments> {
   final QueDataArguments variables;
 
   @override
-  List<Object> get props => [document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
   @override
   QueData$Query parse(Map<String, dynamic> json) =>
       QueData$Query.fromJson(json);

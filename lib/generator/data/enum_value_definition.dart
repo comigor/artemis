@@ -1,5 +1,3 @@
-// @dart = 2.8
-
 import 'package:artemis/generator/data/definition.dart';
 import 'package:artemis/generator/data_printer.dart';
 import 'package:meta/meta.dart';
@@ -15,7 +13,7 @@ class EnumValueDefinition extends Definition with DataPrinter {
 
   /// Instantiate an enum value
   EnumValueDefinition({
-    @required this.name,
+    required this.name,
     this.annotations = const [],
   });
 
@@ -29,15 +27,15 @@ class EnumValueDefinition extends Definition with DataPrinter {
 /// Enum value name
 class EnumValueName extends Name with DataPrinter {
   /// Instantiate a enum value name definition.
-  EnumValueName({@required String name}) : super(name: name);
+  EnumValueName({required String name}) : super(name: name);
 
   @override
-  Map<String, Object> get namedProps => {
+  Map<String, Object?> get namedProps => {
         'name': name,
       };
 
   @override
-  String normalize(String name) {
-    return ReCase(super.normalize(name)).camelCase;
+  String normalize(String? name) {
+    return ReCase(super.normalize(name)!).camelCase;
   }
 }

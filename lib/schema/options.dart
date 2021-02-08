@@ -1,5 +1,4 @@
-// @dart = 2.8
-
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:json_annotation/json_annotation.dart';
 import 'package:yaml/yaml.dart';
 
@@ -16,10 +15,10 @@ class GeneratorOptions {
 
   /// A list of scalar mappings.
   @JsonKey(defaultValue: [])
-  final List<ScalarMap> scalarMapping;
+  final List<ScalarMap?> scalarMapping;
 
   /// A list of fragments apply for all query files without declare them.
-  final String fragmentsGlob;
+  final String? fragmentsGlob;
 
   /// A list of schema mappings.
   @JsonKey(defaultValue: [])
@@ -51,7 +50,7 @@ class GeneratorOptions {
 @JsonSerializable()
 class DartType {
   /// Dart type name.
-  final String name;
+  final String? name;
 
   /// Package imports related to this type.
   @JsonKey(defaultValue: <String>[])
@@ -88,13 +87,13 @@ class DartType {
 class ScalarMap {
   /// The GraphQL type name.
   @JsonKey(name: 'graphql_type')
-  final String graphQLType;
+  final String? graphQLType;
 
   /// The Dart type linked to this GraphQL type.
-  final DartType dartType;
+  final DartType? dartType;
 
   /// If custom parser would be used.
-  final String customParserImport;
+  final String? customParserImport;
 
   /// Instatiates a scalar mapping.
   ScalarMap({
@@ -129,13 +128,13 @@ enum NamingScheme {
 @JsonSerializable(fieldRename: FieldRename.snake)
 class SchemaMap {
   /// The output file of this queries glob.
-  final String output;
+  final String? output;
 
   /// The GraphQL schema string.
-  final String schema;
+  final String? schema;
 
   /// A [Glob] to find queries files.
-  final String queriesGlob;
+  final String? queriesGlob;
 
   /// The resolve type field used on this schema.
   @JsonKey(defaultValue: '__typename')
@@ -155,7 +154,7 @@ class SchemaMap {
   /// This will probably lead to duplication and an Artemis error unless you
   /// use aliases.
   @JsonKey(unknownEnumValue: NamingScheme.pathedWithTypes)
-  final NamingScheme namingScheme;
+  final NamingScheme? namingScheme;
 
   /// Instantiates a schema mapping.
   SchemaMap({

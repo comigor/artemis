@@ -1,8 +1,7 @@
-// @dart = 2.8
-
 import 'package:artemis/generator/data/data.dart';
 import 'package:artemis/generator/ephemeral_data.dart';
 import 'package:build/build.dart';
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:gql/ast.dart';
 
 typedef _IterableFunction<T, U> = U Function(T i);
@@ -86,7 +85,7 @@ Iterable<T> _removeDuplicatedBy<T, U>(
 /// _variable => $variable
 /// __typename => $$typename
 /// new -> kw$new
-String normalizeName(String name) {
+String? normalizeName(String? name) {
   if (name == null) {
     return name;
   }
@@ -96,7 +95,7 @@ String normalizeName(String name) {
 
   if (matches.isNotEmpty) {
     var match = matches.elementAt(0);
-    var fieldName = match.group(2);
+    var fieldName = match.group(2)!;
 
     return fieldName.padLeft(name.length, r'$');
   }
@@ -120,17 +119,17 @@ Iterable<T> _mergeDuplicatesBy<T, U>(Iterable<T> list,
 
 /// Merge multiple values from an iterable given a predicate without modifying
 /// the original iterable.
-extension ExtensionsOnIterable<T, U> on Iterable<T> {
+extension ExtensionsOnIterable<T, U> on Iterable<T>? {
   /// Merge multiple values from an iterable given a predicate without modifying
   /// the original iterable.
   Iterable<T> mergeDuplicatesBy(
           _IterableFunction<T, U> fn, _MergeableFunction<T> mergeFn) =>
-      _mergeDuplicatesBy(this, fn, mergeFn);
+      _mergeDuplicatesBy(this!, fn, mergeFn);
 
   /// Remove duplicated values from an iterable given a predicate without
   /// modifying the original iterable.
   Iterable<T> removeDuplicatedBy(_IterableFunction<T, U> fn) =>
-      _removeDuplicatedBy(this, fn);
+      _removeDuplicatedBy(this!, fn);
 }
 
 /// Checks if the passed queries contain either:
@@ -154,7 +153,7 @@ bool hasNonNullableInput(Iterable<QueryDefinition> queries) {
 }
 
 /// Check if [obj] has value (isn't null or empty).
-bool hasValue(Object obj) {
+bool hasValue(Object? obj) {
   if (obj is Iterable) {
     return obj != null && obj.isNotEmpty;
   }
@@ -163,13 +162,12 @@ bool hasValue(Object obj) {
 
 /// Proceeds deprecated annotation
 List<String> proceedDeprecated(
-  List<DirectiveNode> directives,
+  List<DirectiveNode>? directives,
 ) {
   final annotations = <String>[];
 
-  final deprecatedDirective = directives?.firstWhere(
+  final deprecatedDirective = directives?.firstWhereOrNull(
     (directive) => directive.name.value == 'deprecated',
-    orElse: () => null,
   );
 
   if (deprecatedDirective != null) {

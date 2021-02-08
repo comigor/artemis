@@ -58,26 +58,20 @@ void main() {
   );
 }
 
-final LibraryDefinition libraryDefinition =
-    LibraryDefinition(basename: r'query.graphql', queries: [
+final LibraryDefinition libraryDefinition = LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       name: QueryName(name: r'SomeQuery$_QueryResponse'),
       operationName: r'some_query',
       classes: [
-        FragmentClassDefinition(
-            name: FragmentName(name: r'MyFragmentMixin'),
-            properties: [
-              ClassProperty(
-                  type: TypeName(name: r'String'),
-                  name: ClassPropertyName(name: r's'),
-                  isNonNull: false,
-                  isResolveType: false),
-              ClassProperty(
-                  type: TypeName(name: r'int'),
-                  name: ClassPropertyName(name: r'i'),
-                  isNonNull: false,
-                  isResolveType: false)
-            ]),
+        FragmentClassDefinition(name: FragmentName(name: r'MyFragmentMixin'), properties: [
+          ClassProperty(
+              type: TypeName(name: r'String'),
+              name: ClassPropertyName(name: r's'),
+              isNonNull: false,
+              isResolveType: false),
+          ClassProperty(
+              type: TypeName(name: r'int'), name: ClassPropertyName(name: r'i'), isNonNull: false, isResolveType: false)
+        ]),
         ClassDefinition(
             name: ClassName(name: r'SomeObject'),
             mixins: [FragmentName(name: r'MyFragmentMixin')],
@@ -144,7 +138,7 @@ class SomeObject extends JsonSerializable with EquatableMixin, MyFragmentMixin {
       _$SomeObjectFromJson(json);
 
   @override
-  List<Object> get props => [s, i];
+  List<Object?> get props => [s, i];
   Map<String, dynamic> toJson() => _$SomeObjectToJson(this);
 }
 
@@ -158,7 +152,7 @@ class MoreData extends JsonSerializable with EquatableMixin {
   SomeObject someObject;
 
   @override
-  List<Object> get props => [someObject];
+  List<Object?> get props => [someObject];
   Map<String, dynamic> toJson() => _$MoreDataToJson(this);
 }
 
@@ -174,7 +168,7 @@ class SomeQuery$QueryResponse extends JsonSerializable with EquatableMixin {
   MoreData moreData;
 
   @override
-  List<Object> get props => [someObject, moreData];
+  List<Object?> get props => [someObject, moreData];
   Map<String, dynamic> toJson() => _$SomeQuery$QueryResponseToJson(this);
 }
 ''';

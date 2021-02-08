@@ -50,8 +50,7 @@ const query = r'''
   }
 ''';
 
-final LibraryDefinition libraryDefinition =
-    LibraryDefinition(basename: r'query.graphql', queries: [
+final LibraryDefinition libraryDefinition = LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       name: QueryName(name: r'BrowseArticles$_Query'),
       operationName: r'BrowseArticles',
@@ -77,9 +76,7 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'ArticleType'),
                   name: ClassPropertyName(name: r'article_type'),
-                  annotations: [
-                    r'''JsonKey(name: 'article_type', unknownEnumValue: ArticleType.artemisUnknown)'''
-                  ],
+                  annotations: [r'''JsonKey(name: 'article_type', unknownEnumValue: ArticleType.artemisUnknown)'''],
                   isNonNull: true,
                   isResolveType: false)
             ],
@@ -103,9 +100,7 @@ final LibraryDefinition libraryDefinition =
         QueryInput(
             type: TypeName(name: r'List<ArticleType>'),
             name: QueryInputName(name: r'article_type_in'),
-            annotations: [
-              r'''JsonKey(unknownEnumValue: ArticleType.artemisUnknown)'''
-            ],
+            annotations: [r'''JsonKey(unknownEnumValue: ArticleType.artemisUnknown)'''],
             isNonNull: false)
       ],
       generateHelpers: true,
@@ -136,7 +131,7 @@ class BrowseArticles$Query$Article extends JsonSerializable
   ArticleType articleType;
 
   @override
-  List<Object> get props => [id, title, articleType];
+  List<Object?> get props => [id, title, articleType];
   Map<String, dynamic> toJson() => _$BrowseArticles$Query$ArticleToJson(this);
 }
 
@@ -150,7 +145,7 @@ class BrowseArticles$Query extends JsonSerializable with EquatableMixin {
   List<BrowseArticles$Query$Article> articles;
 
   @override
-  List<Object> get props => [articles];
+  List<Object?> get props => [articles];
   Map<String, dynamic> toJson() => _$BrowseArticles$QueryToJson(this);
 }
 
@@ -175,7 +170,7 @@ class BrowseArticlesArguments extends JsonSerializable with EquatableMixin {
   final List<ArticleType> article_type_in;
 
   @override
-  List<Object> get props => [article_type_in];
+  List<Object?> get props => [article_type_in];
   @override
   Map<String, dynamic> toJson() => _$BrowseArticlesArgumentsToJson(this);
 }
@@ -241,7 +236,7 @@ class BrowseArticlesQuery
   final BrowseArticlesArguments variables;
 
   @override
-  List<Object> get props => [document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
   @override
   BrowseArticles$Query parse(Map<String, dynamic> json) =>
       BrowseArticles$Query.fromJson(json);

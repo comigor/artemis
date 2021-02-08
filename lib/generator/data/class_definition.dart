@@ -1,5 +1,3 @@
-// @dart = 2.8
-
 import 'package:artemis/generator/data/class_property.dart';
 import 'package:artemis/generator/data/definition.dart';
 import 'package:artemis/generator/data/fragment_class_definition.dart';
@@ -14,7 +12,7 @@ class ClassDefinition extends Definition with DataPrinter {
   final Iterable<ClassProperty> properties;
 
   /// The type this class extends from, or [null].
-  final Name extension;
+  final Name? extension;
 
   /// The types this class implements.
   final Iterable<String> implementations;
@@ -34,20 +32,20 @@ class ClassDefinition extends Definition with DataPrinter {
 
   /// Instantiate a class definition.
   ClassDefinition({
-    @required Name name,
+    required Name name,
     this.properties = const [],
     this.extension,
     this.implementations = const [],
     this.mixins = const [],
     this.factoryPossibilities = const {},
-    TypeName typeNameField,
+    TypeName? typeNameField,
     this.isInput = false,
   })  : assert(hasValue(name)),
         typeNameField = typeNameField ?? TypeName(name: '__typename'),
         super(name: name);
 
   @override
-  Map<String, Object> get namedProps => {
+  Map<String, Object?> get namedProps => {
         'name': name,
         'properties': properties,
         'extension': extension,
@@ -62,20 +60,20 @@ class ClassDefinition extends Definition with DataPrinter {
 /// Class name.
 class ClassName extends Name with DataPrinter {
   /// Instantiate a class name definition.
-  ClassName({String name}) : super(name: name);
+  ClassName({String? name}) : super(name: name);
 
   /// Generate class name from hierarchical path
-  factory ClassName.fromPath({List<Name> path}) {
-    return ClassName(name: path.map((e) => e.namePrintable).join(r'$_'));
+  factory ClassName.fromPath({required List<Name?> path}) {
+    return ClassName(name: path.map((e) => e!.namePrintable).join(r'$_'));
   }
 
   @override
-  Map<String, Object> get namedProps => {
+  Map<String, Object?> get namedProps => {
         'name': name,
       };
 
   @override
-  String normalize(String name) {
-    return ReCase(super.normalize(name)).pascalCase;
+  String normalize(String? name) {
+    return ReCase(super.normalize(name)!).pascalCase;
   }
 }

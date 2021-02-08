@@ -50,8 +50,7 @@ void main() {
   });
 }
 
-final LibraryDefinition libraryDefinition =
-    LibraryDefinition(basename: r'query.graphql', queries: [
+final LibraryDefinition libraryDefinition = LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       name: QueryName(name: r'SomeQuery$_QueryRoot'),
       operationName: r'some_query',
@@ -102,9 +101,7 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'MyEnum'),
                   name: ClassPropertyName(name: r'e'),
-                  annotations: [
-                    r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
-                  ],
+                  annotations: [r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'],
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
@@ -123,10 +120,7 @@ final LibraryDefinition libraryDefinition =
             isInput: true)
       ],
       inputs: [
-        QueryInput(
-            type: TypeName(name: r'ComplexInput'),
-            name: QueryInputName(name: r'filter'),
-            isNonNull: true)
+        QueryInput(type: TypeName(name: r'ComplexInput'), name: QueryInputName(name: r'filter'), isNonNull: true)
       ],
       generateHelpers: true,
       suffix: r'Query')
@@ -152,7 +146,7 @@ class SomeQuery$QueryRoot$SomeObject extends JsonSerializable
   String s;
 
   @override
-  List<Object> get props => [s];
+  List<Object?> get props => [s];
   Map<String, dynamic> toJson() => _$SomeQuery$QueryRoot$SomeObjectToJson(this);
 }
 
@@ -166,7 +160,7 @@ class SomeQuery$QueryRoot extends JsonSerializable with EquatableMixin {
   SomeQuery$QueryRoot$SomeObject o;
 
   @override
-  List<Object> get props => [o];
+  List<Object?> get props => [o];
   Map<String, dynamic> toJson() => _$SomeQuery$QueryRootToJson(this);
 }
 
@@ -187,7 +181,7 @@ class ComplexInput extends JsonSerializable with EquatableMixin {
   List<List<int>> i;
 
   @override
-  List<Object> get props => [s, e, ls, i];
+  List<Object?> get props => [s, e, ls, i];
   Map<String, dynamic> toJson() => _$ComplexInputToJson(this);
 }
 
@@ -211,7 +205,7 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
   final ComplexInput filter;
 
   @override
-  List<Object> get props => [filter];
+  List<Object?> get props => [filter];
   @override
   Map<String, dynamic> toJson() => _$SomeQueryArgumentsToJson(this);
 }
@@ -262,7 +256,7 @@ class SomeQueryQuery
   final SomeQueryArguments variables;
 
   @override
-  List<Object> get props => [document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
   @override
   SomeQuery$QueryRoot parse(Map<String, dynamic> json) =>
       SomeQuery$QueryRoot.fromJson(json);

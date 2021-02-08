@@ -1,5 +1,3 @@
-// @dart = 2.8
-
 import 'package:artemis/generator.dart';
 import 'package:artemis/generator/data/data.dart';
 import 'package:artemis/generator/data/enum_value_definition.dart';
@@ -13,7 +11,7 @@ import 'package:gql/ast.dart';
 class CanonicalVisitor extends RecursiveVisitor {
   /// Constructor
   CanonicalVisitor({
-    @required this.context,
+    required this.context,
   });
 
   /// Current context
@@ -27,7 +25,7 @@ class CanonicalVisitor extends RecursiveVisitor {
 
   @override
   void visitEnumTypeDefinitionNode(EnumTypeDefinitionNode node) {
-    final enumName = EnumName(name: node.name.value);
+    final enumName = EnumName(name: node.name!.value);
 
     final nextContext = context.sameTypeWithNoPath(alias: enumName);
 
@@ -39,7 +37,7 @@ class CanonicalVisitor extends RecursiveVisitor {
       name: enumName,
       values: node.values
           .map((ev) => EnumValueDefinition(
-                name: EnumValueName(name: ev.name.value),
+                name: EnumValueName(name: ev.name!.value),
                 annotations: proceedDeprecated(ev.directives),
               ))
           .toList()
@@ -49,12 +47,12 @@ class CanonicalVisitor extends RecursiveVisitor {
 
   @override
   void visitInputObjectTypeDefinitionNode(InputObjectTypeDefinitionNode node) {
-    final name = ClassName(name: node.name.value);
+    final name = ClassName(name: node.name!.value);
     final nextContext = context.sameTypeWithNoPath(alias: name);
 
     logFn(context, nextContext.align, '-> Input class');
     logFn(context, nextContext.align,
-        '┌ ${nextContext.path}[${node.name.value}]');
+        '┌ ${nextContext.path}[${node.name!.value}]');
     final properties = <ClassProperty>[];
 
     properties.addAll(node.fields.map((i) {
@@ -63,7 +61,7 @@ class CanonicalVisitor extends RecursiveVisitor {
         fieldName: ClassPropertyName(name: i.name.value),
         context: nextContext.nextTypeWithNoPath(
           nextType: node,
-          nextClassName: ClassName(name: nextType.name.value),
+          nextClassName: ClassName(name: nextType.name!.value),
           nextFieldName: ClassName(name: i.name.value),
         ),
         markAsUsed: false,
@@ -71,7 +69,7 @@ class CanonicalVisitor extends RecursiveVisitor {
     }));
 
     logFn(context, nextContext.align,
-        '└ ${nextContext.path}[${node.name.value}]');
+        '└ ${nextContext.path}[${node.name!.value}]');
     logFn(context, nextContext.align,
         '<- Generated input class ${name.namePrintable}.');
 

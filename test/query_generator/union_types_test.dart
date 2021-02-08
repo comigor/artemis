@@ -77,8 +77,7 @@ final String graphQLSchema = '''
   }
 ''';
 
-final LibraryDefinition libraryDefinition =
-    LibraryDefinition(basename: r'query.graphql', queries: [
+final LibraryDefinition libraryDefinition = LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       name: QueryName(name: r'SomeQuery$_SomeObject'),
       operationName: r'some_query',
@@ -125,7 +124,7 @@ final LibraryDefinition libraryDefinition =
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'__typename'),
                   annotations: [r'''JsonKey(name: '__typename')'''],
-                  isNonNull: false,
+                  isNonNull: true,
                   isResolveType: true)
             ],
             extension: ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion'),
@@ -180,7 +179,7 @@ final LibraryDefinition libraryDefinition =
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'__typename'),
                   annotations: [r'''JsonKey(name: '__typename')'''],
-                  isNonNull: false,
+                  isNonNull: true,
                   isResolveType: true)
             ],
             extension: ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion'),
@@ -194,14 +193,12 @@ final LibraryDefinition libraryDefinition =
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'__typename'),
                   annotations: [r'''JsonKey(name: '__typename')'''],
-                  isNonNull: false,
+                  isNonNull: true,
                   isResolveType: true)
             ],
             factoryPossibilities: {
-              r'TypeA':
-                  ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion$_TypeA'),
-              r'TypeB':
-                  ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion$_TypeB')
+              r'TypeA': ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion$_TypeA'),
+              r'TypeB': ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion$_TypeB')
             },
             typeNameField: TypeName(name: r'__typename'),
             isInput: false),
@@ -238,29 +235,29 @@ class SomeQuery$SomeObject$SomeUnion$TypeA
           Map<String, dynamic> json) =>
       _$SomeQuery$SomeObject$SomeUnion$TypeAFromJson(json);
 
-  int a;
+  int? a;
 
   @JsonKey(name: '_')
-  String $;
+  String? $;
 
   @JsonKey(name: '_a')
-  String $a;
+  String? $a;
 
   @JsonKey(name: '_a_a')
-  String $aA;
+  String? $aA;
 
   @JsonKey(name: '_a_a_')
-  String $aA_;
+  String? $aA_;
 
   @JsonKey(name: '_new')
-  String $new;
+  String? $new;
 
   @JsonKey(name: '__typename')
   @override
   String $$typename;
 
   @override
-  List<Object> get props => [a, $, $a, $aA, $aA_, $new, $$typename];
+  List<Object?> get props => [a, $, $a, $aA, $aA_, $new, $$typename];
   Map<String, dynamic> toJson() =>
       _$SomeQuery$SomeObject$SomeUnion$TypeAToJson(this);
 }
@@ -274,32 +271,32 @@ class SomeQuery$SomeObject$SomeUnion$TypeB
           Map<String, dynamic> json) =>
       _$SomeQuery$SomeObject$SomeUnion$TypeBFromJson(json);
 
-  int b;
+  int? b;
 
   @JsonKey(name: '_')
-  String $;
+  String? $;
 
   @JsonKey(name: '_b')
-  String $b;
+  String? $b;
 
   @JsonKey(name: '_b_b')
-  String $bB;
+  String? $bB;
 
   @JsonKey(name: '_b_b_')
-  String $bB_;
+  String? $bB_;
 
   @JsonKey(name: 'new')
-  String kw$new;
+  String? kw$new;
 
   @JsonKey(name: 'IN')
-  String kw$IN;
+  String? kw$IN;
 
   @JsonKey(name: '__typename')
   @override
   String $$typename;
 
   @override
-  List<Object> get props => [b, $, $b, $bB, $bB_, kw$new, kw$IN, $$typename];
+  List<Object?> get props => [b, $, $b, $bB, $bB_, kw$new, kw$IN, $$typename];
   Map<String, dynamic> toJson() =>
       _$SomeQuery$SomeObject$SomeUnion$TypeBToJson(this);
 }
@@ -324,7 +321,7 @@ class SomeQuery$SomeObject$SomeUnion extends JsonSerializable
   String $$typename;
 
   @override
-  List<Object> get props => [$$typename];
+  List<Object?> get props => [$$typename];
   Map<String, dynamic> toJson() {
     switch ($$typename) {
       case r'TypeA':
@@ -344,10 +341,10 @@ class SomeQuery$SomeObject extends JsonSerializable with EquatableMixin {
   factory SomeQuery$SomeObject.fromJson(Map<String, dynamic> json) =>
       _$SomeQuery$SomeObjectFromJson(json);
 
-  SomeQuery$SomeObject$SomeUnion o;
+  SomeQuery$SomeObject$SomeUnion? o;
 
   @override
-  List<Object> get props => [o];
+  List<Object?> get props => [o];
   Map<String, dynamic> toJson() => _$SomeQuery$SomeObjectToJson(this);
 }
 ''';

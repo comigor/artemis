@@ -48,8 +48,7 @@ const query = r'''
         }
         ''';
 
-final LibraryDefinition libraryDefinition =
-    LibraryDefinition(basename: r'query.graphql', queries: [
+final LibraryDefinition libraryDefinition = LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       name: QueryName(name: r'SomeQuery$_Response'),
       operationName: r'some_query',
@@ -71,9 +70,7 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'MyEnum'),
                   name: ClassPropertyName(name: r'thisIsAnEnum'),
-                  annotations: [
-                    r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
-                  ],
+                  annotations: [r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'],
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -121,7 +118,7 @@ class SomeQuery$Response$SomeObject extends JsonSerializable
   MyEnum thisIsAnEnum;
 
   @override
-  List<Object> get props => [thisIsAnEnum];
+  List<Object?> get props => [thisIsAnEnum];
   Map<String, dynamic> toJson() => _$SomeQuery$Response$SomeObjectToJson(this);
 }
 
@@ -137,7 +134,7 @@ class SomeQuery$Response extends JsonSerializable with EquatableMixin {
   SomeQuery$Response$SomeObject o;
 
   @override
-  List<Object> get props => [thisIsAString, o];
+  List<Object?> get props => [thisIsAString, o];
   Map<String, dynamic> toJson() => _$SomeQuery$ResponseToJson(this);
 }
 

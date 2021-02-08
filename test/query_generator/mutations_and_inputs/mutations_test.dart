@@ -64,8 +64,7 @@ mutation _custom($input: _Input!) {
 }
 ''';
 
-final LibraryDefinition libraryDefinition =
-    LibraryDefinition(basename: r'query.graphql', queries: [
+final LibraryDefinition libraryDefinition = LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       name: QueryName(name: r'Custom$_MutationRoot'),
       operationName: r'custom',
@@ -86,8 +85,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Custom$_MutationRoot'),
             properties: [
               ClassProperty(
-                  type:
-                      TypeName(name: r'Custom$_MutationRoot$_MutationResponse'),
+                  type: TypeName(name: r'Custom$_MutationRoot$_MutationResponse'),
                   name: ClassPropertyName(name: r'mut'),
                   isNonNull: false,
                   isResolveType: false)
@@ -108,12 +106,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: TypeName(name: r'__typename'),
             isInput: true)
       ],
-      inputs: [
-        QueryInput(
-            type: TypeName(name: r'Input'),
-            name: QueryInputName(name: r'input'),
-            isNonNull: true)
-      ],
+      inputs: [QueryInput(type: TypeName(name: r'Input'), name: QueryInputName(name: r'input'), isNonNull: true)],
       generateHelpers: true,
       suffix: r'Mutation'),
   QueryDefinition(
@@ -137,8 +130,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'$custom$_MutationRoot'),
             properties: [
               ClassProperty(
-                  type: TypeName(
-                      name: r'$custom$_MutationRoot$_$MutationResponse'),
+                  type: TypeName(name: r'$custom$_MutationRoot$_$MutationResponse'),
                   name: ClassPropertyName(name: r'_mut'),
                   annotations: [r'''JsonKey(name: '_mut')'''],
                   isNonNull: false,
@@ -161,12 +153,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: TypeName(name: r'__typename'),
             isInput: true)
       ],
-      inputs: [
-        QueryInput(
-            type: TypeName(name: r'_Input'),
-            name: QueryInputName(name: r'input'),
-            isNonNull: true)
-      ],
+      inputs: [QueryInput(type: TypeName(name: r'_Input'), name: QueryInputName(name: r'input'), isNonNull: true)],
       generateHelpers: true,
       suffix: r'Mutation')
 ]);
@@ -189,10 +176,10 @@ class Custom$MutationRoot$MutationResponse extends JsonSerializable
           Map<String, dynamic> json) =>
       _$Custom$MutationRoot$MutationResponseFromJson(json);
 
-  String s;
+  String? s;
 
   @override
-  List<Object> get props => [s];
+  List<Object?> get props => [s];
   Map<String, dynamic> toJson() =>
       _$Custom$MutationRoot$MutationResponseToJson(this);
 }
@@ -204,10 +191,10 @@ class Custom$MutationRoot extends JsonSerializable with EquatableMixin {
   factory Custom$MutationRoot.fromJson(Map<String, dynamic> json) =>
       _$Custom$MutationRootFromJson(json);
 
-  Custom$MutationRoot$MutationResponse mut;
+  Custom$MutationRoot$MutationResponse? mut;
 
   @override
-  List<Object> get props => [mut];
+  List<Object?> get props => [mut];
   Map<String, dynamic> toJson() => _$Custom$MutationRootToJson(this);
 }
 
@@ -220,7 +207,7 @@ class Input extends JsonSerializable with EquatableMixin {
   String s;
 
   @override
-  List<Object> get props => [s];
+  List<Object?> get props => [s];
   Map<String, dynamic> toJson() => _$InputToJson(this);
 }
 
@@ -234,10 +221,10 @@ class $custom$MutationRoot$$MutationResponse extends JsonSerializable
       _$$custom$MutationRoot$$MutationResponseFromJson(json);
 
   @JsonKey(name: '_s')
-  String $s;
+  String? $s;
 
   @override
-  List<Object> get props => [$s];
+  List<Object?> get props => [$s];
   Map<String, dynamic> toJson() =>
       _$$custom$MutationRoot$$MutationResponseToJson(this);
 }
@@ -250,10 +237,10 @@ class $custom$MutationRoot extends JsonSerializable with EquatableMixin {
       _$$custom$MutationRootFromJson(json);
 
   @JsonKey(name: '_mut')
-  $custom$MutationRoot$$MutationResponse $mut;
+  $custom$MutationRoot$$MutationResponse? $mut;
 
   @override
-  List<Object> get props => [$mut];
+  List<Object?> get props => [$mut];
   Map<String, dynamic> toJson() => _$$custom$MutationRootToJson(this);
 }
 
@@ -267,7 +254,7 @@ class $Input extends JsonSerializable with EquatableMixin {
   String $s;
 
   @override
-  List<Object> get props => [$s];
+  List<Object?> get props => [$s];
   Map<String, dynamic> toJson() => _$$InputToJson(this);
 }
 
@@ -282,7 +269,7 @@ class CustomArguments extends JsonSerializable with EquatableMixin {
   final Input input;
 
   @override
-  List<Object> get props => [input];
+  List<Object?> get props => [input];
   @override
   Map<String, dynamic> toJson() => _$CustomArgumentsToJson(this);
 }
@@ -333,7 +320,7 @@ class CustomMutation
   final CustomArguments variables;
 
   @override
-  List<Object> get props => [document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
   @override
   Custom$MutationRoot parse(Map<String, dynamic> json) =>
       Custom$MutationRoot.fromJson(json);
@@ -350,7 +337,7 @@ class $customArguments extends JsonSerializable with EquatableMixin {
   final $Input input;
 
   @override
-  List<Object> get props => [input];
+  List<Object?> get props => [input];
   @override
   Map<String, dynamic> toJson() => _$$customArgumentsToJson(this);
 }
@@ -401,7 +388,7 @@ class $customMutation
   final $customArguments variables;
 
   @override
-  List<Object> get props => [document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
   @override
   $custom$MutationRoot parse(Map<String, dynamic> json) =>
       $custom$MutationRoot.fromJson(json);

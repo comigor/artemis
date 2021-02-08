@@ -1,5 +1,3 @@
-// @dart = 2.8
-
 import 'package:artemis/generator/data/query_definition.dart';
 import 'package:artemis/generator/data_printer.dart';
 import 'package:artemis/generator/helpers.dart';
@@ -23,7 +21,7 @@ class LibraryDefinition extends Equatable with DataPrinter {
 
   /// Instantiate a library definition.
   LibraryDefinition({
-    @required this.basename,
+    required this.basename,
     this.queries = const [],
     this.customImports = const [],
   }) : assert(hasValue(basename));

@@ -44,8 +44,7 @@ query custom {
 }
 ''';
 
-final LibraryDefinition libraryDefinition =
-    LibraryDefinition(basename: r'query.graphql', queries: [
+final LibraryDefinition libraryDefinition = LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       name: QueryName(name: r'Custom$_QueryRoot'),
       operationName: r'custom',
@@ -68,9 +67,7 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'List<MyEnum>'),
                   name: ClassPropertyName(name: r'le'),
-                  annotations: [
-                    r'''JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'''
-                  ],
+                  annotations: [r'''JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'''],
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -113,7 +110,7 @@ class Custom$QueryRoot$QueryResponse extends JsonSerializable
   List<MyEnum> le;
 
   @override
-  List<Object> get props => [le];
+  List<Object?> get props => [le];
   Map<String, dynamic> toJson() => _$Custom$QueryRoot$QueryResponseToJson(this);
 }
 
@@ -127,7 +124,7 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
   Custom$QueryRoot$QueryResponse q;
 
   @override
-  List<Object> get props => [q];
+  List<Object?> get props => [q];
   Map<String, dynamic> toJson() => _$Custom$QueryRootToJson(this);
 }
 

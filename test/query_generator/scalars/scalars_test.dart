@@ -63,8 +63,7 @@ void main() {
 
 final String query = 'query some_query { i, f, s, b, id }';
 
-final LibraryDefinition libraryDefinition =
-    LibraryDefinition(basename: r'query.graphql', queries: [
+final LibraryDefinition libraryDefinition = LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       name: QueryName(name: r'SomeQuery$_SomeObject'),
       operationName: r'some_query',
@@ -131,7 +130,7 @@ class SomeQuery$SomeObject extends JsonSerializable with EquatableMixin {
   String id;
 
   @override
-  List<Object> get props => [i, f, s, b, id];
+  List<Object?> get props => [i, f, s, b, id];
   Map<String, dynamic> toJson() => _$SomeQuery$SomeObjectToJson(this);
 }
 ''';

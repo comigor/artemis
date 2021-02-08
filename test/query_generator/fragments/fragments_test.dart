@@ -36,26 +36,20 @@ void main() {
   });
 }
 
-final LibraryDefinition libraryDefinition =
-    LibraryDefinition(basename: r'query.graphql', queries: [
+final LibraryDefinition libraryDefinition = LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       name: QueryName(name: r'SomeQuery$_SomeObject'),
       operationName: r'some_query',
       classes: [
-        FragmentClassDefinition(
-            name: FragmentName(name: r'MyFragmentMixin'),
-            properties: [
-              ClassProperty(
-                  type: TypeName(name: r'String'),
-                  name: ClassPropertyName(name: r's'),
-                  isNonNull: false,
-                  isResolveType: false),
-              ClassProperty(
-                  type: TypeName(name: r'int'),
-                  name: ClassPropertyName(name: r'i'),
-                  isNonNull: false,
-                  isResolveType: false)
-            ]),
+        FragmentClassDefinition(name: FragmentName(name: r'MyFragmentMixin'), properties: [
+          ClassProperty(
+              type: TypeName(name: r'String'),
+              name: ClassPropertyName(name: r's'),
+              isNonNull: false,
+              isResolveType: false),
+          ClassProperty(
+              type: TypeName(name: r'int'), name: ClassPropertyName(name: r'i'), isNonNull: false, isResolveType: false)
+        ]),
         ClassDefinition(
             name: ClassName(name: r'SomeQuery$_SomeObject'),
             mixins: [FragmentName(name: r'MyFragmentMixin')],
@@ -75,8 +69,8 @@ import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
 
 mixin MyFragmentMixin {
-  String s;
-  int i;
+  String? s;
+  int? i;
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -88,7 +82,7 @@ class SomeQuery$SomeObject extends JsonSerializable
       _$SomeQuery$SomeObjectFromJson(json);
 
   @override
-  List<Object> get props => [s, i];
+  List<Object?> get props => [s, i];
   Map<String, dynamic> toJson() => _$SomeQuery$SomeObjectToJson(this);
 }
 ''';

@@ -1,5 +1,3 @@
-// @dart = 2.8
-
 import 'package:artemis/generator/data/definition.dart';
 import 'package:artemis/generator/data_printer.dart';
 import 'package:artemis/generator/helpers.dart';
@@ -25,12 +23,12 @@ class ClassProperty extends Definition with DataPrinter {
 
   /// Instantiate a property (field) from a class.
   ClassProperty({
-    @required this.type,
+    required this.type,
     this.annotations = const [],
     this.isNonNull = false,
     this.isResolveType = false,
-    @required this.name,
-  })  : assert(hasValue(type) && hasValue(name)),
+    required this.name,
+  })   : assert(hasValue(type) && hasValue(name)),
         super(name: name);
 
   /// If property is an override from super class.
@@ -38,11 +36,11 @@ class ClassProperty extends Definition with DataPrinter {
 
   /// Creates a copy of [ClassProperty] without modifying the original.
   ClassProperty copyWith({
-    TypeName type,
-    ClassPropertyName name,
-    List<String> annotations,
-    bool isNonNull,
-    bool isResolveType,
+    TypeName? type,
+    ClassPropertyName? name,
+    List<String>? annotations,
+    bool? isNonNull,
+    bool? isResolveType,
   }) =>
       ClassProperty(
         type: type ?? this.type,
@@ -65,17 +63,17 @@ class ClassProperty extends Definition with DataPrinter {
 /// Class property name
 class ClassPropertyName extends Name with DataPrinter {
   /// Instantiate a class property name definition.
-  ClassPropertyName({String name}) : super(name: name);
+  ClassPropertyName({String? name}) : super(name: name);
 
   @override
-  String normalize(String name) {
-    final normalized = super.normalize(name);
+  String normalize(String? name) {
+    final normalized = super.normalize(name)!;
     final suffix = RegExp(r'.*(_+)$').firstMatch(normalized)?.group(1) ?? '';
-    return ReCase(super.normalize(name)).camelCase + suffix;
+    return ReCase(super.normalize(name)!).camelCase + suffix;
   }
 
   @override
-  Map<String, Object> get namedProps => {
+  Map<String, Object?> get namedProps => {
         'name': name,
       };
 }
@@ -85,18 +83,18 @@ const _camelCaseTypes = {'bool', 'double', 'int'};
 /// Type name
 class TypeName extends Name with DataPrinter {
   /// Instantiate a type name definition.
-  TypeName({String name}) : super(name: name);
+  TypeName({String? name}) : super(name: name);
 
   @override
-  Map<String, Object> get namedProps => {
+  Map<String, Object?> get namedProps => {
         'name': name,
       };
 
   @override
-  String normalize(String name) {
+  String? normalize(String? name) {
     final normalized = super.normalize(name);
     if (_camelCaseTypes.contains(normalized)) return normalized;
 
-    return ReCase(normalized).pascalCase;
+    return ReCase(normalized!).pascalCase;
   }
 }

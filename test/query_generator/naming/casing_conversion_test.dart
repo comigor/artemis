@@ -91,8 +91,7 @@ void main() {
   });
 }
 
-final LibraryDefinition libraryDefinition =
-    LibraryDefinition(basename: r'query.graphql', queries: [
+final LibraryDefinition libraryDefinition = LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       name: QueryName(name: r'SomeQuery$_Query'),
       operationName: r'some_query',
@@ -101,8 +100,7 @@ final LibraryDefinition libraryDefinition =
           EnumValueDefinition(name: EnumValueName(name: r'camelCase')),
           EnumValueDefinition(name: EnumValueName(name: r'PascalCase')),
           EnumValueDefinition(name: EnumValueName(name: r'snake_case')),
-          EnumValueDefinition(
-              name: EnumValueName(name: r'SCREAMING_SNAKE_CASE')),
+          EnumValueDefinition(name: EnumValueName(name: r'SCREAMING_SNAKE_CASE')),
           EnumValueDefinition(name: EnumValueName(name: r'ARTEMIS_UNKNOWN'))
         ]),
         ClassDefinition(
@@ -128,17 +126,13 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'ScreamingSnakeCaseType'),
                   name: ClassPropertyName(name: r'SCREAMING_SNAKE_CASE_FIELD'),
-                  annotations: [
-                    r'''JsonKey(name: 'SCREAMING_SNAKE_CASE_FIELD')'''
-                  ],
+                  annotations: [r'''JsonKey(name: 'SCREAMING_SNAKE_CASE_FIELD')'''],
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'MyEnum'),
                   name: ClassPropertyName(name: r'e'),
-                  annotations: [
-                    r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
-                  ],
+                  annotations: [r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'],
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -180,17 +174,13 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'ScreamingSnakeCaseTypeInput'),
                   name: ClassPropertyName(name: r'SCREAMING_SNAKE_CASE_FIELD'),
-                  annotations: [
-                    r'''JsonKey(name: 'SCREAMING_SNAKE_CASE_FIELD')'''
-                  ],
+                  annotations: [r'''JsonKey(name: 'SCREAMING_SNAKE_CASE_FIELD')'''],
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'MyEnum'),
                   name: ClassPropertyName(name: r'e'),
-                  annotations: [
-                    r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
-                  ],
+                  annotations: [r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'],
                   isNonNull: false,
                   isResolveType: false)
             ],
@@ -198,12 +188,7 @@ final LibraryDefinition libraryDefinition =
             typeNameField: TypeName(name: r'__typename'),
             isInput: true)
       ],
-      inputs: [
-        QueryInput(
-            type: TypeName(name: r'Input'),
-            name: QueryInputName(name: r'filter'),
-            isNonNull: true)
-      ],
+      inputs: [QueryInput(type: TypeName(name: r'Input'), name: QueryInputName(name: r'filter'), isNonNull: true)],
       generateHelpers: true,
       suffix: r'Query')
 ]);
@@ -239,7 +224,7 @@ class SomeObject extends JsonSerializable with EquatableMixin {
   MyEnum e;
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         camelCaseField,
         pascalCaseField,
         snakeCaseField,
@@ -259,7 +244,7 @@ class SomeQuery$Query extends JsonSerializable with EquatableMixin {
   SomeObject query;
 
   @override
-  List<Object> get props => [query];
+  List<Object?> get props => [query];
   Map<String, dynamic> toJson() => _$SomeQuery$QueryToJson(this);
 }
 
@@ -289,7 +274,7 @@ class Input extends JsonSerializable with EquatableMixin {
   MyEnum e;
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         camelCaseField,
         pascalCaseField,
         snakeCaseField,
@@ -323,7 +308,7 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
   final Input filter;
 
   @override
-  List<Object> get props => [filter];
+  List<Object?> get props => [filter];
   @override
   Map<String, dynamic> toJson() => _$SomeQueryArgumentsToJson(this);
 }
@@ -397,7 +382,7 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
   final SomeQueryArguments variables;
 
   @override
-  List<Object> get props => [document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
   @override
   SomeQuery$Query parse(Map<String, dynamic> json) =>
       SomeQuery$Query.fromJson(json);

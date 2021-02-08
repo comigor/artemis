@@ -1,14 +1,11 @@
 // @dart = 2.8
 
 import 'package:artemis/builder.dart';
-import 'package:build/build.dart';
 import 'package:artemis/generator/data/data.dart';
 import 'package:artemis/generator/data/enum_value_definition.dart';
+import 'package:build/build.dart';
 import 'package:build_test/build_test.dart';
-import 'package:logging/logging.dart';
-import 'package:meta/meta.dart';
 import 'package:test/test.dart';
-import 'package:collection/collection.dart';
 
 void main() {
   group('Multiple schema mapping', () {
@@ -147,8 +144,7 @@ const queryB = r'''
   }
 ''';
 
-final LibraryDefinition libraryDefinitionA =
-    LibraryDefinition(basename: r'outputA.graphql', queries: [
+final LibraryDefinition libraryDefinitionA = LibraryDefinition(basename: r'outputA.graphql', queries: [
   QueryDefinition(
       name: QueryName(name: r'BrowseArticles$_Query'),
       operationName: r'BrowseArticles',
@@ -174,9 +170,7 @@ final LibraryDefinition libraryDefinitionA =
               ClassProperty(
                   type: TypeName(name: r'ArticleType'),
                   name: ClassPropertyName(name: r'articleType'),
-                  annotations: [
-                    r'JsonKey(unknownEnumValue: ArticleType.artemisUnknown)'
-                  ],
+                  annotations: [r'JsonKey(unknownEnumValue: ArticleType.artemisUnknown)'],
                   isNonNull: true,
                   isResolveType: false)
             ],
@@ -200,8 +194,7 @@ final LibraryDefinition libraryDefinitionA =
       suffix: r'Query')
 ]);
 
-final libraryDefinitionB =
-    LibraryDefinition(basename: r'outputB.graphql', queries: [
+final libraryDefinitionB = LibraryDefinition(basename: r'outputB.graphql', queries: [
   QueryDefinition(
       name: QueryName(name: r'BrowseRepositories$_Query'),
       operationName: r'BrowseRepositories',
@@ -239,17 +232,13 @@ final libraryDefinitionB =
               ClassProperty(
                   type: TypeName(name: r'Privacy'),
                   name: ClassPropertyName(name: r'privacy'),
-                  annotations: [
-                    r'JsonKey(unknownEnumValue: Privacy.artemisUnknown)'
-                  ],
+                  annotations: [r'JsonKey(unknownEnumValue: Privacy.artemisUnknown)'],
                   isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'Status'),
                   name: ClassPropertyName(name: r'status'),
-                  annotations: [
-                    r'JsonKey(unknownEnumValue: Status.artemisUnknown)'
-                  ],
+                  annotations: [r'JsonKey(unknownEnumValue: Status.artemisUnknown)'],
                   isNonNull: true,
                   isResolveType: false)
             ],
@@ -260,8 +249,7 @@ final libraryDefinitionB =
             name: ClassName(name: r'BrowseRepositories$_Query'),
             properties: [
               ClassProperty(
-                  type: TypeName(
-                      name: r'List<BrowseRepositories$Query$Repositories>'),
+                  type: TypeName(name: r'List<BrowseRepositories$Query$Repositories>'),
                   name: ClassPropertyName(name: r'repositories'),
                   isNonNull: false,
                   isResolveType: false)
@@ -275,9 +263,7 @@ final libraryDefinitionB =
               ClassProperty(
                   type: TypeName(name: r'NotificationType'),
                   name: ClassPropertyName(name: r'type'),
-                  annotations: [
-                    r'JsonKey(unknownEnumValue: NotificationType.artemisUnknown)'
-                  ],
+                  annotations: [r'JsonKey(unknownEnumValue: NotificationType.artemisUnknown)'],
                   isNonNull: false,
                   isResolveType: false),
               ClassProperty(
@@ -324,7 +310,7 @@ class BrowseArticles$Query$Articles extends JsonSerializable
   ArticleType articleType;
 
   @override
-  List<Object> get props => [id, title, articleType];
+  List<Object?> get props => [id, title, articleType];
   Map<String, dynamic> toJson() => _$BrowseArticles$Query$ArticlesToJson(this);
 }
 
@@ -338,7 +324,7 @@ class BrowseArticles$Query extends JsonSerializable with EquatableMixin {
   List<BrowseArticles$Query$Articles> articles;
 
   @override
-  List<Object> get props => [articles];
+  List<Object?> get props => [articles];
   Map<String, dynamic> toJson() => _$BrowseArticles$QueryToJson(this);
 }
 
@@ -395,7 +381,7 @@ class BrowseArticlesQuery
   final String operationName = 'BrowseArticles';
 
   @override
-  List<Object> get props => [document, operationName];
+  List<Object?> get props => [document, operationName];
   @override
   BrowseArticles$Query parse(Map<String, dynamic> json) =>
       BrowseArticles$Query.fromJson(json);
@@ -430,7 +416,7 @@ class BrowseRepositories$Query$Repositories extends JsonSerializable
   Status status;
 
   @override
-  List<Object> get props => [id, title, privacy, status];
+  List<Object?> get props => [id, title, privacy, status];
   Map<String, dynamic> toJson() =>
       _$BrowseRepositories$Query$RepositoriesToJson(this);
 }
@@ -445,7 +431,7 @@ class BrowseRepositories$Query extends JsonSerializable with EquatableMixin {
   List<BrowseRepositories$Query$Repositories> repositories;
 
   @override
-  List<Object> get props => [repositories];
+  List<Object?> get props => [repositories];
   Map<String, dynamic> toJson() => _$BrowseRepositories$QueryToJson(this);
 }
 
@@ -462,7 +448,7 @@ class NotificationOptionInput extends JsonSerializable with EquatableMixin {
   bool enabled;
 
   @override
-  List<Object> get props => [type, enabled];
+  List<Object?> get props => [type, enabled];
   Map<String, dynamic> toJson() => _$NotificationOptionInputToJson(this);
 }
 
@@ -506,7 +492,7 @@ class BrowseRepositoriesArguments extends JsonSerializable with EquatableMixin {
   final List<NotificationOptionInput> notificationTypes;
 
   @override
-  List<Object> get props => [notificationTypes];
+  List<Object?> get props => [notificationTypes];
   @override
   Map<String, dynamic> toJson() => _$BrowseRepositoriesArgumentsToJson(this);
 }
@@ -580,7 +566,7 @@ class BrowseRepositoriesQuery extends GraphQLQuery<BrowseRepositories$Query,
   final BrowseRepositoriesArguments variables;
 
   @override
-  List<Object> get props => [document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
   @override
   BrowseRepositories$Query parse(Map<String, dynamic> json) =>
       BrowseRepositories$Query.fromJson(json);
