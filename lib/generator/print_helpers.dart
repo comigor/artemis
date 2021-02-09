@@ -169,7 +169,8 @@ Spec classDefinitionToSpec(
         final field = Field(
           (f) => f
             ..name = p.name.namePrintable!
-            ..type = refer(p.type.namePrintable! + (p.isNonNull ? '' : '?'))
+            ..type = refer(
+                'late ' + p.type.namePrintable! + (p.isNonNull ? '' : '?'))
             ..annotations.addAll(
               p.annotations.map((e) => CodeExpression(Code(e))),
             ),
@@ -212,12 +213,9 @@ Spec generateArgumentClassSpec(QueryDefinition definition) {
               (p) {
                 p
                   ..name = input.name!.namePrintable!
+                  ..required = input.isNonNull
                   ..named = true
                   ..toThis = true;
-
-                if (input.isNonNull) {
-                  p.annotations.add(refer('required'));
-                }
               },
             ),
           )),
@@ -296,7 +294,7 @@ Spec generateQueryClassSpec(QueryDefinition definition) {
       (f) => f
         ..annotations.add(CodeExpression(Code('override')))
         ..modifier = FieldModifier.final$
-        ..type = refer('${definition.className}Arguments')
+        ..type = refer('${definition.className}Arguments?')
         ..name = 'variables',
     ));
   }

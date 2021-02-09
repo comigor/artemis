@@ -44,7 +44,7 @@ class AppendTypename extends TransformingVisitor {
     }
 
     return FragmentDefinitionNode(
-      name: node.name,
+      name: node.name!,
       typeCondition: node.typeCondition,
       directives: node.directives,
       span: node.span,
@@ -96,7 +96,7 @@ class AppendTypename extends TransformingVisitor {
       span: node.span,
       selectionSet: SelectionSetNode(
         selections: <SelectionNode>[
-          ...node.selectionSet.selections.where((element) =>
+          ...node.selectionSet!.selections.where((element) =>
               (element is! FieldNode) ||
               (element is FieldNode && element.name.value != typeName)),
           FieldNode(name: NameNode(value: typeName)),
