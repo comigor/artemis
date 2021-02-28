@@ -14,7 +14,7 @@ final bool Function(Iterable, Iterable) listEquals =
 
 Future testGenerator({
   @required String query,
-  @required LibraryDefinition libraryDefinition,
+  LibraryDefinition libraryDefinition,
   @required String generatedFile,
   @required String schema,
   String namingScheme = 'pathedWithTypes',
@@ -42,10 +42,12 @@ Future testGenerator({
     ...builderOptionsMap,
   }));
 
-  anotherBuilder.onBuild = expectAsync1((definition) {
-    log.fine(definition);
-    expect(definition, libraryDefinition);
-  }, count: 1);
+  if (libraryDefinition != null) {
+    anotherBuilder.onBuild = expectAsync1((definition) {
+      log.fine(definition);
+      expect(definition, libraryDefinition);
+    }, count: 1);
+  }
 
   return await testBuilder(
     anotherBuilder,
