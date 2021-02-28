@@ -1,6 +1,6 @@
 import 'package:artemis/generator/data/data.dart';
-import 'package:meta/meta.dart';
 import 'package:gql/ast.dart';
+
 import '../schema/options.dart';
 
 /// Returns the full class name with joined path.

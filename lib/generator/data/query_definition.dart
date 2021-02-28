@@ -4,7 +4,6 @@ import 'package:artemis/generator/data/query_input.dart';
 import 'package:artemis/generator/data_printer.dart';
 import 'package:artemis/generator/helpers.dart';
 import 'package:gql/ast.dart';
-import 'package:meta/meta.dart';
 import 'package:recase/recase.dart';
 
 /// Define a GraphQL query and its dependencies.

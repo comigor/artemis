@@ -1,13 +1,10 @@
-
-
 import 'package:artemis/builder.dart';
 import 'package:artemis/generator/data/data.dart';
 import 'package:build/build.dart';
 import 'package:build_test/build_test.dart';
-import 'package:logging/logging.dart';
-import 'package:meta/meta.dart';
-import 'package:test/test.dart';
 import 'package:collection/collection.dart';
+import 'package:logging/logging.dart';
+import 'package:test/test.dart';
 
 final bool Function(Iterable, Iterable) listEquals =
     const DeepCollectionEquality.unordered().equals;

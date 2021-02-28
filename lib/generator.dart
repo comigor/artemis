@@ -106,7 +106,7 @@ Set<FragmentDefinitionNode> _extractFragments(SelectionSetNode? selectionSet,
         .forEach((selection) {
       final fragmentDefinitions = fragmentsCommon.firstWhere(
           (fragmentDefinition) =>
-              fragmentDefinition.name!.value == selection.name.value);
+              fragmentDefinition.name.value == selection.name.value);
       result.add(fragmentDefinitions);
       result.addAll(
           _extractFragments(fragmentDefinitions.selectionSet, fragmentsCommon));
@@ -175,8 +175,8 @@ Iterable<QueryDefinition> generateDefinitions(
         (schemaVisitor.schemaDefinitionNode?.operationTypes ?? [])
                 .firstWhereOrNull((e) => e.operation == operation.type)
                 ?.type
-                ?.name
-                ?.value ??
+                .name
+                .value ??
             suffix;
 
     if (rootTypeName == null) {
@@ -190,7 +190,7 @@ Iterable<QueryDefinition> generateDefinitions(
     final name = QueryName.fromPath(
         path: createPathName([
       ClassName(name: operationName),
-      ClassName(name: parentType.name!.value)
+      ClassName(name: parentType.name.value)
     ], schemaMap.namingScheme));
 
     final context = Context(
@@ -199,7 +199,7 @@ Iterable<QueryDefinition> generateDefinitions(
       schemaMap: schemaMap,
       path: [
         TypeName(name: operationName),
-        TypeName(name: parentType.name!.value)
+        TypeName(name: parentType.name.value)
       ],
       currentType: parentType,
       currentFieldName: null,
@@ -253,7 +253,7 @@ List<String> _extractCustomImports(
 
   return typeVisitor.types
       .whereType<ScalarTypeDefinitionNode>()
-      .map((type) => gql.importsOfScalar(options, type.name!.value))
+      .map((type) => gql.importsOfScalar(options, type.name.value))
       .expand((i) => i)
       .toSet()
       .toList();
@@ -298,7 +298,7 @@ ClassProperty createClassProperty({
 
   if (fieldType == null) {
     throw Exception(
-        '''Field $fieldName was not found in GraphQL type ${context.currentType?.name?.value}.
+        '''Field $fieldName was not found in GraphQL type ${context.currentType?.name.value}.
 Make sure your query is correct and your schema is updated.''');
   }
 
@@ -307,7 +307,7 @@ Make sure your query is correct and your schema is updated.''');
 
   final aliasedContext = context.withAlias(
     nextFieldName: fieldName,
-    nextClassName: ClassName(name: nextType.name!.value),
+    nextClassName: ClassName(name: nextType.name.value),
     alias: fieldAlias,
   );
 
@@ -319,7 +319,7 @@ Make sure your query is correct and your schema is updated.''');
       schema: context.schema);
 
   logFn(context, aliasedContext.align + 1,
-      '${aliasedContext.path}[${aliasedContext.currentType!.name!.value}][${aliasedContext.currentClassName} ${aliasedContext.currentFieldName}] ${fieldAlias == null ? '' : '(${fieldAlias}) '}-> ${dartTypeName.namePrintable}');
+      '${aliasedContext.path}[${aliasedContext.currentType!.name.value}][${aliasedContext.currentClassName} ${aliasedContext.currentFieldName}] ${fieldAlias == null ? '' : '(${fieldAlias}) '}-> ${dartTypeName.namePrintable}');
 
   if ((nextType is ObjectTypeDefinitionNode ||
           nextType is UnionTypeDefinitionNode ||
@@ -329,8 +329,8 @@ Make sure your query is correct and your schema is updated.''');
       aliasedContext.next(
         nextType: nextType,
         nextFieldName: ClassPropertyName(
-            name: regularField?.name?.value ?? regularInputField?.name?.value),
-        nextClassName: ClassName(name: nextType.name!.value),
+            name: regularField?.name.value ?? regularInputField?.name.value),
+        nextClassName: ClassName(name: nextType.name.value),
         alias: fieldAlias,
       ),
     );
@@ -346,10 +346,10 @@ Make sure your query is correct and your schema is updated.''');
 
   if (nextType is ScalarTypeDefinitionNode) {
     final scalar =
-        gql.getSingleScalarMap(context.options, nextType.name!.value)!;
+        gql.getSingleScalarMap(context.options, nextType.name.value)!;
 
     if (scalar.customParserImport != null &&
-        nextType.name!.value == scalar.graphQLType) {
+        nextType.name.value == scalar.graphQLType) {
       final graphqlTypeSafeStr = TypeName(
           name: gql
               .buildTypeName(fieldType, context.options,
@@ -364,7 +364,7 @@ Make sure your query is correct and your schema is updated.''');
   } // On enums
   else if (nextType is EnumTypeDefinitionNode) {
     if (markAsUsed) {
-      context.usedEnums.add(EnumName(name: nextType.name!.value));
+      context.usedEnums.add(EnumName(name: nextType.name.value));
     }
 
     if (fieldType is ListTypeNode) {

@@ -15,26 +15,21 @@ GeneratorOptions _$GeneratorOptionsFromJson(Map json) {
                 : ScalarMap.fromJson((e as Map).map(
                     (k, e) => MapEntry(k as String, e),
                   )))
-            ?.toList() ??
+            .toList() ??
         [],
     fragmentsGlob: json['fragments_glob'] as String?,
     schemaMapping: (json['schema_mapping'] as List?)
             ?.where((e) => e != null)
-            ?.map((e) => SchemaMap.fromJson((e as Map).map(
+            .map((e) => SchemaMap.fromJson((e as Map).map(
                   (k, e) => MapEntry(k as String, e),
                 )))
-            ?.toList() ??
+            .toList() ??
         [],
-    ignoreForFile: (json['ignore_for_file'] as List?)
-            ?.where((e) => e != null)
-            ?.whereType<String>()
-            ?.toList() ??
-        [],
+    ignoreForFile: (json['ignore_for_file'] as List?)?.where((e) => e != null).whereType<String>().toList() ?? [],
   );
 }
 
-Map<String, dynamic> _$GeneratorOptionsToJson(GeneratorOptions instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$GeneratorOptionsToJson(GeneratorOptions instance) => <String, dynamic>{
       'generate_helpers': instance.generateHelpers,
       'scalar_mapping': instance.scalarMapping,
       'fragments_glob': instance.fragmentsGlob,
@@ -45,8 +40,7 @@ Map<String, dynamic> _$GeneratorOptionsToJson(GeneratorOptions instance) =>
 DartType _$DartTypeFromJson(Map<String, dynamic> json) {
   return DartType(
     name: json['name'] as String?,
-    imports:
-        (json['imports'] as List?)?.map((e) => e as String)?.toList() ?? [],
+    imports: (json['imports'] as List?)?.map((e) => e as String).toList() ?? [],
   );
 }
 
@@ -58,8 +52,7 @@ Map<String, dynamic> _$DartTypeToJson(DartType instance) => <String, dynamic>{
 ScalarMap _$ScalarMapFromJson(Map<String, dynamic> json) {
   return ScalarMap(
     graphQLType: json['graphql_type'] as String?,
-    dartType:
-        json['dart_type'] == null ? null : DartType.fromJson(json['dart_type']),
+    dartType: json['dart_type'] == null ? null : DartType.fromJson(json['dart_type']),
     customParserImport: json['custom_parser_import'] as String?,
   );
 }
@@ -77,9 +70,8 @@ SchemaMap _$SchemaMapFromJson(Map<String, dynamic> json) {
     queriesGlob: json['queries_glob'] as String?,
     typeNameField: json['type_name_field'] as String? ?? '__typename',
     appendTypeName: json['append_type_name'] as bool? ?? false,
-    namingScheme: _$enumDecodeNullable(
-        _$NamingSchemeEnumMap, json['naming_scheme'],
-        unknownValue: NamingScheme.pathedWithTypes),
+    namingScheme:
+        _$enumDecodeNullable(_$NamingSchemeEnumMap, json['naming_scheme'], unknownValue: NamingScheme.pathedWithTypes),
   );
 }
 
@@ -101,8 +93,7 @@ T? _$enumDecode<T>(
         '${enumValues.values.join(', ')}');
   }
 
-  final value =
-      enumValues.entries.singleWhereOrNull((e) => e.value == source)?.key;
+  final value = enumValues.entries.singleWhereOrNull((e) => e.value == source)?.key;
 
   if (value == null && unknownValue == null) {
     throw ArgumentError('`$source` is not one of the supported values: '

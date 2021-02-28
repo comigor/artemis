@@ -54,13 +54,13 @@ TypeName buildTypeName(
 
       if (type is EnumTypeDefinitionNode ||
           type is InputObjectTypeDefinitionNode) {
-        return TypeName(name: type.name!.value);
+        return TypeName(name: type.name.value);
       }
 
       if (replaceLeafWith != null) {
         return TypeName(name: replaceLeafWith.name);
       } else {
-        return TypeName(name: type.name!.value);
+        return TypeName(name: type.name.value);
       }
     }
 

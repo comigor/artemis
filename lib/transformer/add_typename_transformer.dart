@@ -44,7 +44,7 @@ class AppendTypename extends TransformingVisitor {
     }
 
     return FragmentDefinitionNode(
-      name: node.name!,
+      name: node.name,
       typeCondition: node.typeCondition,
       directives: node.directives,
       span: node.span,

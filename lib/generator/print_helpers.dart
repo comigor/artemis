@@ -3,7 +3,7 @@ import 'package:artemis/generator/data/enum_value_definition.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:dart_style/dart_style.dart';
-import 'package:gql_code_gen/gql_code_gen.dart' as dart;
+import 'package:gql_code_gen/src/ast.dart' as dart;
 
 import '../generator/helpers.dart';
 
@@ -182,7 +182,7 @@ Spec classDefinitionToSpec(
 
 /// Generates a [Spec] of a single fragment class definition.
 Spec fragmentClassDefinitionToSpec(FragmentClassDefinition definition) {
-  final fields = (definition.properties ?? []).map((p) {
+  final fields = (definition.properties).map((p) {
     final lines = <String>[];
     lines.addAll(p.annotations.map((e) => '@${e}'));
     lines.add(

@@ -171,9 +171,9 @@ List<String> proceedDeprecated(
   );
 
   if (deprecatedDirective != null) {
-    final reasonValueNode = deprecatedDirective?.arguments
-        ?.firstWhere((argument) => argument.name.value == 'reason')
-        ?.value;
+    final reasonValueNode = deprecatedDirective.arguments
+        .firstWhere((argument) => argument.name.value == 'reason')
+        .value;
 
     final reason = reasonValueNode is StringValueNode
         ? reasonValueNode.value

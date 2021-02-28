@@ -2,7 +2,6 @@ import 'package:artemis/generator/data/query_definition.dart';
 import 'package:artemis/generator/data_printer.dart';
 import 'package:artemis/generator/helpers.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 
 /// Callback fired when the generator processes a [LibraryDefinition].
 typedef OnBuildQuery = void Function(LibraryDefinition definition);

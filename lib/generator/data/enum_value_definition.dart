@@ -1,6 +1,5 @@
 import 'package:artemis/generator/data/definition.dart';
 import 'package:artemis/generator/data_printer.dart';
-import 'package:meta/meta.dart';
 import 'package:recase/recase.dart';
 
 /// Enum value

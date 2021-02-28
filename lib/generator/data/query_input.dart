@@ -2,7 +2,6 @@ import 'package:artemis/generator/data/class_property.dart';
 import 'package:artemis/generator/data/definition.dart';
 import 'package:artemis/generator/data_printer.dart';
 import 'package:artemis/generator/helpers.dart';
-import 'package:meta/meta.dart';
 
 /// Define a query/mutation input parameter.
 class QueryInput extends Definition with DataPrinter {

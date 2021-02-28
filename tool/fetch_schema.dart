@@ -98,7 +98,7 @@ const String introspectionQuery = '''
   }
 ''';
 
-Future<String> fetchGraphQLSchemaStringFromURL(String? graphqlEndpoint,
+Future<String> fetchGraphQLSchemaStringFromURL(Uri graphqlEndpoint,
     {http.Client? client}) async {
   final httpClient = client ?? http.Client();
 
@@ -126,7 +126,7 @@ void main(List<String> args) async {
     results['output'] as String,
   ).writeAsStringSync(
     await fetchGraphQLSchemaStringFromURL(
-      results['endpoint'] as String?,
+      Uri.parse(results['endpoint'] as String),
     ),
     flush: true,
   );

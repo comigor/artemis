@@ -1,11 +1,10 @@
 import 'package:gql/ast.dart';
 
-List<TypeDefinitionNode> _defaultScalars =
-    ['Boolean', 'Float', 'ID', 'Int', 'String']
-        .map((e) => ScalarTypeDefinitionNode(
-              name: NameNode(value: e),
-            ))
-        .toList();
+List<TypeDefinitionNode> _defaultScalars = ['Boolean', 'Float', 'ID', 'Int', 'String']
+    .map((e) => ScalarTypeDefinitionNode(
+          name: NameNode(value: e),
+        ))
+    .toList();
 
 /// Visits all type definition nodes recursively
 class TypeDefinitionNodeVisitor extends RecursiveVisitor {
@@ -62,7 +61,7 @@ class TypeDefinitionNodeVisitor extends RecursiveVisitor {
 
   /// Gets type definition node by type name
   TypeDefinitionNode? getByName(String name) {
-    final type = types.where((type) => type.name!.value == name);
+    final type = types.where((type) => type.name.value == name);
 
     if (type.isNotEmpty) {
       return type.first;
