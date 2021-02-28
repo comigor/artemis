@@ -12,11 +12,11 @@ mixin MehFragment {
 abstract class NamedAndValuedEntity<T> implements ToConcrete<T> {
   String? name;
   int? value;
-}
+};
 
 /// Union types are also generated as mixins.
-mixin MyUnion<T> implements ToConcrete<T> {}
-mixin MyUnion2<T> implements ToConcrete<T> {}
+mixin MyUnion<T> implements ToConcrete<T>;
+mixin MyUnion2<T> implements ToConcrete<T>;
 
 class A with MyUnion<A> {
   A({
