@@ -1,0 +1,36 @@
+type Query {
+  blah: Business
+  bleh: Business!
+  mah: String
+  meh: String!
+  all: [NamedAndValuedEntity!]!
+  uni: [MyUnion!]!
+}
+
+interface NamedAndValuedEntity {
+  name: String!
+  value: Int
+}
+
+type Business implements NamedAndValuedEntity {
+  name: String!
+  value: Int
+  employeeCount: Int
+  address: String!
+}
+
+type Other implements NamedAndValuedEntity {
+  name: String!
+  value: Int
+  field: String
+}
+
+type A {
+  a: String!
+}
+
+type B {
+  b: Int!
+}
+
+union MyUnion = A | B

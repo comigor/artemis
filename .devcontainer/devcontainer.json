@@ -19,6 +19,7 @@
 	"extensions": [
 		"dart-code.dart-code",
 		"dart-code.flutter",
+		"graphql.vscode-graphql",
 		"redhat.vscode-yaml",
 		"luanpotter.dart-import",
 		"jeroen-meijer.pubspec-assist",

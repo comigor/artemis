@@ -1,0 +1,34 @@
+fragment MehFrag on Query {
+  meh
+}
+
+query {
+  blah { # Business
+    employeeCount
+    value
+  }
+  bleh { # Business
+    address
+    name
+  }
+  ...MehFrag
+  all {
+    __typename
+    name
+    value
+    ... on Business {
+      address
+    }
+    ... on Other {
+      field
+    }
+  }
+  all: alias {
+    value
+  }
+  uni {
+    __typename
+    ... on A { a }
+    ... on B { b }
+  }
+}
