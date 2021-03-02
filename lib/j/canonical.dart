@@ -1,16 +1,17 @@
 // @dart = 2.12
 // ignore_for_file: public_member_api_docs
-import 'artemis.dart';
 
-//////////////////////////////// "Canonical" classes
-/// Fragments are generated as mixins, following nullability.
-mixin MehFragment {
+//////
+////// Canonical classes generation
+//////
+
+/// Fragments are generated as mixins, following field nullability.
+mixin MehFragFragment {
   late String meh;
 }
 
-/// Interfaces are mixins with their common fields, but all fields are
-/// optional.
-mixin NamedAndValuedEntity {
+/// Interfaces need to be interfaces so we can toCanonical them.
+class NamedAndValuedEntity {
   String? name;
   int? value;
 
@@ -24,6 +25,7 @@ mixin NamedAndValuedEntity {
     if (this is Other && onOther != null) {
       return onOther(this as Other);
     }
+    throw Exception();
   }
 }
 
@@ -39,6 +41,7 @@ mixin MyUnion1 {
     if (this is B && onB != null) {
       return onB(this as B);
     }
+    throw Exception();
   }
 }
 
@@ -53,11 +56,13 @@ mixin MyUnion2 {
     if (this is C && onC != null) {
       return onC(this as C);
     }
+    throw Exception();
   }
 }
 
 /// Concrete canonical classes also have all fields optional, overriding them
-/// if needed, and a constructor to assign them.
+/// if needed (from union and interfaces), and a constructor to assign them.
+/// Canonical classes do not implement fragments, as they are bound to the query.
 class A with MyUnion1 {
   A({
     this.a,
@@ -82,10 +87,6 @@ class C with MyUnion2 {
   String? c;
 }
 
-/// Canonical classes implement interfaces, but not fragments, as the latter
-/// are bound to the query.
-/// Objects are all generic to a selection set, and must have all possible
-/// fields they contain as nullable.
 class Business with NamedAndValuedEntity {
   Business({
     this.employeeCount,
@@ -160,6 +161,4 @@ void main() {
       },
     );
   });
-
-  // a.toConcrete();
 }

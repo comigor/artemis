@@ -1,11 +1,55 @@
 // @dart = 2.12
 // ignore_for_file: public_member_api_docs
 
-import '../canonical.dart' as $canonical;
-import 'package:artemis/h/artemis.dart';
+import 'canonical.dart' as $canonical;
+import 'artemis.dart';
 
-class Blah with ToCanonical<$canonical.Business> {
-  Blah({
+/// Fragments selection sets will spread into other selection sets.
+class Query with $canonical.MehFragFragment, ToCanonical<$canonical.Query> {
+  Query({
+    this.blah,
+    required this.bleh,
+    this.mahAlias1,
+    this.mahAlias2,
+    required this.meh,
+    required this.all,
+    required this.alias,
+    required this.uni,
+  });
+
+  // Follows GraphQL nullability
+  Query$Blah? blah;
+  Query$Bleh bleh;
+  String? mahAlias1;
+  String? mahAlias2;
+
+  /// meh inherited via fragment
+  @override
+  String meh;
+
+  Iterable<Query$All> all;
+  Iterable<Query$Alias> alias;
+  Iterable<Query$Uni> uni;
+
+  /// Default generated [toCanonical] method won't consider aliases
+  /// because we don't know how to choose between [mahAlias1]/[mahAlias2].
+  /// TODO: fix this?
+  @override
+  $canonical.Query get toCanonical => $canonical.Query(
+        blah: blah?.toCanonical,
+        bleh: bleh.toCanonical,
+        // mah: mahAlias1 ?? mahAlias2, // Maybe this? I don't like this solution.
+        meh: meh,
+        all: all
+            .map((e) => e.toCanonical)
+            .whereType<$canonical.NamedAndValuedEntity>(),
+        // alias: // Doesn't exist, and it doesn't make sense to override [all]
+        uni: uni.map((e) => e.toCanonical).whereType<$canonical.MyUnion1>(),
+      );
+}
+
+class Query$Blah with ToCanonical<$canonical.Business> {
+  Query$Blah({
     this.employeeCount,
     this.value,
   });
@@ -14,14 +58,14 @@ class Blah with ToCanonical<$canonical.Business> {
   int? value;
 
   @override
-  $canonical.Business toCanonical() => $canonical.Business(
+  $canonical.Business get toCanonical => $canonical.Business(
         employeeCount: employeeCount,
         value: value,
       );
 }
 
-class Bleh with ToCanonical<$canonical.Business> {
-  Bleh({
+class Query$Bleh with ToCanonical<$canonical.Business> {
+  Query$Bleh({
     required this.address,
     required this.name,
   });
@@ -30,71 +74,44 @@ class Bleh with ToCanonical<$canonical.Business> {
   String name;
 
   @override
-  $canonical.Business toCanonical() => $canonical.Business(
+  $canonical.Business get toCanonical => $canonical.Business(
         address: address,
         name: name,
       );
 }
 
-/// Fragments selection sets will spread into other selection sets.
-class Query with $canonical.MehFragment, ToCanonical<$canonical.Query> {
-  Query({
-    this.blah,
-    required this.bleh,
-    required this.meh,
-    required this.all,
-    required this.alias,
-    required this.uniAlias,
-  });
-
-  // Follows GraphQL nullability
-  Blah? blah;
-  Bleh bleh;
-  Iterable<All> all;
-  Iterable<Alias> alias;
-  Iterable<Uni> uni;
-
-  /// Inherited via fragments
-  @override
-  String meh;
-
-  /// Default generated [toCanonical] method won't (at first) consider
-  /// aliases.
-  @override
-  $canonical.Query toCanonical() => $canonical.Query(
-        blah: blah?.toCanonical(),
-        bleh: bleh.toCanonical(),
-        meh: meh,
-        all: all.map((e) => e.toCanonical()),
-      );
-}
-
-/// As it has fragment spreads on concrete types, this class becomes
-/// abstract and we use the parent field name (or alias) as class name.
-class All {
+///
+mixin Query$All {
   late String name;
   int? value;
 
-  // void toCanonical({
-  //   void Function(Business business)? onBusiness,
-  //   void Function(Other other)? onOther,
-  // }) {
-  //   if (this is Business && onBusiness != null) {
-  //     return onBusiness(this as Business);
-  //   }
-  //   if (this is Other && onOther != null) {
-  //     return onOther(this as Other);
-  //   }
-  // }
+  /// We can't implement ToCanonical mixin or else we can't override it on
+  /// concrete type.
+  $canonical.NamedAndValuedEntity? get toCanonical {
+    if (this is Query$All$Business) {
+      return (this as Query$All$Business).toCanonical;
+    }
+    if (this is Query$All$Other) {
+      return (this as Query$All$Other).toCanonical;
+    }
+  }
+
+  void toConcrete({
+    void Function(Query$All$Business business)? onBusiness,
+    void Function(Query$All$Other other)? onOther,
+  }) {
+    if (this is Query$All$Business && onBusiness != null) {
+      return onBusiness(this as Query$All$Business);
+    }
+    if (this is Query$All$Other && onOther != null) {
+      return onOther(this as Query$All$Other);
+    }
+    throw Exception();
+  }
 }
 
-/// Without any spread, we just have the abstraction.
-class Alias {
-  int? value;
-}
-
-class Business with All {
-  Business({
+class Query$All$Business with Query$All, ToCanonical<$canonical.Business> {
+  Query$All$Business({
     required this.name,
     this.value,
     required this.address,
@@ -106,15 +123,16 @@ class Business with All {
   int? value;
   String address;
 
-  $canonical.Business toCanonical() => $canonical.Business(
+  @override
+  $canonical.Business get toCanonical => $canonical.Business(
         name: name,
         value: value,
         address: address,
       );
 }
 
-class Other with All {
-  Other({
+class Query$All$Other with Query$All, ToCanonical<$canonical.Other> {
+  Query$All$Other({
     required this.name,
     this.value,
     this.field,
@@ -126,43 +144,116 @@ class Other with All {
   int? value;
   String? field;
 
-  $canonical.Other toCanonical() => $canonical.Other(
+  @override
+  $canonical.Other get toCanonical => $canonical.Other(
         name: name,
         value: value,
         field: field,
       );
 }
 
-/// Interface selection sets are also defined as mixins.
-mixin _NamedAndValuedEntity_SelectionSet_Query$All implements SelectionSet {
-  late String name;
+///
+mixin Query$Alias {
   int? value;
+
+  $canonical.NamedAndValuedEntity? get toCanonical {
+    if (this is Query$Alias$Business) {
+      return (this as Query$Alias$Business).toCanonical;
+    }
+    if (this is Query$Alias$Other) {
+      return (this as Query$Alias$Other).toCanonical;
+    }
+  }
+
+  void toConcrete({
+    void Function(Query$Alias$Business business)? onBusiness,
+    void Function(Query$Alias$Other other)? onOther,
+  }) {
+    if (this is Query$Alias$Business && onBusiness != null) {
+      return onBusiness(this as Query$Alias$Business);
+    }
+    if (this is Query$Alias$Other && onOther != null) {
+      return onOther(this as Query$Alias$Other);
+    }
+    throw Exception();
+  }
 }
 
-class _Business_SelectionSet_Query$All
-    with _NamedAndValuedEntity_SelectionSet_Query$All
-    implements SelectionSet {
-  _Business_SelectionSet_Query$All({required this.address});
+class Query$Alias$Business with Query$Alias, ToCanonical<$canonical.Business> {
+  Query$Alias$Business({
+    this.value,
+  });
 
-  String address;
+  @override
+  int? value;
+
+  @override
+  $canonical.Business get toCanonical => $canonical.Business(
+        value: value,
+      );
 }
 
-class _Other_SelectionSet_Query$All
-    with _NamedAndValuedEntity_SelectionSet_Query$All
-    implements SelectionSet {
-  _Other_SelectionSet_Query$All({this.field});
+class Query$Alias$Other with Query$Alias, ToCanonical<$canonical.Other> {
+  Query$Alias$Other({
+    this.value,
+  });
 
-  String? field;
+  @override
+  int? value;
+
+  @override
+  $canonical.Other get toCanonical => $canonical.Other(
+        value: value,
+      );
 }
 
-class _A_SelectionSet_Query$Uni implements SelectionSet {
-  _A_SelectionSet_Query$Uni({required this.a});
+///
+mixin Query$Uni {
+  $canonical.MyUnion1? get toCanonical {
+    if (this is Query$Uni$A) {
+      return (this as Query$Uni$A).toCanonical;
+    }
+    if (this is Query$Uni$B) {
+      return (this as Query$Uni$B).toCanonical;
+    }
+  }
+
+  void toConcrete({
+    void Function(Query$Uni$A a)? onA,
+    void Function(Query$Uni$B b)? onB,
+  }) {
+    if (this is Query$Uni$A && onA != null) {
+      return onA(this as Query$Uni$A);
+    }
+    if (this is Query$Uni$B && onB != null) {
+      return onB(this as Query$Uni$B);
+    }
+    throw Exception();
+  }
+}
+
+class Query$Uni$A with Query$Uni, ToCanonical<$canonical.A> {
+  Query$Uni$A({
+    required this.a,
+  });
 
   String a;
+
+  @override
+  $canonical.A get toCanonical => $canonical.A(
+        a: a,
+      );
 }
 
-class _B_SelectionSet_Query$Uni implements SelectionSet {
-  _B_SelectionSet_Query$Uni({required this.b});
+class Query$Uni$B with Query$Uni, ToCanonical<$canonical.B> {
+  Query$Uni$B({
+    required this.b,
+  });
 
-  String b;
+  int b;
+
+  @override
+  $canonical.B get toCanonical => $canonical.B(
+        b: b,
+      );
 }

@@ -11,6 +11,8 @@ query {
     address
     name
   }
+  mah: mahAlias1
+  mah: mahAlias2
   ...MehFrag
   all {
     __typename

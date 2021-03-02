@@ -4,7 +4,7 @@ type Query {
   mah: String
   meh: String!
   all: [NamedAndValuedEntity!]!
-  uni: [MyUnion!]!
+  uni: [MyUnion1!]!
 }
 
 interface NamedAndValuedEntity {
@@ -33,4 +33,9 @@ type B {
   b: Int!
 }
 
-union MyUnion = A | B
+type C {
+  c: String!
+}
+
+union MyUnion1 = A | B
+union MyUnion2 = B | C
