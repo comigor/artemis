@@ -106,7 +106,7 @@ class SomeQuery$QueryResponse extends JsonSerializable with EquatableMixin {
   StarWarsMovies someValue;
 
   @override
-  List<Object> get props => [someValue];
+  List<Object?> get props => [someValue];
   Map<String, dynamic> toJson() => _$SomeQuery$QueryResponseToJson(this);
 }
 

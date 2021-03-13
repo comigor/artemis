@@ -169,7 +169,6 @@ final LibraryDefinition libraryDefinition =
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
-import 'package:meta/meta.dart';
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -188,7 +187,7 @@ class MutData$Mutation$MutationResponse extends JsonSerializable
   String s;
 
   @override
-  List<Object> get props => [s];
+  List<Object?> get props => [s];
   Map<String, dynamic> toJson() =>
       _$MutData$Mutation$MutationResponseToJson(this);
 }
@@ -203,7 +202,7 @@ class MutData$Mutation extends JsonSerializable with EquatableMixin {
   MutData$Mutation$MutationResponse mut;
 
   @override
-  List<Object> get props => [mut];
+  List<Object?> get props => [mut];
   Map<String, dynamic> toJson() => _$MutData$MutationToJson(this);
 }
 
@@ -216,7 +215,7 @@ class Input extends JsonSerializable with EquatableMixin {
   String s;
 
   @override
-  List<Object> get props => [s];
+  List<Object?> get props => [s];
   Map<String, dynamic> toJson() => _$InputToJson(this);
 }
 
@@ -234,7 +233,7 @@ class QueData$Query$QueryResponse extends JsonSerializable with EquatableMixin {
   List<int> list;
 
   @override
-  List<Object> get props => [s, i, list];
+  List<Object?> get props => [s, i, list];
   Map<String, dynamic> toJson() => _$QueData$Query$QueryResponseToJson(this);
 }
 
@@ -248,7 +247,7 @@ class QueData$Query extends JsonSerializable with EquatableMixin {
   QueData$Query$QueryResponse que;
 
   @override
-  List<Object> get props => [que];
+  List<Object?> get props => [que];
   Map<String, dynamic> toJson() => _$QueData$QueryToJson(this);
 }
 
@@ -263,7 +262,7 @@ class MutDataArguments extends JsonSerializable with EquatableMixin {
   final Input input;
 
   @override
-  List<Object> get props => [input];
+  List<Object?> get props => [input];
   @override
   Map<String, dynamic> toJson() => _$MutDataArgumentsToJson(this);
 }
@@ -374,7 +373,7 @@ class MutDataMutation extends GraphQLQuery<MutData$Mutation, MutDataArguments> {
   final MutDataArguments variables;
 
   @override
-  List<Object> get props => [document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
   @override
   MutData$Mutation parse(Map<String, dynamic> json) =>
       MutData$Mutation.fromJson(json);
@@ -393,7 +392,7 @@ class QueDataArguments extends JsonSerializable with EquatableMixin {
   final String stringNullable;
 
   @override
-  List<Object> get props => [intsNonNullable, stringNullable];
+  List<Object?> get props => [intsNonNullable, stringNullable];
   @override
   Map<String, dynamic> toJson() => _$QueDataArgumentsToJson(this);
 }
@@ -504,7 +503,7 @@ class QueDataQuery extends GraphQLQuery<QueData$Query, QueDataArguments> {
   final QueDataArguments variables;
 
   @override
-  List<Object> get props => [document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
   @override
   QueData$Query parse(Map<String, dynamic> json) =>
       QueData$Query.fromJson(json);

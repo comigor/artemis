@@ -134,7 +134,6 @@ final LibraryDefinition libraryDefinition =
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
-import 'package:meta/meta.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
@@ -154,7 +153,7 @@ class CreateThing$MutationRoot$CreateThingResponse$Thing
   String message;
 
   @override
-  List<Object> get props => [id, message];
+  List<Object?> get props => [id, message];
   Map<String, dynamic> toJson() =>
       _$CreateThing$MutationRoot$CreateThingResponse$ThingToJson(this);
 }
@@ -171,7 +170,7 @@ class CreateThing$MutationRoot$CreateThingResponse extends JsonSerializable
   CreateThing$MutationRoot$CreateThingResponse$Thing thing;
 
   @override
-  List<Object> get props => [thing];
+  List<Object?> get props => [thing];
   Map<String, dynamic> toJson() =>
       _$CreateThing$MutationRoot$CreateThingResponseToJson(this);
 }
@@ -186,7 +185,7 @@ class CreateThing$MutationRoot extends JsonSerializable with EquatableMixin {
   CreateThing$MutationRoot$CreateThingResponse createThing;
 
   @override
-  List<Object> get props => [createThing];
+  List<Object?> get props => [createThing];
   Map<String, dynamic> toJson() => _$CreateThing$MutationRootToJson(this);
 }
 
@@ -202,7 +201,7 @@ class CreateThingInput extends JsonSerializable with EquatableMixin {
   String message;
 
   @override
-  List<Object> get props => [clientId, message];
+  List<Object?> get props => [clientId, message];
   Map<String, dynamic> toJson() => _$CreateThingInputToJson(this);
 }
 ''';

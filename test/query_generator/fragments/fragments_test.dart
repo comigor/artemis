@@ -88,7 +88,7 @@ class SomeQuery$SomeObject extends JsonSerializable
       _$SomeQuery$SomeObjectFromJson(json);
 
   @override
-  List<Object> get props => [s, i];
+  List<Object?> get props => [s, i];
   Map<String, dynamic> toJson() => _$SomeQuery$SomeObjectToJson(this);
 }
 ''';

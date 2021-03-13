@@ -197,7 +197,7 @@ class Query$SomeObject extends JsonSerializable with EquatableMixin {
   String a;
 
   @override
-  List<Object> get props => [a];
+  List<Object?> get props => [a];
   Map<String, dynamic> toJson() => _$Query$SomeObjectToJson(this);
 }
 ''';
@@ -224,7 +224,7 @@ class Query$SomeObject extends JsonSerializable with EquatableMixin {
   MyDartUuid a;
 
   @override
-  List<Object> get props => [a];
+  List<Object?> get props => [a];
   Map<String, dynamic> toJson() => _$Query$SomeObjectToJson(this);
 }
 ''';
@@ -252,7 +252,7 @@ class Query$SomeObject extends JsonSerializable with EquatableMixin {
   MyUuid a;
 
   @override
-  List<Object> get props => [a];
+  List<Object?> get props => [a];
   Map<String, dynamic> toJson() => _$Query$SomeObjectToJson(this);
 }
 ''';

@@ -120,7 +120,7 @@ class ClientEventItem extends JsonSerializable with EquatableMixin {
   int type;
 
   @override
-  List<Object> get props => [type];
+  List<Object?> get props => [type];
   Map<String, dynamic> toJson() => _$ClientEventItemToJson(this);
 }
 
@@ -134,7 +134,7 @@ class ClientEventPage extends JsonSerializable with EquatableMixin {
   List<ClientEventItem> items;
 
   @override
-  List<Object> get props => [items];
+  List<Object?> get props => [items];
   Map<String, dynamic> toJson() => _$ClientEventPageToJson(this);
 }
 
@@ -148,7 +148,7 @@ class ClientEventsData$Query extends JsonSerializable with EquatableMixin {
   ClientEventPage clientEvents;
 
   @override
-  List<Object> get props => [clientEvents];
+  List<Object?> get props => [clientEvents];
   Map<String, dynamic> toJson() => _$ClientEventsData$QueryToJson(this);
 }
 
@@ -191,7 +191,7 @@ class ClientEventsDataQuery
   final String operationName = 'ClientEventsData';
 
   @override
-  List<Object> get props => [document, operationName];
+  List<Object?> get props => [document, operationName];
   @override
   ClientEventsData$Query parse(Map<String, dynamic> json) =>
       ClientEventsData$Query.fromJson(json);

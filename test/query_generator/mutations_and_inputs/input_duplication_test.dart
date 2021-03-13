@@ -161,7 +161,6 @@ final LibraryDefinition libraryDefinition =
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
-import 'package:meta/meta.dart';
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -178,7 +177,7 @@ class Custom$Mutation$Mut extends JsonSerializable with EquatableMixin {
   String s;
 
   @override
-  List<Object> get props => [s];
+  List<Object?> get props => [s];
   Map<String, dynamic> toJson() => _$Custom$Mutation$MutToJson(this);
 }
 
@@ -192,7 +191,7 @@ class Custom$Mutation extends JsonSerializable with EquatableMixin {
   Custom$Mutation$Mut mut;
 
   @override
-  List<Object> get props => [mut];
+  List<Object?> get props => [mut];
   Map<String, dynamic> toJson() => _$Custom$MutationToJson(this);
 }
 
@@ -205,7 +204,7 @@ class Input extends JsonSerializable with EquatableMixin {
   String s;
 
   @override
-  List<Object> get props => [s];
+  List<Object?> get props => [s];
   Map<String, dynamic> toJson() => _$InputToJson(this);
 }
 
@@ -219,7 +218,7 @@ class CustomList$Mutation$MutList extends JsonSerializable with EquatableMixin {
   String s;
 
   @override
-  List<Object> get props => [s];
+  List<Object?> get props => [s];
   Map<String, dynamic> toJson() => _$CustomList$Mutation$MutListToJson(this);
 }
 
@@ -233,7 +232,7 @@ class CustomList$Mutation extends JsonSerializable with EquatableMixin {
   CustomList$Mutation$MutList mutList;
 
   @override
-  List<Object> get props => [mutList];
+  List<Object?> get props => [mutList];
   Map<String, dynamic> toJson() => _$CustomList$MutationToJson(this);
 }
 
@@ -248,7 +247,7 @@ class CustomArguments extends JsonSerializable with EquatableMixin {
   final Input input;
 
   @override
-  List<Object> get props => [input];
+  List<Object?> get props => [input];
   @override
   Map<String, dynamic> toJson() => _$CustomArgumentsToJson(this);
 }
@@ -298,7 +297,7 @@ class CustomMutation extends GraphQLQuery<Custom$Mutation, CustomArguments> {
   final CustomArguments variables;
 
   @override
-  List<Object> get props => [document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
   @override
   Custom$Mutation parse(Map<String, dynamic> json) =>
       Custom$Mutation.fromJson(json);
@@ -315,7 +314,7 @@ class CustomListArguments extends JsonSerializable with EquatableMixin {
   final List<Input> input;
 
   @override
-  List<Object> get props => [input];
+  List<Object?> get props => [input];
   @override
   Map<String, dynamic> toJson() => _$CustomListArgumentsToJson(this);
 }
@@ -368,7 +367,7 @@ class CustomListMutation
   final CustomListArguments variables;
 
   @override
-  List<Object> get props => [document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
   @override
   CustomList$Mutation parse(Map<String, dynamic> json) =>
       CustomList$Mutation.fromJson(json);

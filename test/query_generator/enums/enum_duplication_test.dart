@@ -172,7 +172,7 @@ class Custom$Query$Q extends JsonSerializable with EquatableMixin {
   MyEnum e;
 
   @override
-  List<Object> get props => [e];
+  List<Object?> get props => [e];
   Map<String, dynamic> toJson() => _$Custom$Query$QToJson(this);
 }
 
@@ -186,7 +186,7 @@ class Custom$Query extends JsonSerializable with EquatableMixin {
   Custom$Query$Q q;
 
   @override
-  List<Object> get props => [q];
+  List<Object?> get props => [q];
   Map<String, dynamic> toJson() => _$Custom$QueryToJson(this);
 }
 
@@ -201,7 +201,7 @@ class CustomList$Query$QList extends JsonSerializable with EquatableMixin {
   MyEnum e;
 
   @override
-  List<Object> get props => [e];
+  List<Object?> get props => [e];
   Map<String, dynamic> toJson() => _$CustomList$Query$QListToJson(this);
 }
 
@@ -215,7 +215,7 @@ class CustomList$Query extends JsonSerializable with EquatableMixin {
   List<CustomList$Query$QList> qList;
 
   @override
-  List<Object> get props => [qList];
+  List<Object?> get props => [qList];
   Map<String, dynamic> toJson() => _$CustomList$QueryToJson(this);
 }
 

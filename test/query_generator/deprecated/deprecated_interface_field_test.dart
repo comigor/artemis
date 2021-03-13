@@ -192,7 +192,6 @@ final LibraryDefinition libraryDefinition = LibraryDefinition(
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
-import 'package:meta/meta.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
@@ -212,7 +211,7 @@ class Custom$Query$Node$User extends Custom$Query$Node
       _$Custom$Query$Node$UserFromJson(json);
 
   @override
-  List<Object> get props => [id, username];
+  List<Object?> get props => [id, username];
   Map<String, dynamic> toJson() => _$Custom$Query$Node$UserToJson(this);
 }
 
@@ -226,7 +225,7 @@ class Custom$Query$Node$ChatMessage$User extends Custom$Query$Node$ChatMessage
       _$Custom$Query$Node$ChatMessage$UserFromJson(json);
 
   @override
-  List<Object> get props => [id, username];
+  List<Object?> get props => [id, username];
   Map<String, dynamic> toJson() =>
       _$Custom$Query$Node$ChatMessage$UserToJson(this);
 }
@@ -244,7 +243,7 @@ class Custom$Query$Node$ChatMessage extends Custom$Query$Node
   Custom$Query$Node$ChatMessage$User user;
 
   @override
-  List<Object> get props => [message, user];
+  List<Object?> get props => [message, user];
   Map<String, dynamic> toJson() => _$Custom$Query$Node$ChatMessageToJson(this);
 }
 
@@ -269,7 +268,7 @@ class Custom$Query$Node extends JsonSerializable with EquatableMixin {
   String deprecatedField;
 
   @override
-  List<Object> get props => [id, deprecatedField];
+  List<Object?> get props => [id, deprecatedField];
   Map<String, dynamic> toJson() {
     switch ($$typename) {
       case r'User':
@@ -292,7 +291,7 @@ class Custom$Query extends JsonSerializable with EquatableMixin {
   Custom$Query$Node nodeById;
 
   @override
-  List<Object> get props => [nodeById];
+  List<Object?> get props => [nodeById];
   Map<String, dynamic> toJson() => _$Custom$QueryToJson(this);
 }
 ''';

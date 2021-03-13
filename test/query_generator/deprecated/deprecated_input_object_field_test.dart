@@ -115,7 +115,6 @@ final LibraryDefinition libraryDefinition = LibraryDefinition(
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
-import 'package:meta/meta.dart';
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -134,7 +133,7 @@ class Custom$MutationRoot$MutationResponse extends JsonSerializable
   String s;
 
   @override
-  List<Object> get props => [s];
+  List<Object?> get props => [s];
   Map<String, dynamic> toJson() =>
       _$Custom$MutationRoot$MutationResponseToJson(this);
 }
@@ -149,7 +148,7 @@ class Custom$MutationRoot extends JsonSerializable with EquatableMixin {
   Custom$MutationRoot$MutationResponse mut;
 
   @override
-  List<Object> get props => [mut];
+  List<Object?> get props => [mut];
   Map<String, dynamic> toJson() => _$Custom$MutationRootToJson(this);
 }
 
@@ -165,7 +164,7 @@ class Input extends JsonSerializable with EquatableMixin {
   String d;
 
   @override
-  List<Object> get props => [s, d];
+  List<Object?> get props => [s, d];
   Map<String, dynamic> toJson() => _$InputToJson(this);
 }
 
@@ -180,7 +179,7 @@ class CustomArguments extends JsonSerializable with EquatableMixin {
   final Input input;
 
   @override
-  List<Object> get props => [input];
+  List<Object?> get props => [input];
   @override
   Map<String, dynamic> toJson() => _$CustomArgumentsToJson(this);
 }
@@ -231,7 +230,7 @@ class CustomMutation
   final CustomArguments variables;
 
   @override
-  List<Object> get props => [document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
   @override
   Custom$MutationRoot parse(Map<String, dynamic> json) =>
       Custom$MutationRoot.fromJson(json);

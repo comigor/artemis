@@ -113,7 +113,7 @@ class Custom$QueryRoot$QueryResponse extends JsonSerializable
   List<MyEnum> le;
 
   @override
-  List<Object> get props => [le];
+  List<Object?> get props => [le];
   Map<String, dynamic> toJson() => _$Custom$QueryRoot$QueryResponseToJson(this);
 }
 
@@ -127,7 +127,7 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
   Custom$QueryRoot$QueryResponse q;
 
   @override
-  List<Object> get props => [q];
+  List<Object?> get props => [q];
   Map<String, dynamic> toJson() => _$Custom$QueryRootToJson(this);
 }
 

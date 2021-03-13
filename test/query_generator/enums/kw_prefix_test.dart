@@ -139,7 +139,7 @@ class SearchArticles$Query$Article extends JsonSerializable
   String title;
 
   @override
-  List<Object> get props => [id, title];
+  List<Object?> get props => [id, title];
   Map<String, dynamic> toJson() => _$SearchArticles$Query$ArticleToJson(this);
 }
 
@@ -153,7 +153,7 @@ class SearchArticles$Query extends JsonSerializable with EquatableMixin {
   List<SearchArticles$Query$Article> articles;
 
   @override
-  List<Object> get props => [articles];
+  List<Object?> get props => [articles];
   Map<String, dynamic> toJson() => _$SearchArticles$QueryToJson(this);
 }
 
@@ -170,7 +170,7 @@ class ArticleTitleWhereConditions extends JsonSerializable with EquatableMixin {
   String value;
 
   @override
-  List<Object> get props => [kw$operator, value];
+  List<Object?> get props => [kw$operator, value];
   Map<String, dynamic> toJson() => _$ArticleTitleWhereConditionsToJson(this);
 }
 

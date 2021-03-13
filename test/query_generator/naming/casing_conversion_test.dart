@@ -210,7 +210,6 @@ final LibraryDefinition libraryDefinition =
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
-import 'package:meta/meta.dart';
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -239,7 +238,7 @@ class SomeObject extends JsonSerializable with EquatableMixin {
   MyEnum e;
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         camelCaseField,
         pascalCaseField,
         snakeCaseField,
@@ -259,7 +258,7 @@ class SomeQuery$Query extends JsonSerializable with EquatableMixin {
   SomeObject query;
 
   @override
-  List<Object> get props => [query];
+  List<Object?> get props => [query];
   Map<String, dynamic> toJson() => _$SomeQuery$QueryToJson(this);
 }
 
@@ -289,7 +288,7 @@ class Input extends JsonSerializable with EquatableMixin {
   MyEnum e;
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         camelCaseField,
         pascalCaseField,
         snakeCaseField,
@@ -323,7 +322,7 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
   final Input filter;
 
   @override
-  List<Object> get props => [filter];
+  List<Object?> get props => [filter];
   @override
   Map<String, dynamic> toJson() => _$SomeQueryArgumentsToJson(this);
 }
@@ -397,7 +396,7 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
   final SomeQueryArguments variables;
 
   @override
-  List<Object> get props => [document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
   @override
   SomeQuery$Query parse(Map<String, dynamic> json) =>
       SomeQuery$Query.fromJson(json);

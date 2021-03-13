@@ -147,7 +147,6 @@ final LibraryDefinition libraryDefinition =
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
-import 'package:meta/meta.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
@@ -163,7 +162,7 @@ class Custom$Query$Node$User extends Custom$Query$Node with EquatableMixin {
   String username;
 
   @override
-  List<Object> get props => [username];
+  List<Object?> get props => [username];
   Map<String, dynamic> toJson() => _$Custom$Query$Node$UserToJson(this);
 }
 
@@ -178,7 +177,7 @@ class Custom$Query$Node$ChatMessage extends Custom$Query$Node
   String message;
 
   @override
-  List<Object> get props => [message];
+  List<Object?> get props => [message];
   Map<String, dynamic> toJson() => _$Custom$Query$Node$ChatMessageToJson(this);
 }
 
@@ -203,7 +202,7 @@ class Custom$Query$Node extends JsonSerializable with EquatableMixin {
   String $$typename;
 
   @override
-  List<Object> get props => [id, $$typename];
+  List<Object?> get props => [id, $$typename];
   Map<String, dynamic> toJson() {
     switch ($$typename) {
       case r'User':
@@ -226,7 +225,7 @@ class Custom$Query extends JsonSerializable with EquatableMixin {
   Custom$Query$Node nodeById;
 
   @override
-  List<Object> get props => [nodeById];
+  List<Object?> get props => [nodeById];
   Map<String, dynamic> toJson() => _$Custom$QueryToJson(this);
 }
 ''';

@@ -155,7 +155,6 @@ final LibraryDefinition libraryDefinition =
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
-import 'package:meta/meta.dart';
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -179,7 +178,7 @@ class Custom$QueryRoot$QueryResponse extends JsonSerializable
   OtherEnum other;
 
   @override
-  List<Object> get props => [s, my, other];
+  List<Object?> get props => [s, my, other];
   Map<String, dynamic> toJson() => _$Custom$QueryRoot$QueryResponseToJson(this);
 }
 
@@ -193,7 +192,7 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
   Custom$QueryRoot$QueryResponse q;
 
   @override
-  List<Object> get props => [q];
+  List<Object?> get props => [q];
   Map<String, dynamic> toJson() => _$Custom$QueryRootToJson(this);
 }
 
@@ -207,7 +206,7 @@ class Input extends JsonSerializable with EquatableMixin {
   MyEnum e;
 
   @override
-  List<Object> get props => [e];
+  List<Object?> get props => [e];
   Map<String, dynamic> toJson() => _$InputToJson(this);
 }
 
@@ -245,7 +244,7 @@ class CustomArguments extends JsonSerializable with EquatableMixin {
   final OtherEnum o;
 
   @override
-  List<Object> get props => [$id, input, o];
+  List<Object?> get props => [$id, input, o];
   @override
   Map<String, dynamic> toJson() => _$CustomArgumentsToJson(this);
 }
@@ -324,7 +323,7 @@ class CustomQuery extends GraphQLQuery<Custom$QueryRoot, CustomArguments> {
   final CustomArguments variables;
 
   @override
-  List<Object> get props => [document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
   @override
   Custom$QueryRoot parse(Map<String, dynamic> json) =>
       Custom$QueryRoot.fromJson(json);

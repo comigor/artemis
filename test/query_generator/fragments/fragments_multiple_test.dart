@@ -223,7 +223,6 @@ final LibraryDefinition libraryDefinition =
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 
-import 'package:meta/meta.dart';
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -256,7 +255,7 @@ class VoyagesData$Query$VoyageList$VoyageDetails$Voyage extends JsonSerializable
   String voyageNumber;
 
   @override
-  List<Object> get props => [dateFrom, dateTo, id, voyageNumber];
+  List<Object?> get props => [dateFrom, dateTo, id, voyageNumber];
   Map<String, dynamic> toJson() =>
       _$VoyagesData$Query$VoyageList$VoyageDetails$VoyageToJson(this);
 }
@@ -275,7 +274,7 @@ class VoyagesData$Query$VoyageList$VoyageDetails extends JsonSerializable
   VoyagesData$Query$VoyageList$VoyageDetails$Voyage voyage;
 
   @override
-  List<Object> get props => [numberOfReports, voyage];
+  List<Object?> get props => [numberOfReports, voyage];
   Map<String, dynamic> toJson() =>
       _$VoyagesData$Query$VoyageList$VoyageDetailsToJson(this);
 }
@@ -291,7 +290,7 @@ class VoyagesData$Query$VoyageList extends JsonSerializable
   List<VoyagesData$Query$VoyageList$VoyageDetails> voyages;
 
   @override
-  List<Object> get props => [voyages];
+  List<Object?> get props => [voyages];
   Map<String, dynamic> toJson() => _$VoyagesData$Query$VoyageListToJson(this);
 }
 
@@ -305,7 +304,7 @@ class VoyagesData$Query extends JsonSerializable with EquatableMixin {
   VoyagesData$Query$VoyageList voyages;
 
   @override
-  List<Object> get props => [voyages];
+  List<Object?> get props => [voyages];
   Map<String, dynamic> toJson() => _$VoyagesData$QueryToJson(this);
 }
 
@@ -321,7 +320,7 @@ class PaginationInput extends JsonSerializable with EquatableMixin {
   int offset;
 
   @override
-  List<Object> get props => [limit, offset];
+  List<Object?> get props => [limit, offset];
   Map<String, dynamic> toJson() => _$PaginationInputToJson(this);
 }
 
@@ -336,7 +335,7 @@ class VoyagesDataArguments extends JsonSerializable with EquatableMixin {
   final PaginationInput input;
 
   @override
-  List<Object> get props => [input];
+  List<Object?> get props => [input];
   @override
   Map<String, dynamic> toJson() => _$VoyagesDataArgumentsToJson(this);
 }
@@ -459,7 +458,7 @@ class VoyagesDataQuery
   final VoyagesDataArguments variables;
 
   @override
-  List<Object> get props => [document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
   @override
   VoyagesData$Query parse(Map<String, dynamic> json) =>
       VoyagesData$Query.fromJson(json);

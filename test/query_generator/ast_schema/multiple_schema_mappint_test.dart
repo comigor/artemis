@@ -6,7 +6,6 @@ import 'package:artemis/generator/data/data.dart';
 import 'package:artemis/generator/data/enum_value_definition.dart';
 import 'package:build_test/build_test.dart';
 import 'package:logging/logging.dart';
-import 'package:meta/meta.dart';
 import 'package:test/test.dart';
 import 'package:collection/collection.dart';
 
@@ -324,7 +323,7 @@ class BrowseArticles$Query$Articles extends JsonSerializable
   ArticleType articleType;
 
   @override
-  List<Object> get props => [id, title, articleType];
+  List<Object?> get props => [id, title, articleType];
   Map<String, dynamic> toJson() => _$BrowseArticles$Query$ArticlesToJson(this);
 }
 
@@ -338,7 +337,7 @@ class BrowseArticles$Query extends JsonSerializable with EquatableMixin {
   List<BrowseArticles$Query$Articles> articles;
 
   @override
-  List<Object> get props => [articles];
+  List<Object?> get props => [articles];
   Map<String, dynamic> toJson() => _$BrowseArticles$QueryToJson(this);
 }
 
@@ -395,7 +394,7 @@ class BrowseArticlesQuery
   final String operationName = 'BrowseArticles';
 
   @override
-  List<Object> get props => [document, operationName];
+  List<Object?> get props => [document, operationName];
   @override
   BrowseArticles$Query parse(Map<String, dynamic> json) =>
       BrowseArticles$Query.fromJson(json);
@@ -430,7 +429,7 @@ class BrowseRepositories$Query$Repositories extends JsonSerializable
   Status status;
 
   @override
-  List<Object> get props => [id, title, privacy, status];
+  List<Object?> get props => [id, title, privacy, status];
   Map<String, dynamic> toJson() =>
       _$BrowseRepositories$Query$RepositoriesToJson(this);
 }
@@ -445,7 +444,7 @@ class BrowseRepositories$Query extends JsonSerializable with EquatableMixin {
   List<BrowseRepositories$Query$Repositories> repositories;
 
   @override
-  List<Object> get props => [repositories];
+  List<Object?> get props => [repositories];
   Map<String, dynamic> toJson() => _$BrowseRepositories$QueryToJson(this);
 }
 
@@ -462,7 +461,7 @@ class NotificationOptionInput extends JsonSerializable with EquatableMixin {
   bool enabled;
 
   @override
-  List<Object> get props => [type, enabled];
+  List<Object?> get props => [type, enabled];
   Map<String, dynamic> toJson() => _$NotificationOptionInputToJson(this);
 }
 
@@ -506,7 +505,7 @@ class BrowseRepositoriesArguments extends JsonSerializable with EquatableMixin {
   final List<NotificationOptionInput> notificationTypes;
 
   @override
-  List<Object> get props => [notificationTypes];
+  List<Object?> get props => [notificationTypes];
   @override
   Map<String, dynamic> toJson() => _$BrowseRepositoriesArgumentsToJson(this);
 }
@@ -580,7 +579,7 @@ class BrowseRepositoriesQuery extends GraphQLQuery<BrowseRepositories$Query,
   final BrowseRepositoriesArguments variables;
 
   @override
-  List<Object> get props => [document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
   @override
   BrowseRepositories$Query parse(Map<String, dynamic> json) =>
       BrowseRepositories$Query.fromJson(json);

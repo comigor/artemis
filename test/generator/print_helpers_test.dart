@@ -156,7 +156,7 @@ class AClass extends JsonSerializable with EquatableMixin {
   factory AClass.fromJson(Map<String, dynamic> json) => _\$AClassFromJson(json);
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
   Map<String, dynamic> toJson() => _\$AClassToJson(this);
 }
 ''');
@@ -177,7 +177,7 @@ class AClass extends AnotherClass with EquatableMixin {
   factory AClass.fromJson(Map<String, dynamic> json) => _\$AClassFromJson(json);
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
   Map<String, dynamic> toJson() => _\$AClassToJson(this);
 }
 ''');
@@ -214,7 +214,7 @@ class AClass extends JsonSerializable with EquatableMixin {
   }
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
   Map<String, dynamic> toJson() {
     switch ($$typename) {
       case r'ASubClass':
@@ -253,7 +253,7 @@ class AClass extends JsonSerializable with EquatableMixin {
   AnotherType anotherName;
 
   @override
-  List<Object> get props => [name, anotherName];
+  List<Object?> get props => [name, anotherName];
   Map<String, dynamic> toJson() => _\$AClassToJson(this);
 }
 ''');
@@ -302,7 +302,7 @@ class AClass extends JsonSerializable with EquatableMixin {
   AllAtOnce name;
 
   @override
-  List<Object> get props => [name, name, name, name];
+  List<Object?> get props => [name, name, name, name];
   Map<String, dynamic> toJson() => _\$AClassToJson(this);
 }
 ''');
@@ -333,7 +333,7 @@ class AClass extends JsonSerializable with EquatableMixin, FragmentMixin {
   factory AClass.fromJson(Map<String, dynamic> json) => _\$AClassFromJson(json);
 
   @override
-  List<Object> get props => [name];
+  List<Object?> get props => [name];
   Map<String, dynamic> toJson() => _\$AClassToJson(this);
 }
 ''');
@@ -368,7 +368,7 @@ class AClass extends JsonSerializable with EquatableMixin {
   AnotherType anotherName;
 
   @override
-  List<Object> get props => [name, anotherName];
+  List<Object?> get props => [name, anotherName];
   Map<String, dynamic> toJson() => _\$AClassToJson(this);
 }
 ''');
@@ -503,7 +503,7 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, JsonSerializable> {
   final String operationName = 'test_query';
 
   @override
-  List<Object> get props => [document, operationName];
+  List<Object?> get props => [document, operationName];
   @override
   TestQuery parse(Map<String, dynamic> json) => TestQuery.fromJson(json);
 }
@@ -549,7 +549,7 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
   final Type name;
 
   @override
-  List<Object> get props => [name];
+  List<Object?> get props => [name];
   @override
   Map<String, dynamic> toJson() => _\$TestQueryArgumentsToJson(this);
 }
@@ -574,7 +574,7 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
   final TestQueryArguments variables;
 
   @override
-  List<Object> get props => [document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
   @override
   TestQuery parse(Map<String, dynamic> json) => TestQuery.fromJson(json);
 }
@@ -606,7 +606,7 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
   final Type name;
 
   @override
-  List<Object> get props => [name];
+  List<Object?> get props => [name];
   @override
   Map<String, dynamic> toJson() => _\$TestQueryArgumentsToJson(this);
 }
@@ -649,7 +649,7 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
   final TestQueryArguments variables;
 
   @override
-  List<Object> get props => [document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
   @override
   TestQuery parse(Map<String, dynamic> json) => TestQuery.fromJson(json);
 }
@@ -692,7 +692,7 @@ class AClass extends JsonSerializable with EquatableMixin {
   factory AClass.fromJson(Map<String, dynamic> json) => _\$AClassFromJson(json);
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
   Map<String, dynamic> toJson() => _\$AClassToJson(this);
 }
 

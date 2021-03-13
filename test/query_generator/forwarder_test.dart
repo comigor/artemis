@@ -87,7 +87,7 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
   String a;
 
   @override
-  List<Object> get props => [a];
+  List<Object?> get props => [a];
   Map<String, dynamic> toJson() => _$Custom$QueryRootToJson(this);
 }
 ''';
