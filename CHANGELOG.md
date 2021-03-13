@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.20.1-beta.2
+- Add codespaces folder
+
 ## 6.20.1-beta.1
 - Allow for auto generated response and inputs to extend JsonSerializable
 
