@@ -64,6 +64,7 @@ void main() {
                   suffix: r'Query')
             ]),
             generatedFile: r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -77,12 +78,12 @@ class SomeQuery$SomeObject extends JsonSerializable with EquatableMixin {
   factory SomeQuery$SomeObject.fromJson(Map<String, dynamic> json) =>
       _$SomeQuery$SomeObjectFromJson(json);
 
-  String s;
+  String? s;
 
-  int i;
+  int? i;
 
   @override
-  List<Object> get props => [s, i];
+  List<Object?> get props => [s, i];
   Map<String, dynamic> toJson() => _$SomeQuery$SomeObjectToJson(this);
 }
 ''',
@@ -112,7 +113,7 @@ class SomeQuery$SomeObject extends JsonSerializable with EquatableMixin {
             type SomeObject {
               s: String
               i: Int
-              list(intsNonNullable: [Int]!): [Int]!
+              list(intsNonNullable: [Int]!): [Int]
             }
       ''',
             libraryDefinition:
@@ -171,8 +172,8 @@ class SomeQuery$SomeObject extends JsonSerializable with EquatableMixin {
                   suffix: r'Query')
             ]),
             generatedFile: r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
-import 'package:meta/meta.dart';
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -186,14 +187,14 @@ class SomeQuery$Query$SomeObject extends JsonSerializable with EquatableMixin {
   factory SomeQuery$Query$SomeObject.fromJson(Map<String, dynamic> json) =>
       _$SomeQuery$Query$SomeObjectFromJson(json);
 
-  String s;
+  String? s;
 
-  int i;
+  int? i;
 
-  List<int> list;
+  List<int>? list;
 
   @override
-  List<Object> get props => [s, i, list];
+  List<Object?> get props => [s, i, list];
   Map<String, dynamic> toJson() => _$SomeQuery$Query$SomeObjectToJson(this);
 }
 
@@ -204,27 +205,27 @@ class SomeQuery$Query extends JsonSerializable with EquatableMixin {
   factory SomeQuery$Query.fromJson(Map<String, dynamic> json) =>
       _$SomeQuery$QueryFromJson(json);
 
-  SomeQuery$Query$SomeObject someQuery;
+  SomeQuery$Query$SomeObject? someQuery;
 
   @override
-  List<Object> get props => [someQuery];
+  List<Object?> get props => [someQuery];
   Map<String, dynamic> toJson() => _$SomeQuery$QueryToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
 class SomeQueryArguments extends JsonSerializable with EquatableMixin {
-  SomeQueryArguments({@required this.intsNonNullable, this.stringNullable});
+  SomeQueryArguments({required this.intsNonNullable, this.stringNullable});
 
   @override
   factory SomeQueryArguments.fromJson(Map<String, dynamic> json) =>
       _$SomeQueryArgumentsFromJson(json);
 
-  final List<int> intsNonNullable;
+  final List<int?> intsNonNullable;
 
-  final String stringNullable;
+  final String? stringNullable;
 
   @override
-  List<Object> get props => [intsNonNullable, stringNullable];
+  List<Object?> get props => [intsNonNullable, stringNullable];
   @override
   Map<String, dynamic> toJson() => _$SomeQueryArgumentsToJson(this);
 }
@@ -304,7 +305,7 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
   final SomeQueryArguments variables;
 
   @override
-  List<Object> get props => [document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
   @override
   SomeQuery$Query parse(Map<String, dynamic> json) =>
       SomeQuery$Query.fromJson(json);
@@ -407,6 +408,7 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
                   suffix: r'Query')
             ]),
             generatedFile: r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -422,10 +424,10 @@ class SomeQuery$Result$SomeObject$AnotherObject extends JsonSerializable
           Map<String, dynamic> json) =>
       _$SomeQuery$Result$SomeObject$AnotherObjectFromJson(json);
 
-  String str;
+  String? str;
 
   @override
-  List<Object> get props => [str];
+  List<Object?> get props => [str];
   Map<String, dynamic> toJson() =>
       _$SomeQuery$Result$SomeObject$AnotherObjectToJson(this);
 }
@@ -437,12 +439,12 @@ class SomeQuery$Result$SomeObject extends JsonSerializable with EquatableMixin {
   factory SomeQuery$Result$SomeObject.fromJson(Map<String, dynamic> json) =>
       _$SomeQuery$Result$SomeObjectFromJson(json);
 
-  String st;
+  String? st;
 
-  List<SomeQuery$Result$SomeObject$AnotherObject> ob;
+  List<SomeQuery$Result$SomeObject$AnotherObject>? ob;
 
   @override
-  List<Object> get props => [st, ob];
+  List<Object?> get props => [st, ob];
   Map<String, dynamic> toJson() => _$SomeQuery$Result$SomeObjectToJson(this);
 }
 
@@ -453,12 +455,12 @@ class SomeQuery$Result extends JsonSerializable with EquatableMixin {
   factory SomeQuery$Result.fromJson(Map<String, dynamic> json) =>
       _$SomeQuery$ResultFromJson(json);
 
-  String s;
+  String? s;
 
-  SomeQuery$Result$SomeObject o;
+  SomeQuery$Result$SomeObject? o;
 
   @override
-  List<Object> get props => [s, o];
+  List<Object?> get props => [s, o];
   Map<String, dynamic> toJson() => _$SomeQuery$ResultToJson(this);
 }
 ''',
@@ -506,6 +508,7 @@ class SomeQuery$Result extends JsonSerializable with EquatableMixin {
                   suffix: r'Query')
             ]),
             generatedFile: r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -519,12 +522,12 @@ class SomeQuery$Result extends JsonSerializable with EquatableMixin {
   factory SomeQuery$Result.fromJson(Map<String, dynamic> json) =>
       _$SomeQuery$ResultFromJson(json);
 
-  String firstName;
+  String? firstName;
 
-  String lastName;
+  String? lastName;
 
   @override
-  List<Object> get props => [firstName, lastName];
+  List<Object?> get props => [firstName, lastName];
   Map<String, dynamic> toJson() => _$SomeQuery$ResultToJson(this);
 }
 ''',
@@ -592,6 +595,7 @@ class SomeQuery$Result extends JsonSerializable with EquatableMixin {
               r'package:decimal/decimal.dart'
             ]),
             generatedFile: r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -606,12 +610,12 @@ class SomeQuery$SomeObject extends JsonSerializable with EquatableMixin {
   factory SomeQuery$SomeObject.fromJson(Map<String, dynamic> json) =>
       _$SomeQuery$SomeObjectFromJson(json);
 
-  Decimal bigDecimal;
+  Decimal? bigDecimal;
 
-  DateTime dateTime;
+  DateTime? dateTime;
 
   @override
-  List<Object> get props => [bigDecimal, dateTime];
+  List<Object?> get props => [bigDecimal, dateTime];
   Map<String, dynamic> toJson() => _$SomeQuery$SomeObjectToJson(this);
 }
 ''',
@@ -655,6 +659,7 @@ class SomeQuery$SomeObject extends JsonSerializable with EquatableMixin {
                   suffix: r'Query')
             ]),
             generatedFile: r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -670,10 +675,10 @@ class PascalCasingQuery$PascalCasingQuery extends JsonSerializable
           Map<String, dynamic> json) =>
       _$PascalCasingQuery$PascalCasingQueryFromJson(json);
 
-  String s;
+  String? s;
 
   @override
-  List<Object> get props => [s];
+  List<Object?> get props => [s];
   Map<String, dynamic> toJson() =>
       _$PascalCasingQuery$PascalCasingQueryToJson(this);
 }
