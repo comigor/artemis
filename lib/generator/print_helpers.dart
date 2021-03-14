@@ -57,7 +57,7 @@ String _toJsonBody(ClassDefinition definition) {
 Method _propsMethod(String body) {
   return Method((m) => m
     ..type = MethodType.getter
-    ..returns = refer('List<Object>')
+    ..returns = refer('List<Object?>')
     ..annotations.add(CodeExpression(Code('override')))
     ..name = 'props'
     ..lambda = true
@@ -147,11 +147,8 @@ Spec classDefinitionToSpec(
                     p
                       ..name = property.name.namePrintable
                       ..named = true
-                      ..toThis = true;
-
-                    if (property.isNonNull) {
-                      p.annotations.add(refer('required'));
-                    }
+                      ..toThis = true
+                      ..required = property.isNonNull;
                   },
                 ),
               ));
@@ -166,14 +163,23 @@ Spec classDefinitionToSpec(
           p.annotations.add('override');
         }
 
-        final field = Field(
-          (f) => f
+        final field = Field((f) {
+          f
             ..name = p.name.namePrintable
-            ..type = refer(p.type.namePrintable)
+            // TODO: remove this workaround when code_builder includes late field modifier:
+            // https://github.com/dart-lang/code_builder/pull/310
+            ..type = refer(
+                '${p.isNonNull ? 'late ' : ''} ${p.type.namePrintable}${p.isNonNull ? '' : '?'}')
             ..annotations.addAll(
               p.annotations.map((e) => CodeExpression(Code(e))),
-            ),
-        );
+            );
+
+          if (p.isNonNull) {
+            // TODO: apply this fix when code_builder includes late field modifier:
+            // https://github.com/dart-lang/code_builder/pull/310
+            // f.modifier = FieldModifier.late$;
+          }
+        });
         return field;
       })),
   );
@@ -212,11 +218,8 @@ Spec generateArgumentClassSpec(QueryDefinition definition) {
                 p
                   ..name = input.name.namePrintable
                   ..named = true
-                  ..toThis = true;
-
-                if (input.isNonNull) {
-                  p.annotations.add(refer('required'));
-                }
+                  ..toThis = true
+                  ..required = input.isNonNull;
               },
             ),
           )),
@@ -344,14 +347,14 @@ Spec generateLibrarySpec(LibraryDefinition definition) {
 
   // inserts import of meta package only if there is at least one non nullable input
   // see this link for details https://github.com/dart-lang/sdk/issues/4188#issuecomment-240322222
-  if (hasNonNullableInput(definition.queries)) {
-    importDirectives.insertAll(
-      0,
-      [
-        Directive.import('package:meta/meta.dart'),
-      ],
-    );
-  }
+  // if (hasNonNullableInput(definition.queries)) {
+  //   importDirectives.insertAll(
+  //     0,
+  //     [
+  //       Directive.import('package:meta/meta.dart'),
+  //     ],
+  //   );
+  // }
 
   importDirectives.addAll(definition.customImports
       .map((customImport) => Directive.import(customImport)));
@@ -406,6 +409,7 @@ void writeLibraryDefinitionToBuffer(
   LibraryDefinition definition,
 ) {
   buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND');
+  buffer.writeln('// @dart = 2.12');
   if (ignoreForFile != null && ignoreForFile.isNotEmpty) {
     buffer.writeln(
       '// ignore_for_file: ${Set<String>.from(ignoreForFile).join(', ')}',
