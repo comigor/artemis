@@ -317,7 +317,7 @@ Make sure your query is correct and your schema is updated.''');
       schema: context.schema);
 
   logFn(context, aliasedContext.align + 1,
-      '${aliasedContext.path}[${aliasedContext.currentType.name.value}][${aliasedContext.currentClassName} ${aliasedContext.currentFieldName}] ${fieldAlias == null ? '' : '(${fieldAlias}) '}-> ${dartTypeName.namePrintable}');
+      '${aliasedContext.path}[${aliasedContext.currentType.name.value}][${aliasedContext.currentClassName} ${aliasedContext.currentFieldName}] ${fieldAlias == null ? '' : '($fieldAlias) '}-> ${dartTypeName.namePrintable}');
 
   if ((nextType is ObjectTypeDefinitionNode ||
           nextType is UnionTypeDefinitionNode ||
@@ -387,7 +387,7 @@ Make sure your query is correct and your schema is updated.''');
     final jsonKey = jsonKeyAnnotation.entries
         .map<String>((e) => '${e.key}: ${e.value}')
         .join(', ');
-    annotations.add('JsonKey(${jsonKey})');
+    annotations.add('JsonKey($jsonKey)');
   }
   annotations.addAll(proceedDeprecated(fieldDirectives));
 

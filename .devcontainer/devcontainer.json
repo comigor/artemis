@@ -1,0 +1,33 @@
+{
+	"name": "Dart",
+	"build": {
+		"dockerfile": "Dockerfile",
+		// Update VARIANT to pick a Dart version
+		"args": {
+			"VARIANT": "2",
+		},
+	},
+	// Set *default* container specific settings.json values on container create.
+	"settings": {
+		"editor.formatOnSave": true,
+		"terminal.integrated.shell.linux": "/usr/bin/zsh",
+		"editor.fontLigatures": true,
+		"workbench.colorTheme": "Default Dark+",
+		"editor.fontFamily": "'Jetbrains Mono', Menlo, Monaco, 'Courier New', monospace",
+	},
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"dart-code.dart-code",
+		"dart-code.flutter",
+		"redhat.vscode-yaml",
+		"luanpotter.dart-import",
+		"jeroen-meijer.pubspec-assist",
+		"kumar-harsh.graphql-for-vscode",
+	],
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "uname -a",
+	// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
+	// "remoteUser": "vscode"
+}
