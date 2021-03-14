@@ -138,24 +138,23 @@ Spec classDefinitionToSpec(
       ..implements.addAll(definition.implementations.map((i) => refer(i)))
       ..constructors.add(Constructor((b) {
         if (definition.isInput) {
-          b
-            ..optionalParameters.addAll(definition.properties
-                .where((property) =>
-                    !property.isOverride && !property.isResolveType)
-                .map(
-                  (property) => Parameter(
-                    (p) {
-                      p
-                        ..name = property.name.namePrintable
-                        ..named = true
-                        ..toThis = true;
+          b.optionalParameters.addAll(definition.properties
+              .where(
+                  (property) => !property.isOverride && !property.isResolveType)
+              .map(
+                (property) => Parameter(
+                  (p) {
+                    p
+                      ..name = property.name.namePrintable
+                      ..named = true
+                      ..toThis = true;
 
-                      if (property.isNonNull) {
-                        p.annotations.add(refer('required'));
-                      }
-                    },
-                  ),
-                ));
+                    if (property.isNonNull) {
+                      p.annotations.add(refer('required'));
+                    }
+                  },
+                ),
+              ));
         }
       }))
       ..constructors.add(fromJson)
@@ -184,7 +183,7 @@ Spec classDefinitionToSpec(
 Spec fragmentClassDefinitionToSpec(FragmentClassDefinition definition) {
   final fields = (definition.properties ?? []).map((p) {
     final lines = <String>[];
-    lines.addAll(p.annotations.map((e) => '@${e}'));
+    lines.addAll(p.annotations.map((e) => '@$e'));
     lines.add('${p.type.namePrintable} ${p.name.namePrintable};');
     return lines.join('\n');
   });

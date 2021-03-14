@@ -208,7 +208,7 @@ class GeneratorVisitor extends RecursiveVisitor {
       final jsonKey = jsonKeyAnnotation.entries
           .map<String>((e) => '${e.key}: ${e.value}')
           .join(', ');
-      annotations.add('JsonKey(${jsonKey})');
+      annotations.add('JsonKey($jsonKey)');
     }
 
     context.inputsClasses.add(QueryInput(
