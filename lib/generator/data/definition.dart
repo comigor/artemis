@@ -26,7 +26,7 @@ abstract class Name extends Equatable with DataPrinter {
   String get namePrintable => normalize(name);
 
   /// type name safe to use for dart
-  String get dartTypeSafe => namePrintable.replaceAll(RegExp(r'[<>]'), '');
+  String get dartTypeSafe => namePrintable.replaceAll(RegExp(r'[<>?]'), '');
 
   /// Name normalization function
   String normalize(String name) => normalizeName(name);

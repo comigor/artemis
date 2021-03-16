@@ -148,7 +148,7 @@ Spec classDefinitionToSpec(
                       ..name = property.name.namePrintable
                       ..named = true
                       ..toThis = true
-                      ..required = property.isNonNull;
+                      ..required = property.type.isNonNull;
                   },
                 ),
               ));
@@ -169,12 +169,12 @@ Spec classDefinitionToSpec(
             // TODO: remove this workaround when code_builder includes late field modifier:
             // https://github.com/dart-lang/code_builder/pull/310
             ..type = refer(
-                '${p.isNonNull ? 'late ' : ''} ${p.type.namePrintable}${p.isNonNull ? '' : '?'}')
+                '${p.type.isNonNull ? 'late ' : ''} ${p.type.namePrintable}')
             ..annotations.addAll(
               p.annotations.map((e) => CodeExpression(Code(e))),
             );
 
-          if (p.isNonNull) {
+          if (p.type.isNonNull) {
             // TODO: apply this fix when code_builder includes late field modifier:
             // https://github.com/dart-lang/code_builder/pull/310
             // f.modifier = FieldModifier.late$;
@@ -344,17 +344,6 @@ Spec generateLibrarySpec(LibraryDefinition definition) {
       ],
     );
   }
-
-  // inserts import of meta package only if there is at least one non nullable input
-  // see this link for details https://github.com/dart-lang/sdk/issues/4188#issuecomment-240322222
-  // if (hasNonNullableInput(definition.queries)) {
-  //   importDirectives.insertAll(
-  //     0,
-  //     [
-  //       Directive.import('package:meta/meta.dart'),
-  //     ],
-  //   );
-  // }
 
   importDirectives.addAll(definition.customImports
       .map((customImport) => Directive.import(customImport)));
