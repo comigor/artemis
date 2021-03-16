@@ -219,7 +219,7 @@ Spec generateArgumentClassSpec(QueryDefinition definition) {
                   ..name = input.name.namePrintable
                   ..named = true
                   ..toThis = true
-                  ..required = input.isNonNull;
+                  ..required = input.type.isNonNull;
               },
             ),
           )),
@@ -247,12 +247,20 @@ Spec generateArgumentClassSpec(QueryDefinition definition) {
       ))
       ..fields.addAll(definition.inputs.map(
         (p) => Field(
-          (f) => f
-            ..name = p.name.namePrintable
-            ..type = refer(p.type.namePrintable)
-            ..modifier = FieldModifier.final$
-            ..annotations
-                .addAll(p.annotations.map((e) => CodeExpression(Code(e)))),
+          (f) {
+            f
+              ..name = p.name.namePrintable
+              // TODO: remove this workaround when code_builder includes late field modifier:
+              // https://github.com/dart-lang/code_builder/pull/310
+              ..type = refer(
+                  '${p.type.isNonNull ? 'late ' : ''} ${p.type.namePrintable}')
+              ..annotations
+                  .addAll(p.annotations.map((e) => CodeExpression(Code(e))));
+
+            if (!p.type.isNonNull) {
+              f.modifier = FieldModifier.final$;
+            }
+          },
         ),
       )),
   );
@@ -271,7 +279,8 @@ Spec generateQueryClassSpec(QueryDefinition definition) {
           (p) => p
             ..name = 'variables'
             ..toThis = true
-            ..named = true,
+            ..named = true
+            ..required = true,
         )));
 
   final fields = [

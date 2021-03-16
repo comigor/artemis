@@ -214,7 +214,6 @@ class GeneratorVisitor extends RecursiveVisitor {
     context.inputsClasses.add(QueryInput(
       type: dartTypeName,
       name: inputName,
-      isNonNull: node.type.isNonNull,
       annotations: annotations,
     ));
   }

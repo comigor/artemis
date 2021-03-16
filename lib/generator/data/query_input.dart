@@ -14,16 +14,12 @@ class QueryInput extends Definition with DataPrinter {
   /// The input type.
   final TypeName type;
 
-  /// Whether this parameter is required
-  final bool isNonNull;
-
   /// Some other custom annotation.
   final List<String> annotations;
 
   /// Instantiate an input parameter.
   QueryInput({
     @required this.type,
-    this.isNonNull = false,
     this.annotations = const [],
     this.name,
   })  : assert(hasValue(type) && hasValue(name)),
@@ -33,7 +29,6 @@ class QueryInput extends Definition with DataPrinter {
   Map<String, Object> get namedProps => {
         'type': type,
         'name': name,
-        'isNonNull': isNonNull,
         'annotations': annotations,
       };
 }

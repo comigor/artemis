@@ -66,7 +66,7 @@ class ClassName extends Name with DataPrinter {
 
   /// Generate class name from hierarchical path
   factory ClassName.fromPath({List<Name> path}) {
-    return ClassName(name: path.map((e) => e.namePrintable).join(r'$_'));
+    return ClassName(name: path.map((e) => e.dartTypeSafe).join(r'$_'));
   }
 
   @override

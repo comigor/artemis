@@ -76,7 +76,7 @@ TypeName buildTypeName(
         dartType: dartType, replaceLeafWith: replaceLeafWith, schema: schema);
     return ListOfTypeName(
       typeName: typeName,
-      listIsNonNull: node.isNonNull,
+      isNonNull: node.isNonNull,
     );
   }
 

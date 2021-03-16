@@ -395,6 +395,5 @@ Make sure your query is correct and your schema is updated.''');
     type: dartTypeName,
     name: name,
     annotations: annotations,
-    isNonNull: fieldType.isNonNull,
   );
 }

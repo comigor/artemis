@@ -17,10 +17,6 @@ class ClassProperty extends Definition with DataPrinter {
   /// Some other custom annotation.
   final List<String> annotations;
 
-  /// Whether this parameter is required
-  @Deprecated('Use [type.isNonNull] instead')
-  final bool isNonNull;
-
   /// Whether this parameter corresponds to the __resolveType (or equivalent)
   final bool isResolveType;
 
@@ -28,7 +24,6 @@ class ClassProperty extends Definition with DataPrinter {
   ClassProperty({
     @required this.type,
     this.annotations = const [],
-    this.isNonNull = false,
     this.isResolveType = false,
     @required this.name,
   })  : assert(hasValue(type) && hasValue(name)),
@@ -42,14 +37,12 @@ class ClassProperty extends Definition with DataPrinter {
     TypeName type,
     ClassPropertyName name,
     List<String> annotations,
-    bool isNonNull,
     bool isResolveType,
   }) =>
       ClassProperty(
         type: type ?? this.type,
         name: name ?? this.name,
         annotations: annotations ?? this.annotations,
-        isNonNull: isNonNull ?? this.isNonNull,
         isResolveType: isResolveType ?? this.isResolveType,
       );
 
@@ -58,7 +51,6 @@ class ClassProperty extends Definition with DataPrinter {
         'type': type,
         'name': name,
         'annotations': annotations,
-        'isNonNull': isNonNull,
         'isResolveType': isResolveType,
       };
 }
@@ -106,7 +98,9 @@ class TypeName extends Name with DataPrinter {
   @override
   String normalize(String name) {
     final normalized = super.normalize(name);
-    if (_camelCaseTypes.contains(normalized)) return normalized;
+    if (_camelCaseTypes.contains(normalized)) {
+      return '$normalized${isNonNull ? '' : '?'}';
+    }
 
     return '${ReCase(normalized).pascalCase}${isNonNull ? '' : '?'}';
   }
@@ -117,22 +111,23 @@ class ListOfTypeName extends TypeName with DataPrinter {
   /// Instantiate a type name definition.
   ListOfTypeName({
     this.typeName,
-    this.listIsNonNull = true,
-  }) : super(name: typeName.name, isNonNull: typeName.isNonNull);
+    this.isNonNull = true,
+  }) : super(name: typeName.name, isNonNull: isNonNull);
 
   /// Internal type name
   final TypeName typeName;
 
   /// If this list type is non-null
-  final bool listIsNonNull;
+  @override
+  final bool isNonNull;
 
   @override
   Map<String, Object> get namedProps => {
         'typeName': typeName,
-        'listIsNonNull': listIsNonNull,
+        'isNonNull': isNonNull,
       };
 
   @override
   String normalize(String name) =>
-      'List<${typeName.namePrintable}>${listIsNonNull ? '' : '?'}';
+      'List<${typeName.namePrintable}>${isNonNull ? '' : '?'}';
 }
