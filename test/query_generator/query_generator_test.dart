@@ -57,7 +57,7 @@ void main() {
                               isResolveType: false)
                         ],
                         factoryPossibilities: {},
-                        typeNameField: TypeName(name: r'__typename'),
+                        typeNameField: ClassPropertyName(name: r'__typename'),
                         isInput: false)
                   ],
                   generateHelpers: false,
@@ -142,7 +142,7 @@ class SomeQuery$SomeObject extends JsonSerializable with EquatableMixin {
                               isResolveType: false)
                         ],
                         factoryPossibilities: {},
-                        typeNameField: TypeName(name: r'__typename'),
+                        typeNameField: ClassPropertyName(name: r'__typename'),
                         isInput: false),
                     ClassDefinition(
                         name: ClassName(name: r'SomeQuery$_Query'),
@@ -155,7 +155,7 @@ class SomeQuery$SomeObject extends JsonSerializable with EquatableMixin {
                               isResolveType: false)
                         ],
                         factoryPossibilities: {},
-                        typeNameField: TypeName(name: r'__typename'),
+                        typeNameField: ClassPropertyName(name: r'__typename'),
                         isInput: false)
                   ],
                   inputs: [
@@ -364,7 +364,7 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
                               isResolveType: false)
                         ],
                         factoryPossibilities: {},
-                        typeNameField: TypeName(name: r'__typename'),
+                        typeNameField: ClassPropertyName(name: r'__typename'),
                         isInput: false),
                     ClassDefinition(
                         name: ClassName(name: r'SomeQuery$_Result$_SomeObject'),
@@ -383,7 +383,7 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
                               isResolveType: false)
                         ],
                         factoryPossibilities: {},
-                        typeNameField: TypeName(name: r'__typename'),
+                        typeNameField: ClassPropertyName(name: r'__typename'),
                         isInput: false),
                     ClassDefinition(
                         name: ClassName(name: r'SomeQuery$_Result'),
@@ -401,7 +401,7 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
                               isResolveType: false)
                         ],
                         factoryPossibilities: {},
-                        typeNameField: TypeName(name: r'__typename'),
+                        typeNameField: ClassPropertyName(name: r'__typename'),
                         isInput: false)
                   ],
                   generateHelpers: false,
@@ -501,7 +501,7 @@ class SomeQuery$Result extends JsonSerializable with EquatableMixin {
                               isResolveType: false)
                         ],
                         factoryPossibilities: {},
-                        typeNameField: TypeName(name: r'__typename'),
+                        typeNameField: ClassPropertyName(name: r'__typename'),
                         isInput: false)
                   ],
                   generateHelpers: false,
@@ -586,7 +586,7 @@ class SomeQuery$Result extends JsonSerializable with EquatableMixin {
                               isResolveType: false)
                         ],
                         factoryPossibilities: {},
-                        typeNameField: TypeName(name: r'__typename'),
+                        typeNameField: ClassPropertyName(name: r'__typename'),
                         isInput: false)
                   ],
                   generateHelpers: false,
@@ -652,7 +652,7 @@ class SomeQuery$SomeObject extends JsonSerializable with EquatableMixin {
                               isResolveType: false)
                         ],
                         factoryPossibilities: {},
-                        typeNameField: TypeName(name: '__typename'),
+                        typeNameField: ClassPropertyName(name: '__typename'),
                         isInput: false)
                   ],
                   generateHelpers: false,

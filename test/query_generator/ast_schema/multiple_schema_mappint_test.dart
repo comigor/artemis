@@ -180,7 +180,7 @@ final LibraryDefinition libraryDefinitionA =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'BrowseArticles$_Query'),
@@ -192,7 +192,7 @@ final LibraryDefinition libraryDefinitionA =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false)
       ],
       generateHelpers: true,
@@ -253,7 +253,7 @@ final libraryDefinitionB =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'BrowseRepositories$_Query'),
@@ -266,7 +266,7 @@ final libraryDefinitionB =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'NotificationOptionInput'),
@@ -286,7 +286,7 @@ final libraryDefinitionB =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: true)
       ],
       inputs: [

@@ -85,7 +85,7 @@ final LibraryDefinition libraryDefinition = LibraryDefinition(
           extension: ClassName(name: r'Custom$_Query$_Node'),
           mixins: [FragmentName(name: r'UserFragMixin')],
           factoryPossibilities: {},
-          typeNameField: TypeName(name: r'__typename'),
+          typeNameField: ClassPropertyName(name: r'__typename'),
           isInput: false,
         ),
         ClassDefinition(
@@ -93,7 +93,7 @@ final LibraryDefinition libraryDefinition = LibraryDefinition(
           extension: ClassName(name: r'Custom$_Query$_Node$_ChatMessage'),
           mixins: [FragmentName(name: r'UserFragMixin')],
           factoryPossibilities: {},
-          typeNameField: TypeName(name: r'__typename'),
+          typeNameField: ClassPropertyName(name: r'__typename'),
           isInput: false,
         ),
         ClassDefinition(
@@ -114,7 +114,7 @@ final LibraryDefinition libraryDefinition = LibraryDefinition(
           ],
           extension: ClassName(name: r'Custom$_Query$_Node'),
           factoryPossibilities: {},
-          typeNameField: TypeName(name: r'__typename'),
+          typeNameField: ClassPropertyName(name: r'__typename'),
           isInput: false,
         ),
         ClassDefinition(
@@ -140,7 +140,7 @@ final LibraryDefinition libraryDefinition = LibraryDefinition(
             r'User': ClassName(name: r'Custom$_Query$_Node$_User'),
             r'ChatMessage': ClassName(name: r'Custom$_Query$_Node$_ChatMessage')
           },
-          typeNameField: TypeName(name: r'__typename'),
+          typeNameField: ClassPropertyName(name: r'__typename'),
           isInput: false,
         ),
         ClassDefinition(
@@ -154,7 +154,7 @@ final LibraryDefinition libraryDefinition = LibraryDefinition(
             ),
           ],
           factoryPossibilities: {},
-          typeNameField: TypeName(name: r'__typename'),
+          typeNameField: ClassPropertyName(name: r'__typename'),
           isInput: false,
         ),
         FragmentClassDefinition(

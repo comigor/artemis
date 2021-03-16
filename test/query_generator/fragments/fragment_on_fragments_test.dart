@@ -76,7 +76,7 @@ final LibraryDefinition libraryDefinition =
               FragmentName(name: r'PokemonPartsMixin')
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'Query$_Query'),
@@ -88,13 +88,13 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'PokemonMixin$_Pokemon'),
             mixins: [FragmentName(name: r'PokemonNameMixin')],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         FragmentClassDefinition(
             name: FragmentName(name: r'PokemonMixin'),

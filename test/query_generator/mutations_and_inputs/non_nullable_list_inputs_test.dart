@@ -45,7 +45,7 @@ void main() {
                               isResolveType: false)
                         ],
                         factoryPossibilities: {},
-                        typeNameField: TypeName(name: r'__typename'),
+                        typeNameField: ClassPropertyName(name: r'__typename'),
                         isInput: false),
                     ClassDefinition(
                         name: ClassName(name: r'SomeQuery$_Query'),
@@ -58,7 +58,7 @@ void main() {
                               isResolveType: false)
                         ],
                         factoryPossibilities: {},
-                        typeNameField: TypeName(name: r'__typename'),
+                        typeNameField: ClassPropertyName(name: r'__typename'),
                         isInput: false)
                   ],
                   inputs: [

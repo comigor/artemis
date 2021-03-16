@@ -78,7 +78,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'SomeQuery$_Response'),
@@ -95,7 +95,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false)
       ],
       generateHelpers: false,

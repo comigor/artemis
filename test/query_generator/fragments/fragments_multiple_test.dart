@@ -145,7 +145,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(
@@ -165,7 +165,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'VoyagesData$_Query$_VoyageList'),
@@ -179,7 +179,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'VoyagesData$_Query'),
@@ -191,7 +191,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'PaginationInput'),
@@ -208,7 +208,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: true)
       ],
       inputs: [

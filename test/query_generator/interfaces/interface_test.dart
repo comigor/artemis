@@ -82,14 +82,14 @@ final LibraryDefinition libraryDefinition =
             extension: ClassName(name: r'Custom$_Query$_Node'),
             mixins: [FragmentName(name: r'UserFragMixin')],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'Custom$_Query$_Node$_ChatMessage$_User'),
             extension: ClassName(name: r'Custom$_Query$_Node$_ChatMessage'),
             mixins: [FragmentName(name: r'UserFragMixin')],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'Custom$_Query$_Node$_ChatMessage'),
@@ -108,7 +108,7 @@ final LibraryDefinition libraryDefinition =
             ],
             extension: ClassName(name: r'Custom$_Query$_Node'),
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'Custom$_Query$_Node'),
@@ -130,7 +130,7 @@ final LibraryDefinition libraryDefinition =
               r'ChatMessage':
                   ClassName(name: r'Custom$_Query$_Node$_ChatMessage')
             },
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'Custom$_Query'),
@@ -142,7 +142,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         FragmentClassDefinition(
             name: FragmentName(name: r'UserFragMixin'),

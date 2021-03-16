@@ -130,7 +130,7 @@ final LibraryDefinition libraryDefinition =
             ],
             extension: ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion'),
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion$_TypeB'),
@@ -185,7 +185,7 @@ final LibraryDefinition libraryDefinition =
             ],
             extension: ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion'),
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion'),
@@ -203,7 +203,7 @@ final LibraryDefinition libraryDefinition =
               r'TypeB':
                   ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion$_TypeB')
             },
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'SomeQuery$_SomeObject'),
@@ -215,7 +215,7 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false)
       ],
       generateHelpers: false,

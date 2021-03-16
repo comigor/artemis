@@ -58,7 +58,7 @@ void main() {
                               isResolveType: true)
                         ],
                         factoryPossibilities: {},
-                        typeNameField: TypeName(name: r'__typename'),
+                        typeNameField: ClassPropertyName(name: r'__typename'),
                         isInput: false),
                     ClassDefinition(
                         name: ClassName(name: r'Custom$_QueryRoot'),
@@ -76,7 +76,7 @@ void main() {
                               isResolveType: true)
                         ],
                         factoryPossibilities: {},
-                        typeNameField: TypeName(name: r'__typename'),
+                        typeNameField: ClassPropertyName(name: r'__typename'),
                         isInput: false)
                   ],
                   generateHelpers: false,
@@ -174,7 +174,7 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                               isResolveType: true)
                         ],
                         factoryPossibilities: {},
-                        typeNameField: TypeName(name: r'__typename'),
+                        typeNameField: ClassPropertyName(name: r'__typename'),
                         isInput: false),
                     ClassDefinition(
                         name: ClassName(name: r'Custom$_QueryRoot'),
@@ -192,7 +192,7 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                               isResolveType: true)
                         ],
                         factoryPossibilities: {},
-                        typeNameField: TypeName(name: r'__typename'),
+                        typeNameField: ClassPropertyName(name: r'__typename'),
                         isInput: false)
                   ],
                   generateHelpers: false,
@@ -288,7 +288,7 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                         ],
                         mixins: [FragmentName(name: r'QueryResponseMixin')],
                         factoryPossibilities: {},
-                        typeNameField: TypeName(name: r'__typename'),
+                        typeNameField: ClassPropertyName(name: r'__typename'),
                         isInput: false),
                     ClassDefinition(
                         name: ClassName(name: r'Custom$_QueryRoot'),
@@ -306,7 +306,7 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                               isResolveType: true)
                         ],
                         factoryPossibilities: {},
-                        typeNameField: TypeName(name: r'__typename'),
+                        typeNameField: ClassPropertyName(name: r'__typename'),
                         isInput: false),
                     FragmentClassDefinition(
                         name: FragmentName(name: r'QueryResponseMixin'),
@@ -434,7 +434,7 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                         ],
                         extension: ClassName(name: r'Custom$_QueryRoot$_q'),
                         factoryPossibilities: {},
-                        typeNameField: TypeName(name: r'__typename'),
+                        typeNameField: ClassPropertyName(name: r'__typename'),
                         isInput: false),
                     ClassDefinition(
                         name: ClassName(name: r'Custom$_QueryRoot$_q$_typeB'),
@@ -453,7 +453,7 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                         ],
                         extension: ClassName(name: r'Custom$_QueryRoot$_q'),
                         factoryPossibilities: {},
-                        typeNameField: TypeName(name: r'__typename'),
+                        typeNameField: ClassPropertyName(name: r'__typename'),
                         isInput: false),
                     ClassDefinition(
                         name: ClassName(name: r'Custom$_QueryRoot$_q'),
@@ -471,7 +471,7 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                           r'TypeB':
                               ClassName(name: r'Custom$_QueryRoot$_q$_TypeB')
                         },
-                        typeNameField: TypeName(name: r'__typename'),
+                        typeNameField: ClassPropertyName(name: r'__typename'),
                         isInput: false),
                     ClassDefinition(
                         name: ClassName(name: r'Custom$_QueryRoot'),
@@ -489,7 +489,7 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                               isResolveType: true)
                         ],
                         factoryPossibilities: {},
-                        typeNameField: TypeName(name: r'__typename'),
+                        typeNameField: ClassPropertyName(name: r'__typename'),
                         isInput: false)
                   ],
                   generateHelpers: false,
@@ -631,7 +631,7 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                     ],
                     mixins: [FragmentName(name: r'QueryResponseMixin')],
                     factoryPossibilities: {},
-                    typeNameField: TypeName(name: r'__typename'),
+                    typeNameField: ClassPropertyName(name: r'__typename'),
                     isInput: false),
                 ClassDefinition(
                     name: ClassName(name: r'Custom$_QueryRoot'),
@@ -650,7 +650,7 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                           isResolveType: true)
                     ],
                     factoryPossibilities: {},
-                    typeNameField: TypeName(name: r'__typename'),
+                    typeNameField: ClassPropertyName(name: r'__typename'),
                     isInput: false),
                 FragmentClassDefinition(
                     name: FragmentName(name: r'QueryResponseMixin'),

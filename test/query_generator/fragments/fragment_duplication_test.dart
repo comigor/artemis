@@ -89,7 +89,7 @@ final LibraryDefinition libraryDefinition =
               FragmentName(name: r'PokemonPartsMixin')
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'PokemonData$_Query'),
@@ -101,13 +101,13 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'PokemonMixin$_evolution'),
             mixins: [FragmentName(name: r'PokemonNameMixin')],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         FragmentClassDefinition(
             name: FragmentName(name: r'PokemonMixin'),
@@ -160,7 +160,7 @@ final LibraryDefinition libraryDefinition =
               FragmentName(name: r'PokemonPartsMixin')
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'AllPokemonsData$_Query'),
@@ -173,13 +173,13 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'PokemonMixin$_evolution'),
             mixins: [FragmentName(name: r'PokemonNameMixin')],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         FragmentClassDefinition(
             name: FragmentName(name: r'PokemonMixin'),
