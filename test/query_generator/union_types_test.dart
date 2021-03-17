@@ -89,43 +89,36 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'int'),
                   name: ClassPropertyName(name: r'a'),
-                  isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'_'),
                   annotations: [r'''JsonKey(name: '_')'''],
-                  isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'_a'),
                   annotations: [r'''JsonKey(name: '_a')'''],
-                  isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'_a_a'),
                   annotations: [r'''JsonKey(name: '_a_a')'''],
-                  isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'_a_a_'),
                   annotations: [r'''JsonKey(name: '_a_a_')'''],
-                  isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'_new'),
                   annotations: [r'''JsonKey(name: '_new')'''],
-                  isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'__typename'),
                   annotations: [r'''JsonKey(name: '__typename')'''],
-                  isNonNull: false,
                   isResolveType: true)
             ],
             extension: ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion'),
@@ -138,49 +131,41 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'int'),
                   name: ClassPropertyName(name: r'b'),
-                  isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'_'),
                   annotations: [r'''JsonKey(name: '_')'''],
-                  isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'_b'),
                   annotations: [r'''JsonKey(name: '_b')'''],
-                  isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'_b_b'),
                   annotations: [r'''JsonKey(name: '_b_b')'''],
-                  isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'_b_b_'),
                   annotations: [r'''JsonKey(name: '_b_b_')'''],
-                  isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'new'),
                   annotations: [r'''JsonKey(name: 'new')'''],
-                  isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'IN'),
                   annotations: [r'''JsonKey(name: 'IN')'''],
-                  isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'__typename'),
                   annotations: [r'''JsonKey(name: '__typename')'''],
-                  isNonNull: false,
                   isResolveType: true)
             ],
             extension: ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion'),
@@ -194,7 +179,6 @@ final LibraryDefinition libraryDefinition =
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'__typename'),
                   annotations: [r'''JsonKey(name: '__typename')'''],
-                  isNonNull: false,
                   isResolveType: true)
             ],
             factoryPossibilities: {
@@ -211,7 +195,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'SomeQuery$_SomeObject$_SomeUnion'),
                   name: ClassPropertyName(name: r'o'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
