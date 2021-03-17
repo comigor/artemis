@@ -371,10 +371,10 @@ Make sure your query is correct and your schema is updated.''');
           replaceLeafWith: ClassName.fromPath(path: nextClassName),
           schema: context.schema);
       jsonKeyAnnotation['unknownEnumValue'] =
-          '${innerDartTypeName.namePrintable}.${ARTEMIS_UNKNOWN.name.namePrintable}';
+          '${innerDartTypeName.dartTypeSafe}.${ARTEMIS_UNKNOWN.name.namePrintable}';
     } else {
       jsonKeyAnnotation['unknownEnumValue'] =
-          '${dartTypeName.namePrintable}.${ARTEMIS_UNKNOWN.name.namePrintable}';
+          '${dartTypeName.dartTypeSafe}.${ARTEMIS_UNKNOWN.name.namePrintable}';
     }
   }
 

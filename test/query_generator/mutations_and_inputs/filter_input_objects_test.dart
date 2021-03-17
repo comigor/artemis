@@ -66,7 +66,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r's'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -78,7 +77,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'SomeQuery$_QueryRoot$_SomeObject'),
                   name: ClassPropertyName(name: r'o'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -90,7 +88,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'SubInput'),
                   name: ClassPropertyName(name: r's'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -102,7 +99,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r's'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -111,15 +107,15 @@ final LibraryDefinition libraryDefinition =
       ],
       inputs: [
         QueryInput(
-            type: TypeName(name: r'Input'),
-            name: QueryInputName(name: r'input'),
-            isNonNull: true)
+            type: TypeName(name: r'Input', isNonNull: true),
+            name: QueryInputName(name: r'input'))
       ],
       generateHelpers: true,
       suffix: r'Query')
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -135,7 +131,7 @@ class SomeQuery$QueryRoot$SomeObject extends JsonSerializable
   factory SomeQuery$QueryRoot$SomeObject.fromJson(Map<String, dynamic> json) =>
       _$SomeQuery$QueryRoot$SomeObjectFromJson(json);
 
-  String s;
+  String? s;
 
   @override
   List<Object?> get props => [s];
@@ -149,7 +145,7 @@ class SomeQuery$QueryRoot extends JsonSerializable with EquatableMixin {
   factory SomeQuery$QueryRoot.fromJson(Map<String, dynamic> json) =>
       _$SomeQuery$QueryRootFromJson(json);
 
-  SomeQuery$QueryRoot$SomeObject o;
+  SomeQuery$QueryRoot$SomeObject? o;
 
   @override
   List<Object?> get props => [o];
@@ -162,7 +158,7 @@ class Input extends JsonSerializable with EquatableMixin {
 
   factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
 
-  SubInput s;
+  SubInput? s;
 
   @override
   List<Object?> get props => [s];
@@ -176,7 +172,7 @@ class SubInput extends JsonSerializable with EquatableMixin {
   factory SubInput.fromJson(Map<String, dynamic> json) =>
       _$SubInputFromJson(json);
 
-  String s;
+  String? s;
 
   @override
   List<Object?> get props => [s];
@@ -185,13 +181,13 @@ class SubInput extends JsonSerializable with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class SomeQueryArguments extends JsonSerializable with EquatableMixin {
-  SomeQueryArguments({@required this.input});
+  SomeQueryArguments({required this.input});
 
   @override
   factory SomeQueryArguments.fromJson(Map<String, dynamic> json) =>
       _$SomeQueryArgumentsFromJson(json);
 
-  final Input input;
+  late Input input;
 
   @override
   List<Object?> get props => [input];
@@ -201,7 +197,7 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
 
 class SomeQueryQuery
     extends GraphQLQuery<SomeQuery$QueryRoot, SomeQueryArguments> {
-  SomeQueryQuery({this.variables});
+  SomeQueryQuery({required this.variables});
 
   @override
   final DocumentNode document = DocumentNode(definitions: [
@@ -212,7 +208,7 @@ class SomeQueryQuery
           VariableDefinitionNode(
               variable: VariableNode(name: NameNode(value: 'input')),
               type: NamedTypeNode(
-                  name: NameNode(value: 'Input'), ),
+                  name: NameNode(value: 'Input'), isNonNull: true),
               defaultValue: DefaultValueNode(value: null),
               directives: [])
         ],

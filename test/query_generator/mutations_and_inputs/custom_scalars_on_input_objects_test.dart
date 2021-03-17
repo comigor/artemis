@@ -70,7 +70,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r's'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -83,7 +82,6 @@ final LibraryDefinition libraryDefinition =
                   type:
                       TypeName(name: r'Custom$_MutationRoot$_MutationResponse'),
                   name: ClassPropertyName(name: r'mut'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -93,12 +91,11 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Input'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'MyUuid'),
+                  type: TypeName(name: r'MyUuid', isNonNull: true),
                   name: ClassPropertyName(name: r'id'),
                   annotations: [
                     r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid)'
                   ],
-                  isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -107,20 +104,18 @@ final LibraryDefinition libraryDefinition =
       ],
       inputs: [
         QueryInput(
-            type: TypeName(name: r'Input'),
-            name: QueryInputName(name: r'input'),
-            isNonNull: true),
+            type: TypeName(name: r'Input', isNonNull: true),
+            name: QueryInputName(name: r'input')),
         QueryInput(
             type: TypeName(name: r'MyUuid'),
             name: QueryInputName(name: r'previousId'),
-            isNonNull: false,
             annotations: [
               r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid)'
             ]),
         QueryInput(
-            type: TypeName(name: r'List<MyUuid>'),
+            type: ListOfTypeName(
+                typeName: TypeName(name: r'MyUuid'), isNonNull: false),
             name: QueryInputName(name: r'listIds'),
-            isNonNull: false,
             annotations: [
               r'JsonKey(fromJson: fromGraphQLListMyUuidToDartListMyUuid, toJson: fromDartListMyUuidToGraphQLListMyUuid)'
             ])
@@ -133,6 +128,7 @@ final LibraryDefinition libraryDefinition =
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -151,7 +147,7 @@ class Custom$MutationRoot$MutationResponse extends JsonSerializable
           Map<String, dynamic> json) =>
       _$Custom$MutationRoot$MutationResponseFromJson(json);
 
-  String s;
+  String? s;
 
   @override
   List<Object?> get props => [s];
@@ -166,7 +162,7 @@ class Custom$MutationRoot extends JsonSerializable with EquatableMixin {
   factory Custom$MutationRoot.fromJson(Map<String, dynamic> json) =>
       _$Custom$MutationRootFromJson(json);
 
-  Custom$MutationRoot$MutationResponse mut;
+  Custom$MutationRoot$MutationResponse? mut;
 
   @override
   List<Object?> get props => [mut];
@@ -175,14 +171,14 @@ class Custom$MutationRoot extends JsonSerializable with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class Input extends JsonSerializable with EquatableMixin {
-  Input({@required this.id});
+  Input({required this.id});
 
   factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
 
   @JsonKey(
       fromJson: fromGraphQLMyUuidToDartMyUuid,
       toJson: fromDartMyUuidToGraphQLMyUuid)
-  MyUuid id;
+  late MyUuid id;
 
   @override
   List<Object?> get props => [id];
@@ -191,23 +187,23 @@ class Input extends JsonSerializable with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class CustomArguments extends JsonSerializable with EquatableMixin {
-  CustomArguments({@required this.input, this.previousId, this.listIds});
+  CustomArguments({required this.input, this.previousId, this.listIds});
 
   @override
   factory CustomArguments.fromJson(Map<String, dynamic> json) =>
       _$CustomArgumentsFromJson(json);
 
-  final Input input;
+  late Input input;
 
   @JsonKey(
       fromJson: fromGraphQLMyUuidToDartMyUuid,
       toJson: fromDartMyUuidToGraphQLMyUuid)
-  final MyUuid previousId;
+  final MyUuid? previousId;
 
   @JsonKey(
       fromJson: fromGraphQLListMyUuidToDartListMyUuid,
       toJson: fromDartListMyUuidToGraphQLListMyUuid)
-  final List<MyUuid> listIds;
+  final List<MyUuid?>? listIds;
 
   @override
   List<Object?> get props => [input, previousId, listIds];
@@ -217,7 +213,7 @@ class CustomArguments extends JsonSerializable with EquatableMixin {
 
 class CustomMutation
     extends GraphQLQuery<Custom$MutationRoot, CustomArguments> {
-  CustomMutation({this.variables});
+  CustomMutation({required this.variables});
 
   @override
   final DocumentNode document = DocumentNode(definitions: [
@@ -242,7 +238,7 @@ class CustomMutation
               type: ListTypeNode(
                   type: NamedTypeNode(
                       name: NameNode(value: 'MyUuid'), isNonNull: false),
-                  ),
+                  isNonNull: false),
               defaultValue: DefaultValueNode(value: null),
               directives: [])
         ],

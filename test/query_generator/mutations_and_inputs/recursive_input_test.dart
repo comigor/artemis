@@ -46,7 +46,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'mut'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -58,12 +57,10 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'Input'),
                   name: ClassPropertyName(name: r'and'),
-                  isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'Input'),
                   name: ClassPropertyName(name: r'or'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -72,15 +69,15 @@ final LibraryDefinition libraryDefinition =
       ],
       inputs: [
         QueryInput(
-          type: TypeName(name: r'Input'),
-          name: QueryInputName(name: r'input'),
-        )
+            type: TypeName(name: r'Input', isNonNull: true),
+            name: QueryInputName(name: r'input'))
       ],
       generateHelpers: false,
       suffix: r'Mutation')
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -94,7 +91,7 @@ class Custom$Mutation extends JsonSerializable with EquatableMixin {
   factory Custom$Mutation.fromJson(Map<String, dynamic> json) =>
       _$Custom$MutationFromJson(json);
 
-  String mut;
+  String? mut;
 
   @override
   List<Object?> get props => [mut];
@@ -107,9 +104,9 @@ class Input extends JsonSerializable with EquatableMixin {
 
   factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
 
-  Input and;
+  Input? and;
 
-  Input or;
+  Input? or;
 
   @override
   List<Object?> get props => [and, or];

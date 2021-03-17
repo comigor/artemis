@@ -170,10 +170,10 @@ class GeneratorVisitor extends RecursiveVisitor {
             replaceLeafWith: ClassName.fromPath(path: nextClassName),
             schema: context.schema);
         jsonKeyAnnotation['unknownEnumValue'] =
-            '${EnumName(name: innerDartTypeName.name).namePrintable}.${ARTEMIS_UNKNOWN.name.namePrintable}';
+            '${EnumName(name: innerDartTypeName.name).dartTypeSafe}.${ARTEMIS_UNKNOWN.name.namePrintable}';
       } else {
         jsonKeyAnnotation['unknownEnumValue'] =
-            '${EnumName(name: dartTypeName.name).namePrintable}.${ARTEMIS_UNKNOWN.name.namePrintable}';
+            '${EnumName(name: dartTypeName.name).dartTypeSafe}.${ARTEMIS_UNKNOWN.name.namePrintable}';
       }
     } else if (leafType is InputObjectTypeDefinitionNode) {
       addUsedInputObjectsAndEnums(leafType);
@@ -190,9 +190,9 @@ class GeneratorVisitor extends RecursiveVisitor {
                 .dartTypeSafe);
         final dartTypeSafeStr = TypeName(name: dartTypeName.dartTypeSafe);
         jsonKeyAnnotation['fromJson'] =
-            'fromGraphQL${graphqlTypeSafeStr.namePrintable}ToDart${dartTypeSafeStr.namePrintable}';
+            'fromGraphQL${graphqlTypeSafeStr.dartTypeSafe}ToDart${dartTypeSafeStr.dartTypeSafe}';
         jsonKeyAnnotation['toJson'] =
-            'fromDart${dartTypeSafeStr.namePrintable}ToGraphQL${graphqlTypeSafeStr.namePrintable}';
+            'fromDart${dartTypeSafeStr.dartTypeSafe}ToGraphQL${graphqlTypeSafeStr.dartTypeSafe}';
       }
     }
 
