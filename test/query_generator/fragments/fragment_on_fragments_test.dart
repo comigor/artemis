@@ -84,7 +84,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'Query$_Query$_Pokemon'),
                   name: ClassPropertyName(name: r'pokemon'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -102,12 +101,10 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'id'),
-                  isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'PokemonMixin$_Pokemon'),
                   name: ClassPropertyName(name: r'evolution'),
-                  isNonNull: false,
                   isResolveType: false)
             ]),
         FragmentClassDefinition(
@@ -116,7 +113,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'name'),
-                  isNonNull: false,
                   isResolveType: false)
             ]),
         FragmentClassDefinition(
@@ -125,7 +121,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'number'),
-                  isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),

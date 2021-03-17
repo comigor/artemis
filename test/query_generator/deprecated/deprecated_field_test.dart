@@ -60,12 +60,10 @@ final LibraryDefinition libraryDefinition =
             ClassProperty(
               type: TypeName(name: r'String'),
               name: ClassPropertyName(name: r'someField'),
-              isNonNull: false,
             ),
             ClassProperty(
               type: TypeName(name: r'String'),
               name: ClassPropertyName(name: r'deprecatedField'),
-              isNonNull: false,
               annotations: [r"Deprecated('message 2')"],
             ),
           ],
@@ -79,12 +77,10 @@ final LibraryDefinition libraryDefinition =
             ClassProperty(
               type: TypeName(name: r'String'),
               name: ClassPropertyName(name: r'someField'),
-              isNonNull: false,
             ),
             ClassProperty(
               type: TypeName(name: r'String'),
               name: ClassPropertyName(name: r'deprecatedField'),
-              isNonNull: false,
               annotations: [r"Deprecated('message 2')"],
             ),
           ],
@@ -99,7 +95,6 @@ final LibraryDefinition libraryDefinition =
               type:
                   TypeName(name: r'SomeQuery$_QueryResponse$_deprecatedObject'),
               name: ClassPropertyName(name: r'deprecatedObject'),
-              isNonNull: false,
               annotations: [r"Deprecated('message')"],
             ),
             ClassProperty(

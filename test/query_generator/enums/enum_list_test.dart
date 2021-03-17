@@ -71,7 +71,6 @@ final LibraryDefinition libraryDefinition =
                   annotations: [
                     r'''JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'''
                   ],
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},

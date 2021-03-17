@@ -58,7 +58,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'st'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -70,7 +69,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'str'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -82,12 +80,10 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r's'),
-                  isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'SomeQuery$_QueryResponse$_SomeObject'),
                   name: ClassPropertyName(name: r'o'),
-                  isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(

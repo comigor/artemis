@@ -102,12 +102,10 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'id'),
-                  isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'name'),
-                  isNonNull: true,
                   isResolveType: false)
             ]),
         FragmentClassDefinition(
@@ -116,7 +114,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'id'),
-                  isNonNull: true,
                   isResolveType: false)
             ]),
         ClassDefinition(
@@ -126,22 +123,18 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'DateTime'),
                   name: ClassPropertyName(name: r'dateFrom'),
-                  isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'DateTime'),
                   name: ClassPropertyName(name: r'dateTo'),
-                  isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'id'),
-                  isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'voyageNumber'),
-                  isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -154,14 +147,12 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'int'),
                   name: ClassPropertyName(name: r'numberOfReports'),
-                  isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(
                       name:
                           r'VoyagesData$_Query$_VoyageList$_VoyageDetails$_Voyage'),
                   name: ClassPropertyName(name: r'voyage'),
-                  isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -175,7 +166,6 @@ final LibraryDefinition libraryDefinition =
                       name:
                           r'List<VoyagesData$Query$VoyageList$VoyageDetails>'),
                   name: ClassPropertyName(name: r'voyages'),
-                  isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -187,7 +177,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'VoyagesData$_Query$_VoyageList'),
                   name: ClassPropertyName(name: r'voyages'),
-                  isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -199,12 +188,10 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'int'),
                   name: ClassPropertyName(name: r'limit'),
-                  isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'int'),
                   name: ClassPropertyName(name: r'offset'),
-                  isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -214,8 +201,7 @@ final LibraryDefinition libraryDefinition =
       inputs: [
         QueryInput(
             type: TypeName(name: r'PaginationInput'),
-            name: QueryInputName(name: r'input'),
-            isNonNull: true)
+            name: QueryInputName(name: r'input'))
       ],
       generateHelpers: true,
       suffix: r'Query')

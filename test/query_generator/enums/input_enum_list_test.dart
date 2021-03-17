@@ -67,12 +67,10 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'id'),
-                  isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'title'),
-                  isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'ArticleType'),
@@ -80,7 +78,6 @@ final LibraryDefinition libraryDefinition =
                   annotations: [
                     r'''JsonKey(name: 'article_type', unknownEnumValue: ArticleType.artemisUnknown)'''
                   ],
-                  isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -92,7 +89,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'List<BrowseArticles$Query$Article>'),
                   name: ClassPropertyName(name: r'articles'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -105,8 +101,7 @@ final LibraryDefinition libraryDefinition =
             name: QueryInputName(name: r'article_type_in'),
             annotations: [
               r'''JsonKey(unknownEnumValue: ArticleType.artemisUnknown)'''
-            ],
-            isNonNull: false)
+            ])
       ],
       generateHelpers: true,
       suffix: r'Query')

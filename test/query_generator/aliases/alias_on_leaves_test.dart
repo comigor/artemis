@@ -74,7 +74,6 @@ final LibraryDefinition libraryDefinition =
                   annotations: [
                     r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
                   ],
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -86,7 +85,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'thisIsAString'),
-                  isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'SomeQuery$_Response$_SomeObject'),

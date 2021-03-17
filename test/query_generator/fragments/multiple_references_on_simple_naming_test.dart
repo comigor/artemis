@@ -70,12 +70,10 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r's'),
-                  isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'int'),
                   name: ClassPropertyName(name: r'i'),
-                  isNonNull: false,
                   isResolveType: false)
             ]),
         ClassDefinition(
@@ -96,7 +94,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'SomeObject'),
                   name: ClassPropertyName(name: r'someObject'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -108,7 +105,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'SomeObject'),
                   name: ClassPropertyName(name: r'someObject'),
-                  isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'MoreData'),

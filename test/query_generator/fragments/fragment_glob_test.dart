@@ -104,7 +104,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'List<Query$Query$Pokemon$Pokemon>'),
                   name: ClassPropertyName(name: r'evolutions'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             mixins: [FragmentName(name: r'PokemonMixin')],
@@ -117,7 +116,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'Query$_Query$_Pokemon'),
                   name: ClassPropertyName(name: r'pokemon'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -141,17 +139,14 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'id'),
-                  isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'PokemonMixin$_PokemonDimension'),
                   name: ClassPropertyName(name: r'weight'),
-                  isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'PokemonMixin$_PokemonAttack'),
                   name: ClassPropertyName(name: r'attacks'),
-                  isNonNull: false,
                   isResolveType: false)
             ]),
         FragmentClassDefinition(
@@ -160,7 +155,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'minimum'),
-                  isNonNull: false,
                   isResolveType: false)
             ]),
         ClassDefinition(
@@ -175,7 +169,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'List<PokemonAttackMixin$Attack>'),
                   name: ClassPropertyName(name: r'special'),
-                  isNonNull: false,
                   isResolveType: false)
             ]),
         FragmentClassDefinition(
@@ -184,7 +177,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'name'),
-                  isNonNull: false,
                   isResolveType: false)
             ])
       ],

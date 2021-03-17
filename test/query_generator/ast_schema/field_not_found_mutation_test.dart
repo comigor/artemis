@@ -65,12 +65,10 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'id'),
-                  isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'message'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -85,7 +83,6 @@ final LibraryDefinition libraryDefinition =
                       name:
                           r'CreateThing$_MutationRoot$_CreateThingResponse$_Thing'),
                   name: ClassPropertyName(name: r'thing'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -98,7 +95,6 @@ final LibraryDefinition libraryDefinition =
                   type: TypeName(
                       name: r'CreateThing$_MutationRoot$_CreateThingResponse'),
                   name: ClassPropertyName(name: r'createThing'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -110,12 +106,10 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'clientId'),
-                  isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'message'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},

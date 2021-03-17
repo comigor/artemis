@@ -58,7 +58,6 @@ final LibraryDefinition libraryDefinition = LibraryDefinition(
             ClassProperty(
               type: TypeName(name: r'String'),
               name: ClassPropertyName(name: r's'),
-              isNonNull: false,
             ),
           ],
           factoryPossibilities: {},
@@ -71,7 +70,6 @@ final LibraryDefinition libraryDefinition = LibraryDefinition(
             ClassProperty(
               type: TypeName(name: r'Custom$_MutationRoot$_MutationResponse'),
               name: ClassPropertyName(name: r'mut'),
-              isNonNull: false,
             ),
           ],
           factoryPossibilities: {},
@@ -84,12 +82,10 @@ final LibraryDefinition libraryDefinition = LibraryDefinition(
             ClassProperty(
               type: TypeName(name: r'String'),
               name: ClassPropertyName(name: r's'),
-              isNonNull: true,
             ),
             ClassProperty(
               type: TypeName(name: r'String'),
               name: ClassPropertyName(name: r'd'),
-              isNonNull: false,
               annotations: [
                 r"Deprecated('deprecated input field')",
               ],
@@ -104,7 +100,6 @@ final LibraryDefinition libraryDefinition = LibraryDefinition(
         QueryInput(
           type: TypeName(name: r'Input'),
           name: QueryInputName(name: r'input'),
-          isNonNull: true,
         ),
       ],
       generateHelpers: true,

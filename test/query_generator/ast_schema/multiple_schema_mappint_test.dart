@@ -163,12 +163,10 @@ final LibraryDefinition libraryDefinitionA =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'id'),
-                  isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'title'),
-                  isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'ArticleType'),
@@ -176,7 +174,6 @@ final LibraryDefinition libraryDefinitionA =
                   annotations: [
                     r'JsonKey(unknownEnumValue: ArticleType.artemisUnknown)'
                   ],
-                  isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -188,7 +185,6 @@ final LibraryDefinition libraryDefinitionA =
               ClassProperty(
                   type: TypeName(name: r'List<BrowseArticles$Query$Articles>'),
                   name: ClassPropertyName(name: r'articles'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -228,12 +224,10 @@ final libraryDefinitionB =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'id'),
-                  isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'title'),
-                  isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'Privacy'),
@@ -241,7 +235,6 @@ final libraryDefinitionB =
                   annotations: [
                     r'JsonKey(unknownEnumValue: Privacy.artemisUnknown)'
                   ],
-                  isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'Status'),
@@ -249,7 +242,6 @@ final libraryDefinitionB =
                   annotations: [
                     r'JsonKey(unknownEnumValue: Status.artemisUnknown)'
                   ],
-                  isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -262,7 +254,6 @@ final libraryDefinitionB =
                   type: TypeName(
                       name: r'List<BrowseRepositories$Query$Repositories>'),
                   name: ClassPropertyName(name: r'repositories'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -277,12 +268,10 @@ final libraryDefinitionB =
                   annotations: [
                     r'JsonKey(unknownEnumValue: NotificationType.artemisUnknown)'
                   ],
-                  isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'bool'),
                   name: ClassPropertyName(name: r'enabled'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -292,8 +281,7 @@ final libraryDefinitionB =
       inputs: [
         QueryInput(
             type: TypeName(name: r'List<NotificationOptionInput>'),
-            name: QueryInputName(name: r'notificationTypes'),
-            isNonNull: false)
+            name: QueryInputName(name: r'notificationTypes'))
       ],
       generateHelpers: true,
       suffix: r'Query')
@@ -525,8 +513,7 @@ class BrowseRepositoriesQuery extends GraphQLQuery<BrowseRepositories$Query,
                   VariableNode(name: NameNode(value: 'notificationTypes')),
               type: ListTypeNode(
                   type: NamedTypeNode(
-                      name: NameNode(value: 'NotificationOptionInput'),
-                      isNonNull: false),
+                      name: NameNode(value: 'NotificationOptionInput')),
                   ),
               defaultValue: DefaultValueNode(value: null),
               directives: [])

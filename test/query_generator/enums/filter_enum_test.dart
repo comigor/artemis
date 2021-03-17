@@ -106,7 +106,6 @@ final LibraryDefinition libraryDefinition =
                   annotations: [
                     r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
                   ],
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -118,7 +117,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'Custom$_QueryRoot$_QueryResponse'),
                   name: ClassPropertyName(name: r'q'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -133,7 +131,6 @@ final LibraryDefinition libraryDefinition =
                   annotations: [
                     r'JsonKey(unknownEnumValue: $InputInputEnum.artemisUnknown)'
                   ],
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -144,7 +141,6 @@ final LibraryDefinition libraryDefinition =
         QueryInput(
             type: TypeName(name: r'input_enum'),
             name: QueryInputName(name: r'e'),
-            isNonNull: true,
             annotations: [
               r'JsonKey(unknownEnumValue: InputEnum.artemisUnknown)'
             ]),

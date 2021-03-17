@@ -81,7 +81,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r's'),
-                  isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'MyEnum'),
@@ -89,7 +88,6 @@ final LibraryDefinition libraryDefinition =
                   annotations: [
                     r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
                   ],
-                  isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'OtherEnum'),
@@ -97,7 +95,6 @@ final LibraryDefinition libraryDefinition =
                   annotations: [
                     r'JsonKey(unknownEnumValue: OtherEnum.artemisUnknown)'
                   ],
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -109,7 +106,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'Custom$_QueryRoot$_QueryResponse'),
                   name: ClassPropertyName(name: r'q'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -124,7 +120,6 @@ final LibraryDefinition libraryDefinition =
                   annotations: [
                     r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
                   ],
-                  isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -135,16 +130,13 @@ final LibraryDefinition libraryDefinition =
         QueryInput(
             type: TypeName(name: r'String'),
             name: QueryInputName(name: r'_id'),
-            isNonNull: true,
             annotations: [r'''JsonKey(name: '_id')''']),
         QueryInput(
             type: TypeName(name: r'Input'),
-            name: QueryInputName(name: r'input'),
-            isNonNull: true),
+            name: QueryInputName(name: r'input')),
         QueryInput(
             type: TypeName(name: r'OtherEnum'),
             name: QueryInputName(name: r'o'),
-            isNonNull: true,
             annotations: [
               r'JsonKey(unknownEnumValue: OtherEnum.artemisUnknown)'
             ])

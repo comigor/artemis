@@ -65,12 +65,10 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'id'),
-                  isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'title'),
-                  isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -82,7 +80,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'List<SearchArticles$Query$Article>'),
                   name: ClassPropertyName(name: r'articles'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -97,12 +94,10 @@ final LibraryDefinition libraryDefinition =
                   annotations: [
                     r'''JsonKey(name: 'operator', unknownEnumValue: SQLOperator.artemisUnknown)'''
                   ],
-                  isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'value'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},

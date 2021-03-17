@@ -102,13 +102,11 @@ final LibraryDefinition libraryDefinition = LibraryDefinition(
             ClassProperty(
               type: TypeName(name: r'String'),
               name: ClassPropertyName(name: r'message'),
-              isNonNull: true,
               isResolveType: false,
             ),
             ClassProperty(
               type: TypeName(name: r'Custom$_Query$_Node$_ChatMessage$_User'),
               name: ClassPropertyName(name: r'user'),
-              isNonNull: true,
               isResolveType: false,
             )
           ],
@@ -123,13 +121,11 @@ final LibraryDefinition libraryDefinition = LibraryDefinition(
             ClassProperty(
               type: TypeName(name: r'String'),
               name: ClassPropertyName(name: r'id'),
-              isNonNull: true,
               isResolveType: false,
             ),
             ClassProperty(
               type: TypeName(name: r'String'),
               name: ClassPropertyName(name: r'deprecatedField'),
-              isNonNull: false,
               isResolveType: false,
               annotations: [
                 "Deprecated('deprecated interface field')",
@@ -149,7 +145,6 @@ final LibraryDefinition libraryDefinition = LibraryDefinition(
             ClassProperty(
               type: TypeName(name: r'Custom$_Query$_Node'),
               name: ClassPropertyName(name: r'nodeById'),
-              isNonNull: false,
               isResolveType: false,
             ),
           ],
@@ -165,13 +160,11 @@ final LibraryDefinition libraryDefinition = LibraryDefinition(
             ClassProperty(
               type: TypeName(name: r'String'),
               name: ClassPropertyName(name: r'id'),
-              isNonNull: true,
               isResolveType: false,
             ),
             ClassProperty(
               type: TypeName(name: r'String'),
               name: ClassPropertyName(name: r'username'),
-              isNonNull: true,
               isResolveType: false,
             ),
           ],
