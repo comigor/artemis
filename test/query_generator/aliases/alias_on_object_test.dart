@@ -86,8 +86,10 @@ final LibraryDefinition libraryDefinition =
                   name: ClassPropertyName(name: r'o'),
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(
-                      name: r'List<SomeQuery$QueryResponse$AnotherObject>'),
+                  type: ListOfTypeName(
+                      typeName: TypeName(
+                          name: r'SomeQuery$_QueryResponse$_anotherObject'),
+                      isNonNull: false),
                   name: ClassPropertyName(name: r'anotherObject'),
                   isResolveType: false)
             ],
@@ -100,6 +102,7 @@ final LibraryDefinition libraryDefinition =
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -115,7 +118,7 @@ class SomeQuery$QueryResponse$SomeObject extends JsonSerializable
           Map<String, dynamic> json) =>
       _$SomeQuery$QueryResponse$SomeObjectFromJson(json);
 
-  String st;
+  String? st;
 
   @override
   List<Object?> get props => [st];
@@ -132,7 +135,7 @@ class SomeQuery$QueryResponse$AnotherObject extends JsonSerializable
           Map<String, dynamic> json) =>
       _$SomeQuery$QueryResponse$AnotherObjectFromJson(json);
 
-  String str;
+  String? str;
 
   @override
   List<Object?> get props => [str];
@@ -147,11 +150,11 @@ class SomeQuery$QueryResponse extends JsonSerializable with EquatableMixin {
   factory SomeQuery$QueryResponse.fromJson(Map<String, dynamic> json) =>
       _$SomeQuery$QueryResponseFromJson(json);
 
-  String s;
+  String? s;
 
-  SomeQuery$QueryResponse$SomeObject o;
+  SomeQuery$QueryResponse$SomeObject? o;
 
-  List<SomeQuery$QueryResponse$AnotherObject> anotherObject;
+  List<SomeQuery$QueryResponse$AnotherObject?>? anotherObject;
 
   @override
   List<Object?> get props => [s, o, anotherObject];

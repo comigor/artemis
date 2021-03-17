@@ -100,6 +100,7 @@ final LibraryDefinition libraryDefinition =
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -115,7 +116,7 @@ class SomeQuery$Response$SomeObject extends JsonSerializable
       _$SomeQuery$Response$SomeObjectFromJson(json);
 
   @JsonKey(unknownEnumValue: MyEnum.artemisUnknown)
-  MyEnum thisIsAnEnum;
+  MyEnum? thisIsAnEnum;
 
   @override
   List<Object?> get props => [thisIsAnEnum];
@@ -129,9 +130,9 @@ class SomeQuery$Response extends JsonSerializable with EquatableMixin {
   factory SomeQuery$Response.fromJson(Map<String, dynamic> json) =>
       _$SomeQuery$ResponseFromJson(json);
 
-  String thisIsAString;
+  String? thisIsAString;
 
-  SomeQuery$Response$SomeObject o;
+  SomeQuery$Response$SomeObject? o;
 
   @override
   List<Object?> get props => [thisIsAString, o];
