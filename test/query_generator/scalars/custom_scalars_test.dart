@@ -166,7 +166,6 @@ final LibraryDefinition libraryDefinitionWithCustomImports =
                   annotations: [
                     r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid)'
                   ],
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},

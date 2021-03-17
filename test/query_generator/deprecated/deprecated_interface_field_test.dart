@@ -181,7 +181,6 @@ final LibraryDefinition libraryDefinition = LibraryDefinition(
         QueryInput(
           type: TypeName(name: r'String'),
           name: QueryInputName(name: r'id'),
-          isNonNull: true,
         ),
       ],
       generateHelpers: false,

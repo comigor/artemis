@@ -124,9 +124,9 @@ final LibraryDefinition libraryDefinition =
       ],
       inputs: [
         QueryInput(
-            type: TypeName(name: r'CreateThingInput'),
-            name: QueryInputName(name: r'createThingInput'),
-            isNonNull: false)
+          type: TypeName(name: r'CreateThingInput'),
+          name: QueryInputName(name: r'createThingInput'),
+        )
       ],
       generateHelpers: false,
       suffix: r'Mutation')

@@ -334,7 +334,7 @@ class CustomListMutation
               type: ListTypeNode(
                   type: NamedTypeNode(
                       name: NameNode(value: 'Input'), isNonNull: true),
-                  isNonNull: true),
+                  ),
               defaultValue: DefaultValueNode(value: null),
               directives: [])
         ],

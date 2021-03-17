@@ -367,7 +367,7 @@ class $customMutation
           VariableDefinitionNode(
               variable: VariableNode(name: NameNode(value: 'input')),
               type: NamedTypeNode(
-                  name: NameNode(value: '_Input'), isNonNull: true),
+                  name: NameNode(value: '_Input'), ),
               defaultValue: DefaultValueNode(value: null),
               directives: [])
         ],

@@ -242,7 +242,7 @@ class CustomMutation
               type: ListTypeNode(
                   type: NamedTypeNode(
                       name: NameNode(value: 'MyUuid'), isNonNull: false),
-                  isNonNull: false),
+                  ),
               defaultValue: DefaultValueNode(value: null),
               directives: [])
         ],

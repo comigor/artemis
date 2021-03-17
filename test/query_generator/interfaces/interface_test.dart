@@ -161,9 +161,9 @@ final LibraryDefinition libraryDefinition =
       ],
       inputs: [
         QueryInput(
-            type: TypeName(name: r'String'),
-            name: QueryInputName(name: r'id'),
-            isNonNull: true)
+          type: TypeName(name: r'String'),
+          name: QueryInputName(name: r'id'),
+        )
       ],
       generateHelpers: false,
       suffix: r'Query')

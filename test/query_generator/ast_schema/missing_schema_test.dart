@@ -41,7 +41,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'a'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},

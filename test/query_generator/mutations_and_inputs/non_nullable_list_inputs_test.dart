@@ -248,7 +248,7 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
                       type: NamedTypeNode(
                           name: NameNode(value: 'Int'), isNonNull: true),
                       isNonNull: true),
-                  isNonNull: true),
+                  ),
               defaultValue: DefaultValueNode(value: null),
               directives: [])
         ],

@@ -149,9 +149,9 @@ final LibraryDefinition libraryDefinition =
               r'JsonKey(unknownEnumValue: InputEnum.artemisUnknown)'
             ]),
         QueryInput(
-            type: TypeName(name: r'Input'),
-            name: QueryInputName(name: r'i'),
-            isNonNull: true)
+          type: TypeName(name: r'Input'),
+          name: QueryInputName(name: r'i'),
+        )
       ],
       generateHelpers: false,
       suffix: r'Query')

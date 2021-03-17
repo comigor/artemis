@@ -95,7 +95,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'id'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},

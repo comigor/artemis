@@ -143,7 +143,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'List<CustomList$Query$QList>'),
                   name: ClassPropertyName(name: r'qList'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},

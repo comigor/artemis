@@ -397,7 +397,7 @@ class QueryQuery extends GraphQLQuery<Query$Query, JsonSerializable> {
         name: NameNode(value: 'attack'),
         typeCondition: TypeConditionNode(
             on: NamedTypeNode(
-                name: NameNode(value: 'Attack'), isNonNull: false)),
+                name: NameNode(value: 'Attack'), )),
         directives: [],
         selectionSet: SelectionSetNode(selections: [
           FieldNode(

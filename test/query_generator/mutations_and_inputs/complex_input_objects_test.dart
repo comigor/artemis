@@ -228,7 +228,7 @@ class SomeQueryQuery
           VariableDefinitionNode(
               variable: VariableNode(name: NameNode(value: 'filter')),
               type: NamedTypeNode(
-                  name: NameNode(value: 'ComplexInput'), isNonNull: true),
+                  name: NameNode(value: 'ComplexInput'), ),
               defaultValue: DefaultValueNode(value: null),
               directives: [])
         ],

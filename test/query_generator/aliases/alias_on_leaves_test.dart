@@ -91,7 +91,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'SomeQuery$_Response$_SomeObject'),
                   name: ClassPropertyName(name: r'o'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},

@@ -755,7 +755,7 @@ class CustomQuery extends GraphQLQuery<Custom$QueryRoot, JsonSerializable> {
         name: NameNode(value: 'QueryResponse'),
         typeCondition: TypeConditionNode(
             on: NamedTypeNode(
-                name: NameNode(value: 'QueryResponse'), isNonNull: false)),
+                name: NameNode(value: 'QueryResponse'), )),
         directives: [],
         selectionSet: SelectionSetNode(selections: [
           FieldNode(

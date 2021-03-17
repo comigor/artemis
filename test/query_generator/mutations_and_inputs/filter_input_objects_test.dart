@@ -212,7 +212,7 @@ class SomeQueryQuery
           VariableDefinitionNode(
               variable: VariableNode(name: NameNode(value: 'input')),
               type: NamedTypeNode(
-                  name: NameNode(value: 'Input'), isNonNull: true),
+                  name: NameNode(value: 'Input'), ),
               defaultValue: DefaultValueNode(value: null),
               directives: [])
         ],

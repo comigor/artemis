@@ -387,7 +387,7 @@ class VoyagesDataQuery
           VariableDefinitionNode(
               variable: VariableNode(name: NameNode(value: 'input')),
               type: NamedTypeNode(
-                  name: NameNode(value: 'PaginationInput'), isNonNull: true),
+                  name: NameNode(value: 'PaginationInput'), ),
               defaultValue: DefaultValueNode(value: null),
               directives: [])
         ],

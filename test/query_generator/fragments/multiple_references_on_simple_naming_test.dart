@@ -113,7 +113,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'MoreData'),
                   name: ClassPropertyName(name: r'moreData'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},

@@ -72,9 +72,9 @@ final LibraryDefinition libraryDefinition =
       ],
       inputs: [
         QueryInput(
-            type: TypeName(name: r'Input'),
-            name: QueryInputName(name: r'input'),
-            isNonNull: true)
+          type: TypeName(name: r'Input'),
+          name: QueryInputName(name: r'input'),
+        )
       ],
       generateHelpers: false,
       suffix: r'Mutation')

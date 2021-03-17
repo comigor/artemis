@@ -527,7 +527,7 @@ class BrowseRepositoriesQuery extends GraphQLQuery<BrowseRepositories$Query,
                   type: NamedTypeNode(
                       name: NameNode(value: 'NotificationOptionInput'),
                       isNonNull: false),
-                  isNonNull: false),
+                  ),
               defaultValue: DefaultValueNode(value: null),
               directives: [])
         ],

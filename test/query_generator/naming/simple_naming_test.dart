@@ -91,7 +91,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'ClientEventPage'),
                   name: ClassPropertyName(name: r'clientEvents'),
-                  isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},

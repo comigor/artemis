@@ -195,7 +195,7 @@ class BrowseArticlesQuery
               type: ListTypeNode(
                   type: NamedTypeNode(
                       name: NameNode(value: 'ArticleType'), isNonNull: true),
-                  isNonNull: false),
+                  ),
               defaultValue: DefaultValueNode(value: null),
               directives: [])
         ],

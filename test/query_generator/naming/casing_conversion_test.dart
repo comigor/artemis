@@ -339,7 +339,7 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
           VariableDefinitionNode(
               variable: VariableNode(name: NameNode(value: 'filter')),
               type: NamedTypeNode(
-                  name: NameNode(value: 'Input'), isNonNull: true),
+                  name: NameNode(value: 'Input'), ),
               defaultValue: DefaultValueNode(value: null),
               directives: [])
         ],

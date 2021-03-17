@@ -75,7 +75,7 @@ final LibraryDefinition libraryDefinition =
                   type: TypeName(name: r'StarWarsMovies'),
                   name: ClassPropertyName(name: r'someValue'),
                   // isOverride: false,
-                  isNonNull: false,
+
                   annotations: [
                     r'JsonKey(unknownEnumValue: StarWarsMovies.artemisUnknown)',
                   ])

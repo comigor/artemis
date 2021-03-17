@@ -93,7 +93,6 @@ final LibraryDefinition libraryDefinition =
                   type: TypeName(
                       name: r'List<SomeQuery$QueryResponse$AnotherObject>'),
                   name: ClassPropertyName(name: r'anotherObject'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},

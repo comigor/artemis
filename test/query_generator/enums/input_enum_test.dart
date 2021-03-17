@@ -272,7 +272,7 @@ class CustomQuery extends GraphQLQuery<Custom$QueryRoot, CustomArguments> {
           VariableDefinitionNode(
               variable: VariableNode(name: NameNode(value: 'o')),
               type: NamedTypeNode(
-                  name: NameNode(value: 'OtherEnum'), isNonNull: true),
+                  name: NameNode(value: 'OtherEnum'), ),
               defaultValue: DefaultValueNode(value: null),
               directives: [])
         ],

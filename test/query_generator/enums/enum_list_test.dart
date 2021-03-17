@@ -83,7 +83,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'Custom$_QueryRoot$_QueryResponse'),
                   name: ClassPropertyName(name: r'q'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},

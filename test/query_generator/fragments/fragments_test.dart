@@ -53,7 +53,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'int'),
                   name: ClassPropertyName(name: r'i'),
-                  isNonNull: false,
                   isResolveType: false)
             ]),
         ClassDefinition(

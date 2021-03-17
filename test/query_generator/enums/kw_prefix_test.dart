@@ -111,9 +111,9 @@ final LibraryDefinition libraryDefinition =
       ],
       inputs: [
         QueryInput(
-            type: TypeName(name: r'ArticleTitleWhereConditions'),
-            name: QueryInputName(name: r'titleWhere'),
-            isNonNull: false)
+          type: TypeName(name: r'ArticleTitleWhereConditions'),
+          name: QueryInputName(name: r'titleWhere'),
+        )
       ],
       generateHelpers: false,
       suffix: r'Query')

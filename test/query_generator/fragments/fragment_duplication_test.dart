@@ -215,7 +215,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'name'),
-                  isNonNull: false,
                   isResolveType: false)
             ])
       ],

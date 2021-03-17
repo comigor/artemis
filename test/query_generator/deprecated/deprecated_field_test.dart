@@ -105,7 +105,6 @@ final LibraryDefinition libraryDefinition =
             ClassProperty(
               type: TypeName(name: r'List<SomeQuery$QueryResponse$SomeObject>'),
               name: ClassPropertyName(name: r'someObjects'),
-              isNonNull: false,
             )
           ],
           factoryPossibilities: {},
