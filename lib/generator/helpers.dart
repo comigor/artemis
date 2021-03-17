@@ -1,6 +1,5 @@
 // @dart = 2.8
 
-import 'package:artemis/generator/data/data.dart';
 import 'package:artemis/generator/ephemeral_data.dart';
 import 'package:build/build.dart';
 import 'package:gql/ast.dart';
