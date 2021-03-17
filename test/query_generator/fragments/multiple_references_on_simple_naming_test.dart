@@ -120,6 +120,7 @@ final LibraryDefinition libraryDefinition =
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -127,8 +128,8 @@ import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
 
 mixin MyFragmentMixin {
-  String s;
-  int i;
+  String? s;
+  int? i;
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -150,7 +151,7 @@ class MoreData extends JsonSerializable with EquatableMixin {
   factory MoreData.fromJson(Map<String, dynamic> json) =>
       _$MoreDataFromJson(json);
 
-  SomeObject someObject;
+  SomeObject? someObject;
 
   @override
   List<Object?> get props => [someObject];
@@ -164,9 +165,9 @@ class SomeQuery$QueryResponse extends JsonSerializable with EquatableMixin {
   factory SomeQuery$QueryResponse.fromJson(Map<String, dynamic> json) =>
       _$SomeQuery$QueryResponseFromJson(json);
 
-  SomeObject someObject;
+  SomeObject? someObject;
 
-  MoreData moreData;
+  MoreData? moreData;
 
   @override
   List<Object?> get props => [someObject, moreData];

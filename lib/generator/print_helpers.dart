@@ -190,7 +190,8 @@ Spec fragmentClassDefinitionToSpec(FragmentClassDefinition definition) {
   final fields = (definition.properties ?? []).map((p) {
     final lines = <String>[];
     lines.addAll(p.annotations.map((e) => '@$e'));
-    lines.add('${p.type.namePrintable} ${p.name.namePrintable};');
+    lines.add(
+        '${p.type.isNonNull ? 'late ' : ''}${p.type.namePrintable} ${p.name.namePrintable};');
     return lines.join('\n');
   });
 

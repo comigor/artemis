@@ -99,7 +99,7 @@ final LibraryDefinition libraryDefinition =
             name: FragmentName(name: r'PokemonMixin'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: TypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'id'),
                   isResolveType: false),
               ClassProperty(
@@ -133,6 +133,7 @@ final LibraryDefinition libraryDefinition =
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -140,15 +141,15 @@ import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
 
 mixin PokemonMixin {
-  String id;
-  PokemonMixin$Pokemon evolution;
+  late String id;
+  PokemonMixin$Pokemon? evolution;
 }
 mixin PokemonNameMixin {
-  String name;
+  String? name;
 }
 mixin PokemonPartsMixin {
-  String number;
-  String name;
+  String? number;
+  String? name;
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -171,7 +172,7 @@ class Query$Query extends JsonSerializable with EquatableMixin {
   factory Query$Query.fromJson(Map<String, dynamic> json) =>
       _$Query$QueryFromJson(json);
 
-  Query$Query$Pokemon pokemon;
+  Query$Query$Pokemon? pokemon;
 
   @override
   List<Object?> get props => [pokemon];

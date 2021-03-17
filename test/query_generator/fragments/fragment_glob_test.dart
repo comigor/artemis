@@ -102,7 +102,10 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Query$_Query$_Pokemon'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'List<Query$Query$Pokemon$Pokemon>'),
+                  type: ListOfTypeName(
+                      typeName:
+                          TypeName(name: r'Query$_Query$_Pokemon$_Pokemon'),
+                      isNonNull: false),
                   name: ClassPropertyName(name: r'evolutions'),
                   isResolveType: false)
             ],
@@ -137,7 +140,7 @@ final LibraryDefinition libraryDefinition =
             name: FragmentName(name: r'PokemonMixin'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: TypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'id'),
                   isResolveType: false),
               ClassProperty(
@@ -167,7 +170,9 @@ final LibraryDefinition libraryDefinition =
             name: FragmentName(name: r'PokemonAttackMixin'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'List<PokemonAttackMixin$Attack>'),
+                  type: ListOfTypeName(
+                      typeName: TypeName(name: r'PokemonAttackMixin$_Attack'),
+                      isNonNull: false),
                   name: ClassPropertyName(name: r'special'),
                   isResolveType: false)
             ]),
@@ -185,6 +190,7 @@ final LibraryDefinition libraryDefinition =
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -193,18 +199,18 @@ import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
 
 mixin PokemonMixin {
-  String id;
-  PokemonMixin$PokemonDimension weight;
-  PokemonMixin$PokemonAttack attacks;
+  late String id;
+  PokemonMixin$PokemonDimension? weight;
+  PokemonMixin$PokemonAttack? attacks;
 }
 mixin WeightMixin {
-  String minimum;
+  String? minimum;
 }
 mixin PokemonAttackMixin {
-  List<PokemonAttackMixin$Attack> special;
+  List<PokemonAttackMixin$Attack?>? special;
 }
 mixin AttackMixin {
-  String name;
+  String? name;
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -228,7 +234,7 @@ class Query$Query$Pokemon extends JsonSerializable
   factory Query$Query$Pokemon.fromJson(Map<String, dynamic> json) =>
       _$Query$Query$PokemonFromJson(json);
 
-  List<Query$Query$Pokemon$Pokemon> evolutions;
+  List<Query$Query$Pokemon$Pokemon?>? evolutions;
 
   @override
   List<Object?> get props => [id, weight, attacks, evolutions];
@@ -242,7 +248,7 @@ class Query$Query extends JsonSerializable with EquatableMixin {
   factory Query$Query.fromJson(Map<String, dynamic> json) =>
       _$Query$QueryFromJson(json);
 
-  Query$Query$Pokemon pokemon;
+  Query$Query$Pokemon? pokemon;
 
   @override
   List<Object?> get props => [pokemon];
@@ -389,7 +395,7 @@ class QueryQuery extends GraphQLQuery<Query$Query, JsonSerializable> {
         name: NameNode(value: 'attack'),
         typeCondition: TypeConditionNode(
             on: NamedTypeNode(
-                name: NameNode(value: 'Attack'), )),
+                name: NameNode(value: 'Attack'), isNonNull: false)),
         directives: [],
         selectionSet: SelectionSetNode(selections: [
           FieldNode(

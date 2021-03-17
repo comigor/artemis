@@ -112,7 +112,7 @@ final LibraryDefinition libraryDefinition =
             name: FragmentName(name: r'PokemonMixin'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: TypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'id'),
                   isResolveType: false),
               ClassProperty(
@@ -160,8 +160,10 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'AllPokemonsData$_Query'),
             properties: [
               ClassProperty(
-                  type: TypeName(
-                      name: r'List<AllPokemonsData$Query$AllPokemons>'),
+                  type: ListOfTypeName(
+                      typeName: TypeName(
+                          name: r'AllPokemonsData$_Query$_allPokemons'),
+                      isNonNull: false),
                   name: ClassPropertyName(name: r'allPokemons'),
                   isResolveType: false)
             ],
@@ -178,7 +180,7 @@ final LibraryDefinition libraryDefinition =
             name: FragmentName(name: r'PokemonMixin'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: TypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'id'),
                   isResolveType: false),
               ClassProperty(
@@ -212,6 +214,7 @@ final LibraryDefinition libraryDefinition =
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -219,15 +222,15 @@ import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
 
 mixin PokemonMixin {
-  String id;
-  PokemonMixin$Evolution evolution;
+  late String id;
+  PokemonMixin$Evolution? evolution;
 }
 mixin PokemonNameMixin {
-  String name;
+  String? name;
 }
 mixin PokemonPartsMixin {
-  String number;
-  String name;
+  String? number;
+  String? name;
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -250,7 +253,7 @@ class PokemonData$Query extends JsonSerializable with EquatableMixin {
   factory PokemonData$Query.fromJson(Map<String, dynamic> json) =>
       _$PokemonData$QueryFromJson(json);
 
-  PokemonData$Query$Pokemon pokemon;
+  PokemonData$Query$Pokemon? pokemon;
 
   @override
   List<Object?> get props => [pokemon];
@@ -292,7 +295,7 @@ class AllPokemonsData$Query extends JsonSerializable with EquatableMixin {
   factory AllPokemonsData$Query.fromJson(Map<String, dynamic> json) =>
       _$AllPokemonsData$QueryFromJson(json);
 
-  List<AllPokemonsData$Query$AllPokemons> allPokemons;
+  List<AllPokemonsData$Query$AllPokemons?>? allPokemons;
 
   @override
   List<Object?> get props => [allPokemons];
