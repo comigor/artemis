@@ -63,7 +63,7 @@ final LibraryDefinition libraryDefinition =
                 name: r'CreateThing$_MutationRoot$_CreateThingResponse$_Thing'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: TypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'id'),
                   isResolveType: false),
               ClassProperty(
@@ -104,7 +104,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'CreateThingInput'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: TypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'clientId'),
                   isResolveType: false),
               ClassProperty(
@@ -118,15 +118,15 @@ final LibraryDefinition libraryDefinition =
       ],
       inputs: [
         QueryInput(
-          type: TypeName(name: r'CreateThingInput'),
-          name: QueryInputName(name: r'createThingInput'),
-        )
+            type: TypeName(name: r'CreateThingInput'),
+            name: QueryInputName(name: r'createThingInput'))
       ],
       generateHelpers: false,
       suffix: r'Mutation')
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -142,9 +142,9 @@ class CreateThing$MutationRoot$CreateThingResponse$Thing
           Map<String, dynamic> json) =>
       _$CreateThing$MutationRoot$CreateThingResponse$ThingFromJson(json);
 
-  String id;
+  late String id;
 
-  String message;
+  String? message;
 
   @override
   List<Object?> get props => [id, message];
@@ -161,7 +161,7 @@ class CreateThing$MutationRoot$CreateThingResponse extends JsonSerializable
           Map<String, dynamic> json) =>
       _$CreateThing$MutationRoot$CreateThingResponseFromJson(json);
 
-  CreateThing$MutationRoot$CreateThingResponse$Thing thing;
+  CreateThing$MutationRoot$CreateThingResponse$Thing? thing;
 
   @override
   List<Object?> get props => [thing];
@@ -176,7 +176,7 @@ class CreateThing$MutationRoot extends JsonSerializable with EquatableMixin {
   factory CreateThing$MutationRoot.fromJson(Map<String, dynamic> json) =>
       _$CreateThing$MutationRootFromJson(json);
 
-  CreateThing$MutationRoot$CreateThingResponse createThing;
+  CreateThing$MutationRoot$CreateThingResponse? createThing;
 
   @override
   List<Object?> get props => [createThing];
@@ -185,14 +185,14 @@ class CreateThing$MutationRoot extends JsonSerializable with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class CreateThingInput extends JsonSerializable with EquatableMixin {
-  CreateThingInput({@required this.clientId, this.message});
+  CreateThingInput({required this.clientId, this.message});
 
   factory CreateThingInput.fromJson(Map<String, dynamic> json) =>
       _$CreateThingInputFromJson(json);
 
-  String clientId;
+  late String clientId;
 
-  String message;
+  String? message;
 
   @override
   List<Object?> get props => [clientId, message];
