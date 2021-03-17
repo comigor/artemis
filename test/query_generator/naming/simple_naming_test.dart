@@ -9,7 +9,7 @@ import '../../helpers.dart';
 void main() {
   group('Simple naming', () {
     test(
-      'Casing will be converted accordingly (and JsonKey names willb e populated accordingly)',
+      'Casing will be converted accordingly (and JsonKey names will be populated accordingly)',
       () async => testGenerator(
         query: r'''
           query ClientEventsData {
@@ -65,9 +65,8 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'ClientEventItem'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'int'),
+                  type: TypeName(name: r'int', isNonNull: true),
                   name: ClassPropertyName(name: r'type'),
-                  isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -77,9 +76,11 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'ClientEventPage'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'List<ClientEventItem>'),
+                  type: ListOfTypeName(
+                      typeName:
+                          TypeName(name: r'ClientEventItem', isNonNull: true),
+                      isNonNull: true),
                   name: ClassPropertyName(name: r'items'),
-                  isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -89,7 +90,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'ClientEventsData$_Query'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'ClientEventPage'),
+                  type: TypeName(name: r'ClientEventPage', isNonNull: true),
                   name: ClassPropertyName(name: r'clientEvents'),
                   isResolveType: false)
             ],
@@ -102,6 +103,7 @@ final LibraryDefinition libraryDefinition =
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -116,7 +118,7 @@ class ClientEventItem extends JsonSerializable with EquatableMixin {
   factory ClientEventItem.fromJson(Map<String, dynamic> json) =>
       _$ClientEventItemFromJson(json);
 
-  int type;
+  late int type;
 
   @override
   List<Object?> get props => [type];
@@ -130,7 +132,7 @@ class ClientEventPage extends JsonSerializable with EquatableMixin {
   factory ClientEventPage.fromJson(Map<String, dynamic> json) =>
       _$ClientEventPageFromJson(json);
 
-  List<ClientEventItem> items;
+  late List<ClientEventItem> items;
 
   @override
   List<Object?> get props => [items];
@@ -144,7 +146,7 @@ class ClientEventsData$Query extends JsonSerializable with EquatableMixin {
   factory ClientEventsData$Query.fromJson(Map<String, dynamic> json) =>
       _$ClientEventsData$QueryFromJson(json);
 
-  ClientEventPage clientEvents;
+  late ClientEventPage clientEvents;
 
   @override
   List<Object?> get props => [clientEvents];
