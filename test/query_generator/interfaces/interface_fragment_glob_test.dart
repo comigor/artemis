@@ -104,15 +104,14 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Custom$_Query$_nodeById$_chatMessage'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: TypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'message'),
-                  isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(
-                      name: r'Custom$_Query$_nodeById$_chatMessage$_user'),
+                      name: r'Custom$_Query$_nodeById$_chatMessage$_user',
+                      isNonNull: true),
                   name: ClassPropertyName(name: r'user'),
-                  isNonNull: true,
                   isResolveType: false)
             ],
             extension: ClassName(name: r'Custom$_Query$_nodeById'),
@@ -123,15 +122,13 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Custom$_Query$_nodeById'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: TypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'id'),
-                  isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'__typename'),
                   annotations: [r'''JsonKey(name: '__typename')'''],
-                  isNonNull: false,
                   isResolveType: true)
             ],
             factoryPossibilities: {
@@ -147,7 +144,6 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'Custom$_Query$_nodeById'),
                   name: ClassPropertyName(name: r'nodeById'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -157,28 +153,26 @@ final LibraryDefinition libraryDefinition =
             name: FragmentName(name: r'UserFragMixin'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: TypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'id'),
-                  isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: TypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'username'),
-                  isNonNull: true,
                   isResolveType: false)
             ])
       ],
       inputs: [
         QueryInput(
-          type: TypeName(name: r'String'),
-          name: QueryInputName(name: r'id'),
-        )
+            type: TypeName(name: r'String', isNonNull: true),
+            name: QueryInputName(name: r'id'))
       ],
       generateHelpers: false,
       suffix: r'Query')
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -228,9 +222,9 @@ class Custom$Query$NodeById$ChatMessage extends Custom$Query$NodeById
           Map<String, dynamic> json) =>
       _$Custom$Query$NodeById$ChatMessageFromJson(json);
 
-  String message;
+  late String message;
 
-  Custom$Query$NodeById$ChatMessage$User user;
+  late Custom$Query$NodeById$ChatMessage$User user;
 
   @override
   List<Object?> get props => [message, user];
@@ -253,10 +247,10 @@ class Custom$Query$NodeById extends JsonSerializable with EquatableMixin {
     return _$Custom$Query$NodeByIdFromJson(json);
   }
 
-  String id;
+  late String id;
 
   @JsonKey(name: '__typename')
-  String $$typename;
+  String? $$typename;
 
   @override
   List<Object?> get props => [id, $$typename];
@@ -279,7 +273,7 @@ class Custom$Query extends JsonSerializable with EquatableMixin {
   factory Custom$Query.fromJson(Map<String, dynamic> json) =>
       _$Custom$QueryFromJson(json);
 
-  Custom$Query$NodeById nodeById;
+  Custom$Query$NodeById? nodeById;
 
   @override
   List<Object?> get props => [nodeById];
