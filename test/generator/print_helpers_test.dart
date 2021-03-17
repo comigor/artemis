@@ -558,7 +558,7 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
 }
 
 class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
-  TestQueryQuery({this.variables});
+  TestQueryQuery({required this.variables});
 
   @override
   final DocumentNode document = DocumentNode(definitions: [
@@ -633,7 +633,7 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
 
       expect(str,
           '''class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
-  TestQueryQuery({this.variables});
+  TestQueryQuery({required this.variables});
 
   @override
   final DocumentNode document = DocumentNode(definitions: [
