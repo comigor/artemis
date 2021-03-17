@@ -139,21 +139,21 @@ final LibraryDefinition libraryDefinition =
       ],
       inputs: [
         QueryInput(
-            type: TypeName(name: r'input_enum'),
+            type: TypeName(name: r'input_enum', isNonNull: true),
             name: QueryInputName(name: r'e'),
             annotations: [
               r'JsonKey(unknownEnumValue: InputEnum.artemisUnknown)'
             ]),
         QueryInput(
-          type: TypeName(name: r'Input'),
-          name: QueryInputName(name: r'i'),
-        )
+            type: TypeName(name: r'Input', isNonNull: true),
+            name: QueryInputName(name: r'i'))
       ],
       generateHelpers: false,
       suffix: r'Query')
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -169,7 +169,7 @@ class Custom$QueryRoot$QueryResponse extends JsonSerializable
       _$Custom$QueryRoot$QueryResponseFromJson(json);
 
   @JsonKey(unknownEnumValue: MyEnum.artemisUnknown)
-  MyEnum e;
+  MyEnum? e;
 
   @override
   List<Object?> get props => [e];
@@ -183,7 +183,7 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
   factory Custom$QueryRoot.fromJson(Map<String, dynamic> json) =>
       _$Custom$QueryRootFromJson(json);
 
-  Custom$QueryRoot$QueryResponse q;
+  Custom$QueryRoot$QueryResponse? q;
 
   @override
   List<Object?> get props => [q];
@@ -197,7 +197,7 @@ class Input extends JsonSerializable with EquatableMixin {
   factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
 
   @JsonKey(unknownEnumValue: $InputInputEnum.artemisUnknown)
-  $InputInputEnum e;
+  $InputInputEnum? e;
 
   @override
   List<Object?> get props => [e];

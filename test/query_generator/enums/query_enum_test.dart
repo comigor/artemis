@@ -89,6 +89,7 @@ final LibraryDefinition libraryDefinition =
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -104,7 +105,7 @@ class Custom$QueryRoot$QueryResponse extends JsonSerializable
       _$Custom$QueryRoot$QueryResponseFromJson(json);
 
   @JsonKey(unknownEnumValue: MyEnum.artemisUnknown)
-  MyEnum e;
+  MyEnum? e;
 
   @override
   List<Object?> get props => [e];
@@ -118,7 +119,7 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
   factory Custom$QueryRoot.fromJson(Map<String, dynamic> json) =>
       _$Custom$QueryRootFromJson(json);
 
-  Custom$QueryRoot$QueryResponse q;
+  Custom$QueryRoot$QueryResponse? q;
 
   @override
   List<Object?> get props => [q];

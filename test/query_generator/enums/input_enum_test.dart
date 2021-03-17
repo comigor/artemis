@@ -115,7 +115,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Input'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'MyEnum'),
+                  type: TypeName(name: r'MyEnum', isNonNull: true),
                   name: ClassPropertyName(name: r'e'),
                   annotations: [
                     r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
@@ -128,14 +128,14 @@ final LibraryDefinition libraryDefinition =
       ],
       inputs: [
         QueryInput(
-            type: TypeName(name: r'String'),
+            type: TypeName(name: r'String', isNonNull: true),
             name: QueryInputName(name: r'_id'),
             annotations: [r'''JsonKey(name: '_id')''']),
         QueryInput(
-            type: TypeName(name: r'Input'),
+            type: TypeName(name: r'Input', isNonNull: true),
             name: QueryInputName(name: r'input')),
         QueryInput(
-            type: TypeName(name: r'OtherEnum'),
+            type: TypeName(name: r'OtherEnum', isNonNull: true),
             name: QueryInputName(name: r'o'),
             annotations: [
               r'JsonKey(unknownEnumValue: OtherEnum.artemisUnknown)'
@@ -146,6 +146,7 @@ final LibraryDefinition libraryDefinition =
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -161,13 +162,13 @@ class Custom$QueryRoot$QueryResponse extends JsonSerializable
   factory Custom$QueryRoot$QueryResponse.fromJson(Map<String, dynamic> json) =>
       _$Custom$QueryRoot$QueryResponseFromJson(json);
 
-  String s;
+  String? s;
 
   @JsonKey(unknownEnumValue: MyEnum.artemisUnknown)
-  MyEnum my;
+  MyEnum? my;
 
   @JsonKey(unknownEnumValue: OtherEnum.artemisUnknown)
-  OtherEnum other;
+  OtherEnum? other;
 
   @override
   List<Object?> get props => [s, my, other];
@@ -181,7 +182,7 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
   factory Custom$QueryRoot.fromJson(Map<String, dynamic> json) =>
       _$Custom$QueryRootFromJson(json);
 
-  Custom$QueryRoot$QueryResponse q;
+  Custom$QueryRoot$QueryResponse? q;
 
   @override
   List<Object?> get props => [q];
@@ -190,12 +191,12 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class Input extends JsonSerializable with EquatableMixin {
-  Input({@required this.e});
+  Input({required this.e});
 
   factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
 
   @JsonKey(unknownEnumValue: MyEnum.artemisUnknown)
-  MyEnum e;
+  late MyEnum e;
 
   @override
   List<Object?> get props => [e];
@@ -221,19 +222,19 @@ enum OtherEnum {
 
 @JsonSerializable(explicitToJson: true)
 class CustomArguments extends JsonSerializable with EquatableMixin {
-  CustomArguments({@required this.$id, @required this.input, @required this.o});
+  CustomArguments({required this.$id, required this.input, required this.o});
 
   @override
   factory CustomArguments.fromJson(Map<String, dynamic> json) =>
       _$CustomArgumentsFromJson(json);
 
   @JsonKey(name: '_id')
-  final String $id;
+  late String $id;
 
-  final Input input;
+  late Input input;
 
   @JsonKey(unknownEnumValue: OtherEnum.artemisUnknown)
-  final OtherEnum o;
+  late OtherEnum o;
 
   @override
   List<Object?> get props => [$id, input, o];
@@ -242,7 +243,7 @@ class CustomArguments extends JsonSerializable with EquatableMixin {
 }
 
 class CustomQuery extends GraphQLQuery<Custom$QueryRoot, CustomArguments> {
-  CustomQuery({this.variables});
+  CustomQuery({required this.variables});
 
   @override
   final DocumentNode document = DocumentNode(definitions: [
@@ -264,7 +265,7 @@ class CustomQuery extends GraphQLQuery<Custom$QueryRoot, CustomArguments> {
           VariableDefinitionNode(
               variable: VariableNode(name: NameNode(value: 'o')),
               type: NamedTypeNode(
-                  name: NameNode(value: 'OtherEnum'), ),
+                  name: NameNode(value: 'OtherEnum'), isNonNull: true),
               defaultValue: DefaultValueNode(value: null),
               directives: [])
         ],

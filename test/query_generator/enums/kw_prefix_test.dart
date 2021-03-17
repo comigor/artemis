@@ -63,11 +63,11 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'SearchArticles$_Query$_Article'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: TypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'id'),
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: TypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'title'),
                   isResolveType: false)
             ],
@@ -78,7 +78,11 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'SearchArticles$_Query'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'List<SearchArticles$Query$Article>'),
+                  type: ListOfTypeName(
+                      typeName: TypeName(
+                          name: r'SearchArticles$_Query$_Article',
+                          isNonNull: true),
+                      isNonNull: false),
                   name: ClassPropertyName(name: r'articles'),
                   isResolveType: false)
             ],
@@ -106,15 +110,15 @@ final LibraryDefinition libraryDefinition =
       ],
       inputs: [
         QueryInput(
-          type: TypeName(name: r'ArticleTitleWhereConditions'),
-          name: QueryInputName(name: r'titleWhere'),
-        )
+            type: TypeName(name: r'ArticleTitleWhereConditions'),
+            name: QueryInputName(name: r'titleWhere'))
       ],
       generateHelpers: false,
       suffix: r'Query')
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -129,9 +133,9 @@ class SearchArticles$Query$Article extends JsonSerializable
   factory SearchArticles$Query$Article.fromJson(Map<String, dynamic> json) =>
       _$SearchArticles$Query$ArticleFromJson(json);
 
-  String id;
+  late String id;
 
-  String title;
+  late String title;
 
   @override
   List<Object?> get props => [id, title];
@@ -145,7 +149,7 @@ class SearchArticles$Query extends JsonSerializable with EquatableMixin {
   factory SearchArticles$Query.fromJson(Map<String, dynamic> json) =>
       _$SearchArticles$QueryFromJson(json);
 
-  List<SearchArticles$Query$Article> articles;
+  List<SearchArticles$Query$Article>? articles;
 
   @override
   List<Object?> get props => [articles];
@@ -160,9 +164,9 @@ class ArticleTitleWhereConditions extends JsonSerializable with EquatableMixin {
       _$ArticleTitleWhereConditionsFromJson(json);
 
   @JsonKey(name: 'operator', unknownEnumValue: SQLOperator.artemisUnknown)
-  SQLOperator kw$operator;
+  SQLOperator? kw$operator;
 
-  String value;
+  String? value;
 
   @override
   List<Object?> get props => [kw$operator, value];
