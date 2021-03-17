@@ -171,8 +171,8 @@ import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
 
 mixin UserFragMixin {
-  String id;
-  String username;
+  late String id;
+  late String username;
 }
 
 @JsonSerializable(explicitToJson: true)

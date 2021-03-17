@@ -133,7 +133,7 @@ final LibraryDefinition libraryDefinition =
                   type: TypeName(name: r'MyEnum'),
                   name: ClassPropertyName(name: r'e'),
                   annotations: [
-                    r'JsonKey(unknownEnumValue: MyEnum?.artemisUnknown)'
+                    r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
                   ],
                   isResolveType: false)
             ],
@@ -179,7 +179,7 @@ final LibraryDefinition libraryDefinition =
                   type: TypeName(name: r'MyEnum'),
                   name: ClassPropertyName(name: r'e'),
                   annotations: [
-                    r'JsonKey(unknownEnumValue: MyEnum?.artemisUnknown)'
+                    r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
                   ],
                   isResolveType: false)
             ],
@@ -223,7 +223,7 @@ class SomeObject extends JsonSerializable with EquatableMixin {
   @JsonKey(name: 'SCREAMING_SNAKE_CASE_FIELD')
   ScreamingSnakeCaseType? screamingSnakeCaseField;
 
-  @JsonKey(unknownEnumValue: MyEnum?.artemisUnknown)
+  @JsonKey(unknownEnumValue: MyEnum.artemisUnknown)
   MyEnum? e;
 
   @override
@@ -273,7 +273,7 @@ class Input extends JsonSerializable with EquatableMixin {
   @JsonKey(name: 'SCREAMING_SNAKE_CASE_FIELD')
   ScreamingSnakeCaseTypeInput? screamingSnakeCaseField;
 
-  @JsonKey(unknownEnumValue: MyEnum?.artemisUnknown)
+  @JsonKey(unknownEnumValue: MyEnum.artemisUnknown)
   MyEnum? e;
 
   @override
