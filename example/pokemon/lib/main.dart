@@ -7,7 +7,7 @@ import 'graphql/simple_query.dart';
 
 Future<void> main() async {
   final client = ArtemisClient(
-    'https://graphql-pokemon.now.sh/graphql',
+    'https://graphql-pokemon2.vercel.app',
   );
 
   final simpleQuery = SimpleQueryQuery();
