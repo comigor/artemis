@@ -48,13 +48,11 @@ void main() {
                           ClassProperty(
                               type: TypeName(name: r'String'),
                               name: ClassPropertyName(name: r'e'),
-                              isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
                               type: TypeName(name: r'String'),
                               name: ClassPropertyName(name: r'__typename'),
                               annotations: [r'''JsonKey(name: '__typename')'''],
-                              isNonNull: false,
                               isResolveType: true)
                         ],
                         factoryPossibilities: {},
@@ -66,13 +64,11 @@ void main() {
                           ClassProperty(
                               type: TypeName(name: r'Custom$_QueryRoot$_q'),
                               name: ClassPropertyName(name: r'q'),
-                              isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
                               type: TypeName(name: r'String'),
                               name: ClassPropertyName(name: r'__typename'),
                               annotations: [r'''JsonKey(name: '__typename')'''],
-                              isNonNull: false,
                               isResolveType: true)
                         ],
                         factoryPossibilities: {},
@@ -83,6 +79,7 @@ void main() {
                   suffix: r'Query')
             ]),
             generatedFile: r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -96,10 +93,10 @@ class Custom$QueryRoot$Q extends JsonSerializable with EquatableMixin {
   factory Custom$QueryRoot$Q.fromJson(Map<String, dynamic> json) =>
       _$Custom$QueryRoot$QFromJson(json);
 
-  String e;
+  String? e;
 
   @JsonKey(name: '__typename')
-  String $$typename;
+  String? $$typename;
 
   @override
   List<Object?> get props => [e, $$typename];
@@ -113,10 +110,10 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
   factory Custom$QueryRoot.fromJson(Map<String, dynamic> json) =>
       _$Custom$QueryRootFromJson(json);
 
-  Custom$QueryRoot$Q q;
+  Custom$QueryRoot$Q? q;
 
   @JsonKey(name: '__typename')
-  String $$typename;
+  String? $$typename;
 
   @override
   List<Object?> get props => [q, $$typename];
@@ -164,13 +161,11 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                           ClassProperty(
                               type: TypeName(name: r'String'),
                               name: ClassPropertyName(name: r'e'),
-                              isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
                               type: TypeName(name: r'String'),
                               name: ClassPropertyName(name: r'__typename'),
                               annotations: [r'''JsonKey(name: '__typename')'''],
-                              isNonNull: false,
                               isResolveType: true)
                         ],
                         factoryPossibilities: {},
@@ -182,13 +177,11 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                           ClassProperty(
                               type: TypeName(name: r'Custom$_QueryRoot$_q'),
                               name: ClassPropertyName(name: r'q'),
-                              isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
                               type: TypeName(name: r'String'),
                               name: ClassPropertyName(name: r'__typename'),
                               annotations: [r'''JsonKey(name: '__typename')'''],
-                              isNonNull: false,
                               isResolveType: true)
                         ],
                         factoryPossibilities: {},
@@ -199,6 +192,7 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                   suffix: r'Query')
             ]),
             generatedFile: r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -212,10 +206,10 @@ class Custom$QueryRoot$Q extends JsonSerializable with EquatableMixin {
   factory Custom$QueryRoot$Q.fromJson(Map<String, dynamic> json) =>
       _$Custom$QueryRoot$QFromJson(json);
 
-  String e;
+  String? e;
 
   @JsonKey(name: '__typename')
-  String $$typename;
+  String? $$typename;
 
   @override
   List<Object?> get props => [e, $$typename];
@@ -229,10 +223,10 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
   factory Custom$QueryRoot.fromJson(Map<String, dynamic> json) =>
       _$Custom$QueryRootFromJson(json);
 
-  Custom$QueryRoot$Q q;
+  Custom$QueryRoot$Q? q;
 
   @JsonKey(name: '__typename')
-  String $$typename;
+  String? $$typename;
 
   @override
   List<Object?> get props => [q, $$typename];
@@ -283,7 +277,6 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                               type: TypeName(name: r'String'),
                               name: ClassPropertyName(name: r'__typename'),
                               annotations: [r'''JsonKey(name: '__typename')'''],
-                              isNonNull: false,
                               isResolveType: true)
                         ],
                         mixins: [FragmentName(name: r'QueryResponseMixin')],
@@ -296,13 +289,11 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                           ClassProperty(
                               type: TypeName(name: r'Custom$_QueryRoot$_q'),
                               name: ClassPropertyName(name: r'q'),
-                              isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
                               type: TypeName(name: r'String'),
                               name: ClassPropertyName(name: r'__typename'),
                               annotations: [r'''JsonKey(name: '__typename')'''],
-                              isNonNull: false,
                               isResolveType: true)
                         ],
                         factoryPossibilities: {},
@@ -314,13 +305,11 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                           ClassProperty(
                               type: TypeName(name: r'String'),
                               name: ClassPropertyName(name: r'e'),
-                              isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
                               type: TypeName(name: r'String'),
                               name: ClassPropertyName(name: r'__typename'),
                               annotations: [r'''JsonKey(name: '__typename')'''],
-                              isNonNull: false,
                               isResolveType: true)
                         ])
                   ],
@@ -328,6 +317,7 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                   suffix: r'Query')
             ]),
             generatedFile: r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -335,9 +325,9 @@ import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
 
 mixin QueryResponseMixin {
-  String e;
+  String? e;
   @JsonKey(name: '__typename')
-  String $$typename;
+  String? $$typename;
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -349,7 +339,7 @@ class Custom$QueryRoot$Q extends JsonSerializable
       _$Custom$QueryRoot$QFromJson(json);
 
   @JsonKey(name: '__typename')
-  String $$typename;
+  String? $$typename;
 
   @override
   List<Object?> get props => [e, $$typename, $$typename];
@@ -363,10 +353,10 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
   factory Custom$QueryRoot.fromJson(Map<String, dynamic> json) =>
       _$Custom$QueryRootFromJson(json);
 
-  Custom$QueryRoot$Q q;
+  Custom$QueryRoot$Q? q;
 
   @JsonKey(name: '__typename')
-  String $$typename;
+  String? $$typename;
 
   @override
   List<Object?> get props => [q, $$typename];
@@ -423,13 +413,11 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                           ClassProperty(
                               type: TypeName(name: r'int'),
                               name: ClassPropertyName(name: r'a'),
-                              isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
                               type: TypeName(name: r'String'),
                               name: ClassPropertyName(name: r'__typename'),
                               annotations: [r'''JsonKey(name: '__typename')'''],
-                              isNonNull: false,
                               isResolveType: true)
                         ],
                         extension: ClassName(name: r'Custom$_QueryRoot$_q'),
@@ -442,13 +430,11 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                           ClassProperty(
                               type: TypeName(name: r'int'),
                               name: ClassPropertyName(name: r'b'),
-                              isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
                               type: TypeName(name: r'String'),
                               name: ClassPropertyName(name: r'__typename'),
                               annotations: [r'''JsonKey(name: '__typename')'''],
-                              isNonNull: false,
                               isResolveType: true)
                         ],
                         extension: ClassName(name: r'Custom$_QueryRoot$_q'),
@@ -462,7 +448,6 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                               type: TypeName(name: r'String'),
                               name: ClassPropertyName(name: r'__typename'),
                               annotations: [r'''JsonKey(name: '__typename')'''],
-                              isNonNull: false,
                               isResolveType: true)
                         ],
                         factoryPossibilities: {
@@ -479,13 +464,11 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                           ClassProperty(
                               type: TypeName(name: r'Custom$_QueryRoot$_q'),
                               name: ClassPropertyName(name: r'q'),
-                              isNonNull: false,
                               isResolveType: false),
                           ClassProperty(
                               type: TypeName(name: r'String'),
                               name: ClassPropertyName(name: r'__typename'),
                               annotations: [r'''JsonKey(name: '__typename')'''],
-                              isNonNull: false,
                               isResolveType: true)
                         ],
                         factoryPossibilities: {},
@@ -496,6 +479,7 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                   suffix: r'Query')
             ]),
             generatedFile: r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -509,11 +493,11 @@ class Custom$QueryRoot$Q$TypeA extends Custom$QueryRoot$Q with EquatableMixin {
   factory Custom$QueryRoot$Q$TypeA.fromJson(Map<String, dynamic> json) =>
       _$Custom$QueryRoot$Q$TypeAFromJson(json);
 
-  int a;
+  int? a;
 
   @JsonKey(name: '__typename')
   @override
-  String $$typename;
+  String? $$typename;
 
   @override
   List<Object?> get props => [a, $$typename];
@@ -527,11 +511,11 @@ class Custom$QueryRoot$Q$TypeB extends Custom$QueryRoot$Q with EquatableMixin {
   factory Custom$QueryRoot$Q$TypeB.fromJson(Map<String, dynamic> json) =>
       _$Custom$QueryRoot$Q$TypeBFromJson(json);
 
-  int b;
+  int? b;
 
   @JsonKey(name: '__typename')
   @override
-  String $$typename;
+  String? $$typename;
 
   @override
   List<Object?> get props => [b, $$typename];
@@ -554,7 +538,7 @@ class Custom$QueryRoot$Q extends JsonSerializable with EquatableMixin {
   }
 
   @JsonKey(name: '__typename')
-  String $$typename;
+  String? $$typename;
 
   @override
   List<Object?> get props => [$$typename];
@@ -577,10 +561,10 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
   factory Custom$QueryRoot.fromJson(Map<String, dynamic> json) =>
       _$Custom$QueryRootFromJson(json);
 
-  Custom$QueryRoot$Q q;
+  Custom$QueryRoot$Q? q;
 
   @JsonKey(name: '__typename')
-  String $$typename;
+  String? $$typename;
 
   @override
   List<Object?> get props => [q, $$typename];
@@ -626,7 +610,6 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                           type: TypeName(name: r'String'),
                           name: ClassPropertyName(name: r'__typename'),
                           annotations: [r'''JsonKey(name: '__typename')'''],
-                          isNonNull: false,
                           isResolveType: true)
                     ],
                     mixins: [FragmentName(name: r'QueryResponseMixin')],
@@ -640,13 +623,11 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                           type: TypeName(
                               name: r'Custom$_QueryRoot$_QueryResponse'),
                           name: ClassPropertyName(name: r'q'),
-                          isNonNull: false,
                           isResolveType: false),
                       ClassProperty(
                           type: TypeName(name: r'String'),
                           name: ClassPropertyName(name: r'__typename'),
                           annotations: [r'''JsonKey(name: '__typename')'''],
-                          isNonNull: false,
                           isResolveType: true)
                     ],
                     factoryPossibilities: {},
@@ -658,13 +639,11 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                       ClassProperty(
                           type: TypeName(name: r'String'),
                           name: ClassPropertyName(name: r'e'),
-                          isNonNull: false,
                           isResolveType: false),
                       ClassProperty(
                           type: TypeName(name: r'String'),
                           name: ClassPropertyName(name: r'__typename'),
                           annotations: [r'''JsonKey(name: '__typename')'''],
-                          isNonNull: false,
                           isResolveType: true)
                     ])
               ],
@@ -672,6 +651,7 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
               suffix: r'Query')
         ]),
         generatedFile: r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -680,9 +660,9 @@ import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
 
 mixin QueryResponseMixin {
-  String e;
+  String? e;
   @JsonKey(name: '__typename')
-  String $$typename;
+  String? $$typename;
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -694,7 +674,7 @@ class Custom$QueryRoot$QueryResponse extends JsonSerializable
       _$Custom$QueryRoot$QueryResponseFromJson(json);
 
   @JsonKey(name: '__typename')
-  String $$typename;
+  String? $$typename;
 
   @override
   List<Object?> get props => [e, $$typename, $$typename];
@@ -708,10 +688,10 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
   factory Custom$QueryRoot.fromJson(Map<String, dynamic> json) =>
       _$Custom$QueryRootFromJson(json);
 
-  Custom$QueryRoot$QueryResponse q;
+  Custom$QueryRoot$QueryResponse? q;
 
   @JsonKey(name: '__typename')
-  String $$typename;
+  String? $$typename;
 
   @override
   List<Object?> get props => [q, $$typename];
@@ -755,7 +735,7 @@ class CustomQuery extends GraphQLQuery<Custom$QueryRoot, JsonSerializable> {
         name: NameNode(value: 'QueryResponse'),
         typeCondition: TypeConditionNode(
             on: NamedTypeNode(
-                name: NameNode(value: 'QueryResponse'), )),
+                name: NameNode(value: 'QueryResponse'), isNonNull: false)),
         directives: [],
         selectionSet: SelectionSetNode(selections: [
           FieldNode(

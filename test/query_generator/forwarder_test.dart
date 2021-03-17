@@ -70,6 +70,7 @@ final LibraryDefinition libraryDefinition =
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -83,7 +84,7 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
   factory Custom$QueryRoot.fromJson(Map<String, dynamic> json) =>
       _$Custom$QueryRootFromJson(json);
 
-  String a;
+  String? a;
 
   @override
   List<Object?> get props => [a];
