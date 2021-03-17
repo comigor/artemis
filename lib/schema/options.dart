@@ -30,10 +30,6 @@ class GeneratorOptions {
   @JsonKey(defaultValue: [])
   final List<String> ignoreForFile;
 
-  /// If artemis should generate nnbd code
-  @JsonKey(defaultValue: false)
-  final bool nnbd;
-
   /// Instantiate generator options.
   GeneratorOptions({
     this.generateHelpers = true,
@@ -41,7 +37,6 @@ class GeneratorOptions {
     this.fragmentsGlob,
     this.schemaMapping = const [],
     this.ignoreForFile = const [],
-    this.nnbd = false,
   });
 
   /// Build options from a JSON map.

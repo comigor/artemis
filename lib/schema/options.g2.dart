@@ -1,5 +1,6 @@
+// @dart = 2.8
+
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// @dart=2.8
 
 part of 'options.dart';
 
@@ -27,10 +28,10 @@ GeneratorOptions _$GeneratorOptionsFromJson(Map json) {
                   )))
             ?.toList() ??
         [],
-    ignoreForFile:
-        (json['ignore_for_file'] as List)?.map((e) => e as String)?.toList() ??
-            [],
-    nnbd: json['nnbd'] as bool ?? false,
+    ignoreForFile: (json['ignore_for_file'] as List)
+            ?.map((e) => e == null ? null : e as String)
+            ?.toList() ??
+        [],
   );
 }
 
@@ -41,7 +42,6 @@ Map<String, dynamic> _$GeneratorOptionsToJson(GeneratorOptions instance) =>
       'fragments_glob': instance.fragmentsGlob,
       'schema_mapping': instance.schemaMapping,
       'ignore_for_file': instance.ignoreForFile,
-      'nnbd': instance.nnbd,
     };
 
 DartType _$DartTypeFromJson(Map<String, dynamic> json) {
@@ -89,7 +89,6 @@ Map<String, dynamic> _$SchemaMapToJson(SchemaMap instance) => <String, dynamic>{
       'schema': instance.schema,
       'queries_glob': instance.queriesGlob,
       'type_name_field': instance.typeNameField,
-      'append_type_name': instance.appendTypeName,
       'naming_scheme': _$NamingSchemeEnumMap[instance.namingScheme],
     };
 
