@@ -147,9 +147,11 @@ class SomeQuery$SomeObject extends JsonSerializable with EquatableMixin {
                               name: ClassPropertyName(name: r'st'),
                               isResolveType: false),
                           ClassProperty(
-                              type: TypeName(
-                                  name:
-                                      r'List<SomeQuery$Result$SomeObject$AnotherObject>'),
+                              type: ListOfTypeName(
+                                  typeName: TypeName(
+                                      name:
+                                          r'SomeQuery$_Result$_SomeObject$_AnotherObject'),
+                                  isNonNull: false),
                               name: ClassPropertyName(name: r'ob'),
                               isResolveType: false)
                         ],
@@ -210,7 +212,7 @@ class SomeQuery$Result$SomeObject extends JsonSerializable with EquatableMixin {
 
   String? st;
 
-  List<SomeQuery$Result$SomeObject$AnotherObject>? ob;
+  List<SomeQuery$Result$SomeObject$AnotherObject?>? ob;
 
   @override
   List<Object?> get props => [st, ob];
