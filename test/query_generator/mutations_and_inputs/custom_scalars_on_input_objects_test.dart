@@ -70,11 +70,10 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r's'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'Custom$_MutationRoot'),
@@ -83,44 +82,40 @@ final LibraryDefinition libraryDefinition =
                   type:
                       TypeName(name: r'Custom$_MutationRoot$_MutationResponse'),
                   name: ClassPropertyName(name: r'mut'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'Input'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'MyUuid'),
+                  type: TypeName(name: r'MyUuid', isNonNull: true),
                   name: ClassPropertyName(name: r'id'),
                   annotations: [
                     r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid)'
                   ],
-                  isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: true)
       ],
       inputs: [
         QueryInput(
-            type: TypeName(name: r'Input'),
-            name: QueryInputName(name: r'input'),
-            isNonNull: true),
+            type: TypeName(name: r'Input', isNonNull: true),
+            name: QueryInputName(name: r'input')),
         QueryInput(
             type: TypeName(name: r'MyUuid'),
             name: QueryInputName(name: r'previousId'),
-            isNonNull: false,
             annotations: [
               r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid)'
             ]),
         QueryInput(
-            type: TypeName(name: r'List<MyUuid>'),
+            type: ListOfTypeName(
+                typeName: TypeName(name: r'MyUuid'), isNonNull: false),
             name: QueryInputName(name: r'listIds'),
-            isNonNull: false,
             annotations: [
               r'JsonKey(fromJson: fromGraphQLListMyUuidToDartListMyUuid, toJson: fromDartListMyUuidToGraphQLListMyUuid)'
             ])
@@ -133,8 +128,8 @@ final LibraryDefinition libraryDefinition =
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
-import 'package:meta/meta.dart';
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -152,10 +147,10 @@ class Custom$MutationRoot$MutationResponse extends JsonSerializable
           Map<String, dynamic> json) =>
       _$Custom$MutationRoot$MutationResponseFromJson(json);
 
-  String s;
+  String? s;
 
   @override
-  List<Object> get props => [s];
+  List<Object?> get props => [s];
   Map<String, dynamic> toJson() =>
       _$Custom$MutationRoot$MutationResponseToJson(this);
 }
@@ -167,58 +162,58 @@ class Custom$MutationRoot extends JsonSerializable with EquatableMixin {
   factory Custom$MutationRoot.fromJson(Map<String, dynamic> json) =>
       _$Custom$MutationRootFromJson(json);
 
-  Custom$MutationRoot$MutationResponse mut;
+  Custom$MutationRoot$MutationResponse? mut;
 
   @override
-  List<Object> get props => [mut];
+  List<Object?> get props => [mut];
   Map<String, dynamic> toJson() => _$Custom$MutationRootToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
 class Input extends JsonSerializable with EquatableMixin {
-  Input({@required this.id});
+  Input({required this.id});
 
   factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
 
   @JsonKey(
       fromJson: fromGraphQLMyUuidToDartMyUuid,
       toJson: fromDartMyUuidToGraphQLMyUuid)
-  MyUuid id;
+  late MyUuid id;
 
   @override
-  List<Object> get props => [id];
+  List<Object?> get props => [id];
   Map<String, dynamic> toJson() => _$InputToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
 class CustomArguments extends JsonSerializable with EquatableMixin {
-  CustomArguments({@required this.input, this.previousId, this.listIds});
+  CustomArguments({required this.input, this.previousId, this.listIds});
 
   @override
   factory CustomArguments.fromJson(Map<String, dynamic> json) =>
       _$CustomArgumentsFromJson(json);
 
-  final Input input;
+  late Input input;
 
   @JsonKey(
       fromJson: fromGraphQLMyUuidToDartMyUuid,
       toJson: fromDartMyUuidToGraphQLMyUuid)
-  final MyUuid previousId;
+  final MyUuid? previousId;
 
   @JsonKey(
       fromJson: fromGraphQLListMyUuidToDartListMyUuid,
       toJson: fromDartListMyUuidToGraphQLListMyUuid)
-  final List<MyUuid> listIds;
+  final List<MyUuid?>? listIds;
 
   @override
-  List<Object> get props => [input, previousId, listIds];
+  List<Object?> get props => [input, previousId, listIds];
   @override
   Map<String, dynamic> toJson() => _$CustomArgumentsToJson(this);
 }
 
 class CustomMutation
     extends GraphQLQuery<Custom$MutationRoot, CustomArguments> {
-  CustomMutation({this.variables});
+  CustomMutation({required this.variables});
 
   @override
   final DocumentNode document = DocumentNode(definitions: [
@@ -282,7 +277,7 @@ class CustomMutation
   final CustomArguments variables;
 
   @override
-  List<Object> get props => [document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
   @override
   Custom$MutationRoot parse(Map<String, dynamic> json) =>
       Custom$MutationRoot.fromJson(json);

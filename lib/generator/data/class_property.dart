@@ -17,9 +17,6 @@ class ClassProperty extends Definition with DataPrinter {
   /// Some other custom annotation.
   final List<String> annotations;
 
-  /// Whether this parameter is required
-  final bool isNonNull;
-
   /// Whether this parameter corresponds to the __resolveType (or equivalent)
   final bool isResolveType;
 
@@ -27,7 +24,6 @@ class ClassProperty extends Definition with DataPrinter {
   ClassProperty({
     @required this.type,
     this.annotations = const [],
-    this.isNonNull = false,
     this.isResolveType = false,
     @required this.name,
   })  : assert(hasValue(type) && hasValue(name)),
@@ -41,14 +37,12 @@ class ClassProperty extends Definition with DataPrinter {
     TypeName type,
     ClassPropertyName name,
     List<String> annotations,
-    bool isNonNull,
     bool isResolveType,
   }) =>
       ClassProperty(
         type: type ?? this.type,
         name: name ?? this.name,
         annotations: annotations ?? this.annotations,
-        isNonNull: isNonNull ?? this.isNonNull,
         isResolveType: isResolveType ?? this.isResolveType,
       );
 
@@ -57,7 +51,6 @@ class ClassProperty extends Definition with DataPrinter {
         'type': type,
         'name': name,
         'annotations': annotations,
-        'isNonNull': isNonNull,
         'isResolveType': isResolveType,
       };
 }
@@ -85,18 +78,56 @@ const _camelCaseTypes = {'bool', 'double', 'int'};
 /// Type name
 class TypeName extends Name with DataPrinter {
   /// Instantiate a type name definition.
-  TypeName({String name}) : super(name: name);
+  TypeName({
+    String name,
+    this.isNonNull = false,
+  }) : super(name: name);
+
+  /// If this type is non-null
+  final bool isNonNull;
 
   @override
   Map<String, Object> get namedProps => {
         'name': name,
+        if (isNonNull) 'isNonNull': true,
       };
+
+  @override
+  List get props => [name, isNonNull];
 
   @override
   String normalize(String name) {
     final normalized = super.normalize(name);
-    if (_camelCaseTypes.contains(normalized)) return normalized;
+    if (_camelCaseTypes.contains(normalized)) {
+      return '$normalized${isNonNull ? '' : '?'}';
+    }
 
-    return ReCase(normalized).pascalCase;
+    return '${ReCase(normalized).pascalCase}${isNonNull ? '' : '?'}';
   }
+}
+
+/// Type name
+class ListOfTypeName extends TypeName with DataPrinter {
+  /// Instantiate a type name definition.
+  ListOfTypeName({
+    this.typeName,
+    this.isNonNull = true,
+  }) : super(name: typeName.name, isNonNull: isNonNull);
+
+  /// Internal type name
+  final TypeName typeName;
+
+  /// If this list type is non-null
+  @override
+  final bool isNonNull;
+
+  @override
+  Map<String, Object> get namedProps => {
+        'typeName': typeName,
+        'isNonNull': isNonNull,
+      };
+
+  @override
+  String normalize(String name) =>
+      'List<${typeName.namePrintable}>${isNonNull ? '' : '?'}';
 }

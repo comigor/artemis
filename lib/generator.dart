@@ -354,9 +354,9 @@ Make sure your query is correct and your schema is updated.''');
               .dartTypeSafe);
       final dartTypeSafeStr = TypeName(name: dartTypeName.dartTypeSafe);
       jsonKeyAnnotation['fromJson'] =
-          'fromGraphQL${graphqlTypeSafeStr.namePrintable}ToDart${dartTypeSafeStr.namePrintable}';
+          'fromGraphQL${graphqlTypeSafeStr.dartTypeSafe}ToDart${dartTypeSafeStr.dartTypeSafe}';
       jsonKeyAnnotation['toJson'] =
-          'fromDart${dartTypeSafeStr.namePrintable}ToGraphQL${graphqlTypeSafeStr.namePrintable}';
+          'fromDart${dartTypeSafeStr.dartTypeSafe}ToGraphQL${graphqlTypeSafeStr.dartTypeSafe}';
     }
   } // On enums
   else if (nextType is EnumTypeDefinitionNode) {
@@ -371,10 +371,10 @@ Make sure your query is correct and your schema is updated.''');
           replaceLeafWith: ClassName.fromPath(path: nextClassName),
           schema: context.schema);
       jsonKeyAnnotation['unknownEnumValue'] =
-          '${innerDartTypeName.namePrintable}.${ARTEMIS_UNKNOWN.name.namePrintable}';
+          '${innerDartTypeName.dartTypeSafe}.${ARTEMIS_UNKNOWN.name.namePrintable}';
     } else {
       jsonKeyAnnotation['unknownEnumValue'] =
-          '${dartTypeName.namePrintable}.${ARTEMIS_UNKNOWN.name.namePrintable}';
+          '${dartTypeName.dartTypeSafe}.${ARTEMIS_UNKNOWN.name.namePrintable}';
     }
   }
 
@@ -395,6 +395,5 @@ Make sure your query is correct and your schema is updated.''');
     type: dartTypeName,
     name: name,
     annotations: annotations,
-    isNonNull: fieldType.isNonNull,
   );
 }

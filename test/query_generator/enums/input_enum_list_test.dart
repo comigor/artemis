@@ -65,54 +65,56 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'BrowseArticles$_Query$_Article'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: TypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'id'),
-                  isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: TypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'title'),
-                  isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'ArticleType'),
+                  type: TypeName(name: r'ArticleType', isNonNull: true),
                   name: ClassPropertyName(name: r'article_type'),
                   annotations: [
                     r'''JsonKey(name: 'article_type', unknownEnumValue: ArticleType.artemisUnknown)'''
                   ],
-                  isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'BrowseArticles$_Query'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'List<BrowseArticles$Query$Article>'),
+                  type: ListOfTypeName(
+                      typeName: TypeName(
+                          name: r'BrowseArticles$_Query$_Article',
+                          isNonNull: true),
+                      isNonNull: false),
                   name: ClassPropertyName(name: r'articles'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false)
       ],
       inputs: [
         QueryInput(
-            type: TypeName(name: r'List<ArticleType>'),
+            type: ListOfTypeName(
+                typeName: TypeName(name: r'ArticleType', isNonNull: true),
+                isNonNull: false),
             name: QueryInputName(name: r'article_type_in'),
             annotations: [
-              r'''JsonKey(unknownEnumValue: ArticleType.artemisUnknown)'''
-            ],
-            isNonNull: false)
+              r'JsonKey(unknownEnumValue: ArticleType.artemisUnknown)'
+            ])
       ],
       generateHelpers: true,
       suffix: r'Query')
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -128,15 +130,15 @@ class BrowseArticles$Query$Article extends JsonSerializable
   factory BrowseArticles$Query$Article.fromJson(Map<String, dynamic> json) =>
       _$BrowseArticles$Query$ArticleFromJson(json);
 
-  String id;
+  late String id;
 
-  String title;
+  late String title;
 
   @JsonKey(name: 'article_type', unknownEnumValue: ArticleType.artemisUnknown)
-  ArticleType articleType;
+  late ArticleType articleType;
 
   @override
-  List<Object> get props => [id, title, articleType];
+  List<Object?> get props => [id, title, articleType];
   Map<String, dynamic> toJson() => _$BrowseArticles$Query$ArticleToJson(this);
 }
 
@@ -147,10 +149,10 @@ class BrowseArticles$Query extends JsonSerializable with EquatableMixin {
   factory BrowseArticles$Query.fromJson(Map<String, dynamic> json) =>
       _$BrowseArticles$QueryFromJson(json);
 
-  List<BrowseArticles$Query$Article> articles;
+  List<BrowseArticles$Query$Article>? articles;
 
   @override
-  List<Object> get props => [articles];
+  List<Object?> get props => [articles];
   Map<String, dynamic> toJson() => _$BrowseArticles$QueryToJson(this);
 }
 
@@ -172,17 +174,17 @@ class BrowseArticlesArguments extends JsonSerializable with EquatableMixin {
       _$BrowseArticlesArgumentsFromJson(json);
 
   @JsonKey(unknownEnumValue: ArticleType.artemisUnknown)
-  final List<ArticleType> article_type_in;
+  final List<ArticleType>? article_type_in;
 
   @override
-  List<Object> get props => [article_type_in];
+  List<Object?> get props => [article_type_in];
   @override
   Map<String, dynamic> toJson() => _$BrowseArticlesArgumentsToJson(this);
 }
 
 class BrowseArticlesQuery
     extends GraphQLQuery<BrowseArticles$Query, BrowseArticlesArguments> {
-  BrowseArticlesQuery({this.variables});
+  BrowseArticlesQuery({required this.variables});
 
   @override
   final DocumentNode document = DocumentNode(definitions: [
@@ -241,7 +243,7 @@ class BrowseArticlesQuery
   final BrowseArticlesArguments variables;
 
   @override
-  List<Object> get props => [document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
   @override
   BrowseArticles$Query parse(Map<String, dynamic> json) =>
       BrowseArticles$Query.fromJson(json);

@@ -66,11 +66,10 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r's'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'SomeQuery$_QueryRoot'),
@@ -78,11 +77,10 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'SomeQuery$_QueryRoot$_SomeObject'),
                   name: ClassPropertyName(name: r'o'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'Input'),
@@ -90,11 +88,10 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'SubInput'),
                   name: ClassPropertyName(name: r's'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: true),
         ClassDefinition(
             name: ClassName(name: r'SubInput'),
@@ -102,26 +99,24 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r's'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: true)
       ],
       inputs: [
         QueryInput(
-            type: TypeName(name: r'Input'),
-            name: QueryInputName(name: r'input'),
-            isNonNull: true)
+            type: TypeName(name: r'Input', isNonNull: true),
+            name: QueryInputName(name: r'input'))
       ],
       generateHelpers: true,
       suffix: r'Query')
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
-import 'package:meta/meta.dart';
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -136,10 +131,10 @@ class SomeQuery$QueryRoot$SomeObject extends JsonSerializable
   factory SomeQuery$QueryRoot$SomeObject.fromJson(Map<String, dynamic> json) =>
       _$SomeQuery$QueryRoot$SomeObjectFromJson(json);
 
-  String s;
+  String? s;
 
   @override
-  List<Object> get props => [s];
+  List<Object?> get props => [s];
   Map<String, dynamic> toJson() => _$SomeQuery$QueryRoot$SomeObjectToJson(this);
 }
 
@@ -150,10 +145,10 @@ class SomeQuery$QueryRoot extends JsonSerializable with EquatableMixin {
   factory SomeQuery$QueryRoot.fromJson(Map<String, dynamic> json) =>
       _$SomeQuery$QueryRootFromJson(json);
 
-  SomeQuery$QueryRoot$SomeObject o;
+  SomeQuery$QueryRoot$SomeObject? o;
 
   @override
-  List<Object> get props => [o];
+  List<Object?> get props => [o];
   Map<String, dynamic> toJson() => _$SomeQuery$QueryRootToJson(this);
 }
 
@@ -163,10 +158,10 @@ class Input extends JsonSerializable with EquatableMixin {
 
   factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
 
-  SubInput s;
+  SubInput? s;
 
   @override
-  List<Object> get props => [s];
+  List<Object?> get props => [s];
   Map<String, dynamic> toJson() => _$InputToJson(this);
 }
 
@@ -177,32 +172,32 @@ class SubInput extends JsonSerializable with EquatableMixin {
   factory SubInput.fromJson(Map<String, dynamic> json) =>
       _$SubInputFromJson(json);
 
-  String s;
+  String? s;
 
   @override
-  List<Object> get props => [s];
+  List<Object?> get props => [s];
   Map<String, dynamic> toJson() => _$SubInputToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
 class SomeQueryArguments extends JsonSerializable with EquatableMixin {
-  SomeQueryArguments({@required this.input});
+  SomeQueryArguments({required this.input});
 
   @override
   factory SomeQueryArguments.fromJson(Map<String, dynamic> json) =>
       _$SomeQueryArgumentsFromJson(json);
 
-  final Input input;
+  late Input input;
 
   @override
-  List<Object> get props => [input];
+  List<Object?> get props => [input];
   @override
   Map<String, dynamic> toJson() => _$SomeQueryArgumentsToJson(this);
 }
 
 class SomeQueryQuery
     extends GraphQLQuery<SomeQuery$QueryRoot, SomeQueryArguments> {
-  SomeQueryQuery({this.variables});
+  SomeQueryQuery({required this.variables});
 
   @override
   final DocumentNode document = DocumentNode(definitions: [
@@ -246,7 +241,7 @@ class SomeQueryQuery
   final SomeQueryArguments variables;
 
   @override
-  List<Object> get props => [document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
   @override
   SomeQuery$QueryRoot parse(Map<String, dynamic> json) =>
       SomeQuery$QueryRoot.fromJson(json);

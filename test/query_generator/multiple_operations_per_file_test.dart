@@ -75,11 +75,10 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r's'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'MutData$_Mutation'),
@@ -87,30 +86,27 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'MutData$_Mutation$_MutationResponse'),
                   name: ClassPropertyName(name: r'mut'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'Input'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: TypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r's'),
-                  isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: true)
       ],
       inputs: [
         QueryInput(
-            type: TypeName(name: r'Input'),
-            name: QueryInputName(name: r'input'),
-            isNonNull: true)
+            type: TypeName(name: r'Input', isNonNull: true),
+            name: QueryInputName(name: r'input'))
       ],
       generateHelpers: true,
       suffix: r'Mutation'),
@@ -124,21 +120,19 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r's'),
-                  isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'int'),
                   name: ClassPropertyName(name: r'i'),
-                  isNonNull: false,
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'List<int>'),
+                  type: ListOfTypeName(
+                      typeName: TypeName(name: r'int'), isNonNull: true),
                   name: ClassPropertyName(name: r'list'),
-                  isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'QueData$_Query'),
@@ -146,30 +140,28 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'QueData$_Query$_QueryResponse'),
                   name: ClassPropertyName(name: r'que'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false)
       ],
       inputs: [
         QueryInput(
-            type: TypeName(name: r'List<int>'),
-            name: QueryInputName(name: r'intsNonNullable'),
-            isNonNull: true),
+            type: ListOfTypeName(
+                typeName: TypeName(name: r'int'), isNonNull: true),
+            name: QueryInputName(name: r'intsNonNullable')),
         QueryInput(
             type: TypeName(name: r'String'),
-            name: QueryInputName(name: r'stringNullable'),
-            isNonNull: false)
+            name: QueryInputName(name: r'stringNullable'))
       ],
       generateHelpers: true,
       suffix: r'Query')
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
-import 'package:meta/meta.dart';
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -185,10 +177,10 @@ class MutData$Mutation$MutationResponse extends JsonSerializable
           Map<String, dynamic> json) =>
       _$MutData$Mutation$MutationResponseFromJson(json);
 
-  String s;
+  String? s;
 
   @override
-  List<Object> get props => [s];
+  List<Object?> get props => [s];
   Map<String, dynamic> toJson() =>
       _$MutData$Mutation$MutationResponseToJson(this);
 }
@@ -200,23 +192,23 @@ class MutData$Mutation extends JsonSerializable with EquatableMixin {
   factory MutData$Mutation.fromJson(Map<String, dynamic> json) =>
       _$MutData$MutationFromJson(json);
 
-  MutData$Mutation$MutationResponse mut;
+  MutData$Mutation$MutationResponse? mut;
 
   @override
-  List<Object> get props => [mut];
+  List<Object?> get props => [mut];
   Map<String, dynamic> toJson() => _$MutData$MutationToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
 class Input extends JsonSerializable with EquatableMixin {
-  Input({@required this.s});
+  Input({required this.s});
 
   factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
 
-  String s;
+  late String s;
 
   @override
-  List<Object> get props => [s];
+  List<Object?> get props => [s];
   Map<String, dynamic> toJson() => _$InputToJson(this);
 }
 
@@ -227,14 +219,14 @@ class QueData$Query$QueryResponse extends JsonSerializable with EquatableMixin {
   factory QueData$Query$QueryResponse.fromJson(Map<String, dynamic> json) =>
       _$QueData$Query$QueryResponseFromJson(json);
 
-  String s;
+  String? s;
 
-  int i;
+  int? i;
 
-  List<int> list;
+  late List<int?> list;
 
   @override
-  List<Object> get props => [s, i, list];
+  List<Object?> get props => [s, i, list];
   Map<String, dynamic> toJson() => _$QueData$Query$QueryResponseToJson(this);
 }
 
@@ -245,31 +237,31 @@ class QueData$Query extends JsonSerializable with EquatableMixin {
   factory QueData$Query.fromJson(Map<String, dynamic> json) =>
       _$QueData$QueryFromJson(json);
 
-  QueData$Query$QueryResponse que;
+  QueData$Query$QueryResponse? que;
 
   @override
-  List<Object> get props => [que];
+  List<Object?> get props => [que];
   Map<String, dynamic> toJson() => _$QueData$QueryToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
 class MutDataArguments extends JsonSerializable with EquatableMixin {
-  MutDataArguments({@required this.input});
+  MutDataArguments({required this.input});
 
   @override
   factory MutDataArguments.fromJson(Map<String, dynamic> json) =>
       _$MutDataArgumentsFromJson(json);
 
-  final Input input;
+  late Input input;
 
   @override
-  List<Object> get props => [input];
+  List<Object?> get props => [input];
   @override
   Map<String, dynamic> toJson() => _$MutDataArgumentsToJson(this);
 }
 
 class MutDataMutation extends GraphQLQuery<MutData$Mutation, MutDataArguments> {
-  MutDataMutation({this.variables});
+  MutDataMutation({required this.variables});
 
   @override
   final DocumentNode document = DocumentNode(definitions: [
@@ -374,7 +366,7 @@ class MutDataMutation extends GraphQLQuery<MutData$Mutation, MutDataArguments> {
   final MutDataArguments variables;
 
   @override
-  List<Object> get props => [document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
   @override
   MutData$Mutation parse(Map<String, dynamic> json) =>
       MutData$Mutation.fromJson(json);
@@ -382,24 +374,24 @@ class MutDataMutation extends GraphQLQuery<MutData$Mutation, MutDataArguments> {
 
 @JsonSerializable(explicitToJson: true)
 class QueDataArguments extends JsonSerializable with EquatableMixin {
-  QueDataArguments({@required this.intsNonNullable, this.stringNullable});
+  QueDataArguments({required this.intsNonNullable, this.stringNullable});
 
   @override
   factory QueDataArguments.fromJson(Map<String, dynamic> json) =>
       _$QueDataArgumentsFromJson(json);
 
-  final List<int> intsNonNullable;
+  late List<int?> intsNonNullable;
 
-  final String stringNullable;
+  final String? stringNullable;
 
   @override
-  List<Object> get props => [intsNonNullable, stringNullable];
+  List<Object?> get props => [intsNonNullable, stringNullable];
   @override
   Map<String, dynamic> toJson() => _$QueDataArgumentsToJson(this);
 }
 
 class QueDataQuery extends GraphQLQuery<QueData$Query, QueDataArguments> {
-  QueDataQuery({this.variables});
+  QueDataQuery({required this.variables});
 
   @override
   final DocumentNode document = DocumentNode(definitions: [
@@ -504,7 +496,7 @@ class QueDataQuery extends GraphQLQuery<QueData$Query, QueDataArguments> {
   final QueDataArguments variables;
 
   @override
-  List<Object> get props => [document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
   @override
   QueData$Query parse(Map<String, dynamic> json) =>
       QueData$Query.fromJson(json);

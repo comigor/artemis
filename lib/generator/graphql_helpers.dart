@@ -51,28 +51,33 @@ TypeName buildTypeName(
       if (type is ScalarTypeDefinitionNode) {
         final scalar = getSingleScalarMap(options, node.name.value);
         return TypeName(
-            name: dartType ? scalar.dartType.name : scalar.graphQLType);
+          name: dartType ? scalar.dartType.name : scalar.graphQLType,
+          isNonNull: node.isNonNull,
+        );
       }
 
       if (type is EnumTypeDefinitionNode ||
           type is InputObjectTypeDefinitionNode) {
-        return TypeName(name: type.name.value);
+        return TypeName(name: type.name.value, isNonNull: node.isNonNull);
       }
 
       if (replaceLeafWith != null) {
-        return TypeName(name: replaceLeafWith.name);
+        return TypeName(name: replaceLeafWith.name, isNonNull: node.isNonNull);
       } else {
-        return TypeName(name: type.name.value);
+        return TypeName(name: type.name.value, isNonNull: node.isNonNull);
       }
     }
 
-    return TypeName(name: node.name.value);
+    return TypeName(name: node.name.value, isNonNull: node.isNonNull);
   }
 
   if (node is ListTypeNode) {
     final typeName = buildTypeName(node.type, options,
         dartType: dartType, replaceLeafWith: replaceLeafWith, schema: schema);
-    return TypeName(name: 'List<${typeName.namePrintable}>');
+    return ListOfTypeName(
+      typeName: typeName,
+      isNonNull: node.isNonNull,
+    );
   }
 
   throw Exception('Unable to build type name');

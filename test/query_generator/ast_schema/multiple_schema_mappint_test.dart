@@ -6,7 +6,6 @@ import 'package:artemis/generator/data/data.dart';
 import 'package:artemis/generator/data/enum_value_definition.dart';
 import 'package:build_test/build_test.dart';
 import 'package:logging/logging.dart';
-import 'package:meta/meta.dart';
 import 'package:test/test.dart';
 import 'package:collection/collection.dart';
 
@@ -162,38 +161,38 @@ final LibraryDefinition libraryDefinitionA =
             name: ClassName(name: r'BrowseArticles$_Query$_articles'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: TypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'id'),
-                  isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: TypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'title'),
-                  isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'ArticleType'),
+                  type: TypeName(name: r'ArticleType', isNonNull: true),
                   name: ClassPropertyName(name: r'articleType'),
                   annotations: [
                     r'JsonKey(unknownEnumValue: ArticleType.artemisUnknown)'
                   ],
-                  isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'BrowseArticles$_Query'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'List<BrowseArticles$Query$Articles>'),
+                  type: ListOfTypeName(
+                      typeName: TypeName(
+                          name: r'BrowseArticles$_Query$_articles',
+                          isNonNull: true),
+                      isNonNull: false),
                   name: ClassPropertyName(name: r'articles'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false)
       ],
       generateHelpers: true,
@@ -227,47 +226,45 @@ final libraryDefinitionB =
             name: ClassName(name: r'BrowseRepositories$_Query$_repositories'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: TypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'id'),
-                  isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: TypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'title'),
-                  isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'Privacy'),
+                  type: TypeName(name: r'Privacy', isNonNull: true),
                   name: ClassPropertyName(name: r'privacy'),
                   annotations: [
                     r'JsonKey(unknownEnumValue: Privacy.artemisUnknown)'
                   ],
-                  isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'Status'),
+                  type: TypeName(name: r'Status', isNonNull: true),
                   name: ClassPropertyName(name: r'status'),
                   annotations: [
                     r'JsonKey(unknownEnumValue: Status.artemisUnknown)'
                   ],
-                  isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'BrowseRepositories$_Query'),
             properties: [
               ClassProperty(
-                  type: TypeName(
-                      name: r'List<BrowseRepositories$Query$Repositories>'),
+                  type: ListOfTypeName(
+                      typeName: TypeName(
+                          name: r'BrowseRepositories$_Query$_repositories',
+                          isNonNull: true),
+                      isNonNull: false),
                   name: ClassPropertyName(name: r'repositories'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'NotificationOptionInput'),
@@ -278,29 +275,29 @@ final libraryDefinitionB =
                   annotations: [
                     r'JsonKey(unknownEnumValue: NotificationType.artemisUnknown)'
                   ],
-                  isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'bool'),
                   name: ClassPropertyName(name: r'enabled'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: true)
       ],
       inputs: [
         QueryInput(
-            type: TypeName(name: r'List<NotificationOptionInput>'),
-            name: QueryInputName(name: r'notificationTypes'),
-            isNonNull: false)
+            type: ListOfTypeName(
+                typeName: TypeName(name: r'NotificationOptionInput'),
+                isNonNull: false),
+            name: QueryInputName(name: r'notificationTypes'))
       ],
       generateHelpers: true,
       suffix: r'Query')
 ]);
 
 const generatedFileA = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -316,15 +313,15 @@ class BrowseArticles$Query$Articles extends JsonSerializable
   factory BrowseArticles$Query$Articles.fromJson(Map<String, dynamic> json) =>
       _$BrowseArticles$Query$ArticlesFromJson(json);
 
-  String id;
+  late String id;
 
-  String title;
+  late String title;
 
   @JsonKey(unknownEnumValue: ArticleType.artemisUnknown)
-  ArticleType articleType;
+  late ArticleType articleType;
 
   @override
-  List<Object> get props => [id, title, articleType];
+  List<Object?> get props => [id, title, articleType];
   Map<String, dynamic> toJson() => _$BrowseArticles$Query$ArticlesToJson(this);
 }
 
@@ -335,10 +332,10 @@ class BrowseArticles$Query extends JsonSerializable with EquatableMixin {
   factory BrowseArticles$Query.fromJson(Map<String, dynamic> json) =>
       _$BrowseArticles$QueryFromJson(json);
 
-  List<BrowseArticles$Query$Articles> articles;
+  List<BrowseArticles$Query$Articles>? articles;
 
   @override
-  List<Object> get props => [articles];
+  List<Object?> get props => [articles];
   Map<String, dynamic> toJson() => _$BrowseArticles$QueryToJson(this);
 }
 
@@ -395,7 +392,7 @@ class BrowseArticlesQuery
   final String operationName = 'BrowseArticles';
 
   @override
-  List<Object> get props => [document, operationName];
+  List<Object?> get props => [document, operationName];
   @override
   BrowseArticles$Query parse(Map<String, dynamic> json) =>
       BrowseArticles$Query.fromJson(json);
@@ -403,6 +400,7 @@ class BrowseArticlesQuery
 ''';
 
 const generatedFileB = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -419,18 +417,18 @@ class BrowseRepositories$Query$Repositories extends JsonSerializable
           Map<String, dynamic> json) =>
       _$BrowseRepositories$Query$RepositoriesFromJson(json);
 
-  String id;
+  late String id;
 
-  String title;
+  late String title;
 
   @JsonKey(unknownEnumValue: Privacy.artemisUnknown)
-  Privacy privacy;
+  late Privacy privacy;
 
   @JsonKey(unknownEnumValue: Status.artemisUnknown)
-  Status status;
+  late Status status;
 
   @override
-  List<Object> get props => [id, title, privacy, status];
+  List<Object?> get props => [id, title, privacy, status];
   Map<String, dynamic> toJson() =>
       _$BrowseRepositories$Query$RepositoriesToJson(this);
 }
@@ -442,10 +440,10 @@ class BrowseRepositories$Query extends JsonSerializable with EquatableMixin {
   factory BrowseRepositories$Query.fromJson(Map<String, dynamic> json) =>
       _$BrowseRepositories$QueryFromJson(json);
 
-  List<BrowseRepositories$Query$Repositories> repositories;
+  List<BrowseRepositories$Query$Repositories>? repositories;
 
   @override
-  List<Object> get props => [repositories];
+  List<Object?> get props => [repositories];
   Map<String, dynamic> toJson() => _$BrowseRepositories$QueryToJson(this);
 }
 
@@ -457,12 +455,12 @@ class NotificationOptionInput extends JsonSerializable with EquatableMixin {
       _$NotificationOptionInputFromJson(json);
 
   @JsonKey(unknownEnumValue: NotificationType.artemisUnknown)
-  NotificationType type;
+  NotificationType? type;
 
-  bool enabled;
+  bool? enabled;
 
   @override
-  List<Object> get props => [type, enabled];
+  List<Object?> get props => [type, enabled];
   Map<String, dynamic> toJson() => _$NotificationOptionInputToJson(this);
 }
 
@@ -503,17 +501,17 @@ class BrowseRepositoriesArguments extends JsonSerializable with EquatableMixin {
   factory BrowseRepositoriesArguments.fromJson(Map<String, dynamic> json) =>
       _$BrowseRepositoriesArgumentsFromJson(json);
 
-  final List<NotificationOptionInput> notificationTypes;
+  final List<NotificationOptionInput?>? notificationTypes;
 
   @override
-  List<Object> get props => [notificationTypes];
+  List<Object?> get props => [notificationTypes];
   @override
   Map<String, dynamic> toJson() => _$BrowseRepositoriesArgumentsToJson(this);
 }
 
 class BrowseRepositoriesQuery extends GraphQLQuery<BrowseRepositories$Query,
     BrowseRepositoriesArguments> {
-  BrowseRepositoriesQuery({this.variables});
+  BrowseRepositoriesQuery({required this.variables});
 
   @override
   final DocumentNode document = DocumentNode(definitions: [
@@ -580,7 +578,7 @@ class BrowseRepositoriesQuery extends GraphQLQuery<BrowseRepositories$Query,
   final BrowseRepositoriesArguments variables;
 
   @override
-  List<Object> get props => [document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
   @override
   BrowseRepositories$Query parse(Map<String, dynamic> json) =>
       BrowseRepositories$Query.fromJson(json);

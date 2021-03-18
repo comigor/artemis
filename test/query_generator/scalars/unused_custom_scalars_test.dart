@@ -51,11 +51,10 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'a'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false)
       ],
       generateHelpers: false,
@@ -63,6 +62,7 @@ final LibraryDefinition libraryDefinition =
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -76,10 +76,10 @@ class Query$SomeObject extends JsonSerializable with EquatableMixin {
   factory Query$SomeObject.fromJson(Map<String, dynamic> json) =>
       _$Query$SomeObjectFromJson(json);
 
-  String a;
+  String? a;
 
   @override
-  List<Object> get props => [a];
+  List<Object?> get props => [a];
   Map<String, dynamic> toJson() => _$Query$SomeObjectToJson(this);
 }
 ''';

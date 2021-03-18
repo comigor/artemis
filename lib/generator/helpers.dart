@@ -1,6 +1,5 @@
 // @dart = 2.8
 
-import 'package:artemis/generator/data/data.dart';
 import 'package:artemis/generator/ephemeral_data.dart';
 import 'package:build/build.dart';
 import 'package:gql/ast.dart';
@@ -131,26 +130,6 @@ extension ExtensionsOnIterable<T, U> on Iterable<T> {
   /// modifying the original iterable.
   Iterable<T> removeDuplicatedBy(_IterableFunction<T, U> fn) =>
       _removeDuplicatedBy(this, fn);
-}
-
-/// Checks if the passed queries contain either:
-/// - A [ClassDefinition] that's an input object with at least one non nullable
-///     property.
-/// - A [QueryInput] which is non nullable.
-bool hasNonNullableInput(Iterable<QueryDefinition> queries) {
-  for (final query in queries) {
-    for (final clazz in query.classes.whereType<ClassDefinition>()) {
-      if (clazz.isInput && clazz.properties.any((p) => p.isNonNull)) {
-        return true;
-      }
-    }
-
-    if (query.inputs.any((i) => i.isNonNull)) {
-      return true;
-    }
-  }
-
-  return false;
 }
 
 /// Check if [obj] has value (isn't null or empty).

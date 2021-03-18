@@ -70,25 +70,23 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r's'),
-                  isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'int'),
                   name: ClassPropertyName(name: r'i'),
-                  isNonNull: false,
                   isResolveType: false)
             ]),
         ClassDefinition(
             name: ClassName(name: r'SomeObject'),
             mixins: [FragmentName(name: r'MyFragmentMixin')],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'SomeObject'),
             mixins: [FragmentName(name: r'MyFragmentMixin')],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'MoreData'),
@@ -96,11 +94,10 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'SomeObject'),
                   name: ClassPropertyName(name: r'someObject'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'SomeQuery$_QueryResponse'),
@@ -108,16 +105,14 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'SomeObject'),
                   name: ClassPropertyName(name: r'someObject'),
-                  isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'MoreData'),
                   name: ClassPropertyName(name: r'moreData'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false)
       ],
       generateHelpers: false,
@@ -125,6 +120,7 @@ final LibraryDefinition libraryDefinition =
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -132,8 +128,8 @@ import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
 
 mixin MyFragmentMixin {
-  String s;
-  int i;
+  String? s;
+  int? i;
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -144,7 +140,7 @@ class SomeObject extends JsonSerializable with EquatableMixin, MyFragmentMixin {
       _$SomeObjectFromJson(json);
 
   @override
-  List<Object> get props => [s, i];
+  List<Object?> get props => [s, i];
   Map<String, dynamic> toJson() => _$SomeObjectToJson(this);
 }
 
@@ -155,10 +151,10 @@ class MoreData extends JsonSerializable with EquatableMixin {
   factory MoreData.fromJson(Map<String, dynamic> json) =>
       _$MoreDataFromJson(json);
 
-  SomeObject someObject;
+  SomeObject? someObject;
 
   @override
-  List<Object> get props => [someObject];
+  List<Object?> get props => [someObject];
   Map<String, dynamic> toJson() => _$MoreDataToJson(this);
 }
 
@@ -169,12 +165,12 @@ class SomeQuery$QueryResponse extends JsonSerializable with EquatableMixin {
   factory SomeQuery$QueryResponse.fromJson(Map<String, dynamic> json) =>
       _$SomeQuery$QueryResponseFromJson(json);
 
-  SomeObject someObject;
+  SomeObject? someObject;
 
-  MoreData moreData;
+  MoreData? moreData;
 
   @override
-  List<Object> get props => [someObject, moreData];
+  List<Object?> get props => [someObject, moreData];
   Map<String, dynamic> toJson() => _$SomeQuery$QueryResponseToJson(this);
 }
 ''';

@@ -100,23 +100,20 @@ final LibraryDefinition libraryDefinition =
             name: FragmentName(name: r'DstMixin'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: TypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'id'),
-                  isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: TypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'name'),
-                  isNonNull: true,
                   isResolveType: false)
             ]),
         FragmentClassDefinition(
             name: FragmentName(name: r'DepartureMixin'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: TypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'id'),
-                  isNonNull: true,
                   isResolveType: false)
             ]),
         ClassDefinition(
@@ -124,106 +121,100 @@ final LibraryDefinition libraryDefinition =
                 name: r'VoyagesData$_Query$_VoyageList$_VoyageDetails$_Voyage'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'DateTime'),
+                  type: TypeName(name: r'DateTime', isNonNull: true),
                   name: ClassPropertyName(name: r'dateFrom'),
-                  isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'DateTime'),
                   name: ClassPropertyName(name: r'dateTo'),
-                  isNonNull: false,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'id'),
-                  isNonNull: false,
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: TypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'voyageNumber'),
-                  isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(
                 name: r'VoyagesData$_Query$_VoyageList$_VoyageDetails'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'int'),
+                  type: TypeName(name: r'int', isNonNull: true),
                   name: ClassPropertyName(name: r'numberOfReports'),
-                  isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(
                       name:
-                          r'VoyagesData$_Query$_VoyageList$_VoyageDetails$_Voyage'),
+                          r'VoyagesData$_Query$_VoyageList$_VoyageDetails$_Voyage',
+                      isNonNull: true),
                   name: ClassPropertyName(name: r'voyage'),
-                  isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'VoyagesData$_Query$_VoyageList'),
             properties: [
               ClassProperty(
-                  type: TypeName(
-                      name:
-                          r'List<VoyagesData$Query$VoyageList$VoyageDetails>'),
+                  type: ListOfTypeName(
+                      typeName: TypeName(
+                          name:
+                              r'VoyagesData$_Query$_VoyageList$_VoyageDetails',
+                          isNonNull: true),
+                      isNonNull: true),
                   name: ClassPropertyName(name: r'voyages'),
-                  isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'VoyagesData$_Query'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'VoyagesData$_Query$_VoyageList'),
+                  type: TypeName(
+                      name: r'VoyagesData$_Query$_VoyageList', isNonNull: true),
                   name: ClassPropertyName(name: r'voyages'),
-                  isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'PaginationInput'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'int'),
+                  type: TypeName(name: r'int', isNonNull: true),
                   name: ClassPropertyName(name: r'limit'),
-                  isNonNull: true,
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'int'),
+                  type: TypeName(name: r'int', isNonNull: true),
                   name: ClassPropertyName(name: r'offset'),
-                  isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: true)
       ],
       inputs: [
         QueryInput(
-            type: TypeName(name: r'PaginationInput'),
-            name: QueryInputName(name: r'input'),
-            isNonNull: true)
+            type: TypeName(name: r'PaginationInput', isNonNull: true),
+            name: QueryInputName(name: r'input'))
       ],
       generateHelpers: true,
       suffix: r'Query')
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
-import 'package:meta/meta.dart';
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -231,11 +222,11 @@ import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
 
 mixin DstMixin {
-  String id;
-  String name;
+  late String id;
+  late String name;
 }
 mixin DepartureMixin {
-  String id;
+  late String id;
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -247,16 +238,16 @@ class VoyagesData$Query$VoyageList$VoyageDetails$Voyage extends JsonSerializable
           Map<String, dynamic> json) =>
       _$VoyagesData$Query$VoyageList$VoyageDetails$VoyageFromJson(json);
 
-  DateTime dateFrom;
+  late DateTime dateFrom;
 
-  DateTime dateTo;
+  DateTime? dateTo;
 
-  String id;
+  String? id;
 
-  String voyageNumber;
+  late String voyageNumber;
 
   @override
-  List<Object> get props => [dateFrom, dateTo, id, voyageNumber];
+  List<Object?> get props => [dateFrom, dateTo, id, voyageNumber];
   Map<String, dynamic> toJson() =>
       _$VoyagesData$Query$VoyageList$VoyageDetails$VoyageToJson(this);
 }
@@ -270,12 +261,12 @@ class VoyagesData$Query$VoyageList$VoyageDetails extends JsonSerializable
           Map<String, dynamic> json) =>
       _$VoyagesData$Query$VoyageList$VoyageDetailsFromJson(json);
 
-  int numberOfReports;
+  late int numberOfReports;
 
-  VoyagesData$Query$VoyageList$VoyageDetails$Voyage voyage;
+  late VoyagesData$Query$VoyageList$VoyageDetails$Voyage voyage;
 
   @override
-  List<Object> get props => [numberOfReports, voyage];
+  List<Object?> get props => [numberOfReports, voyage];
   Map<String, dynamic> toJson() =>
       _$VoyagesData$Query$VoyageList$VoyageDetailsToJson(this);
 }
@@ -288,10 +279,10 @@ class VoyagesData$Query$VoyageList extends JsonSerializable
   factory VoyagesData$Query$VoyageList.fromJson(Map<String, dynamic> json) =>
       _$VoyagesData$Query$VoyageListFromJson(json);
 
-  List<VoyagesData$Query$VoyageList$VoyageDetails> voyages;
+  late List<VoyagesData$Query$VoyageList$VoyageDetails> voyages;
 
   @override
-  List<Object> get props => [voyages];
+  List<Object?> get props => [voyages];
   Map<String, dynamic> toJson() => _$VoyagesData$Query$VoyageListToJson(this);
 }
 
@@ -302,48 +293,48 @@ class VoyagesData$Query extends JsonSerializable with EquatableMixin {
   factory VoyagesData$Query.fromJson(Map<String, dynamic> json) =>
       _$VoyagesData$QueryFromJson(json);
 
-  VoyagesData$Query$VoyageList voyages;
+  late VoyagesData$Query$VoyageList voyages;
 
   @override
-  List<Object> get props => [voyages];
+  List<Object?> get props => [voyages];
   Map<String, dynamic> toJson() => _$VoyagesData$QueryToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
 class PaginationInput extends JsonSerializable with EquatableMixin {
-  PaginationInput({@required this.limit, @required this.offset});
+  PaginationInput({required this.limit, required this.offset});
 
   factory PaginationInput.fromJson(Map<String, dynamic> json) =>
       _$PaginationInputFromJson(json);
 
-  int limit;
+  late int limit;
 
-  int offset;
+  late int offset;
 
   @override
-  List<Object> get props => [limit, offset];
+  List<Object?> get props => [limit, offset];
   Map<String, dynamic> toJson() => _$PaginationInputToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
 class VoyagesDataArguments extends JsonSerializable with EquatableMixin {
-  VoyagesDataArguments({@required this.input});
+  VoyagesDataArguments({required this.input});
 
   @override
   factory VoyagesDataArguments.fromJson(Map<String, dynamic> json) =>
       _$VoyagesDataArgumentsFromJson(json);
 
-  final PaginationInput input;
+  late PaginationInput input;
 
   @override
-  List<Object> get props => [input];
+  List<Object?> get props => [input];
   @override
   Map<String, dynamic> toJson() => _$VoyagesDataArgumentsToJson(this);
 }
 
 class VoyagesDataQuery
     extends GraphQLQuery<VoyagesData$Query, VoyagesDataArguments> {
-  VoyagesDataQuery({this.variables});
+  VoyagesDataQuery({required this.variables});
 
   @override
   final DocumentNode document = DocumentNode(definitions: [
@@ -459,7 +450,7 @@ class VoyagesDataQuery
   final VoyagesDataArguments variables;
 
   @override
-  List<Object> get props => [document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
   @override
   VoyagesData$Query parse(Map<String, dynamic> json) =>
       VoyagesData$Query.fromJson(json);

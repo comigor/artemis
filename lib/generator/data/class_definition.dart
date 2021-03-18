@@ -27,7 +27,7 @@ class ClassDefinition extends Definition with DataPrinter {
   final Map<String, Name> factoryPossibilities;
 
   /// The field name used to resolve this class type.
-  final TypeName typeNameField;
+  final ClassPropertyName typeNameField;
 
   /// Whether this is an input object or not.
   final bool isInput;
@@ -40,10 +40,10 @@ class ClassDefinition extends Definition with DataPrinter {
     this.implementations = const [],
     this.mixins = const [],
     this.factoryPossibilities = const {},
-    TypeName typeNameField,
+    ClassPropertyName typeNameField,
     this.isInput = false,
   })  : assert(hasValue(name)),
-        typeNameField = typeNameField ?? TypeName(name: '__typename'),
+        typeNameField = typeNameField ?? ClassPropertyName(name: '__typename'),
         super(name: name);
 
   @override
@@ -66,7 +66,7 @@ class ClassName extends Name with DataPrinter {
 
   /// Generate class name from hierarchical path
   factory ClassName.fromPath({List<Name> path}) {
-    return ClassName(name: path.map((e) => e.namePrintable).join(r'$_'));
+    return ClassName(name: path.map((e) => e.dartTypeSafe).join(r'$_'));
   }
 
   @override

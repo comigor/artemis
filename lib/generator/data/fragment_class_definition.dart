@@ -36,7 +36,7 @@ class FragmentName extends Name with DataPrinter {
 
   /// Generate class name from hierarchical path
   factory FragmentName.fromPath({List<Name> path}) {
-    return FragmentName(name: path.map((e) => e.namePrintable).join(r'$_'));
+    return FragmentName(name: path.map((e) => e.dartTypeSafe).join(r'$_'));
   }
 
   @override

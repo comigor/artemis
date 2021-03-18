@@ -69,11 +69,10 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r's'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'Custom$_Mutation'),
@@ -81,30 +80,27 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'Custom$_Mutation$_mut'),
                   name: ClassPropertyName(name: r'mut'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'Input'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: TypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r's'),
-                  isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: true)
       ],
       inputs: [
         QueryInput(
-            type: TypeName(name: r'Input'),
-            name: QueryInputName(name: r'input'),
-            isNonNull: true)
+            type: TypeName(name: r'Input', isNonNull: true),
+            name: QueryInputName(name: r'input'))
       ],
       generateHelpers: true,
       suffix: r'Mutation'),
@@ -118,11 +114,10 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r's'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'CustomList$_Mutation'),
@@ -130,38 +125,37 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'CustomList$_Mutation$_mutList'),
                   name: ClassPropertyName(name: r'mutList'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'Input'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: TypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r's'),
-                  isNonNull: true,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: true)
       ],
       inputs: [
         QueryInput(
-            type: TypeName(name: r'List<Input>'),
-            name: QueryInputName(name: r'input'),
-            isNonNull: true)
+            type: ListOfTypeName(
+                typeName: TypeName(name: r'Input', isNonNull: true),
+                isNonNull: true),
+            name: QueryInputName(name: r'input'))
       ],
       generateHelpers: true,
       suffix: r'Mutation')
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
-import 'package:meta/meta.dart';
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -175,10 +169,10 @@ class Custom$Mutation$Mut extends JsonSerializable with EquatableMixin {
   factory Custom$Mutation$Mut.fromJson(Map<String, dynamic> json) =>
       _$Custom$Mutation$MutFromJson(json);
 
-  String s;
+  String? s;
 
   @override
-  List<Object> get props => [s];
+  List<Object?> get props => [s];
   Map<String, dynamic> toJson() => _$Custom$Mutation$MutToJson(this);
 }
 
@@ -189,23 +183,23 @@ class Custom$Mutation extends JsonSerializable with EquatableMixin {
   factory Custom$Mutation.fromJson(Map<String, dynamic> json) =>
       _$Custom$MutationFromJson(json);
 
-  Custom$Mutation$Mut mut;
+  Custom$Mutation$Mut? mut;
 
   @override
-  List<Object> get props => [mut];
+  List<Object?> get props => [mut];
   Map<String, dynamic> toJson() => _$Custom$MutationToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
 class Input extends JsonSerializable with EquatableMixin {
-  Input({@required this.s});
+  Input({required this.s});
 
   factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
 
-  String s;
+  late String s;
 
   @override
-  List<Object> get props => [s];
+  List<Object?> get props => [s];
   Map<String, dynamic> toJson() => _$InputToJson(this);
 }
 
@@ -216,10 +210,10 @@ class CustomList$Mutation$MutList extends JsonSerializable with EquatableMixin {
   factory CustomList$Mutation$MutList.fromJson(Map<String, dynamic> json) =>
       _$CustomList$Mutation$MutListFromJson(json);
 
-  String s;
+  String? s;
 
   @override
-  List<Object> get props => [s];
+  List<Object?> get props => [s];
   Map<String, dynamic> toJson() => _$CustomList$Mutation$MutListToJson(this);
 }
 
@@ -230,31 +224,31 @@ class CustomList$Mutation extends JsonSerializable with EquatableMixin {
   factory CustomList$Mutation.fromJson(Map<String, dynamic> json) =>
       _$CustomList$MutationFromJson(json);
 
-  CustomList$Mutation$MutList mutList;
+  CustomList$Mutation$MutList? mutList;
 
   @override
-  List<Object> get props => [mutList];
+  List<Object?> get props => [mutList];
   Map<String, dynamic> toJson() => _$CustomList$MutationToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
 class CustomArguments extends JsonSerializable with EquatableMixin {
-  CustomArguments({@required this.input});
+  CustomArguments({required this.input});
 
   @override
   factory CustomArguments.fromJson(Map<String, dynamic> json) =>
       _$CustomArgumentsFromJson(json);
 
-  final Input input;
+  late Input input;
 
   @override
-  List<Object> get props => [input];
+  List<Object?> get props => [input];
   @override
   Map<String, dynamic> toJson() => _$CustomArgumentsToJson(this);
 }
 
 class CustomMutation extends GraphQLQuery<Custom$Mutation, CustomArguments> {
-  CustomMutation({this.variables});
+  CustomMutation({required this.variables});
 
   @override
   final DocumentNode document = DocumentNode(definitions: [
@@ -298,7 +292,7 @@ class CustomMutation extends GraphQLQuery<Custom$Mutation, CustomArguments> {
   final CustomArguments variables;
 
   @override
-  List<Object> get props => [document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
   @override
   Custom$Mutation parse(Map<String, dynamic> json) =>
       Custom$Mutation.fromJson(json);
@@ -306,23 +300,23 @@ class CustomMutation extends GraphQLQuery<Custom$Mutation, CustomArguments> {
 
 @JsonSerializable(explicitToJson: true)
 class CustomListArguments extends JsonSerializable with EquatableMixin {
-  CustomListArguments({@required this.input});
+  CustomListArguments({required this.input});
 
   @override
   factory CustomListArguments.fromJson(Map<String, dynamic> json) =>
       _$CustomListArgumentsFromJson(json);
 
-  final List<Input> input;
+  late List<Input> input;
 
   @override
-  List<Object> get props => [input];
+  List<Object?> get props => [input];
   @override
   Map<String, dynamic> toJson() => _$CustomListArgumentsToJson(this);
 }
 
 class CustomListMutation
     extends GraphQLQuery<CustomList$Mutation, CustomListArguments> {
-  CustomListMutation({this.variables});
+  CustomListMutation({required this.variables});
 
   @override
   final DocumentNode document = DocumentNode(definitions: [
@@ -368,7 +362,7 @@ class CustomListMutation
   final CustomListArguments variables;
 
   @override
-  List<Object> get props => [document, operationName, variables];
+  List<Object?> get props => [document, operationName, variables];
   @override
   CustomList$Mutation parse(Map<String, dynamic> json) =>
       CustomList$Mutation.fromJson(json);

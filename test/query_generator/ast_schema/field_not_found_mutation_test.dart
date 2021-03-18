@@ -63,18 +63,16 @@ final LibraryDefinition libraryDefinition =
                 name: r'CreateThing$_MutationRoot$_CreateThingResponse$_Thing'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: TypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'id'),
-                  isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'message'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(
@@ -85,11 +83,10 @@ final LibraryDefinition libraryDefinition =
                       name:
                           r'CreateThing$_MutationRoot$_CreateThingResponse$_Thing'),
                   name: ClassPropertyName(name: r'thing'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'CreateThing$_MutationRoot'),
@@ -98,43 +95,39 @@ final LibraryDefinition libraryDefinition =
                   type: TypeName(
                       name: r'CreateThing$_MutationRoot$_CreateThingResponse'),
                   name: ClassPropertyName(name: r'createThing'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
             name: ClassName(name: r'CreateThingInput'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: TypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'clientId'),
-                  isNonNull: true,
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'message'),
-                  isNonNull: false,
                   isResolveType: false)
             ],
             factoryPossibilities: {},
-            typeNameField: TypeName(name: r'__typename'),
+            typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: true)
       ],
       inputs: [
         QueryInput(
             type: TypeName(name: r'CreateThingInput'),
-            name: QueryInputName(name: r'createThingInput'),
-            isNonNull: false)
+            name: QueryInputName(name: r'createThingInput'))
       ],
       generateHelpers: false,
       suffix: r'Mutation')
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
-import 'package:meta/meta.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
@@ -149,12 +142,12 @@ class CreateThing$MutationRoot$CreateThingResponse$Thing
           Map<String, dynamic> json) =>
       _$CreateThing$MutationRoot$CreateThingResponse$ThingFromJson(json);
 
-  String id;
+  late String id;
 
-  String message;
+  String? message;
 
   @override
-  List<Object> get props => [id, message];
+  List<Object?> get props => [id, message];
   Map<String, dynamic> toJson() =>
       _$CreateThing$MutationRoot$CreateThingResponse$ThingToJson(this);
 }
@@ -168,10 +161,10 @@ class CreateThing$MutationRoot$CreateThingResponse extends JsonSerializable
           Map<String, dynamic> json) =>
       _$CreateThing$MutationRoot$CreateThingResponseFromJson(json);
 
-  CreateThing$MutationRoot$CreateThingResponse$Thing thing;
+  CreateThing$MutationRoot$CreateThingResponse$Thing? thing;
 
   @override
-  List<Object> get props => [thing];
+  List<Object?> get props => [thing];
   Map<String, dynamic> toJson() =>
       _$CreateThing$MutationRoot$CreateThingResponseToJson(this);
 }
@@ -183,26 +176,26 @@ class CreateThing$MutationRoot extends JsonSerializable with EquatableMixin {
   factory CreateThing$MutationRoot.fromJson(Map<String, dynamic> json) =>
       _$CreateThing$MutationRootFromJson(json);
 
-  CreateThing$MutationRoot$CreateThingResponse createThing;
+  CreateThing$MutationRoot$CreateThingResponse? createThing;
 
   @override
-  List<Object> get props => [createThing];
+  List<Object?> get props => [createThing];
   Map<String, dynamic> toJson() => _$CreateThing$MutationRootToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
 class CreateThingInput extends JsonSerializable with EquatableMixin {
-  CreateThingInput({@required this.clientId, this.message});
+  CreateThingInput({required this.clientId, this.message});
 
   factory CreateThingInput.fromJson(Map<String, dynamic> json) =>
       _$CreateThingInputFromJson(json);
 
-  String clientId;
+  late String clientId;
 
-  String message;
+  String? message;
 
   @override
-  List<Object> get props => [clientId, message];
+  List<Object?> get props => [clientId, message];
   Map<String, dynamic> toJson() => _$CreateThingInputToJson(this);
 }
 ''';
