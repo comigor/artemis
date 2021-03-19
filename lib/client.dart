@@ -25,10 +25,12 @@ class ArtemisClient {
   /// To use different [Link] create an [ArtemisClient] with [ArtemisClient.fromLink].
   factory ArtemisClient(
     String graphQLEndpoint, {
+    Map<String, String> defaultHeaders,
     http.Client httpClient,
   }) {
     final httpLink = HttpLink(
       graphQLEndpoint,
+      defaultHeaders: defaultHeaders,
       httpClient: httpClient,
     );
     return ArtemisClient.fromLink(
