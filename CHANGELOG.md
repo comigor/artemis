@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 7.0.0-beta.2
+- Add context property to `GraphQLResponse`, propagated from `Response.context`. 
+
 ## 7.0.0-beta.1
 **MAJOR BREAKING CHANGE**
 
