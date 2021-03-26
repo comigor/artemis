@@ -13,6 +13,9 @@ class GraphQLResponse<T> {
   /// The list of errors in this response.
   final List<GraphQLError> errors;
 
+  /// Additional context for this response.
+  final Context context;
+
   /// If this response has any error.
   bool get hasErrors => errors != null && errors.isNotEmpty;
 
@@ -20,5 +23,6 @@ class GraphQLResponse<T> {
   const GraphQLResponse({
     this.data,
     this.errors,
+    this.context,
   });
 }

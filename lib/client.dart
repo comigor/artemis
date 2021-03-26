@@ -59,6 +59,7 @@ class ArtemisClient {
     return GraphQLResponse<T>(
       data: response.data == null ? null : query.parse(response.data),
       errors: response.errors,
+      context: response.context,
     );
   }
 
@@ -77,6 +78,7 @@ class ArtemisClient {
     return _link.request(request).map((response) => GraphQLResponse<T>(
           data: response.data == null ? null : query.parse(response.data),
           errors: response.errors,
+          context: response.context,
         ));
   }
 
