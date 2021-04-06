@@ -18,11 +18,11 @@ List<Name> createPathName(List<Name> path, NamingScheme? namingScheme,
           : [className];
       break;
     case NamingScheme.pathedWithFields:
-      fullPath = [...path, if (fieldName != null) fieldName];
+      fullPath = [...path, fieldName];
       break;
     case NamingScheme.pathedWithTypes:
     default:
-      fullPath = [...path, if (className != null) className];
+    fullPath = [...path, className];
       break;
   }
 

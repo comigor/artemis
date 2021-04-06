@@ -96,9 +96,10 @@ class AppendTypename extends TransformingVisitor {
       span: node.span,
       selectionSet: SelectionSetNode(
         selections: <SelectionNode>[
-          ...node.selectionSet!.selections.where((element) =>
-              (element is! FieldNode) ||
-              (element is FieldNode && element.name.value != typeName)),
+          ...node.selectionSet?.selections.where((element) =>
+                  (element is! FieldNode) ||
+                  (element is FieldNode && element.name.value != typeName)) ??
+              [],
           FieldNode(name: NameNode(value: typeName)),
         ],
       ),

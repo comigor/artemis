@@ -179,10 +179,10 @@ class GeneratorVisitor extends RecursiveVisitor {
       addUsedInputObjectsAndEnums(leafType);
     } else if (leafType is ScalarTypeDefinitionNode) {
       final scalar =
-          gql.getSingleScalarMap(context.options, leafType.name.value)!;
+          gql.getSingleScalarMap(context.options, leafType.name.value);
 
-      if (scalar.customParserImport != null &&
-          leafType.name.value == scalar.graphQLType) {
+      if (scalar?.customParserImport != null &&
+          leafType.name.value == scalar?.graphQLType) {
         final graphqlTypeSafeStr = TypeName(
             name: gql
                 .buildTypeName(node.type, context.options,

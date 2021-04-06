@@ -102,7 +102,7 @@ Spec classDefinitionToSpec(
             ..body = Code(_toJsonBody(definition)),
         )
       : Method(
-        (m) => m
+          (m) => m
             ..name = 'toJson'
             ..lambda = true
             ..returns = refer('Map<String, dynamic>')
