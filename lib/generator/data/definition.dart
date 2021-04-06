@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 /// Abstract definition of an entity.
 abstract class Definition extends Equatable with DataPrinter {
   /// The definition name.
-  final Name? name;
+  final Name name;
 
   /// Instantiate a definition.
   Definition({required this.name});

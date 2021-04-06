@@ -3,7 +3,7 @@ import 'package:gql/ast.dart';
 import '../schema/options.dart';
 
 /// Returns the full class name with joined path.
-List<Name?> createPathName(List<Name?> path, NamingScheme? namingScheme,
+List<Name> createPathName(List<Name> path, NamingScheme? namingScheme,
     [Name? currentClassName, Name? currentFieldName, Name? alias]) {
   final fieldName = alias ?? currentFieldName;
   final className = alias ?? currentClassName;
@@ -26,7 +26,7 @@ List<Name?> createPathName(List<Name?> path, NamingScheme? namingScheme,
       break;
   }
 
-  return fullPath;
+  return fullPath.whereType<Name>().toList();
 }
 
 /// Holds context between [_GeneratorVisitor] iterations.
@@ -61,7 +61,7 @@ class Context {
   final SchemaMap schemaMap;
 
   /// The path of data we're currently processing.
-  final List<Name?> path;
+  final List<Name> path;
 
   /// The [TypeDefinitionNode] we're currently processing.
   final TypeDefinitionNode? currentType;
@@ -105,7 +105,7 @@ class Context {
           : withClassNames;
 
   /// Returns the full class name
-  List<Name?> fullPathName() => createPathName(
+  List<Name> fullPathName() => createPathName(
       path, schemaMap.namingScheme, currentClassName, currentFieldName, alias);
 
   /// Returns a copy of this context, on the same path, but with a new type.
@@ -152,12 +152,14 @@ class Context {
       schema: schema,
       options: options,
       schemaMap: schemaMap,
-      path: path.followedBy([
-        _stringForNaming(
-          alias ?? nextFieldName,
-          alias ?? nextClassName,
-        )
-      ]).toList(),
+      path: path
+          .followedBy([
+            _stringForNaming(
+              alias ?? nextFieldName,
+              alias ?? nextClassName,
+            )
+          ].whereType<Name>())
+          .toList(),
       currentType: nextType,
       currentFieldName: nextFieldName,
       currentClassName: nextClassName,
@@ -211,12 +213,14 @@ class Context {
       schema: schema,
       options: options,
       schemaMap: schemaMap,
-      path: path.followedBy([
-        _stringForNaming(
-          alias ?? nextFieldName,
-          alias ?? nextClassName,
-        ),
-      ]).toList(),
+      path: path
+          .followedBy([
+            _stringForNaming(
+              alias ?? nextFieldName,
+              alias ?? nextClassName,
+            ),
+          ].whereType<Name>())
+          .toList(),
       currentType: currentType,
       currentFieldName: nextFieldName ?? currentFieldName,
       currentClassName: nextClassName ?? currentClassName,

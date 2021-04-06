@@ -6,7 +6,7 @@ import 'package:artemis/generator/helpers.dart';
 /// Define a query/mutation input parameter.
 class QueryInput extends Definition with DataPrinter {
   @override
-  final QueryInputName? name;
+  final QueryInputName name;
 
   /// The input type.
   final TypeName type;
@@ -18,8 +18,8 @@ class QueryInput extends Definition with DataPrinter {
   QueryInput({
     required this.type,
     this.annotations = const [],
-    this.name,
-  })  : assert(hasValue(type) && hasValue(name)),
+    required this.name,
+  })   : assert(hasValue(type) && hasValue(name)),
         super(name: name);
 
   @override

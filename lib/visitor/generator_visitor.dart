@@ -41,7 +41,8 @@ class GeneratorVisitor extends RecursiveVisitor {
       // Filter by requested types
       final keys = node.selections
           .whereType<InlineFragmentNode>()
-          .map((n) => n.typeCondition!.on.name.value);
+          .map((n) => n.typeCondition?.on.name.value)
+          .whereType<String>();
 
       final values = keys.map((t) => ClassName.fromPath(
           path:
@@ -260,7 +261,7 @@ class GeneratorVisitor extends RecursiveVisitor {
       schema: context.schema,
       options: context.options,
       schemaMap: context.schemaMap,
-      path: [nextContext.alias],
+      path: [nextContext.alias].whereType<Name>().toList(),
       currentType: nextType,
       currentFieldName: null,
       currentClassName: null,
