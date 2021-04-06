@@ -1,10 +1,7 @@
-// @dart = 2.8
-
 import 'package:artemis/generator/data/query_definition.dart';
 import 'package:artemis/generator/data_printer.dart';
 import 'package:artemis/generator/helpers.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 
 /// Callback fired when the generator processes a [LibraryDefinition].
 typedef OnBuildQuery = void Function(LibraryDefinition definition);
@@ -23,7 +20,7 @@ class LibraryDefinition extends Equatable with DataPrinter {
 
   /// Instantiate a library definition.
   LibraryDefinition({
-    @required this.basename,
+    required this.basename,
     this.queries = const [],
     this.customImports = const [],
   }) : assert(hasValue(basename));

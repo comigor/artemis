@@ -1,19 +1,16 @@
-// @dart = 2.8
-
 import 'package:artemis/generator.dart';
 import 'package:artemis/generator/data/data.dart';
 import 'package:artemis/generator/data/enum_value_definition.dart';
 import 'package:artemis/generator/ephemeral_data.dart';
 import 'package:artemis/generator/helpers.dart';
 import 'package:artemis/generator/graphql_helpers.dart' as gql;
-import 'package:meta/meta.dart';
 import 'package:gql/ast.dart';
 
 /// Visits canonical types Enums and InputObjects
 class CanonicalVisitor extends RecursiveVisitor {
   /// Constructor
   CanonicalVisitor({
-    @required this.context,
+    required this.context,
   });
 
   /// Current context

@@ -14,9 +14,9 @@ class AppendTypename extends TransformingVisitor {
   @override
   OperationDefinitionNode visitOperationDefinitionNode(
       OperationDefinitionNode node) {
-    if (node.selectionSet == null) {
-      return node;
-    }
+    // if (node.selectionSet == null) {
+    //   return node;
+    // }
 
     return OperationDefinitionNode(
       type: node.type,
@@ -39,7 +39,7 @@ class AppendTypename extends TransformingVisitor {
   @override
   FragmentDefinitionNode visitFragmentDefinitionNode(
       FragmentDefinitionNode node) {
-    if (node.selectionSet == null) {
+    if (node.selectionSet.selections.isEmpty) {
       return node;
     }
 
@@ -62,7 +62,7 @@ class AppendTypename extends TransformingVisitor {
   /// appends type name to OperationDefinitionNode
   @override
   InlineFragmentNode visitInlineFragmentNode(InlineFragmentNode node) {
-    if (node.selectionSet == null) {
+    if (node.selectionSet.selections.isEmpty) {
       return node;
     }
 
@@ -96,7 +96,7 @@ class AppendTypename extends TransformingVisitor {
       span: node.span,
       selectionSet: SelectionSetNode(
         selections: <SelectionNode>[
-          ...node.selectionSet.selections.where((element) =>
+          ...node.selectionSet!.selections.where((element) =>
               (element is! FieldNode) ||
               (element is FieldNode && element.name.value != typeName)),
           FieldNode(name: NameNode(value: typeName)),

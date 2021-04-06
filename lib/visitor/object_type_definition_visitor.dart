@@ -1,5 +1,3 @@
-// @dart = 2.8
-
 import 'package:gql/ast.dart';
 
 /// Visits all object definition nodes recursively
@@ -16,7 +14,7 @@ class ObjectTypeDefinitionVisitor extends RecursiveVisitor {
   }
 
   /// Gets object type definition node by operation name
-  ObjectTypeDefinitionNode getByName(String name) {
+  ObjectTypeDefinitionNode? getByName(String name) {
     final type = types.where((type) => type.name.value == name);
 
     if (type.isNotEmpty) {
