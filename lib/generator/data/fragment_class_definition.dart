@@ -42,8 +42,8 @@ class FragmentName extends Name with DataPrinter {
       };
 
   @override
-  String? normalize(String? name) {
-    final normalizedName = ReCase(super.normalize(name)!).pascalCase;
+  String normalize(String name) {
+    final normalizedName = ReCase(super.normalize(name)).pascalCase;
     if (normalizedName.endsWith('Mixin')) {
       return name;
     }

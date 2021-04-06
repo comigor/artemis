@@ -32,8 +32,8 @@ class EnumName extends Name with DataPrinter {
   EnumName({required String name}) : super(name: name);
 
   @override
-  String normalize(String? name) {
-    return ReCase(super.normalize(name)!).pascalCase;
+  String normalize(String name) {
+    return ReCase(super.normalize(name)).pascalCase;
   }
 
   @override

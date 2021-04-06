@@ -20,11 +20,11 @@ abstract class Name extends Equatable with DataPrinter {
   const Name({required this.name}); // : assert(hasValue(name));
 
   /// Name suitable for code printing
-  String? get namePrintable => normalize(name);
+  String get namePrintable => normalize(name);
 
   /// type name safe to use for dart
-  String get dartTypeSafe => namePrintable!.replaceAll(RegExp(r'[<>?]'), '');
+  String get dartTypeSafe => namePrintable.replaceAll(RegExp(r'[<>?]'), '');
 
   /// Name normalization function
-  String? normalize(String? name) => normalizeName(name);
+  String normalize(String name) => normalizeName(name);
 }

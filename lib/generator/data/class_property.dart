@@ -58,10 +58,10 @@ class ClassPropertyName extends Name with DataPrinter {
   const ClassPropertyName({required String name}) : super(name: name);
 
   @override
-  String normalize(String? name) {
-    final normalized = super.normalize(name)!;
+  String normalize(String name) {
+    final normalized = super.normalize(name);
     final suffix = RegExp(r'.*(_+)$').firstMatch(normalized)?.group(1) ?? '';
-    return ReCase(super.normalize(name)!).camelCase + suffix;
+    return ReCase(super.normalize(name)).camelCase + suffix;
   }
 
   @override
@@ -93,13 +93,13 @@ class TypeName extends Name with DataPrinter {
   List get props => [name, isNonNull];
 
   @override
-  String normalize(String? name) {
+  String normalize(String name) {
     final normalized = super.normalize(name);
     if (_camelCaseTypes.contains(normalized)) {
       return '$normalized${isNonNull ? '' : '?'}';
     }
 
-    return '${ReCase(normalized!).pascalCase}${isNonNull ? '' : '?'}';
+    return '${ReCase(normalized).pascalCase}${isNonNull ? '' : '?'}';
   }
 }
 

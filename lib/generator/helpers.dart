@@ -84,10 +84,10 @@ Iterable<T> _removeDuplicatedBy<T, U>(
 /// _variable => $variable
 /// __typename => $$typename
 /// new -> kw$new
-String? normalizeName(String? name) {
-  if (name == null) {
-    return name;
-  }
+String normalizeName(String name) {
+  // if (name == null) {
+  //   return name;
+  // }
 
   final regExp = RegExp(r'^(_+)([\w$]*)$');
   var matches = regExp.allMatches(name);

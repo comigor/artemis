@@ -70,7 +70,7 @@ class QueryName extends Name with DataPrinter {
       };
 
   @override
-  String normalize(String? name) {
-    return ReCase(super.normalize(name)!).pascalCase;
+  String normalize(String name) {
+    return ReCase(super.normalize(name)).pascalCase;
   }
 }

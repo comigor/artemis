@@ -82,7 +82,7 @@ Spec classDefinitionToSpec(
             ..body = Code(_fromJsonBody(definition)),
         )
       : Constructor(
-        (b) => b
+          (b) => b
             ..factory = true
             ..name = 'fromJson'
             ..lambda = true
@@ -128,12 +128,12 @@ Spec classDefinitionToSpec(
     (b) => b
       ..annotations
           .add(CodeExpression(Code('JsonSerializable(explicitToJson: true)')))
-      ..name = definition.name!.namePrintable!
+      ..name = definition.name!.namePrintable
       ..mixins.add(refer('EquatableMixin'))
-      ..mixins.addAll(definition.mixins.map((i) => refer(i.namePrintable!)))
+      ..mixins.addAll(definition.mixins.map((i) => refer(i.namePrintable)))
       ..methods.add(_propsMethod('[${props.join(',')}]'))
       ..extend = definition.extension != null
-          ? refer(definition.extension!.namePrintable!)
+          ? refer(definition.extension!.namePrintable)
           : refer('JsonSerializable')
       ..implements.addAll(definition.implementations.map((i) => refer(i)))
       ..constructors.add(Constructor((b) {
@@ -145,7 +145,7 @@ Spec classDefinitionToSpec(
                 (property) => Parameter(
                   (p) {
                     p
-                      ..name = property.name.namePrintable!
+                      ..name = property.name.namePrintable
                       ..named = true
                       ..toThis = true
                       ..required = property.type.isNonNull;
@@ -165,7 +165,7 @@ Spec classDefinitionToSpec(
 
         final field = Field((f) {
           f
-            ..name = p.name.namePrintable!
+            ..name = p.name.namePrintable
             // TODO: remove this workaround when code_builder includes late field modifier:
             // https://github.com/dart-lang/code_builder/pull/310
             ..type = refer(
@@ -217,7 +217,7 @@ Spec generateArgumentClassSpec(QueryDefinition definition) {
             (input) => Parameter(
               (p) {
                 p
-                  ..name = input.name!.namePrintable!
+                  ..name = input.name!.namePrintable
                   ..named = true
                   ..toThis = true
                   ..required = input.type.isNonNull;
@@ -250,7 +250,7 @@ Spec generateArgumentClassSpec(QueryDefinition definition) {
         (p) => Field(
           (f) {
             f
-              ..name = p.name!.namePrintable!
+              ..name = p.name!.namePrintable
               // TODO: remove this workaround when code_builder includes late field modifier:
               // https://github.com/dart-lang/code_builder/pull/310
               ..type = refer(
@@ -324,7 +324,7 @@ Spec generateQueryClassSpec(QueryDefinition definition) {
       ..methods.add(Method(
             (m) => m
           ..annotations.add(CodeExpression(Code('override')))
-          ..returns = refer(definition.name!.namePrintable!)
+          ..returns = refer(definition.name!.namePrintable)
           ..name = 'parse'
           ..requiredParameters.add(Parameter(
             (p) => p

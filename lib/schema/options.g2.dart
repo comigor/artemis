@@ -79,8 +79,7 @@ SchemaMap _$SchemaMapFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$SchemaMapToJson(SchemaMap instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$SchemaMapToJson(SchemaMap instance) => <String, dynamic>{
       'output': instance.output,
       'schema': instance.schema,
       'queries_glob': instance.queriesGlob,

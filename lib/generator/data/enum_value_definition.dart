@@ -34,7 +34,7 @@ class EnumValueName extends Name with DataPrinter {
       };
 
   @override
-  String normalize(String? name) {
-    return ReCase(super.normalize(name)!).camelCase;
+  String normalize(String name) {
+    return ReCase(super.normalize(name)).camelCase;
   }
 }
