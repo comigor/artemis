@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 7.0.0-beta.2
+- package nnbd migraion
+
 ## 7.0.0-beta.1
 **MAJOR BREAKING CHANGE**
 

@@ -1,10 +1,7 @@
-// @dart = 2.8
-
 import 'package:artemis/generator/data/class_property.dart';
 import 'package:artemis/generator/data/definition.dart';
 import 'package:artemis/generator/data_printer.dart';
 import 'package:artemis/generator/helpers.dart';
-import 'package:meta/meta.dart';
 
 /// Define a query/mutation input parameter.
 class QueryInput extends Definition with DataPrinter {
@@ -19,14 +16,14 @@ class QueryInput extends Definition with DataPrinter {
 
   /// Instantiate an input parameter.
   QueryInput({
-    @required this.type,
+    required this.type,
     this.annotations = const [],
-    this.name,
-  })  : assert(hasValue(type) && hasValue(name)),
+    required this.name,
+  })   : assert(hasValue(type) && hasValue(name)),
         super(name: name);
 
   @override
-  Map<String, Object> get namedProps => {
+  Map<String, Object?> get namedProps => {
         'type': type,
         'name': name,
         'annotations': annotations,
@@ -36,10 +33,10 @@ class QueryInput extends Definition with DataPrinter {
 ///
 class QueryInputName extends Name {
   ///
-  QueryInputName({String name}) : super(name: name);
+  QueryInputName({required String name}) : super(name: name);
 
   @override
-  Map<String, Object> get namedProps => {
+  Map<String, Object?> get namedProps => {
         'name': name,
       };
 }

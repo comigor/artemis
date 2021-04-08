@@ -1,5 +1,3 @@
-// @dart = 2.8
-
 import 'dart:async';
 
 import 'package:gql_dedupe_link/gql_dedupe_link.dart';
@@ -16,7 +14,7 @@ import './schema/graphql_response.dart';
 ///
 /// A [Link] is used as the network interface.
 class ArtemisClient {
-  HttpLink _httpLink;
+  HttpLink? _httpLink;
   final Link _link;
 
   /// Instantiate an [ArtemisClient].
@@ -25,7 +23,7 @@ class ArtemisClient {
   /// To use different [Link] create an [ArtemisClient] with [ArtemisClient.fromLink].
   factory ArtemisClient(
     String graphQLEndpoint, {
-    http.Client httpClient,
+    http.Client? httpClient,
   }) {
     final httpLink = HttpLink(
       graphQLEndpoint,
@@ -40,7 +38,7 @@ class ArtemisClient {
   }
 
   /// Create an [ArtemisClient] from [Link].
-  ArtemisClient.fromLink(this._link) : assert(_link != null);
+  ArtemisClient.fromLink(this._link);
 
   /// Executes a [GraphQLQuery], returning a typed response.
   Future<GraphQLResponse<T>> execute<T, U extends JsonSerializable>(
@@ -57,7 +55,7 @@ class ArtemisClient {
     final response = await _link.request(request).first;
 
     return GraphQLResponse<T>(
-      data: response.data == null ? null : query.parse(response.data),
+      data: response.data == null ? null : query.parse(response.data ?? {}),
       errors: response.errors,
     );
   }
@@ -75,7 +73,7 @@ class ArtemisClient {
     );
 
     return _link.request(request).map((response) => GraphQLResponse<T>(
-          data: response.data == null ? null : query.parse(response.data),
+          data: response.data == null ? null : query.parse(response.data ?? {}),
           errors: response.errors,
         ));
   }

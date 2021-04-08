@@ -1,5 +1,3 @@
-// @dart = 2.8
-
 import 'package:gql/ast.dart';
 
 List<TypeDefinitionNode> _defaultScalars =
@@ -63,7 +61,7 @@ class TypeDefinitionNodeVisitor extends RecursiveVisitor {
   }
 
   /// Gets type definition node by type name
-  TypeDefinitionNode getByName(String name) {
+  TypeDefinitionNode? getByName(String name) {
     final type = types.where((type) => type.name.value == name);
 
     if (type.isNotEmpty) {

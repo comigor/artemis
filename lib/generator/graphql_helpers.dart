@@ -1,17 +1,15 @@
-// @dart = 2.8
-
+import 'package:artemis/generator/errors.dart';
 import 'package:artemis/visitor/type_definition_node_visitor.dart';
 import 'package:gql/ast.dart';
 
 import '../generator/data/data.dart';
-import '../generator/errors.dart';
 import '../schema/options.dart';
 import 'data/definition.dart';
 
 /// Get a full [TypeDefinitionNode] from a type node.
 TypeDefinitionNode getTypeByName(DocumentNode schema, TypeNode typeNode,
-    {String context}) {
-  NamedTypeNode namedNode;
+    {String? context}) {
+  late NamedTypeNode namedNode;
 
   if (typeNode is ListTypeNode) {
     return getTypeByName(schema, typeNode.type, context: context);
@@ -39,21 +37,31 @@ TypeName buildTypeName(
   Node node,
   GeneratorOptions options, {
   bool dartType = true,
-  Name replaceLeafWith,
-  DocumentNode schema,
+  Name? replaceLeafWith,
+  DocumentNode? schema,
 }) {
   if (node is NamedTypeNode) {
     final typeVisitor = TypeDefinitionNodeVisitor();
-    schema.accept(typeVisitor);
+    schema!.accept(typeVisitor);
     final type = typeVisitor.getByName(node.name.value);
 
     if (type != null) {
       if (type is ScalarTypeDefinitionNode) {
         final scalar = getSingleScalarMap(options, node.name.value);
-        return TypeName(
-          name: dartType ? scalar.dartType.name : scalar.graphQLType,
-          isNonNull: node.isNonNull,
-        );
+        final dartTypeValue = scalar?.dartType;
+        final graphQLTypeValue = scalar?.graphQLType;
+
+        if (dartType && dartTypeValue != null && dartTypeValue.name != null) {
+          return TypeName(
+            name: dartTypeValue.name!,
+            isNonNull: node.isNonNull,
+          );
+        } else if (graphQLTypeValue != null) {
+          return TypeName(
+            name: graphQLTypeValue,
+            isNonNull: node.isNonNull,
+          );
+        }
       }
 
       if (type is EnumTypeDefinitionNode ||
@@ -95,21 +103,35 @@ Map<String, ScalarMap> _defaultScalarMapping = {
 };
 
 /// Retrieve a scalar mapping of a type.
-ScalarMap getSingleScalarMap(GeneratorOptions options, String type,
-        {bool throwOnNotFound = true}) =>
-    options.scalarMapping.followedBy(_defaultScalarMapping.values).firstWhere(
-          (m) => m.graphQLType == type,
-          orElse: () => throwOnNotFound
-              ? throw MissingScalarConfigurationException(type)
-              : null,
-        );
+ScalarMap? getSingleScalarMap(GeneratorOptions options, String type,
+    {bool throwOnNotFound = true}) {
+  final scalarMap =
+      options.scalarMapping.followedBy(_defaultScalarMapping.values).firstWhere(
+            (m) => m!.graphQLType == type,
+            orElse: () => null,
+          );
+
+  if (throwOnNotFound && scalarMap == null) {
+    throw MissingScalarConfigurationException(type);
+  }
+
+  return scalarMap;
+}
 
 /// Retrieve imports of a scalar map.
 Iterable<String> importsOfScalar(GeneratorOptions options, String type) {
   final scalarMapping = options.scalarMapping.firstWhere(
-    (m) => m.graphQLType == type,
+    (m) => m!.graphQLType == type,
     orElse: () => null,
   );
-  return (scalarMapping?.dartType?.imports ?? [])
-      .followedBy([scalarMapping?.customParserImport]).where((c) => c != null);
+
+  final customParserImport = scalarMapping?.customParserImport;
+
+  final result = List<String>.from(scalarMapping?.dartType?.imports ?? []);
+
+  if (customParserImport != null) {
+    result.add(customParserImport);
+  }
+
+  return result;
 }

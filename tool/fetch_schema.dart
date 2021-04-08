@@ -1,5 +1,3 @@
-// @dart = 2.8
-
 import 'dart:async';
 import 'dart:io';
 
@@ -101,10 +99,10 @@ const String introspectionQuery = '''
 ''';
 
 Future<String> fetchGraphQLSchemaStringFromURL(String graphqlEndpoint,
-    {http.Client client}) async {
+    {http.Client? client}) async {
   final httpClient = client ?? http.Client();
 
-  final response = await httpClient.post(graphqlEndpoint, body: {
+  final response = await httpClient.post(Uri.parse(graphqlEndpoint), body: {
     'operationName': 'IntrospectionQuery',
     'query': introspectionQuery,
   });

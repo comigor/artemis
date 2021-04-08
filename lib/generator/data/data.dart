@@ -1,5 +1,3 @@
-// @dart = 2.8
-
 export 'class_definition.dart';
 export 'class_property.dart';
 export 'enum_definition.dart';

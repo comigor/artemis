@@ -8,20 +8,18 @@ import 'package:test/test.dart';
 
 void main() {
   group('On printCustomEnum', () {
-    test('It will throw if name is null or empty.', () {
-      expect(() => enumDefinitionToSpec(EnumDefinition(name: null, values: [])),
-          throwsA(TypeMatcher<AssertionError>()));
+    test('It will throw if name is empty.', () {
       expect(
           () => enumDefinitionToSpec(
               EnumDefinition(name: EnumName(name: ''), values: [])),
           throwsA(TypeMatcher<AssertionError>()));
     });
 
-    test('It will throw if values is null or empty.', () {
-      expect(
-          () => enumDefinitionToSpec(
-              EnumDefinition(name: EnumName(name: 'Name'), values: null)),
-          throwsA(TypeMatcher<AssertionError>()));
+    test('It will throw if values is empty.', () {
+      // expect(
+      //     () => enumDefinitionToSpec(
+      //         EnumDefinition(name: EnumName(name: 'Name'), values: null)),
+      //     throwsA(TypeMatcher<AssertionError>()));
       expect(
           () => enumDefinitionToSpec(
               EnumDefinition(name: EnumName(name: 'Name'), values: [])),
@@ -130,11 +128,11 @@ void main() {
   });
 
   group('On printCustomClass', () {
-    test('It will throw if name is null or empty.', () {
-      expect(
-          () => classDefinitionToSpec(
-              ClassDefinition(name: null, properties: []), [], []),
-          throwsA(TypeMatcher<AssertionError>()));
+    test('It will throw if name is empty.', () {
+      // expect(
+      //     () => classDefinitionToSpec(
+      //         ClassDefinition(name: null, properties: []), [], []),
+      //     throwsA(TypeMatcher<AssertionError>()));
       expect(
           () => classDefinitionToSpec(
               ClassDefinition(name: ClassName(name: ''), properties: []),
@@ -386,7 +384,7 @@ class AClass extends JsonSerializable with EquatableMixin {
       expect(
         () => generateQueryClassSpec(
           QueryDefinition(
-              name: QueryName(name: null),
+              name: QueryName(name: ''),
               operationName: 'Type',
               document: parseString('query test_query {}')),
         ),
@@ -711,7 +709,7 @@ enum SomeEnum {
   test('Should not add ignore_for_file when ignoreForFile is null', () {
     final buffer = StringBuffer();
     final definition = LibraryDefinition(basename: r'test_query.graphql');
-    final List<String> ignoreForFile = null;
+    final List<String> ignoreForFile = [];
 
     writeLibraryDefinitionToBuffer(buffer, ignoreForFile, definition);
 

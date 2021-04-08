@@ -1,10 +1,10 @@
-// @dart = 2.8
-
 import 'package:artemis/generator/data/data.dart';
 import 'package:artemis/generator/data/enum_value_definition.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:code_builder/code_builder.dart';
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:dart_style/dart_style.dart';
-import 'package:gql_code_gen/gql_code_gen.dart' as dart;
+import 'package:gql_code_builder/src/ast.dart' as dart;
 
 import '../generator/helpers.dart';
 
@@ -121,8 +121,8 @@ Spec classDefinitionToSpec(
       .expand((i) => i)
       .followedBy(definition.properties.map((p) => p.name.namePrintable));
 
-  final extendedClass = classes
-      .firstWhere((e) => e.name == definition.extension, orElse: () => null);
+  final extendedClass =
+      classes.firstWhereOrNull((e) => e.name == definition.extension);
 
   return Class(
     (b) => b
@@ -133,7 +133,7 @@ Spec classDefinitionToSpec(
       ..mixins.addAll(definition.mixins.map((i) => refer(i.namePrintable)))
       ..methods.add(_propsMethod('[${props.join(',')}]'))
       ..extend = definition.extension != null
-          ? refer(definition.extension.namePrintable)
+          ? refer(definition.extension!.namePrintable)
           : refer('JsonSerializable')
       ..implements.addAll(definition.implementations.map((i) => refer(i)))
       ..constructors.add(Constructor((b) {
@@ -187,7 +187,7 @@ Spec classDefinitionToSpec(
 
 /// Generates a [Spec] of a single fragment class definition.
 Spec fragmentClassDefinitionToSpec(FragmentClassDefinition definition) {
-  final fields = (definition.properties ?? []).map((p) {
+  final fields = definition.properties.map((p) {
     final lines = <String>[];
     lines.addAll(p.annotations.map((e) => '@$e'));
     lines.add(
@@ -365,7 +365,7 @@ Spec generateLibrarySpec(LibraryDefinition definition) {
   final uniqueDefinitions = definition.queries
       .map((e) => e.classes.map((e) => e))
       .expand((e) => e)
-      .fold<Map<String, Definition>>(<String, Definition>{}, (acc, element) {
+      .fold<Map<String?, Definition>>(<String?, Definition>{}, (acc, element) {
     acc[element.name.name] = element;
 
     return acc;
@@ -409,7 +409,7 @@ void writeLibraryDefinitionToBuffer(
 ) {
   buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND');
   buffer.writeln('// @dart = 2.12');
-  if (ignoreForFile != null && ignoreForFile.isNotEmpty) {
+  if (ignoreForFile.isNotEmpty) {
     buffer.writeln(
       '// ignore_for_file: ${Set<String>.from(ignoreForFile).join(', ')}',
     );

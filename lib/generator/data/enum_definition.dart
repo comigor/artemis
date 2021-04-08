@@ -1,10 +1,7 @@
-// @dart = 2.8
-
 import 'package:artemis/generator/data/definition.dart';
 import 'package:artemis/generator/data/enum_value_definition.dart';
 import 'package:artemis/generator/data_printer.dart';
 import 'package:artemis/generator/helpers.dart';
-import 'package:meta/meta.dart';
 import 'package:recase/recase.dart';
 
 /// Define a Dart enum parsed from GraphQL schema.
@@ -17,13 +14,13 @@ class EnumDefinition extends Definition with DataPrinter {
 
   /// Instantiate an enum definition.
   EnumDefinition({
-    @required this.name,
-    this.values,
-  })  : assert(hasValue(name) && hasValue(values)),
+    required this.name,
+    required this.values,
+  })   : assert(hasValue(name) && hasValue(values)),
         super(name: name);
 
   @override
-  Map<String, Object> get namedProps => {
+  Map<String, Object?> get namedProps => {
         'name': name,
         'values': values,
       };
@@ -32,7 +29,7 @@ class EnumDefinition extends Definition with DataPrinter {
 /// Enum name
 class EnumName extends Name with DataPrinter {
   /// Instantiate a enum name definition.
-  EnumName({String name}) : super(name: name);
+  EnumName({required String name}) : super(name: name);
 
   @override
   String normalize(String name) {
@@ -40,7 +37,7 @@ class EnumName extends Name with DataPrinter {
   }
 
   @override
-  Map<String, Object> get namedProps => {
+  Map<String, Object?> get namedProps => {
         'name': name,
       };
 }
