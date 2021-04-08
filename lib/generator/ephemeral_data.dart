@@ -22,7 +22,7 @@ List<Name> createPathName(List<Name> path, NamingScheme? namingScheme,
       break;
     case NamingScheme.pathedWithTypes:
     default:
-    fullPath = [...path, className];
+      fullPath = [...path, className];
       break;
   }
 

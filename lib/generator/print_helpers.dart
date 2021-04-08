@@ -322,7 +322,7 @@ Spec generateQueryClassSpec(QueryDefinition definition) {
       ..methods.add(_propsMethod(
           '[document, operationName${definition.inputs.isNotEmpty ? ', variables' : ''}]'))
       ..methods.add(Method(
-            (m) => m
+        (m) => m
           ..annotations.add(CodeExpression(Code('override')))
           ..returns = refer(definition.name.namePrintable)
           ..name = 'parse'
