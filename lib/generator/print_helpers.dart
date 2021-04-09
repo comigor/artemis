@@ -5,6 +5,7 @@ import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:dart_style/dart_style.dart';
 import 'package:gql_code_builder/src/ast.dart' as dart;
+import 'package:recase/recase.dart';
 
 import '../generator/helpers.dart';
 
@@ -268,10 +269,13 @@ Spec generateArgumentClassSpec(QueryDefinition definition) {
 }
 
 /// Generates a [Spec] of a query/mutation class.
-Spec generateQueryClassSpec(QueryDefinition definition) {
+List<Spec> generateQueryClassSpec(QueryDefinition definition) {
   final typeDeclaration = definition.inputs.isEmpty
       ? '${definition.name.namePrintable}, JsonSerializable'
       : '${definition.name.namePrintable}, ${definition.className}Arguments';
+
+  final name = '${definition.className}${definition.suffix}';
+  final documentName = ReCase('${name}Document').constantCase;
 
   final constructor = definition.inputs.isEmpty
       ? Constructor()
@@ -291,7 +295,7 @@ Spec generateQueryClassSpec(QueryDefinition definition) {
         ..modifier = FieldModifier.final$
         ..type = refer('DocumentNode', 'package:gql/ast.dart')
         ..name = 'document'
-        ..assignment = dart.fromNode(definition.document).code,
+        ..assignment = Code(documentName),
     ),
     Field(
       (f) => f
@@ -313,28 +317,36 @@ Spec generateQueryClassSpec(QueryDefinition definition) {
     ));
   }
 
-  return Class(
-    (b) => b
-      ..name = '${definition.className}${definition.suffix}'
-      ..extend = refer('GraphQLQuery<$typeDeclaration>')
-      ..constructors.add(constructor)
-      ..fields.addAll(fields)
-      ..methods.add(_propsMethod(
-          '[document, operationName${definition.inputs.isNotEmpty ? ', variables' : ''}]'))
-      ..methods.add(Method(
-        (m) => m
-          ..annotations.add(CodeExpression(Code('override')))
-          ..returns = refer(definition.name.namePrintable)
-          ..name = 'parse'
-          ..requiredParameters.add(Parameter(
-            (p) => p
-              ..type = refer('Map<String, dynamic>')
-              ..name = 'json',
-          ))
-          ..lambda = true
-          ..body = Code('${definition.name.namePrintable}.fromJson(json)'),
-      )),
-  );
+  return [
+    Block((b) => b
+      ..statements.addAll([
+        Code('final $documentName = '),
+        dart.fromNode(definition.document).code,
+        Code(';'),
+      ])),
+    Class(
+      (b) => b
+        ..name = name
+        ..extend = refer('GraphQLQuery<$typeDeclaration>')
+        ..constructors.add(constructor)
+        ..fields.addAll(fields)
+        ..methods.add(_propsMethod(
+            '[document, operationName${definition.inputs.isNotEmpty ? ', variables' : ''}]'))
+        ..methods.add(Method(
+          (m) => m
+            ..annotations.add(CodeExpression(Code('override')))
+            ..returns = refer(definition.name.namePrintable)
+            ..name = 'parse'
+            ..requiredParameters.add(Parameter(
+              (p) => p
+                ..type = refer('Map<String, dynamic>')
+                ..name = 'json',
+            ))
+            ..lambda = true
+            ..body = Code('${definition.name.namePrintable}.fromJson(json)'),
+        )),
+    )
+  ];
 }
 
 /// Gathers and generates a [Spec] of a whole query/mutation and its
@@ -385,7 +397,7 @@ Spec generateLibrarySpec(LibraryDefinition definition) {
       bodyDirectives.add(generateArgumentClassSpec(queryDef));
     }
     if (queryDef.generateHelpers) {
-      bodyDirectives.add(generateQueryClassSpec(queryDef));
+      bodyDirectives.addAll(generateQueryClassSpec(queryDef));
     }
   }
 
