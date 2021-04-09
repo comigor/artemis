@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 7.0.0-beta.3
+- document generated in separate variable for easier usage
+
 ## 7.0.0-beta.2
 - package nnbd migraion
 

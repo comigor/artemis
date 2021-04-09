@@ -211,64 +211,66 @@ class CustomArguments extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$CustomArgumentsToJson(this);
 }
 
+final CUSTOM_MUTATION_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.mutation,
+      name: NameNode(value: 'custom'),
+      variableDefinitions: [
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'input')),
+            type:
+                NamedTypeNode(name: NameNode(value: 'Input'), isNonNull: true),
+            defaultValue: DefaultValueNode(value: null),
+            directives: []),
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'previousId')),
+            type: NamedTypeNode(
+                name: NameNode(value: 'MyUuid'), isNonNull: false),
+            defaultValue: DefaultValueNode(value: null),
+            directives: []),
+        VariableDefinitionNode(
+            variable: VariableNode(name: NameNode(value: 'listIds')),
+            type: ListTypeNode(
+                type: NamedTypeNode(
+                    name: NameNode(value: 'MyUuid'), isNonNull: false),
+                isNonNull: false),
+            defaultValue: DefaultValueNode(value: null),
+            directives: [])
+      ],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'mut'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                  name: NameNode(value: 'input'),
+                  value: VariableNode(name: NameNode(value: 'input'))),
+              ArgumentNode(
+                  name: NameNode(value: 'previousId'),
+                  value: VariableNode(name: NameNode(value: 'previousId'))),
+              ArgumentNode(
+                  name: NameNode(value: 'listIds'),
+                  value: VariableNode(name: NameNode(value: 'listIds')))
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                  name: NameNode(value: 's'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null)
+            ]))
+      ]))
+]);
+
 class CustomMutation
     extends GraphQLQuery<Custom$MutationRoot, CustomArguments> {
   CustomMutation({required this.variables});
 
   @override
-  final DocumentNode document = DocumentNode(definitions: [
-    OperationDefinitionNode(
-        type: OperationType.mutation,
-        name: NameNode(value: 'custom'),
-        variableDefinitions: [
-          VariableDefinitionNode(
-              variable: VariableNode(name: NameNode(value: 'input')),
-              type: NamedTypeNode(
-                  name: NameNode(value: 'Input'), isNonNull: true),
-              defaultValue: DefaultValueNode(value: null),
-              directives: []),
-          VariableDefinitionNode(
-              variable: VariableNode(name: NameNode(value: 'previousId')),
-              type: NamedTypeNode(
-                  name: NameNode(value: 'MyUuid'), isNonNull: false),
-              defaultValue: DefaultValueNode(value: null),
-              directives: []),
-          VariableDefinitionNode(
-              variable: VariableNode(name: NameNode(value: 'listIds')),
-              type: ListTypeNode(
-                  type: NamedTypeNode(
-                      name: NameNode(value: 'MyUuid'), isNonNull: false),
-                  isNonNull: false),
-              defaultValue: DefaultValueNode(value: null),
-              directives: [])
-        ],
-        directives: [],
-        selectionSet: SelectionSetNode(selections: [
-          FieldNode(
-              name: NameNode(value: 'mut'),
-              alias: null,
-              arguments: [
-                ArgumentNode(
-                    name: NameNode(value: 'input'),
-                    value: VariableNode(name: NameNode(value: 'input'))),
-                ArgumentNode(
-                    name: NameNode(value: 'previousId'),
-                    value: VariableNode(name: NameNode(value: 'previousId'))),
-                ArgumentNode(
-                    name: NameNode(value: 'listIds'),
-                    value: VariableNode(name: NameNode(value: 'listIds')))
-              ],
-              directives: [],
-              selectionSet: SelectionSetNode(selections: [
-                FieldNode(
-                    name: NameNode(value: 's'),
-                    alias: null,
-                    arguments: [],
-                    directives: [],
-                    selectionSet: null)
-              ]))
-        ]))
-  ]);
+  final DocumentNode document = CUSTOM_MUTATION_DOCUMENT;
 
   @override
   final String operationName = 'custom';

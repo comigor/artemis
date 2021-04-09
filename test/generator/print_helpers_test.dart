@@ -486,18 +486,20 @@ import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
 part 'test_query.graphql.g.dart';
 
+final TEST_QUERY_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.query,
+      name: NameNode(value: 'test_query'),
+      variableDefinitions: [],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: []))
+]);
+
 class TestQueryQuery extends GraphQLQuery<TestQuery, JsonSerializable> {
   TestQueryQuery();
 
   @override
-  final DocumentNode document = DocumentNode(definitions: [
-    OperationDefinitionNode(
-        type: OperationType.query,
-        name: NameNode(value: 'test_query'),
-        variableDefinitions: [],
-        directives: [],
-        selectionSet: SelectionSetNode(selections: []))
-  ]);
+  final DocumentNode document = TEST_QUERY_QUERY_DOCUMENT;
 
   @override
   final String operationName = 'test_query';
@@ -555,18 +557,20 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _\$TestQueryArgumentsToJson(this);
 }
 
+final TEST_QUERY_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.query,
+      name: NameNode(value: 'test_query'),
+      variableDefinitions: [],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: []))
+]);
+
 class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
   TestQueryQuery({required this.variables});
 
   @override
-  final DocumentNode document = DocumentNode(definitions: [
-    OperationDefinitionNode(
-        type: OperationType.query,
-        name: NameNode(value: 'test_query'),
-        variableDefinitions: [],
-        directives: [],
-        selectionSet: SelectionSetNode(selections: []))
-  ]);
+  final DocumentNode document = TEST_QUERY_QUERY_DOCUMENT;
 
   @override
   final String operationName = 'test_query';
@@ -627,21 +631,23 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
         suffix: 'Query',
       );
 
-      final str = specToString(generateQueryClassSpec(definition));
+      final str =
+          generateQueryClassSpec(definition).map((e) => specToString(e)).join();
 
-      expect(str,
-          '''class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
+      expect(
+          str, '''final TEST_QUERY_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.query,
+      name: NameNode(value: 'test_query'),
+      variableDefinitions: [],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: []))
+]);
+class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
   TestQueryQuery({required this.variables});
 
   @override
-  final DocumentNode document = DocumentNode(definitions: [
-    OperationDefinitionNode(
-        type: OperationType.query,
-        name: NameNode(value: 'test_query'),
-        variableDefinitions: [],
-        directives: [],
-        selectionSet: SelectionSetNode(selections: []))
-  ]);
+  final DocumentNode document = TEST_QUERY_QUERY_DOCUMENT;
 
   @override
   final String operationName = 'test_query';
