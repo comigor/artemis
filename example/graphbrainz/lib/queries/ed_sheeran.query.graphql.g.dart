@@ -1,6 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart=2.12
 
-part of 'ed_sheeran.query.dart';
+part of 'ed_sheeran.query.graphql.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
@@ -10,9 +11,9 @@ EdSheeran$Query$Node$Artist$ReleaseConnection$Release
     _$EdSheeran$Query$Node$Artist$ReleaseConnection$ReleaseFromJson(
         Map<String, dynamic> json) {
   return EdSheeran$Query$Node$Artist$ReleaseConnection$Release()
-    ..typeName = json['__typename'] as String
+    ..$$typename = json['__typename'] as String?
     ..mbid = json['mbid'] as String
-    ..name = json['name'] as String
+    ..name = json['name'] as String?
     ..releases = json['releases'] == null
         ? null
         : EdSheeran$Query$Node$Artist$ReleaseConnection.fromJson(
@@ -25,80 +26,85 @@ EdSheeran$Query$Node$Artist$ReleaseConnection$Release
         ? null
         : EdSheeran$Query$Node$Artist$SpotifyArtist.fromJson(
             json['spotify'] as Map<String, dynamic>)
-    ..nodes = (json['nodes'] as List)
+    ..nodes = (json['nodes'] as List<dynamic>?)
         ?.map((e) => e == null
             ? null
             : EdSheeran$Query$Node$Artist$ReleaseConnection$Release.fromJson(
                 e as Map<String, dynamic>))
-        ?.toList()
+        .toList()
     ..id = json['id'] as String
     ..status = _$enumDecodeNullable(_$ReleaseStatusEnumMap, json['status'],
-        unknownValue: ReleaseStatus.ARTEMIS_UNKNOWN);
+        unknownValue: ReleaseStatus.artemisUnknown);
 }
 
 Map<String, dynamic>
     _$EdSheeran$Query$Node$Artist$ReleaseConnection$ReleaseToJson(
             EdSheeran$Query$Node$Artist$ReleaseConnection$Release instance) =>
         <String, dynamic>{
-          '__typename': instance.typeName,
+          '__typename': instance.$$typename,
           'mbid': instance.mbid,
           'name': instance.name,
           'releases': instance.releases?.toJson(),
           'lifeSpan': instance.lifeSpan?.toJson(),
           'spotify': instance.spotify?.toJson(),
-          'nodes': instance.nodes?.map((e) => e?.toJson())?.toList(),
+          'nodes': instance.nodes?.map((e) => e?.toJson()).toList(),
           'id': instance.id,
           'status': _$ReleaseStatusEnumMap[instance.status],
         };
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$ReleaseStatusEnumMap = {
-  ReleaseStatus.OFFICIAL: 'OFFICIAL',
-  ReleaseStatus.PROMOTION: 'PROMOTION',
-  ReleaseStatus.BOOTLEG: 'BOOTLEG',
-  ReleaseStatus.PSEUDORELEASE: 'PSEUDORELEASE',
-  ReleaseStatus.ARTEMIS_UNKNOWN: 'ARTEMIS_UNKNOWN',
+  ReleaseStatus.official: 'OFFICIAL',
+  ReleaseStatus.promotion: 'PROMOTION',
+  ReleaseStatus.bootleg: 'BOOTLEG',
+  ReleaseStatus.pseudorelease: 'PSEUDORELEASE',
+  ReleaseStatus.artemisUnknown: 'ARTEMIS_UNKNOWN',
 };
 
 EdSheeran$Query$Node$Artist$ReleaseConnection
     _$EdSheeran$Query$Node$Artist$ReleaseConnectionFromJson(
         Map<String, dynamic> json) {
   return EdSheeran$Query$Node$Artist$ReleaseConnection()
+    ..$$typename = json['__typename'] as String?
     ..id = json['id'] as String
-    ..typeName = json['__typename'] as String
     ..mbid = json['mbid'] as String
-    ..name = json['name'] as String
+    ..name = json['name'] as String?
     ..releases = json['releases'] == null
         ? null
         : EdSheeran$Query$Node$Artist$ReleaseConnection.fromJson(
@@ -111,34 +117,34 @@ EdSheeran$Query$Node$Artist$ReleaseConnection
         ? null
         : EdSheeran$Query$Node$Artist$SpotifyArtist.fromJson(
             json['spotify'] as Map<String, dynamic>)
-    ..nodes = (json['nodes'] as List)
+    ..nodes = (json['nodes'] as List<dynamic>?)
         ?.map((e) => e == null
             ? null
             : EdSheeran$Query$Node$Artist$ReleaseConnection$Release.fromJson(
                 e as Map<String, dynamic>))
-        ?.toList();
+        .toList();
 }
 
 Map<String, dynamic> _$EdSheeran$Query$Node$Artist$ReleaseConnectionToJson(
         EdSheeran$Query$Node$Artist$ReleaseConnection instance) =>
     <String, dynamic>{
+      '__typename': instance.$$typename,
       'id': instance.id,
-      '__typename': instance.typeName,
       'mbid': instance.mbid,
       'name': instance.name,
       'releases': instance.releases?.toJson(),
       'lifeSpan': instance.lifeSpan?.toJson(),
       'spotify': instance.spotify?.toJson(),
-      'nodes': instance.nodes?.map((e) => e?.toJson())?.toList(),
+      'nodes': instance.nodes?.map((e) => e?.toJson()).toList(),
     };
 
 EdSheeran$Query$Node$Artist$LifeSpan
     _$EdSheeran$Query$Node$Artist$LifeSpanFromJson(Map<String, dynamic> json) {
   return EdSheeran$Query$Node$Artist$LifeSpan()
+    ..$$typename = json['__typename'] as String?
     ..id = json['id'] as String
-    ..typeName = json['__typename'] as String
     ..mbid = json['mbid'] as String
-    ..name = json['name'] as String
+    ..name = json['name'] as String?
     ..releases = json['releases'] == null
         ? null
         : EdSheeran$Query$Node$Artist$ReleaseConnection.fromJson(
@@ -158,8 +164,8 @@ EdSheeran$Query$Node$Artist$LifeSpan
 Map<String, dynamic> _$EdSheeran$Query$Node$Artist$LifeSpanToJson(
         EdSheeran$Query$Node$Artist$LifeSpan instance) =>
     <String, dynamic>{
+      '__typename': instance.$$typename,
       'id': instance.id,
-      '__typename': instance.typeName,
       'mbid': instance.mbid,
       'name': instance.name,
       'releases': instance.releases?.toJson(),
@@ -172,10 +178,10 @@ EdSheeran$Query$Node$Artist$SpotifyArtist
     _$EdSheeran$Query$Node$Artist$SpotifyArtistFromJson(
         Map<String, dynamic> json) {
   return EdSheeran$Query$Node$Artist$SpotifyArtist()
+    ..$$typename = json['__typename'] as String?
     ..id = json['id'] as String
-    ..typeName = json['__typename'] as String
     ..mbid = json['mbid'] as String
-    ..name = json['name'] as String
+    ..name = json['name'] as String?
     ..releases = json['releases'] == null
         ? null
         : EdSheeran$Query$Node$Artist$ReleaseConnection.fromJson(
@@ -194,8 +200,8 @@ EdSheeran$Query$Node$Artist$SpotifyArtist
 Map<String, dynamic> _$EdSheeran$Query$Node$Artist$SpotifyArtistToJson(
         EdSheeran$Query$Node$Artist$SpotifyArtist instance) =>
     <String, dynamic>{
+      '__typename': instance.$$typename,
       'id': instance.id,
-      '__typename': instance.typeName,
       'mbid': instance.mbid,
       'name': instance.name,
       'releases': instance.releases?.toJson(),
@@ -207,10 +213,10 @@ Map<String, dynamic> _$EdSheeran$Query$Node$Artist$SpotifyArtistToJson(
 EdSheeran$Query$Node$Artist _$EdSheeran$Query$Node$ArtistFromJson(
     Map<String, dynamic> json) {
   return EdSheeran$Query$Node$Artist()
+    ..$$typename = json['__typename'] as String?
     ..id = json['id'] as String
-    ..typeName = json['__typename'] as String
     ..mbid = json['mbid'] as String
-    ..name = json['name'] as String
+    ..name = json['name'] as String?
     ..releases = json['releases'] == null
         ? null
         : EdSheeran$Query$Node$Artist$ReleaseConnection.fromJson(
@@ -228,8 +234,8 @@ EdSheeran$Query$Node$Artist _$EdSheeran$Query$Node$ArtistFromJson(
 Map<String, dynamic> _$EdSheeran$Query$Node$ArtistToJson(
         EdSheeran$Query$Node$Artist instance) =>
     <String, dynamic>{
+      '__typename': instance.$$typename,
       'id': instance.id,
-      '__typename': instance.typeName,
       'mbid': instance.mbid,
       'name': instance.name,
       'releases': instance.releases?.toJson(),
@@ -239,15 +245,15 @@ Map<String, dynamic> _$EdSheeran$Query$Node$ArtistToJson(
 
 EdSheeran$Query$Node _$EdSheeran$Query$NodeFromJson(Map<String, dynamic> json) {
   return EdSheeran$Query$Node()
-    ..id = json['id'] as String
-    ..typeName = json['__typename'] as String;
+    ..$$typename = json['__typename'] as String?
+    ..id = json['id'] as String;
 }
 
 Map<String, dynamic> _$EdSheeran$Query$NodeToJson(
         EdSheeran$Query$Node instance) =>
     <String, dynamic>{
+      '__typename': instance.$$typename,
       'id': instance.id,
-      '__typename': instance.typeName,
     };
 
 EdSheeran$Query _$EdSheeran$QueryFromJson(Map<String, dynamic> json) {
