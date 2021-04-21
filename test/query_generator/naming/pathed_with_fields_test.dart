@@ -1,5 +1,3 @@
-// @dart = 2.8
-
 import 'package:test/test.dart';
 
 import '../../helpers.dart';

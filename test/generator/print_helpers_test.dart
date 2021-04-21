@@ -1,5 +1,3 @@
-// @dart = 2.8
-
 import 'package:artemis/generator/data/data.dart';
 import 'package:artemis/generator/data/enum_value_definition.dart';
 import 'package:artemis/generator/print_helpers.dart';
@@ -87,10 +85,6 @@ void main() {
 
   group('On printCustomFragmentClass', () {
     test('It will throw if name is null or empty.', () {
-      expect(
-          () => fragmentClassDefinitionToSpec(
-              FragmentClassDefinition(name: null, properties: [])),
-          throwsA(TypeMatcher<AssertionError>()));
       expect(
           () => fragmentClassDefinitionToSpec(FragmentClassDefinition(
               name: FragmentName(name: ''), properties: [])),
@@ -374,8 +368,6 @@ class AClass extends JsonSerializable with EquatableMixin {
 
   group('On generateQueryClassSpec', () {
     test('It will throw if basename is null or empty.', () {
-      expect(() => generateLibrarySpec(LibraryDefinition(basename: null)),
-          throwsA(TypeMatcher<AssertionError>()));
       expect(() => generateLibrarySpec(LibraryDefinition(basename: '')),
           throwsA(TypeMatcher<AssertionError>()));
     });
@@ -395,17 +387,6 @@ class AClass extends JsonSerializable with EquatableMixin {
           QueryDefinition(
               name: QueryName(name: 'Type'),
               operationName: '',
-              document: parseString('query test_query {}')),
-        ),
-        throwsA(
-          TypeMatcher<AssertionError>(),
-        ),
-      );
-      expect(
-        () => generateQueryClassSpec(
-          QueryDefinition(
-              name: QueryName(name: null),
-              operationName: 'test_query',
               document: parseString('query test_query {}')),
         ),
         throwsA(
