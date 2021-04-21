@@ -96,11 +96,6 @@ class GeneratorVisitor extends RecursiveVisitor {
     final nextType = gql.getTypeByName(context.schema, node.typeCondition!.on,
         context: 'inline fragment');
 
-    // final fragmentName = FragmentName.fromPath(
-    //     path: context
-    //         .sameTypeWithNoPath(alias: FragmentName(name: node.name.value))
-    //         .fullPathName());
-
     if (nextType.name.value == context.currentType!.name.value) {
       final visitor = GeneratorVisitor(
         context: context.nextTypeWithSamePath(
@@ -113,7 +108,6 @@ class GeneratorVisitor extends RecursiveVisitor {
         ),
       );
       node.selectionSet.visitChildren(visitor);
-      print('test');
     } else {
       final visitor = GeneratorVisitor(
         context: context.next(

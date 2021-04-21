@@ -1,6 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart=2.12
 
-part of 'fragment_query.dart';
+part of 'fragment_query.graphql.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
@@ -9,9 +10,10 @@ part of 'fragment_query.dart';
 FragmentQuery$Query$Charmander _$FragmentQuery$Query$CharmanderFromJson(
     Map<String, dynamic> json) {
   return FragmentQuery$Query$Charmander()
-    ..number = json['number'] as String
-    ..name = json['name'] as String
-    ..types = (json['types'] as List)?.map((e) => e as String)?.toList();
+    ..number = json['number'] as String?
+    ..name = json['name'] as String?
+    ..types =
+        (json['types'] as List<dynamic>?)?.map((e) => e as String?).toList();
 }
 
 Map<String, dynamic> _$FragmentQuery$Query$CharmanderToJson(
@@ -26,9 +28,10 @@ FragmentQuery$Query$Pokemon$Evolutions
     _$FragmentQuery$Query$Pokemon$EvolutionsFromJson(
         Map<String, dynamic> json) {
   return FragmentQuery$Query$Pokemon$Evolutions()
-    ..number = json['number'] as String
-    ..name = json['name'] as String
-    ..types = (json['types'] as List)?.map((e) => e as String)?.toList();
+    ..number = json['number'] as String?
+    ..name = json['name'] as String?
+    ..types =
+        (json['types'] as List<dynamic>?)?.map((e) => e as String?).toList();
 }
 
 Map<String, dynamic> _$FragmentQuery$Query$Pokemon$EvolutionsToJson(
@@ -42,15 +45,16 @@ Map<String, dynamic> _$FragmentQuery$Query$Pokemon$EvolutionsToJson(
 FragmentQuery$Query$Pokemon _$FragmentQuery$Query$PokemonFromJson(
     Map<String, dynamic> json) {
   return FragmentQuery$Query$Pokemon()
-    ..number = json['number'] as String
-    ..name = json['name'] as String
-    ..types = (json['types'] as List)?.map((e) => e as String)?.toList()
-    ..evolutions = (json['evolutions'] as List)
+    ..number = json['number'] as String?
+    ..name = json['name'] as String?
+    ..types =
+        (json['types'] as List<dynamic>?)?.map((e) => e as String?).toList()
+    ..evolutions = (json['evolutions'] as List<dynamic>?)
         ?.map((e) => e == null
             ? null
             : FragmentQuery$Query$Pokemon$Evolutions.fromJson(
                 e as Map<String, dynamic>))
-        ?.toList();
+        .toList();
 }
 
 Map<String, dynamic> _$FragmentQuery$Query$PokemonToJson(
@@ -59,7 +63,7 @@ Map<String, dynamic> _$FragmentQuery$Query$PokemonToJson(
       'number': instance.number,
       'name': instance.name,
       'types': instance.types,
-      'evolutions': instance.evolutions?.map((e) => e?.toJson())?.toList(),
+      'evolutions': instance.evolutions?.map((e) => e?.toJson()).toList(),
     };
 
 FragmentQuery$Query _$FragmentQuery$QueryFromJson(Map<String, dynamic> json) {
@@ -68,18 +72,18 @@ FragmentQuery$Query _$FragmentQuery$QueryFromJson(Map<String, dynamic> json) {
         ? null
         : FragmentQuery$Query$Charmander.fromJson(
             json['charmander'] as Map<String, dynamic>)
-    ..pokemons = (json['pokemons'] as List)
+    ..pokemons = (json['pokemons'] as List<dynamic>?)
         ?.map((e) => e == null
             ? null
             : FragmentQuery$Query$Pokemon.fromJson(e as Map<String, dynamic>))
-        ?.toList();
+        .toList();
 }
 
 Map<String, dynamic> _$FragmentQuery$QueryToJson(
         FragmentQuery$Query instance) =>
     <String, dynamic>{
       'charmander': instance.charmander?.toJson(),
-      'pokemons': instance.pokemons?.map((e) => e?.toJson())?.toList(),
+      'pokemons': instance.pokemons?.map((e) => e?.toJson()).toList(),
     };
 
 FragmentQueryArguments _$FragmentQueryArgumentsFromJson(

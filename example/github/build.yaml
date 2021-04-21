@@ -6,6 +6,15 @@ targets:
     builders:
       artemis:
         options:
+          scalar_mapping:
+            - graphql_type: GitObjectID
+              dart_type: String
+            - graphql_type: URI
+              dart_type: String
+            - graphql_type: GitRefname
+              dart_type: String
+            - graphql_type: DateTime
+              dart_type: DateTime
           schema_mapping:
             - schema: github.schema.graphql
               queries_glob: lib/graphql/search_repositories.graphql

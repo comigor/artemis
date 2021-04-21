@@ -1,6 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart=2.12
 
-part of 'fragments_glob.dart';
+part of 'fragments_glob.graphql.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
@@ -40,12 +41,12 @@ FragmentsGlob$Query$Pokemon _$FragmentsGlob$Query$PokemonFromJson(
         ? null
         : PokemonMixin$PokemonAttack.fromJson(
             json['attacks'] as Map<String, dynamic>)
-    ..evolutions = (json['evolutions'] as List)
+    ..evolutions = (json['evolutions'] as List<dynamic>?)
         ?.map((e) => e == null
             ? null
             : FragmentsGlob$Query$Pokemon$Pokemon.fromJson(
                 e as Map<String, dynamic>))
-        ?.toList();
+        .toList();
 }
 
 Map<String, dynamic> _$FragmentsGlob$Query$PokemonToJson(
@@ -54,7 +55,7 @@ Map<String, dynamic> _$FragmentsGlob$Query$PokemonToJson(
       'id': instance.id,
       'weight': instance.weight?.toJson(),
       'attacks': instance.attacks?.toJson(),
-      'evolutions': instance.evolutions?.map((e) => e?.toJson())?.toList(),
+      'evolutions': instance.evolutions?.map((e) => e?.toJson()).toList(),
     };
 
 FragmentsGlob$Query _$FragmentsGlob$QueryFromJson(Map<String, dynamic> json) {
@@ -73,7 +74,7 @@ Map<String, dynamic> _$FragmentsGlob$QueryToJson(
 
 PokemonMixin$PokemonDimension _$PokemonMixin$PokemonDimensionFromJson(
     Map<String, dynamic> json) {
-  return PokemonMixin$PokemonDimension()..minimum = json['minimum'] as String;
+  return PokemonMixin$PokemonDimension()..minimum = json['minimum'] as String?;
 }
 
 Map<String, dynamic> _$PokemonMixin$PokemonDimensionToJson(
@@ -85,22 +86,22 @@ Map<String, dynamic> _$PokemonMixin$PokemonDimensionToJson(
 PokemonMixin$PokemonAttack _$PokemonMixin$PokemonAttackFromJson(
     Map<String, dynamic> json) {
   return PokemonMixin$PokemonAttack()
-    ..special = (json['special'] as List)
+    ..special = (json['special'] as List<dynamic>?)
         ?.map((e) => e == null
             ? null
             : PokemonAttackMixin$Attack.fromJson(e as Map<String, dynamic>))
-        ?.toList();
+        .toList();
 }
 
 Map<String, dynamic> _$PokemonMixin$PokemonAttackToJson(
         PokemonMixin$PokemonAttack instance) =>
     <String, dynamic>{
-      'special': instance.special?.map((e) => e?.toJson())?.toList(),
+      'special': instance.special?.map((e) => e?.toJson()).toList(),
     };
 
 PokemonAttackMixin$Attack _$PokemonAttackMixin$AttackFromJson(
     Map<String, dynamic> json) {
-  return PokemonAttackMixin$Attack()..name = json['name'] as String;
+  return PokemonAttackMixin$Attack()..name = json['name'] as String?;
 }
 
 Map<String, dynamic> _$PokemonAttackMixin$AttackToJson(

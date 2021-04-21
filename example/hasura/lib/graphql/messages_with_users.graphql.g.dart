@@ -1,4 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart=2.12
 
 part of 'messages_with_users.graphql.dart';
 
@@ -28,10 +29,8 @@ MessagesWithUsers$SubscriptionRoot$Messages
   return MessagesWithUsers$SubscriptionRoot$Messages()
     ..id = json['id'] as int
     ..message = json['message'] as String
-    ..profile = json['profile'] == null
-        ? null
-        : MessagesWithUsers$SubscriptionRoot$Messages$Profile.fromJson(
-            json['profile'] as Map<String, dynamic>);
+    ..profile = MessagesWithUsers$SubscriptionRoot$Messages$Profile.fromJson(
+        json['profile'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$MessagesWithUsers$SubscriptionRoot$MessagesToJson(
@@ -39,22 +38,20 @@ Map<String, dynamic> _$MessagesWithUsers$SubscriptionRoot$MessagesToJson(
     <String, dynamic>{
       'id': instance.id,
       'message': instance.message,
-      'profile': instance.profile?.toJson(),
+      'profile': instance.profile.toJson(),
     };
 
 MessagesWithUsers$SubscriptionRoot _$MessagesWithUsers$SubscriptionRootFromJson(
     Map<String, dynamic> json) {
   return MessagesWithUsers$SubscriptionRoot()
-    ..messages = (json['messages'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MessagesWithUsers$SubscriptionRoot$Messages.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList();
+    ..messages = (json['messages'] as List<dynamic>)
+        .map((e) => MessagesWithUsers$SubscriptionRoot$Messages.fromJson(
+            e as Map<String, dynamic>))
+        .toList();
 }
 
 Map<String, dynamic> _$MessagesWithUsers$SubscriptionRootToJson(
         MessagesWithUsers$SubscriptionRoot instance) =>
     <String, dynamic>{
-      'messages': instance.messages?.map((e) => e?.toJson())?.toList(),
+      'messages': instance.messages.map((e) => e.toJson()).toList(),
     };

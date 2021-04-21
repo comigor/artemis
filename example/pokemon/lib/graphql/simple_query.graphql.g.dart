@@ -1,6 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart=2.12
 
-part of 'simple_query.dart';
+part of 'simple_query.graphql.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
@@ -9,8 +10,9 @@ part of 'simple_query.dart';
 SimpleQuery$Query$Pokemon _$SimpleQuery$Query$PokemonFromJson(
     Map<String, dynamic> json) {
   return SimpleQuery$Query$Pokemon()
-    ..number = json['number'] as String
-    ..types = (json['types'] as List)?.map((e) => e as String)?.toList();
+    ..number = json['number'] as String?
+    ..types =
+        (json['types'] as List<dynamic>?)?.map((e) => e as String?).toList();
 }
 
 Map<String, dynamic> _$SimpleQuery$Query$PokemonToJson(
