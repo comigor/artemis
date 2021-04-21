@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 7.0.0-beta.5
+
+- github example fix
+- pokemon example fix
+- hasura example fix
+- graphbrainz example fix
+
 ## 7.0.0-beta.4
 
 - packages update
