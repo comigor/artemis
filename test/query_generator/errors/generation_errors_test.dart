@@ -1,5 +1,3 @@
-// @dart = 2.8
-
 import 'package:artemis/builder.dart';
 import 'package:artemis/generator/errors.dart';
 import 'package:build/build.dart';
