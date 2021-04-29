@@ -64,8 +64,6 @@ Future testNaming({
   required String namingScheme,
   bool shouldFail = false,
 }) {
-  Logger.root.level = Level.ALL;
-
   final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
     'generate_helpers': false,
     'schema_mapping': [

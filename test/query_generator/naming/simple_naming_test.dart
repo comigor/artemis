@@ -1,5 +1,4 @@
 import 'package:artemis/generator/data/data.dart';
-import 'package:artemis/generator/data/enum_value_definition.dart';
 import 'package:test/test.dart';
 
 import '../../helpers.dart';

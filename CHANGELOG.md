@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 7.0.0-beta.7
+
+- config file error handling
+
 ## 7.0.0-beta.6
 
 - packages update

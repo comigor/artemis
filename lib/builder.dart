@@ -24,16 +24,18 @@ String _addGraphQLExtensionToPathIfNeeded(String path) {
 }
 
 List<String> _builderOptionsToExpectedOutputs(BuilderOptions builderOptions) {
-  final schemaMaps =
+  final schemaMapping =
       GeneratorOptions.fromJson(builderOptions.config).schemaMapping;
 
-  if (schemaMaps.any((s) => s.output == null)) {
-    throw Exception('''One or more SchemaMap configurations miss an output!
-Please check your build.yaml file.
-''');
+  if (schemaMapping.isEmpty) {
+    throw MissingBuildConfigurationException('schema_mapping');
   }
 
-  return schemaMaps
+  if (schemaMapping.any((s) => s.output == null)) {
+    throw MissingBuildConfigurationException('schema_mapping => output');
+  }
+
+  return schemaMapping
       .map((s) {
         final outputWithoutLib = s.output!.replaceAll(RegExp(r'^lib/'), '');
 
@@ -70,49 +72,72 @@ class GraphQLQueryBuilder implements Builder {
         r'$lib$': expectedOutputs,
       };
 
+  /// read asset files
+  Future<List<DocumentNode>> readGraphQlFiles(
+    BuildStep buildStep,
+    String schema,
+  ) async {
+    final schemaAssetStream = buildStep.findAssets(Glob(schema));
+
+    return await schemaAssetStream
+        .asyncMap(
+          (asset) async => parseString(
+            await buildStep.readAsString(asset),
+            url: asset.path,
+          ),
+        )
+        .toList();
+  }
+
   @override
   Future<void> build(BuildStep buildStep) async {
-    if (options.fragmentsGlob != null) {
-      final fragmentStream = buildStep.findAssets(Glob(options.fragmentsGlob!));
-      final fDocs = await fragmentStream
-          .asyncMap(
-            (asset) async => parseString(
-              await buildStep.readAsString(asset),
-              url: asset.path,
-            ),
-          )
-          .toList();
-      fDocs.forEach(
-        (fDoc) => fragmentsCommon.addAll(
-            fDoc.definitions.whereType<FragmentDefinitionNode>().toList()),
+    final fragmentsGlob = options.fragmentsGlob;
+    if (fragmentsGlob != null) {
+      fragmentsCommon.addAll(
+        (await readGraphQlFiles(buildStep, fragmentsGlob))
+            .map((e) => e.definitions.whereType<FragmentDefinitionNode>())
+            .expand((e) => e)
+            .toList(),
       );
+
+      if (fragmentsCommon.isEmpty) {
+        throw MissingFilesException(fragmentsGlob);
+      }
     }
 
     for (final schemaMap in options.schemaMapping) {
-      final buffer = StringBuffer();
-      final outputFileId = AssetId(buildStep.inputId.package,
-          _addGraphQLExtensionToPathIfNeeded(schemaMap.output!));
+      final queriesGlob = schemaMap.queriesGlob;
+      final schema = schemaMap.schema;
+      final output = schemaMap.output;
+
+      if (schema == null) {
+        throw MissingBuildConfigurationException('schema_map => schema');
+      }
+
+      if (output == null) {
+        throw MissingBuildConfigurationException('schema_map => output');
+      }
 
       // Loop through all files in glob
-      if (schemaMap.queriesGlob == null) {
-        throw Exception('''No queries were considered on this generation!
-Make sure that `queries_glob` your build.yaml file include GraphQL queries files.
-''');
-      } else if (Glob(schemaMap.queriesGlob!).matches(schemaMap.schema!)) {
+      if (queriesGlob == null) {
+        throw MissingBuildConfigurationException('schema_map => queries_glob');
+      } else if (Glob(queriesGlob).matches(schema)) {
         throw QueryGlobsSchemaException();
-      } else if (Glob(schemaMap.queriesGlob!).matches(schemaMap.output!)) {
+      } else if (Glob(queriesGlob).matches(output)) {
         throw QueryGlobsOutputException();
       }
 
-      final assetStream = buildStep.findAssets(Glob(schemaMap.queriesGlob!));
-      var gqlDocs = await assetStream
-          .asyncMap(
-            (asset) async => parseString(
-              await buildStep.readAsString(asset),
-              url: asset.path,
-            ),
-          )
-          .toList();
+      final gqlSchema = await readGraphQlFiles(buildStep, schema);
+
+      if (gqlSchema.isEmpty) {
+        throw MissingFilesException(schema);
+      }
+
+      var gqlDocs = await readGraphQlFiles(buildStep, queriesGlob);
+
+      if (gqlDocs.isEmpty) {
+        throw MissingFilesException(queriesGlob);
+      }
 
       if (schemaMap.appendTypeName) {
         gqlDocs = gqlDocs.map(
@@ -137,38 +162,26 @@ Make sure that `queries_glob` your build.yaml file include GraphQL queries files
             .toList();
       }
 
-      final schemaAssetStream = buildStep.findAssets(Glob(schemaMap.schema!));
-
-      DocumentNode gqlSchema;
-
-      try {
-        gqlSchema = await schemaAssetStream
-            .asyncMap(
-              (asset) async => parseString(
-                await buildStep.readAsString(asset),
-                url: asset.path,
-              ),
-            )
-            .first;
-      } catch (e) {
-        throw Exception(
-            '''Schema `${schemaMap.schema}` was not found or doesn't have a proper format!
-Make sure the file exists and you've typed it correctly on build.yaml.
-$e
-''');
-      }
-
       final libDefinition = generateLibrary(
-        _addGraphQLExtensionToPathIfNeeded(schemaMap.output!),
+        _addGraphQLExtensionToPathIfNeeded(output),
         gqlDocs,
         options,
         schemaMap,
         fragmentsCommon,
-        gqlSchema,
+        gqlSchema.first,
       );
+
       if (onBuild != null) {
         onBuild!(libDefinition);
       }
+
+      final buffer = StringBuffer();
+
+      final outputFileId = AssetId(
+        buildStep.inputId.package,
+        _addGraphQLExtensionToPathIfNeeded(output),
+      );
+
       writeLibraryDefinitionToBuffer(
         buffer,
         options.ignoreForFile,
@@ -177,9 +190,9 @@ $e
 
       await buildStep.writeAsString(outputFileId, buffer.toString());
 
-      if (!schemaMap.output!.endsWith('.graphql.dart')) {
+      if (!output.endsWith('.graphql.dart')) {
         final forwarderOutputFileId =
-            AssetId(buildStep.inputId.package, schemaMap.output!);
+            AssetId(buildStep.inputId.package, output);
         await buildStep.writeAsString(
             forwarderOutputFileId, writeLibraryForwarder(libDefinition));
       }

@@ -3,9 +3,7 @@ import 'package:build/build.dart';
 import 'package:artemis/generator/data/data.dart';
 import 'package:artemis/generator/data/enum_value_definition.dart';
 import 'package:build_test/build_test.dart';
-import 'package:logging/logging.dart';
 import 'package:test/test.dart';
-import 'package:collection/collection.dart';
 
 void main() {
   group('Multiple schema mapping', () {
@@ -30,7 +28,7 @@ void main() {
           ],
         }));
 
-        int count = 0;
+        var count = 0;
         anotherBuilder.onBuild = expectAsync1((definition) {
           log.fine(definition);
           if (count == 0) {
