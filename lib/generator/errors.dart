@@ -65,6 +65,33 @@ Change `schema` or `output` location and try again.
 ''';
 }
 
+/// Define an exception thrown when Artemis does not find asset files
+class MissingFilesException implements Exception {
+  /// glob pattern which was used
+  final String globPattern;
+
+  /// Define an exception thrown when Artemis does not find asset files
+  MissingFilesException(this.globPattern);
+
+  @override
+  String toString() {
+    return 'Missing files for $globPattern';
+  }
+}
+
+/// Define an exception thrown when Artemis does not find required config params
+class MissingBuildConfigurationException implements Exception {
+  /// missing config option name
+  final String name;
+
+  /// Define an exception thrown when Artemis does not find required config params
+  MissingBuildConfigurationException(this.name);
+
+  @override
+  String toString() =>
+      'Missing `$name` configuration option. Cehck `build.yaml` configuration';
+}
+
 /// Define an exception thrown when Artemis find a scalar on schema but it's
 /// not configured on `build.yaml`.
 class MissingScalarConfigurationException implements Exception {

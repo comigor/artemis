@@ -2,14 +2,11 @@ import 'package:artemis/builder.dart';
 import 'package:artemis/generator/errors.dart';
 import 'package:build/build.dart';
 import 'package:build_test/build_test.dart';
-import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 
 void main() {
-  Logger.root.level = Level.ALL;
-
   group('On errors', () {
-    test('When the schema file is not found', () async {
+    test('When the schema glob matches queries glob', () async {
       final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
         'generate_helpers': false,
         'schema_mapping': [
@@ -32,7 +29,7 @@ void main() {
                 'a|some_query.query.graphql': 'query some_query { s }',
               },
               onLog: print),
-          throwsA(predicate((e) => e is Exception)));
+          throwsA(predicate((e) => e is QueryGlobsSchemaException)));
     });
 
     test("When user hasn't configured an output", () async {
@@ -48,8 +45,115 @@ void main() {
             ],
           }));
         },
-        throwsA(predicate((e) => e is Exception)),
+        throwsA(predicate((e) {
+          return e is MissingBuildConfigurationException &&
+              e.name == 'schema_mapping => output';
+        })),
       );
+    });
+
+    test("When user hasn't configured an queries_glob", () async {
+      final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
+        'generate_helpers': false,
+        'schema_mapping': [
+          {
+            'schema': 'api.schema.grqphql',
+            'output': 'lib/some_query.dart',
+          },
+        ],
+      }));
+
+      try {
+        await testBuilder(
+            anotherBuilder,
+            {
+              'a|api.schema.graphql': ''' ''',
+              'a|queries/query.graphql': ''' ''',
+              'a|fragment.frag': ''' '''
+            },
+            onLog: print);
+      } on MissingBuildConfigurationException catch (e) {
+        expect(e.name, 'schema_map => queries_glob');
+        return;
+      }
+
+      throw Exception('Expected MissingBuildConfigurationException');
+    });
+
+    test('When user fragments_glob return empty file', () async {
+      final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
+        'generate_helpers': false,
+        'fragments_glob': '**.frag',
+        'schema_mapping': [
+          {
+            'schema': 'api.schema.grqphql',
+            'output': 'lib/some_query.dart',
+          },
+        ],
+      }));
+
+      try {
+        await testBuilder(
+            anotherBuilder,
+            {
+              'a|api.schema.graphql': ''' ''',
+              'a|queries/query.graphql': ''' ''',
+            },
+            onLog: print);
+      } on MissingFilesException catch (e) {
+        expect(e.globPattern, '**.frag');
+        return;
+      }
+      throw Exception('Expected MissingFilesException');
+    });
+
+    test('When schema_mapping is empty', () async {
+      try {
+        final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
+          'generate_helpers': false,
+          'schema_mapping': [],
+        }));
+
+        await testBuilder(
+            anotherBuilder,
+            {
+              'a|api.schema.graphql': ''' ''',
+              'a|queries/query.graphql': ''' ''',
+            },
+            onLog: print);
+      } on MissingBuildConfigurationException catch (e) {
+        expect(e.name, 'schema_mapping');
+        return;
+      }
+
+      throw Exception('Expected MissingBuildConfigurationException');
+    });
+
+    test('When schema_mapping => schema is not defined', () async {
+      try {
+        final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
+          'generate_helpers': false,
+          'schema_mapping': [
+            {
+              'queries_glob': '**.graphql',
+              'output': 'lib/some_query.dart',
+            }
+          ],
+        }));
+
+        await testBuilder(
+            anotherBuilder,
+            {
+              'a|api.schema.graphql': ''' ''',
+              'a|queries/query.graphql': ''' ''',
+            },
+            onLog: print);
+      } on MissingBuildConfigurationException catch (e) {
+        expect(e.name, 'schema_map => schema');
+        return;
+      }
+
+      throw Exception('Expected MissingBuildConfigurationException');
     });
 
     test('When fragments_glob meets local fragments', () async {
@@ -101,6 +205,64 @@ void main() {
               },
               onLog: print),
           throwsA(predicate((e) => e is FragmentIgnoreException)));
+    });
+
+    test('When the schema file is not found', () async {
+      final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
+        'generate_helpers': false,
+        'schema_mapping': [
+          {
+            'schema': 'non_existent_api.schema.graphql',
+            'queries_glob': 'lib/**.graphql',
+            'output': 'lib/some_query.dart',
+          },
+        ],
+      }));
+
+      anotherBuilder.onBuild = expectAsync1((_) => null, count: 0);
+
+      expect(
+          () => testBuilder(
+              anotherBuilder,
+              {
+                'a|api.schema.json': '',
+                'a|api.schema.grqphql': '',
+                'a|some_query.query.graphql': 'query some_query { s }',
+              },
+              onLog: print),
+          throwsA(predicate(
+            (e) =>
+                e is MissingFilesException &&
+                e.globPattern == 'non_existent_api.schema.graphql',
+          )));
+    });
+
+    test('When the queries_glob files are not found', () async {
+      final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
+        'generate_helpers': false,
+        'schema_mapping': [
+          {
+            'schema': 'api.schema.grqphql',
+            'queries_glob': 'lib/**.graphql',
+            'output': 'lib/some_query.dart',
+          },
+        ],
+      }));
+
+      anotherBuilder.onBuild = expectAsync1((_) => null, count: 0);
+
+      expect(
+          () => testBuilder(
+              anotherBuilder,
+              {
+                'a|api.schema.grqphql': '',
+                'a|some_query.query.graphql': 'query some_query { s }',
+              },
+              onLog: print),
+          throwsA(predicate(
+            (e) =>
+                e is MissingFilesException && e.globPattern == 'lib/**.graphql',
+          )));
     });
   });
 

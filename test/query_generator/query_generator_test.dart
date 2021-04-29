@@ -1,25 +1,10 @@
-import 'package:artemis/builder.dart';
 import 'package:artemis/generator/data/data.dart';
-import 'package:build/build.dart';
-import 'package:build_test/build_test.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
 
 void main() {
   group('On query generation', () {
-    test('When not configured, nothing will be generated', () async {
-      final anotherBuilder = graphQLQueryBuilder(BuilderOptions({}));
-
-      await testBuilder(
-        anotherBuilder,
-        {
-          'a|api.schema.graphql': '',
-          'a|some_query.query.graphql': 'query some_query { s, i }',
-        },
-      );
-    });
-
     test(
         'A simple query yields simple classes',
         () async => testGenerator(

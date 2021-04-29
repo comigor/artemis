@@ -7,7 +7,6 @@ analyzer:
     implicit-casts: false
   exclude:
     - example/**/*.dart
-    - test/**/*.dart
 linter:
   rules:
     - public_member_api_docs

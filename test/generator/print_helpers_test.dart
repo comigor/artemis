@@ -696,7 +696,7 @@ enum SomeEnum {
   test('Should not add ignore_for_file when ignoreForFile is null', () {
     final buffer = StringBuffer();
     final definition = LibraryDefinition(basename: r'test_query.graphql');
-    final List<String> ignoreForFile = [];
+    final ignoreForFile = <String>[];
 
     writeLibraryDefinitionToBuffer(buffer, ignoreForFile, definition);
 
