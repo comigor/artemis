@@ -26,6 +26,7 @@ void main() {
 
           input Input {
             id: MyUuid!
+            idNullabe: MyUuid
           }
           ''',
         libraryDefinition: libraryDefinition,
@@ -94,6 +95,13 @@ final LibraryDefinition libraryDefinition =
                   annotations: [
                     r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid)'
                   ],
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(name: r'MyUuid'),
+                  name: ClassPropertyName(name: r'idNullabe'),
+                  annotations: [
+                    r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuidNullable, toJson: fromDartMyUuidToGraphQLMyUuidNullable)'
+                  ],
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -108,14 +116,14 @@ final LibraryDefinition libraryDefinition =
             type: TypeName(name: r'MyUuid'),
             name: QueryInputName(name: r'previousId'),
             annotations: [
-              r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid)'
+              r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuidNullable, toJson: fromDartMyUuidToGraphQLMyUuidNullable)'
             ]),
         QueryInput(
             type: ListOfTypeName(
                 typeName: TypeName(name: r'MyUuid'), isNonNull: false),
             name: QueryInputName(name: r'listIds'),
             annotations: [
-              r'JsonKey(fromJson: fromGraphQLListMyUuidToDartListMyUuid, toJson: fromDartListMyUuidToGraphQLListMyUuid)'
+              r'JsonKey(fromJson: fromGraphQLListMyUuidToDartListMyUuidNullable, toJson: fromDartListMyUuidToGraphQLListMyUuidNullable)'
             ])
       ],
       generateHelpers: true,
@@ -169,7 +177,7 @@ class Custom$MutationRoot extends JsonSerializable with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class Input extends JsonSerializable with EquatableMixin {
-  Input({required this.id});
+  Input({required this.id, this.idNullabe});
 
   factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
 
@@ -178,8 +186,13 @@ class Input extends JsonSerializable with EquatableMixin {
       toJson: fromDartMyUuidToGraphQLMyUuid)
   late MyUuid id;
 
+  @JsonKey(
+      fromJson: fromGraphQLMyUuidToDartMyUuidNullable,
+      toJson: fromDartMyUuidToGraphQLMyUuidNullable)
+  MyUuid? idNullabe;
+
   @override
-  List<Object?> get props => [id];
+  List<Object?> get props => [id, idNullabe];
   Map<String, dynamic> toJson() => _$InputToJson(this);
 }
 
@@ -194,13 +207,13 @@ class CustomArguments extends JsonSerializable with EquatableMixin {
   late Input input;
 
   @JsonKey(
-      fromJson: fromGraphQLMyUuidToDartMyUuid,
-      toJson: fromDartMyUuidToGraphQLMyUuid)
+      fromJson: fromGraphQLMyUuidToDartMyUuidNullable,
+      toJson: fromDartMyUuidToGraphQLMyUuidNullable)
   final MyUuid? previousId;
 
   @JsonKey(
-      fromJson: fromGraphQLListMyUuidToDartListMyUuid,
-      toJson: fromDartListMyUuidToGraphQLListMyUuid)
+      fromJson: fromGraphQLListMyUuidToDartListMyUuidNullable,
+      toJson: fromDartListMyUuidToGraphQLListMyUuidNullable)
   final List<MyUuid?>? listIds;
 
   @override

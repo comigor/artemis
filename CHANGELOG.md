@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 7.0.0-beta.9
+
+- nullable scalar_mapping types
+
 ## 7.0.0-beta.8
 
 - packages update
