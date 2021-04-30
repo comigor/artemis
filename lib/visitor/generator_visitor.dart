@@ -189,10 +189,18 @@ class GeneratorVisitor extends RecursiveVisitor {
                     dartType: false, schema: context.schema)
                 .dartTypeSafe);
         final dartTypeSafeStr = TypeName(name: dartTypeName.dartTypeSafe);
-        jsonKeyAnnotation['fromJson'] =
-            'fromGraphQL${graphqlTypeSafeStr.dartTypeSafe}ToDart${dartTypeSafeStr.dartTypeSafe}';
-        jsonKeyAnnotation['toJson'] =
-            'fromDart${dartTypeSafeStr.dartTypeSafe}ToGraphQL${graphqlTypeSafeStr.dartTypeSafe}';
+
+        if (node.type.isNonNull) {
+          jsonKeyAnnotation['fromJson'] =
+              'fromGraphQL${graphqlTypeSafeStr.dartTypeSafe}ToDart${dartTypeSafeStr.dartTypeSafe}';
+          jsonKeyAnnotation['toJson'] =
+              'fromDart${dartTypeSafeStr.dartTypeSafe}ToGraphQL${graphqlTypeSafeStr.dartTypeSafe}';
+        } else {
+          jsonKeyAnnotation['fromJson'] =
+              'fromGraphQL${graphqlTypeSafeStr.dartTypeSafe}ToDart${dartTypeSafeStr.dartTypeSafe}Nullable';
+          jsonKeyAnnotation['toJson'] =
+              'fromDart${dartTypeSafeStr.dartTypeSafe}ToGraphQL${graphqlTypeSafeStr.dartTypeSafe}Nullable';
+        }
       }
     }
 
