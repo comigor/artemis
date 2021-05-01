@@ -1,5 +1,6 @@
 import 'package:artemis/generator.dart';
 import 'package:artemis/generator/data/data.dart';
+import 'package:artemis/generator/data/nullable.dart';
 import 'package:artemis/generator/ephemeral_data.dart';
 import 'package:artemis/generator/graphql_helpers.dart' as gql;
 import 'package:artemis/generator/helpers.dart';
@@ -102,7 +103,7 @@ class GeneratorVisitor extends RecursiveVisitor {
           nextType: nextType,
           nextClassName: null,
           nextFieldName: null,
-          ofUnion: context.currentType,
+          ofUnion: Nullable<TypeDefinitionNode?>(context.currentType),
           inputsClasses: [],
           fragments: [],
         ),
@@ -114,7 +115,7 @@ class GeneratorVisitor extends RecursiveVisitor {
           nextType: nextType,
           nextClassName: ClassName(name: nextType.name.value),
           nextFieldName: ClassPropertyName(name: nextType.name.value),
-          ofUnion: context.currentType,
+          ofUnion: Nullable<TypeDefinitionNode?>(context.currentType),
           inputsClasses: [],
           fragments: [],
         ),
@@ -147,9 +148,10 @@ class GeneratorVisitor extends RecursiveVisitor {
 
     final nextClassName = context
         .nextTypeWithNoPath(
-          nextType: leafType,
+      nextType: leafType,
           nextClassName: ClassName(name: leafType.name.value),
           nextFieldName: ClassName(name: node.variable.name.value),
+          ofUnion: Nullable<TypeDefinitionNode?>(null),
         )
         .fullPathName();
 
@@ -232,13 +234,17 @@ class GeneratorVisitor extends RecursiveVisitor {
         '${context.path}: ... expanding ${node.name.value}');
     final fragmentName = FragmentName.fromPath(
         path: context
-            .sameTypeWithNoPath(alias: FragmentName(name: node.name.value))
+            .sameTypeWithNoPath(
+              alias: FragmentName(name: node.name.value),
+              // ofUnion: Nullable<TypeDefinitionNode?>(null),
+            )
             .fullPathName());
 
     final visitor = GeneratorVisitor(
       context: context.sameTypeWithNextPath(
         alias: fragmentName,
         generatedClasses: [],
+        // ofUnion: Nullable<TypeDefinitionNode?>(null),
         log: false,
       ),
     );
@@ -254,7 +260,10 @@ class GeneratorVisitor extends RecursiveVisitor {
   @override
   void visitFragmentDefinitionNode(FragmentDefinitionNode node) {
     final partName = FragmentName(name: node.name.value);
-    final nextContext = context.sameTypeWithNoPath(alias: partName);
+    final nextContext = context.sameTypeWithNoPath(
+      alias: partName,
+      ofUnion: Nullable<TypeDefinitionNode?>(null),
+    );
 
     logFn(context, nextContext.align, '-> Fragment');
     logFn(context, nextContext.align,

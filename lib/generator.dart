@@ -1,5 +1,6 @@
 import 'package:artemis/generator/data/data.dart';
 import 'package:artemis/generator/data/enum_value_definition.dart';
+import 'package:artemis/generator/data/nullable.dart';
 import 'package:artemis/visitor/canonical_visitor.dart';
 import 'package:artemis/visitor/generator_visitor.dart';
 import 'package:artemis/visitor/object_type_definition_visitor.dart';
@@ -335,6 +336,7 @@ Make sure your query is correct and your schema is updated.''');
         nextFieldName: nextFieldName,
         nextClassName: ClassName(name: nextType.name.value),
         alias: fieldAlias,
+        // ofUnion: Nullable<TypeDefinitionNode?>(null),
       ),
     );
   }
