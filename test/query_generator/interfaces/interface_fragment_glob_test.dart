@@ -93,7 +93,6 @@ final LibraryDefinition libraryDefinition =
         ClassDefinition(
             name:
                 ClassName(name: r'Custom$_Query$_nodeById$_chatMessage$_user'),
-            extension: ClassName(name: r'Custom$_Query$_nodeById$_chatMessage'),
             mixins: [FragmentName(name: r'UserFragMixin')],
             factoryPossibilities: {},
             typeNameField: ClassPropertyName(name: r'__typename'),
@@ -196,8 +195,7 @@ class Custom$Query$NodeById$User extends Custom$Query$NodeById
 }
 
 @JsonSerializable(explicitToJson: true)
-class Custom$Query$NodeById$ChatMessage$User
-    extends Custom$Query$NodeById$ChatMessage
+class Custom$Query$NodeById$ChatMessage$User extends JsonSerializable
     with EquatableMixin, UserFragMixin {
   Custom$Query$NodeById$ChatMessage$User();
 

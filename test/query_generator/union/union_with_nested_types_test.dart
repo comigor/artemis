@@ -1,20 +1,18 @@
 import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
-import '../helpers.dart';
+import '../../helpers.dart';
 
 void main() {
-  group('On union types111', () {
-    test(
-      'On union types',
-      () async => testGenerator(
-        query: query,
-        schema: graphQLSchema,
-        libraryDefinition: libraryDefinition,
-        generatedFile: generatedFile,
-      ),
-    );
-  });
+  test(
+    'On union with nested types',
+    () async => testGenerator(
+      query: query,
+      schema: graphQLSchema,
+      libraryDefinition: libraryDefinition,
+      generatedFile: generatedFile,
+    ),
+  );
 }
 
 final String query = r'''
@@ -102,9 +100,6 @@ final LibraryDefinition libraryDefinition =
                   name: ClassPropertyName(name: r'id'),
                   isResolveType: false)
             ],
-            extension: ClassName(
-                name:
-                    r'CheckoutById$_QueryRoot$_Node$_Checkout$_CheckoutLineItemConnection$_CheckoutLineItemEdge'),
             factoryPossibilities: {},
             typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
@@ -122,9 +117,6 @@ final LibraryDefinition libraryDefinition =
                   name: ClassPropertyName(name: r'edges'),
                   isResolveType: false)
             ],
-            extension: ClassName(
-                name:
-                    r'CheckoutById$_QueryRoot$_Node$_Checkout$_CheckoutLineItemConnection'),
             factoryPossibilities: {},
             typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
@@ -147,8 +139,6 @@ final LibraryDefinition libraryDefinition =
                   name: ClassPropertyName(name: r'edges'),
                   isResolveType: false)
             ],
-            extension:
-                ClassName(name: r'CheckoutById$_QueryRoot$_Node$_Checkout'),
             factoryPossibilities: {},
             typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
@@ -217,8 +207,7 @@ part 'query.graphql.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class CheckoutById$QueryRoot$Node$Checkout$CheckoutLineItemConnection$CheckoutLineItemEdge$ImageConnection
-    extends CheckoutById$QueryRoot$Node$Checkout$CheckoutLineItemConnection$CheckoutLineItemEdge
-    with EquatableMixin {
+    extends JsonSerializable with EquatableMixin {
   CheckoutById$QueryRoot$Node$Checkout$CheckoutLineItemConnection$CheckoutLineItemEdge$ImageConnection();
 
   factory CheckoutById$QueryRoot$Node$Checkout$CheckoutLineItemConnection$CheckoutLineItemEdge$ImageConnection.fromJson(
@@ -237,8 +226,7 @@ class CheckoutById$QueryRoot$Node$Checkout$CheckoutLineItemConnection$CheckoutLi
 
 @JsonSerializable(explicitToJson: true)
 class CheckoutById$QueryRoot$Node$Checkout$CheckoutLineItemConnection$CheckoutLineItemEdge
-    extends CheckoutById$QueryRoot$Node$Checkout$CheckoutLineItemConnection
-    with EquatableMixin {
+    extends JsonSerializable with EquatableMixin {
   CheckoutById$QueryRoot$Node$Checkout$CheckoutLineItemConnection$CheckoutLineItemEdge();
 
   factory CheckoutById$QueryRoot$Node$Checkout$CheckoutLineItemConnection$CheckoutLineItemEdge.fromJson(
@@ -258,7 +246,7 @@ class CheckoutById$QueryRoot$Node$Checkout$CheckoutLineItemConnection$CheckoutLi
 
 @JsonSerializable(explicitToJson: true)
 class CheckoutById$QueryRoot$Node$Checkout$CheckoutLineItemConnection
-    extends CheckoutById$QueryRoot$Node$Checkout with EquatableMixin {
+    extends JsonSerializable with EquatableMixin {
   CheckoutById$QueryRoot$Node$Checkout$CheckoutLineItemConnection();
 
   factory CheckoutById$QueryRoot$Node$Checkout$CheckoutLineItemConnection.fromJson(
@@ -266,7 +254,6 @@ class CheckoutById$QueryRoot$Node$Checkout$CheckoutLineItemConnection
       _$CheckoutById$QueryRoot$Node$Checkout$CheckoutLineItemConnectionFromJson(
           json);
 
-  @override
   late String id;
 
   late List<

@@ -94,8 +94,7 @@ class GeneratorVisitor extends RecursiveVisitor {
   void visitInlineFragmentNode(InlineFragmentNode node) {
     logFn(context, context.align + 1,
         '${context.path}: ... on ${node.typeCondition!.on.name.value}');
-    final nextType = gql.getTypeByName(context.schema, node.typeCondition!.on,
-        context: 'inline fragment');
+    final nextType = gql.getTypeByName(context.schema, node.typeCondition!.on);
 
     if (nextType.name.value == context.currentType!.name.value) {
       final visitor = GeneratorVisitor(
@@ -143,12 +142,11 @@ class GeneratorVisitor extends RecursiveVisitor {
 
   @override
   void visitVariableDefinitionNode(VariableDefinitionNode node) {
-    final leafType = gql.getTypeByName(context.schema, node.type,
-        context: 'variable definition');
+    final leafType = gql.getTypeByName(context.schema, node.type);
 
     final nextClassName = context
         .nextTypeWithNoPath(
-      nextType: leafType,
+          nextType: leafType,
           nextClassName: ClassName(name: leafType.name.value),
           nextFieldName: ClassName(name: node.variable.name.value),
           ofUnion: Nullable<TypeDefinitionNode?>(null),
@@ -236,7 +234,7 @@ class GeneratorVisitor extends RecursiveVisitor {
         path: context
             .sameTypeWithNoPath(
               alias: FragmentName(name: node.name.value),
-              // ofUnion: Nullable<TypeDefinitionNode?>(null),
+              ofUnion: Nullable<TypeDefinitionNode?>(null),
             )
             .fullPathName());
 
@@ -244,7 +242,7 @@ class GeneratorVisitor extends RecursiveVisitor {
       context: context.sameTypeWithNextPath(
         alias: fragmentName,
         generatedClasses: [],
-        // ofUnion: Nullable<TypeDefinitionNode?>(null),
+        ofUnion: Nullable<TypeDefinitionNode?>(null),
         log: false,
       ),
     );
@@ -270,9 +268,8 @@ class GeneratorVisitor extends RecursiveVisitor {
         '┌ ${nextContext.path}[${node.name.value}]');
     nextContext.fragments.add(node);
 
-    final nextType = gql.getTypeByName(
-        nextContext.schema, node.typeCondition.on,
-        context: 'fragment definition');
+    final nextType =
+        gql.getTypeByName(nextContext.schema, node.typeCondition.on);
 
     final visitorContext = Context(
       schema: context.schema,
