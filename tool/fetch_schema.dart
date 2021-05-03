@@ -1,133 +1,113 @@
-import 'dart:async';
-import 'dart:io';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
 
-import 'package:args/args.dart';
-import 'package:http/http.dart' as http;
+import 'package:json_annotation/json_annotation.dart';
+import 'package:equatable/equatable.dart';
+import 'package:gql/ast.dart';
 
-const String introspectionQuery = '''
-  query IntrospectionQuery {
-    __schema {
-      queryType { name }
-      mutationType { name }
-      subscriptionType { name }
-      types {
-        ...FullType
-      }
-      directives {
-        name
-        description
-        locations
-        args {
-          ...InputValue
-        }
-      }
-    }
-  }
+part 'query.graphql.g.dart';
 
-  fragment FullType on __Type {
-    kind
-    name
-    description
-    fields(includeDeprecated: true) {
-      name
-      description
-      args {
-        ...InputValue
-      }
-      type {
-        ...TypeRef
-      }
-      isDeprecated
-      deprecationReason
-    }
-    inputFields {
-      ...InputValue
-    }
-    interfaces {
-      ...TypeRef
-    }
-    enumValues(includeDeprecated: true) {
-      name
-      description
-      isDeprecated
-      deprecationReason
-    }
-    possibleTypes {
-      ...TypeRef
-    }
-  }
-
-  fragment InputValue on __InputValue {
-    name
-    description
-    type { ...TypeRef }
-    defaultValue
-  }
-
-  fragment TypeRef on __Type {
-    kind
-    name
-    ofType {
-      kind
-      name
-      ofType {
-        kind
-        name
-        ofType {
-          kind
-          name
-          ofType {
-            kind
-            name
-            ofType {
-              kind
-              name
-              ofType {
-                kind
-                name
-                ofType {
-                  kind
-                  name
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-''';
-
-Future<String> fetchGraphQLSchemaStringFromURL(String graphqlEndpoint,
-    {http.Client? client}) async {
-  final httpClient = client ?? http.Client();
-
-  final response = await httpClient.post(Uri.parse(graphqlEndpoint), body: {
-    'operationName': 'IntrospectionQuery',
-    'query': introspectionQuery,
-  });
-
-  return response.body;
+mixin UserFragMixin {
+  late String id;
+  late String username;
+}
+mixin NodeFragMixin {
+  late String id;
 }
 
-void main(List<String> args) async {
-  final parser = ArgParser()
-    ..addFlag('help', abbr: 'h', help: 'Show this help', negatable: false)
-    ..addOption('endpoint',
-        abbr: 'e', help: 'Endpoint to hit to get the schema')
-    ..addOption('output', abbr: 'o', help: 'File to output the schema to');
-  final results = parser.parse(args);
+@JsonSerializable(explicitToJson: true)
+class Custom$Query$Node$User extends Custom$Query$Node
+    with EquatableMixin, UserFragMixin {
+  Custom$Query$Node$User();
 
-  if (results['help'] as bool || args.isEmpty) {
-    return print(parser.usage);
+  factory Custom$Query$Node$User.fromJson(Map<String, dynamic> json) =>
+      _$Custom$Query$Node$UserFromJson(json);
+
+  @override
+  List<Object?> get props => [id, username];
+
+  Map<String, dynamic> toJson() => _$Custom$Query$Node$UserToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class Custom$Query$Node$ChatMessage$User extends Custom$Query$Node$ChatMessage
+    with EquatableMixin, UserFragMixin {
+  Custom$Query$Node$ChatMessage$User();
+
+  factory Custom$Query$Node$ChatMessage$User.fromJson(
+          Map<String, dynamic> json) =>
+      _$Custom$Query$Node$ChatMessage$UserFromJson(json);
+
+  @override
+  List<Object?> get props => [id, username];
+
+  Map<String, dynamic> toJson() =>
+      _$Custom$Query$Node$ChatMessage$UserToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class Custom$Query$Node$ChatMessage extends Custom$Query$Node
+    with EquatableMixin {
+  Custom$Query$Node$ChatMessage();
+
+  factory Custom$Query$Node$ChatMessage.fromJson(Map<String, dynamic> json) =>
+      _$Custom$Query$Node$ChatMessageFromJson(json);
+
+  late String message;
+
+  late Custom$Query$Node$ChatMessage$User user;
+
+  @override
+  List<Object?> get props => [message, user];
+
+  Map<String, dynamic> toJson() => _$Custom$Query$Node$ChatMessageToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class Custom$Query$Node extends JsonSerializable with EquatableMixin {
+  Custom$Query$Node();
+
+  factory Custom$Query$Node.fromJson(Map<String, dynamic> json) {
+    switch (json['__typename'].toString()) {
+      case r'Node':
+        return Custom$Query$Node$Node.fromJson(json);
+      case r'User':
+        return Custom$Query$Node$User.fromJson(json);
+      case r'ChatMessage':
+        return Custom$Query$Node$ChatMessage.fromJson(json);
+      default:
+    }
+    return _$Custom$Query$NodeFromJson(json);
   }
 
-  File(
-    results['output'] as String,
-  ).writeAsStringSync(
-    await fetchGraphQLSchemaStringFromURL(
-      results['endpoint'] as String,
-    ),
-    flush: true,
-  );
+  @override
+  List<Object?> get props => [];
+
+  Map<String, dynamic> toJson() {
+    switch ($$typename) {
+      case r'Node':
+        return (this as Custom$Query$Node$Node).toJson();
+      case r'User':
+        return (this as Custom$Query$Node$User).toJson();
+      case r'ChatMessage':
+        return (this as Custom$Query$Node$ChatMessage).toJson();
+      default:
+    }
+    return _$Custom$Query$NodeToJson(this);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class Custom$Query extends JsonSerializable with EquatableMixin {
+  Custom$Query();
+
+  factory Custom$Query.fromJson(Map<String, dynamic> json) =>
+      _$Custom$QueryFromJson(json);
+
+  Custom$Query$Node? nodeById;
+
+  @override
+  List<Object?> get props => [nodeById];
+
+  Map<String, dynamic> toJson() => _$Custom$QueryToJson(this);
 }
