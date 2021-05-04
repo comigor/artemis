@@ -1,5 +1,6 @@
 import 'package:artemis/generator.dart';
 import 'package:artemis/generator/data/data.dart';
+import 'package:artemis/generator/data/nullable.dart';
 import 'package:artemis/generator/ephemeral_data.dart';
 import 'package:artemis/generator/graphql_helpers.dart' as gql;
 import 'package:artemis/generator/helpers.dart';
@@ -93,8 +94,7 @@ class GeneratorVisitor extends RecursiveVisitor {
   void visitInlineFragmentNode(InlineFragmentNode node) {
     logFn(context, context.align + 1,
         '${context.path}: ... on ${node.typeCondition!.on.name.value}');
-    final nextType = gql.getTypeByName(context.schema, node.typeCondition!.on,
-        context: 'inline fragment');
+    final nextType = gql.getTypeByName(context.schema, node.typeCondition!.on);
 
     if (nextType.name.value == context.currentType!.name.value) {
       final visitor = GeneratorVisitor(
@@ -102,7 +102,7 @@ class GeneratorVisitor extends RecursiveVisitor {
           nextType: nextType,
           nextClassName: null,
           nextFieldName: null,
-          ofUnion: context.currentType,
+          ofUnion: Nullable<TypeDefinitionNode?>(context.currentType),
           inputsClasses: [],
           fragments: [],
         ),
@@ -114,7 +114,7 @@ class GeneratorVisitor extends RecursiveVisitor {
           nextType: nextType,
           nextClassName: ClassName(name: nextType.name.value),
           nextFieldName: ClassPropertyName(name: nextType.name.value),
-          ofUnion: context.currentType,
+          ofUnion: Nullable<TypeDefinitionNode?>(context.currentType),
           inputsClasses: [],
           fragments: [],
         ),
@@ -142,14 +142,14 @@ class GeneratorVisitor extends RecursiveVisitor {
 
   @override
   void visitVariableDefinitionNode(VariableDefinitionNode node) {
-    final leafType = gql.getTypeByName(context.schema, node.type,
-        context: 'variable definition');
+    final leafType = gql.getTypeByName(context.schema, node.type);
 
     final nextClassName = context
         .nextTypeWithNoPath(
           nextType: leafType,
           nextClassName: ClassName(name: leafType.name.value),
           nextFieldName: ClassName(name: node.variable.name.value),
+          ofUnion: Nullable<TypeDefinitionNode?>(null),
         )
         .fullPathName();
 
@@ -232,13 +232,17 @@ class GeneratorVisitor extends RecursiveVisitor {
         '${context.path}: ... expanding ${node.name.value}');
     final fragmentName = FragmentName.fromPath(
         path: context
-            .sameTypeWithNoPath(alias: FragmentName(name: node.name.value))
+            .sameTypeWithNoPath(
+              alias: FragmentName(name: node.name.value),
+              ofUnion: Nullable<TypeDefinitionNode?>(null),
+            )
             .fullPathName());
 
     final visitor = GeneratorVisitor(
       context: context.sameTypeWithNextPath(
         alias: fragmentName,
         generatedClasses: [],
+        ofUnion: Nullable<TypeDefinitionNode?>(null),
         log: false,
       ),
     );
@@ -254,16 +258,18 @@ class GeneratorVisitor extends RecursiveVisitor {
   @override
   void visitFragmentDefinitionNode(FragmentDefinitionNode node) {
     final partName = FragmentName(name: node.name.value);
-    final nextContext = context.sameTypeWithNoPath(alias: partName);
+    final nextContext = context.sameTypeWithNoPath(
+      alias: partName,
+      ofUnion: Nullable<TypeDefinitionNode?>(null),
+    );
 
     logFn(context, nextContext.align, '-> Fragment');
     logFn(context, nextContext.align,
         '┌ ${nextContext.path}[${node.name.value}]');
     nextContext.fragments.add(node);
 
-    final nextType = gql.getTypeByName(
-        nextContext.schema, node.typeCondition.on,
-        context: 'fragment definition');
+    final nextType =
+        gql.getTypeByName(nextContext.schema, node.typeCondition.on);
 
     final visitorContext = Context(
       schema: context.schema,

@@ -7,12 +7,11 @@ import '../schema/options.dart';
 import 'data/definition.dart';
 
 /// Get a full [TypeDefinitionNode] from a type node.
-TypeDefinitionNode getTypeByName(DocumentNode schema, TypeNode typeNode,
-    {String? context}) {
+TypeDefinitionNode getTypeByName(DocumentNode schema, TypeNode typeNode) {
   late NamedTypeNode namedNode;
 
   if (typeNode is ListTypeNode) {
-    return getTypeByName(schema, typeNode.type, context: context);
+    return getTypeByName(schema, typeNode.type);
   }
 
   if (typeNode is NamedTypeNode) {

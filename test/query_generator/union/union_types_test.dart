@@ -1,20 +1,18 @@
 import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
-import '../helpers.dart';
+import '../../helpers.dart';
 
 void main() {
-  group('On union types', () {
-    test(
-      'On union types',
-      () async => testGenerator(
-        query: query,
-        schema: graphQLSchema,
-        libraryDefinition: libraryDefinition,
-        generatedFile: generatedFile,
-      ),
-    );
-  });
+  test(
+    'On union types',
+    () async => testGenerator(
+      query: query,
+      schema: graphQLSchema,
+      libraryDefinition: libraryDefinition,
+      generatedFile: generatedFile,
+    ),
+  );
 }
 
 final String query = r'''

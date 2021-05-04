@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 7.0.0-beta.10
+
+- union generation fix for https://github.com/comigor/artemis/issues/284
+
 ## 7.0.0-beta.9
 
 - nullable scalar_mapping types
