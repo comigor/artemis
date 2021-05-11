@@ -52,22 +52,20 @@ class GeneratorVisitor extends RecursiveVisitor {
       possibleTypes.addAll(Map.fromIterables(keys, values));
     }
 
-    final partOfUnion = nextContext.ofUnion != null;
-    if (partOfUnion) {}
-
     final name = ClassName.fromPath(path: nextContext.fullPathName());
     logFn(context, nextContext.align,
         '└ ${nextContext.path}[${nextContext.currentType!.name.value}][${nextContext.currentClassName} ${nextContext.currentFieldName}] (${nextContext.alias ?? ''})');
     logFn(context, nextContext.align,
         '<- Generated class ${name.namePrintable}.');
-
+    final ofUnion = context.ofUnion;
+    if (ofUnion is FragmentName) {
+      _mixins.add(ofUnion);
+    }
     nextContext.generatedClasses.add(ClassDefinition(
       name: name,
       properties: _classProperties,
       mixins: _mixins,
-      extension: partOfUnion
-          ? ClassName.fromPath(path: nextContext.rollbackPath().fullPathName())
-          : null,
+      extension: ofUnion is ClassName ? ofUnion : null,
       factoryPossibilities: possibleTypes,
     ));
   }
@@ -94,15 +92,16 @@ class GeneratorVisitor extends RecursiveVisitor {
   void visitInlineFragmentNode(InlineFragmentNode node) {
     logFn(context, context.align + 1,
         '${context.path}: ... on ${node.typeCondition!.on.name.value}');
+    final ofUnion = context.ofUnion ??
+        ClassName.fromPath(path: context.rollbackPath().fullPathName());
     final nextType = gql.getTypeByName(context.schema, node.typeCondition!.on);
-
     if (nextType.name.value == context.currentType!.name.value) {
       final visitor = GeneratorVisitor(
         context: context.nextTypeWithSamePath(
           nextType: nextType,
           nextClassName: null,
           nextFieldName: null,
-          ofUnion: Nullable<TypeDefinitionNode?>(context.currentType),
+          ofUnion: Nullable<Name?>(ofUnion),
           inputsClasses: [],
           fragments: [],
         ),
@@ -114,7 +113,7 @@ class GeneratorVisitor extends RecursiveVisitor {
           nextType: nextType,
           nextClassName: ClassName(name: nextType.name.value),
           nextFieldName: ClassPropertyName(name: nextType.name.value),
-          ofUnion: Nullable<TypeDefinitionNode?>(context.currentType),
+          ofUnion: Nullable<Name?>(ofUnion),
           inputsClasses: [],
           fragments: [],
         ),
@@ -149,7 +148,7 @@ class GeneratorVisitor extends RecursiveVisitor {
           nextType: leafType,
           nextClassName: ClassName(name: leafType.name.value),
           nextFieldName: ClassName(name: node.variable.name.value),
-          ofUnion: Nullable<TypeDefinitionNode?>(null),
+          ofUnion: Nullable<Name?>(null),
         )
         .fullPathName();
 
@@ -234,7 +233,7 @@ class GeneratorVisitor extends RecursiveVisitor {
         path: context
             .sameTypeWithNoPath(
               alias: FragmentName(name: node.name.value),
-              ofUnion: Nullable<TypeDefinitionNode?>(null),
+              ofUnion: Nullable<Name?>(null),
             )
             .fullPathName());
 
@@ -242,7 +241,7 @@ class GeneratorVisitor extends RecursiveVisitor {
       context: context.sameTypeWithNextPath(
         alias: fragmentName,
         generatedClasses: [],
-        ofUnion: Nullable<TypeDefinitionNode?>(null),
+        ofUnion: Nullable<Name?>(null),
         log: false,
       ),
     );
@@ -260,7 +259,7 @@ class GeneratorVisitor extends RecursiveVisitor {
     final partName = FragmentName(name: node.name.value);
     final nextContext = context.sameTypeWithNoPath(
       alias: partName,
-      ofUnion: Nullable<TypeDefinitionNode?>(null),
+      ofUnion: Nullable<Name?>(null),
     );
 
     logFn(context, nextContext.align, '-> Fragment');
@@ -270,6 +269,8 @@ class GeneratorVisitor extends RecursiveVisitor {
 
     final nextType =
         gql.getTypeByName(nextContext.schema, node.typeCondition.on);
+    final fragmentName =
+        FragmentName.fromPath(path: nextContext.fullPathName());
 
     final visitorContext = Context(
       schema: context.schema,
@@ -285,6 +286,7 @@ class GeneratorVisitor extends RecursiveVisitor {
       fragments: [],
       usedEnums: nextContext.usedEnums,
       usedInputObjects: nextContext.usedInputObjects,
+      ofUnion: fragmentName,
     );
 
     final visitor = GeneratorVisitor(context: visitorContext);
@@ -298,8 +300,6 @@ class GeneratorVisitor extends RecursiveVisitor {
         .expand((a) => a)
         .mergeDuplicatesBy((a) => a.name, (a, b) => a);
 
-    final fragmentName =
-        FragmentName.fromPath(path: nextContext.fullPathName());
     logFn(context, nextContext.align,
         '└ ${nextContext.path}[${node.name.value}]');
     logFn(context, nextContext.align,

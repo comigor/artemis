@@ -15,8 +15,8 @@ class FragmentClassDefinition extends Definition with DataPrinter {
   /// Instantiate a fragment class definition.
   FragmentClassDefinition({
     required this.name,
-    required this.properties,
-  })   : assert(hasValue(name) && hasValue(properties)),
+    this.properties = const [],
+  })  : assert(hasValue(name.name)),
         super(name: name);
 
   @override

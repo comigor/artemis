@@ -74,7 +74,7 @@ class Context {
   final Name? currentFieldName;
 
   /// If part of an union type, which [TypeDefinitionNode] it represents.
-  final TypeDefinitionNode? ofUnion;
+  final Name? ofUnion;
 
   /// A string to replace the current class name.
   final Name? alias;
@@ -114,7 +114,7 @@ class Context {
     required TypeDefinitionNode nextType,
     required Name? nextFieldName,
     required Name? nextClassName,
-    Nullable<TypeDefinitionNode?>? ofUnion,
+    Nullable<Name?>? ofUnion,
     Name? alias,
     List<Definition>? generatedClasses,
     List<QueryInput>? inputsClasses,
@@ -143,7 +143,7 @@ class Context {
     Name? nextFieldName,
     Name? nextClassName,
     Name? alias,
-    Nullable<TypeDefinitionNode?>? ofUnion,
+    Nullable<Name?>? ofUnion,
     List<Definition>? generatedClasses,
     List<QueryInput>? inputsClasses,
     List<FragmentDefinitionNode>? fragments,
@@ -203,7 +203,7 @@ class Context {
     Name? nextFieldName,
     Name? nextClassName,
     Name? alias,
-    Nullable<TypeDefinitionNode?>? ofUnion,
+    Nullable<Name?>? ofUnion,
     List<Definition>? generatedClasses,
     List<QueryInput>? inputsClasses,
     List<FragmentDefinitionNode>? fragments,
@@ -261,7 +261,7 @@ class Context {
   /// Returns a copy of this context, with the same type, but on the first path.
   Context sameTypeWithNoPath({
     Name? alias,
-    Nullable<TypeDefinitionNode?>? ofUnion,
+    Nullable<Name?>? ofUnion,
     List<Definition>? generatedClasses,
     List<QueryInput>? inputsClasses,
     List<FragmentDefinitionNode>? fragments,
@@ -289,7 +289,7 @@ class Context {
     required TypeDefinitionNode nextType,
     required Name nextFieldName,
     required Name nextClassName,
-    Nullable<TypeDefinitionNode?>? ofUnion,
+    Nullable<Name?>? ofUnion,
     Name? alias,
     List<Definition>? generatedClasses,
     List<QueryInput>? inputsClasses,
