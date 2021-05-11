@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 7.0.0-beta.11
+
+- document generation fix for https://github.com/comigor/artemis/issues/307
+
 ## 7.0.0-beta.10
 
 - union generation fix for https://github.com/comigor/artemis/issues/284

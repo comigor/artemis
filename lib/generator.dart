@@ -127,8 +127,6 @@ Iterable<QueryDefinition> generateDefinitions(
   List<FragmentDefinitionNode> fragmentsCommon,
   CanonicalVisitor canonicalVisitor,
 ) {
-  final fragments = <FragmentDefinitionNode>[];
-
   final documentFragments =
       document.definitions.whereType<FragmentDefinitionNode>();
 
@@ -140,12 +138,19 @@ Iterable<QueryDefinition> generateDefinitions(
       document.definitions.whereType<OperationDefinitionNode>().toList();
 
   return operations.map((operation) {
+    final fragments = <FragmentDefinitionNode>[];
+    final definitions = document.definitions
+        // filtering unused operations
+        .where((e) {
+      return e is! OperationDefinitionNode || e == operation;
+    }).toList();
+
     if (fragmentsCommon.isEmpty) {
       fragments.addAll(documentFragments);
     } else {
       final fragmentsOperation =
           _extractFragments(operation.selectionSet, fragmentsCommon);
-      document.definitions.addAll(fragmentsOperation);
+      definitions.addAll(fragmentsOperation);
       fragments.addAll(fragmentsOperation);
     }
 
@@ -174,14 +179,14 @@ Iterable<QueryDefinition> generateDefinitions(
 
     final rootTypeName =
         (schemaVisitor.schemaDefinitionNode?.operationTypes ?? [])
-                .firstWhereOrNull((e) => e.operation == operation.type)
-                ?.type
-                .name
-                .value ??
+            .firstWhereOrNull((e) => e.operation == operation.type)
+            ?.type
+            .name
+            .value ??
             suffix;
 
     final TypeDefinitionNode parentType =
-        objectVisitor.getByName(rootTypeName)!;
+    objectVisitor.getByName(rootTypeName)!;
 
     final name = QueryName.fromPath(
       path: createPathName([
@@ -208,21 +213,14 @@ Iterable<QueryDefinition> generateDefinitions(
       usedInputObjects: {},
     );
 
-    final visitor = GeneratorVisitor(
-      context: context,
-    );
-
-    DocumentNode(
-      definitions: document.definitions
-          // filtering unused operations
-          .where((e) => e is! OperationDefinitionNode || e == operation)
-          .toList(),
-    ).accept(visitor);
+    final visitor = GeneratorVisitor(context: context);
+    final documentDefinitions = DocumentNode(definitions: definitions);
+    documentDefinitions.accept(visitor);
 
     return QueryDefinition(
       name: name,
       operationName: operationName,
-      document: document,
+      document: documentDefinitions,
       classes: [
         ...canonicalVisitor.enums
             .where((e) => context.usedEnums.contains(e.name)),
