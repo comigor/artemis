@@ -9,11 +9,26 @@ void main() {
       'Interface fragments',
       () async => testGenerator(
         query: r'''
+          fragment InterfaceFragment2 on InterfaceA { 
+            interface {
+              s
+            }
+
+            ...on ImplementationA {
+              b
+            }
+            ...on ImplementationB {
+              i2
+            }
+          }
           fragment InterfaceFragment on InterfaceA { 
             s
             i
             ...on ImplementationA {
               b
+              interface {
+                ...InterfaceFragment2
+              }
             }
             ...on ImplementationB {
               i2
@@ -46,6 +61,7 @@ void main() {
           interface InterfaceA {
             s: String
             i: Int
+            interface: InterfaceA
           }
 
           union UnionA = ImplementationA | ImplementationB
@@ -54,11 +70,13 @@ void main() {
             s: String
             i: Int
             b: Boolean
+            interface: InterfaceA
           }
           type ImplementationB implements InterfaceA {
             s: String
             i: Int
             i2: Int
+            interface: InterfaceA
           }
 
         ''',
@@ -76,11 +94,69 @@ final LibraryDefinition libraryDefinition =
       operationName: r'some_query',
       classes: [
         ClassDefinition(
+            name: ClassName(name: r'InterfaceFragment2Mixin$_InterfaceA'),
+            properties: [
+              ClassProperty(
+                  type: TypeName(name: r'String'),
+                  name: ClassPropertyName(name: r's'),
+                  isResolveType: false)
+            ],
+            factoryPossibilities: {},
+            typeNameField: ClassPropertyName(name: r'__typename'),
+            isInput: false),
+        ClassDefinition(
+            name: ClassName(name: r'InterfaceFragment2Mixin$_ImplementationA'),
+            properties: [
+              ClassProperty(
+                  type: TypeName(name: r'bool'),
+                  name: ClassPropertyName(name: r'b'),
+                  isResolveType: false)
+            ],
+            mixins: [FragmentName(name: r'InterfaceFragment2Mixin')],
+            factoryPossibilities: {},
+            typeNameField: ClassPropertyName(name: r'__typename'),
+            isInput: false),
+        ClassDefinition(
+            name: ClassName(name: r'InterfaceFragment2Mixin$_ImplementationB'),
+            properties: [
+              ClassProperty(
+                  type: TypeName(name: r'int'),
+                  name: ClassPropertyName(name: r'i2'),
+                  isResolveType: false)
+            ],
+            mixins: [FragmentName(name: r'InterfaceFragment2Mixin')],
+            factoryPossibilities: {},
+            typeNameField: ClassPropertyName(name: r'__typename'),
+            isInput: false),
+        FragmentClassDefinition(
+            name: FragmentName(name: r'InterfaceFragment2Mixin'),
+            properties: [
+              ClassProperty(
+                  type: TypeName(name: r'InterfaceFragment2Mixin$_InterfaceA'),
+                  name: ClassPropertyName(name: r'interface'),
+                  annotations: [r'''JsonKey(name: 'interface')'''],
+                  isResolveType: false)
+            ]),
+        ClassDefinition(
+            name: ClassName(
+                name: r'InterfaceFragmentMixin$_ImplementationA$_InterfaceA'),
+            mixins: [FragmentName(name: r'InterfaceFragment2Mixin')],
+            factoryPossibilities: {},
+            typeNameField: ClassPropertyName(name: r'__typename'),
+            isInput: false),
+        ClassDefinition(
             name: ClassName(name: r'InterfaceFragmentMixin$_ImplementationA'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'bool'),
                   name: ClassPropertyName(name: r'b'),
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(
+                      name:
+                          r'InterfaceFragmentMixin$_ImplementationA$_InterfaceA'),
+                  name: ClassPropertyName(name: r'interface'),
+                  annotations: [r'''JsonKey(name: 'interface')'''],
                   isResolveType: false)
             ],
             mixins: [FragmentName(name: r'InterfaceFragmentMixin')],
@@ -178,11 +254,81 @@ import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
 
+mixin InterfaceFragment2Mixin {
+  @JsonKey(name: 'interface')
+  InterfaceFragment2Mixin$InterfaceA? kw$interface;
+}
 mixin InterfaceFragmentMixin {
   String? s;
   int? i;
 }
 mixin UnionFragmentMixin {}
+
+@JsonSerializable(explicitToJson: true)
+class InterfaceFragment2Mixin$InterfaceA extends JsonSerializable
+    with EquatableMixin {
+  InterfaceFragment2Mixin$InterfaceA();
+
+  factory InterfaceFragment2Mixin$InterfaceA.fromJson(
+          Map<String, dynamic> json) =>
+      _$InterfaceFragment2Mixin$InterfaceAFromJson(json);
+
+  String? s;
+
+  @override
+  List<Object?> get props => [s];
+  Map<String, dynamic> toJson() =>
+      _$InterfaceFragment2Mixin$InterfaceAToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class InterfaceFragment2Mixin$ImplementationA extends JsonSerializable
+    with EquatableMixin, InterfaceFragment2Mixin {
+  InterfaceFragment2Mixin$ImplementationA();
+
+  factory InterfaceFragment2Mixin$ImplementationA.fromJson(
+          Map<String, dynamic> json) =>
+      _$InterfaceFragment2Mixin$ImplementationAFromJson(json);
+
+  bool? b;
+
+  @override
+  List<Object?> get props => [kw$interface, b];
+  Map<String, dynamic> toJson() =>
+      _$InterfaceFragment2Mixin$ImplementationAToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class InterfaceFragment2Mixin$ImplementationB extends JsonSerializable
+    with EquatableMixin, InterfaceFragment2Mixin {
+  InterfaceFragment2Mixin$ImplementationB();
+
+  factory InterfaceFragment2Mixin$ImplementationB.fromJson(
+          Map<String, dynamic> json) =>
+      _$InterfaceFragment2Mixin$ImplementationBFromJson(json);
+
+  int? i2;
+
+  @override
+  List<Object?> get props => [kw$interface, i2];
+  Map<String, dynamic> toJson() =>
+      _$InterfaceFragment2Mixin$ImplementationBToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class InterfaceFragmentMixin$ImplementationA$InterfaceA extends JsonSerializable
+    with EquatableMixin, InterfaceFragment2Mixin {
+  InterfaceFragmentMixin$ImplementationA$InterfaceA();
+
+  factory InterfaceFragmentMixin$ImplementationA$InterfaceA.fromJson(
+          Map<String, dynamic> json) =>
+      _$InterfaceFragmentMixin$ImplementationA$InterfaceAFromJson(json);
+
+  @override
+  List<Object?> get props => [kw$interface];
+  Map<String, dynamic> toJson() =>
+      _$InterfaceFragmentMixin$ImplementationA$InterfaceAToJson(this);
+}
 
 @JsonSerializable(explicitToJson: true)
 class InterfaceFragmentMixin$ImplementationA extends JsonSerializable
@@ -195,8 +341,11 @@ class InterfaceFragmentMixin$ImplementationA extends JsonSerializable
 
   bool? b;
 
+  @JsonKey(name: 'interface')
+  InterfaceFragmentMixin$ImplementationA$InterfaceA? kw$interface;
+
   @override
-  List<Object?> get props => [s, i, b];
+  List<Object?> get props => [s, i, b, kw$interface];
   Map<String, dynamic> toJson() =>
       _$InterfaceFragmentMixin$ImplementationAToJson(this);
 }
