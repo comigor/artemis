@@ -329,7 +329,7 @@ Make sure your query is correct and your schema is updated.''');
         nextFieldName: nextFieldName,
         nextClassName: ClassName(name: nextType.name.value),
         alias: fieldAlias,
-        ofUnion: Nullable<TypeDefinitionNode?>(null),
+        ofUnion: Nullable<Name?>(null),
       ),
     );
   }

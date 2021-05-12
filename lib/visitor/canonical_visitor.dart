@@ -29,7 +29,7 @@ class CanonicalVisitor extends RecursiveVisitor {
 
     final nextContext = context.sameTypeWithNoPath(
       alias: enumName,
-      ofUnion: Nullable<TypeDefinitionNode?>(null),
+      ofUnion: Nullable<Name?>(null),
     );
 
     logFn(context, nextContext.align, '-> Enum');
@@ -53,7 +53,7 @@ class CanonicalVisitor extends RecursiveVisitor {
     final name = ClassName(name: node.name.value);
     final nextContext = context.sameTypeWithNoPath(
       alias: name,
-      ofUnion: Nullable<TypeDefinitionNode?>(null),
+      ofUnion: Nullable<Name?>(null),
     );
 
     logFn(context, nextContext.align, '-> Input class');
@@ -69,7 +69,7 @@ class CanonicalVisitor extends RecursiveVisitor {
           nextType: node,
           nextClassName: ClassName(name: nextType.name.value),
           nextFieldName: ClassName(name: i.name.value),
-          ofUnion: Nullable<TypeDefinitionNode?>(null),
+          ofUnion: Nullable<Name?>(null),
         ),
         markAsUsed: false,
       );

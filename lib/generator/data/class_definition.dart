@@ -11,7 +11,7 @@ class ClassDefinition extends Definition with DataPrinter {
   final Iterable<ClassProperty> properties;
 
   /// The type this class extends from, or [null].
-  final Name? extension;
+  final ClassName? extension;
 
   /// The types this class implements.
   final Iterable<String> implementations;
