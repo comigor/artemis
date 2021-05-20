@@ -12,7 +12,6 @@ dependencies:
   build: ^2.0.1
   code_builder: ^3.5.0
   collection: ^1.14.13
-  dart_style: ^2.0.1
   equatable: ^1.2.5
   gql_code_gen: ^0.1.5
   gql_dedupe_link: ^1.0.10
@@ -29,6 +28,7 @@ dependencies:
   yaml: ^3.0.0
 dependency_overrides:
   glob: 2.0.0
+  dart_style: 2.0.1
 
 dev_dependencies:
   args: ^2.1.0
