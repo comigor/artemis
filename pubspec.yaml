@@ -10,7 +10,7 @@ environment:
 dependencies:
   build_config: ^1.0.0
   build: ^2.0.1
-  code_builder: ^3.5.0
+  code_builder: ^4.0.0
   collection: ^1.14.13
   equatable: ^1.2.5
   glob: ^2.0.0
