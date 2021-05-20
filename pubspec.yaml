@@ -13,7 +13,7 @@ dependencies:
   code_builder: ^3.5.0
   collection: ^1.14.13
   equatable: ^1.2.5
-  gql_code_gen: ^0.1.5
+  gql_code_gen: ^0.2.0-alpha.1
   gql_dedupe_link: ^1.0.10
   gql_exec: ^0.2.5
   gql_http_link: ^0.3.2
