@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 7.0.0-beta.12
+
+- package update
+
 ## 7.0.0-beta.11
 
 - document generation fix for https://github.com/comigor/artemis/issues/307
