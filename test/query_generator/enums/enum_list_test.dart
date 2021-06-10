@@ -105,6 +105,7 @@ class Custom$QueryRoot$QueryResponse extends JsonSerializable
 
   @override
   List<Object?> get props => [le];
+  @override
   Map<String, dynamic> toJson() => _$Custom$QueryRoot$QueryResponseToJson(this);
 }
 
@@ -119,6 +120,7 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [q];
+  @override
   Map<String, dynamic> toJson() => _$Custom$QueryRootToJson(this);
 }
 

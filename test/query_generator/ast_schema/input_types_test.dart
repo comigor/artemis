@@ -169,6 +169,7 @@ class CreateThing$MutationRoot$CreateThingResponse$Thing
 
   @override
   List<Object?> get props => [id, message];
+  @override
   Map<String, dynamic> toJson() =>
       _$CreateThing$MutationRoot$CreateThingResponse$ThingToJson(this);
 }
@@ -186,6 +187,7 @@ class CreateThing$MutationRoot$CreateThingResponse extends JsonSerializable
 
   @override
   List<Object?> get props => [thing];
+  @override
   Map<String, dynamic> toJson() =>
       _$CreateThing$MutationRoot$CreateThingResponseToJson(this);
 }
@@ -201,6 +203,7 @@ class CreateThing$MutationRoot extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [createThing];
+  @override
   Map<String, dynamic> toJson() => _$CreateThing$MutationRootToJson(this);
 }
 
@@ -215,6 +218,7 @@ class OtherObjectInput extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [id];
+  @override
   Map<String, dynamic> toJson() => _$OtherObjectInputToJson(this);
 }
 
@@ -233,6 +237,7 @@ class CreateThingInput extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [clientId, message, shares];
+  @override
   Map<String, dynamic> toJson() => _$CreateThingInputToJson(this);
 }
 ''';

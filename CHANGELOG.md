@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 7.0.0-beta.13
+
+- fix for https://github.com/comigor/artemis/issues/177
+
 ## 7.0.0-beta.12
 
 - package update

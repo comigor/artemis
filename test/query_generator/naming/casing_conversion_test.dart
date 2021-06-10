@@ -232,6 +232,7 @@ class SomeObject extends JsonSerializable with EquatableMixin {
         screamingSnakeCaseField,
         e
       ];
+  @override
   Map<String, dynamic> toJson() => _$SomeObjectToJson(this);
 }
 
@@ -246,6 +247,7 @@ class SomeQuery$Query extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [query];
+  @override
   Map<String, dynamic> toJson() => _$SomeQuery$QueryToJson(this);
 }
 
@@ -282,6 +284,7 @@ class Input extends JsonSerializable with EquatableMixin {
         screamingSnakeCaseField,
         e
       ];
+  @override
   Map<String, dynamic> toJson() => _$InputToJson(this);
 }
 

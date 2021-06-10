@@ -246,6 +246,7 @@ class VoyagesData$Query$VoyageList$VoyageDetails$Voyage extends JsonSerializable
 
   @override
   List<Object?> get props => [dateFrom, dateTo, id, voyageNumber];
+  @override
   Map<String, dynamic> toJson() =>
       _$VoyagesData$Query$VoyageList$VoyageDetails$VoyageToJson(this);
 }
@@ -265,6 +266,7 @@ class VoyagesData$Query$VoyageList$VoyageDetails extends JsonSerializable
 
   @override
   List<Object?> get props => [numberOfReports, voyage];
+  @override
   Map<String, dynamic> toJson() =>
       _$VoyagesData$Query$VoyageList$VoyageDetailsToJson(this);
 }
@@ -281,6 +283,7 @@ class VoyagesData$Query$VoyageList extends JsonSerializable
 
   @override
   List<Object?> get props => [voyages];
+  @override
   Map<String, dynamic> toJson() => _$VoyagesData$Query$VoyageListToJson(this);
 }
 
@@ -295,6 +298,7 @@ class VoyagesData$Query extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [voyages];
+  @override
   Map<String, dynamic> toJson() => _$VoyagesData$QueryToJson(this);
 }
 
@@ -311,6 +315,7 @@ class PaginationInput extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [limit, offset];
+  @override
   Map<String, dynamic> toJson() => _$PaginationInputToJson(this);
 }
 

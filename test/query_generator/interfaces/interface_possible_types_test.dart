@@ -156,6 +156,7 @@ class Custom$Query$Node$User extends Custom$Query$Node with EquatableMixin {
 
   @override
   List<Object?> get props => [username];
+  @override
   Map<String, dynamic> toJson() => _$Custom$Query$Node$UserToJson(this);
 }
 
@@ -171,6 +172,7 @@ class Custom$Query$Node$ChatMessage extends Custom$Query$Node
 
   @override
   List<Object?> get props => [message];
+  @override
   Map<String, dynamic> toJson() => _$Custom$Query$Node$ChatMessageToJson(this);
 }
 
@@ -196,6 +198,7 @@ class Custom$Query$Node extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [id, $$typename];
+  @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
       case r'User':
@@ -219,6 +222,7 @@ class Custom$Query extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [nodeById];
+  @override
   Map<String, dynamic> toJson() => _$Custom$QueryToJson(this);
 }
 ''';

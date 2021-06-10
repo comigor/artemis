@@ -137,6 +137,7 @@ class BrowseArticles$Query$Article extends JsonSerializable
 
   @override
   List<Object?> get props => [id, title, articleType];
+  @override
   Map<String, dynamic> toJson() => _$BrowseArticles$Query$ArticleToJson(this);
 }
 
@@ -151,6 +152,7 @@ class BrowseArticles$Query extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [articles];
+  @override
   Map<String, dynamic> toJson() => _$BrowseArticles$QueryToJson(this);
 }
 

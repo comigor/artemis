@@ -183,6 +183,7 @@ class Custom$MutationRoot$MutationResponse extends JsonSerializable
 
   @override
   List<Object?> get props => [s];
+  @override
   Map<String, dynamic> toJson() =>
       _$Custom$MutationRoot$MutationResponseToJson(this);
 }
@@ -198,6 +199,7 @@ class Custom$MutationRoot extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [mut];
+  @override
   Map<String, dynamic> toJson() => _$Custom$MutationRootToJson(this);
 }
 
@@ -211,6 +213,7 @@ class Input extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [s];
+  @override
   Map<String, dynamic> toJson() => _$InputToJson(this);
 }
 
@@ -228,6 +231,7 @@ class $custom$MutationRoot$$MutationResponse extends JsonSerializable
 
   @override
   List<Object?> get props => [$s];
+  @override
   Map<String, dynamic> toJson() =>
       _$$custom$MutationRoot$$MutationResponseToJson(this);
 }
@@ -244,6 +248,7 @@ class $custom$MutationRoot extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [$mut];
+  @override
   Map<String, dynamic> toJson() => _$$custom$MutationRootToJson(this);
 }
 
@@ -258,6 +263,7 @@ class $Input extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [$s];
+  @override
   Map<String, dynamic> toJson() => _$$InputToJson(this);
 }
 

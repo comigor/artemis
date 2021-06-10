@@ -98,6 +98,7 @@ Spec classDefinitionToSpec(
       ? Method(
           (m) => m
             ..name = 'toJson'
+            ..annotations.add(CodeExpression(Code('override')))
             ..returns = refer('Map<String, dynamic>')
             ..body = Code(_toJsonBody(definition)),
         )
@@ -105,6 +106,7 @@ Spec classDefinitionToSpec(
           (m) => m
             ..name = 'toJson'
             ..lambda = true
+            ..annotations.add(CodeExpression(Code('override')))
             ..returns = refer('Map<String, dynamic>')
             ..body = Code('_\$${definition.name.namePrintable}ToJson(this)'),
         );

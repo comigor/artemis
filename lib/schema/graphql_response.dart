@@ -1,9 +1,7 @@
 import 'package:gql_exec/gql_exec.dart';
-import 'package:meta/meta.dart';
 
 /// Encapsulates a GraphQL query/mutation response from server, with typed
 /// input and responses, and errors.
-@immutable
 class GraphQLResponse<T> {
   /// The typed data of this response.
   final T? data;
