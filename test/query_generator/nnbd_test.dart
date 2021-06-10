@@ -94,6 +94,7 @@ class Query$Query extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [nonNullAndSelected, nullableAndSelected];
+  @override
   Map<String, dynamic> toJson() => _$Query$QueryToJson(this);
 }
 ''';
@@ -194,6 +195,7 @@ class Query$Query extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [i, inn, li, linn, lnni, lnninn, matrix, matrixnn];
+  @override
   Map<String, dynamic> toJson() => _$Query$QueryToJson(this);
 }
 ''';

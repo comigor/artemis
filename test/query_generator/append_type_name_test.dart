@@ -94,6 +94,7 @@ class Custom$QueryRoot$Q extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [e, $$typename];
+  @override
   Map<String, dynamic> toJson() => _$Custom$QueryRoot$QToJson(this);
 }
 
@@ -111,6 +112,7 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [q, $$typename];
+  @override
   Map<String, dynamic> toJson() => _$Custom$QueryRootToJson(this);
 }
 ''',
@@ -207,6 +209,7 @@ class Custom$QueryRoot$Q extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [e, $$typename];
+  @override
   Map<String, dynamic> toJson() => _$Custom$QueryRoot$QToJson(this);
 }
 
@@ -224,6 +227,7 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [q, $$typename];
+  @override
   Map<String, dynamic> toJson() => _$Custom$QueryRootToJson(this);
 }
 ''',
@@ -337,6 +341,7 @@ class Custom$QueryRoot$Q extends JsonSerializable
 
   @override
   List<Object?> get props => [e, $$typename, $$typename];
+  @override
   Map<String, dynamic> toJson() => _$Custom$QueryRoot$QToJson(this);
 }
 
@@ -354,6 +359,7 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [q, $$typename];
+  @override
   Map<String, dynamic> toJson() => _$Custom$QueryRootToJson(this);
 }
 ''',
@@ -495,6 +501,7 @@ class Custom$QueryRoot$Q$TypeA extends Custom$QueryRoot$Q with EquatableMixin {
 
   @override
   List<Object?> get props => [a, $$typename];
+  @override
   Map<String, dynamic> toJson() => _$Custom$QueryRoot$Q$TypeAToJson(this);
 }
 
@@ -513,6 +520,7 @@ class Custom$QueryRoot$Q$TypeB extends Custom$QueryRoot$Q with EquatableMixin {
 
   @override
   List<Object?> get props => [b, $$typename];
+  @override
   Map<String, dynamic> toJson() => _$Custom$QueryRoot$Q$TypeBToJson(this);
 }
 
@@ -536,6 +544,7 @@ class Custom$QueryRoot$Q extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [$$typename];
+  @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
       case r'TypeA':
@@ -562,6 +571,7 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [q, $$typename];
+  @override
   Map<String, dynamic> toJson() => _$Custom$QueryRootToJson(this);
 }
 ''',
@@ -672,6 +682,7 @@ class Custom$QueryRoot$QueryResponse extends JsonSerializable
 
   @override
   List<Object?> get props => [e, $$typename, $$typename];
+  @override
   Map<String, dynamic> toJson() => _$Custom$QueryRoot$QueryResponseToJson(this);
 }
 
@@ -689,6 +700,7 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [q, $$typename];
+  @override
   Map<String, dynamic> toJson() => _$Custom$QueryRootToJson(this);
 }
 

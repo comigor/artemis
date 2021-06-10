@@ -149,6 +149,7 @@ class AClass extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [];
+  @override
   Map<String, dynamic> toJson() => _\$AClassToJson(this);
 }
 ''');
@@ -170,6 +171,7 @@ class AClass extends AnotherClass with EquatableMixin {
 
   @override
   List<Object?> get props => [];
+  @override
   Map<String, dynamic> toJson() => _\$AClassToJson(this);
 }
 ''');
@@ -207,6 +209,7 @@ class AClass extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [];
+  @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
       case r'ASubClass':
@@ -246,6 +249,7 @@ class AClass extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [name, anotherName];
+  @override
   Map<String, dynamic> toJson() => _\$AClassToJson(this);
 }
 ''');
@@ -295,6 +299,7 @@ class AClass extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [name, name, name, name];
+  @override
   Map<String, dynamic> toJson() => _\$AClassToJson(this);
 }
 ''');
@@ -326,6 +331,7 @@ class AClass extends JsonSerializable with EquatableMixin, FragmentMixin {
 
   @override
   List<Object?> get props => [name];
+  @override
   Map<String, dynamic> toJson() => _\$AClassToJson(this);
 }
 ''');
@@ -360,6 +366,7 @@ class AClass extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [name, anotherName];
+  @override
   Map<String, dynamic> toJson() => _\$AClassToJson(this);
 }
 ''');
@@ -682,6 +689,7 @@ class AClass extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [];
+  @override
   Map<String, dynamic> toJson() => _\$AClassToJson(this);
 }
 

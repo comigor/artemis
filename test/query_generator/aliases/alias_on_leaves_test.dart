@@ -118,6 +118,7 @@ class SomeQuery$Response$SomeObject extends JsonSerializable
 
   @override
   List<Object?> get props => [thisIsAnEnum];
+  @override
   Map<String, dynamic> toJson() => _$SomeQuery$Response$SomeObjectToJson(this);
 }
 
@@ -134,6 +135,7 @@ class SomeQuery$Response extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [thisIsAString, o];
+  @override
   Map<String, dynamic> toJson() => _$SomeQuery$ResponseToJson(this);
 }
 

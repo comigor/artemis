@@ -94,6 +94,7 @@ class SomeQuery$SomeObject extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [s, i];
+  @override
   Map<String, dynamic> toJson() => _$SomeQuery$SomeObjectToJson(this);
 }
 
@@ -108,6 +109,7 @@ class AnotherQuery$SomeObject extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [s];
+  @override
   Map<String, dynamic> toJson() => _$AnotherQuery$SomeObjectToJson(this);
 }
 ''';

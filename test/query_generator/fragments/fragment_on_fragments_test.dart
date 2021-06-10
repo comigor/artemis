@@ -160,6 +160,7 @@ class Query$Query$Pokemon extends JsonSerializable
 
   @override
   List<Object?> get props => [id, evolution, number, name];
+  @override
   Map<String, dynamic> toJson() => _$Query$Query$PokemonToJson(this);
 }
 
@@ -174,6 +175,7 @@ class Query$Query extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [pokemon];
+  @override
   Map<String, dynamic> toJson() => _$Query$QueryToJson(this);
 }
 
@@ -187,6 +189,7 @@ class PokemonMixin$Pokemon extends JsonSerializable
 
   @override
   List<Object?> get props => [name];
+  @override
   Map<String, dynamic> toJson() => _$PokemonMixin$PokemonToJson(this);
 }
 ''';

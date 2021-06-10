@@ -139,6 +139,7 @@ class SomeObject extends JsonSerializable with EquatableMixin, MyFragmentMixin {
 
   @override
   List<Object?> get props => [s, i];
+  @override
   Map<String, dynamic> toJson() => _$SomeObjectToJson(this);
 }
 
@@ -153,6 +154,7 @@ class MoreData extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [someObject];
+  @override
   Map<String, dynamic> toJson() => _$MoreDataToJson(this);
 }
 
@@ -169,6 +171,7 @@ class SomeQuery$QueryResponse extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [someObject, moreData];
+  @override
   Map<String, dynamic> toJson() => _$SomeQuery$QueryResponseToJson(this);
 }
 ''';

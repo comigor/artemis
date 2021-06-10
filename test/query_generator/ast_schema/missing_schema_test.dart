@@ -68,6 +68,7 @@ class Query$Query extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [a];
+  @override
   Map<String, dynamic> toJson() => _$Query$QueryToJson(this);
 }
 ''';
