@@ -40,16 +40,20 @@ class ArtemisClient {
   /// Create an [ArtemisClient] from [Link].
   ArtemisClient.fromLink(this._link);
 
-  /// Executes a [GraphQLQuery], returning a typed response.
+  /// Executes a [GraphQLQuery], returning a typed response. An optional
+  /// [Context] can also be provided to add additional information like
+  /// headers to the query.
   Future<GraphQLResponse<T>> execute<T, U extends JsonSerializable>(
-    GraphQLQuery<T, U> query,
-  ) async {
+    GraphQLQuery<T, U> query, {
+    Context? context,
+  }) async {
     final request = Request(
       operation: Operation(
         document: query.document,
         operationName: query.operationName,
       ),
       variables: query.getVariablesMap(),
+      context: context ?? const Context(),
     );
 
     final response = await _link.request(request).first;
@@ -60,16 +64,20 @@ class ArtemisClient {
     );
   }
 
-  /// Streams a [GraphQLQuery], returning a typed response stream.
+  /// Streams a [GraphQLQuery], returning a typed response stream. An optional
+  /// [Context] can also be provided to add additional information like
+  /// headers to the query.
   Stream<GraphQLResponse<T>> stream<T, U extends JsonSerializable>(
-    GraphQLQuery<T, U> query,
-  ) {
+    GraphQLQuery<T, U> query, {
+    Context? context,
+  }) {
     final request = Request(
       operation: Operation(
         document: query.document,
         operationName: query.operationName,
       ),
       variables: query.getVariablesMap(),
+      context: context ?? const Context(),
     );
 
     return _link.request(request).map((response) => GraphQLResponse<T>(
