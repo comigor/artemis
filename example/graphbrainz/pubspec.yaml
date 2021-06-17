@@ -13,7 +13,7 @@ dependencies:
 
 dev_dependencies:
   test: ^1.16.8
-  build_runner: ^1.12.2
+  build_runner: ^2.0.4
   json_serializable: ^4.1.0
   artemis:
     path: ../../.
