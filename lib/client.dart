@@ -65,19 +65,22 @@ class ArtemisClient {
 
   /// Streams a [GraphQLQuery], returning a typed response stream.
   Stream<GraphQLResponse<T>> stream<T, U extends JsonSerializable>(
-    GraphQLQuery<T, U> query,
-  ) {
+    GraphQLQuery<T, U> query, {
+    Context context = const Context(),
+  }) {
     final request = Request(
       operation: Operation(
         document: query.document,
         operationName: query.operationName,
       ),
       variables: query.getVariablesMap(),
+      context: context,
     );
 
     return _link.request(request).map((response) => GraphQLResponse<T>(
           data: response.data == null ? null : query.parse(response.data ?? {}),
           errors: response.errors,
+          context: response.context,
         ));
   }
 
