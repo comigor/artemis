@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 7.0.0-beta.14
+
+- Support gql context in client's execute and stream methods
+
 ## 7.0.0-beta.13
 
 - fix for https://github.com/comigor/artemis/issues/177

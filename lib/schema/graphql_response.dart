@@ -12,9 +12,13 @@ class GraphQLResponse<T> {
   /// If this response has any error.
   bool get hasErrors => errors != null && errors!.isNotEmpty;
 
+  /// The [Context] of the [Response]
+  final Context? context;
+
   /// Instantiates a GraphQL response.
   const GraphQLResponse({
     this.data,
     this.errors,
+    this.context,
   });
 }
