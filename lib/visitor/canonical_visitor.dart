@@ -31,10 +31,12 @@ class CanonicalVisitor extends RecursiveVisitor {
       alias: enumName,
       ofUnion: Nullable<TypeDefinitionNode?>(null),
     );
-
-    logFn(context, nextContext.align, '-> Enum');
-    logFn(context, nextContext.align,
-        '<- Generated enum ${enumName.namePrintable}.');
+    
+    if (context.log) {
+      logFn(context, nextContext.align, '-> Enum');
+      logFn(context, nextContext.align,
+          '<- Generated enum ${enumName.namePrintable}.');
+    }
 
     enums.add(EnumDefinition(
       name: enumName,
@@ -56,12 +58,13 @@ class CanonicalVisitor extends RecursiveVisitor {
       ofUnion: Nullable<TypeDefinitionNode?>(null),
     );
 
-    logFn(context, nextContext.align, '-> Input class');
-    logFn(context, nextContext.align,
-        '┌ ${nextContext.path}[${node.name.value}]');
-    final properties = <ClassProperty>[];
+    if (context.log) {
+      logFn(context, nextContext.align, '-> Input class');
+      logFn(context, nextContext.align,
+          '┌ ${nextContext.path}[${node.name.value}]');
+    }
 
-    properties.addAll(node.fields.map((i) {
+    final properties = node.fields.map((i) {
       final nextType = gql.getTypeByName(nextContext.schema, i.type);
       return createClassProperty(
         fieldName: ClassPropertyName(name: i.name.value),
@@ -73,13 +76,14 @@ class CanonicalVisitor extends RecursiveVisitor {
         ),
         markAsUsed: false,
       );
-    }));
+    });
 
-    logFn(context, nextContext.align,
-        '└ ${nextContext.path}[${node.name.value}]');
-    logFn(context, nextContext.align,
-        '<- Generated input class ${name.namePrintable}.');
-
+    if (context.log) {
+      logFn(context, nextContext.align,
+          '└ ${nextContext.path}[${node.name.value}]');
+      logFn(context, nextContext.align,
+          '<- Generated input class ${name.namePrintable}.');
+    }
     inputObjects.add(ClassDefinition(
       isInput: true,
       name: name,
