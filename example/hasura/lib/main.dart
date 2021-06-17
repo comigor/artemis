@@ -7,10 +7,9 @@ import 'package:gql_websocket_link/gql_websocket_link.dart';
 import 'graphql/messages_with_users.graphql.dart';
 
 Future<void> main() async {
-  final config = SocketClientConfig(autoReconnect: true);
   final client = ArtemisClient.fromLink(
     Link.from([
-      WSLink('ws://localhost:8080/v1/graphql', config: config),
+      WebSocketLink('ws://localhost:8080/v1/graphql', autoReconnect: true),
     ]),
   );
 
