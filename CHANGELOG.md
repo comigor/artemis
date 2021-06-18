@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 7.0.0-beta.15
+
+- Update build_runner version in examples
+- Update Pokemon API in pokemon example
+- Update WebSocketLink in hasura example
+
 ## 7.0.0-beta.14
 
 - Support gql context in client's execute and stream methods
