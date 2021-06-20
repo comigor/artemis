@@ -11,7 +11,7 @@ targets:
               output: lib/queries/ed_sheeran.query.dart
           custom_parser_import: 'package:graphbrainz_example/coercers.dart'
           scalar_mapping:
-            - graphql_type: Date
+          - graphql_type: Date
             dart_type: DateTime
             use_custom_parser: true
           - graphql_type: Time
