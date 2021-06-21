@@ -5,12 +5,11 @@ import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
-
 part 'ed_sheeran.query.graphql.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class EdSheeran$Query$Node$Artist$ReleaseConnection$Release
-    extends EdSheeran$Query$Node$Artist$ReleaseConnection with EquatableMixin {
+    extends JsonSerializable with EquatableMixin {
   EdSheeran$Query$Node$Artist$ReleaseConnection$Release();
 
   factory EdSheeran$Query$Node$Artist$ReleaseConnection$Release.fromJson(
@@ -25,13 +24,14 @@ class EdSheeran$Query$Node$Artist$ReleaseConnection$Release
   @override
   List<Object?> get props => [id, status];
 
+  @override
   Map<String, dynamic> toJson() =>
       _$EdSheeran$Query$Node$Artist$ReleaseConnection$ReleaseToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class EdSheeran$Query$Node$Artist$ReleaseConnection
-    extends EdSheeran$Query$Node$Artist with EquatableMixin {
+class EdSheeran$Query$Node$Artist$ReleaseConnection extends JsonSerializable
+    with EquatableMixin {
   EdSheeran$Query$Node$Artist$ReleaseConnection();
 
   factory EdSheeran$Query$Node$Artist$ReleaseConnection.fromJson(
@@ -43,12 +43,13 @@ class EdSheeran$Query$Node$Artist$ReleaseConnection
   @override
   List<Object?> get props => [nodes];
 
+  @override
   Map<String, dynamic> toJson() =>
       _$EdSheeran$Query$Node$Artist$ReleaseConnectionToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class EdSheeran$Query$Node$Artist$LifeSpan extends EdSheeran$Query$Node$Artist
+class EdSheeran$Query$Node$Artist$LifeSpan extends JsonSerializable
     with EquatableMixin {
   EdSheeran$Query$Node$Artist$LifeSpan();
 
@@ -61,13 +62,14 @@ class EdSheeran$Query$Node$Artist$LifeSpan extends EdSheeran$Query$Node$Artist
   @override
   List<Object?> get props => [begin];
 
+  @override
   Map<String, dynamic> toJson() =>
       _$EdSheeran$Query$Node$Artist$LifeSpanToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class EdSheeran$Query$Node$Artist$SpotifyArtist
-    extends EdSheeran$Query$Node$Artist with EquatableMixin {
+class EdSheeran$Query$Node$Artist$SpotifyArtist extends JsonSerializable
+    with EquatableMixin {
   EdSheeran$Query$Node$Artist$SpotifyArtist();
 
   factory EdSheeran$Query$Node$Artist$SpotifyArtist.fromJson(
@@ -79,6 +81,7 @@ class EdSheeran$Query$Node$Artist$SpotifyArtist
   @override
   List<Object?> get props => [href];
 
+  @override
   Map<String, dynamic> toJson() =>
       _$EdSheeran$Query$Node$Artist$SpotifyArtistToJson(this);
 }
@@ -104,6 +107,7 @@ class EdSheeran$Query$Node$Artist extends EdSheeran$Query$Node
   @override
   List<Object?> get props => [mbid, name, releases, lifeSpan, spotify];
 
+  @override
   Map<String, dynamic> toJson() => _$EdSheeran$Query$Node$ArtistToJson(this);
 }
 
@@ -128,6 +132,7 @@ class EdSheeran$Query$Node extends JsonSerializable with EquatableMixin {
   @override
   List<Object?> get props => [$$typename, id];
 
+  @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
       case r'Artist':
@@ -150,6 +155,7 @@ class EdSheeran$Query extends JsonSerializable with EquatableMixin {
   @override
   List<Object?> get props => [node];
 
+  @override
   Map<String, dynamic> toJson() => _$EdSheeran$QueryToJson(this);
 }
 
@@ -165,7 +171,6 @@ enum ReleaseStatus {
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
-
 final ED_SHEERAN_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
@@ -284,7 +289,6 @@ class EdSheeranQuery extends GraphQLQuery<EdSheeran$Query, JsonSerializable> {
 
   @override
   List<Object?> get props => [document, operationName];
-
   @override
   EdSheeran$Query parse(Map<String, dynamic> json) =>
       EdSheeran$Query.fromJson(json);

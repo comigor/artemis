@@ -22,7 +22,7 @@ class MessagesWithUsers$SubscriptionRoot$Messages$Profile
 
   @override
   List<Object?> get props => [id, name];
-
+  @override
   Map<String, dynamic> toJson() =>
       _$MessagesWithUsers$SubscriptionRoot$Messages$ProfileToJson(this);
 }
@@ -45,6 +45,7 @@ class MessagesWithUsers$SubscriptionRoot$Messages extends JsonSerializable
   @override
   List<Object?> get props => [id, message, profile];
 
+  @override
   Map<String, dynamic> toJson() =>
       _$MessagesWithUsers$SubscriptionRoot$MessagesToJson(this);
 }
@@ -63,6 +64,7 @@ class MessagesWithUsers$SubscriptionRoot extends JsonSerializable
   @override
   List<Object?> get props => [messages];
 
+  @override
   Map<String, dynamic> toJson() =>
       _$MessagesWithUsers$SubscriptionRootToJson(this);
 }
@@ -127,7 +129,6 @@ class MessagesWithUsersSubscription
 
   @override
   List<Object?> get props => [document, operationName];
-
   @override
   MessagesWithUsers$SubscriptionRoot parse(Map<String, dynamic> json) =>
       MessagesWithUsers$SubscriptionRoot.fromJson(json);
