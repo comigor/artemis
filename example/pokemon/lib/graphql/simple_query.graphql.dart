@@ -5,7 +5,6 @@ import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
-
 part 'simple_query.graphql.g.dart';
 
 @JsonSerializable(explicitToJson: true)
@@ -21,7 +20,7 @@ class SimpleQuery$Query$Pokemon extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [number, types];
-
+  @override
   Map<String, dynamic> toJson() => _$SimpleQuery$Query$PokemonToJson(this);
 }
 
@@ -37,6 +36,7 @@ class SimpleQuery$Query extends JsonSerializable with EquatableMixin {
   @override
   List<Object?> get props => [pokemon];
 
+  @override
   Map<String, dynamic> toJson() => _$SimpleQuery$QueryToJson(this);
 }
 
@@ -85,7 +85,6 @@ class SimpleQueryQuery
 
   @override
   List<Object?> get props => [document, operationName];
-
   @override
   SimpleQuery$Query parse(Map<String, dynamic> json) =>
       SimpleQuery$Query.fromJson(json);

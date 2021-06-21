@@ -5,7 +5,6 @@ import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
-
 part 'big_query.graphql.g.dart';
 
 @JsonSerializable(explicitToJson: true)
@@ -21,7 +20,7 @@ class BigQuery$Query$Charmander extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [number, types];
-
+  @override
   Map<String, dynamic> toJson() => _$BigQuery$Query$CharmanderToJson(this);
 }
 
@@ -41,6 +40,7 @@ class BigQuery$Query$Pokemon$Evolutions extends JsonSerializable
   @override
   List<Object?> get props => [number, name];
 
+  @override
   Map<String, dynamic> toJson() =>
       _$BigQuery$Query$Pokemon$EvolutionsToJson(this);
 }
@@ -63,6 +63,7 @@ class BigQuery$Query$Pokemon extends JsonSerializable with EquatableMixin {
   @override
   List<Object?> get props => [number, name, types, evolutions];
 
+  @override
   Map<String, dynamic> toJson() => _$BigQuery$Query$PokemonToJson(this);
 }
 
@@ -80,6 +81,7 @@ class BigQuery$Query extends JsonSerializable with EquatableMixin {
   @override
   List<Object?> get props => [charmander, pokemons];
 
+  @override
   Map<String, dynamic> toJson() => _$BigQuery$QueryToJson(this);
 }
 
@@ -95,7 +97,6 @@ class BigQueryArguments extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [quantity];
-
   @override
   Map<String, dynamic> toJson() => _$BigQueryArgumentsToJson(this);
 }
@@ -201,7 +202,6 @@ class BigQueryQuery extends GraphQLQuery<BigQuery$Query, BigQueryArguments> {
 
   @override
   List<Object?> get props => [document, operationName, variables];
-
   @override
   BigQuery$Query parse(Map<String, dynamic> json) =>
       BigQuery$Query.fromJson(json);
