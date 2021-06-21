@@ -179,14 +179,14 @@ Iterable<QueryDefinition> generateDefinitions(
 
     final rootTypeName =
         (schemaVisitor.schemaDefinitionNode?.operationTypes ?? [])
-            .firstWhereOrNull((e) => e.operation == operation.type)
-            ?.type
-            .name
-            .value ??
+                .firstWhereOrNull((e) => e.operation == operation.type)
+                ?.type
+                .name
+                .value ??
             suffix;
 
     final TypeDefinitionNode parentType =
-    objectVisitor.getByName(rootTypeName)!;
+        objectVisitor.getByName(rootTypeName)!;
 
     final name = QueryName.fromPath(
       path: createPathName([
@@ -222,11 +222,13 @@ Iterable<QueryDefinition> generateDefinitions(
       operationName: operationName,
       document: documentDefinitions,
       classes: [
-        ...canonicalVisitor.enums
-            .where((e) => context.usedEnums.contains(e.name)),
+        ...context.usedEnums
+            .map((e) => canonicalVisitor.enums[e.name]?.call())
+            .whereType<Definition>(),
         ...visitor.context.generatedClasses,
-        ...canonicalVisitor.inputObjects
-            .where((i) => context.usedInputObjects.contains(i.name)),
+        ...context.usedInputObjects
+            .map((e) => canonicalVisitor.inputObjects[e.name]?.call())
+            .whereType<Definition>(),
       ],
       inputs: visitor.context.inputsClasses,
       generateHelpers: options.generateHelpers,
