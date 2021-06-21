@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 7.0.0-beta.16
+
+- lazy canonical visitors
+
 ## 7.0.0-beta.15
 
 - Update build_runner version in examples

@@ -104,17 +104,6 @@ final LibraryDefinition libraryDefinition =
             typeNameField: ClassPropertyName(name: r'__typename'),
             isInput: false),
         ClassDefinition(
-            name: ClassName(name: r'OtherObjectInput'),
-            properties: [
-              ClassProperty(
-                  type: TypeName(name: r'String', isNonNull: true),
-                  name: ClassPropertyName(name: r'id'),
-                  isResolveType: false)
-            ],
-            factoryPossibilities: {},
-            typeNameField: ClassPropertyName(name: r'__typename'),
-            isInput: true),
-        ClassDefinition(
             name: ClassName(name: r'CreateThingInput'),
             properties: [
               ClassProperty(
@@ -131,6 +120,17 @@ final LibraryDefinition libraryDefinition =
                           TypeName(name: r'OtherObjectInput', isNonNull: true),
                       isNonNull: false),
                   name: ClassPropertyName(name: r'shares'),
+                  isResolveType: false)
+            ],
+            factoryPossibilities: {},
+            typeNameField: ClassPropertyName(name: r'__typename'),
+            isInput: true),
+        ClassDefinition(
+            name: ClassName(name: r'OtherObjectInput'),
+            properties: [
+              ClassProperty(
+                  type: TypeName(name: r'String', isNonNull: true),
+                  name: ClassPropertyName(name: r'id'),
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -208,21 +208,6 @@ class CreateThing$MutationRoot extends JsonSerializable with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class OtherObjectInput extends JsonSerializable with EquatableMixin {
-  OtherObjectInput({required this.id});
-
-  factory OtherObjectInput.fromJson(Map<String, dynamic> json) =>
-      _$OtherObjectInputFromJson(json);
-
-  late String id;
-
-  @override
-  List<Object?> get props => [id];
-  @override
-  Map<String, dynamic> toJson() => _$OtherObjectInputToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
 class CreateThingInput extends JsonSerializable with EquatableMixin {
   CreateThingInput({required this.clientId, this.message, this.shares});
 
@@ -239,5 +224,20 @@ class CreateThingInput extends JsonSerializable with EquatableMixin {
   List<Object?> get props => [clientId, message, shares];
   @override
   Map<String, dynamic> toJson() => _$CreateThingInputToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class OtherObjectInput extends JsonSerializable with EquatableMixin {
+  OtherObjectInput({required this.id});
+
+  factory OtherObjectInput.fromJson(Map<String, dynamic> json) =>
+      _$OtherObjectInputFromJson(json);
+
+  late String id;
+
+  @override
+  List<Object?> get props => [id];
+  @override
+  Map<String, dynamic> toJson() => _$OtherObjectInputToJson(this);
 }
 ''';
