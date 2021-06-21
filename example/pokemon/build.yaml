@@ -13,9 +13,6 @@ targets:
               queries_glob: graphql/simple_query.query.graphql
               output: lib/graphql/simple_query.dart
             - schema: pokemon.schema.graphql
-              queries_glob: graphql/complex_query.query.graphql
-              output: lib/graphql/complex_query.dart
-            - schema: pokemon.schema.graphql
               queries_glob: graphql/big_query.query.graphql
               output: lib/graphql/big_query.dart
             - schema: pokemon.schema.graphql

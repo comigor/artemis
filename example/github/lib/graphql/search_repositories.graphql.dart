@@ -24,6 +24,7 @@ class SearchRepositories$Query$SearchResultItemConnection$SearchResultItem$Repos
   @override
   List<Object?> get props => [name];
 
+  @override
   Map<String, dynamic> toJson() =>
       _$SearchRepositories$Query$SearchResultItemConnection$SearchResultItem$RepositoryToJson(
           this);
@@ -52,6 +53,7 @@ class SearchRepositories$Query$SearchResultItemConnection$SearchResultItem
   @override
   List<Object?> get props => [$$typename];
 
+  @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
       case r'Repository':
@@ -80,6 +82,7 @@ class SearchRepositories$Query$SearchResultItemConnection
   @override
   List<Object?> get props => [nodes];
 
+  @override
   Map<String, dynamic> toJson() =>
       _$SearchRepositories$Query$SearchResultItemConnectionToJson(this);
 }
@@ -96,6 +99,7 @@ class SearchRepositories$Query extends JsonSerializable with EquatableMixin {
   @override
   List<Object?> get props => [search];
 
+  @override
   Map<String, dynamic> toJson() => _$SearchRepositories$QueryToJson(this);
 }
 

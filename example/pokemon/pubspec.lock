@@ -28,7 +28,7 @@ packages:
       path: "../.."
       relative: true
     source: path
-    version: "7.0.0-beta.13"
+    version: "7.0.0-beta.17"
   async:
     dependency: transitive
     description:
@@ -476,21 +476,21 @@ packages:
       name: test
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.16.8"
+    version: "1.17.8"
   test_api:
     dependency: transitive
     description:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.0"
+    version: "0.4.1"
   test_core:
     dependency: transitive
     description:
       name: test_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.19"
+    version: "0.3.28"
   timing:
     dependency: transitive
     description:

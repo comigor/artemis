@@ -11,27 +11,6 @@ EdSheeran$Query$Node$Artist$ReleaseConnection$Release
     _$EdSheeran$Query$Node$Artist$ReleaseConnection$ReleaseFromJson(
         Map<String, dynamic> json) {
   return EdSheeran$Query$Node$Artist$ReleaseConnection$Release()
-    ..$$typename = json['__typename'] as String?
-    ..mbid = json['mbid'] as String
-    ..name = json['name'] as String?
-    ..releases = json['releases'] == null
-        ? null
-        : EdSheeran$Query$Node$Artist$ReleaseConnection.fromJson(
-            json['releases'] as Map<String, dynamic>)
-    ..lifeSpan = json['lifeSpan'] == null
-        ? null
-        : EdSheeran$Query$Node$Artist$LifeSpan.fromJson(
-            json['lifeSpan'] as Map<String, dynamic>)
-    ..spotify = json['spotify'] == null
-        ? null
-        : EdSheeran$Query$Node$Artist$SpotifyArtist.fromJson(
-            json['spotify'] as Map<String, dynamic>)
-    ..nodes = (json['nodes'] as List<dynamic>?)
-        ?.map((e) => e == null
-            ? null
-            : EdSheeran$Query$Node$Artist$ReleaseConnection$Release.fromJson(
-                e as Map<String, dynamic>))
-        .toList()
     ..id = json['id'] as String
     ..status = _$enumDecodeNullable(_$ReleaseStatusEnumMap, json['status'],
         unknownValue: ReleaseStatus.artemisUnknown);
@@ -41,13 +20,6 @@ Map<String, dynamic>
     _$EdSheeran$Query$Node$Artist$ReleaseConnection$ReleaseToJson(
             EdSheeran$Query$Node$Artist$ReleaseConnection$Release instance) =>
         <String, dynamic>{
-          '__typename': instance.$$typename,
-          'mbid': instance.mbid,
-          'name': instance.name,
-          'releases': instance.releases?.toJson(),
-          'lifeSpan': instance.lifeSpan?.toJson(),
-          'spotify': instance.spotify?.toJson(),
-          'nodes': instance.nodes?.map((e) => e?.toJson()).toList(),
           'id': instance.id,
           'status': _$ReleaseStatusEnumMap[instance.status],
         };
@@ -101,22 +73,6 @@ EdSheeran$Query$Node$Artist$ReleaseConnection
     _$EdSheeran$Query$Node$Artist$ReleaseConnectionFromJson(
         Map<String, dynamic> json) {
   return EdSheeran$Query$Node$Artist$ReleaseConnection()
-    ..$$typename = json['__typename'] as String?
-    ..id = json['id'] as String
-    ..mbid = json['mbid'] as String
-    ..name = json['name'] as String?
-    ..releases = json['releases'] == null
-        ? null
-        : EdSheeran$Query$Node$Artist$ReleaseConnection.fromJson(
-            json['releases'] as Map<String, dynamic>)
-    ..lifeSpan = json['lifeSpan'] == null
-        ? null
-        : EdSheeran$Query$Node$Artist$LifeSpan.fromJson(
-            json['lifeSpan'] as Map<String, dynamic>)
-    ..spotify = json['spotify'] == null
-        ? null
-        : EdSheeran$Query$Node$Artist$SpotifyArtist.fromJson(
-            json['spotify'] as Map<String, dynamic>)
     ..nodes = (json['nodes'] as List<dynamic>?)
         ?.map((e) => e == null
             ? null
@@ -128,35 +84,12 @@ EdSheeran$Query$Node$Artist$ReleaseConnection
 Map<String, dynamic> _$EdSheeran$Query$Node$Artist$ReleaseConnectionToJson(
         EdSheeran$Query$Node$Artist$ReleaseConnection instance) =>
     <String, dynamic>{
-      '__typename': instance.$$typename,
-      'id': instance.id,
-      'mbid': instance.mbid,
-      'name': instance.name,
-      'releases': instance.releases?.toJson(),
-      'lifeSpan': instance.lifeSpan?.toJson(),
-      'spotify': instance.spotify?.toJson(),
       'nodes': instance.nodes?.map((e) => e?.toJson()).toList(),
     };
 
 EdSheeran$Query$Node$Artist$LifeSpan
     _$EdSheeran$Query$Node$Artist$LifeSpanFromJson(Map<String, dynamic> json) {
   return EdSheeran$Query$Node$Artist$LifeSpan()
-    ..$$typename = json['__typename'] as String?
-    ..id = json['id'] as String
-    ..mbid = json['mbid'] as String
-    ..name = json['name'] as String?
-    ..releases = json['releases'] == null
-        ? null
-        : EdSheeran$Query$Node$Artist$ReleaseConnection.fromJson(
-            json['releases'] as Map<String, dynamic>)
-    ..lifeSpan = json['lifeSpan'] == null
-        ? null
-        : EdSheeran$Query$Node$Artist$LifeSpan.fromJson(
-            json['lifeSpan'] as Map<String, dynamic>)
-    ..spotify = json['spotify'] == null
-        ? null
-        : EdSheeran$Query$Node$Artist$SpotifyArtist.fromJson(
-            json['spotify'] as Map<String, dynamic>)
     ..begin =
         json['begin'] == null ? null : DateTime.parse(json['begin'] as String);
 }
@@ -164,13 +97,6 @@ EdSheeran$Query$Node$Artist$LifeSpan
 Map<String, dynamic> _$EdSheeran$Query$Node$Artist$LifeSpanToJson(
         EdSheeran$Query$Node$Artist$LifeSpan instance) =>
     <String, dynamic>{
-      '__typename': instance.$$typename,
-      'id': instance.id,
-      'mbid': instance.mbid,
-      'name': instance.name,
-      'releases': instance.releases?.toJson(),
-      'lifeSpan': instance.lifeSpan?.toJson(),
-      'spotify': instance.spotify?.toJson(),
       'begin': instance.begin?.toIso8601String(),
     };
 
@@ -178,35 +104,12 @@ EdSheeran$Query$Node$Artist$SpotifyArtist
     _$EdSheeran$Query$Node$Artist$SpotifyArtistFromJson(
         Map<String, dynamic> json) {
   return EdSheeran$Query$Node$Artist$SpotifyArtist()
-    ..$$typename = json['__typename'] as String?
-    ..id = json['id'] as String
-    ..mbid = json['mbid'] as String
-    ..name = json['name'] as String?
-    ..releases = json['releases'] == null
-        ? null
-        : EdSheeran$Query$Node$Artist$ReleaseConnection.fromJson(
-            json['releases'] as Map<String, dynamic>)
-    ..lifeSpan = json['lifeSpan'] == null
-        ? null
-        : EdSheeran$Query$Node$Artist$LifeSpan.fromJson(
-            json['lifeSpan'] as Map<String, dynamic>)
-    ..spotify = json['spotify'] == null
-        ? null
-        : EdSheeran$Query$Node$Artist$SpotifyArtist.fromJson(
-            json['spotify'] as Map<String, dynamic>)
     ..href = json['href'] as String;
 }
 
 Map<String, dynamic> _$EdSheeran$Query$Node$Artist$SpotifyArtistToJson(
         EdSheeran$Query$Node$Artist$SpotifyArtist instance) =>
     <String, dynamic>{
-      '__typename': instance.$$typename,
-      'id': instance.id,
-      'mbid': instance.mbid,
-      'name': instance.name,
-      'releases': instance.releases?.toJson(),
-      'lifeSpan': instance.lifeSpan?.toJson(),
-      'spotify': instance.spotify?.toJson(),
       'href': instance.href,
     };
 

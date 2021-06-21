@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 7.0.0-beta.17
+
+- example indentaion fix
+
 ## 7.0.0-beta.16
 
 - lazy canonical visitors
