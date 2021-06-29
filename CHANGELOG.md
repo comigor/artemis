@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 7.1.0-beta.0
+
+**BREAKING CHANGE**
+
+- changed the naming of scalar mappers
+
 ## 7.0.0-beta.17
 
 - example indentaion fix
