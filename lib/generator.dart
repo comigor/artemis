@@ -349,24 +349,13 @@ Make sure your query is correct and your schema is updated.''');
 
     if (scalar?.customParserImport != null &&
         nextType.name.value == scalar?.graphQLType) {
-      final graphqlTypeSafeStr = TypeName(
-          name: gql
-              .buildTypeName(fieldType, context.options,
-                  dartType: false, schema: context.schema)
-              .dartTypeSafe);
-      final dartTypeSafeStr = TypeName(name: dartTypeName.dartTypeSafe);
+      final graphqlTypeName = gql.buildTypeName(fieldType, context.options,
+          dartType: false, schema: context.schema);
 
-      if (fieldType.isNonNull) {
-        jsonKeyAnnotation['fromJson'] =
-            'fromGraphQL${graphqlTypeSafeStr.dartTypeSafe}ToDart${dartTypeSafeStr.dartTypeSafe}';
-        jsonKeyAnnotation['toJson'] =
-            'fromDart${dartTypeSafeStr.dartTypeSafe}ToGraphQL${graphqlTypeSafeStr.dartTypeSafe}';
-      } else {
-        jsonKeyAnnotation['fromJson'] =
-            'fromGraphQL${graphqlTypeSafeStr.dartTypeSafe}ToDart${dartTypeSafeStr.dartTypeSafe}Nullable';
-        jsonKeyAnnotation['toJson'] =
-            'fromDart${dartTypeSafeStr.dartTypeSafe}ToGraphQL${graphqlTypeSafeStr.dartTypeSafe}Nullable';
-      }
+      jsonKeyAnnotation['fromJson'] =
+          'fromGraphQL${graphqlTypeName.parserSafe}ToDart${dartTypeName.parserSafe}';
+      jsonKeyAnnotation['toJson'] =
+          'fromDart${dartTypeName.parserSafe}ToGraphQL${graphqlTypeName.parserSafe}';
     }
   } // On enums
   else if (nextType is EnumTypeDefinitionNode) {

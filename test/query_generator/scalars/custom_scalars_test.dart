@@ -67,7 +67,7 @@ void main() {
     test(
       'When they need custom imports',
       () async => testGenerator(
-        query: 'query query { a }',
+        query: 'query query { a, b, c, d, e, f }',
         schema: r'''
           scalar MyUuid
 
@@ -77,6 +77,11 @@ void main() {
 
           type SomeObject {
             a: MyUuid
+            b: MyUuid!
+            c: [MyUuid!]!
+            d: [MyUuid]
+            e: [MyUuid]!
+            f: [MyUuid!]
           }
         ''',
         libraryDefinition: libraryDefinitionWithCustomImports,
@@ -133,7 +138,7 @@ final LibraryDefinition libraryDefinitionWithCustomParserFns =
                   type: TypeName(name: r'MyDartUuid'),
                   name: ClassPropertyName(name: r'a'),
                   annotations: [
-                    r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyDartUuidNullable, toJson: fromDartMyDartUuidToGraphQLMyUuidNullable)'
+                    r'JsonKey(fromJson: fromGraphQLMyUuidNullableToDartMyDartUuidNullable, toJson: fromDartMyDartUuidNullableToGraphQLMyUuidNullable)'
                   ],
                   isResolveType: false)
             ],
@@ -160,7 +165,48 @@ final LibraryDefinition libraryDefinitionWithCustomImports =
                   type: TypeName(name: r'MyUuid'),
                   name: ClassPropertyName(name: r'a'),
                   annotations: [
-                    r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuidNullable, toJson: fromDartMyUuidToGraphQLMyUuidNullable)'
+                    r'JsonKey(fromJson: fromGraphQLMyUuidNullableToDartMyUuidNullable, toJson: fromDartMyUuidNullableToGraphQLMyUuidNullable)'
+                  ],
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(name: r'MyUuid', isNonNull: true),
+                  name: ClassPropertyName(name: r'b'),
+                  annotations: [
+                    r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid)'
+                  ],
+                  isResolveType: false),
+              ClassProperty(
+                  type: ListOfTypeName(
+                      typeName: TypeName(name: r'MyUuid', isNonNull: true),
+                      isNonNull: true),
+                  name: ClassPropertyName(name: r'c'),
+                  annotations: [
+                    r'JsonKey(fromJson: fromGraphQLListMyUuidToDartListMyUuid, toJson: fromDartListMyUuidToGraphQLListMyUuid)'
+                  ],
+                  isResolveType: false),
+              ClassProperty(
+                  type: ListOfTypeName(
+                      typeName: TypeName(name: r'MyUuid'), isNonNull: false),
+                  name: ClassPropertyName(name: r'd'),
+                  annotations: [
+                    r'JsonKey(fromJson: fromGraphQLListNullableMyUuidNullableToDartListNullableMyUuidNullable, toJson: fromDartListNullableMyUuidNullableToGraphQLListNullableMyUuidNullable)'
+                  ],
+                  isResolveType: false),
+              ClassProperty(
+                  type: ListOfTypeName(
+                      typeName: TypeName(name: r'MyUuid'), isNonNull: true),
+                  name: ClassPropertyName(name: r'e'),
+                  annotations: [
+                    r'JsonKey(fromJson: fromGraphQLListMyUuidNullableToDartListMyUuidNullable, toJson: fromDartListMyUuidNullableToGraphQLListMyUuidNullable)'
+                  ],
+                  isResolveType: false),
+              ClassProperty(
+                  type: ListOfTypeName(
+                      typeName: TypeName(name: r'MyUuid', isNonNull: true),
+                      isNonNull: false),
+                  name: ClassPropertyName(name: r'f'),
+                  annotations: [
+                    r'JsonKey(fromJson: fromGraphQLListNullableMyUuidToDartListNullableMyUuid, toJson: fromDartListNullableMyUuidToGraphQLListNullableMyUuid)'
                   ],
                   isResolveType: false)
             ],
@@ -217,8 +263,8 @@ class Query$SomeObject extends JsonSerializable with EquatableMixin {
       _$Query$SomeObjectFromJson(json);
 
   @JsonKey(
-      fromJson: fromGraphQLMyUuidToDartMyDartUuidNullable,
-      toJson: fromDartMyDartUuidToGraphQLMyUuidNullable)
+      fromJson: fromGraphQLMyUuidNullableToDartMyDartUuidNullable,
+      toJson: fromDartMyDartUuidNullableToGraphQLMyUuidNullable)
   MyDartUuid? a;
 
   @override
@@ -247,12 +293,39 @@ class Query$SomeObject extends JsonSerializable with EquatableMixin {
       _$Query$SomeObjectFromJson(json);
 
   @JsonKey(
-      fromJson: fromGraphQLMyUuidToDartMyUuidNullable,
-      toJson: fromDartMyUuidToGraphQLMyUuidNullable)
+      fromJson: fromGraphQLMyUuidNullableToDartMyUuidNullable,
+      toJson: fromDartMyUuidNullableToGraphQLMyUuidNullable)
   MyUuid? a;
 
+  @JsonKey(
+      fromJson: fromGraphQLMyUuidToDartMyUuid,
+      toJson: fromDartMyUuidToGraphQLMyUuid)
+  late MyUuid b;
+
+  @JsonKey(
+      fromJson: fromGraphQLListMyUuidToDartListMyUuid,
+      toJson: fromDartListMyUuidToGraphQLListMyUuid)
+  late List<MyUuid> c;
+
+  @JsonKey(
+      fromJson:
+          fromGraphQLListNullableMyUuidNullableToDartListNullableMyUuidNullable,
+      toJson:
+          fromDartListNullableMyUuidNullableToGraphQLListNullableMyUuidNullable)
+  List<MyUuid?>? d;
+
+  @JsonKey(
+      fromJson: fromGraphQLListMyUuidNullableToDartListMyUuidNullable,
+      toJson: fromDartListMyUuidNullableToGraphQLListMyUuidNullable)
+  late List<MyUuid?> e;
+
+  @JsonKey(
+      fromJson: fromGraphQLListNullableMyUuidToDartListNullableMyUuid,
+      toJson: fromDartListNullableMyUuidToGraphQLListNullableMyUuid)
+  List<MyUuid>? f;
+
   @override
-  List<Object?> get props => [a];
+  List<Object?> get props => [a, b, c, d, e, f];
   @override
   Map<String, dynamic> toJson() => _$Query$SomeObjectToJson(this);
 }

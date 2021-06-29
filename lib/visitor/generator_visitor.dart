@@ -183,24 +183,17 @@ class GeneratorVisitor extends RecursiveVisitor {
 
       if (scalar?.customParserImport != null &&
           leafType.name.value == scalar?.graphQLType) {
-        final graphqlTypeSafeStr = TypeName(
-            name: gql
-                .buildTypeName(node.type, context.options,
-                    dartType: false, schema: context.schema)
-                .dartTypeSafe);
-        final dartTypeSafeStr = TypeName(name: dartTypeName.dartTypeSafe);
+        final graphqlTypeName = gql.buildTypeName(
+          node.type,
+          context.options,
+          dartType: false,
+          schema: context.schema,
+        );
 
-        if (node.type.isNonNull) {
-          jsonKeyAnnotation['fromJson'] =
-              'fromGraphQL${graphqlTypeSafeStr.dartTypeSafe}ToDart${dartTypeSafeStr.dartTypeSafe}';
-          jsonKeyAnnotation['toJson'] =
-              'fromDart${dartTypeSafeStr.dartTypeSafe}ToGraphQL${graphqlTypeSafeStr.dartTypeSafe}';
-        } else {
-          jsonKeyAnnotation['fromJson'] =
-              'fromGraphQL${graphqlTypeSafeStr.dartTypeSafe}ToDart${dartTypeSafeStr.dartTypeSafe}Nullable';
-          jsonKeyAnnotation['toJson'] =
-              'fromDart${dartTypeSafeStr.dartTypeSafe}ToGraphQL${graphqlTypeSafeStr.dartTypeSafe}Nullable';
-        }
+        jsonKeyAnnotation['fromJson'] =
+            'fromGraphQL${graphqlTypeName.parserSafe}ToDart${dartTypeName.parserSafe}';
+        jsonKeyAnnotation['toJson'] =
+            'fromDart${dartTypeName.parserSafe}ToGraphQL${graphqlTypeName.parserSafe}';
       }
     }
 

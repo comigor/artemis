@@ -125,16 +125,33 @@ Each `SchemaMap` is configured this way:
 | Option | Default value | Description |
 | - | - | - |
 | `output` |  | Relative path to output the generated code. It should end with `.graphql.dart` or else the generator will need to generate one more file. |
-| `schema` |  | Relative path to the GraphQL schema. |
-| `queries_glob` |  | Glob that selects all query files to be used with this schema. |
-| `naming_scheme` | `pathedWithTypes` | The naming scheme to be used on generated classes names. `pathedWithTypes` is the default for retrocompatibility, where the names of previous types are used as prefix of the next class. This can generate duplication on certain schemas. With `pathedWithFields`, the names of previous fields are used as prefix of the next class and with `simple`, only the actual GraphQL class nameis considered. | 
-| `type_name_field` | `__typename` | The name of the field used to differentiate interfaces and union types (commonly `__typename` or `__resolveType`). Note that `__typename` field are not added automatically to the query. If you want interface/union type resolution, you need to manually add it there or set `append_type_name` to `true`. |
+| `schema` | | Relative path to the GraphQL schema. | | `queries_glob` | | Glob that selects all query files to be used
+with this schema. | | `naming_scheme` | `pathedWithTypes` | The naming scheme to be used on generated classes
+names. `pathedWithTypes` is the default for retrocompatibility, where the names of previous types are used as prefix of
+the next class. This can generate duplication on certain schemas. With `pathedWithFields`, the names of previous fields
+are used as prefix of the next class and with `simple`, only the actual GraphQL class nameis considered. |
+| `type_name_field` | `__typename` | The name of the field used to differentiate interfaces and union types (
+commonly `__typename` or `__resolveType`). Note that `__typename` field are not added automatically to the query. If you
+want interface/union type resolution, you need to manually add it there or set `append_type_name` to `true`. |
 | `append_type_name` | `false` | Appends `type_name_field` value to the query selections set. |
 
 See [examples](./example) for more information and configuration options.
 
 ### **Custom scalars**
-If your schema uses custom scalars, they must be defined on `build.yaml`. If it needs a custom parser (to decode from/to json), the `custom_parser_import` path must be set and the file must implement both `fromGraphQL___ToDart___` and `fromDart___toGraphQL___` constant functions.
+
+If your schema uses custom scalars, they must be defined on `build.yaml`. If it needs a custom parser (to decode from/to
+json), the `custom_parser_import` path must be set and the file must implement both `fromGraphQL___ToDart___`
+and `fromDart___toGraphQL___` constant functions.
+`___ToDart___` and `___toGraphQL___` should be named including nullability, here is an example
+
+`file: Upload` => `fromGraphQLUploadNullableToDartMultipartFileNullable`
+and `fromDartMultipartFileNullableToGraphQLUploadNullable`
+`file: Upload!` => `fromGraphQLUploadToDartMultipartFile` and `fromDartMultipartFileToGraphQLUpload`
+`file: [Upload]` => `fromGraphQLListNullableUploadNullableToDartListNullableMultipartFileNullable`
+and `fromDartListNullableMultipartFileNullableToGraphQLListNullableUploadNullable`
+`file: [Upload]!` => `fromGraphQLListUploadNullableToDartListMultipartFileNullable`
+and `fromDartListMultipartFileNullableToGraphQLListUploadNullable`
+`file: [Upload!]!` => `fromGraphQLListUploadToDartListMultipartFile` and `fromDartListMultipartFileToGraphQLListUpload`
 
 ```yaml
 targets:

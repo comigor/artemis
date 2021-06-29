@@ -100,7 +100,7 @@ final LibraryDefinition libraryDefinition =
                   type: TypeName(name: r'MyUuid'),
                   name: ClassPropertyName(name: r'idNullabe'),
                   annotations: [
-                    r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuidNullable, toJson: fromDartMyUuidToGraphQLMyUuidNullable)'
+                    r'JsonKey(fromJson: fromGraphQLMyUuidNullableToDartMyUuidNullable, toJson: fromDartMyUuidNullableToGraphQLMyUuidNullable)'
                   ],
                   isResolveType: false)
             ],
@@ -116,14 +116,14 @@ final LibraryDefinition libraryDefinition =
             type: TypeName(name: r'MyUuid'),
             name: QueryInputName(name: r'previousId'),
             annotations: [
-              r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuidNullable, toJson: fromDartMyUuidToGraphQLMyUuidNullable)'
+              r'JsonKey(fromJson: fromGraphQLMyUuidNullableToDartMyUuidNullable, toJson: fromDartMyUuidNullableToGraphQLMyUuidNullable)'
             ]),
         QueryInput(
             type: ListOfTypeName(
                 typeName: TypeName(name: r'MyUuid'), isNonNull: false),
             name: QueryInputName(name: r'listIds'),
             annotations: [
-              r'JsonKey(fromJson: fromGraphQLListMyUuidToDartListMyUuidNullable, toJson: fromDartListMyUuidToGraphQLListMyUuidNullable)'
+              r'JsonKey(fromJson: fromGraphQLListNullableMyUuidNullableToDartListNullableMyUuidNullable, toJson: fromDartListNullableMyUuidNullableToGraphQLListNullableMyUuidNullable)'
             ])
       ],
       generateHelpers: true,
@@ -189,8 +189,8 @@ class Input extends JsonSerializable with EquatableMixin {
   late MyUuid id;
 
   @JsonKey(
-      fromJson: fromGraphQLMyUuidToDartMyUuidNullable,
-      toJson: fromDartMyUuidToGraphQLMyUuidNullable)
+      fromJson: fromGraphQLMyUuidNullableToDartMyUuidNullable,
+      toJson: fromDartMyUuidNullableToGraphQLMyUuidNullable)
   MyUuid? idNullabe;
 
   @override
@@ -210,13 +210,15 @@ class CustomArguments extends JsonSerializable with EquatableMixin {
   late Input input;
 
   @JsonKey(
-      fromJson: fromGraphQLMyUuidToDartMyUuidNullable,
-      toJson: fromDartMyUuidToGraphQLMyUuidNullable)
+      fromJson: fromGraphQLMyUuidNullableToDartMyUuidNullable,
+      toJson: fromDartMyUuidNullableToGraphQLMyUuidNullable)
   final MyUuid? previousId;
 
   @JsonKey(
-      fromJson: fromGraphQLListMyUuidToDartListMyUuidNullable,
-      toJson: fromDartListMyUuidToGraphQLListMyUuidNullable)
+      fromJson:
+          fromGraphQLListNullableMyUuidNullableToDartListNullableMyUuidNullable,
+      toJson:
+          fromDartListNullableMyUuidNullableToGraphQLListNullableMyUuidNullable)
   final List<MyUuid?>? listIds;
 
   @override
