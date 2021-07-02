@@ -3,15 +3,16 @@ import 'package:artemis/generator/data/data.dart';
 import 'package:artemis/generator/data/enum_value_definition.dart';
 import 'package:test/test.dart';
 
-import '../../helpers.dart';
+import '../helpers.dart';
 
 void main() {
-  group('On complex input objects', () {
+  group('To JSON exclude on complex input objects', () {
     test(
       'On complex input objects',
       () async => testGenerator(
+        toJsonExclude: true,
         query: r'''
-          query some_query($filter: ComplexInput!) {
+          query some_query($filter: ComplexInput) {
             o(filter: $filter) {
               s
             }
@@ -22,7 +23,7 @@ void main() {
           }
 
           type QueryRoot {
-            o(filter: ComplexInput!): SomeObject
+            o(filter: ComplexInput): SomeObject
           }
 
           input ComplexInput {
@@ -117,7 +118,7 @@ final LibraryDefinition libraryDefinition =
       ],
       inputs: [
         QueryInput(
-            type: TypeName(name: r'ComplexInput', isNonNull: true),
+            type: TypeName(name: r'ComplexInput'),
             name: QueryInputName(name: r'filter'))
       ],
       generateHelpers: true,
@@ -132,6 +133,22 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
 part 'query.graphql.g.dart';
+
+class Nullable<T> {
+  final T _value;
+
+  Nullable(this._value);
+
+  T get value => _value;
+}
+
+dynamic _nullableToJson(dynamic value) {
+  return value;
+}
+
+Nullable<T>? _nullableFromJson<T>(T value) {
+  return Nullable<T>(value);
+}
 
 @JsonSerializable(explicitToJson: true)
 class SomeQuery$QueryRoot$SomeObject extends JsonSerializable
@@ -174,16 +191,24 @@ class ComplexInput extends JsonSerializable with EquatableMixin {
   final String s;
 
   @JsonKey(unknownEnumValue: MyEnum.artemisUnknown)
-  final MyEnum? e;
+  final Nullable<MyEnum?>? e;
 
-  final List<String?>? ls;
+  final Nullable<List<String?>?>? ls;
 
-  final List<List<int?>?>? i;
+  final Nullable<List<List<int?>?>?>? i;
 
   @override
   List<Object?> get props => [s, e, ls, i];
   @override
-  Map<String, dynamic> toJson() => _$ComplexInputToJson(this);
+  Map<String, dynamic> toJson() => _excludeNullable(_$ComplexInputToJson(this));
+  @override
+  Map<String, dynamic> _excludeNullable(Map<String, dynamic> json) {
+    if (e == null) json.remove('e');
+    if (ls == null) json.remove('ls');
+    if (i == null) json.remove('i');
+
+    return json;
+  }
 }
 
 enum MyEnum {
@@ -197,18 +222,25 @@ enum MyEnum {
 
 @JsonSerializable(explicitToJson: true)
 class SomeQueryArguments extends JsonSerializable with EquatableMixin {
-  SomeQueryArguments({required this.filter});
+  SomeQueryArguments({this.filter});
 
   @override
   factory SomeQueryArguments.fromJson(Map<String, dynamic> json) =>
       _$SomeQueryArgumentsFromJson(json);
 
-  final ComplexInput filter;
+  final Nullable<ComplexInput?>? filter;
 
   @override
   List<Object?> get props => [filter];
   @override
-  Map<String, dynamic> toJson() => _$SomeQueryArgumentsToJson(this);
+  Map<String, dynamic> toJson() =>
+      _excludeNullable(_$SomeQueryArgumentsToJson(this));
+  @override
+  Map<String, dynamic> _excludeNullable(Map<String, dynamic> json) {
+    if (filter == null) json.remove('filter');
+
+    return json;
+  }
 }
 
 final SOME_QUERY_QUERY_DOCUMENT = DocumentNode(definitions: [
@@ -219,7 +251,7 @@ final SOME_QUERY_QUERY_DOCUMENT = DocumentNode(definitions: [
         VariableDefinitionNode(
             variable: VariableNode(name: NameNode(value: 'filter')),
             type: NamedTypeNode(
-                name: NameNode(value: 'ComplexInput'), isNonNull: true),
+                name: NameNode(value: 'ComplexInput'), isNonNull: false),
             defaultValue: DefaultValueNode(value: null),
             directives: [])
       ],

@@ -1,3 +1,4 @@
+import 'package:artemis/generator/data/annotation.dart';
 import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
@@ -125,7 +126,9 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'__typename'),
-                  annotations: [r'''JsonKey(name: '__typename')'''],
+                  annotations: [
+                    JsonKeyAnnotation(jsonKey: JsonKeyItem(name: r'__typename'))
+                  ],
                   isResolveType: true)
             ],
             factoryPossibilities: {

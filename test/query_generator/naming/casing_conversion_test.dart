@@ -1,3 +1,4 @@
+import 'package:artemis/generator/data/annotation.dart';
 import 'package:artemis/generator/data/data.dart';
 import 'package:artemis/generator/data/enum_value_definition.dart';
 import 'package:test/test.dart';
@@ -113,25 +114,35 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'PascalCaseType'),
                   name: ClassPropertyName(name: r'PascalCaseField'),
-                  annotations: [r'''JsonKey(name: 'PascalCaseField')'''],
+                  annotations: [
+                    JsonKeyAnnotation(
+                        jsonKey: JsonKeyItem(name: r'PascalCaseField'))
+                  ],
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'SnakeCaseType'),
                   name: ClassPropertyName(name: r'snake_case_field'),
-                  annotations: [r'''JsonKey(name: 'snake_case_field')'''],
+                  annotations: [
+                    JsonKeyAnnotation(
+                        jsonKey: JsonKeyItem(name: r'snake_case_field'))
+                  ],
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'ScreamingSnakeCaseType'),
                   name: ClassPropertyName(name: r'SCREAMING_SNAKE_CASE_FIELD'),
                   annotations: [
-                    r'''JsonKey(name: 'SCREAMING_SNAKE_CASE_FIELD')'''
+                    JsonKeyAnnotation(
+                        jsonKey:
+                            JsonKeyItem(name: r'SCREAMING_SNAKE_CASE_FIELD'))
                   ],
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'MyEnum'),
                   name: ClassPropertyName(name: r'e'),
                   annotations: [
-                    r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
+                    JsonKeyAnnotation(
+                        jsonKey: JsonKeyItem(
+                            unknownEnumValue: r'MyEnum.artemisUnknown'))
                   ],
                   isResolveType: false)
             ],
@@ -159,25 +170,35 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'PascalCaseTypeInput'),
                   name: ClassPropertyName(name: r'PascalCaseField'),
-                  annotations: [r'''JsonKey(name: 'PascalCaseField')'''],
+                  annotations: [
+                    JsonKeyAnnotation(
+                        jsonKey: JsonKeyItem(name: r'PascalCaseField'))
+                  ],
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'SnakeCaseTypeInput'),
                   name: ClassPropertyName(name: r'snake_case_field'),
-                  annotations: [r'''JsonKey(name: 'snake_case_field')'''],
+                  annotations: [
+                    JsonKeyAnnotation(
+                        jsonKey: JsonKeyItem(name: r'snake_case_field'))
+                  ],
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'ScreamingSnakeCaseTypeInput'),
                   name: ClassPropertyName(name: r'SCREAMING_SNAKE_CASE_FIELD'),
                   annotations: [
-                    r'''JsonKey(name: 'SCREAMING_SNAKE_CASE_FIELD')'''
+                    JsonKeyAnnotation(
+                        jsonKey:
+                            JsonKeyItem(name: r'SCREAMING_SNAKE_CASE_FIELD'))
                   ],
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'MyEnum'),
                   name: ClassPropertyName(name: r'e'),
                   annotations: [
-                    r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
+                    JsonKeyAnnotation(
+                        jsonKey: JsonKeyItem(
+                            unknownEnumValue: r'MyEnum.artemisUnknown'))
                   ],
                   isResolveType: false)
             ],
@@ -262,19 +283,19 @@ class Input extends JsonSerializable with EquatableMixin {
 
   factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
 
-  CamelCaseTypeInput? camelCaseField;
+  final CamelCaseTypeInput? camelCaseField;
 
   @JsonKey(name: 'PascalCaseField')
-  PascalCaseTypeInput? pascalCaseField;
+  final PascalCaseTypeInput? pascalCaseField;
 
   @JsonKey(name: 'snake_case_field')
-  SnakeCaseTypeInput? snakeCaseField;
+  final SnakeCaseTypeInput? snakeCaseField;
 
   @JsonKey(name: 'SCREAMING_SNAKE_CASE_FIELD')
-  ScreamingSnakeCaseTypeInput? screamingSnakeCaseField;
+  final ScreamingSnakeCaseTypeInput? screamingSnakeCaseField;
 
   @JsonKey(unknownEnumValue: MyEnum.artemisUnknown)
-  MyEnum? e;
+  final MyEnum? e;
 
   @override
   List<Object?> get props => [
@@ -309,7 +330,7 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
   factory SomeQueryArguments.fromJson(Map<String, dynamic> json) =>
       _$SomeQueryArgumentsFromJson(json);
 
-  late Input filter;
+  final Input filter;
 
   @override
   List<Object?> get props => [filter];

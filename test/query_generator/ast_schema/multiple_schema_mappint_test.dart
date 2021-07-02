@@ -1,4 +1,5 @@
 import 'package:artemis/builder.dart';
+import 'package:artemis/generator/data/annotation.dart';
 import 'package:build/build.dart';
 import 'package:artemis/generator/data/data.dart';
 import 'package:artemis/generator/data/enum_value_definition.dart';
@@ -168,7 +169,9 @@ final LibraryDefinition libraryDefinitionA =
                   type: TypeName(name: r'ArticleType', isNonNull: true),
                   name: ClassPropertyName(name: r'articleType'),
                   annotations: [
-                    r'JsonKey(unknownEnumValue: ArticleType.artemisUnknown)'
+                    JsonKeyAnnotation(
+                        jsonKey: JsonKeyItem(
+                            unknownEnumValue: r'ArticleType.artemisUnknown'))
                   ],
                   isResolveType: false)
             ],
@@ -233,14 +236,18 @@ final libraryDefinitionB =
                   type: TypeName(name: r'Privacy', isNonNull: true),
                   name: ClassPropertyName(name: r'privacy'),
                   annotations: [
-                    r'JsonKey(unknownEnumValue: Privacy.artemisUnknown)'
+                    JsonKeyAnnotation(
+                        jsonKey: JsonKeyItem(
+                            unknownEnumValue: r'Privacy.artemisUnknown'))
                   ],
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'Status', isNonNull: true),
                   name: ClassPropertyName(name: r'status'),
                   annotations: [
-                    r'JsonKey(unknownEnumValue: Status.artemisUnknown)'
+                    JsonKeyAnnotation(
+                        jsonKey: JsonKeyItem(
+                            unknownEnumValue: r'Status.artemisUnknown'))
                   ],
                   isResolveType: false)
             ],
@@ -269,7 +276,10 @@ final libraryDefinitionB =
                   type: TypeName(name: r'NotificationType'),
                   name: ClassPropertyName(name: r'type'),
                   annotations: [
-                    r'JsonKey(unknownEnumValue: NotificationType.artemisUnknown)'
+                    JsonKeyAnnotation(
+                        jsonKey: JsonKeyItem(
+                            unknownEnumValue:
+                                r'NotificationType.artemisUnknown'))
                   ],
                   isResolveType: false),
               ClassProperty(
@@ -456,9 +466,9 @@ class NotificationOptionInput extends JsonSerializable with EquatableMixin {
       _$NotificationOptionInputFromJson(json);
 
   @JsonKey(unknownEnumValue: NotificationType.artemisUnknown)
-  NotificationType? type;
+  final NotificationType? type;
 
-  bool? enabled;
+  final bool? enabled;
 
   @override
   List<Object?> get props => [type, enabled];

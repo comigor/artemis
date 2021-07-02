@@ -1,3 +1,4 @@
+import 'package:artemis/generator/data/annotation.dart';
 import 'package:artemis/generator/data/data.dart';
 import 'package:artemis/generator/data/enum_value_definition.dart';
 import 'package:test/test.dart';
@@ -74,7 +75,10 @@ final LibraryDefinition libraryDefinition =
                   type: TypeName(name: r'ArticleType', isNonNull: true),
                   name: ClassPropertyName(name: r'article_type'),
                   annotations: [
-                    r'''JsonKey(name: 'article_type', unknownEnumValue: ArticleType.artemisUnknown)'''
+                    JsonKeyAnnotation(
+                        jsonKey: JsonKeyItem(
+                            name: r'article_type',
+                            unknownEnumValue: r'ArticleType.artemisUnknown'))
                   ],
                   isResolveType: false)
             ],
@@ -104,7 +108,9 @@ final LibraryDefinition libraryDefinition =
                 isNonNull: false),
             name: QueryInputName(name: r'article_type_in'),
             annotations: [
-              r'JsonKey(unknownEnumValue: ArticleType.artemisUnknown)'
+              JsonKeyAnnotation(
+                  jsonKey: JsonKeyItem(
+                      unknownEnumValue: r'ArticleType.artemisUnknown'))
             ])
       ],
       generateHelpers: true,

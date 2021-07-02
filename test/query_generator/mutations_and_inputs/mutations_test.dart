@@ -1,3 +1,4 @@
+import 'package:artemis/generator/data/annotation.dart';
 import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
@@ -120,7 +121,9 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'_s'),
-                  annotations: [r'''JsonKey(name: '_s')'''],
+                  annotations: [
+                    JsonKeyAnnotation(jsonKey: JsonKeyItem(name: r'_s'))
+                  ],
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -133,7 +136,9 @@ final LibraryDefinition libraryDefinition =
                   type: TypeName(
                       name: r'$custom$_MutationRoot$_$MutationResponse'),
                   name: ClassPropertyName(name: r'_mut'),
-                  annotations: [r'''JsonKey(name: '_mut')'''],
+                  annotations: [
+                    JsonKeyAnnotation(jsonKey: JsonKeyItem(name: r'_mut'))
+                  ],
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -145,7 +150,9 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'_s'),
-                  annotations: [r'''JsonKey(name: '_s')'''],
+                  annotations: [
+                    JsonKeyAnnotation(jsonKey: JsonKeyItem(name: r'_s'))
+                  ],
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -209,7 +216,7 @@ class Input extends JsonSerializable with EquatableMixin {
 
   factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
 
-  late String s;
+  final String s;
 
   @override
   List<Object?> get props => [s];
@@ -259,7 +266,7 @@ class $Input extends JsonSerializable with EquatableMixin {
   factory $Input.fromJson(Map<String, dynamic> json) => _$$InputFromJson(json);
 
   @JsonKey(name: '_s')
-  late String $s;
+  final String $s;
 
   @override
   List<Object?> get props => [$s];
@@ -275,7 +282,7 @@ class CustomArguments extends JsonSerializable with EquatableMixin {
   factory CustomArguments.fromJson(Map<String, dynamic> json) =>
       _$CustomArgumentsFromJson(json);
 
-  late Input input;
+  final Input input;
 
   @override
   List<Object?> get props => [input];
@@ -345,7 +352,7 @@ class $customArguments extends JsonSerializable with EquatableMixin {
   factory $customArguments.fromJson(Map<String, dynamic> json) =>
       _$$customArgumentsFromJson(json);
 
-  late $Input input;
+  final $Input input;
 
   @override
   List<Object?> get props => [input];

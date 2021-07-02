@@ -1,3 +1,4 @@
+import 'package:artemis/generator/data/annotation.dart';
 import 'package:artemis/generator/data/data.dart';
 import 'package:artemis/generator/data/enum_value_definition.dart';
 import 'package:test/test.dart';
@@ -94,7 +95,10 @@ final LibraryDefinition libraryDefinition =
                   type: TypeName(name: r'SQLOperator'),
                   name: ClassPropertyName(name: r'operator'),
                   annotations: [
-                    r'''JsonKey(name: 'operator', unknownEnumValue: SQLOperator.artemisUnknown)'''
+                    JsonKeyAnnotation(
+                        jsonKey: JsonKeyItem(
+                            name: r'operator',
+                            unknownEnumValue: r'SQLOperator.artemisUnknown'))
                   ],
                   isResolveType: false),
               ClassProperty(
@@ -164,9 +168,9 @@ class ArticleTitleWhereConditions extends JsonSerializable with EquatableMixin {
       _$ArticleTitleWhereConditionsFromJson(json);
 
   @JsonKey(name: 'operator', unknownEnumValue: SQLOperator.artemisUnknown)
-  SQLOperator? kw$operator;
+  final SQLOperator? kw$operator;
 
-  String? value;
+  final String? value;
 
   @override
   List<Object?> get props => [kw$operator, value];

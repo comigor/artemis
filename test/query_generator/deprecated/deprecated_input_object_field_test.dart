@@ -1,3 +1,4 @@
+import 'package:artemis/generator/data/annotation.dart';
 import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
@@ -82,7 +83,10 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'd'),
-                  annotations: [r'''Deprecated('deprecated input field')'''],
+                  annotations: [
+                    StringAnnotation(
+                        name: r'''Deprecated('deprecated input field')''')
+                  ],
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -146,10 +150,10 @@ class Input extends JsonSerializable with EquatableMixin {
 
   factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
 
-  late String s;
+  final String s;
 
   @Deprecated('deprecated input field')
-  String? d;
+  final String? d;
 
   @override
   List<Object?> get props => [s, d];
@@ -165,7 +169,7 @@ class CustomArguments extends JsonSerializable with EquatableMixin {
   factory CustomArguments.fromJson(Map<String, dynamic> json) =>
       _$CustomArgumentsFromJson(json);
 
-  late Input input;
+  final Input input;
 
   @override
   List<Object?> get props => [input];

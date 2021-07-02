@@ -1,3 +1,4 @@
+import 'package:artemis/generator/data/annotation.dart';
 import 'package:artemis/generator/ephemeral_data.dart';
 import 'package:build/build.dart';
 import 'package:collection/collection.dart' show IterableExtension;
@@ -136,10 +137,10 @@ bool hasValue(Object? obj) {
 }
 
 /// Proceeds deprecated annotation
-List<String> proceedDeprecated(
+List<Annotation> proceedDeprecated(
   List<DirectiveNode>? directives,
 ) {
-  final annotations = <String>[];
+  final annotations = <Annotation>[];
 
   final deprecatedDirective = directives?.firstWhereOrNull(
     (directive) => directive.name.value == 'deprecated',
@@ -154,7 +155,7 @@ List<String> proceedDeprecated(
         ? reasonValueNode.value
         : 'No longer supported';
 
-    annotations.add("Deprecated('$reason')");
+    annotations.add(StringAnnotation(name: "Deprecated('$reason')"));
   }
 
   return annotations;

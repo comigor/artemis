@@ -1,3 +1,4 @@
+import 'package:artemis/generator/data/annotation.dart';
 import 'package:artemis/generator/data/data.dart';
 import 'package:artemis/generator/data/enum_value_definition.dart';
 import 'package:test/test.dart';
@@ -102,7 +103,9 @@ final LibraryDefinition libraryDefinition =
                   type: TypeName(name: r'MyEnum'),
                   name: ClassPropertyName(name: r'e'),
                   annotations: [
-                    r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
+                    JsonKeyAnnotation(
+                        jsonKey: JsonKeyItem(
+                            unknownEnumValue: r'MyEnum.artemisUnknown'))
                   ],
                   isResolveType: false)
             ],
@@ -127,7 +130,10 @@ final LibraryDefinition libraryDefinition =
                   type: TypeName(name: r'_InputInputEnum'),
                   name: ClassPropertyName(name: r'e'),
                   annotations: [
-                    r'JsonKey(unknownEnumValue: $InputInputEnum.artemisUnknown)'
+                    JsonKeyAnnotation(
+                        jsonKey: JsonKeyItem(
+                            unknownEnumValue:
+                                r'$InputInputEnum.artemisUnknown'))
                   ],
                   isResolveType: false)
             ],
@@ -140,7 +146,9 @@ final LibraryDefinition libraryDefinition =
             type: TypeName(name: r'input_enum', isNonNull: true),
             name: QueryInputName(name: r'e'),
             annotations: [
-              r'JsonKey(unknownEnumValue: InputEnum.artemisUnknown)'
+              JsonKeyAnnotation(
+                  jsonKey: JsonKeyItem(
+                      unknownEnumValue: r'InputEnum.artemisUnknown'))
             ]),
         QueryInput(
             type: TypeName(name: r'Input', isNonNull: true),
@@ -197,7 +205,7 @@ class Input extends JsonSerializable with EquatableMixin {
   factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
 
   @JsonKey(unknownEnumValue: $InputInputEnum.artemisUnknown)
-  $InputInputEnum? e;
+  final $InputInputEnum? e;
 
   @override
   List<Object?> get props => [e];

@@ -144,14 +144,30 @@ json), the `custom_parser_import` path must be set and the file must implement b
 and `fromDart___toGraphQL___` constant functions.
 `___ToDart___` and `___toGraphQL___` should be named including nullability, here is an example
 
-`file: Upload` => `fromGraphQLUploadNullableToDartMultipartFileNullable`
-and `fromDartMultipartFileNullableToGraphQLUploadNullable`
-`file: Upload!` => `fromGraphQLUploadToDartMultipartFile` and `fromDartMultipartFileToGraphQLUpload`
-`file: [Upload]` => `fromGraphQLListNullableUploadNullableToDartListNullableMultipartFileNullable`
-and `fromDartListNullableMultipartFileNullableToGraphQLListNullableUploadNullable`
-`file: [Upload]!` => `fromGraphQLListUploadNullableToDartListMultipartFileNullable`
-and `fromDartListMultipartFileNullableToGraphQLListUploadNullable`
-`file: [Upload!]!` => `fromGraphQLListUploadToDartListMultipartFile` and `fromDartListMultipartFileToGraphQLListUpload`
+`file: Upload`
+
+- `fromGraphQLUploadNullableToDartMultipartFileNullable`
+- `fromDartMultipartFileNullableToGraphQLUploadNullable`
+
+`file: Upload!`
+
+- `fromGraphQLUploadToDartMultipartFile`
+- `fromDartMultipartFileToGraphQLUpload`
+
+`file: [Upload]`
+
+- `fromGraphQLListNullableUploadNullableToDartListNullableMultipartFileNullable`
+- `fromDartListNullableMultipartFileNullableToGraphQLListNullableUploadNullable`
+
+`file: [Upload]!`
+
+- `fromGraphQLListUploadNullableToDartListMultipartFileNullable`
+- `fromDartListMultipartFileNullableToGraphQLListUploadNullable`
+
+`file: [Upload!]!`
+
+- `fromGraphQLListUploadToDartListMultipartFile`
+- `fromDartListMultipartFileToGraphQLListUpload`
 
 ```yaml
 targets:
