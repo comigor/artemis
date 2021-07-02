@@ -1,3 +1,4 @@
+import 'package:artemis/generator/data/annotation.dart';
 import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
@@ -89,32 +90,44 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'_'),
-                  annotations: [r'''JsonKey(name: '_')'''],
+                  annotations: [
+                    JsonKeyAnnotation(jsonKey: JsonKeyItem(name: r'_'))
+                  ],
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'_a'),
-                  annotations: [r'''JsonKey(name: '_a')'''],
+                  annotations: [
+                    JsonKeyAnnotation(jsonKey: JsonKeyItem(name: r'_a'))
+                  ],
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'_a_a'),
-                  annotations: [r'''JsonKey(name: '_a_a')'''],
+                  annotations: [
+                    JsonKeyAnnotation(jsonKey: JsonKeyItem(name: r'_a_a'))
+                  ],
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'_a_a_'),
-                  annotations: [r'''JsonKey(name: '_a_a_')'''],
+                  annotations: [
+                    JsonKeyAnnotation(jsonKey: JsonKeyItem(name: r'_a_a_'))
+                  ],
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'_new'),
-                  annotations: [r'''JsonKey(name: '_new')'''],
+                  annotations: [
+                    JsonKeyAnnotation(jsonKey: JsonKeyItem(name: r'_new'))
+                  ],
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'__typename'),
-                  annotations: [r'''JsonKey(name: '__typename')'''],
+                  annotations: [
+                    JsonKeyAnnotation(jsonKey: JsonKeyItem(name: r'__typename'))
+                  ],
                   isResolveType: true)
             ],
             extension: ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion'),
@@ -131,37 +144,51 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'_'),
-                  annotations: [r'''JsonKey(name: '_')'''],
+                  annotations: [
+                    JsonKeyAnnotation(jsonKey: JsonKeyItem(name: r'_'))
+                  ],
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'_b'),
-                  annotations: [r'''JsonKey(name: '_b')'''],
+                  annotations: [
+                    JsonKeyAnnotation(jsonKey: JsonKeyItem(name: r'_b'))
+                  ],
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'_b_b'),
-                  annotations: [r'''JsonKey(name: '_b_b')'''],
+                  annotations: [
+                    JsonKeyAnnotation(jsonKey: JsonKeyItem(name: r'_b_b'))
+                  ],
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'_b_b_'),
-                  annotations: [r'''JsonKey(name: '_b_b_')'''],
+                  annotations: [
+                    JsonKeyAnnotation(jsonKey: JsonKeyItem(name: r'_b_b_'))
+                  ],
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'new'),
-                  annotations: [r'''JsonKey(name: 'new')'''],
+                  annotations: [
+                    JsonKeyAnnotation(jsonKey: JsonKeyItem(name: r'new'))
+                  ],
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'IN'),
-                  annotations: [r'''JsonKey(name: 'IN')'''],
+                  annotations: [
+                    JsonKeyAnnotation(jsonKey: JsonKeyItem(name: r'IN'))
+                  ],
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'__typename'),
-                  annotations: [r'''JsonKey(name: '__typename')'''],
+                  annotations: [
+                    JsonKeyAnnotation(jsonKey: JsonKeyItem(name: r'__typename'))
+                  ],
                   isResolveType: true)
             ],
             extension: ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion'),
@@ -174,7 +201,9 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'__typename'),
-                  annotations: [r'''JsonKey(name: '__typename')'''],
+                  annotations: [
+                    JsonKeyAnnotation(jsonKey: JsonKeyItem(name: r'__typename'))
+                  ],
                   isResolveType: true)
             ],
             factoryPossibilities: {

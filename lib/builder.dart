@@ -184,7 +184,8 @@ class GraphQLQueryBuilder implements Builder {
 
       writeLibraryDefinitionToBuffer(
         buffer,
-        options.ignoreForFile,
+        options,
+        schemaMap,
         libDefinition,
       );
 

@@ -1,3 +1,4 @@
+import 'package:artemis/generator/data/annotation.dart';
 import 'package:artemis/generator/data/definition.dart';
 import 'package:artemis/generator/data_printer.dart';
 import 'package:recase/recase.dart';
@@ -8,7 +9,7 @@ class EnumValueDefinition extends Definition with DataPrinter {
   final EnumValueName name;
 
   /// Some other custom annotation.
-  final List<String> annotations;
+  final List<Annotation> annotations;
 
   /// Instantiate an enum value
   EnumValueDefinition({

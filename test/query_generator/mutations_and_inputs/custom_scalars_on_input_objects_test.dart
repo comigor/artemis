@@ -1,3 +1,4 @@
+import 'package:artemis/generator/data/annotation.dart';
 import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
@@ -93,14 +94,20 @@ final LibraryDefinition libraryDefinition =
                   type: TypeName(name: r'MyUuid', isNonNull: true),
                   name: ClassPropertyName(name: r'id'),
                   annotations: [
-                    r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid)'
+                    JsonKeyAnnotation(
+                        jsonKey: JsonKeyItem(
+                            fromJson: r'fromGraphQLMyUuidToDartMyUuid',
+                            toJson: r'fromDartMyUuidToGraphQLMyUuid'))
                   ],
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'MyUuid'),
                   name: ClassPropertyName(name: r'idNullabe'),
                   annotations: [
-                    r'JsonKey(fromJson: fromGraphQLMyUuidNullableToDartMyUuidNullable, toJson: fromDartMyUuidNullableToGraphQLMyUuidNullable)'
+                    JsonKeyAnnotation(
+                        jsonKey: JsonKeyItem(
+                            fromJson: r'fromGraphQLMyUuidToDartMyUuidNullable',
+                            toJson: r'fromDartMyUuidToGraphQLMyUuidNullable'))
                   ],
                   isResolveType: false)
             ],
@@ -116,14 +123,21 @@ final LibraryDefinition libraryDefinition =
             type: TypeName(name: r'MyUuid'),
             name: QueryInputName(name: r'previousId'),
             annotations: [
-              r'JsonKey(fromJson: fromGraphQLMyUuidNullableToDartMyUuidNullable, toJson: fromDartMyUuidNullableToGraphQLMyUuidNullable)'
+              JsonKeyAnnotation(
+                  jsonKey: JsonKeyItem(
+                      fromJson: r'fromGraphQLMyUuidToDartMyUuidNullable',
+                      toJson: r'fromDartMyUuidToGraphQLMyUuidNullable'))
             ]),
         QueryInput(
             type: ListOfTypeName(
                 typeName: TypeName(name: r'MyUuid'), isNonNull: false),
             name: QueryInputName(name: r'listIds'),
             annotations: [
-              r'JsonKey(fromJson: fromGraphQLListNullableMyUuidNullableToDartListNullableMyUuidNullable, toJson: fromDartListNullableMyUuidNullableToGraphQLListNullableMyUuidNullable)'
+              JsonKeyAnnotation(
+                  jsonKey: JsonKeyItem(
+                      fromJson:
+                          r'fromGraphQLListMyUuidToDartListMyUuidNullable',
+                      toJson: r'fromDartListMyUuidToGraphQLListMyUuidNullable'))
             ])
       ],
       generateHelpers: true,
@@ -186,12 +200,12 @@ class Input extends JsonSerializable with EquatableMixin {
   @JsonKey(
       fromJson: fromGraphQLMyUuidToDartMyUuid,
       toJson: fromDartMyUuidToGraphQLMyUuid)
-  late MyUuid id;
+  final MyUuid id;
 
   @JsonKey(
-      fromJson: fromGraphQLMyUuidNullableToDartMyUuidNullable,
-      toJson: fromDartMyUuidNullableToGraphQLMyUuidNullable)
-  MyUuid? idNullabe;
+      fromJson: fromGraphQLMyUuidToDartMyUuidNullable,
+      toJson: fromDartMyUuidToGraphQLMyUuidNullable)
+  final MyUuid? idNullabe;
 
   @override
   List<Object?> get props => [id, idNullabe];
@@ -207,7 +221,7 @@ class CustomArguments extends JsonSerializable with EquatableMixin {
   factory CustomArguments.fromJson(Map<String, dynamic> json) =>
       _$CustomArgumentsFromJson(json);
 
-  late Input input;
+  final Input input;
 
   @JsonKey(
       fromJson: fromGraphQLMyUuidNullableToDartMyUuidNullable,

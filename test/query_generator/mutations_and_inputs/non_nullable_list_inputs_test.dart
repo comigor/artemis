@@ -155,19 +155,19 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
 
   final int? i;
 
-  late int inn;
+  final int inn;
 
   final List<int?>? li;
 
   final List<int>? linn;
 
-  late List<int?> lnni;
+  final List<int?> lnni;
 
-  late List<int> lnninn;
+  final List<int> lnninn;
 
   final List<List<int?>?>? matrix;
 
-  late List<List<int>> matrixnn;
+  final List<List<int>> matrixnn;
 
   @override
   List<Object?> get props => [i, inn, li, linn, lnni, lnninn, matrix, matrixnn];
