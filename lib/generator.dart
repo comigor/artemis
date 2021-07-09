@@ -1,3 +1,4 @@
+import 'package:artemis/generator/data/annotation.dart';
 import 'package:artemis/generator/data/data.dart';
 import 'package:artemis/generator/data/enum_value_definition.dart';
 import 'package:artemis/generator/data/nullable.dart';
@@ -8,6 +9,7 @@ import 'package:artemis/visitor/schema_definition_visitor.dart';
 import 'package:artemis/visitor/type_definition_node_visitor.dart';
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:gql/ast.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:path/path.dart' as p;
 
 import './generator/ephemeral_data.dart';
@@ -265,7 +267,11 @@ ClassProperty createClassProperty({
     return ClassProperty(
       type: TypeName(name: 'String'),
       name: fieldName,
-      annotations: ['JsonKey(name: \'${context.schemaMap.typeNameField}\')'],
+      annotations: [
+        JsonKeyAnnotation(
+          jsonKey: JsonKeyItem(name: context.schemaMap.typeNameField),
+        )
+      ],
       isResolveType: true,
     );
   }
@@ -341,7 +347,7 @@ Make sure your query is correct and your schema is updated.''');
   // On custom scalars
   final jsonKeyAnnotation = <String, String>{};
   if (name.namePrintable != name.name) {
-    jsonKeyAnnotation['name'] = '\'${name.name}\'';
+    jsonKeyAnnotation['name'] = name.name;
   }
 
   if (nextType is ScalarTypeDefinitionNode) {
@@ -380,13 +386,10 @@ Make sure your query is correct and your schema is updated.''');
   final fieldDirectives =
       regularField?.directives ?? regularInputField?.directives;
 
-  var annotations = <String>[];
+  var annotations = <Annotation>[];
 
   if (jsonKeyAnnotation.isNotEmpty) {
-    final jsonKey = jsonKeyAnnotation.entries
-        .map<String>((e) => '${e.key}: ${e.value}')
-        .join(', ');
-    annotations.add('JsonKey($jsonKey)');
+    annotations.add(JsonKeyAnnotation.fromMap(jsonKeyAnnotation));
   }
   annotations.addAll(proceedDeprecated(fieldDirectives));
 

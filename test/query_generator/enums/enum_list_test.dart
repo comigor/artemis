@@ -1,3 +1,4 @@
+import 'package:artemis/generator/data/annotation.dart';
 import 'package:artemis/generator/data/data.dart';
 import 'package:artemis/generator/data/enum_value_definition.dart';
 import 'package:test/test.dart';
@@ -61,7 +62,9 @@ final LibraryDefinition libraryDefinition =
                       typeName: TypeName(name: r'MyEnum'), isNonNull: false),
                   name: ClassPropertyName(name: r'le'),
                   annotations: [
-                    r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
+                    JsonKeyAnnotation(
+                        jsonKey: JsonKeyItem(
+                            unknownEnumValue: r'MyEnum.artemisUnknown'))
                   ],
                   isResolveType: false)
             ],

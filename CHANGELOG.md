@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 7.1.1-beta.0
+
+- exclude nullable items from input
+
 ## 7.1.0-beta.0
 
 **BREAKING CHANGE**

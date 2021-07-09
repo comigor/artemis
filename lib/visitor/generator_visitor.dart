@@ -1,4 +1,5 @@
 import 'package:artemis/generator.dart';
+import 'package:artemis/generator/data/annotation.dart';
 import 'package:artemis/generator/data/data.dart';
 import 'package:artemis/generator/data/nullable.dart';
 import 'package:artemis/generator/ephemeral_data.dart';
@@ -200,16 +201,13 @@ class GeneratorVisitor extends RecursiveVisitor {
     final inputName = QueryInputName(name: node.variable.name.value);
 
     if (inputName.namePrintable != inputName.name) {
-      jsonKeyAnnotation['name'] = '\'${inputName.name}\'';
+      jsonKeyAnnotation['name'] = inputName.name;
     }
 
-    var annotations = <String>[];
+    var annotations = <Annotation>[];
 
     if (jsonKeyAnnotation.isNotEmpty) {
-      final jsonKey = jsonKeyAnnotation.entries
-          .map<String>((e) => '${e.key}: ${e.value}')
-          .join(', ');
-      annotations.add('JsonKey($jsonKey)');
+      annotations.add(JsonKeyAnnotation.fromMap(jsonKeyAnnotation));
     }
 
     context.inputsClasses.add(QueryInput(

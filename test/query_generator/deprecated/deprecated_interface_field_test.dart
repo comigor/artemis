@@ -1,3 +1,4 @@
+import 'package:artemis/generator/data/annotation.dart';
 import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
@@ -119,7 +120,8 @@ final LibraryDefinition libraryDefinition =
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'deprecatedField'),
                   annotations: [
-                    r'''Deprecated('deprecated interface field')'''
+                    StringAnnotation(
+                        name: r'''Deprecated('deprecated interface field')''')
                   ],
                   isResolveType: false)
             ],

@@ -1,3 +1,4 @@
+import 'package:artemis/generator/data/annotation.dart';
 import 'package:artemis/generator/data/data.dart';
 import 'package:artemis/generator/data/enum_value_definition.dart';
 import 'package:test/test.dart';
@@ -58,7 +59,7 @@ const query = r'''
 ''';
 
 final LibraryDefinition libraryDefinition =
-    LibraryDefinition(basename: r'query.graphql', queries: [
+LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
       name: QueryName(name: r'Custom$_QueryRoot'),
       operationName: r'custom',
@@ -84,14 +85,18 @@ final LibraryDefinition libraryDefinition =
                   type: TypeName(name: r'MyEnum'),
                   name: ClassPropertyName(name: r'my'),
                   annotations: [
-                    r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
+                    JsonKeyAnnotation(
+                        jsonKey: JsonKeyItem(
+                            unknownEnumValue: r'MyEnum.artemisUnknown'))
                   ],
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'OtherEnum'),
                   name: ClassPropertyName(name: r'other'),
                   annotations: [
-                    r'JsonKey(unknownEnumValue: OtherEnum.artemisUnknown)'
+                    JsonKeyAnnotation(
+                        jsonKey: JsonKeyItem(
+                            unknownEnumValue: r'OtherEnum.artemisUnknown'))
                   ],
                   isResolveType: false)
             ],
@@ -116,7 +121,9 @@ final LibraryDefinition libraryDefinition =
                   type: TypeName(name: r'MyEnum', isNonNull: true),
                   name: ClassPropertyName(name: r'e'),
                   annotations: [
-                    r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
+                    JsonKeyAnnotation(
+                        jsonKey: JsonKeyItem(
+                            unknownEnumValue: r'MyEnum.artemisUnknown'))
                   ],
                   isResolveType: false)
             ],
@@ -128,7 +135,9 @@ final LibraryDefinition libraryDefinition =
         QueryInput(
             type: TypeName(name: r'String', isNonNull: true),
             name: QueryInputName(name: r'_id'),
-            annotations: [r'''JsonKey(name: '_id')''']),
+            annotations: [
+              JsonKeyAnnotation(jsonKey: JsonKeyItem(name: r'_id'))
+            ]),
         QueryInput(
             type: TypeName(name: r'Input', isNonNull: true),
             name: QueryInputName(name: r'input')),
@@ -136,7 +145,9 @@ final LibraryDefinition libraryDefinition =
             type: TypeName(name: r'OtherEnum', isNonNull: true),
             name: QueryInputName(name: r'o'),
             annotations: [
-              r'JsonKey(unknownEnumValue: OtherEnum.artemisUnknown)'
+              JsonKeyAnnotation(
+                  jsonKey: JsonKeyItem(
+                      unknownEnumValue: r'OtherEnum.artemisUnknown'))
             ])
       ],
       generateHelpers: true,
@@ -196,7 +207,7 @@ class Input extends JsonSerializable with EquatableMixin {
   factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
 
   @JsonKey(unknownEnumValue: MyEnum.artemisUnknown)
-  late MyEnum e;
+  final MyEnum e;
 
   @override
   List<Object?> get props => [e];
@@ -230,12 +241,12 @@ class CustomArguments extends JsonSerializable with EquatableMixin {
       _$CustomArgumentsFromJson(json);
 
   @JsonKey(name: '_id')
-  late String $id;
+  final String $id;
 
-  late Input input;
+  final Input input;
 
   @JsonKey(unknownEnumValue: OtherEnum.artemisUnknown)
-  late OtherEnum o;
+  final OtherEnum o;
 
   @override
   List<Object?> get props => [$id, input, o];

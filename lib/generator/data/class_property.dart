@@ -1,3 +1,4 @@
+import 'package:artemis/generator/data/annotation.dart';
 import 'package:artemis/generator/data/definition.dart';
 import 'package:artemis/generator/data_printer.dart';
 import 'package:artemis/generator/helpers.dart';
@@ -12,7 +13,7 @@ class ClassProperty extends Definition with DataPrinter {
   final TypeName type;
 
   /// Some other custom annotation.
-  final List<String> annotations;
+  final List<Annotation> annotations;
 
   /// Whether this parameter corresponds to the __resolveType (or equivalent)
   final bool isResolveType;
@@ -33,7 +34,7 @@ class ClassProperty extends Definition with DataPrinter {
   ClassProperty copyWith({
     TypeName? type,
     ClassPropertyName? name,
-    List<String>? annotations,
+    List<Annotation>? annotations,
     bool? isResolveType,
   }) =>
       ClassProperty(

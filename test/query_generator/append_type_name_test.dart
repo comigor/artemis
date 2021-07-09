@@ -1,3 +1,4 @@
+import 'package:artemis/generator/data/annotation.dart';
 import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
@@ -46,7 +47,10 @@ void main() {
                           ClassProperty(
                               type: TypeName(name: r'String'),
                               name: ClassPropertyName(name: r'__typename'),
-                              annotations: [r'''JsonKey(name: '__typename')'''],
+                              annotations: [
+                                JsonKeyAnnotation(
+                                    jsonKey: JsonKeyItem(name: r'__typename'))
+                              ],
                               isResolveType: true)
                         ],
                         factoryPossibilities: {},
@@ -62,7 +66,10 @@ void main() {
                           ClassProperty(
                               type: TypeName(name: r'String'),
                               name: ClassPropertyName(name: r'__typename'),
-                              annotations: [r'''JsonKey(name: '__typename')'''],
+                              annotations: [
+                                JsonKeyAnnotation(
+                                    jsonKey: JsonKeyItem(name: r'__typename'))
+                              ],
                               isResolveType: true)
                         ],
                         factoryPossibilities: {},
@@ -161,7 +168,10 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                           ClassProperty(
                               type: TypeName(name: r'String'),
                               name: ClassPropertyName(name: r'__typename'),
-                              annotations: [r'''JsonKey(name: '__typename')'''],
+                              annotations: [
+                                JsonKeyAnnotation(
+                                    jsonKey: JsonKeyItem(name: r'__typename'))
+                              ],
                               isResolveType: true)
                         ],
                         factoryPossibilities: {},
@@ -177,7 +187,10 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                           ClassProperty(
                               type: TypeName(name: r'String'),
                               name: ClassPropertyName(name: r'__typename'),
-                              annotations: [r'''JsonKey(name: '__typename')'''],
+                              annotations: [
+                                JsonKeyAnnotation(
+                                    jsonKey: JsonKeyItem(name: r'__typename'))
+                              ],
                               isResolveType: true)
                         ],
                         factoryPossibilities: {},
@@ -274,7 +287,10 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                           ClassProperty(
                               type: TypeName(name: r'String'),
                               name: ClassPropertyName(name: r'__typename'),
-                              annotations: [r'''JsonKey(name: '__typename')'''],
+                              annotations: [
+                                JsonKeyAnnotation(
+                                    jsonKey: JsonKeyItem(name: r'__typename'))
+                              ],
                               isResolveType: true)
                         ],
                         mixins: [FragmentName(name: r'QueryResponseMixin')],
@@ -291,7 +307,10 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                           ClassProperty(
                               type: TypeName(name: r'String'),
                               name: ClassPropertyName(name: r'__typename'),
-                              annotations: [r'''JsonKey(name: '__typename')'''],
+                              annotations: [
+                                JsonKeyAnnotation(
+                                    jsonKey: JsonKeyItem(name: r'__typename'))
+                              ],
                               isResolveType: true)
                         ],
                         factoryPossibilities: {},
@@ -307,7 +326,10 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                           ClassProperty(
                               type: TypeName(name: r'String'),
                               name: ClassPropertyName(name: r'__typename'),
-                              annotations: [r'''JsonKey(name: '__typename')'''],
+                              annotations: [
+                                JsonKeyAnnotation(
+                                    jsonKey: JsonKeyItem(name: r'__typename'))
+                              ],
                               isResolveType: true)
                         ])
                   ],
@@ -417,7 +439,10 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                           ClassProperty(
                               type: TypeName(name: r'String'),
                               name: ClassPropertyName(name: r'__typename'),
-                              annotations: [r'''JsonKey(name: '__typename')'''],
+                              annotations: [
+                                JsonKeyAnnotation(
+                                    jsonKey: JsonKeyItem(name: r'__typename'))
+                              ],
                               isResolveType: true)
                         ],
                         extension: ClassName(name: r'Custom$_QueryRoot$_q'),
@@ -434,7 +459,10 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                           ClassProperty(
                               type: TypeName(name: r'String'),
                               name: ClassPropertyName(name: r'__typename'),
-                              annotations: [r'''JsonKey(name: '__typename')'''],
+                              annotations: [
+                                JsonKeyAnnotation(
+                                    jsonKey: JsonKeyItem(name: r'__typename'))
+                              ],
                               isResolveType: true)
                         ],
                         extension: ClassName(name: r'Custom$_QueryRoot$_q'),
@@ -447,7 +475,10 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                           ClassProperty(
                               type: TypeName(name: r'String'),
                               name: ClassPropertyName(name: r'__typename'),
-                              annotations: [r'''JsonKey(name: '__typename')'''],
+                              annotations: [
+                                JsonKeyAnnotation(
+                                    jsonKey: JsonKeyItem(name: r'__typename'))
+                              ],
                               isResolveType: true)
                         ],
                         factoryPossibilities: {
@@ -468,7 +499,10 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                           ClassProperty(
                               type: TypeName(name: r'String'),
                               name: ClassPropertyName(name: r'__typename'),
-                              annotations: [r'''JsonKey(name: '__typename')'''],
+                              annotations: [
+                                JsonKeyAnnotation(
+                                    jsonKey: JsonKeyItem(name: r'__typename'))
+                              ],
                               isResolveType: true)
                         ],
                         factoryPossibilities: {},
@@ -613,7 +647,10 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                       ClassProperty(
                           type: TypeName(name: r'String'),
                           name: ClassPropertyName(name: r'__typename'),
-                          annotations: [r'''JsonKey(name: '__typename')'''],
+                          annotations: [
+                            JsonKeyAnnotation(
+                                jsonKey: JsonKeyItem(name: r'__typename'))
+                          ],
                           isResolveType: true)
                     ],
                     mixins: [FragmentName(name: r'QueryResponseMixin')],
@@ -631,7 +668,10 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                       ClassProperty(
                           type: TypeName(name: r'String'),
                           name: ClassPropertyName(name: r'__typename'),
-                          annotations: [r'''JsonKey(name: '__typename')'''],
+                          annotations: [
+                            JsonKeyAnnotation(
+                                jsonKey: JsonKeyItem(name: r'__typename'))
+                          ],
                           isResolveType: true)
                     ],
                     factoryPossibilities: {},
@@ -647,7 +687,10 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                       ClassProperty(
                           type: TypeName(name: r'String'),
                           name: ClassPropertyName(name: r'__typename'),
-                          annotations: [r'''JsonKey(name: '__typename')'''],
+                          annotations: [
+                            JsonKeyAnnotation(
+                                jsonKey: JsonKeyItem(name: r'__typename'))
+                          ],
                           isResolveType: true)
                     ])
               ],

@@ -1,3 +1,4 @@
+import 'package:artemis/generator/data/annotation.dart';
 import 'package:artemis/generator/data/class_property.dart';
 import 'package:artemis/generator/data/definition.dart';
 import 'package:artemis/generator/data_printer.dart';
@@ -12,14 +13,14 @@ class QueryInput extends Definition with DataPrinter {
   final TypeName type;
 
   /// Some other custom annotation.
-  final List<String> annotations;
+  final List<Annotation> annotations;
 
   /// Instantiate an input parameter.
   QueryInput({
     required this.type,
     this.annotations = const [],
     required this.name,
-  })   : assert(hasValue(type) && hasValue(name)),
+  })  : assert(hasValue(type) && hasValue(name)),
         super(name: name);
 
   @override
