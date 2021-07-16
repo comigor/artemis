@@ -262,18 +262,18 @@ class AClass extends JsonSerializable with EquatableMixin {
           ClassDefinition(name: ClassName(name: 'AClass'), properties: [
         ClassProperty(
             type: TypeName(name: 'Type'),
-            name: ClassPropertyName(name: 'name')),
+            name: ClassPropertyName(name: 'nameA')),
         ClassProperty(
             type: TypeName(name: 'AnnotatedProperty'),
-            name: ClassPropertyName(name: 'name'),
+            name: ClassPropertyName(name: 'nameB'),
             annotations: ['Hey()']),
         ClassProperty(
             type: TypeName(name: 'OverridenProperty'),
-            name: ClassPropertyName(name: 'name'),
+            name: ClassPropertyName(name: 'nameC'),
             annotations: ['override']),
         ClassProperty(
             type: TypeName(name: 'AllAtOnce'),
-            name: ClassPropertyName(name: 'name'),
+            name: ClassPropertyName(name: 'nameD'),
             annotations: ['override', 'Ho()']),
       ]);
 
@@ -285,20 +285,20 @@ class AClass extends JsonSerializable with EquatableMixin {
 
   factory AClass.fromJson(Map<String, dynamic> json) => _\$AClassFromJson(json);
 
-  Type? name;
+  Type? nameA;
 
   @Hey()
-  AnnotatedProperty? name;
+  AnnotatedProperty? nameB;
 
   @override
-  OverridenProperty? name;
+  OverridenProperty? nameC;
 
   @override
   @Ho()
-  AllAtOnce? name;
+  AllAtOnce? nameD;
 
   @override
-  List<Object?> get props => [name, name, name, name];
+  List<Object?> get props => [nameA, nameB, nameC, nameD];
   @override
   Map<String, dynamic> toJson() => _\$AClassToJson(this);
 }

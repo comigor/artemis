@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 7.1.0-beta.1
+
+- duplicated $$typename fix
+
 ## 7.1.0-beta.0
 
 **BREAKING CHANGE**

@@ -340,7 +340,7 @@ class Custom$QueryRoot$Q extends JsonSerializable
   String? $$typename;
 
   @override
-  List<Object?> get props => [e, $$typename, $$typename];
+  List<Object?> get props => [e, $$typename];
   @override
   Map<String, dynamic> toJson() => _$Custom$QueryRoot$QToJson(this);
 }
@@ -681,7 +681,7 @@ class Custom$QueryRoot$QueryResponse extends JsonSerializable
   String? $$typename;
 
   @override
-  List<Object?> get props => [e, $$typename, $$typename];
+  List<Object?> get props => [e, $$typename];
   @override
   Map<String, dynamic> toJson() => _$Custom$QueryRoot$QueryResponseToJson(this);
 }
