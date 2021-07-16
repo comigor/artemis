@@ -1,3 +1,4 @@
+import 'package:artemis/generator/data/annotation.dart';
 import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
@@ -138,7 +139,12 @@ final LibraryDefinition libraryDefinitionWithCustomParserFns =
                   type: TypeName(name: r'MyDartUuid'),
                   name: ClassPropertyName(name: r'a'),
                   annotations: [
-                    r'JsonKey(fromJson: fromGraphQLMyUuidNullableToDartMyDartUuidNullable, toJson: fromDartMyDartUuidNullableToGraphQLMyUuidNullable)'
+                    JsonKeyAnnotation(
+                        jsonKey: JsonKeyItem(
+                            fromJson:
+                                r'fromGraphQLMyUuidNullableToDartMyDartUuidNullable',
+                            toJson:
+                                r'fromDartMyDartUuidNullableToGraphQLMyUuidNullable'))
                   ],
                   isResolveType: false)
             ],
@@ -165,14 +171,22 @@ final LibraryDefinition libraryDefinitionWithCustomImports =
                   type: TypeName(name: r'MyUuid'),
                   name: ClassPropertyName(name: r'a'),
                   annotations: [
-                    r'JsonKey(fromJson: fromGraphQLMyUuidNullableToDartMyUuidNullable, toJson: fromDartMyUuidNullableToGraphQLMyUuidNullable)'
+                    JsonKeyAnnotation(
+                        jsonKey: JsonKeyItem(
+                            fromJson:
+                                r'fromGraphQLMyUuidNullableToDartMyUuidNullable',
+                            toJson:
+                                r'fromDartMyUuidNullableToGraphQLMyUuidNullable'))
                   ],
                   isResolveType: false),
               ClassProperty(
                   type: TypeName(name: r'MyUuid', isNonNull: true),
                   name: ClassPropertyName(name: r'b'),
                   annotations: [
-                    r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid)'
+                    JsonKeyAnnotation(
+                        jsonKey: JsonKeyItem(
+                            fromJson: r'fromGraphQLMyUuidToDartMyUuid',
+                            toJson: r'fromDartMyUuidToGraphQLMyUuid'))
                   ],
                   isResolveType: false),
               ClassProperty(
@@ -181,7 +195,10 @@ final LibraryDefinition libraryDefinitionWithCustomImports =
                       isNonNull: true),
                   name: ClassPropertyName(name: r'c'),
                   annotations: [
-                    r'JsonKey(fromJson: fromGraphQLListMyUuidToDartListMyUuid, toJson: fromDartListMyUuidToGraphQLListMyUuid)'
+                    JsonKeyAnnotation(
+                        jsonKey: JsonKeyItem(
+                            fromJson: r'fromGraphQLListMyUuidToDartListMyUuid',
+                            toJson: r'fromDartListMyUuidToGraphQLListMyUuid'))
                   ],
                   isResolveType: false),
               ClassProperty(
@@ -189,7 +206,12 @@ final LibraryDefinition libraryDefinitionWithCustomImports =
                       typeName: TypeName(name: r'MyUuid'), isNonNull: false),
                   name: ClassPropertyName(name: r'd'),
                   annotations: [
-                    r'JsonKey(fromJson: fromGraphQLListNullableMyUuidNullableToDartListNullableMyUuidNullable, toJson: fromDartListNullableMyUuidNullableToGraphQLListNullableMyUuidNullable)'
+                    JsonKeyAnnotation(
+                        jsonKey: JsonKeyItem(
+                            fromJson:
+                                r'fromGraphQLListNullableMyUuidNullableToDartListNullableMyUuidNullable',
+                            toJson:
+                                r'fromDartListNullableMyUuidNullableToGraphQLListNullableMyUuidNullable'))
                   ],
                   isResolveType: false),
               ClassProperty(
@@ -197,7 +219,12 @@ final LibraryDefinition libraryDefinitionWithCustomImports =
                       typeName: TypeName(name: r'MyUuid'), isNonNull: true),
                   name: ClassPropertyName(name: r'e'),
                   annotations: [
-                    r'JsonKey(fromJson: fromGraphQLListMyUuidNullableToDartListMyUuidNullable, toJson: fromDartListMyUuidNullableToGraphQLListMyUuidNullable)'
+                    JsonKeyAnnotation(
+                        jsonKey: JsonKeyItem(
+                            fromJson:
+                                r'fromGraphQLListMyUuidNullableToDartListMyUuidNullable',
+                            toJson:
+                                r'fromDartListMyUuidNullableToGraphQLListMyUuidNullable'))
                   ],
                   isResolveType: false),
               ClassProperty(
@@ -206,7 +233,12 @@ final LibraryDefinition libraryDefinitionWithCustomImports =
                       isNonNull: false),
                   name: ClassPropertyName(name: r'f'),
                   annotations: [
-                    r'JsonKey(fromJson: fromGraphQLListNullableMyUuidToDartListNullableMyUuid, toJson: fromDartListNullableMyUuidToGraphQLListNullableMyUuid)'
+                    JsonKeyAnnotation(
+                        jsonKey: JsonKeyItem(
+                            fromJson:
+                                r'fromGraphQLListNullableMyUuidToDartListNullableMyUuid',
+                            toJson:
+                                r'fromDartListNullableMyUuidToGraphQLListNullableMyUuid'))
                   ],
                   isResolveType: false)
             ],

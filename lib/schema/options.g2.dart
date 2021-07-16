@@ -73,6 +73,7 @@ SchemaMap _$SchemaMapFromJson(Map<String, dynamic> json) {
     queriesGlob: json['queries_glob'] as String?,
     typeNameField: json['type_name_field'] as String? ?? '__typename',
     appendTypeName: json['append_type_name'] as bool? ?? false,
+    toJsonExclude: json['to_json_exclude'] as bool? ?? false,
     namingScheme: _$enumDecodeNullable(
         _$NamingSchemeEnumMap, json['naming_scheme'],
         unknownValue: NamingScheme.pathedWithTypes),
@@ -85,6 +86,7 @@ Map<String, dynamic> _$SchemaMapToJson(SchemaMap instance) => <String, dynamic>{
       'queries_glob': instance.queriesGlob,
       'type_name_field': instance.typeNameField,
       'append_type_name': instance.appendTypeName,
+      'to_json_exclude': instance.toJsonExclude,
       'naming_scheme': _$NamingSchemeEnumMap[instance.namingScheme],
     };
 

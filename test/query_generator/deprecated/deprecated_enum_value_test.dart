@@ -1,3 +1,4 @@
+import 'package:artemis/generator/data/annotation.dart';
 import 'package:artemis/generator/data/data.dart';
 import 'package:artemis/generator/data/enum_value_definition.dart';
 import 'package:gql/language.dart';
@@ -42,41 +43,31 @@ const query = r'''
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      document: parseString(query),
       name: QueryName(name: r'SomeQuery$_QueryResponse'),
-      operationName: 'some_query',
+      operationName: r'some_query',
       classes: [
-        EnumDefinition(
-          name: EnumName(name: r'StarWarsMovies'),
-          values: [
-            EnumValueDefinition(
-              name: EnumValueName(name: 'NEW_HOPE'),
+        EnumDefinition(name: EnumName(name: r'StarWarsMovies'), values: [
+          EnumValueDefinition(
+              name: EnumValueName(name: r'NEW_HOPE'),
               annotations: [
-                r"Deprecated('deprecated movie')",
-              ],
-            ),
-            EnumValueDefinition(
-              name: EnumValueName(name: 'EMPIRE'),
-            ),
-            EnumValueDefinition(
-              name: EnumValueName(name: 'JEDI'),
-            ),
-            EnumValueDefinition(
-              name: EnumValueName(name: 'ARTEMIS_UNKNOWN'),
-            ),
-          ],
-        ),
+                StringAnnotation(name: r'''Deprecated('deprecated movie')''')
+              ]),
+          EnumValueDefinition(name: EnumValueName(name: r'EMPIRE')),
+          EnumValueDefinition(name: EnumValueName(name: r'JEDI')),
+          EnumValueDefinition(name: EnumValueName(name: r'ARTEMIS_UNKNOWN'))
+        ]),
         ClassDefinition(
             name: ClassName(name: r'SomeQuery$_QueryResponse'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'StarWarsMovies'),
                   name: ClassPropertyName(name: r'someValue'),
-                  // isOverride: false,
-
                   annotations: [
-                    r'JsonKey(unknownEnumValue: StarWarsMovies.artemisUnknown)',
-                  ])
+                    JsonKeyAnnotation(
+                        jsonKey: JsonKeyItem(
+                            unknownEnumValue: r'StarWarsMovies.artemisUnknown'))
+                  ],
+                  isResolveType: false)
             ],
             factoryPossibilities: {},
             typeNameField: ClassPropertyName(name: r'__typename'),

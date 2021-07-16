@@ -1,3 +1,4 @@
+import 'package:artemis/generator/data/annotation.dart';
 import 'package:artemis/generator/data/data.dart';
 import 'package:artemis/generator/data/enum_value_definition.dart';
 import 'package:test/test.dart';
@@ -105,7 +106,9 @@ final LibraryDefinition libraryDefinition =
                   type: TypeName(name: r'UserType', isNonNull: true),
                   name: ClassPropertyName(name: r'userType'),
                   annotations: [
-                    r'JsonKey(unknownEnumValue: UserType.artemisUnknown)'
+                    JsonKeyAnnotation(
+                        jsonKey: JsonKeyItem(
+                            unknownEnumValue: r'UserType.artemisUnknown'))
                   ],
                   isResolveType: false)
             ],

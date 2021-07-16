@@ -1,3 +1,4 @@
+import 'package:artemis/generator/data/annotation.dart';
 import 'package:artemis/generator/data/data.dart';
 import 'package:test/test.dart';
 
@@ -61,7 +62,9 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'deprecatedField'),
-                  annotations: [r'''Deprecated('message 2')'''],
+                  annotations: [
+                    StringAnnotation(name: r'''Deprecated('message 2')''')
+                  ],
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -77,7 +80,9 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: TypeName(name: r'String'),
                   name: ClassPropertyName(name: r'deprecatedField'),
-                  annotations: [r'''Deprecated('message 2')'''],
+                  annotations: [
+                    StringAnnotation(name: r'''Deprecated('message 2')''')
+                  ],
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -90,7 +95,9 @@ final LibraryDefinition libraryDefinition =
                   type: TypeName(
                       name: r'SomeQuery$_QueryResponse$_deprecatedObject'),
                   name: ClassPropertyName(name: r'deprecatedObject'),
-                  annotations: [r'''Deprecated('message')'''],
+                  annotations: [
+                    StringAnnotation(name: r'''Deprecated('message')''')
+                  ],
                   isResolveType: false),
               ClassProperty(
                   type: ListOfTypeName(

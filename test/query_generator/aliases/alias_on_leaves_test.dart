@@ -1,3 +1,4 @@
+import 'package:artemis/generator/data/annotation.dart';
 import 'package:artemis/generator/data/data.dart';
 import 'package:artemis/generator/data/enum_value_definition.dart';
 import 'package:test/test.dart';
@@ -53,15 +54,9 @@ final LibraryDefinition libraryDefinition =
       operationName: r'some_query',
       classes: [
         EnumDefinition(name: EnumName(name: r'MyEnum'), values: [
-          EnumValueDefinition(
-            name: EnumValueName(name: r'A'),
-          ),
-          EnumValueDefinition(
-            name: EnumValueName(name: r'B'),
-          ),
-          EnumValueDefinition(
-            name: EnumValueName(name: r'ARTEMIS_UNKNOWN'),
-          ),
+          EnumValueDefinition(name: EnumValueName(name: r'A')),
+          EnumValueDefinition(name: EnumValueName(name: r'B')),
+          EnumValueDefinition(name: EnumValueName(name: r'ARTEMIS_UNKNOWN'))
         ]),
         ClassDefinition(
             name: ClassName(name: r'SomeQuery$_Response$_SomeObject'),
@@ -70,7 +65,9 @@ final LibraryDefinition libraryDefinition =
                   type: TypeName(name: r'MyEnum'),
                   name: ClassPropertyName(name: r'thisIsAnEnum'),
                   annotations: [
-                    r'JsonKey(unknownEnumValue: MyEnum.artemisUnknown)'
+                    JsonKeyAnnotation(
+                        jsonKey: JsonKeyItem(
+                            unknownEnumValue: r'MyEnum.artemisUnknown'))
                   ],
                   isResolveType: false)
             ],

@@ -1,6 +1,8 @@
+import 'package:artemis/generator/data/annotation.dart';
 import 'package:artemis/generator/data/data.dart';
 import 'package:artemis/generator/data/enum_value_definition.dart';
 import 'package:artemis/generator/print_helpers.dart';
+import 'package:artemis/schema/options.dart';
 import 'package:gql/language.dart';
 import 'package:test/test.dart';
 
@@ -101,11 +103,11 @@ void main() {
             ClassProperty(
                 type: TypeName(name: 'Type'),
                 name: ClassPropertyName(name: 'name'),
-                annotations: ['override']),
+                annotations: [OverrideAnnotation()]),
             ClassProperty(
                 type: TypeName(name: 'Type'),
                 name: ClassPropertyName(name: 'name'),
-                annotations: ['Test']),
+                annotations: [StringAnnotation(name: 'Test')]),
           ]);
 
       final str = specToString(fragmentClassDefinitionToSpec(definition));
@@ -129,9 +131,12 @@ void main() {
       //     throwsA(TypeMatcher<AssertionError>()));
       expect(
           () => classDefinitionToSpec(
-              ClassDefinition(name: ClassName(name: ''), properties: []),
-              [],
-              []),
+                ClassDefinition(name: ClassName(name: ''), properties: []),
+                [],
+                [],
+                GeneratorOptions(),
+                SchemaMap(),
+              ),
           throwsA(TypeMatcher<AssertionError>()));
     });
 
@@ -139,7 +144,13 @@ void main() {
       final definition =
           ClassDefinition(name: ClassName(name: 'AClass'), properties: []);
 
-      final str = specToString(classDefinitionToSpec(definition, [], []));
+      final str = specToString(classDefinitionToSpec(
+        definition,
+        [],
+        [],
+        GeneratorOptions(),
+        SchemaMap(),
+      ));
 
       expect(str, '''@JsonSerializable(explicitToJson: true)
 class AClass extends JsonSerializable with EquatableMixin {
@@ -161,7 +172,13 @@ class AClass extends JsonSerializable with EquatableMixin {
           properties: [],
           extension: ClassName(name: 'AnotherClass'));
 
-      final str = specToString(classDefinitionToSpec(definition, [], []));
+      final str = specToString(classDefinitionToSpec(
+        definition,
+        [],
+        [],
+        GeneratorOptions(),
+        SchemaMap(),
+      ));
 
       expect(str, '''@JsonSerializable(explicitToJson: true)
 class AClass extends AnotherClass with EquatableMixin {
@@ -190,7 +207,13 @@ class AClass extends AnotherClass with EquatableMixin {
         typeNameField: ClassPropertyName(name: '__typename'),
       );
 
-      final str = specToString(classDefinitionToSpec(definition, [], []));
+      final str = specToString(classDefinitionToSpec(
+        definition,
+        [],
+        [],
+        GeneratorOptions(),
+        SchemaMap(),
+      ));
 
       expect(str, r'''@JsonSerializable(explicitToJson: true)
 class AClass extends JsonSerializable with EquatableMixin {
@@ -235,7 +258,13 @@ class AClass extends JsonSerializable with EquatableMixin {
             name: ClassPropertyName(name: 'anotherName')),
       ]);
 
-      final str = specToString(classDefinitionToSpec(definition, [], []));
+      final str = specToString(classDefinitionToSpec(
+        definition,
+        [],
+        [],
+        GeneratorOptions(),
+        SchemaMap(),
+      ));
 
       expect(str, '''@JsonSerializable(explicitToJson: true)
 class AClass extends JsonSerializable with EquatableMixin {
@@ -266,18 +295,27 @@ class AClass extends JsonSerializable with EquatableMixin {
         ClassProperty(
             type: TypeName(name: 'AnnotatedProperty'),
             name: ClassPropertyName(name: 'name'),
-            annotations: ['Hey()']),
+            annotations: [StringAnnotation(name: 'Hey()')]),
         ClassProperty(
             type: TypeName(name: 'OverridenProperty'),
             name: ClassPropertyName(name: 'name'),
-            annotations: ['override']),
+            annotations: [OverrideAnnotation()]),
         ClassProperty(
             type: TypeName(name: 'AllAtOnce'),
             name: ClassPropertyName(name: 'name'),
-            annotations: ['override', 'Ho()']),
+            annotations: [
+              OverrideAnnotation(),
+              StringAnnotation(name: 'Ho()')
+            ]),
       ]);
 
-      final str = specToString(classDefinitionToSpec(definition, [], []));
+      final str = specToString(classDefinitionToSpec(
+        definition,
+        [],
+        [],
+        GeneratorOptions(),
+        SchemaMap(),
+      ));
 
       expect(str, '''@JsonSerializable(explicitToJson: true)
 class AClass extends JsonSerializable with EquatableMixin {
@@ -313,15 +351,21 @@ class AClass extends JsonSerializable with EquatableMixin {
           properties: [],
           mixins: [FragmentName(name: 'FragmentMixin')]);
 
-      final str = specToString(classDefinitionToSpec(definition, [
-        FragmentClassDefinition(
-            name: FragmentName(name: 'FragmentMixin'),
-            properties: [
-              ClassProperty(
-                  type: TypeName(name: 'Type'),
-                  name: ClassPropertyName(name: 'name')),
-            ])
-      ], []));
+      final str = specToString(classDefinitionToSpec(
+        definition,
+        [
+          FragmentClassDefinition(
+              name: FragmentName(name: 'FragmentMixin'),
+              properties: [
+                ClassProperty(
+                    type: TypeName(name: 'Type'),
+                    name: ClassPropertyName(name: 'name')),
+              ])
+        ],
+        [],
+        GeneratorOptions(),
+        SchemaMap(),
+      ));
 
       expect(str, '''@JsonSerializable(explicitToJson: true)
 class AClass extends JsonSerializable with EquatableMixin, FragmentMixin {
@@ -352,22 +396,28 @@ class AClass extends JsonSerializable with EquatableMixin, FragmentMixin {
         isInput: true,
       );
 
-      final str = specToString(classDefinitionToSpec(definition, [], []));
+      final str = specToString(classDefinitionToSpec(
+        definition,
+        [],
+        [],
+        GeneratorOptions(),
+        SchemaMap(),
+      ));
 
-      expect(str, '''@JsonSerializable(explicitToJson: true)
+      expect(str, r'''@JsonSerializable(explicitToJson: true)
 class AClass extends JsonSerializable with EquatableMixin {
   AClass({this.name, required this.anotherName});
 
-  factory AClass.fromJson(Map<String, dynamic> json) => _\$AClassFromJson(json);
+  factory AClass.fromJson(Map<String, dynamic> json) => _$AClassFromJson(json);
 
-  Type? name;
+  final Type? name;
 
-  late AnotherType anotherName;
+  final AnotherType anotherName;
 
   @override
   List<Object?> get props => [name, anotherName];
   @override
-  Map<String, dynamic> toJson() => _\$AClassToJson(this);
+  Map<String, dynamic> toJson() => _$AClassToJson(this);
 }
 ''');
     });
@@ -375,7 +425,12 @@ class AClass extends JsonSerializable with EquatableMixin {
 
   group('On generateQueryClassSpec', () {
     test('It will throw if basename is null or empty.', () {
-      expect(() => generateLibrarySpec(LibraryDefinition(basename: '')),
+      expect(
+          () => generateLibrarySpec(
+                LibraryDefinition(basename: ''),
+                GeneratorOptions(),
+                SchemaMap(),
+              ),
           throwsA(TypeMatcher<AssertionError>()));
     });
 
@@ -416,8 +471,12 @@ class AClass extends JsonSerializable with EquatableMixin {
     test('It should generated an empty file by default.', () {
       final buffer = StringBuffer();
       final definition = LibraryDefinition(basename: r'test_query.graphql');
-      final ignoreForFile = <String>[];
-      writeLibraryDefinitionToBuffer(buffer, ignoreForFile, definition);
+      writeLibraryDefinitionToBuffer(
+        buffer,
+        GeneratorOptions(ignoreForFile: []),
+        SchemaMap(),
+        definition,
+      );
 
       expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
 // @dart = 2.12
@@ -433,9 +492,13 @@ part 'test_query.graphql.g.dart';
       final buffer = StringBuffer();
       final definition = LibraryDefinition(
           basename: r'test_query.graphql', customImports: ['some_file.dart']);
-      final ignoreForFile = <String>[];
 
-      writeLibraryDefinitionToBuffer(buffer, ignoreForFile, definition);
+      writeLibraryDefinitionToBuffer(
+        buffer,
+        GeneratorOptions(ignoreForFile: []),
+        SchemaMap(),
+        definition,
+      );
 
       expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
 // @dart = 2.12
@@ -461,9 +524,13 @@ part 'test_query.graphql.g.dart';
           )
         ],
       );
-      final ignoreForFile = <String>[];
 
-      writeLibraryDefinitionToBuffer(buffer, ignoreForFile, definition);
+      writeLibraryDefinitionToBuffer(
+        buffer,
+        GeneratorOptions(ignoreForFile: []),
+        SchemaMap(),
+        definition,
+      );
 
       expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
 // @dart = 2.12
@@ -516,9 +583,13 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, JsonSerializable> {
           ],
         ),
       ]);
-      final ignoreForFile = <String>[];
 
-      writeLibraryDefinitionToBuffer(buffer, ignoreForFile, definition);
+      writeLibraryDefinitionToBuffer(
+        buffer,
+        GeneratorOptions(ignoreForFile: []),
+        SchemaMap(),
+        definition,
+      );
 
       expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
 // @dart = 2.12
@@ -586,7 +657,11 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
         ],
       );
 
-      final str = specToString(generateArgumentClassSpec(definition));
+      final str = specToString(generateArgumentClassSpec(
+        definition,
+        GeneratorOptions(),
+        SchemaMap(),
+      ));
 
       expect(str, '''@JsonSerializable(explicitToJson: true)
 class TestQueryArguments extends JsonSerializable with EquatableMixin {
@@ -669,9 +744,13 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
           ],
         ),
       ]);
-      final ignoreForFile = <String>[];
 
-      writeLibraryDefinitionToBuffer(buffer, ignoreForFile, definition);
+      writeLibraryDefinitionToBuffer(
+        buffer,
+        GeneratorOptions(ignoreForFile: []),
+        SchemaMap(),
+        definition,
+      );
 
       expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
 // @dart = 2.12
@@ -704,9 +783,13 @@ enum SomeEnum {
   test('Should not add ignore_for_file when ignoreForFile is null', () {
     final buffer = StringBuffer();
     final definition = LibraryDefinition(basename: r'test_query.graphql');
-    final ignoreForFile = <String>[];
 
-    writeLibraryDefinitionToBuffer(buffer, ignoreForFile, definition);
+    writeLibraryDefinitionToBuffer(
+      buffer,
+      GeneratorOptions(ignoreForFile: []),
+      SchemaMap(),
+      definition,
+    );
 
     expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
 // @dart = 2.12
@@ -721,9 +804,13 @@ part 'test_query.graphql.g.dart';
   test('Should not add ignore_for_file when ignoreForFile is empty', () {
     final buffer = StringBuffer();
     final definition = LibraryDefinition(basename: r'test_query.graphql');
-    final ignoreForFile = <String>[];
 
-    writeLibraryDefinitionToBuffer(buffer, ignoreForFile, definition);
+    writeLibraryDefinitionToBuffer(
+      buffer,
+      GeneratorOptions(ignoreForFile: []),
+      SchemaMap(),
+      definition,
+    );
 
     expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
 // @dart = 2.12
@@ -739,9 +826,13 @@ part 'test_query.graphql.g.dart';
       () {
     final buffer = StringBuffer();
     final definition = LibraryDefinition(basename: r'test_query.graphql');
-    final ignoreForFile = <String>['my_rule_1', 'my_rule_2'];
 
-    writeLibraryDefinitionToBuffer(buffer, ignoreForFile, definition);
+    writeLibraryDefinitionToBuffer(
+      buffer,
+      GeneratorOptions(ignoreForFile: ['my_rule_1', 'my_rule_2']),
+      SchemaMap(),
+      definition,
+    );
 
     expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
 // @dart = 2.12

@@ -16,6 +16,7 @@ Future testGenerator({
   required String schema,
   String namingScheme = 'pathedWithTypes',
   bool appendTypeName = false,
+  bool toJsonExclude = false,
   bool generateHelpers = false,
   Map<String, dynamic> builderOptionsMap = const {},
   Map<String, Object> sourceAssetsMap = const {},
@@ -32,6 +33,7 @@ Future testGenerator({
         'output': 'lib/query.graphql.dart',
         'naming_scheme': namingScheme,
         'append_type_name': appendTypeName,
+        'to_json_exclude': toJsonExclude,
       }
     ],
     ...builderOptionsMap,
