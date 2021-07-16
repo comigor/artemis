@@ -54,14 +54,15 @@ String _toJsonBody(ClassDefinition definition) {
   return buffer.toString();
 }
 
-Method _propsMethod(String body) {
+Method _propsMethod(Iterable<String> body) {
   return Method((m) => m
     ..type = MethodType.getter
     ..returns = refer('List<Object?>')
     ..annotations.add(CodeExpression(Code('override')))
     ..name = 'props'
     ..lambda = true
-    ..body = Code(body));
+    ..body =
+        Code('[${body.mergeDuplicatesBy((i) => i, (a, b) => a).join(', ')}]'));
 }
 
 /// Generates a [Spec] of a single class definition.
@@ -133,7 +134,7 @@ Spec classDefinitionToSpec(
       ..name = definition.name.namePrintable
       ..mixins.add(refer('EquatableMixin'))
       ..mixins.addAll(definition.mixins.map((i) => refer(i.namePrintable)))
-      ..methods.add(_propsMethod('[${props.join(',')}]'))
+      ..methods.add(_propsMethod(props))
       ..extend = definition.extension != null
           ? refer(definition.extension!.namePrintable)
           : refer('JsonSerializable')
@@ -212,7 +213,7 @@ Spec generateArgumentClassSpec(QueryDefinition definition) {
       ..extend = refer('JsonSerializable')
       ..mixins.add(refer('EquatableMixin'))
       ..methods.add(_propsMethod(
-          '[${definition.inputs.map((input) => input.name.namePrintable).join(',')}]'))
+          definition.inputs.map((input) => input.name.namePrintable)))
       ..constructors.add(Constructor(
         (b) => b
           ..optionalParameters.addAll(definition.inputs.map(
@@ -331,8 +332,10 @@ List<Spec> generateQueryClassSpec(QueryDefinition definition) {
         ..extend = refer('GraphQLQuery<$typeDeclaration>')
         ..constructors.add(constructor)
         ..fields.addAll(fields)
-        ..methods.add(_propsMethod(
-            '[document, operationName${definition.inputs.isNotEmpty ? ', variables' : ''}]'))
+        ..methods.add(_propsMethod([
+          'document',
+          'operationName${definition.inputs.isNotEmpty ? ', variables' : ''}'
+        ]))
         ..methods.add(Method(
           (m) => m
             ..annotations.add(CodeExpression(Code('override')))
