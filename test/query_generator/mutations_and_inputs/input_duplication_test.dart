@@ -65,7 +65,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Custom$_Mutation$_mut'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r's'),
                   isResolveType: false)
             ],
@@ -87,7 +87,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Input'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String', isNonNull: true),
+                  type: DartTypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r's'),
                   isResolveType: false)
             ],
@@ -110,7 +110,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'CustomList$_Mutation$_mutList'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r's'),
                   isResolveType: false)
             ],
@@ -132,7 +132,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Input'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String', isNonNull: true),
+                  type: DartTypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r's'),
                   isResolveType: false)
             ],

@@ -34,7 +34,7 @@ void main() {
                         name: ClassName(name: r'SomeQuery$_Query$_SomeObject'),
                         properties: [
                           ClassProperty(
-                              type: TypeName(name: r'String'),
+                              type: DartTypeName(name: r'String'),
                               name: ClassPropertyName(name: r's'),
                               isResolveType: false)
                         ],
@@ -56,33 +56,37 @@ void main() {
                   ],
                   inputs: [
                     QueryInput(
-                        type: TypeName(name: r'int'),
+                        type: DartTypeName(name: r'int'),
                         name: QueryInputName(name: r'i')),
                     QueryInput(
-                        type: TypeName(name: r'int', isNonNull: true),
+                        type: DartTypeName(name: r'int', isNonNull: true),
                         name: QueryInputName(name: r'inn')),
                     QueryInput(
                         type: ListOfTypeName(
-                            typeName: TypeName(name: r'int'), isNonNull: false),
+                            typeName: DartTypeName(name: r'int'),
+                            isNonNull: false),
                         name: QueryInputName(name: r'li')),
                     QueryInput(
                         type: ListOfTypeName(
-                            typeName: TypeName(name: r'int', isNonNull: true),
+                            typeName:
+                                DartTypeName(name: r'int', isNonNull: true),
                             isNonNull: false),
                         name: QueryInputName(name: r'linn')),
                     QueryInput(
                         type: ListOfTypeName(
-                            typeName: TypeName(name: r'int'), isNonNull: true),
+                            typeName: DartTypeName(name: r'int'),
+                            isNonNull: true),
                         name: QueryInputName(name: r'lnni')),
                     QueryInput(
                         type: ListOfTypeName(
-                            typeName: TypeName(name: r'int', isNonNull: true),
+                            typeName:
+                                DartTypeName(name: r'int', isNonNull: true),
                             isNonNull: true),
                         name: QueryInputName(name: r'lnninn')),
                     QueryInput(
                         type: ListOfTypeName(
                             typeName: ListOfTypeName(
-                                typeName: TypeName(name: r'int'),
+                                typeName: DartTypeName(name: r'int'),
                                 isNonNull: false),
                             isNonNull: false),
                         name: QueryInputName(name: r'matrix')),
@@ -90,7 +94,7 @@ void main() {
                         type: ListOfTypeName(
                             typeName: ListOfTypeName(
                                 typeName:
-                                    TypeName(name: r'int', isNonNull: true),
+                                    DartTypeName(name: r'int', isNonNull: true),
                                 isNonNull: true),
                             isNonNull: true),
                         name: QueryInputName(name: r'matrixnn'))

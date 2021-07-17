@@ -62,7 +62,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'ClientEventItem'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'int', isNonNull: true),
+                  type: DartTypeName(name: r'int', isNonNull: true),
                   name: ClassPropertyName(name: r'type'),
                   isResolveType: false)
             ],

@@ -37,7 +37,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Query$_Query'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r'a'),
                   isResolveType: false)
             ],

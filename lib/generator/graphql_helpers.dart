@@ -51,7 +51,7 @@ TypeName buildTypeName(
         final graphQLTypeValue = scalar?.graphQLType;
 
         if (dartType && dartTypeValue != null && dartTypeValue.name != null) {
-          return TypeName(
+          return DartTypeName(
             name: dartTypeValue.name!,
             isNonNull: node.isNonNull,
           );

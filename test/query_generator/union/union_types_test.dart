@@ -83,31 +83,31 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion$_TypeA'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'int'),
+                  type: DartTypeName(name: r'int'),
                   name: ClassPropertyName(name: r'a'),
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r'_'),
                   annotations: [r'''JsonKey(name: '_')'''],
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r'_a'),
                   annotations: [r'''JsonKey(name: '_a')'''],
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r'_a_a'),
                   annotations: [r'''JsonKey(name: '_a_a')'''],
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r'_a_a_'),
                   annotations: [r'''JsonKey(name: '_a_a_')'''],
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r'_new'),
                   annotations: [r'''JsonKey(name: '_new')'''],
                   isResolveType: false),
@@ -125,36 +125,36 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'SomeQuery$_SomeObject$_SomeUnion$_TypeB'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'int'),
+                  type: DartTypeName(name: r'int'),
                   name: ClassPropertyName(name: r'b'),
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r'_'),
                   annotations: [r'''JsonKey(name: '_')'''],
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r'_b'),
                   annotations: [r'''JsonKey(name: '_b')'''],
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r'_b_b'),
                   annotations: [r'''JsonKey(name: '_b_b')'''],
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r'_b_b_'),
                   annotations: [r'''JsonKey(name: '_b_b_')'''],
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r'new'),
                   annotations: [r'''JsonKey(name: 'new')'''],
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r'IN'),
                   annotations: [r'''JsonKey(name: 'IN')'''],
                   isResolveType: false),

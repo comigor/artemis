@@ -110,7 +110,7 @@ final LibraryDefinition libraryDefinition =
             name: FragmentName(name: r'PokemonMixin'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String', isNonNull: true),
+                  type: DartTypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'id'),
                   isResolveType: false),
               ClassProperty(
@@ -122,7 +122,7 @@ final LibraryDefinition libraryDefinition =
             name: FragmentName(name: r'PokemonNameMixin'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r'name'),
                   isResolveType: false)
             ]),
@@ -130,11 +130,11 @@ final LibraryDefinition libraryDefinition =
             name: FragmentName(name: r'PokemonPartsMixin'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r'number'),
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r'name'),
                   isResolveType: false)
             ])
@@ -178,7 +178,7 @@ final LibraryDefinition libraryDefinition =
             name: FragmentName(name: r'PokemonMixin'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String', isNonNull: true),
+                  type: DartTypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'id'),
                   isResolveType: false),
               ClassProperty(
@@ -190,7 +190,7 @@ final LibraryDefinition libraryDefinition =
             name: FragmentName(name: r'PokemonNameMixin'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r'name'),
                   isResolveType: false)
             ]),
@@ -198,11 +198,11 @@ final LibraryDefinition libraryDefinition =
             name: FragmentName(name: r'PokemonPartsMixin'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r'number'),
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r'name'),
                   isResolveType: false)
             ])

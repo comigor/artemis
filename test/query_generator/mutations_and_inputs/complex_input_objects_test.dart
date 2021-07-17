@@ -63,7 +63,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'SomeQuery$_QueryRoot$_SomeObject'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r's'),
                   isResolveType: false)
             ],
@@ -85,7 +85,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'ComplexInput'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String', isNonNull: true),
+                  type: DartTypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r's'),
                   isResolveType: false),
               ClassProperty(
@@ -97,13 +97,15 @@ final LibraryDefinition libraryDefinition =
                   isResolveType: false),
               ClassProperty(
                   type: ListOfTypeName(
-                      typeName: TypeName(name: r'String'), isNonNull: false),
+                      typeName: DartTypeName(name: r'String'),
+                      isNonNull: false),
                   name: ClassPropertyName(name: r'ls'),
                   isResolveType: false),
               ClassProperty(
                   type: ListOfTypeName(
                       typeName: ListOfTypeName(
-                          typeName: TypeName(name: r'int'), isNonNull: false),
+                          typeName: DartTypeName(name: r'int'),
+                          isNonNull: false),
                       isNonNull: false),
                   name: ClassPropertyName(name: r'i'),
                   isResolveType: false)

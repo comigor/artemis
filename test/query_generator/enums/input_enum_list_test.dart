@@ -63,11 +63,11 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'BrowseArticles$_Query$_Article'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String', isNonNull: true),
+                  type: DartTypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'id'),
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'String', isNonNull: true),
+                  type: DartTypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'title'),
                   isResolveType: false),
               ClassProperty(

@@ -104,6 +104,18 @@ class TypeName extends Name with DataPrinter {
 }
 
 /// Type name
+class DartTypeName extends TypeName with DataPrinter {
+  /// Instantiate a type name definition.
+  DartTypeName({
+    required String name,
+    bool isNonNull = false,
+  }) : super(name: name, isNonNull: isNonNull);
+
+  @override
+  String normalize(String name) => '$name${isNonNull ? '' : '?'}';
+}
+
+/// Type name
 class ListOfTypeName extends TypeName with DataPrinter {
   /// Instantiate a type name definition.
   ListOfTypeName({

@@ -138,7 +138,7 @@ final LibraryDefinition libraryDefinition =
             name: FragmentName(name: r'PokemonMixin'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String', isNonNull: true),
+                  type: DartTypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'id'),
                   isResolveType: false),
               ClassProperty(
@@ -154,7 +154,7 @@ final LibraryDefinition libraryDefinition =
             name: FragmentName(name: r'WeightMixin'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r'minimum'),
                   isResolveType: false)
             ]),
@@ -178,7 +178,7 @@ final LibraryDefinition libraryDefinition =
             name: FragmentName(name: r'AttackMixin'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r'name'),
                   isResolveType: false)
             ])

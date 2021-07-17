@@ -67,7 +67,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Custom$_MutationRoot$_MutationResponse'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r's'),
                   isResolveType: false)
             ],
@@ -90,14 +90,14 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Input'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'MyUuid', isNonNull: true),
+                  type: DartTypeName(name: r'MyUuid', isNonNull: true),
                   name: ClassPropertyName(name: r'id'),
                   annotations: [
                     r'JsonKey(fromJson: fromGraphQLMyUuidToDartMyUuid, toJson: fromDartMyUuidToGraphQLMyUuid)'
                   ],
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'MyUuid'),
+                  type: DartTypeName(name: r'MyUuid'),
                   name: ClassPropertyName(name: r'idNullabe'),
                   annotations: [
                     r'JsonKey(fromJson: fromGraphQLMyUuidNullableToDartMyUuidNullable, toJson: fromDartMyUuidNullableToGraphQLMyUuidNullable)'
@@ -113,14 +113,14 @@ final LibraryDefinition libraryDefinition =
             type: TypeName(name: r'Input', isNonNull: true),
             name: QueryInputName(name: r'input')),
         QueryInput(
-            type: TypeName(name: r'MyUuid'),
+            type: DartTypeName(name: r'MyUuid'),
             name: QueryInputName(name: r'previousId'),
             annotations: [
               r'JsonKey(fromJson: fromGraphQLMyUuidNullableToDartMyUuidNullable, toJson: fromDartMyUuidNullableToGraphQLMyUuidNullable)'
             ]),
         QueryInput(
             type: ListOfTypeName(
-                typeName: TypeName(name: r'MyUuid'), isNonNull: false),
+                typeName: DartTypeName(name: r'MyUuid'), isNonNull: false),
             name: QueryInputName(name: r'listIds'),
             annotations: [
               r'JsonKey(fromJson: fromGraphQLListNullableMyUuidNullableToDartListNullableMyUuidNullable, toJson: fromDartListNullableMyUuidNullableToGraphQLListNullableMyUuidNullable)'

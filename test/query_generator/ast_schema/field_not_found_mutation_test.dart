@@ -61,11 +61,11 @@ final LibraryDefinition libraryDefinition =
                 name: r'CreateThing$_MutationRoot$_CreateThingResponse$_Thing'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String', isNonNull: true),
+                  type: DartTypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'id'),
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r'message'),
                   isResolveType: false)
             ],
@@ -102,11 +102,11 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'CreateThingInput'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String', isNonNull: true),
+                  type: DartTypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'clientId'),
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r'message'),
                   isResolveType: false)
             ],

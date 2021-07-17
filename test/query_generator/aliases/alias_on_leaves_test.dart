@@ -53,15 +53,9 @@ final LibraryDefinition libraryDefinition =
       operationName: r'some_query',
       classes: [
         EnumDefinition(name: EnumName(name: r'MyEnum'), values: [
-          EnumValueDefinition(
-            name: EnumValueName(name: r'A'),
-          ),
-          EnumValueDefinition(
-            name: EnumValueName(name: r'B'),
-          ),
-          EnumValueDefinition(
-            name: EnumValueName(name: r'ARTEMIS_UNKNOWN'),
-          ),
+          EnumValueDefinition(name: EnumValueName(name: r'A')),
+          EnumValueDefinition(name: EnumValueName(name: r'B')),
+          EnumValueDefinition(name: EnumValueName(name: r'ARTEMIS_UNKNOWN'))
         ]),
         ClassDefinition(
             name: ClassName(name: r'SomeQuery$_Response$_SomeObject'),
@@ -81,7 +75,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'SomeQuery$_Response'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r'thisIsAString'),
                   isResolveType: false),
               ClassProperty(
