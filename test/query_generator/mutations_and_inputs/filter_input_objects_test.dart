@@ -62,7 +62,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'SomeQuery$_QueryRoot$_SomeObject'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r's'),
                   isResolveType: false)
             ],
@@ -95,7 +95,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'SubInput'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r's'),
                   isResolveType: false)
             ],

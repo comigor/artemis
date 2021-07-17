@@ -77,7 +77,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Custom$_QueryRoot$_QueryResponse'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r's'),
                   isResolveType: false),
               ClassProperty(
@@ -126,7 +126,7 @@ final LibraryDefinition libraryDefinition =
       ],
       inputs: [
         QueryInput(
-            type: TypeName(name: r'String', isNonNull: true),
+            type: DartTypeName(name: r'String', isNonNull: true),
             name: QueryInputName(name: r'_id'),
             annotations: [r'''JsonKey(name: '_id')''']),
         QueryInput(

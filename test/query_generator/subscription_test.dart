@@ -94,11 +94,11 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'NewUserSub$_Subscription$_User'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String', isNonNull: true),
+                  type: DartTypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'firstName'),
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'String', isNonNull: true),
+                  type: DartTypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'lastName'),
                   isResolveType: false),
               ClassProperty(

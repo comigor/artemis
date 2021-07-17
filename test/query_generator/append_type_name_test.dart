@@ -40,7 +40,7 @@ void main() {
                         name: ClassName(name: r'Custom$_QueryRoot$_q'),
                         properties: [
                           ClassProperty(
-                              type: TypeName(name: r'String'),
+                              type: DartTypeName(name: r'String'),
                               name: ClassPropertyName(name: r'e'),
                               isResolveType: false),
                           ClassProperty(
@@ -155,7 +155,7 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                         name: ClassName(name: r'Custom$_QueryRoot$_q'),
                         properties: [
                           ClassProperty(
-                              type: TypeName(name: r'String'),
+                              type: DartTypeName(name: r'String'),
                               name: ClassPropertyName(name: r'e'),
                               isResolveType: false),
                           ClassProperty(
@@ -301,7 +301,7 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                         name: FragmentName(name: r'QueryResponseMixin'),
                         properties: [
                           ClassProperty(
-                              type: TypeName(name: r'String'),
+                              type: DartTypeName(name: r'String'),
                               name: ClassPropertyName(name: r'e'),
                               isResolveType: false),
                           ClassProperty(
@@ -411,7 +411,7 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                         name: ClassName(name: r'Custom$_QueryRoot$_q$_typeA'),
                         properties: [
                           ClassProperty(
-                              type: TypeName(name: r'int'),
+                              type: DartTypeName(name: r'int'),
                               name: ClassPropertyName(name: r'a'),
                               isResolveType: false),
                           ClassProperty(
@@ -428,7 +428,7 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                         name: ClassName(name: r'Custom$_QueryRoot$_q$_typeB'),
                         properties: [
                           ClassProperty(
-                              type: TypeName(name: r'int'),
+                              type: DartTypeName(name: r'int'),
                               name: ClassPropertyName(name: r'b'),
                               isResolveType: false),
                           ClassProperty(
@@ -641,7 +641,7 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                     name: FragmentName(name: r'QueryResponseMixin'),
                     properties: [
                       ClassProperty(
-                          type: TypeName(name: r'String'),
+                          type: DartTypeName(name: r'String'),
                           name: ClassPropertyName(name: r'e'),
                           isResolveType: false),
                       ClassProperty(

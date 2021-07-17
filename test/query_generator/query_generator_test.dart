@@ -29,11 +29,11 @@ void main() {
                         name: ClassName(name: r'SomeQuery$_SomeObject'),
                         properties: [
                           ClassProperty(
-                              type: TypeName(name: r'String'),
+                              type: DartTypeName(name: r'String'),
                               name: ClassPropertyName(name: r's'),
                               isResolveType: false),
                           ClassProperty(
-                              type: TypeName(name: r'int'),
+                              type: DartTypeName(name: r'int'),
                               name: ClassPropertyName(name: r'i'),
                               isResolveType: false)
                         ],
@@ -116,7 +116,7 @@ class SomeQuery$SomeObject extends JsonSerializable with EquatableMixin {
                                 r'SomeQuery$_Result$_SomeObject$_AnotherObject'),
                         properties: [
                           ClassProperty(
-                              type: TypeName(name: r'String'),
+                              type: DartTypeName(name: r'String'),
                               name: ClassPropertyName(name: r'str'),
                               isResolveType: false)
                         ],
@@ -127,7 +127,7 @@ class SomeQuery$SomeObject extends JsonSerializable with EquatableMixin {
                         name: ClassName(name: r'SomeQuery$_Result$_SomeObject'),
                         properties: [
                           ClassProperty(
-                              type: TypeName(name: r'String'),
+                              type: DartTypeName(name: r'String'),
                               name: ClassPropertyName(name: r'st'),
                               isResolveType: false),
                           ClassProperty(
@@ -146,7 +146,7 @@ class SomeQuery$SomeObject extends JsonSerializable with EquatableMixin {
                         name: ClassName(name: r'SomeQuery$_Result'),
                         properties: [
                           ClassProperty(
-                              type: TypeName(name: r'String'),
+                              type: DartTypeName(name: r'String'),
                               name: ClassPropertyName(name: r's'),
                               isResolveType: false),
                           ClassProperty(

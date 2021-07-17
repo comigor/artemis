@@ -76,7 +76,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Custom$_Query$_Node$_User'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String', isNonNull: true),
+                  type: DartTypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'username'),
                   isResolveType: false)
             ],
@@ -88,7 +88,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Custom$_Query$_Node$_ChatMessage'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String', isNonNull: true),
+                  type: DartTypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'message'),
                   isResolveType: false)
             ],
@@ -100,7 +100,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Custom$_Query$_Node'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String', isNonNull: true),
+                  type: DartTypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'id'),
                   isResolveType: false),
               ClassProperty(
@@ -130,7 +130,7 @@ final LibraryDefinition libraryDefinition =
       ],
       inputs: [
         QueryInput(
-            type: TypeName(name: r'String', isNonNull: true),
+            type: DartTypeName(name: r'String', isNonNull: true),
             name: QueryInputName(name: r'id'))
       ],
       generateHelpers: false,

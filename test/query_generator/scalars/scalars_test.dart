@@ -71,23 +71,23 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'SomeQuery$_SomeObject'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'int'),
+                  type: DartTypeName(name: r'int'),
                   name: ClassPropertyName(name: r'i'),
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'double'),
+                  type: DartTypeName(name: r'double'),
                   name: ClassPropertyName(name: r'f'),
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r's'),
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'bool'),
+                  type: DartTypeName(name: r'bool'),
                   name: ClassPropertyName(name: r'b'),
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r'id'),
                   isResolveType: false)
             ],

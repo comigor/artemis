@@ -42,7 +42,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Custom$_Mutation'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r'mut'),
                   isResolveType: false)
             ],

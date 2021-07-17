@@ -98,11 +98,11 @@ final LibraryDefinition libraryDefinition =
             name: FragmentName(name: r'DstMixin'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String', isNonNull: true),
+                  type: DartTypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'id'),
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'String', isNonNull: true),
+                  type: DartTypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'name'),
                   isResolveType: false)
             ]),
@@ -110,7 +110,7 @@ final LibraryDefinition libraryDefinition =
             name: FragmentName(name: r'DepartureMixin'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String', isNonNull: true),
+                  type: DartTypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'id'),
                   isResolveType: false)
             ]),
@@ -119,19 +119,19 @@ final LibraryDefinition libraryDefinition =
                 name: r'VoyagesData$_Query$_VoyageList$_VoyageDetails$_Voyage'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'DateTime', isNonNull: true),
+                  type: DartTypeName(name: r'DateTime', isNonNull: true),
                   name: ClassPropertyName(name: r'dateFrom'),
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'DateTime'),
+                  type: DartTypeName(name: r'DateTime'),
                   name: ClassPropertyName(name: r'dateTo'),
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r'id'),
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'String', isNonNull: true),
+                  type: DartTypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'voyageNumber'),
                   isResolveType: false)
             ],
@@ -143,7 +143,7 @@ final LibraryDefinition libraryDefinition =
                 name: r'VoyagesData$_Query$_VoyageList$_VoyageDetails'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'int', isNonNull: true),
+                  type: DartTypeName(name: r'int', isNonNull: true),
                   name: ClassPropertyName(name: r'numberOfReports'),
                   isResolveType: false),
               ClassProperty(
@@ -189,11 +189,11 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'PaginationInput'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'int', isNonNull: true),
+                  type: DartTypeName(name: r'int', isNonNull: true),
                   name: ClassPropertyName(name: r'limit'),
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'int', isNonNull: true),
+                  type: DartTypeName(name: r'int', isNonNull: true),
                   name: ClassPropertyName(name: r'offset'),
                   isResolveType: false)
             ],

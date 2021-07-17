@@ -53,7 +53,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Custom$_MutationRoot$_MutationResponse'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r's'),
                   isResolveType: false)
             ],
@@ -76,11 +76,11 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Input'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String', isNonNull: true),
+                  type: DartTypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r's'),
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r'd'),
                   annotations: [r'''Deprecated('deprecated input field')'''],
                   isResolveType: false)

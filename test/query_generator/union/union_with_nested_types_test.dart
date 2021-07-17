@@ -96,7 +96,7 @@ final LibraryDefinition libraryDefinition =
                     r'CheckoutById$_QueryRoot$_Node$_Checkout$_CheckoutLineItemConnection$_CheckoutLineItemEdge$_ImageConnection'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r'id'),
                   isResolveType: false)
             ],
@@ -126,7 +126,7 @@ final LibraryDefinition libraryDefinition =
                     r'CheckoutById$_QueryRoot$_Node$_Checkout$_CheckoutLineItemConnection'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String', isNonNull: true),
+                  type: DartTypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'id'),
                   isResolveType: false),
               ClassProperty(
@@ -146,7 +146,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'CheckoutById$_QueryRoot$_Node$_Checkout'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String', isNonNull: true),
+                  type: DartTypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'id'),
                   isResolveType: false),
               ClassProperty(
@@ -190,7 +190,7 @@ final LibraryDefinition libraryDefinition =
       ],
       inputs: [
         QueryInput(
-            type: TypeName(name: r'String', isNonNull: true),
+            type: DartTypeName(name: r'String', isNonNull: true),
             name: QueryInputName(name: r'checkoutId'))
       ],
       generateHelpers: false,

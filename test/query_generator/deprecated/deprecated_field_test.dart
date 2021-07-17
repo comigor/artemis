@@ -55,11 +55,11 @@ final LibraryDefinition libraryDefinition =
                 ClassName(name: r'SomeQuery$_QueryResponse$_deprecatedObject'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r'someField'),
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r'deprecatedField'),
                   annotations: [r'''Deprecated('message 2')'''],
                   isResolveType: false)
@@ -71,11 +71,11 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'SomeQuery$_QueryResponse$_SomeObject'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r'someField'),
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r'deprecatedField'),
                   annotations: [r'''Deprecated('message 2')'''],
                   isResolveType: false)

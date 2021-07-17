@@ -94,7 +94,7 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Custom$_Query$_Node$_ChatMessage'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String', isNonNull: true),
+                  type: DartTypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'message'),
                   isResolveType: false),
               ClassProperty(
@@ -112,11 +112,11 @@ final LibraryDefinition libraryDefinition =
             name: ClassName(name: r'Custom$_Query$_Node'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String', isNonNull: true),
+                  type: DartTypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'id'),
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'String'),
+                  type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r'deprecatedField'),
                   annotations: [
                     r'''Deprecated('deprecated interface field')'''
@@ -145,18 +145,18 @@ final LibraryDefinition libraryDefinition =
             name: FragmentName(name: r'UserFragMixin'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String', isNonNull: true),
+                  type: DartTypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'id'),
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'String', isNonNull: true),
+                  type: DartTypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'username'),
                   isResolveType: false)
             ])
       ],
       inputs: [
         QueryInput(
-            type: TypeName(name: r'String', isNonNull: true),
+            type: DartTypeName(name: r'String', isNonNull: true),
             name: QueryInputName(name: r'id'))
       ],
       generateHelpers: false,

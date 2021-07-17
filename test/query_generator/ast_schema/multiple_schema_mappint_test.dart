@@ -157,11 +157,11 @@ final LibraryDefinition libraryDefinitionA =
             name: ClassName(name: r'BrowseArticles$_Query$_articles'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String', isNonNull: true),
+                  type: DartTypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'id'),
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'String', isNonNull: true),
+                  type: DartTypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'title'),
                   isResolveType: false),
               ClassProperty(
@@ -222,11 +222,11 @@ final libraryDefinitionB =
             name: ClassName(name: r'BrowseRepositories$_Query$_repositories'),
             properties: [
               ClassProperty(
-                  type: TypeName(name: r'String', isNonNull: true),
+                  type: DartTypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'id'),
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'String', isNonNull: true),
+                  type: DartTypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'title'),
                   isResolveType: false),
               ClassProperty(
@@ -273,7 +273,7 @@ final libraryDefinitionB =
                   ],
                   isResolveType: false),
               ClassProperty(
-                  type: TypeName(name: r'bool'),
+                  type: DartTypeName(name: r'bool'),
                   name: ClassPropertyName(name: r'enabled'),
                   isResolveType: false)
             ],
