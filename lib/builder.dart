@@ -93,19 +93,34 @@ class GraphQLQueryBuilder implements Builder {
   Future<void> build(BuildStep buildStep) async {
     final fragmentsGlob = options.fragmentsGlob;
     if (fragmentsGlob != null) {
-      fragmentsCommon.addAll(
-        (await readGraphQlFiles(buildStep, fragmentsGlob))
-            .map((e) => e.definitions.whereType<FragmentDefinitionNode>())
-            .expand((e) => e)
-            .toList(),
-      );
+      final commonFragments = (await readGraphQlFiles(buildStep, fragmentsGlob))
+          .map((e) => e.definitions.whereType<FragmentDefinitionNode>())
+          .expand((e) => e)
+          .toList();
 
-      if (fragmentsCommon.isEmpty) {
+      if (commonFragments.isEmpty) {
         throw MissingFilesException(fragmentsGlob);
       }
+
+      fragmentsCommon.addAll(commonFragments);
     }
 
     for (final schemaMap in options.schemaMapping) {
+      final schemaFragmentsGlob = schemaMap.fragmentsGlob;
+      if (schemaFragmentsGlob != null) {
+        final schemaFragments =
+            (await readGraphQlFiles(buildStep, schemaFragmentsGlob))
+                .map((e) => e.definitions.whereType<FragmentDefinitionNode>())
+                .expand((e) => e)
+                .toList();
+
+        if (schemaFragments.isEmpty) {
+          throw MissingFilesException(schemaFragmentsGlob);
+        }
+
+        fragmentsCommon.addAll(schemaFragments);
+      }
+
       final queriesGlob = schemaMap.queriesGlob;
       final schema = schemaMap.schema;
       final output = schemaMap.output;

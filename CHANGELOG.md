@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 7.1.1-beta.1
+
+- support of `fragments_glob` at schema level
+
 ## 7.1.0-beta.2
 
 - fix for https://github.com/comigor/artemis/issues/341
