@@ -107,6 +107,34 @@ void main() {
       throw Exception('Expected MissingFilesException');
     });
 
+    test('When user fragments_glob at schema level return empty file',
+        () async {
+      final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
+        'generate_helpers': false,
+        'schema_mapping': [
+          {
+            'schema': 'api.schema.grqphql',
+            'fragments_glob': '**.schema',
+            'output': 'lib/some_query.dart',
+          },
+        ],
+      }));
+
+      try {
+        await testBuilder(
+            anotherBuilder,
+            {
+              'a|api.schema.graphql': ''' ''',
+              'a|queries/query.graphql': ''' ''',
+            },
+            onLog: print);
+      } on MissingFilesException catch (e) {
+        expect(e.globPattern, '**.schema');
+        return;
+      }
+      throw Exception('Expected MissingFilesException');
+    });
+
     test('When schema_mapping is empty', () async {
       try {
         final anotherBuilder = graphQLQueryBuilder(BuilderOptions({

@@ -135,6 +135,9 @@ class SchemaMap {
   /// A [Glob] to find queries files.
   final String? queriesGlob;
 
+  /// A [Glob] to find your fragments files.
+  final String? fragmentsGlob;
+
   /// The resolve type field used on this schema.
   @JsonKey(defaultValue: '__typename')
   final String typeNameField;
@@ -160,6 +163,7 @@ class SchemaMap {
     this.output,
     this.schema,
     this.queriesGlob,
+    this.fragmentsGlob,
     this.typeNameField = '__typename',
     this.appendTypeName = false,
     this.namingScheme = NamingScheme.pathedWithTypes,
