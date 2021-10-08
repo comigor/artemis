@@ -3,7 +3,7 @@ import 'package:artemis/generator/data/enum_value_definition.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:dart_style/dart_style.dart';
-import 'package:gql_code_builder/src/ast.dart' as dart;
+import 'package:gql_code_builder2/src/ast.dart' as dart;
 import 'package:recase/recase.dart';
 
 import '../generator/helpers.dart';
@@ -406,7 +406,9 @@ Spec generateLibrarySpec(LibraryDefinition definition) {
   }
 
   return Library(
-    (b) => b..directives.addAll(importDirectives)..body.addAll(bodyDirectives),
+    (b) => b
+      ..directives.addAll(importDirectives)
+      ..body.addAll(bodyDirectives),
   );
 }
 

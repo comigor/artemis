@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 7.2.0-beta.0
+
+- package update
+
 ## 7.1.1-beta.1
 
 - support of `fragments_glob` at schema level
