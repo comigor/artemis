@@ -19,7 +19,7 @@ import './schema/options.dart';
 typedef _OnNewClassFoundCallback = void Function(Context context);
 
 /// Enum value for values not mapped in the GraphQL enum
-final EnumValueDefinition ARTEMIS_UNKNOWN = EnumValueDefinition(
+final EnumValueDefinition artemisUnknown = EnumValueDefinition(
   name: EnumValueName(name: 'ARTEMIS_UNKNOWN'),
 );
 
@@ -370,10 +370,10 @@ Make sure your query is correct and your schema is updated.''');
           replaceLeafWith: ClassName.fromPath(path: nextClassName),
           schema: context.schema);
       jsonKeyAnnotation['unknownEnumValue'] =
-          '${innerDartTypeName.dartTypeSafe}.${ARTEMIS_UNKNOWN.name.namePrintable}';
+          '${innerDartTypeName.dartTypeSafe}.${artemisUnknown.name.namePrintable}';
     } else {
       jsonKeyAnnotation['unknownEnumValue'] =
-          '${dartTypeName.dartTypeSafe}.${ARTEMIS_UNKNOWN.name.namePrintable}';
+          '${dartTypeName.dartTypeSafe}.${artemisUnknown.name.namePrintable}';
     }
   }
 

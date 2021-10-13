@@ -18,7 +18,7 @@ void main() {
         ],
       }));
 
-      anotherBuilder.onBuild = expectAsync1((_) => null, count: 0);
+      anotherBuilder.onBuild = expectAsync1((_) {}, count: 0);
 
       expect(
           () => testBuilder(
@@ -197,7 +197,7 @@ void main() {
         'fragments_glob': '**.frag',
       }));
 
-      anotherBuilder.onBuild = expectAsync1((_) => null, count: 0);
+      anotherBuilder.onBuild = expectAsync1((_) {}, count: 0);
 
       expect(
           () => testBuilder(
@@ -247,7 +247,7 @@ void main() {
         ],
       }));
 
-      anotherBuilder.onBuild = expectAsync1((_) => null, count: 0);
+      anotherBuilder.onBuild = expectAsync1((_) {}, count: 0);
 
       expect(
           () => testBuilder(
@@ -277,7 +277,7 @@ void main() {
         ],
       }));
 
-      anotherBuilder.onBuild = expectAsync1((_) => null, count: 0);
+      anotherBuilder.onBuild = expectAsync1((_) {}, count: 0);
 
       expect(
           () => testBuilder(
@@ -307,7 +307,7 @@ void main() {
       ],
     }));
 
-    anotherBuilder.onBuild = expectAsync1((_) => null, count: 0);
+    anotherBuilder.onBuild = expectAsync1((_) {}, count: 0);
 
     expect(
         () => testBuilder(
@@ -367,7 +367,7 @@ void main() {
       ],
     }));
 
-    anotherBuilder.onBuild = expectAsync1((_) => null, count: 0);
+    anotherBuilder.onBuild = expectAsync1((_) {}, count: 0);
 
     expect(
         () => testBuilder(
@@ -393,7 +393,7 @@ void main() {
       ],
     }));
 
-    anotherBuilder.onBuild = expectAsync1((_) => null, count: 0);
+    anotherBuilder.onBuild = expectAsync1((_) {}, count: 0);
 
     expect(
         () => testBuilder(
@@ -419,7 +419,7 @@ void main() {
       ],
     }));
 
-    anotherBuilder.onBuild = expectAsync1((_) => null, count: 0);
+    anotherBuilder.onBuild = expectAsync1((_) {}, count: 0);
 
     expect(
         () => testBuilder(

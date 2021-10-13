@@ -3,6 +3,7 @@ import 'package:artemis/generator/data/enum_value_definition.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:dart_style/dart_style.dart';
+// ignore: implementation_imports
 import 'package:gql_code_builder2/src/ast.dart' as dart;
 import 'package:recase/recase.dart';
 

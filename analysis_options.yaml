@@ -1,6 +1,5 @@
-# https://www.dartlang.org/guides/language/analysis-options
-
-include: package:pedantic/analysis_options.yaml
+# https://github.com/dart-lang/lints#migrating-from-packagepedantic
+include: package:lints/recommended.yaml
 
 analyzer:
   strong-mode:
@@ -9,7 +8,4 @@ analyzer:
     - example/**/*.dart
 linter:
   rules:
-    - public_member_api_docs
-    - type_annotate_public_apis
-    - void_checks
-    - unnecessary_new
+    overridden_fields: false
