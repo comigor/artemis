@@ -170,10 +170,10 @@ class GeneratorVisitor extends RecursiveVisitor {
             replaceLeafWith: ClassName.fromPath(path: nextClassName),
             schema: context.schema);
         jsonKeyAnnotation['unknownEnumValue'] =
-            '${EnumName(name: innerDartTypeName.name).dartTypeSafe}.${ARTEMIS_UNKNOWN.name.namePrintable}';
+            '${EnumName(name: innerDartTypeName.name).dartTypeSafe}.${artemisUnknown.name.namePrintable}';
       } else {
         jsonKeyAnnotation['unknownEnumValue'] =
-            '${EnumName(name: dartTypeName.name).dartTypeSafe}.${ARTEMIS_UNKNOWN.name.namePrintable}';
+            '${EnumName(name: dartTypeName.name).dartTypeSafe}.${artemisUnknown.name.namePrintable}';
       }
     } else if (leafType is InputObjectTypeDefinitionNode) {
       addUsedInputObjectsAndEnums(leafType);

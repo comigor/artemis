@@ -105,10 +105,10 @@ String normalizeName(String name) {
 Iterable<T> _mergeDuplicatesBy<T, U>(Iterable<T> list,
     _IterableFunction<T, U> fn, _MergeableFunction<T> mergeFn) {
   final values = <U, T>{};
-  list.forEach((i) {
+  for (final i in list) {
     final value = fn(i);
     values.update(value, (oldI) => mergeFn(oldI, i), ifAbsent: () => i);
-  });
+  }
   return values.values.toList();
 }
 

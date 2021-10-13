@@ -51,7 +51,7 @@ class CanonicalVisitor extends RecursiveVisitor {
                   annotations: proceedDeprecated(ev.directives),
                 ))
             .toList()
-              ..add(ARTEMIS_UNKNOWN),
+          ..add(artemisUnknown),
       );
     };
   }

@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 7.2.1-beta
+- Update package to use official Dart lint following [this guide](https://github.com/dart-lang/lints#migrating-from-packagepedantic)
+
 ## 7.2.0-beta.0
 
 - package update
