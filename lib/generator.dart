@@ -185,8 +185,11 @@ Iterable<QueryDefinition> generateDefinitions(
                 .value ??
             suffix;
 
-    final TypeDefinitionNode parentType =
-        objectVisitor.getByName(rootTypeName)!;
+    final parentType = objectVisitor.getByName(rootTypeName);
+
+    if (parentType == null) {
+      throw MissingRootTypeException(rootTypeName);
+    }
 
     final name = QueryName.fromPath(
       path: createPathName([
