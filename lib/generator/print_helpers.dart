@@ -1,5 +1,6 @@
 import 'package:artemis/generator/data/data.dart';
 import 'package:artemis/generator/data/enum_value_definition.dart';
+import 'package:artemis/generator/errors.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:dart_style/dart_style.dart';
@@ -118,6 +119,9 @@ Spec classDefinitionToSpec(
         return fragments
             .firstWhere((f) {
               return f.name == i;
+            }, orElse: () {
+              throw MissingFragmentException(
+                  i.namePrintable, definition.name.namePrintable);
             })
             .properties
             .map((p) => p.name.namePrintable);

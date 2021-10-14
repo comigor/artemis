@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 7.2.2-beta
+- Add throwable errors for missing root object and used query fragments
+
 ## 7.2.1-beta
 - Update package to use official Dart lint following [this guide](https://github.com/dart-lang/lints#migrating-from-packagepedantic)
 
