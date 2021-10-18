@@ -44,7 +44,6 @@ class MessagesWithUsers$SubscriptionRoot$Messages extends JsonSerializable
 
   @override
   List<Object?> get props => [id, message, profile];
-
   @override
   Map<String, dynamic> toJson() =>
       _$MessagesWithUsers$SubscriptionRoot$MessagesToJson(this);
@@ -63,7 +62,6 @@ class MessagesWithUsers$SubscriptionRoot extends JsonSerializable
 
   @override
   List<Object?> get props => [messages];
-
   @override
   Map<String, dynamic> toJson() =>
       _$MessagesWithUsers$SubscriptionRootToJson(this);

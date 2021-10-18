@@ -28,7 +28,7 @@ Future<void> main() async {
 
   final response = await client.execute(query);
 
-  (response?.data?.search?.nodes ?? [])
+  (response.data?.search.nodes ?? [])
       .whereType<
           SearchRepositories$Query$SearchResultItemConnection$SearchResultItem$Repository>()
       .map((r) => r.name)
