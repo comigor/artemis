@@ -39,7 +39,6 @@ class BigQuery$Query$Pokemon$Evolutions extends JsonSerializable
 
   @override
   List<Object?> get props => [number, name];
-
   @override
   Map<String, dynamic> toJson() =>
       _$BigQuery$Query$Pokemon$EvolutionsToJson(this);
@@ -62,7 +61,6 @@ class BigQuery$Query$Pokemon extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [number, name, types, evolutions];
-
   @override
   Map<String, dynamic> toJson() => _$BigQuery$Query$PokemonToJson(this);
 }
@@ -80,7 +78,6 @@ class BigQuery$Query extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [charmander, pokemons];
-
   @override
   Map<String, dynamic> toJson() => _$BigQuery$QueryToJson(this);
 }

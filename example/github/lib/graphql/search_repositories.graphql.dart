@@ -5,7 +5,6 @@ import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
-
 part 'search_repositories.graphql.g.dart';
 
 @JsonSerializable(explicitToJson: true)
@@ -23,7 +22,6 @@ class SearchRepositories$Query$SearchResultItemConnection$SearchResultItem$Repos
 
   @override
   List<Object?> get props => [name];
-
   @override
   Map<String, dynamic> toJson() =>
       _$SearchRepositories$Query$SearchResultItemConnection$SearchResultItem$RepositoryToJson(
@@ -52,7 +50,6 @@ class SearchRepositories$Query$SearchResultItemConnection$SearchResultItem
 
   @override
   List<Object?> get props => [$$typename];
-
   @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
@@ -81,7 +78,6 @@ class SearchRepositories$Query$SearchResultItemConnection
 
   @override
   List<Object?> get props => [nodes];
-
   @override
   Map<String, dynamic> toJson() =>
       _$SearchRepositories$Query$SearchResultItemConnectionToJson(this);
@@ -98,7 +94,6 @@ class SearchRepositories$Query extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [search];
-
   @override
   Map<String, dynamic> toJson() => _$SearchRepositories$QueryToJson(this);
 }
@@ -115,7 +110,6 @@ class SearchRepositoriesArguments extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [query];
-
   @override
   Map<String, dynamic> toJson() => _$SearchRepositoriesArgumentsToJson(this);
 }
@@ -196,7 +190,6 @@ class SearchRepositoriesQuery extends GraphQLQuery<SearchRepositories$Query,
 
   @override
   List<Object?> get props => [document, operationName, variables];
-
   @override
   SearchRepositories$Query parse(Map<String, dynamic> json) =>
       SearchRepositories$Query.fromJson(json);

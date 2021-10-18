@@ -15,11 +15,11 @@ void main() async {
   print('Equality works: ${query == query2}');
 
   if (response.hasErrors) {
-    return print('Error: ${response.errors.map((e) => e.message).toList()}');
+    return print('Error: ${response.errors!.map((e) => e.message).toList()}');
   }
 
-  print(response.data.node.$$typename);
-  final edSheeran = response.data.node as EdSheeran$Query$Node$Artist;
+  print(response.data?.node?.$$typename);
+  final edSheeran = response.data?.node as EdSheeran$Query$Node$Artist;
   print(edSheeran.name);
-  print(edSheeran.lifeSpan.begin);
+  print(edSheeran.lifeSpan?.begin);
 }

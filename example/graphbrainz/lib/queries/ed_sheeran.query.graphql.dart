@@ -23,7 +23,6 @@ class EdSheeran$Query$Node$Artist$ReleaseConnection$Release
 
   @override
   List<Object?> get props => [id, status];
-
   @override
   Map<String, dynamic> toJson() =>
       _$EdSheeran$Query$Node$Artist$ReleaseConnection$ReleaseToJson(this);
@@ -42,7 +41,6 @@ class EdSheeran$Query$Node$Artist$ReleaseConnection extends JsonSerializable
 
   @override
   List<Object?> get props => [nodes];
-
   @override
   Map<String, dynamic> toJson() =>
       _$EdSheeran$Query$Node$Artist$ReleaseConnectionToJson(this);
@@ -61,7 +59,6 @@ class EdSheeran$Query$Node$Artist$LifeSpan extends JsonSerializable
 
   @override
   List<Object?> get props => [begin];
-
   @override
   Map<String, dynamic> toJson() =>
       _$EdSheeran$Query$Node$Artist$LifeSpanToJson(this);
@@ -80,7 +77,6 @@ class EdSheeran$Query$Node$Artist$SpotifyArtist extends JsonSerializable
 
   @override
   List<Object?> get props => [href];
-
   @override
   Map<String, dynamic> toJson() =>
       _$EdSheeran$Query$Node$Artist$SpotifyArtistToJson(this);
@@ -106,7 +102,6 @@ class EdSheeran$Query$Node$Artist extends EdSheeran$Query$Node
 
   @override
   List<Object?> get props => [mbid, name, releases, lifeSpan, spotify];
-
   @override
   Map<String, dynamic> toJson() => _$EdSheeran$Query$Node$ArtistToJson(this);
 }
@@ -131,7 +126,6 @@ class EdSheeran$Query$Node extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [$$typename, id];
-
   @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
@@ -154,7 +148,6 @@ class EdSheeran$Query extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [node];
-
   @override
   Map<String, dynamic> toJson() => _$EdSheeran$QueryToJson(this);
 }

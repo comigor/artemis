@@ -35,7 +35,6 @@ class SimpleQuery$Query extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [pokemon];
-
   @override
   Map<String, dynamic> toJson() => _$SimpleQuery$QueryToJson(this);
 }

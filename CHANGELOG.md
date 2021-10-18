@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 7.2.3-beta
+- Update examples and make sure they all work
+
 ## 7.2.2-beta
 - Add throwable errors for missing root object and used query fragments
 

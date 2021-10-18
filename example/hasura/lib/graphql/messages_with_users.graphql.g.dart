@@ -9,11 +9,10 @@ part of 'messages_with_users.graphql.dart';
 
 MessagesWithUsers$SubscriptionRoot$Messages$Profile
     _$MessagesWithUsers$SubscriptionRoot$Messages$ProfileFromJson(
-        Map<String, dynamic> json) {
-  return MessagesWithUsers$SubscriptionRoot$Messages$Profile()
-    ..id = json['id'] as int
-    ..name = json['name'] as String;
-}
+            Map<String, dynamic> json) =>
+        MessagesWithUsers$SubscriptionRoot$Messages$Profile()
+          ..id = json['id'] as int
+          ..name = json['name'] as String;
 
 Map<String, dynamic>
     _$MessagesWithUsers$SubscriptionRoot$Messages$ProfileToJson(
@@ -25,13 +24,13 @@ Map<String, dynamic>
 
 MessagesWithUsers$SubscriptionRoot$Messages
     _$MessagesWithUsers$SubscriptionRoot$MessagesFromJson(
-        Map<String, dynamic> json) {
-  return MessagesWithUsers$SubscriptionRoot$Messages()
-    ..id = json['id'] as int
-    ..message = json['message'] as String
-    ..profile = MessagesWithUsers$SubscriptionRoot$Messages$Profile.fromJson(
-        json['profile'] as Map<String, dynamic>);
-}
+            Map<String, dynamic> json) =>
+        MessagesWithUsers$SubscriptionRoot$Messages()
+          ..id = json['id'] as int
+          ..message = json['message'] as String
+          ..profile =
+              MessagesWithUsers$SubscriptionRoot$Messages$Profile.fromJson(
+                  json['profile'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$MessagesWithUsers$SubscriptionRoot$MessagesToJson(
         MessagesWithUsers$SubscriptionRoot$Messages instance) =>
@@ -42,13 +41,12 @@ Map<String, dynamic> _$MessagesWithUsers$SubscriptionRoot$MessagesToJson(
     };
 
 MessagesWithUsers$SubscriptionRoot _$MessagesWithUsers$SubscriptionRootFromJson(
-    Map<String, dynamic> json) {
-  return MessagesWithUsers$SubscriptionRoot()
-    ..messages = (json['messages'] as List<dynamic>)
-        .map((e) => MessagesWithUsers$SubscriptionRoot$Messages.fromJson(
-            e as Map<String, dynamic>))
-        .toList();
-}
+        Map<String, dynamic> json) =>
+    MessagesWithUsers$SubscriptionRoot()
+      ..messages = (json['messages'] as List<dynamic>)
+          .map((e) => MessagesWithUsers$SubscriptionRoot$Messages.fromJson(
+              e as Map<String, dynamic>))
+          .toList();
 
 Map<String, dynamic> _$MessagesWithUsers$SubscriptionRootToJson(
         MessagesWithUsers$SubscriptionRoot instance) =>

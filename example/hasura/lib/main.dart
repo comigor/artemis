@@ -16,6 +16,6 @@ Future<void> main() async {
   final messagesWithUsers = MessagesWithUsersSubscription();
 
   client.stream(messagesWithUsers).listen((response) {
-    print(response.data.messages.last.message);
+    print(response.data?.messages.last.message);
   });
 }
