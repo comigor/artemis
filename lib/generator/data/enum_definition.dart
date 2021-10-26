@@ -16,7 +16,7 @@ class EnumDefinition extends Definition with DataPrinter {
   EnumDefinition({
     required this.name,
     required this.values,
-  })   : assert(hasValue(name) && hasValue(values)),
+  })  : assert(hasValue(name) && hasValue(values)),
         super(name: name);
 
   @override

@@ -19,7 +19,7 @@ class QueryInput extends Definition with DataPrinter {
     required this.type,
     this.annotations = const [],
     required this.name,
-  })   : assert(hasValue(type) && hasValue(name)),
+  })  : assert(hasValue(type) && hasValue(name)),
         super(name: name);
 
   @override
