@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 7.2.6-beta
+- Fix README
+
 ## 7.2.5-beta
 - Format some files to improve `pana` score
 
