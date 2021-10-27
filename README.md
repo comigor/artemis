@@ -41,32 +41,31 @@ Artemis is a code generator that looks for `schema.graphql` (GraphQL SDL - Schem
 Add the following to your `pubspec.yaml` file to be able to do code generation:
 ```yaml
 dev_dependencies:
-  artemis: '>=6.0.0 <7.0.0'
-  build_runner: ^1.10.4
-  json_serializable: ^3.5.0
+  artemis: '>=7.0.0 <8.0.0'
+  build_runner: ^2.1.4
+  json_serializable: ^6.0.1
 ```
 The generated code uses the following packages in run-time:
 ```yaml
 dependencies:
-  artemis: '>=6.0.0 <7.0.0' # only if you're using ArtemisClient!
-  json_annotation: ^3.1.0
-  equatable: ^1.2.5
-  meta: '>=1.0.0 <2.0.0' # only if you have non nullable fields
-  gql: '>=0.12.3 <1.0.0'
+  artemis: '>=8.0.0 <8.0.0' # only if you're using ArtemisClient!
+  json_annotation: ^4.3.0
+  equatable: ^2.0.3
+  gql: ^0.13.1-alpha
 ```
 
 Then run:
 ```shell
-pub packages get
+dart pub get
 ```
 or
 ```shell
-flutter packages get
+flutter pub get
 ```
 
 Now Artemis will generate the API files for you by running:
 ```shell
-pub run build_runner build
+dart run build_runner build
 ```
 or
 ```shell
@@ -115,7 +114,7 @@ targets:
       artemis:
         options:
           schema_mapping:
-            - output: lib/graphql_api.dart
+            - output: lib/graphql_api.graphql.dart
               schema: lib/my_graphql_schema.graphql
               queries_glob: lib/**.graphql
 ```
@@ -124,36 +123,30 @@ Each `SchemaMap` is configured this way:
 
 | Option | Default value | Description |
 | - | - | - |
-| `output` | | Relative path to output the generated code. It should end with `.graphql.dart` or else the generator will
-need to generate one more file. | | `schema` | | Relative path to the GraphQL schema. | | `queries_glob` | | Glob that
-selects all query files to be used with this schema. | | `naming_scheme` | `pathedWithTypes` | The naming scheme to be
-used on generated classes names. `pathedWithTypes` is the default for retrocompatibility, where the names of previous
-types are used as prefix of the next class. This can generate duplication on certain schemas. With `pathedWithFields`,
-the names of previous fields are used as prefix of the next class and with `simple`, only the actual GraphQL class
-nameis considered. | | `type_name_field` | `__typename` | The name of the field used to differentiate interfaces and
-union types (
-commonly `__typename` or `__resolveType`). Note that `__typename` field are not added automatically to the query. If you
-want interface/union type resolution, you need to manually add it there or set `append_type_name` to `true`. |
-| `append_type_name` | `false` | Appends `type_name_field` value to the query selections set. | | `fragments_glob`
-| `null` | Import path to the file implementing fragments for all queries mapped in schema_mapping. |
+| `output` | | Relative path to output the generated code. It should end with `.graphql.dart` or else the generator will need to generate one more file. |
+| `schema` | | Relative path to the GraphQL schema. |
+| `queries_glob` | | Glob that selects all query files to be used with this schema. |
+| `naming_scheme` | `pathedWithTypes` | The naming scheme to be used on generated classes names. `pathedWithTypes` is the default for retrocompatibility, where the names of previous types are used as prefix of the next class. This can generate duplication on certain schemas. With `pathedWithFields`, the names of previous fields are used as prefix of the next class and with `simple`, only the actual GraphQL class nameis considered. |
+| `type_name_field` | `__typename` | The name of the field used to differentiate interfaces and union types (commonly `__typename` or `__resolveType`). Note that `__typename` field are not added automatically to the query. If you want interface/union type resolution, you need to manually add it there or set `append_type_name` to `true`. |
+| `append_type_name` | `false` | Appends `type_name_field` value to the query selections set. |
+| `fragments_glob` | `null` | Import path to the file implementing fragments for all queries mapped in schema_mapping. |
 
 See [examples](./example) for more information and configuration options.
 
 ### **Custom scalars**
 
-If your schema uses custom scalars, they must be defined on `build.yaml`. If it needs a custom parser (to decode from/to
-json), the `custom_parser_import` path must be set and the file must implement both `fromGraphQL___ToDart___`
-and `fromDart___toGraphQL___` constant functions.
-`___ToDart___` and `___toGraphQL___` should be named including nullability, here is an example
+If your schema uses custom scalars, they must be defined on `build.yaml`. If it needs a custom parser (to decode from/to json), the `custom_parser_import` path must be set and the file must implement both `fromGraphQL___ToDart___` and `fromDart___ToGraphQL___` constant functions.
 
-`file: Upload` => `fromGraphQLUploadNullableToDartMultipartFileNullable`
+`___ToDart___` and `___ToGraphQL___` should be named including nullability, here is an example:
+
+* `file: Upload` => `fromGraphQLUploadNullableToDartMultipartFileNullable`
 and `fromDartMultipartFileNullableToGraphQLUploadNullable`
-`file: Upload!` => `fromGraphQLUploadToDartMultipartFile` and `fromDartMultipartFileToGraphQLUpload`
-`file: [Upload]` => `fromGraphQLListNullableUploadNullableToDartListNullableMultipartFileNullable`
+* `file: Upload!` => `fromGraphQLUploadToDartMultipartFile` and `fromDartMultipartFileToGraphQLUpload`
+* `file: [Upload]` => `fromGraphQLListNullableUploadNullableToDartListNullableMultipartFileNullable`
 and `fromDartListNullableMultipartFileNullableToGraphQLListNullableUploadNullable`
-`file: [Upload]!` => `fromGraphQLListUploadNullableToDartListMultipartFileNullable`
+* `file: [Upload]!` => `fromGraphQLListUploadNullableToDartListMultipartFileNullable`
 and `fromDartListMultipartFileNullableToGraphQLListUploadNullable`
-`file: [Upload!]!` => `fromGraphQLListUploadToDartListMultipartFile` and `fromDartListMultipartFileToGraphQLListUpload`
+* `file: [Upload!]!` => `fromGraphQLListUploadToDartListMultipartFile` and `fromDartListMultipartFileToGraphQLListUpload`
 
 ```yaml
 targets:
