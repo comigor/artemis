@@ -6,15 +6,47 @@ jobs:
   check-version-and-changelog:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v2
       - uses: comigor/actions/check-version-and-changelog@master
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          base_ref: "${{ github.base_ref }}"
+          repo_token: ${{ github.token }}
+          base_ref: ${{ github.base_ref }}
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: 2.13.4
+      - id: install
+        name: Install dependencies
+        run: dart pub get
+      - name: Check formatting
+        if: always() && steps.install.outcome == 'success'
+        run: dart format --set-exit-if-changed .
+      - name: Run analyzer and annotate
+        if: always() && steps.install.outcome == 'success'
+        uses: kitek/dartanalyzer-annotations-action@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          check_name: Check code style
+          commit_sha: ${{ github.event.pull_request.head.sha }}
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - uses: comigor/actions/dart-test@master
+      - uses: actions/checkout@v2
+      - uses: dart-lang/setup-dart@v1
         with:
-          exclude_regex: "example"
+          sdk: 2.13.4
+      - id: install
+        name: Install dependencies
+        run: dart pub get
+      - name: Test
+        if: always() && steps.install.outcome == 'success'
+        run: pub run test --file-reporter='json:test-report.json'
+        continue-on-error: true
+      - name: Annotate with test errors
+        uses: rodrigost23/dart-test-annotations@v1.0
+        with:
+          path: test-report.json

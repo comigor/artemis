@@ -7,18 +7,36 @@ on:
 name: CI
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: 2.13.4
+      - id: install
+        name: Install dependencies
+        run: dart pub get
+      - name: Check formatting
+        if: always() && steps.install.outcome == 'success'
+        run: dart format --set-exit-if-changed .
   test:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/beta'
     steps:
-      - name: Clone repository
-        uses: actions/checkout@master
-      - name: Run tests
-        uses: comigor/actions/dart-test@master
+      - uses: actions/checkout@v2
+      - uses: dart-lang/setup-dart@v1
         with:
-          exclude_regex: "example"
+          sdk: 2.13.4
+      - id: install
+        name: Install dependencies
+        run: dart pub get
+      - name: Test
+        if: always() && steps.install.outcome == 'success'
+        run: pub run test
   create-tag-and-release:
-    needs: test
+    needs:
+      - lint
+      - test
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/beta'
     steps:
