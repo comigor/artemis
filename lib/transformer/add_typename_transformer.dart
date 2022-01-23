@@ -27,8 +27,7 @@ class AppendTypename extends TransformingVisitor {
       selectionSet: SelectionSetNode(
         selections: <SelectionNode>[
           ...node.selectionSet.selections.where((element) =>
-              (element is! FieldNode) ||
-              (element is FieldNode && element.name.value != typeName)),
+              (element is! FieldNode) || (element.name.value != typeName)),
           FieldNode(name: NameNode(value: typeName)),
         ],
       ),
@@ -51,8 +50,7 @@ class AppendTypename extends TransformingVisitor {
       selectionSet: SelectionSetNode(
         selections: <SelectionNode>[
           ...node.selectionSet.selections.where((element) =>
-              (element is! FieldNode) ||
-              (element is FieldNode && element.name.value != typeName)),
+              (element is! FieldNode) || (element.name.value != typeName)),
           FieldNode(name: NameNode(value: typeName)),
         ],
       ),
@@ -73,8 +71,7 @@ class AppendTypename extends TransformingVisitor {
       selectionSet: SelectionSetNode(
         selections: <SelectionNode>[
           ...node.selectionSet.selections.where((element) =>
-              (element is! FieldNode) ||
-              (element is FieldNode && element.name.value != typeName)),
+              (element is! FieldNode) || (element.name.value != typeName)),
           FieldNode(name: NameNode(value: typeName)),
         ],
       ),
@@ -98,7 +95,7 @@ class AppendTypename extends TransformingVisitor {
         selections: <SelectionNode>[
           ...node.selectionSet?.selections.where((element) =>
                   (element is! FieldNode) ||
-                  (element is FieldNode && element.name.value != typeName)) ??
+                  (element.name.value != typeName)) ??
               [],
           FieldNode(name: NameNode(value: typeName)),
         ],

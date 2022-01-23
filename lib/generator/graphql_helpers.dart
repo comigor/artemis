@@ -4,24 +4,23 @@ import 'package:gql/ast.dart';
 
 import '../generator/data/data.dart';
 import '../schema/options.dart';
-import 'data/definition.dart';
 
 /// Get a full [TypeDefinitionNode] from a type node.
-TypeDefinitionNode getTypeByName(DocumentNode schema, TypeNode typeNode) {
+TypeDefinitionNode getTypeByName(
+  TypeDefinitionNodeVisitor typeDefinitionNodeVisitor,
+  TypeNode typeNode,
+) {
   late NamedTypeNode namedNode;
 
   if (typeNode is ListTypeNode) {
-    return getTypeByName(schema, typeNode.type);
+    return getTypeByName(typeDefinitionNodeVisitor, typeNode.type);
   }
 
   if (typeNode is NamedTypeNode) {
     namedNode = typeNode;
   }
 
-  final typeVisitor = TypeDefinitionNodeVisitor();
-  schema.accept(typeVisitor);
-
-  final type = typeVisitor.getByName(namedNode.name.value);
+  final type = typeDefinitionNodeVisitor.getByName(namedNode.name.value);
 
   if (type == null) {
     throw Exception('''Type ${namedNode.name.value} was not found in schema.

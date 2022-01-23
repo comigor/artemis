@@ -71,7 +71,8 @@ class CanonicalVisitor extends RecursiveVisitor {
       final properties = <ClassProperty>[];
 
       properties.addAll(node.fields.map((i) {
-        final nextType = gql.getTypeByName(nextContext.schema, i.type);
+        final nextType =
+            gql.getTypeByName(nextContext.typeDefinitionNodeVisitor, i.type);
         return createClassProperty(
           fieldName: ClassPropertyName(name: i.name.value),
           context: nextContext.nextTypeWithNoPath(
