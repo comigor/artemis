@@ -33,9 +33,13 @@ LibraryDefinition generateLibrary(
   List<FragmentDefinitionNode> fragmentsCommon,
   DocumentNode schema,
 ) {
+  final typeDefinitionNodeVisitor = TypeDefinitionNodeVisitor();
+  schema.accept(typeDefinitionNodeVisitor);
+
   final canonicalVisitor = CanonicalVisitor(
     context: Context(
       schema: schema,
+      typeDefinitionNodeVisitor: typeDefinitionNodeVisitor,
       options: options,
       schemaMap: schemaMap,
       path: [],
@@ -54,13 +58,14 @@ LibraryDefinition generateLibrary(
 
   final queryDefinitions = gqlDocs
       .map((doc) => generateDefinitions(
-            schema,
-            path,
-            doc,
-            options,
-            schemaMap,
-            fragmentsCommon,
-            canonicalVisitor,
+            schema: schema,
+            typeDefinitionNodeVisitor: typeDefinitionNodeVisitor,
+            path: path,
+            document: doc,
+            options: options,
+            schemaMap: schemaMap,
+            fragmentsCommon: fragmentsCommon,
+            canonicalVisitor: canonicalVisitor,
           ))
       .expand((e) => e)
       .toList();
@@ -118,15 +123,16 @@ Set<FragmentDefinitionNode> _extractFragments(SelectionSetNode? selectionSet,
 
 /// Generate a query definition from a GraphQL schema and a query, given
 /// Artemis options and schema mappings.
-Iterable<QueryDefinition> generateDefinitions(
-  DocumentNode schema,
-  String path,
-  DocumentNode document,
-  GeneratorOptions options,
-  SchemaMap schemaMap,
-  List<FragmentDefinitionNode> fragmentsCommon,
-  CanonicalVisitor canonicalVisitor,
-) {
+Iterable<QueryDefinition> generateDefinitions({
+  required DocumentNode schema,
+  required TypeDefinitionNodeVisitor typeDefinitionNodeVisitor,
+  required String path,
+  required DocumentNode document,
+  required GeneratorOptions options,
+  required SchemaMap schemaMap,
+  required List<FragmentDefinitionNode> fragmentsCommon,
+  required CanonicalVisitor canonicalVisitor,
+}) {
   final documentFragments =
       document.definitions.whereType<FragmentDefinitionNode>();
 
@@ -200,6 +206,7 @@ Iterable<QueryDefinition> generateDefinitions(
 
     final context = Context(
       schema: schema,
+      typeDefinitionNodeVisitor: typeDefinitionNodeVisitor,
       options: options,
       schemaMap: schemaMap,
       path: [
@@ -248,7 +255,7 @@ List<String> _extractCustomImports(
 
   schema.accept(typeVisitor);
 
-  return typeVisitor.types
+  return typeVisitor.types.values
       .whereType<ScalarTypeDefinitionNode>()
       .map((type) => gql.importsOfScalar(options, type.name.value))
       .expand((i) => i)
@@ -298,7 +305,8 @@ ClassProperty createClassProperty({
 Make sure your query is correct and your schema is updated.''');
   }
 
-  final nextType = gql.getTypeByName(context.schema, fieldType);
+  final nextType =
+      gql.getTypeByName(context.typeDefinitionNodeVisitor, fieldType);
 
   final aliasedContext = context.withAlias(
     nextFieldName: fieldName,

@@ -1,5 +1,6 @@
 import 'package:artemis/generator/data/data.dart';
 import 'package:artemis/generator/data/nullable.dart';
+import 'package:artemis/visitor/type_definition_node_visitor.dart';
 import 'package:gql/ast.dart';
 import '../schema/options.dart';
 
@@ -35,6 +36,7 @@ class Context {
   /// Instantiates context for [_GeneratorVisitor] iterations.
   Context({
     required this.schema,
+    required this.typeDefinitionNodeVisitor,
     required this.options,
     required this.schemaMap,
     required this.path,
@@ -54,6 +56,9 @@ class Context {
 
   /// The [DocumentNode] parsed from `build.yaml` configuration.
   final DocumentNode schema;
+
+  /// The [DocumentNode] parsed from `build.yaml` configuration.
+  final TypeDefinitionNodeVisitor typeDefinitionNodeVisitor;
 
   /// Other options parsed from `build.yaml` configuration.
   final GeneratorOptions options;
@@ -122,6 +127,7 @@ class Context {
   }) =>
       Context(
         schema: schema,
+        typeDefinitionNodeVisitor: typeDefinitionNodeVisitor,
         options: options,
         schemaMap: schemaMap,
         path: path,
@@ -151,6 +157,7 @@ class Context {
     assert(alias != null || (nextFieldName != null && nextClassName != null));
     return Context(
       schema: schema,
+      typeDefinitionNodeVisitor: typeDefinitionNodeVisitor,
       options: options,
       schemaMap: schemaMap,
       path: path
@@ -182,6 +189,7 @@ class Context {
   }) =>
       Context(
         schema: schema,
+        typeDefinitionNodeVisitor: typeDefinitionNodeVisitor,
         options: options,
         schemaMap: schemaMap,
         path: path,
@@ -212,6 +220,7 @@ class Context {
     assert(alias != null || (nextFieldName != null && nextClassName != null));
     return Context(
       schema: schema,
+      typeDefinitionNodeVisitor: typeDefinitionNodeVisitor,
       options: options,
       schemaMap: schemaMap,
       path: path
@@ -241,6 +250,7 @@ class Context {
   Context rollbackPath() {
     return Context(
       schema: schema,
+      typeDefinitionNodeVisitor: typeDefinitionNodeVisitor,
       options: options,
       schemaMap: schemaMap,
       path: [...path]..removeLast(),
@@ -268,6 +278,7 @@ class Context {
   }) =>
       Context(
         schema: schema,
+        typeDefinitionNodeVisitor: typeDefinitionNodeVisitor,
         options: options,
         schemaMap: schemaMap,
         path: [],
@@ -297,6 +308,7 @@ class Context {
   }) =>
       Context(
         schema: schema,
+        typeDefinitionNodeVisitor: typeDefinitionNodeVisitor,
         options: options,
         schemaMap: schemaMap,
         path: [],
