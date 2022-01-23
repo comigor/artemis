@@ -16,11 +16,11 @@ void main() {
 
           type QueryResponse {
             someObject: SomeObject @deprecated(reason: "message")
-            someObjects: [SomeObject]
+            someObjects: [SomeObject] @deprecated
           }
 
           type SomeObject {
-            someField: String
+            someField: String @deprecated
             deprecatedField: String @deprecated(reason: "message 2")
           }
         ''',
@@ -57,6 +57,7 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r'someField'),
+                  annotations: [r'''Deprecated('No longer supported')'''],
                   isResolveType: false),
               ClassProperty(
                   type: DartTypeName(name: r'String'),
@@ -73,6 +74,7 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: DartTypeName(name: r'String'),
                   name: ClassPropertyName(name: r'someField'),
+                  annotations: [r'''Deprecated('No longer supported')'''],
                   isResolveType: false),
               ClassProperty(
                   type: DartTypeName(name: r'String'),
@@ -98,6 +100,7 @@ final LibraryDefinition libraryDefinition =
                           name: r'SomeQuery$_QueryResponse$_SomeObject'),
                       isNonNull: false),
                   name: ClassPropertyName(name: r'someObjects'),
+                  annotations: [r'''Deprecated('No longer supported')'''],
                   isResolveType: false)
             ],
             factoryPossibilities: {},
@@ -125,6 +128,7 @@ class SomeQuery$QueryResponse$DeprecatedObject extends JsonSerializable
           Map<String, dynamic> json) =>
       _$SomeQuery$QueryResponse$DeprecatedObjectFromJson(json);
 
+  @Deprecated('No longer supported')
   String? someField;
 
   @Deprecated('message 2')
@@ -146,6 +150,7 @@ class SomeQuery$QueryResponse$SomeObject extends JsonSerializable
           Map<String, dynamic> json) =>
       _$SomeQuery$QueryResponse$SomeObjectFromJson(json);
 
+  @Deprecated('No longer supported')
   String? someField;
 
   @Deprecated('message 2')
@@ -168,6 +173,7 @@ class SomeQuery$QueryResponse extends JsonSerializable with EquatableMixin {
   @Deprecated('message')
   SomeQuery$QueryResponse$DeprecatedObject? deprecatedObject;
 
+  @Deprecated('No longer supported')
   List<SomeQuery$QueryResponse$SomeObject?>? someObjects;
 
   @override

@@ -54,7 +54,7 @@ final String graphQLSchema = r'''
   }
   
   interface Node {
-    id: ID!
+    id: ID! @deprecated
     deprecatedField: String @deprecated(reason: "deprecated interface field")
   }
   
@@ -114,6 +114,7 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: DartTypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r'id'),
+                  annotations: [r'''Deprecated('No longer supported')'''],
                   isResolveType: false),
               ClassProperty(
                   type: DartTypeName(name: r'String'),
@@ -239,6 +240,7 @@ class Custom$Query$Node extends JsonSerializable with EquatableMixin {
     return _$Custom$Query$NodeFromJson(json);
   }
 
+  @Deprecated('No longer supported')
   late String id;
 
   @Deprecated('deprecated interface field')

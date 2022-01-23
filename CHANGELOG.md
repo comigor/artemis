@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 7.3.1-beta
+
+- deprecated test extend
+
 ## 7.3.0-beta
 
 - package update

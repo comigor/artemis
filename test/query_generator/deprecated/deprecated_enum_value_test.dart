@@ -22,7 +22,7 @@ void main() {
 
           enum StarWarsMovies {
             NEW_HOPE @deprecated(reason: "deprecated movie")
-            EMPIRE
+            EMPIRE @deprecated
             JEDI
           }
         ''',
@@ -42,41 +42,29 @@ const query = r'''
 final LibraryDefinition libraryDefinition =
     LibraryDefinition(basename: r'query.graphql', queries: [
   QueryDefinition(
-      document: parseString(query),
       name: QueryName(name: r'SomeQuery$_QueryResponse'),
-      operationName: 'some_query',
+      operationName: r'some_query',
       classes: [
-        EnumDefinition(
-          name: EnumName(name: r'StarWarsMovies'),
-          values: [
-            EnumValueDefinition(
-              name: EnumValueName(name: 'NEW_HOPE'),
-              annotations: [
-                r"Deprecated('deprecated movie')",
-              ],
-            ),
-            EnumValueDefinition(
-              name: EnumValueName(name: 'EMPIRE'),
-            ),
-            EnumValueDefinition(
-              name: EnumValueName(name: 'JEDI'),
-            ),
-            EnumValueDefinition(
-              name: EnumValueName(name: 'ARTEMIS_UNKNOWN'),
-            ),
-          ],
-        ),
+        EnumDefinition(name: EnumName(name: r'StarWarsMovies'), values: [
+          EnumValueDefinition(
+              name: EnumValueName(name: r'NEW_HOPE'),
+              annotations: [r'''Deprecated('deprecated movie')''']),
+          EnumValueDefinition(
+              name: EnumValueName(name: r'EMPIRE'),
+              annotations: [r'''Deprecated('No longer supported')''']),
+          EnumValueDefinition(name: EnumValueName(name: r'JEDI')),
+          EnumValueDefinition(name: EnumValueName(name: r'ARTEMIS_UNKNOWN'))
+        ]),
         ClassDefinition(
             name: ClassName(name: r'SomeQuery$_QueryResponse'),
             properties: [
               ClassProperty(
                   type: TypeName(name: r'StarWarsMovies'),
                   name: ClassPropertyName(name: r'someValue'),
-                  // isOverride: false,
-
                   annotations: [
-                    r'JsonKey(unknownEnumValue: StarWarsMovies.artemisUnknown)',
-                  ])
+                    r'JsonKey(unknownEnumValue: StarWarsMovies.artemisUnknown)'
+                  ],
+                  isResolveType: false)
             ],
             factoryPossibilities: {},
             typeNameField: ClassPropertyName(name: r'__typename'),
@@ -114,6 +102,7 @@ enum StarWarsMovies {
   @Deprecated('deprecated movie')
   @JsonValue('NEW_HOPE')
   newHope,
+  @Deprecated('No longer supported')
   @JsonValue('EMPIRE')
   empire,
   @JsonValue('JEDI')

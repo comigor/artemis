@@ -23,7 +23,7 @@ void main() {
           }
           
           input Input {
-            s: String!
+            s: String! @deprecated
             d: String @deprecated(reason: "deprecated input field")
           }
         ''',
@@ -78,6 +78,7 @@ final LibraryDefinition libraryDefinition =
               ClassProperty(
                   type: DartTypeName(name: r'String', isNonNull: true),
                   name: ClassPropertyName(name: r's'),
+                  annotations: [r'''Deprecated('No longer supported')'''],
                   isResolveType: false),
               ClassProperty(
                   type: DartTypeName(name: r'String'),
@@ -146,6 +147,7 @@ class Input extends JsonSerializable with EquatableMixin {
 
   factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
 
+  @Deprecated('No longer supported')
   late String s;
 
   @Deprecated('deprecated input field')
