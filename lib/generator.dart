@@ -316,10 +316,13 @@ Make sure your query is correct and your schema is updated.''');
 
   final nextClassName = aliasedContext.fullPathName();
 
-  final dartTypeName = gql.buildTypeName(fieldType, context.options,
-      dartType: true,
-      replaceLeafWith: ClassName.fromPath(path: nextClassName),
-      schema: context.schema);
+  final dartTypeName = gql.buildTypeName(
+    fieldType,
+    context.options,
+    dartType: true,
+    replaceLeafWith: ClassName.fromPath(path: nextClassName),
+    typeDefinitionNodeVisitor: context.typeDefinitionNodeVisitor,
+  );
 
   logFn(context, aliasedContext.align + 1,
       '${aliasedContext.path}[${aliasedContext.currentType!.name.value}][${aliasedContext.currentClassName} ${aliasedContext.currentFieldName}] ${fieldAlias == null ? '' : '($fieldAlias) '}-> ${dartTypeName.namePrintable}');
@@ -360,8 +363,12 @@ Make sure your query is correct and your schema is updated.''');
 
     if (scalar?.customParserImport != null &&
         nextType.name.value == scalar?.graphQLType) {
-      final graphqlTypeName = gql.buildTypeName(fieldType, context.options,
-          dartType: false, schema: context.schema);
+      final graphqlTypeName = gql.buildTypeName(
+        fieldType,
+        context.options,
+        dartType: false,
+        typeDefinitionNodeVisitor: context.typeDefinitionNodeVisitor,
+      );
 
       jsonKeyAnnotation['fromJson'] =
           'fromGraphQL${graphqlTypeName.parserSafe}ToDart${dartTypeName.parserSafe}';
@@ -376,10 +383,12 @@ Make sure your query is correct and your schema is updated.''');
 
     if (fieldType is ListTypeNode) {
       final innerDartTypeName = gql.buildTypeName(
-          fieldType.type, context.options,
-          dartType: true,
-          replaceLeafWith: ClassName.fromPath(path: nextClassName),
-          schema: context.schema);
+        fieldType.type,
+        context.options,
+        dartType: true,
+        replaceLeafWith: ClassName.fromPath(path: nextClassName),
+        typeDefinitionNodeVisitor: context.typeDefinitionNodeVisitor,
+      );
       jsonKeyAnnotation['unknownEnumValue'] =
           '${innerDartTypeName.dartTypeSafe}.${artemisUnknown.name.namePrintable}';
     } else {

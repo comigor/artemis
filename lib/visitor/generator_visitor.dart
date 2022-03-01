@@ -158,10 +158,13 @@ class GeneratorVisitor extends RecursiveVisitor {
         )
         .fullPathName();
 
-    final dartTypeName = gql.buildTypeName(node.type, context.options,
-        dartType: true,
-        replaceLeafWith: ClassName.fromPath(path: nextClassName),
-        schema: context.schema);
+    final dartTypeName = gql.buildTypeName(
+      node.type,
+      context.options,
+      dartType: true,
+      replaceLeafWith: ClassName.fromPath(path: nextClassName),
+      typeDefinitionNodeVisitor: context.typeDefinitionNodeVisitor,
+    );
 
     final jsonKeyAnnotation = <String, String>{};
 
@@ -170,10 +173,12 @@ class GeneratorVisitor extends RecursiveVisitor {
       final variableNodeType = node.type;
       if (variableNodeType is ListTypeNode) {
         final innerDartTypeName = gql.buildTypeName(
-            variableNodeType.type, context.options,
-            dartType: true,
-            replaceLeafWith: ClassName.fromPath(path: nextClassName),
-            schema: context.schema);
+          variableNodeType.type,
+          context.options,
+          dartType: true,
+          replaceLeafWith: ClassName.fromPath(path: nextClassName),
+          typeDefinitionNodeVisitor: context.typeDefinitionNodeVisitor,
+        );
         jsonKeyAnnotation['unknownEnumValue'] =
             '${EnumName(name: innerDartTypeName.name).dartTypeSafe}.${artemisUnknown.name.namePrintable}';
       } else {
@@ -192,7 +197,7 @@ class GeneratorVisitor extends RecursiveVisitor {
           node.type,
           context.options,
           dartType: false,
-          schema: context.schema,
+          typeDefinitionNodeVisitor: context.typeDefinitionNodeVisitor,
         );
 
         jsonKeyAnnotation['fromJson'] =
