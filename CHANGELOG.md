@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 7.3.2-beta
+
+- performance improvements-2
+
 ## 7.3.1-beta
 
 - performance improvements

@@ -36,12 +36,10 @@ TypeName buildTypeName(
   GeneratorOptions options, {
   bool dartType = true,
   Name? replaceLeafWith,
-  DocumentNode? schema,
+  required TypeDefinitionNodeVisitor typeDefinitionNodeVisitor,
 }) {
   if (node is NamedTypeNode) {
-    final typeVisitor = TypeDefinitionNodeVisitor();
-    schema!.accept(typeVisitor);
-    final type = typeVisitor.getByName(node.name.value);
+    final type = typeDefinitionNodeVisitor.getByName(node.name.value);
 
     if (type != null) {
       if (type is ScalarTypeDefinitionNode) {
@@ -78,8 +76,13 @@ TypeName buildTypeName(
   }
 
   if (node is ListTypeNode) {
-    final typeName = buildTypeName(node.type, options,
-        dartType: dartType, replaceLeafWith: replaceLeafWith, schema: schema);
+    final typeName = buildTypeName(
+      node.type,
+      options,
+      dartType: dartType,
+      replaceLeafWith: replaceLeafWith,
+      typeDefinitionNodeVisitor: typeDefinitionNodeVisitor,
+    );
     return ListOfTypeName(
       typeName: typeName,
       isNonNull: node.isNonNull,
