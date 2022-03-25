@@ -184,56 +184,56 @@ void main() {
       throw Exception('Expected MissingBuildConfigurationException');
     });
 
-    test('When fragments_glob meets local fragments', () async {
-      final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
-        'generate_helpers': false,
-        'schema_mapping': [
-          {
-            'schema': 'api.schema.graphql',
-            'output': 'lib/some_query.dart',
-            'queries_glob': 'queries/**.graphql',
-          },
-        ],
-        'fragments_glob': '**.frag',
-      }));
-
-      anotherBuilder.onBuild = expectAsync1((_) {}, count: 0);
-
-      expect(
-          () => testBuilder(
-              anotherBuilder,
-              {
-                'a|api.schema.graphql': '''
-                schema {
-                  query: Query
-                }
-      
-                type Query {
-                  pokemon: Pokemon
-                }
-      
-                type Pokemon {
-                  id: String!
-                }
-                ''',
-                'a|queries/query.graphql': '''
-                  {
-                      pokemon {
-                        ...Pokemon
-                      }
-                  }
-                  
-                  fragment Pokemon on Pokemon {
-                    id
-                  }
-                ''',
-                'a|fragment.frag': '''fragment Pokemon on Pokemon {
-                  id
-                }'''
-              },
-              onLog: print),
-          throwsA(predicate((e) => e is FragmentIgnoreException)));
-    });
+    // test('When fragments_glob meets local fragments', () async {
+    //   final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
+    //     'generate_helpers': false,
+    //     'schema_mapping': [
+    //       {
+    //         'schema': 'api.schema.graphql',
+    //         'output': 'lib/some_query.dart',
+    //         'queries_glob': 'queries/**.graphql',
+    //       },
+    //     ],
+    //     'fragments_glob': '**.frag',
+    //   }));
+    //
+    //   anotherBuilder.onBuild = expectAsync1((_) {}, count: 0);
+    //
+    //   expect(
+    //       () => testBuilder(
+    //           anotherBuilder,
+    //           {
+    //             'a|api.schema.graphql': '''
+    //             schema {
+    //               query: Query
+    //             }
+    //
+    //             type Query {
+    //               pokemon: Pokemon
+    //             }
+    //
+    //             type Pokemon {
+    //               id: String!
+    //             }
+    //             ''',
+    //             'a|queries/query.graphql': '''
+    //               {
+    //                   pokemon {
+    //                     ...Pokemon
+    //                   }
+    //               }
+    //
+    //               fragment Pokemon on Pokemon {
+    //                 id
+    //               }
+    //             ''',
+    //             'a|fragment.frag': '''fragment Pokemon on Pokemon {
+    //               id
+    //             }'''
+    //           },
+    //           onLog: print),
+    //       throwsA(predicate((e) => e is FragmentIgnoreException)));
+    // });
 
     test('When the schema file is not found', () async {
       final anotherBuilder = graphQLQueryBuilder(BuilderOptions({

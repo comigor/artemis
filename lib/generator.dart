@@ -136,24 +136,24 @@ Iterable<QueryDefinition> generateDefinitions({
   final documentFragments =
       document.definitions.whereType<FragmentDefinitionNode>();
 
-  if (documentFragments.isNotEmpty && fragmentsCommon.isNotEmpty) {
-    throw FragmentIgnoreException();
-  }
+  // if (documentFragments.isNotEmpty && fragmentsCommon.isNotEmpty) {
+  //   throw FragmentIgnoreException();
+  // }
 
   final operations =
       document.definitions.whereType<OperationDefinitionNode>().toList();
 
   return operations.map((operation) {
-    final fragments = <FragmentDefinitionNode>[];
+    final fragments = <FragmentDefinitionNode>[
+      ...documentFragments,
+    ];
     final definitions = document.definitions
         // filtering unused operations
         .where((e) {
       return e is! OperationDefinitionNode || e == operation;
     }).toList();
 
-    if (fragmentsCommon.isEmpty) {
-      fragments.addAll(documentFragments);
-    } else {
+    if (fragmentsCommon.isNotEmpty) {
       final fragmentsOperation =
           _extractFragments(operation.selectionSet, fragmentsCommon);
       definitions.addAll(fragmentsOperation);
