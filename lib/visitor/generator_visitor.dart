@@ -145,7 +145,6 @@ class GeneratorVisitor extends RecursiveVisitor {
 
   @override
   void visitVariableDefinitionNode(VariableDefinitionNode node) {
-    print(visitVariableDefinitionNode);
     final leafType =
         gql.getTypeByName(context.typeDefinitionNodeVisitor, node.type);
 

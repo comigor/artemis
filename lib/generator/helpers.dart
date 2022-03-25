@@ -151,7 +151,7 @@ List<String> proceedDeprecated(
         ?.value;
 
     final reason = reasonValueNode is StringValueNode
-        ? reasonValueNode.value
+        ? reasonValueNode.value.replaceAll("'", "\\'").replaceAll(r'$', r'\$')
         : 'No longer supported';
 
     annotations.add("Deprecated('$reason')");
