@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 7.3.3-beta
+
+- fix https://github.com/comigor/artemis/issues/373
+
 ## 7.3.2-beta
 
 - performance improvements-2

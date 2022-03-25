@@ -28,7 +28,7 @@ packages:
       path: "../.."
       relative: true
     source: path
-    version: "7.2.2-beta"
+    version: "7.3.2-beta"
   async:
     dependency: transitive
     description:
@@ -196,49 +196,49 @@ packages:
       name: glob
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.1"
+    version: "2.0.2"
   gql:
     dependency: transitive
     description:
       name: gql
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.1-alpha+1633799193898"
-  gql_code_builder2:
+    version: "0.13.1-alpha+1645425888336"
+  gql_code_builder:
     dependency: transitive
     description:
-      name: gql_code_builder2
+      name: gql_code_builder
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.0"
+    version: "0.3.0-alpha+1635885531709"
   gql_dedupe_link:
     dependency: transitive
     description:
       name: gql_dedupe_link
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.2-alpha+1635885531760"
   gql_exec:
     dependency: transitive
     description:
       name: gql_exec
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.0"
+    version: "0.3.2-alpha+1635885531651"
   gql_http_link:
     dependency: transitive
     description:
       name: gql_http_link
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.0"
+    version: "0.4.2-alpha+1635885531688"
   gql_link:
     dependency: transitive
     description:
       name: gql_link
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.0"
+    version: "0.4.2-alpha+1635885531659"
   graphs:
     dependency: transitive
     description:
@@ -287,14 +287,21 @@ packages:
       name: json_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.3.0"
+    version: "4.4.0"
   json_serializable:
     dependency: "direct dev"
     description:
       name: json_serializable
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.0"
+    version: "6.1.5"
+  lints:
+    dependency: "direct dev"
+    description:
+      name: lints
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   logging:
     dependency: transitive
     description:
@@ -413,7 +420,7 @@ packages:
       name: source_gen
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.1"
+    version: "1.2.1"
   source_helper:
     dependency: transitive
     description:

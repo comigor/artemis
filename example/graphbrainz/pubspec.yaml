@@ -12,5 +12,6 @@ dev_dependencies:
   test:
   build_runner:
   json_serializable:
+  lints: ^1.0.1
   artemis:
     path: ../../.
