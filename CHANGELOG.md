@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 7.4.0-beta
+
+- allow using file fragments and common fragments at the same time
+
 ## 7.3.3-beta
 
 - fix https://github.com/comigor/artemis/issues/373
