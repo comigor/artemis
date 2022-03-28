@@ -8,6 +8,7 @@ void main() {
     test(
       'Fragments will have their own classes multiple',
       () async => testGenerator(
+        namingScheme: 'pathedWithFields',
         query: r'''
           fragment Dst on Destination {
             id
@@ -27,6 +28,12 @@ void main() {
                   dateTo
                   id
                   voyageNumber
+                  arrival {
+                    ...Dst
+                  }
+                  departure {
+                    ...Departure
+                  }
                 }
               }
             }
@@ -94,6 +101,103 @@ final LibraryDefinition libraryDefinition =
       name: QueryName(name: r'VoyagesData$_Query'),
       operationName: r'VoyagesData',
       classes: [
+        ClassDefinition(
+            name: ClassName(
+                name: r'VoyagesData$_Query$_voyages$_voyages$_voyage$_arrival'),
+            mixins: [FragmentName(name: r'DstMixin')],
+            factoryPossibilities: {},
+            typeNameField: ClassPropertyName(name: r'__typename'),
+            isInput: false),
+        ClassDefinition(
+            name: ClassName(
+                name:
+                    r'VoyagesData$_Query$_voyages$_voyages$_voyage$_departure'),
+            mixins: [FragmentName(name: r'DepartureMixin')],
+            factoryPossibilities: {},
+            typeNameField: ClassPropertyName(name: r'__typename'),
+            isInput: false),
+        ClassDefinition(
+            name: ClassName(
+                name: r'VoyagesData$_Query$_voyages$_voyages$_voyage'),
+            properties: [
+              ClassProperty(
+                  type: DartTypeName(name: r'DateTime', isNonNull: true),
+                  name: ClassPropertyName(name: r'dateFrom'),
+                  isResolveType: false),
+              ClassProperty(
+                  type: DartTypeName(name: r'DateTime'),
+                  name: ClassPropertyName(name: r'dateTo'),
+                  isResolveType: false),
+              ClassProperty(
+                  type: DartTypeName(name: r'String'),
+                  name: ClassPropertyName(name: r'id'),
+                  isResolveType: false),
+              ClassProperty(
+                  type: DartTypeName(name: r'String', isNonNull: true),
+                  name: ClassPropertyName(name: r'voyageNumber'),
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(
+                      name:
+                          r'VoyagesData$_Query$_voyages$_voyages$_voyage$_arrival',
+                      isNonNull: true),
+                  name: ClassPropertyName(name: r'arrival'),
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(
+                      name:
+                          r'VoyagesData$_Query$_voyages$_voyages$_voyage$_departure',
+                      isNonNull: true),
+                  name: ClassPropertyName(name: r'departure'),
+                  isResolveType: false)
+            ],
+            factoryPossibilities: {},
+            typeNameField: ClassPropertyName(name: r'__typename'),
+            isInput: false),
+        ClassDefinition(
+            name: ClassName(name: r'VoyagesData$_Query$_voyages$_voyages'),
+            properties: [
+              ClassProperty(
+                  type: DartTypeName(name: r'int', isNonNull: true),
+                  name: ClassPropertyName(name: r'numberOfReports'),
+                  isResolveType: false),
+              ClassProperty(
+                  type: TypeName(
+                      name: r'VoyagesData$_Query$_voyages$_voyages$_voyage',
+                      isNonNull: true),
+                  name: ClassPropertyName(name: r'voyage'),
+                  isResolveType: false)
+            ],
+            factoryPossibilities: {},
+            typeNameField: ClassPropertyName(name: r'__typename'),
+            isInput: false),
+        ClassDefinition(
+            name: ClassName(name: r'VoyagesData$_Query$_voyages'),
+            properties: [
+              ClassProperty(
+                  type: ListOfTypeName(
+                      typeName: TypeName(
+                          name: r'VoyagesData$_Query$_voyages$_voyages',
+                          isNonNull: true),
+                      isNonNull: true),
+                  name: ClassPropertyName(name: r'voyages'),
+                  isResolveType: false)
+            ],
+            factoryPossibilities: {},
+            typeNameField: ClassPropertyName(name: r'__typename'),
+            isInput: false),
+        ClassDefinition(
+            name: ClassName(name: r'VoyagesData$_Query'),
+            properties: [
+              ClassProperty(
+                  type: TypeName(
+                      name: r'VoyagesData$_Query$_voyages', isNonNull: true),
+                  name: ClassPropertyName(name: r'voyages'),
+                  isResolveType: false)
+            ],
+            factoryPossibilities: {},
+            typeNameField: ClassPropertyName(name: r'__typename'),
+            isInput: false),
         FragmentClassDefinition(
             name: FragmentName(name: r'DstMixin'),
             properties: [
@@ -114,77 +218,6 @@ final LibraryDefinition libraryDefinition =
                   name: ClassPropertyName(name: r'id'),
                   isResolveType: false)
             ]),
-        ClassDefinition(
-            name: ClassName(
-                name: r'VoyagesData$_Query$_VoyageList$_VoyageDetails$_Voyage'),
-            properties: [
-              ClassProperty(
-                  type: DartTypeName(name: r'DateTime', isNonNull: true),
-                  name: ClassPropertyName(name: r'dateFrom'),
-                  isResolveType: false),
-              ClassProperty(
-                  type: DartTypeName(name: r'DateTime'),
-                  name: ClassPropertyName(name: r'dateTo'),
-                  isResolveType: false),
-              ClassProperty(
-                  type: DartTypeName(name: r'String'),
-                  name: ClassPropertyName(name: r'id'),
-                  isResolveType: false),
-              ClassProperty(
-                  type: DartTypeName(name: r'String', isNonNull: true),
-                  name: ClassPropertyName(name: r'voyageNumber'),
-                  isResolveType: false)
-            ],
-            factoryPossibilities: {},
-            typeNameField: ClassPropertyName(name: r'__typename'),
-            isInput: false),
-        ClassDefinition(
-            name: ClassName(
-                name: r'VoyagesData$_Query$_VoyageList$_VoyageDetails'),
-            properties: [
-              ClassProperty(
-                  type: DartTypeName(name: r'int', isNonNull: true),
-                  name: ClassPropertyName(name: r'numberOfReports'),
-                  isResolveType: false),
-              ClassProperty(
-                  type: TypeName(
-                      name:
-                          r'VoyagesData$_Query$_VoyageList$_VoyageDetails$_Voyage',
-                      isNonNull: true),
-                  name: ClassPropertyName(name: r'voyage'),
-                  isResolveType: false)
-            ],
-            factoryPossibilities: {},
-            typeNameField: ClassPropertyName(name: r'__typename'),
-            isInput: false),
-        ClassDefinition(
-            name: ClassName(name: r'VoyagesData$_Query$_VoyageList'),
-            properties: [
-              ClassProperty(
-                  type: ListOfTypeName(
-                      typeName: TypeName(
-                          name:
-                              r'VoyagesData$_Query$_VoyageList$_VoyageDetails',
-                          isNonNull: true),
-                      isNonNull: true),
-                  name: ClassPropertyName(name: r'voyages'),
-                  isResolveType: false)
-            ],
-            factoryPossibilities: {},
-            typeNameField: ClassPropertyName(name: r'__typename'),
-            isInput: false),
-        ClassDefinition(
-            name: ClassName(name: r'VoyagesData$_Query'),
-            properties: [
-              ClassProperty(
-                  type: TypeName(
-                      name: r'VoyagesData$_Query$_VoyageList', isNonNull: true),
-                  name: ClassPropertyName(name: r'voyages'),
-                  isResolveType: false)
-            ],
-            factoryPossibilities: {},
-            typeNameField: ClassPropertyName(name: r'__typename'),
-            isInput: false),
         ClassDefinition(
             name: ClassName(name: r'PaginationInput'),
             properties: [
@@ -228,13 +261,45 @@ mixin DepartureMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class VoyagesData$Query$VoyageList$VoyageDetails$Voyage extends JsonSerializable
-    with EquatableMixin {
-  VoyagesData$Query$VoyageList$VoyageDetails$Voyage();
+class VoyagesData$Query$Voyages$Voyages$Voyage$Arrival extends JsonSerializable
+    with EquatableMixin, DstMixin {
+  VoyagesData$Query$Voyages$Voyages$Voyage$Arrival();
 
-  factory VoyagesData$Query$VoyageList$VoyageDetails$Voyage.fromJson(
+  factory VoyagesData$Query$Voyages$Voyages$Voyage$Arrival.fromJson(
           Map<String, dynamic> json) =>
-      _$VoyagesData$Query$VoyageList$VoyageDetails$VoyageFromJson(json);
+      _$VoyagesData$Query$Voyages$Voyages$Voyage$ArrivalFromJson(json);
+
+  @override
+  List<Object?> get props => [id, name];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$VoyagesData$Query$Voyages$Voyages$Voyage$ArrivalToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class VoyagesData$Query$Voyages$Voyages$Voyage$Departure
+    extends JsonSerializable with EquatableMixin, DepartureMixin {
+  VoyagesData$Query$Voyages$Voyages$Voyage$Departure();
+
+  factory VoyagesData$Query$Voyages$Voyages$Voyage$Departure.fromJson(
+          Map<String, dynamic> json) =>
+      _$VoyagesData$Query$Voyages$Voyages$Voyage$DepartureFromJson(json);
+
+  @override
+  List<Object?> get props => [id];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$VoyagesData$Query$Voyages$Voyages$Voyage$DepartureToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class VoyagesData$Query$Voyages$Voyages$Voyage extends JsonSerializable
+    with EquatableMixin {
+  VoyagesData$Query$Voyages$Voyages$Voyage();
+
+  factory VoyagesData$Query$Voyages$Voyages$Voyage.fromJson(
+          Map<String, dynamic> json) =>
+      _$VoyagesData$Query$Voyages$Voyages$VoyageFromJson(json);
 
   late DateTime dateFrom;
 
@@ -244,47 +309,51 @@ class VoyagesData$Query$VoyageList$VoyageDetails$Voyage extends JsonSerializable
 
   late String voyageNumber;
 
+  late VoyagesData$Query$Voyages$Voyages$Voyage$Arrival arrival;
+
+  late VoyagesData$Query$Voyages$Voyages$Voyage$Departure departure;
+
   @override
-  List<Object?> get props => [dateFrom, dateTo, id, voyageNumber];
+  List<Object?> get props =>
+      [dateFrom, dateTo, id, voyageNumber, arrival, departure];
   @override
   Map<String, dynamic> toJson() =>
-      _$VoyagesData$Query$VoyageList$VoyageDetails$VoyageToJson(this);
+      _$VoyagesData$Query$Voyages$Voyages$VoyageToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class VoyagesData$Query$VoyageList$VoyageDetails extends JsonSerializable
+class VoyagesData$Query$Voyages$Voyages extends JsonSerializable
     with EquatableMixin {
-  VoyagesData$Query$VoyageList$VoyageDetails();
+  VoyagesData$Query$Voyages$Voyages();
 
-  factory VoyagesData$Query$VoyageList$VoyageDetails.fromJson(
+  factory VoyagesData$Query$Voyages$Voyages.fromJson(
           Map<String, dynamic> json) =>
-      _$VoyagesData$Query$VoyageList$VoyageDetailsFromJson(json);
+      _$VoyagesData$Query$Voyages$VoyagesFromJson(json);
 
   late int numberOfReports;
 
-  late VoyagesData$Query$VoyageList$VoyageDetails$Voyage voyage;
+  late VoyagesData$Query$Voyages$Voyages$Voyage voyage;
 
   @override
   List<Object?> get props => [numberOfReports, voyage];
   @override
   Map<String, dynamic> toJson() =>
-      _$VoyagesData$Query$VoyageList$VoyageDetailsToJson(this);
+      _$VoyagesData$Query$Voyages$VoyagesToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class VoyagesData$Query$VoyageList extends JsonSerializable
-    with EquatableMixin {
-  VoyagesData$Query$VoyageList();
+class VoyagesData$Query$Voyages extends JsonSerializable with EquatableMixin {
+  VoyagesData$Query$Voyages();
 
-  factory VoyagesData$Query$VoyageList.fromJson(Map<String, dynamic> json) =>
-      _$VoyagesData$Query$VoyageListFromJson(json);
+  factory VoyagesData$Query$Voyages.fromJson(Map<String, dynamic> json) =>
+      _$VoyagesData$Query$VoyagesFromJson(json);
 
-  late List<VoyagesData$Query$VoyageList$VoyageDetails> voyages;
+  late List<VoyagesData$Query$Voyages$Voyages> voyages;
 
   @override
   List<Object?> get props => [voyages];
   @override
-  Map<String, dynamic> toJson() => _$VoyagesData$Query$VoyageListToJson(this);
+  Map<String, dynamic> toJson() => _$VoyagesData$Query$VoyagesToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -294,7 +363,7 @@ class VoyagesData$Query extends JsonSerializable with EquatableMixin {
   factory VoyagesData$Query.fromJson(Map<String, dynamic> json) =>
       _$VoyagesData$QueryFromJson(json);
 
-  late VoyagesData$Query$VoyageList voyages;
+  late VoyagesData$Query$Voyages voyages;
 
   @override
   List<Object?> get props => [voyages];
@@ -336,40 +405,6 @@ class VoyagesDataArguments extends JsonSerializable with EquatableMixin {
 }
 
 final VOYAGES_DATA_QUERY_DOCUMENT = DocumentNode(definitions: [
-  FragmentDefinitionNode(
-      name: NameNode(value: 'Dst'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'Destination'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'id'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'name'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null)
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'Departure'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'Destination'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'id'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null)
-      ])),
   OperationDefinitionNode(
       type: OperationType.query,
       name: NameNode(value: 'VoyagesData'),
@@ -434,10 +469,64 @@ final VOYAGES_DATA_QUERY_DOCUMENT = DocumentNode(definitions: [
                               alias: null,
                               arguments: [],
                               directives: [],
-                              selectionSet: null)
+                              selectionSet: null),
+                          FieldNode(
+                              name: NameNode(value: 'arrival'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: SelectionSetNode(selections: [
+                                FragmentSpreadNode(
+                                    name: NameNode(value: 'Dst'),
+                                    directives: [])
+                              ])),
+                          FieldNode(
+                              name: NameNode(value: 'departure'),
+                              alias: null,
+                              arguments: [],
+                              directives: [],
+                              selectionSet: SelectionSetNode(selections: [
+                                FragmentSpreadNode(
+                                    name: NameNode(value: 'Departure'),
+                                    directives: [])
+                              ]))
                         ]))
                   ]))
             ]))
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'Dst'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(
+              name: NameNode(value: 'Destination'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null),
+        FieldNode(
+            name: NameNode(value: 'name'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
+      ])),
+  FragmentDefinitionNode(
+      name: NameNode(value: 'Departure'),
+      typeCondition: TypeConditionNode(
+          on: NamedTypeNode(
+              name: NameNode(value: 'Destination'), isNonNull: false)),
+      directives: [],
+      selectionSet: SelectionSetNode(selections: [
+        FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null)
       ]))
 ]);
 

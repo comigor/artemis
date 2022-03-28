@@ -62,18 +62,6 @@ final LibraryDefinition libraryDefinition =
       name: QueryName(name: r'SomeQuery$_QueryResponse'),
       operationName: r'some_query',
       classes: [
-        FragmentClassDefinition(
-            name: FragmentName(name: r'MyFragmentMixin'),
-            properties: [
-              ClassProperty(
-                  type: DartTypeName(name: r'String'),
-                  name: ClassPropertyName(name: r's'),
-                  isResolveType: false),
-              ClassProperty(
-                  type: DartTypeName(name: r'int'),
-                  name: ClassPropertyName(name: r'i'),
-                  isResolveType: false)
-            ]),
         ClassDefinition(
             name: ClassName(name: r'SomeObject'),
             mixins: [FragmentName(name: r'MyFragmentMixin')],
@@ -111,7 +99,19 @@ final LibraryDefinition libraryDefinition =
             ],
             factoryPossibilities: {},
             typeNameField: ClassPropertyName(name: r'__typename'),
-            isInput: false)
+            isInput: false),
+        FragmentClassDefinition(
+            name: FragmentName(name: r'MyFragmentMixin'),
+            properties: [
+              ClassProperty(
+                  type: DartTypeName(name: r'String'),
+                  name: ClassPropertyName(name: r's'),
+                  isResolveType: false),
+              ClassProperty(
+                  type: DartTypeName(name: r'int'),
+                  name: ClassPropertyName(name: r'i'),
+                  isResolveType: false)
+            ])
       ],
       generateHelpers: false,
       suffix: r'Query')
