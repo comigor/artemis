@@ -345,6 +345,7 @@ enum ArticleType {
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
+
 final BROWSE_ARTICLES_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
@@ -474,6 +475,7 @@ enum Privacy {
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
+
 enum Status {
   @JsonValue('ARCHIVED')
   archived,
@@ -482,6 +484,7 @@ enum Status {
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
+
 enum NotificationType {
   @JsonValue('ACTIVITY_MESSAGE')
   activityMessage,

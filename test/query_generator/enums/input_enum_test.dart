@@ -212,6 +212,7 @@ enum MyEnum {
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
+
 enum OtherEnum {
   @JsonValue('O1')
   o1,
