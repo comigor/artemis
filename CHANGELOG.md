@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 7.6.0-beta
+
+- package updates
+
 ## 7.5.0-beta
 
 - there is no need to use `fragments_glob` any more just specify the glob which will include all your graphql docs

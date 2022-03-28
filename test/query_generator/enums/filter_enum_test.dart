@@ -213,6 +213,7 @@ enum MyEnum {
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
+
 enum InputEnum {
   @JsonValue('C')
   c,
@@ -221,6 +222,7 @@ enum InputEnum {
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
+
 enum $InputInputEnum {
   @JsonValue('_E')
   $e,
