@@ -40,6 +40,12 @@ final LibraryDefinition libraryDefinition =
       name: QueryName(name: r'SomeQuery$_SomeObject'),
       operationName: r'some_query',
       classes: [
+        ClassDefinition(
+            name: ClassName(name: r'SomeQuery$_SomeObject'),
+            mixins: [FragmentName(name: r'MyFragmentMixin')],
+            factoryPossibilities: {},
+            typeNameField: ClassPropertyName(name: r'__typename'),
+            isInput: false),
         FragmentClassDefinition(
             name: FragmentName(name: r'MyFragmentMixin'),
             properties: [
@@ -51,13 +57,7 @@ final LibraryDefinition libraryDefinition =
                   type: DartTypeName(name: r'int'),
                   name: ClassPropertyName(name: r'i'),
                   isResolveType: false)
-            ]),
-        ClassDefinition(
-            name: ClassName(name: r'SomeQuery$_SomeObject'),
-            mixins: [FragmentName(name: r'MyFragmentMixin')],
-            factoryPossibilities: {},
-            typeNameField: ClassPropertyName(name: r'__typename'),
-            isInput: false)
+            ])
       ],
       generateHelpers: false,
       suffix: r'Query')
