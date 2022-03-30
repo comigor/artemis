@@ -263,6 +263,7 @@ class MutDataArguments extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$MutDataArgumentsToJson(this);
 }
 
+final MUT_DATA_MUTATION_DOCUMENT_OPERATION_NAME = 'MutData';
 final MUT_DATA_MUTATION_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.mutation,
@@ -304,7 +305,7 @@ class MutDataMutation extends GraphQLQuery<MutData$Mutation, MutDataArguments> {
   final DocumentNode document = MUT_DATA_MUTATION_DOCUMENT;
 
   @override
-  final String operationName = 'MutData';
+  final String operationName = MUT_DATA_MUTATION_DOCUMENT_OPERATION_NAME;
 
   @override
   final MutDataArguments variables;
@@ -334,6 +335,7 @@ class QueDataArguments extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$QueDataArgumentsToJson(this);
 }
 
+final QUE_DATA_QUERY_DOCUMENT_OPERATION_NAME = 'QueData';
 final QUE_DATA_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
@@ -404,7 +406,7 @@ class QueDataQuery extends GraphQLQuery<QueData$Query, QueDataArguments> {
   final DocumentNode document = QUE_DATA_QUERY_DOCUMENT;
 
   @override
-  final String operationName = 'QueData';
+  final String operationName = QUE_DATA_QUERY_DOCUMENT_OPERATION_NAME;
 
   @override
   final QueDataArguments variables;

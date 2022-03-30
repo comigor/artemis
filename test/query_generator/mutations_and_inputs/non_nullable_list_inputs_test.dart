@@ -179,6 +179,7 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$SomeQueryArgumentsToJson(this);
 }
 
+final SOME_QUERY_QUERY_DOCUMENT_OPERATION_NAME = 'some_query';
 final SOME_QUERY_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
@@ -297,7 +298,7 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
   final DocumentNode document = SOME_QUERY_QUERY_DOCUMENT;
 
   @override
-  final String operationName = 'some_query';
+  final String operationName = SOME_QUERY_QUERY_DOCUMENT_OPERATION_NAME;
 
   @override
   final SomeQueryArguments variables;

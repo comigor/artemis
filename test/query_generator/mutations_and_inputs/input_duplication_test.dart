@@ -250,6 +250,7 @@ class CustomArguments extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$CustomArgumentsToJson(this);
 }
 
+final CUSTOM_MUTATION_DOCUMENT_OPERATION_NAME = 'custom';
 final CUSTOM_MUTATION_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.mutation,
@@ -291,7 +292,7 @@ class CustomMutation extends GraphQLQuery<Custom$Mutation, CustomArguments> {
   final DocumentNode document = CUSTOM_MUTATION_DOCUMENT;
 
   @override
-  final String operationName = 'custom';
+  final String operationName = CUSTOM_MUTATION_DOCUMENT_OPERATION_NAME;
 
   @override
   final CustomArguments variables;
@@ -319,6 +320,7 @@ class CustomListArguments extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$CustomListArgumentsToJson(this);
 }
 
+final CUSTOM_LIST_MUTATION_DOCUMENT_OPERATION_NAME = 'customList';
 final CUSTOM_LIST_MUTATION_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.mutation,
@@ -363,7 +365,7 @@ class CustomListMutation
   final DocumentNode document = CUSTOM_LIST_MUTATION_DOCUMENT;
 
   @override
-  final String operationName = 'customList';
+  final String operationName = CUSTOM_LIST_MUTATION_DOCUMENT_OPERATION_NAME;
 
   @override
   final CustomListArguments variables;

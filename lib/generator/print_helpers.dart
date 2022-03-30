@@ -283,6 +283,8 @@ List<Spec> generateQueryClassSpec(QueryDefinition definition) {
 
   final name = '${definition.className}${definition.suffix}';
   final documentName = ReCase('${name}Document').constantCase;
+  final documentOperationName =
+      ReCase('${name}DocumentOperationName').constantCase;
 
   final constructor = definition.inputs.isEmpty
       ? Constructor()
@@ -310,7 +312,7 @@ List<Spec> generateQueryClassSpec(QueryDefinition definition) {
         ..modifier = FieldModifier.final$
         ..type = refer('String')
         ..name = 'operationName'
-        ..assignment = Code('\'${definition.operationName}\''),
+        ..assignment = Code(documentOperationName),
     ),
   ];
 
@@ -327,6 +329,7 @@ List<Spec> generateQueryClassSpec(QueryDefinition definition) {
   return [
     Block((b) => b
       ..statements.addAll([
+        Code("final $documentOperationName = '${definition.operationName}';"),
         Code('final $documentName = '),
         dart.fromNode(definition.document).code,
         Code(';'),

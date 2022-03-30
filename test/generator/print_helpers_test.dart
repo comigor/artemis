@@ -474,6 +474,7 @@ import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
 part 'test_query.graphql.g.dart';
 
+final TEST_QUERY_QUERY_DOCUMENT_OPERATION_NAME = 'test_query';
 final TEST_QUERY_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
@@ -490,7 +491,7 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, JsonSerializable> {
   final DocumentNode document = TEST_QUERY_QUERY_DOCUMENT;
 
   @override
-  final String operationName = 'test_query';
+  final String operationName = TEST_QUERY_QUERY_DOCUMENT_OPERATION_NAME;
 
   @override
   List<Object?> get props => [document, operationName];
@@ -520,7 +521,7 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, JsonSerializable> {
 
       writeLibraryDefinitionToBuffer(buffer, ignoreForFile, definition);
 
-      expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
+      expect(buffer.toString(), r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 // @dart = 2.12
 
 import 'package:artemis/artemis.dart';
@@ -535,16 +536,17 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
 
   @override
   factory TestQueryArguments.fromJson(Map<String, dynamic> json) =>
-      _\$TestQueryArgumentsFromJson(json);
+      _$TestQueryArgumentsFromJson(json);
 
   final Type? name;
 
   @override
   List<Object?> get props => [name];
   @override
-  Map<String, dynamic> toJson() => _\$TestQueryArgumentsToJson(this);
+  Map<String, dynamic> toJson() => _$TestQueryArgumentsToJson(this);
 }
 
+final TEST_QUERY_QUERY_DOCUMENT_OPERATION_NAME = 'test_query';
 final TEST_QUERY_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
@@ -561,7 +563,7 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
   final DocumentNode document = TEST_QUERY_QUERY_DOCUMENT;
 
   @override
-  final String operationName = 'test_query';
+  final String operationName = TEST_QUERY_QUERY_DOCUMENT_OPERATION_NAME;
 
   @override
   final TestQueryArguments variables;
@@ -622,8 +624,9 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
       final str =
           generateQueryClassSpec(definition).map((e) => specToString(e)).join();
 
-      expect(
-          str, '''final TEST_QUERY_QUERY_DOCUMENT = DocumentNode(definitions: [
+      expect(str,
+          r'''final TEST_QUERY_QUERY_DOCUMENT_OPERATION_NAME = 'test_query';
+final TEST_QUERY_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
       name: NameNode(value: 'test_query'),
@@ -638,7 +641,7 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
   final DocumentNode document = TEST_QUERY_QUERY_DOCUMENT;
 
   @override
-  final String operationName = 'test_query';
+  final String operationName = TEST_QUERY_QUERY_DOCUMENT_OPERATION_NAME;
 
   @override
   final TestQueryArguments variables;

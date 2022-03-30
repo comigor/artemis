@@ -266,6 +266,7 @@ class GetPokemonArguments extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$GetPokemonArgumentsToJson(this);
 }
 
+final GET_POKEMON_QUERY_DOCUMENT_OPERATION_NAME = 'getPokemon';
 final GET_POKEMON_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
@@ -324,7 +325,7 @@ class GetPokemonQuery
   final DocumentNode document = GET_POKEMON_QUERY_DOCUMENT;
 
   @override
-  final String operationName = 'getPokemon';
+  final String operationName = GET_POKEMON_QUERY_DOCUMENT_OPERATION_NAME;
 
   @override
   final GetPokemonArguments variables;
@@ -352,6 +353,7 @@ class GetAllPokemonsArguments extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$GetAllPokemonsArgumentsToJson(this);
 }
 
+final GET_ALL_POKEMONS_QUERY_DOCUMENT_OPERATION_NAME = 'getAllPokemons';
 final GET_ALL_POKEMONS_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
@@ -409,7 +411,7 @@ class GetAllPokemonsQuery
   final DocumentNode document = GET_ALL_POKEMONS_QUERY_DOCUMENT;
 
   @override
-  final String operationName = 'getAllPokemons';
+  final String operationName = GET_ALL_POKEMONS_QUERY_DOCUMENT_OPERATION_NAME;
 
   @override
   final GetAllPokemonsArguments variables;

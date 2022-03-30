@@ -346,6 +346,7 @@ enum ArticleType {
   artemisUnknown,
 }
 
+final BROWSE_ARTICLES_QUERY_DOCUMENT_OPERATION_NAME = 'BrowseArticles';
 final BROWSE_ARTICLES_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
@@ -389,7 +390,7 @@ class BrowseArticlesQuery
   final DocumentNode document = BROWSE_ARTICLES_QUERY_DOCUMENT;
 
   @override
-  final String operationName = 'BrowseArticles';
+  final String operationName = BROWSE_ARTICLES_QUERY_DOCUMENT_OPERATION_NAME;
 
   @override
   List<Object?> get props => [document, operationName];
@@ -514,6 +515,7 @@ class BrowseRepositoriesArguments extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$BrowseRepositoriesArgumentsToJson(this);
 }
 
+final BROWSE_REPOSITORIES_QUERY_DOCUMENT_OPERATION_NAME = 'BrowseRepositories';
 final BROWSE_REPOSITORIES_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
@@ -578,7 +580,8 @@ class BrowseRepositoriesQuery extends GraphQLQuery<BrowseRepositories$Query,
   final DocumentNode document = BROWSE_REPOSITORIES_QUERY_DOCUMENT;
 
   @override
-  final String operationName = 'BrowseRepositories';
+  final String operationName =
+      BROWSE_REPOSITORIES_QUERY_DOCUMENT_OPERATION_NAME;
 
   @override
   final BrowseRepositoriesArguments variables;
