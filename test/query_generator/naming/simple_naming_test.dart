@@ -153,6 +153,7 @@ class ClientEventsData$Query extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$ClientEventsData$QueryToJson(this);
 }
 
+final CLIENT_EVENTS_DATA_QUERY_DOCUMENT_OPERATION_NAME = 'ClientEventsData';
 final CLIENT_EVENTS_DATA_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
@@ -191,7 +192,7 @@ class ClientEventsDataQuery
   final DocumentNode document = CLIENT_EVENTS_DATA_QUERY_DOCUMENT;
 
   @override
-  final String operationName = 'ClientEventsData';
+  final String operationName = CLIENT_EVENTS_DATA_QUERY_DOCUMENT_OPERATION_NAME;
 
   @override
   List<Object?> get props => [document, operationName];

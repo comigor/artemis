@@ -298,6 +298,7 @@ class PokemonAttackMixin$Attack extends JsonSerializable
   Map<String, dynamic> toJson() => _$PokemonAttackMixin$AttackToJson(this);
 }
 
+final QUERY_QUERY_DOCUMENT_OPERATION_NAME = 'query';
 final QUERY_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
@@ -413,7 +414,7 @@ class QueryQuery extends GraphQLQuery<Query$Query, JsonSerializable> {
   final DocumentNode document = QUERY_QUERY_DOCUMENT;
 
   @override
-  final String operationName = 'query';
+  final String operationName = QUERY_QUERY_DOCUMENT_OPERATION_NAME;
 
   @override
   List<Object?> get props => [document, operationName];

@@ -404,6 +404,7 @@ class VoyagesDataArguments extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$VoyagesDataArgumentsToJson(this);
 }
 
+final VOYAGES_DATA_QUERY_DOCUMENT_OPERATION_NAME = 'VoyagesData';
 final VOYAGES_DATA_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
@@ -538,7 +539,7 @@ class VoyagesDataQuery
   final DocumentNode document = VOYAGES_DATA_QUERY_DOCUMENT;
 
   @override
-  final String operationName = 'VoyagesData';
+  final String operationName = VOYAGES_DATA_QUERY_DOCUMENT_OPERATION_NAME;
 
   @override
   final VoyagesDataArguments variables;

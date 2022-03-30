@@ -704,6 +704,7 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$Custom$QueryRootToJson(this);
 }
 
+final CUSTOM_QUERY_DOCUMENT_OPERATION_NAME = 'custom';
 final CUSTOM_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
@@ -762,7 +763,7 @@ class CustomQuery extends GraphQLQuery<Custom$QueryRoot, JsonSerializable> {
   final DocumentNode document = CUSTOM_QUERY_DOCUMENT;
 
   @override
-  final String operationName = 'custom';
+  final String operationName = CUSTOM_QUERY_DOCUMENT_OPERATION_NAME;
 
   @override
   List<Object?> get props => [document, operationName];

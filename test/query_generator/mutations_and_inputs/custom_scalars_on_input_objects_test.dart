@@ -227,6 +227,7 @@ class CustomArguments extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$CustomArgumentsToJson(this);
 }
 
+final CUSTOM_MUTATION_DOCUMENT_OPERATION_NAME = 'custom';
 final CUSTOM_MUTATION_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.mutation,
@@ -289,7 +290,7 @@ class CustomMutation
   final DocumentNode document = CUSTOM_MUTATION_DOCUMENT;
 
   @override
-  final String operationName = 'custom';
+  final String operationName = CUSTOM_MUTATION_DOCUMENT_OPERATION_NAME;
 
   @override
   final CustomArguments variables;

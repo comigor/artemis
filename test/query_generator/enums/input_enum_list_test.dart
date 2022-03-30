@@ -182,6 +182,7 @@ class BrowseArticlesArguments extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$BrowseArticlesArgumentsToJson(this);
 }
 
+final BROWSE_ARTICLES_QUERY_DOCUMENT_OPERATION_NAME = 'BrowseArticles';
 final BROWSE_ARTICLES_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
@@ -238,7 +239,7 @@ class BrowseArticlesQuery
   final DocumentNode document = BROWSE_ARTICLES_QUERY_DOCUMENT;
 
   @override
-  final String operationName = 'BrowseArticles';
+  final String operationName = BROWSE_ARTICLES_QUERY_DOCUMENT_OPERATION_NAME;
 
   @override
   final BrowseArticlesArguments variables;
