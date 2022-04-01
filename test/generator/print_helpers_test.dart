@@ -501,6 +501,46 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, JsonSerializable> {
 ''');
     });
 
+    test(
+        'When generateHelpers is false and generateQueries is true, an execute fn is generated.',
+        () {
+      final buffer = StringBuffer();
+      final definition = LibraryDefinition(
+        basename: r'test_query.graphql',
+        queries: [
+          QueryDefinition(
+            name: QueryName(name: 'test_query'),
+            operationName: 'test_query',
+            document: parseString('query test_query {}'),
+            generateHelpers: false,
+            generateQueries: true,
+          )
+        ],
+      );
+      final ignoreForFile = <String>[];
+
+      writeLibraryDefinitionToBuffer(buffer, ignoreForFile, definition);
+
+      expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart = 2.12
+
+import 'package:json_annotation/json_annotation.dart';
+import 'package:equatable/equatable.dart';
+import 'package:gql/ast.dart';
+part 'test_query.graphql.g.dart';
+
+final TEST_QUERY_QUERY_DOCUMENT_OPERATION_NAME = 'test_query';
+final TEST_QUERY_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+      type: OperationType.query,
+      name: NameNode(value: 'test_query'),
+      variableDefinitions: [],
+      directives: [],
+      selectionSet: SelectionSetNode(selections: []))
+]);
+''');
+    });
+
     test('The generated execute fn could have input.', () {
       final buffer = StringBuffer();
       final definition =
@@ -621,8 +661,8 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
         suffix: 'Query',
       );
 
-      final str =
-          generateQueryClassSpec(definition).map((e) => specToString(e)).join();
+      final str = specToString(generateQuerySpec(definition)) +
+          specToString(generateQueryClassSpec(definition));
 
       expect(str,
           r'''final TEST_QUERY_QUERY_DOCUMENT_OPERATION_NAME = 'test_query';

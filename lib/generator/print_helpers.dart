@@ -275,16 +275,24 @@ Spec generateArgumentClassSpec(QueryDefinition definition) {
   );
 }
 
+Spec generateQuerySpec(QueryDefinition definition) {
+  return Block((b) => b
+    ..statements.addAll([
+      Code(
+          "final ${definition.documentOperationName.constantCase} = '${definition.operationName}';"),
+      Code('final ${definition.documentName.constantCase} = '),
+      dart.fromNode(definition.document).code,
+      Code(';'),
+    ]));
+}
+
 /// Generates a [Spec] of a query/mutation class.
-List<Spec> generateQueryClassSpec(QueryDefinition definition) {
+Spec generateQueryClassSpec(QueryDefinition definition) {
   final typeDeclaration = definition.inputs.isEmpty
       ? '${definition.name.namePrintable}, JsonSerializable'
       : '${definition.name.namePrintable}, ${definition.className}Arguments';
 
   final name = '${definition.className}${definition.suffix}';
-  final documentName = ReCase('${name}Document').constantCase;
-  final documentOperationName =
-      ReCase('${name}DocumentOperationName').constantCase;
 
   final constructor = definition.inputs.isEmpty
       ? Constructor()
@@ -304,7 +312,7 @@ List<Spec> generateQueryClassSpec(QueryDefinition definition) {
         ..modifier = FieldModifier.final$
         ..type = refer('DocumentNode', 'package:gql/ast.dart')
         ..name = 'document'
-        ..assignment = Code(documentName),
+        ..assignment = Code(definition.documentName.constantCase),
     ),
     Field(
       (f) => f
@@ -312,7 +320,7 @@ List<Spec> generateQueryClassSpec(QueryDefinition definition) {
         ..modifier = FieldModifier.final$
         ..type = refer('String')
         ..name = 'operationName'
-        ..assignment = Code(documentOperationName),
+        ..assignment = Code(definition.documentOperationName.constantCase),
     ),
   ];
 
@@ -326,39 +334,30 @@ List<Spec> generateQueryClassSpec(QueryDefinition definition) {
     ));
   }
 
-  return [
-    Block((b) => b
-      ..statements.addAll([
-        Code("final $documentOperationName = '${definition.operationName}';"),
-        Code('final $documentName = '),
-        dart.fromNode(definition.document).code,
-        Code(';'),
-      ])),
-    Class(
-      (b) => b
-        ..name = name
-        ..extend = refer('GraphQLQuery<$typeDeclaration>')
-        ..constructors.add(constructor)
-        ..fields.addAll(fields)
-        ..methods.add(_propsMethod([
-          'document',
-          'operationName${definition.inputs.isNotEmpty ? ', variables' : ''}'
-        ]))
-        ..methods.add(Method(
-          (m) => m
-            ..annotations.add(CodeExpression(Code('override')))
-            ..returns = refer(definition.name.namePrintable)
-            ..name = 'parse'
-            ..requiredParameters.add(Parameter(
-              (p) => p
-                ..type = refer('Map<String, dynamic>')
-                ..name = 'json',
-            ))
-            ..lambda = true
-            ..body = Code('${definition.name.namePrintable}.fromJson(json)'),
-        )),
-    )
-  ];
+  return Class(
+    (b) => b
+      ..name = name
+      ..extend = refer('GraphQLQuery<$typeDeclaration>')
+      ..constructors.add(constructor)
+      ..fields.addAll(fields)
+      ..methods.add(_propsMethod([
+        'document',
+        'operationName${definition.inputs.isNotEmpty ? ', variables' : ''}'
+      ]))
+      ..methods.add(Method(
+        (m) => m
+          ..annotations.add(CodeExpression(Code('override')))
+          ..returns = refer(definition.name.namePrintable)
+          ..name = 'parse'
+          ..requiredParameters.add(Parameter(
+            (p) => p
+              ..type = refer('Map<String, dynamic>')
+              ..name = 'json',
+          ))
+          ..lambda = true
+          ..body = Code('${definition.name.namePrintable}.fromJson(json)'),
+      )),
+  );
 }
 
 /// Gathers and generates a [Spec] of a whole query/mutation and its
@@ -405,11 +404,17 @@ Spec generateLibrarySpec(LibraryDefinition definition) {
   bodyDirectives.addAll(enums.map(enumDefinitionToSpec));
 
   for (final queryDef in definition.queries) {
-    if (queryDef.inputs.isNotEmpty && queryDef.generateHelpers) {
+    if (queryDef.inputs.isNotEmpty &&
+        (queryDef.generateHelpers || queryDef.generateQueries)) {
       bodyDirectives.add(generateArgumentClassSpec(queryDef));
     }
+
+    if (queryDef.generateHelpers || queryDef.generateQueries) {
+      bodyDirectives.add(generateQuerySpec(queryDef));
+    }
+
     if (queryDef.generateHelpers) {
-      bodyDirectives.addAll(generateQueryClassSpec(queryDef));
+      bodyDirectives.add(generateQueryClassSpec(queryDef));
     }
   }
 

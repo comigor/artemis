@@ -17,6 +17,7 @@ Future testGenerator({
   String namingScheme = 'pathedWithTypes',
   bool appendTypeName = false,
   bool generateHelpers = false,
+  bool generateQueries = false,
   Map<String, dynamic> builderOptionsMap = const {},
   Map<String, Object> sourceAssetsMap = const {},
   Map<String, Object> outputsMap = const {},
@@ -25,6 +26,7 @@ Future testGenerator({
 
   final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
     if (!generateHelpers) 'generate_helpers': false,
+    if (!generateQueries) 'generate_queries': false,
     'schema_mapping': [
       {
         'schema': 'api.schema.graphql',
@@ -66,6 +68,7 @@ Future testNaming({
 }) {
   final anotherBuilder = graphQLQueryBuilder(BuilderOptions({
     'generate_helpers': false,
+    'generate_queries': false,
     'schema_mapping': [
       {
         'schema': 'api.schema.graphql',

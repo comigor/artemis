@@ -23,6 +23,9 @@ class QueryDefinition extends Definition with DataPrinter {
   /// If instances of [GraphQLQuery] should be generated.
   final bool generateHelpers;
 
+  /// If query documents and operation names should be generated
+  final bool generateQueries;
+
   /// The suffix of generated [GraphQLQuery] classes.
   final String suffix;
 
@@ -34,12 +37,20 @@ class QueryDefinition extends Definition with DataPrinter {
     this.classes = const [],
     this.inputs = const [],
     this.generateHelpers = false,
+    this.generateQueries = false,
     this.suffix = 'Query',
   })  : assert(hasValue(operationName)),
         super(name: name);
 
   /// class name for helper classes
   String? get className => ClassName(name: operationName).namePrintable;
+
+  /// name for document constant
+  String get documentName => '$className${suffix}Document';
+
+  /// name for document operation name constant
+  String get documentOperationName =>
+      '$className${suffix}DocumentOperationName';
 
   @override
   Map<String, Object?> get namedProps => {
