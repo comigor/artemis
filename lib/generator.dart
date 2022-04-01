@@ -259,6 +259,7 @@ Iterable<QueryDefinition> generateDefinitions({
       ],
       inputs: visitor.context.inputsClasses,
       generateHelpers: options.generateHelpers,
+      generateQueries: options.generateQueries,
       suffix: suffix,
     );
   });

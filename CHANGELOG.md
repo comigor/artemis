@@ -4,6 +4,14 @@
 
 - operation name constant
 
+## 7.6.2-beta
+
+- generate_queries flag to signify if query documents and operation names should be generated
+
+## 7.6.1-beta
+
+- operation name constant
+
 ## 7.6.0-beta
 
 - package updates

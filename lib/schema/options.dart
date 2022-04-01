@@ -12,6 +12,10 @@ class GeneratorOptions {
   @JsonKey(defaultValue: true)
   final bool generateHelpers;
 
+  /// If query documents and operation names should be generated
+  @JsonKey(defaultValue: true)
+  final bool generateQueries;
+
   /// A list of scalar mappings.
   @JsonKey(defaultValue: [])
   final List<ScalarMap?> scalarMapping;
@@ -31,6 +35,7 @@ class GeneratorOptions {
   /// Instantiate generator options.
   GeneratorOptions({
     this.generateHelpers = true,
+    this.generateQueries = true,
     this.scalarMapping = const [],
     this.fragmentsGlob,
     this.schemaMapping = const [],

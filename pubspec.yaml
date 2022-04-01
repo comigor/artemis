@@ -1,5 +1,5 @@
 name: artemis
-version: 7.6.1-beta
+version: 7.6.2-beta
 
 description: Build dart types from GraphQL schemas and queries (using Introspection Query).
 homepage: https://github.com/comigor/artemis
