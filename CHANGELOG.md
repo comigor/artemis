@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 7.7.0-beta
+
+- package update
+
 ## 7.6.1-beta
 
 - operation name constant
