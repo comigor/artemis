@@ -8,33 +8,32 @@ environment:
   sdk: ">=2.8.0 <3.0.0"
 
 dependencies:
-  build_config: ^0.4.5
-  build: ^1.6.1
-  code_builder: ^3.5.0
+  build_config: ^1.0.0
+  build: ^2.1.0
+  code_builder: ^4.1.0
   collection: ^1.14.13
-  dart_style: ^1.3.10
+  dart_style: ^2.2.3
   equatable: ^1.2.5
-  glob: ^1.2.0
-  gql_code_gen: ^0.1.5
-  gql_dedupe_link: ^1.0.10
-  gql_exec: ^0.2.5
-  gql_http_link: ^0.3.2
-  gql_link: ^0.3.1-alpha
-  gql: ^0.12.4
-  http: ^0.12.2
-  json_annotation: ^3.1.1
+  glob: ^2.0.2
+  gql_dedupe_link: ^2.0.2
+  gql_exec: ^0.4.0
+  gql_http_link: ^0.4.2
+  gql_link: ^0.4.2
+  gql: ^0.13.1
+  http: ^0.13.4
+  json_annotation: ^4.4.0
   meta: ^1.2.4
   path: ^1.7.0
   recase: ^3.0.1
-  source_gen: ^0.9.10+1
-  yaml: ^2.2.1
+  source_gen: ^1.2.2
+  yaml: ^3.1.0
 
 dev_dependencies:
-  args: ^1.6.0
-  build_runner: ^1.10.11
-  build_test: ^1.3.2
-  json_serializable: ^3.5.1
-  build_resolvers: ^1.5.1
+  args: ^2.3.0
+  build_runner: ^2.1.5
+  build_test: ^2.1.5
+  json_serializable: ^6.1.1
+  build_resolvers: ^2.0.8
+  logging: ^1.0.0
   pedantic: ^1.9.2
   test: ^1.15.7
-  logging: ^0.11.4
