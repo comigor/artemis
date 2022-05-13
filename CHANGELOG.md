@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 7.8.0-beta
+
+- package update
+
+
 ## 7.7.0-beta
 
 - package update
