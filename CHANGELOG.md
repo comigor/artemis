@@ -1,9 +1,12 @@
 # CHANGELOG
 
+## 7.9.0-beta
+
+- common fragments overlap fix
+
 ## 7.8.0-beta
 
 - package update
-
 
 ## 7.7.0-beta
 

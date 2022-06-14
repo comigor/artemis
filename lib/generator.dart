@@ -16,7 +16,7 @@ import './generator/graphql_helpers.dart' as gql;
 import './generator/helpers.dart';
 import './schema/options.dart';
 
-typedef _OnNewClassFoundCallback = void Function(Context context);
+typedef OnNewClassFoundCallback = void Function(Context context);
 
 /// Enum value for values not mapped in the GraphQL enum
 final EnumValueDefinition artemisUnknown = EnumValueDefinition(
@@ -286,7 +286,7 @@ ClassProperty createClassProperty({
   required ClassPropertyName fieldName,
   ClassPropertyName? fieldAlias,
   required Context context,
-  _OnNewClassFoundCallback? onNewClassFound,
+  OnNewClassFoundCallback? onNewClassFound,
   bool markAsUsed = true,
 }) {
   if (fieldName.name == context.schemaMap.typeNameField) {
