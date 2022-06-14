@@ -59,7 +59,7 @@ class GraphQLQueryBuilder implements Builder {
   final GeneratorOptions options;
 
   /// List FragmentDefinitionNode in fragments_glob.
-  List<FragmentDefinitionNode> fragmentsCommon = [];
+  // List<FragmentDefinitionNode> fragmentsCommon = [];
 
   /// The generated output file.
   final List<String> expectedOutputs;
@@ -91,6 +91,8 @@ class GraphQLQueryBuilder implements Builder {
 
   @override
   Future<void> build(BuildStep buildStep) async {
+    List<FragmentDefinitionNode> fragmentsCommon = [];
+
     final fragmentsGlob = options.fragmentsGlob;
     if (fragmentsGlob != null) {
       final commonFragments = (await readGraphQlFiles(buildStep, fragmentsGlob))
@@ -106,6 +108,9 @@ class GraphQLQueryBuilder implements Builder {
     }
 
     for (final schemaMap in options.schemaMapping) {
+      List<FragmentDefinitionNode> schemaCommonFragments = [
+        ...fragmentsCommon,
+      ];
       final schemaFragmentsGlob = schemaMap.fragmentsGlob;
       if (schemaFragmentsGlob != null) {
         final schemaFragments =
@@ -118,7 +123,7 @@ class GraphQLQueryBuilder implements Builder {
           throw MissingFilesException(schemaFragmentsGlob);
         }
 
-        fragmentsCommon.addAll(schemaFragments);
+        schemaCommonFragments.addAll(schemaFragments);
       }
 
       final queriesGlob = schemaMap.queriesGlob;
@@ -169,7 +174,7 @@ class GraphQLQueryBuilder implements Builder {
           },
         ).toList();
 
-        fragmentsCommon = fragmentsCommon
+        schemaCommonFragments = schemaCommonFragments
             .map((fragments) => transform(
                   fragments,
                   [AppendTypename(schemaMap.typeNameField)],
@@ -182,7 +187,7 @@ class GraphQLQueryBuilder implements Builder {
         gqlDocs,
         options,
         schemaMap,
-        fragmentsCommon,
+        schemaCommonFragments,
         gqlSchema.first,
       );
 

@@ -3,8 +3,8 @@ import 'package:build/build.dart';
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:gql/ast.dart';
 
-typedef _IterableFunction<T, U> = U Function(T i);
-typedef _MergeableFunction<T> = T Function(T oldT, T newT);
+typedef IterableFunction<T, U> = U Function(T i);
+typedef MergeableFunction<T> = T Function(T oldT, T newT);
 
 /// a list of dart lang keywords
 List<String> dartKeywords = const [
@@ -72,7 +72,7 @@ List<String> dartKeywords = const [
 ];
 
 Iterable<T> _removeDuplicatedBy<T, U>(
-    Iterable<T> list, _IterableFunction<T, U> fn) {
+    Iterable<T> list, IterableFunction<T, U> fn) {
   final values = <U, bool>{};
   return list.where((i) {
     final value = fn(i);
@@ -102,8 +102,11 @@ String normalizeName(String name) {
   return name;
 }
 
-Iterable<T> _mergeDuplicatesBy<T, U>(Iterable<T> list,
-    _IterableFunction<T, U> fn, _MergeableFunction<T> mergeFn) {
+Iterable<T> _mergeDuplicatesBy<T, U>(
+  Iterable<T> list,
+  IterableFunction<T, U> fn,
+  MergeableFunction<T> mergeFn,
+) {
   final values = <U, T>{};
   for (final i in list) {
     final value = fn(i);
@@ -118,12 +121,12 @@ extension ExtensionsOnIterable<T, U> on Iterable<T> {
   /// Merge multiple values from an iterable given a predicate without modifying
   /// the original iterable.
   Iterable<T> mergeDuplicatesBy(
-          _IterableFunction<T, U> fn, _MergeableFunction<T> mergeFn) =>
+          IterableFunction<T, U> fn, MergeableFunction<T> mergeFn) =>
       _mergeDuplicatesBy(this, fn, mergeFn);
 
   /// Remove duplicated values from an iterable given a predicate without
   /// modifying the original iterable.
-  Iterable<T> removeDuplicatedBy(_IterableFunction<T, U> fn) =>
+  Iterable<T> removeDuplicatedBy(IterableFunction<T, U> fn) =>
       _removeDuplicatedBy(this, fn);
 }
 
