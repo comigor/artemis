@@ -32,7 +32,7 @@ class ClassDefinition extends Definition with DataPrinter {
   /// Instantiate a class definition.
   ClassDefinition({
     required Name name,
-    this.properties = const [],
+    Iterable<ClassProperty> properties = const [],
     this.extension,
     this.implementations = const [],
     this.mixins = const [],
@@ -40,6 +40,20 @@ class ClassDefinition extends Definition with DataPrinter {
     ClassPropertyName? typeNameField,
     this.isInput = false,
   })  : typeNameField = typeNameField ?? ClassPropertyName(name: '__typename'),
+        properties = properties.any(
+                (p) => p.name.name == (typeNameField?.name ?? '__typename'))
+            ? properties
+            : [
+                ...properties,
+                ClassProperty(
+                  type: TypeName(name: 'String'),
+                  name: typeNameField ?? ClassPropertyName(name: '__typename'),
+                  annotations: [
+                    'JsonKey(name: \'${typeNameField?.name ?? '__typename'}\')'
+                  ],
+                  isResolveType: true,
+                )
+              ],
         super(name: name);
 
   @override

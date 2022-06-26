@@ -77,6 +77,11 @@ class GeneratorVisitor extends RecursiveVisitor {
     final fieldName = node.name.value;
     final name = node.alias?.value;
 
+    // If the user explicitly adds typeNameField, ignore it
+    if (fieldName == context.schemaMap.typeNameField) {
+      return;
+    }
+
     final property = createClassProperty(
       fieldName: ClassPropertyName(name: fieldName),
       fieldAlias: name != null ? ClassPropertyName(name: name) : null,
