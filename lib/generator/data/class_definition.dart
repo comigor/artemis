@@ -40,7 +40,7 @@ class ClassDefinition extends Definition with DataPrinter {
     ClassPropertyName? typeNameField,
     this.isInput = false,
   })  : typeNameField = typeNameField ?? ClassPropertyName(name: '__typename'),
-        properties = properties.any(
+        properties = isInput || properties.any(
                 (p) => p.name.name == (typeNameField?.name ?? '__typename'))
             ? properties
             : [
