@@ -12,11 +12,30 @@ class FragmentClassDefinition extends Definition with DataPrinter {
   /// The properties (fields) of the class.
   final Iterable<ClassProperty> properties;
 
+  /// The field name used to resolve this class type.
+  final ClassPropertyName typeNameField;
+
   /// Instantiate a fragment class definition.
   FragmentClassDefinition({
     required this.name,
-    required this.properties,
+    required Iterable<ClassProperty> properties,
+    ClassPropertyName? typeNameField,
   })  : assert(hasValue(name) && hasValue(properties)),
+        typeNameField = typeNameField ?? ClassPropertyName(name: '__typename'),
+        properties = properties.any(
+                (p) => p.name.name == (typeNameField?.name ?? '__typename'))
+            ? properties
+            : [
+                ...properties,
+                ClassProperty(
+                  type: TypeName(name: 'String'),
+                  name: typeNameField ?? ClassPropertyName(name: '__typename'),
+                  annotations: [
+                    'JsonKey(name: \'${typeNameField?.name ?? '__typename'}\')'
+                  ],
+                  isResolveType: true,
+                )
+              ],
         super(name: name);
 
   @override
