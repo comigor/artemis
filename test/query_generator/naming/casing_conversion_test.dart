@@ -224,13 +224,17 @@ class SomeObject extends JsonSerializable with EquatableMixin {
   @JsonKey(unknownEnumValue: MyEnum.artemisUnknown)
   MyEnum? e;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
   List<Object?> get props => [
         camelCaseField,
         pascalCaseField,
         snakeCaseField,
         screamingSnakeCaseField,
-        e
+        e,
+        $$typename
       ];
   @override
   Map<String, dynamic> toJson() => _$SomeObjectToJson(this);
@@ -245,8 +249,11 @@ class SomeQuery$Query extends JsonSerializable with EquatableMixin {
 
   SomeObject? query;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [query];
+  List<Object?> get props => [query, $$typename];
   @override
   Map<String, dynamic> toJson() => _$SomeQuery$QueryToJson(this);
 }

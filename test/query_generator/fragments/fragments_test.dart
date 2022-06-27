@@ -74,6 +74,8 @@ part 'query.graphql.g.dart';
 mixin MyFragmentMixin {
   String? s;
   int? i;
+  @JsonKey(name: '__typename')
+  String? $$typename;
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -84,8 +86,11 @@ class SomeQuery$SomeObject extends JsonSerializable
   factory SomeQuery$SomeObject.fromJson(Map<String, dynamic> json) =>
       _$SomeQuery$SomeObjectFromJson(json);
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [s, i];
+  List<Object?> get props => [s, i, $$typename];
   @override
   Map<String, dynamic> toJson() => _$SomeQuery$SomeObjectToJson(this);
 }

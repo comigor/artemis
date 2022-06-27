@@ -169,8 +169,11 @@ class Custom$Mutation$Mut extends JsonSerializable with EquatableMixin {
 
   String? s;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [s];
+  List<Object?> get props => [s, $$typename];
   @override
   Map<String, dynamic> toJson() => _$Custom$Mutation$MutToJson(this);
 }
@@ -184,8 +187,11 @@ class Custom$Mutation extends JsonSerializable with EquatableMixin {
 
   Custom$Mutation$Mut? mut;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [mut];
+  List<Object?> get props => [mut, $$typename];
   @override
   Map<String, dynamic> toJson() => _$Custom$MutationToJson(this);
 }
@@ -213,8 +219,11 @@ class CustomList$Mutation$MutList extends JsonSerializable with EquatableMixin {
 
   String? s;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [s];
+  List<Object?> get props => [s, $$typename];
   @override
   Map<String, dynamic> toJson() => _$CustomList$Mutation$MutListToJson(this);
 }
@@ -228,8 +237,11 @@ class CustomList$Mutation extends JsonSerializable with EquatableMixin {
 
   CustomList$Mutation$MutList? mutList;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [mutList];
+  List<Object?> get props => [mutList, $$typename];
   @override
   Map<String, dynamic> toJson() => _$CustomList$MutationToJson(this);
 }

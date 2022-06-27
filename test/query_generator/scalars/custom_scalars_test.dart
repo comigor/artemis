@@ -251,8 +251,11 @@ class Query$SomeObject extends JsonSerializable with EquatableMixin {
 
   Map<String, dynamic>? b;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [a, b];
+  List<Object?> get props => [a, b, $$typename];
   @override
   Map<String, dynamic> toJson() => _$Query$SomeObjectToJson(this);
 }
@@ -280,8 +283,11 @@ class Query$SomeObject extends JsonSerializable with EquatableMixin {
       toJson: fromDartMyDartUuidNullableToGraphQLMyUuidNullable)
   MyDartUuid? a;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [a];
+  List<Object?> get props => [a, $$typename];
   @override
   Map<String, dynamic> toJson() => _$Query$SomeObjectToJson(this);
 }
@@ -337,8 +343,11 @@ class Query$SomeObject extends JsonSerializable with EquatableMixin {
       toJson: fromDartListNullableMyUuidToGraphQLListNullableMyUuid)
   List<MyUuid>? f;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [a, b, c, d, e, f];
+  List<Object?> get props => [a, b, c, d, e, f, $$typename];
   @override
   Map<String, dynamic> toJson() => _$Query$SomeObjectToJson(this);
 }

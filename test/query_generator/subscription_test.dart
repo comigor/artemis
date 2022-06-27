@@ -152,8 +152,11 @@ class NewUserSub$Subscription$User extends JsonSerializable
   @JsonKey(unknownEnumValue: UserType.artemisUnknown)
   late UserType userType;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [firstName, lastName, userType];
+  List<Object?> get props => [firstName, lastName, userType, $$typename];
   @override
   Map<String, dynamic> toJson() => _$NewUserSub$Subscription$UserToJson(this);
 }
@@ -167,8 +170,11 @@ class NewUserSub$Subscription extends JsonSerializable with EquatableMixin {
 
   late NewUserSub$Subscription$User newUser;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [newUser];
+  List<Object?> get props => [newUser, $$typename];
   @override
   Map<String, dynamic> toJson() => _$NewUserSub$SubscriptionToJson(this);
 }

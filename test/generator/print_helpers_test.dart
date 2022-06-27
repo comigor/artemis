@@ -42,7 +42,7 @@ void main() {
 
       final str = specToString(enumDefinitionToSpec(definition));
 
-      expect(str, '''enum Name {
+      expect(str, r'''enum Name {
   @JsonValue('Option')
   option,
   @JsonValue('anotherOption')
@@ -73,7 +73,7 @@ void main() {
 
       final str = specToString(enumDefinitionToSpec(definition));
 
-      expect(str, '''enum Name {
+      expect(str, r'''enum Name {
   @JsonValue('Option')
   option,
   @JsonValue('AnotherOption')
@@ -110,12 +110,14 @@ void main() {
 
       final str = specToString(fragmentClassDefinitionToSpec(definition));
 
-      expect(str, '''mixin FragmentMixin {
+      expect(str, r'''mixin FragmentMixin {
   Type? name;
   @override
   Type? name;
   @Test
   Type? name;
+  @JsonKey(name: '__typename')
+  String? $$typename;
 }
 ''');
     });
@@ -141,16 +143,19 @@ void main() {
 
       final str = specToString(classDefinitionToSpec(definition, [], []));
 
-      expect(str, '''@JsonSerializable(explicitToJson: true)
+      expect(str, r'''@JsonSerializable(explicitToJson: true)
 class AClass extends JsonSerializable with EquatableMixin {
   AClass();
 
-  factory AClass.fromJson(Map<String, dynamic> json) => _\$AClassFromJson(json);
+  factory AClass.fromJson(Map<String, dynamic> json) => _$AClassFromJson(json);
+
+  @JsonKey(name: '__typename')
+  String? $$typename;
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [$$typename];
   @override
-  Map<String, dynamic> toJson() => _\$AClassToJson(this);
+  Map<String, dynamic> toJson() => _$AClassToJson(this);
 }
 ''');
     });
@@ -163,16 +168,19 @@ class AClass extends JsonSerializable with EquatableMixin {
 
       final str = specToString(classDefinitionToSpec(definition, [], []));
 
-      expect(str, '''@JsonSerializable(explicitToJson: true)
+      expect(str, r'''@JsonSerializable(explicitToJson: true)
 class AClass extends AnotherClass with EquatableMixin {
   AClass();
 
-  factory AClass.fromJson(Map<String, dynamic> json) => _\$AClassFromJson(json);
+  factory AClass.fromJson(Map<String, dynamic> json) => _$AClassFromJson(json);
+
+  @JsonKey(name: '__typename')
+  String? $$typename;
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [$$typename];
   @override
-  Map<String, dynamic> toJson() => _\$AClassToJson(this);
+  Map<String, dynamic> toJson() => _$AClassToJson(this);
 }
 ''');
     });
@@ -207,8 +215,11 @@ class AClass extends JsonSerializable with EquatableMixin {
     return _$AClassFromJson(json);
   }
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [$$typename];
   @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
@@ -237,20 +248,23 @@ class AClass extends JsonSerializable with EquatableMixin {
 
       final str = specToString(classDefinitionToSpec(definition, [], []));
 
-      expect(str, '''@JsonSerializable(explicitToJson: true)
+      expect(str, r'''@JsonSerializable(explicitToJson: true)
 class AClass extends JsonSerializable with EquatableMixin {
   AClass();
 
-  factory AClass.fromJson(Map<String, dynamic> json) => _\$AClassFromJson(json);
+  factory AClass.fromJson(Map<String, dynamic> json) => _$AClassFromJson(json);
 
   Type? name;
 
   AnotherType? anotherName;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [name, anotherName];
+  List<Object?> get props => [name, anotherName, $$typename];
   @override
-  Map<String, dynamic> toJson() => _\$AClassToJson(this);
+  Map<String, dynamic> toJson() => _$AClassToJson(this);
 }
 ''');
     });
@@ -279,11 +293,11 @@ class AClass extends JsonSerializable with EquatableMixin {
 
       final str = specToString(classDefinitionToSpec(definition, [], []));
 
-      expect(str, '''@JsonSerializable(explicitToJson: true)
+      expect(str, r'''@JsonSerializable(explicitToJson: true)
 class AClass extends JsonSerializable with EquatableMixin {
   AClass();
 
-  factory AClass.fromJson(Map<String, dynamic> json) => _\$AClassFromJson(json);
+  factory AClass.fromJson(Map<String, dynamic> json) => _$AClassFromJson(json);
 
   Type? nameA;
 
@@ -297,10 +311,13 @@ class AClass extends JsonSerializable with EquatableMixin {
   @Ho()
   AllAtOnce? nameD;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [nameA, nameB, nameC, nameD];
+  List<Object?> get props => [nameA, nameB, nameC, nameD, $$typename];
   @override
-  Map<String, dynamic> toJson() => _\$AClassToJson(this);
+  Map<String, dynamic> toJson() => _$AClassToJson(this);
 }
 ''');
     });
@@ -323,16 +340,19 @@ class AClass extends JsonSerializable with EquatableMixin {
             ])
       ], []));
 
-      expect(str, '''@JsonSerializable(explicitToJson: true)
+      expect(str, r'''@JsonSerializable(explicitToJson: true)
 class AClass extends JsonSerializable with EquatableMixin, FragmentMixin {
   AClass();
 
-  factory AClass.fromJson(Map<String, dynamic> json) => _\$AClassFromJson(json);
+  factory AClass.fromJson(Map<String, dynamic> json) => _$AClassFromJson(json);
+
+  @JsonKey(name: '__typename')
+  String? $$typename;
 
   @override
-  List<Object?> get props => [name];
+  List<Object?> get props => [name, $$typename];
   @override
-  Map<String, dynamic> toJson() => _\$AClassToJson(this);
+  Map<String, dynamic> toJson() => _$AClassToJson(this);
 }
 ''');
     });
@@ -354,11 +374,11 @@ class AClass extends JsonSerializable with EquatableMixin, FragmentMixin {
 
       final str = specToString(classDefinitionToSpec(definition, [], []));
 
-      expect(str, '''@JsonSerializable(explicitToJson: true)
+      expect(str, r'''@JsonSerializable(explicitToJson: true)
 class AClass extends JsonSerializable with EquatableMixin {
   AClass({this.name, required this.anotherName});
 
-  factory AClass.fromJson(Map<String, dynamic> json) => _\$AClassFromJson(json);
+  factory AClass.fromJson(Map<String, dynamic> json) => _$AClassFromJson(json);
 
   Type? name;
 
@@ -367,7 +387,7 @@ class AClass extends JsonSerializable with EquatableMixin {
   @override
   List<Object?> get props => [name, anotherName];
   @override
-  Map<String, dynamic> toJson() => _\$AClassToJson(this);
+  Map<String, dynamic> toJson() => _$AClassToJson(this);
 }
 ''');
     });
@@ -419,7 +439,7 @@ class AClass extends JsonSerializable with EquatableMixin {
       final ignoreForFile = <String>[];
       writeLibraryDefinitionToBuffer(buffer, ignoreForFile, definition);
 
-      expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
+      expect(buffer.toString(), r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 // @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
@@ -437,7 +457,7 @@ part 'test_query.graphql.g.dart';
 
       writeLibraryDefinitionToBuffer(buffer, ignoreForFile, definition);
 
-      expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
+      expect(buffer.toString(), r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 // @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
@@ -465,7 +485,7 @@ part 'test_query.graphql.g.dart';
 
       writeLibraryDefinitionToBuffer(buffer, ignoreForFile, definition);
 
-      expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
+      expect(buffer.toString(), r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 // @dart = 2.12
 
 import 'package:artemis/artemis.dart';
@@ -521,7 +541,7 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, JsonSerializable> {
 
       writeLibraryDefinitionToBuffer(buffer, ignoreForFile, definition);
 
-      expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
+      expect(buffer.toString(), r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 // @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
@@ -630,20 +650,20 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
 
       final str = specToString(generateArgumentClassSpec(definition));
 
-      expect(str, '''@JsonSerializable(explicitToJson: true)
+      expect(str, r'''@JsonSerializable(explicitToJson: true)
 class TestQueryArguments extends JsonSerializable with EquatableMixin {
   TestQueryArguments({this.name});
 
   @override
   factory TestQueryArguments.fromJson(Map<String, dynamic> json) =>
-      _\$TestQueryArgumentsFromJson(json);
+      _$TestQueryArgumentsFromJson(json);
 
   final Type? name;
 
   @override
   List<Object?> get props => [name];
   @override
-  Map<String, dynamic> toJson() => _\$TestQueryArgumentsToJson(this);
+  Map<String, dynamic> toJson() => _$TestQueryArgumentsToJson(this);
 }
 ''');
     });
@@ -716,7 +736,7 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
 
       writeLibraryDefinitionToBuffer(buffer, ignoreForFile, definition);
 
-      expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
+      expect(buffer.toString(), r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 // @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
@@ -728,12 +748,15 @@ part 'test_query.graphql.g.dart';
 class AClass extends JsonSerializable with EquatableMixin {
   AClass();
 
-  factory AClass.fromJson(Map<String, dynamic> json) => _\$AClassFromJson(json);
+  factory AClass.fromJson(Map<String, dynamic> json) => _$AClassFromJson(json);
+
+  @JsonKey(name: '__typename')
+  String? $$typename;
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [$$typename];
   @override
-  Map<String, dynamic> toJson() => _\$AClassToJson(this);
+  Map<String, dynamic> toJson() => _$AClassToJson(this);
 }
 
 enum SomeEnum {
@@ -751,7 +774,7 @@ enum SomeEnum {
 
     writeLibraryDefinitionToBuffer(buffer, ignoreForFile, definition);
 
-    expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
+    expect(buffer.toString(), r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 // @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
@@ -768,7 +791,7 @@ part 'test_query.graphql.g.dart';
 
     writeLibraryDefinitionToBuffer(buffer, ignoreForFile, definition);
 
-    expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
+    expect(buffer.toString(), r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 // @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
@@ -786,7 +809,7 @@ part 'test_query.graphql.g.dart';
 
     writeLibraryDefinitionToBuffer(buffer, ignoreForFile, definition);
 
-    expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
+    expect(buffer.toString(), r'''// GENERATED CODE - DO NOT MODIFY BY HAND
 // @dart = 2.12
 // ignore_for_file: my_rule_1, my_rule_2
 

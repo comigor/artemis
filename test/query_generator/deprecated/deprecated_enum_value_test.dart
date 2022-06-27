@@ -104,8 +104,11 @@ class SomeQuery$QueryResponse extends JsonSerializable with EquatableMixin {
   @JsonKey(unknownEnumValue: StarWarsMovies.artemisUnknown)
   StarWarsMovies? someValue;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [someValue];
+  List<Object?> get props => [someValue, $$typename];
   @override
   Map<String, dynamic> toJson() => _$SomeQuery$QueryResponseToJson(this);
 }

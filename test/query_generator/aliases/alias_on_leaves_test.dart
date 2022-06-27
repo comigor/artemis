@@ -110,8 +110,11 @@ class SomeQuery$Response$SomeObject extends JsonSerializable
   @JsonKey(unknownEnumValue: MyEnum.artemisUnknown)
   MyEnum? thisIsAnEnum;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [thisIsAnEnum];
+  List<Object?> get props => [thisIsAnEnum, $$typename];
   @override
   Map<String, dynamic> toJson() => _$SomeQuery$Response$SomeObjectToJson(this);
 }
@@ -127,8 +130,11 @@ class SomeQuery$Response extends JsonSerializable with EquatableMixin {
 
   SomeQuery$Response$SomeObject? o;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [thisIsAString, o];
+  List<Object?> get props => [thisIsAString, o, $$typename];
   @override
   Map<String, dynamic> toJson() => _$SomeQuery$ResponseToJson(this);
 }

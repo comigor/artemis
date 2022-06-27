@@ -18,7 +18,6 @@ void main() {
 final String query = r'''
   query some_query { 
     o { 
-      __typename, 
       ... on TypeA { 
         a
         _
@@ -26,7 +25,7 @@ final String query = r'''
         _a_a
         _a_a_
         _new
-        __typename,
+        __typename
       }, 
       ... on TypeB { 
         b
@@ -36,7 +35,6 @@ final String query = r'''
         _b_b_
         new
         IN
-        __typename,
       } 
     } 
   }
@@ -329,8 +327,11 @@ class SomeQuery$SomeObject extends JsonSerializable with EquatableMixin {
 
   SomeQuery$SomeObject$SomeUnion? o;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [o];
+  List<Object?> get props => [o, $$typename];
   @override
   Map<String, dynamic> toJson() => _$SomeQuery$SomeObjectToJson(this);
 }

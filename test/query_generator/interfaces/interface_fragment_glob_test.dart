@@ -179,6 +179,8 @@ part 'query.graphql.g.dart';
 mixin UserFragMixin {
   late String id;
   late String username;
+  @JsonKey(name: '__typename')
+  String? $$typename;
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -189,8 +191,12 @@ class Custom$Query$NodeById$User extends Custom$Query$NodeById
   factory Custom$Query$NodeById$User.fromJson(Map<String, dynamic> json) =>
       _$Custom$Query$NodeById$UserFromJson(json);
 
+  @JsonKey(name: '__typename')
   @override
-  List<Object?> get props => [id, username];
+  String? $$typename;
+
+  @override
+  List<Object?> get props => [id, username, $$typename];
   @override
   Map<String, dynamic> toJson() => _$Custom$Query$NodeById$UserToJson(this);
 }
@@ -204,8 +210,11 @@ class Custom$Query$NodeById$ChatMessage$User extends JsonSerializable
           Map<String, dynamic> json) =>
       _$Custom$Query$NodeById$ChatMessage$UserFromJson(json);
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [id, username];
+  List<Object?> get props => [id, username, $$typename];
   @override
   Map<String, dynamic> toJson() =>
       _$Custom$Query$NodeById$ChatMessage$UserToJson(this);
@@ -224,8 +233,12 @@ class Custom$Query$NodeById$ChatMessage extends Custom$Query$NodeById
 
   late Custom$Query$NodeById$ChatMessage$User user;
 
+  @JsonKey(name: '__typename')
   @override
-  List<Object?> get props => [message, user];
+  String? $$typename;
+
+  @override
+  List<Object?> get props => [message, user, $$typename];
   @override
   Map<String, dynamic> toJson() =>
       _$Custom$Query$NodeById$ChatMessageToJson(this);
@@ -275,8 +288,11 @@ class Custom$Query extends JsonSerializable with EquatableMixin {
 
   Custom$Query$NodeById? nodeById;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [nodeById];
+  List<Object?> get props => [nodeById, $$typename];
   @override
   Map<String, dynamic> toJson() => _$Custom$QueryToJson(this);
 }

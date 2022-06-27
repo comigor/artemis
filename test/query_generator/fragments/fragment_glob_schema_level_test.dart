@@ -215,15 +215,23 @@ mixin PokemonMixin {
   late String id;
   PokemonMixin$PokemonDimension? weight;
   PokemonMixin$PokemonAttack? attacks;
+  @JsonKey(name: '__typename')
+  String? $$typename;
 }
 mixin WeightMixin {
   String? minimum;
+  @JsonKey(name: '__typename')
+  String? $$typename;
 }
 mixin PokemonAttackMixin {
   List<PokemonAttackMixin$Attack?>? special;
+  @JsonKey(name: '__typename')
+  String? $$typename;
 }
 mixin AttackMixin {
   String? name;
+  @JsonKey(name: '__typename')
+  String? $$typename;
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -234,8 +242,11 @@ class Query$Query$Pokemon$Pokemon extends JsonSerializable
   factory Query$Query$Pokemon$Pokemon.fromJson(Map<String, dynamic> json) =>
       _$Query$Query$Pokemon$PokemonFromJson(json);
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [id, weight, attacks];
+  List<Object?> get props => [id, weight, attacks, $$typename];
   @override
   Map<String, dynamic> toJson() => _$Query$Query$Pokemon$PokemonToJson(this);
 }
@@ -250,8 +261,11 @@ class Query$Query$Pokemon extends JsonSerializable
 
   List<Query$Query$Pokemon$Pokemon?>? evolutions;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [id, weight, attacks, evolutions];
+  List<Object?> get props => [id, weight, attacks, $$typename, evolutions];
   @override
   Map<String, dynamic> toJson() => _$Query$Query$PokemonToJson(this);
 }
@@ -265,8 +279,11 @@ class Query$Query extends JsonSerializable with EquatableMixin {
 
   Query$Query$Pokemon? pokemon;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [pokemon];
+  List<Object?> get props => [pokemon, $$typename];
   @override
   Map<String, dynamic> toJson() => _$Query$QueryToJson(this);
 }
@@ -279,8 +296,11 @@ class PokemonMixin$PokemonDimension extends JsonSerializable
   factory PokemonMixin$PokemonDimension.fromJson(Map<String, dynamic> json) =>
       _$PokemonMixin$PokemonDimensionFromJson(json);
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [minimum];
+  List<Object?> get props => [minimum, $$typename];
   @override
   Map<String, dynamic> toJson() => _$PokemonMixin$PokemonDimensionToJson(this);
 }
@@ -293,8 +313,11 @@ class PokemonMixin$PokemonAttack extends JsonSerializable
   factory PokemonMixin$PokemonAttack.fromJson(Map<String, dynamic> json) =>
       _$PokemonMixin$PokemonAttackFromJson(json);
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [special];
+  List<Object?> get props => [special, $$typename];
   @override
   Map<String, dynamic> toJson() => _$PokemonMixin$PokemonAttackToJson(this);
 }
@@ -307,8 +330,11 @@ class PokemonAttackMixin$Attack extends JsonSerializable
   factory PokemonAttackMixin$Attack.fromJson(Map<String, dynamic> json) =>
       _$PokemonAttackMixin$AttackFromJson(json);
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [name];
+  List<Object?> get props => [name, $$typename];
   @override
   Map<String, dynamic> toJson() => _$PokemonAttackMixin$AttackToJson(this);
 }

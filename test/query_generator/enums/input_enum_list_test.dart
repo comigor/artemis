@@ -135,8 +135,11 @@ class BrowseArticles$Query$Article extends JsonSerializable
   @JsonKey(name: 'article_type', unknownEnumValue: ArticleType.artemisUnknown)
   late ArticleType articleType;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [id, title, articleType];
+  List<Object?> get props => [id, title, articleType, $$typename];
   @override
   Map<String, dynamic> toJson() => _$BrowseArticles$Query$ArticleToJson(this);
 }
@@ -150,8 +153,11 @@ class BrowseArticles$Query extends JsonSerializable with EquatableMixin {
 
   List<BrowseArticles$Query$Article>? articles;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [articles];
+  List<Object?> get props => [articles, $$typename];
   @override
   Map<String, dynamic> toJson() => _$BrowseArticles$QueryToJson(this);
 }

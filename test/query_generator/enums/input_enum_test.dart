@@ -168,8 +168,11 @@ class Custom$QueryRoot$QueryResponse extends JsonSerializable
   @JsonKey(unknownEnumValue: OtherEnum.artemisUnknown)
   OtherEnum? other;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [s, my, other];
+  List<Object?> get props => [s, my, other, $$typename];
   @override
   Map<String, dynamic> toJson() => _$Custom$QueryRoot$QueryResponseToJson(this);
 }
@@ -183,8 +186,11 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
 
   Custom$QueryRoot$QueryResponse? q;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [q];
+  List<Object?> get props => [q, $$typename];
   @override
   Map<String, dynamic> toJson() => _$Custom$QueryRootToJson(this);
 }

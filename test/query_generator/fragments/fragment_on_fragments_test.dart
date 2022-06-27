@@ -141,13 +141,19 @@ part 'query.graphql.g.dart';
 mixin PokemonMixin {
   late String id;
   PokemonMixin$Pokemon? evolution;
+  @JsonKey(name: '__typename')
+  String? $$typename;
 }
 mixin PokemonNameMixin {
   String? name;
+  @JsonKey(name: '__typename')
+  String? $$typename;
 }
 mixin PokemonPartsMixin {
   String? number;
   String? name;
+  @JsonKey(name: '__typename')
+  String? $$typename;
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -158,8 +164,11 @@ class Query$Query$Pokemon extends JsonSerializable
   factory Query$Query$Pokemon.fromJson(Map<String, dynamic> json) =>
       _$Query$Query$PokemonFromJson(json);
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [id, evolution, number, name];
+  List<Object?> get props => [id, evolution, $$typename, number, name];
   @override
   Map<String, dynamic> toJson() => _$Query$Query$PokemonToJson(this);
 }
@@ -173,8 +182,11 @@ class Query$Query extends JsonSerializable with EquatableMixin {
 
   Query$Query$Pokemon? pokemon;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [pokemon];
+  List<Object?> get props => [pokemon, $$typename];
   @override
   Map<String, dynamic> toJson() => _$Query$QueryToJson(this);
 }
@@ -187,8 +199,11 @@ class PokemonMixin$Pokemon extends JsonSerializable
   factory PokemonMixin$Pokemon.fromJson(Map<String, dynamic> json) =>
       _$PokemonMixin$PokemonFromJson(json);
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [name];
+  List<Object?> get props => [name, $$typename];
   @override
   Map<String, dynamic> toJson() => _$PokemonMixin$PokemonToJson(this);
 }

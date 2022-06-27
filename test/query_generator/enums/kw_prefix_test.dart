@@ -135,8 +135,11 @@ class SearchArticles$Query$Article extends JsonSerializable
 
   late String title;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [id, title];
+  List<Object?> get props => [id, title, $$typename];
   @override
   Map<String, dynamic> toJson() => _$SearchArticles$Query$ArticleToJson(this);
 }
@@ -150,8 +153,11 @@ class SearchArticles$Query extends JsonSerializable with EquatableMixin {
 
   List<SearchArticles$Query$Article>? articles;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [articles];
+  List<Object?> get props => [articles, $$typename];
   @override
   Map<String, dynamic> toJson() => _$SearchArticles$QueryToJson(this);
 }

@@ -154,8 +154,11 @@ class Custom$Query$Q extends JsonSerializable with EquatableMixin {
   @JsonKey(unknownEnumValue: MyEnum.artemisUnknown)
   MyEnum? e;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [e];
+  List<Object?> get props => [e, $$typename];
   @override
   Map<String, dynamic> toJson() => _$Custom$Query$QToJson(this);
 }
@@ -169,8 +172,11 @@ class Custom$Query extends JsonSerializable with EquatableMixin {
 
   Custom$Query$Q? q;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [q];
+  List<Object?> get props => [q, $$typename];
   @override
   Map<String, dynamic> toJson() => _$Custom$QueryToJson(this);
 }
@@ -185,8 +191,11 @@ class CustomList$Query$QList extends JsonSerializable with EquatableMixin {
   @JsonKey(unknownEnumValue: MyEnum.artemisUnknown)
   MyEnum? e;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [e];
+  List<Object?> get props => [e, $$typename];
   @override
   Map<String, dynamic> toJson() => _$CustomList$Query$QListToJson(this);
 }
@@ -200,8 +209,11 @@ class CustomList$Query extends JsonSerializable with EquatableMixin {
 
   List<CustomList$Query$QList?>? qList;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [qList];
+  List<Object?> get props => [qList, $$typename];
   @override
   Map<String, dynamic> toJson() => _$CustomList$QueryToJson(this);
 }

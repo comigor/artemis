@@ -117,8 +117,11 @@ class ClientEventItem extends JsonSerializable with EquatableMixin {
 
   late int type;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [type];
+  List<Object?> get props => [type, $$typename];
   @override
   Map<String, dynamic> toJson() => _$ClientEventItemToJson(this);
 }
@@ -132,8 +135,11 @@ class ClientEventPage extends JsonSerializable with EquatableMixin {
 
   late List<ClientEventItem> items;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [items];
+  List<Object?> get props => [items, $$typename];
   @override
   Map<String, dynamic> toJson() => _$ClientEventPageToJson(this);
 }
@@ -147,8 +153,11 @@ class ClientEventsData$Query extends JsonSerializable with EquatableMixin {
 
   late ClientEventPage clientEvents;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [clientEvents];
+  List<Object?> get props => [clientEvents, $$typename];
   @override
   Map<String, dynamic> toJson() => _$ClientEventsData$QueryToJson(this);
 }

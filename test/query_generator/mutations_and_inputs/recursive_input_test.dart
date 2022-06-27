@@ -91,8 +91,11 @@ class Custom$Mutation extends JsonSerializable with EquatableMixin {
 
   String? mut;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [mut];
+  List<Object?> get props => [mut, $$typename];
   @override
   Map<String, dynamic> toJson() => _$Custom$MutationToJson(this);
 }

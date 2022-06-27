@@ -177,8 +177,11 @@ class MutData$Mutation$MutationResponse extends JsonSerializable
 
   String? s;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [s];
+  List<Object?> get props => [s, $$typename];
   @override
   Map<String, dynamic> toJson() =>
       _$MutData$Mutation$MutationResponseToJson(this);
@@ -193,8 +196,11 @@ class MutData$Mutation extends JsonSerializable with EquatableMixin {
 
   MutData$Mutation$MutationResponse? mut;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [mut];
+  List<Object?> get props => [mut, $$typename];
   @override
   Map<String, dynamic> toJson() => _$MutData$MutationToJson(this);
 }
@@ -226,8 +232,11 @@ class QueData$Query$QueryResponse extends JsonSerializable with EquatableMixin {
 
   late List<int?> list;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [s, i, list];
+  List<Object?> get props => [s, i, list, $$typename];
   @override
   Map<String, dynamic> toJson() => _$QueData$Query$QueryResponseToJson(this);
 }
@@ -241,8 +250,11 @@ class QueData$Query extends JsonSerializable with EquatableMixin {
 
   QueData$Query$QueryResponse? que;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [que];
+  List<Object?> get props => [que, $$typename];
   @override
   Map<String, dynamic> toJson() => _$QueData$QueryToJson(this);
 }

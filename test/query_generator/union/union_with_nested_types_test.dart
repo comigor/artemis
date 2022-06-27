@@ -217,8 +217,11 @@ class CheckoutById$QueryRoot$Node$Checkout$CheckoutLineItemConnection$CheckoutLi
 
   String? id;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [id];
+  List<Object?> get props => [id, $$typename];
   @override
   Map<String, dynamic> toJson() =>
       _$CheckoutById$QueryRoot$Node$Checkout$CheckoutLineItemConnection$CheckoutLineItemEdge$ImageConnectionToJson(
@@ -238,8 +241,11 @@ class CheckoutById$QueryRoot$Node$Checkout$CheckoutLineItemConnection$CheckoutLi
   List<CheckoutById$QueryRoot$Node$Checkout$CheckoutLineItemConnection$CheckoutLineItemEdge$ImageConnection?>?
       edges;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [edges];
+  List<Object?> get props => [edges, $$typename];
   @override
   Map<String, dynamic> toJson() =>
       _$CheckoutById$QueryRoot$Node$Checkout$CheckoutLineItemConnection$CheckoutLineItemEdgeToJson(
@@ -262,8 +268,11 @@ class CheckoutById$QueryRoot$Node$Checkout$CheckoutLineItemConnection
           CheckoutById$QueryRoot$Node$Checkout$CheckoutLineItemConnection$CheckoutLineItemEdge>
       edges;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [id, edges];
+  List<Object?> get props => [id, edges, $$typename];
   @override
   Map<String, dynamic> toJson() =>
       _$CheckoutById$QueryRoot$Node$Checkout$CheckoutLineItemConnectionToJson(
@@ -284,8 +293,12 @@ class CheckoutById$QueryRoot$Node$Checkout extends CheckoutById$QueryRoot$Node
   late CheckoutById$QueryRoot$Node$Checkout$CheckoutLineItemConnection
       lineItems;
 
+  @JsonKey(name: '__typename')
   @override
-  List<Object?> get props => [id, lineItems];
+  String? $$typename;
+
+  @override
+  List<Object?> get props => [id, lineItems, $$typename];
   @override
   Map<String, dynamic> toJson() =>
       _$CheckoutById$QueryRoot$Node$CheckoutToJson(this);
@@ -329,8 +342,11 @@ class CheckoutById$QueryRoot extends JsonSerializable with EquatableMixin {
 
   CheckoutById$QueryRoot$Node? node;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [node];
+  List<Object?> get props => [node, $$typename];
   @override
   Map<String, dynamic> toJson() => _$CheckoutById$QueryRootToJson(this);
 }

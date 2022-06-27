@@ -130,8 +130,11 @@ class SomeQuery$QueryResponse$DeprecatedObject extends JsonSerializable
   @Deprecated('message 2')
   String? deprecatedField;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [someField, deprecatedField];
+  List<Object?> get props => [someField, deprecatedField, $$typename];
   @override
   Map<String, dynamic> toJson() =>
       _$SomeQuery$QueryResponse$DeprecatedObjectToJson(this);
@@ -151,8 +154,11 @@ class SomeQuery$QueryResponse$SomeObject extends JsonSerializable
   @Deprecated('message 2')
   String? deprecatedField;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [someField, deprecatedField];
+  List<Object?> get props => [someField, deprecatedField, $$typename];
   @override
   Map<String, dynamic> toJson() =>
       _$SomeQuery$QueryResponse$SomeObjectToJson(this);
@@ -170,8 +176,11 @@ class SomeQuery$QueryResponse extends JsonSerializable with EquatableMixin {
 
   List<SomeQuery$QueryResponse$SomeObject?>? someObjects;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [deprecatedObject, someObjects];
+  List<Object?> get props => [deprecatedObject, someObjects, $$typename];
   @override
   Map<String, dynamic> toJson() => _$SomeQuery$QueryResponseToJson(this);
 }

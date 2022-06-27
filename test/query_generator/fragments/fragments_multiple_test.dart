@@ -255,9 +255,13 @@ part 'query.graphql.g.dart';
 mixin DstMixin {
   late String id;
   late String name;
+  @JsonKey(name: '__typename')
+  String? $$typename;
 }
 mixin DepartureMixin {
   late String id;
+  @JsonKey(name: '__typename')
+  String? $$typename;
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -269,8 +273,11 @@ class VoyagesData$Query$Voyages$Voyages$Voyage$Arrival extends JsonSerializable
           Map<String, dynamic> json) =>
       _$VoyagesData$Query$Voyages$Voyages$Voyage$ArrivalFromJson(json);
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [id, name];
+  List<Object?> get props => [id, name, $$typename];
   @override
   Map<String, dynamic> toJson() =>
       _$VoyagesData$Query$Voyages$Voyages$Voyage$ArrivalToJson(this);
@@ -285,8 +292,11 @@ class VoyagesData$Query$Voyages$Voyages$Voyage$Departure
           Map<String, dynamic> json) =>
       _$VoyagesData$Query$Voyages$Voyages$Voyage$DepartureFromJson(json);
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [id];
+  List<Object?> get props => [id, $$typename];
   @override
   Map<String, dynamic> toJson() =>
       _$VoyagesData$Query$Voyages$Voyages$Voyage$DepartureToJson(this);
@@ -313,9 +323,12 @@ class VoyagesData$Query$Voyages$Voyages$Voyage extends JsonSerializable
 
   late VoyagesData$Query$Voyages$Voyages$Voyage$Departure departure;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
   List<Object?> get props =>
-      [dateFrom, dateTo, id, voyageNumber, arrival, departure];
+      [dateFrom, dateTo, id, voyageNumber, arrival, departure, $$typename];
   @override
   Map<String, dynamic> toJson() =>
       _$VoyagesData$Query$Voyages$Voyages$VoyageToJson(this);
@@ -334,8 +347,11 @@ class VoyagesData$Query$Voyages$Voyages extends JsonSerializable
 
   late VoyagesData$Query$Voyages$Voyages$Voyage voyage;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [numberOfReports, voyage];
+  List<Object?> get props => [numberOfReports, voyage, $$typename];
   @override
   Map<String, dynamic> toJson() =>
       _$VoyagesData$Query$Voyages$VoyagesToJson(this);
@@ -350,8 +366,11 @@ class VoyagesData$Query$Voyages extends JsonSerializable with EquatableMixin {
 
   late List<VoyagesData$Query$Voyages$Voyages> voyages;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [voyages];
+  List<Object?> get props => [voyages, $$typename];
   @override
   Map<String, dynamic> toJson() => _$VoyagesData$Query$VoyagesToJson(this);
 }
@@ -365,8 +384,11 @@ class VoyagesData$Query extends JsonSerializable with EquatableMixin {
 
   late VoyagesData$Query$Voyages voyages;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [voyages];
+  List<Object?> get props => [voyages, $$typename];
   @override
   Map<String, dynamic> toJson() => _$VoyagesData$QueryToJson(this);
 }

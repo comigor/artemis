@@ -128,6 +128,8 @@ part 'query.graphql.g.dart';
 mixin MyFragmentMixin {
   String? s;
   int? i;
+  @JsonKey(name: '__typename')
+  String? $$typename;
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -137,8 +139,11 @@ class SomeObject extends JsonSerializable with EquatableMixin, MyFragmentMixin {
   factory SomeObject.fromJson(Map<String, dynamic> json) =>
       _$SomeObjectFromJson(json);
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [s, i];
+  List<Object?> get props => [s, i, $$typename];
   @override
   Map<String, dynamic> toJson() => _$SomeObjectToJson(this);
 }
@@ -152,8 +157,11 @@ class MoreData extends JsonSerializable with EquatableMixin {
 
   SomeObject? someObject;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [someObject];
+  List<Object?> get props => [someObject, $$typename];
   @override
   Map<String, dynamic> toJson() => _$MoreDataToJson(this);
 }
@@ -169,8 +177,11 @@ class SomeQuery$QueryResponse extends JsonSerializable with EquatableMixin {
 
   MoreData? moreData;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [someObject, moreData];
+  List<Object?> get props => [someObject, moreData, $$typename];
   @override
   Map<String, dynamic> toJson() => _$SomeQuery$QueryResponseToJson(this);
 }

@@ -174,6 +174,8 @@ part 'query.graphql.g.dart';
 mixin UserFragMixin {
   late String id;
   late String username;
+  @JsonKey(name: '__typename')
+  String? $$typename;
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -184,8 +186,12 @@ class Custom$Query$Node$User extends Custom$Query$Node
   factory Custom$Query$Node$User.fromJson(Map<String, dynamic> json) =>
       _$Custom$Query$Node$UserFromJson(json);
 
+  @JsonKey(name: '__typename')
   @override
-  List<Object?> get props => [id, username];
+  String? $$typename;
+
+  @override
+  List<Object?> get props => [id, username, $$typename];
   @override
   Map<String, dynamic> toJson() => _$Custom$Query$Node$UserToJson(this);
 }
@@ -199,8 +205,11 @@ class Custom$Query$Node$ChatMessage$User extends JsonSerializable
           Map<String, dynamic> json) =>
       _$Custom$Query$Node$ChatMessage$UserFromJson(json);
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [id, username];
+  List<Object?> get props => [id, username, $$typename];
   @override
   Map<String, dynamic> toJson() =>
       _$Custom$Query$Node$ChatMessage$UserToJson(this);
@@ -218,8 +227,12 @@ class Custom$Query$Node$ChatMessage extends Custom$Query$Node
 
   late Custom$Query$Node$ChatMessage$User user;
 
+  @JsonKey(name: '__typename')
   @override
-  List<Object?> get props => [message, user];
+  String? $$typename;
+
+  @override
+  List<Object?> get props => [message, user, $$typename];
   @override
   Map<String, dynamic> toJson() => _$Custom$Query$Node$ChatMessageToJson(this);
 }
@@ -244,8 +257,11 @@ class Custom$Query$Node extends JsonSerializable with EquatableMixin {
   @Deprecated('deprecated interface field')
   String? deprecatedField;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [id, deprecatedField];
+  List<Object?> get props => [id, deprecatedField, $$typename];
   @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
@@ -268,8 +284,11 @@ class Custom$Query extends JsonSerializable with EquatableMixin {
 
   Custom$Query$Node? nodeById;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [nodeById];
+  List<Object?> get props => [nodeById, $$typename];
   @override
   Map<String, dynamic> toJson() => _$Custom$QueryToJson(this);
 }

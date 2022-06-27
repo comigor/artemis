@@ -92,8 +92,12 @@ class Query$Query extends JsonSerializable with EquatableMixin {
 
   String? nullableAndSelected;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [nonNullAndSelected, nullableAndSelected];
+  List<Object?> get props =>
+      [nonNullAndSelected, nullableAndSelected, $$typename];
   @override
   Map<String, dynamic> toJson() => _$Query$QueryToJson(this);
 }
@@ -194,8 +198,12 @@ class Query$Query extends JsonSerializable with EquatableMixin {
 
   late List<List<int>> matrixnn;
 
+  @JsonKey(name: '__typename')
+  String? $$typename;
+
   @override
-  List<Object?> get props => [i, inn, li, linn, lnni, lnninn, matrix, matrixnn];
+  List<Object?> get props =>
+      [i, inn, li, linn, lnni, lnninn, matrix, matrixnn, $$typename];
   @override
   Map<String, dynamic> toJson() => _$Query$QueryToJson(this);
 }
