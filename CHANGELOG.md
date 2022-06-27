@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 7.10.0-beta
+
+- add `__typename` to all objects by default
+
 ## 7.9.0-beta
 
 - common fragments overlap fix
