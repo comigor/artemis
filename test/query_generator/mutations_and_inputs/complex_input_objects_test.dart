@@ -124,7 +124,6 @@ final LibraryDefinition libraryDefinition =
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
-// @dart = 2.12
 
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -165,7 +164,12 @@ class SomeQuery$QueryRoot extends JsonSerializable with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class ComplexInput extends JsonSerializable with EquatableMixin {
-  ComplexInput({required this.s, this.e, this.ls, this.i});
+  ComplexInput({
+    required this.s,
+    this.e,
+    this.ls,
+    this.i,
+  });
 
   factory ComplexInput.fromJson(Map<String, dynamic> json) =>
       _$ComplexInputFromJson(json);
@@ -213,36 +217,43 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
 final SOME_QUERY_QUERY_DOCUMENT_OPERATION_NAME = 'some_query';
 final SOME_QUERY_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
-      type: OperationType.query,
-      name: NameNode(value: 'some_query'),
-      variableDefinitions: [
-        VariableDefinitionNode(
-            variable: VariableNode(name: NameNode(value: 'filter')),
-            type: NamedTypeNode(
-                name: NameNode(value: 'ComplexInput'), isNonNull: true),
-            defaultValue: DefaultValueNode(value: null),
-            directives: [])
-      ],
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'o'),
+    type: OperationType.query,
+    name: NameNode(value: 'some_query'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'filter')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'ComplexInput'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      )
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'o'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'filter'),
+            value: VariableNode(name: NameNode(value: 'filter')),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 's'),
             alias: null,
-            arguments: [
-              ArgumentNode(
-                  name: NameNode(value: 'filter'),
-                  value: VariableNode(name: NameNode(value: 'filter')))
-            ],
+            arguments: [],
             directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 's'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
-            ]))
-      ]))
+            selectionSet: null,
+          )
+        ]),
+      )
+    ]),
+  )
 ]);
 
 class SomeQueryQuery

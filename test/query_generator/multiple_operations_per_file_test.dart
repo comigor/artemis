@@ -158,7 +158,6 @@ final LibraryDefinition libraryDefinition =
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
-// @dart = 2.12
 
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -266,36 +265,43 @@ class MutDataArguments extends JsonSerializable with EquatableMixin {
 final MUT_DATA_MUTATION_DOCUMENT_OPERATION_NAME = 'MutData';
 final MUT_DATA_MUTATION_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
-      type: OperationType.mutation,
-      name: NameNode(value: 'MutData'),
-      variableDefinitions: [
-        VariableDefinitionNode(
-            variable: VariableNode(name: NameNode(value: 'input')),
-            type:
-                NamedTypeNode(name: NameNode(value: 'Input'), isNonNull: true),
-            defaultValue: DefaultValueNode(value: null),
-            directives: [])
-      ],
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'mut'),
+    type: OperationType.mutation,
+    name: NameNode(value: 'MutData'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'input')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'Input'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      )
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'mut'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'input'),
+            value: VariableNode(name: NameNode(value: 'input')),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 's'),
             alias: null,
-            arguments: [
-              ArgumentNode(
-                  name: NameNode(value: 'input'),
-                  value: VariableNode(name: NameNode(value: 'input')))
-            ],
+            arguments: [],
             directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 's'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
-            ]))
-      ]))
+            selectionSet: null,
+          )
+        ]),
+      )
+    ]),
+  )
 ]);
 
 class MutDataMutation extends GraphQLQuery<MutData$Mutation, MutDataArguments> {
@@ -319,7 +325,10 @@ class MutDataMutation extends GraphQLQuery<MutData$Mutation, MutDataArguments> {
 
 @JsonSerializable(explicitToJson: true)
 class QueDataArguments extends JsonSerializable with EquatableMixin {
-  QueDataArguments({required this.intsNonNullable, this.stringNullable});
+  QueDataArguments({
+    required this.intsNonNullable,
+    this.stringNullable,
+  });
 
   @override
   factory QueDataArguments.fromJson(Map<String, dynamic> json) =>
@@ -338,65 +347,78 @@ class QueDataArguments extends JsonSerializable with EquatableMixin {
 final QUE_DATA_QUERY_DOCUMENT_OPERATION_NAME = 'QueData';
 final QUE_DATA_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
-      type: OperationType.query,
-      name: NameNode(value: 'QueData'),
-      variableDefinitions: [
-        VariableDefinitionNode(
-            variable: VariableNode(name: NameNode(value: 'intsNonNullable')),
-            type: ListTypeNode(
-                type: NamedTypeNode(
-                    name: NameNode(value: 'Int'), isNonNull: false),
-                isNonNull: true),
-            defaultValue: DefaultValueNode(value: null),
-            directives: []),
-        VariableDefinitionNode(
-            variable: VariableNode(name: NameNode(value: 'stringNullable')),
-            type: NamedTypeNode(
-                name: NameNode(value: 'String'), isNonNull: false),
-            defaultValue: DefaultValueNode(value: null),
-            directives: [])
-      ],
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'que'),
+    type: OperationType.query,
+    name: NameNode(value: 'QueData'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'intsNonNullable')),
+        type: ListTypeNode(
+          type: NamedTypeNode(
+            name: NameNode(value: 'Int'),
+            isNonNull: false,
+          ),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'stringNullable')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'que'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'intsNonNullable'),
+            value: VariableNode(name: NameNode(value: 'intsNonNullable')),
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'stringNullable'),
+            value: VariableNode(name: NameNode(value: 'stringNullable')),
+          ),
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 's'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'i'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'list'),
             alias: null,
             arguments: [
               ArgumentNode(
-                  name: NameNode(value: 'intsNonNullable'),
-                  value:
-                      VariableNode(name: NameNode(value: 'intsNonNullable'))),
-              ArgumentNode(
-                  name: NameNode(value: 'stringNullable'),
-                  value: VariableNode(name: NameNode(value: 'stringNullable')))
+                name: NameNode(value: 'intsNonNullable'),
+                value: VariableNode(name: NameNode(value: 'intsNonNullable')),
+              )
             ],
             directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 's'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              FieldNode(
-                  name: NameNode(value: 'i'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              FieldNode(
-                  name: NameNode(value: 'list'),
-                  alias: null,
-                  arguments: [
-                    ArgumentNode(
-                        name: NameNode(value: 'intsNonNullable'),
-                        value: VariableNode(
-                            name: NameNode(value: 'intsNonNullable')))
-                  ],
-                  directives: [],
-                  selectionSet: null)
-            ]))
-      ]))
+            selectionSet: null,
+          ),
+        ]),
+      )
+    ]),
+  )
 ]);
 
 class QueDataQuery extends GraphQLQuery<QueData$Query, QueDataArguments> {

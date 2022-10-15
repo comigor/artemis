@@ -45,7 +45,6 @@ void main() {
                   suffix: r'Query')
             ]),
             generatedFile: r'''// GENERATED CODE - DO NOT MODIFY BY HAND
-// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -163,7 +162,6 @@ class SomeQuery$SomeObject extends JsonSerializable with EquatableMixin {
                   suffix: r'Query')
             ]),
             generatedFile: r'''// GENERATED CODE - DO NOT MODIFY BY HAND
-// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';

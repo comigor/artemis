@@ -100,7 +100,6 @@ final LibraryDefinition libraryDefinition =
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
-// @dart = 2.12
 
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -156,32 +155,36 @@ class ClientEventsData$Query extends JsonSerializable with EquatableMixin {
 final CLIENT_EVENTS_DATA_QUERY_DOCUMENT_OPERATION_NAME = 'ClientEventsData';
 final CLIENT_EVENTS_DATA_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
-      type: OperationType.query,
-      name: NameNode(value: 'ClientEventsData'),
-      variableDefinitions: [],
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'clientEvents'),
+    type: OperationType.query,
+    name: NameNode(value: 'ClientEventsData'),
+    variableDefinitions: [],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'clientEvents'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'items'),
             alias: null,
             arguments: [],
             directives: [],
             selectionSet: SelectionSetNode(selections: [
               FieldNode(
-                  name: NameNode(value: 'items'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: SelectionSetNode(selections: [
-                    FieldNode(
-                        name: NameNode(value: 'type'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null)
-                  ]))
-            ]))
-      ]))
+                name: NameNode(value: 'type'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: null,
+              )
+            ]),
+          )
+        ]),
+      )
+    ]),
+  )
 ]);
 
 class ClientEventsDataQuery

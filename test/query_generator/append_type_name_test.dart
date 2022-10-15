@@ -73,7 +73,6 @@ void main() {
                   suffix: r'Query')
             ]),
             generatedFile: r'''// GENERATED CODE - DO NOT MODIFY BY HAND
-// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -188,7 +187,6 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                   suffix: r'Query')
             ]),
             generatedFile: r'''// GENERATED CODE - DO NOT MODIFY BY HAND
-// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -315,7 +313,6 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                   suffix: r'Query')
             ]),
             generatedFile: r'''// GENERATED CODE - DO NOT MODIFY BY HAND
-// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -479,7 +476,6 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
                   suffix: r'Query')
             ]),
             generatedFile: r'''// GENERATED CODE - DO NOT MODIFY BY HAND
-// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -655,7 +651,6 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
               suffix: r'Query')
         ]),
         generatedFile: r'''// GENERATED CODE - DO NOT MODIFY BY HAND
-// @dart = 2.12
 
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -707,53 +702,64 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
 final CUSTOM_QUERY_DOCUMENT_OPERATION_NAME = 'custom';
 final CUSTOM_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
-      type: OperationType.query,
-      name: NameNode(value: 'custom'),
-      variableDefinitions: [],
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'q'),
-            alias: null,
-            arguments: [],
+    type: OperationType.query,
+    name: NameNode(value: 'custom'),
+    variableDefinitions: [],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'q'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FragmentSpreadNode(
+            name: NameNode(value: 'QueryResponse'),
             directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(
-                  name: NameNode(value: 'QueryResponse'), directives: []),
-              FieldNode(
-                  name: NameNode(value: '__typename'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
-            ])),
-        FieldNode(
+          ),
+          FieldNode(
             name: NameNode(value: '__typename'),
             alias: null,
             arguments: [],
             directives: [],
-            selectionSet: null)
-      ])),
+            selectionSet: null,
+          ),
+        ]),
+      ),
+      FieldNode(
+        name: NameNode(value: '__typename'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
   FragmentDefinitionNode(
+    name: NameNode(value: 'QueryResponse'),
+    typeCondition: TypeConditionNode(
+        on: NamedTypeNode(
       name: NameNode(value: 'QueryResponse'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'QueryResponse'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'e'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: '__typename'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null)
-      ]))
+      isNonNull: false,
+    )),
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'e'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: '__typename'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
 ]);
 
 class CustomQuery extends GraphQLQuery<Custom$QueryRoot, JsonSerializable> {

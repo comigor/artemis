@@ -116,7 +116,6 @@ final LibraryDefinition libraryDefinition =
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
-// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -158,7 +157,10 @@ class SearchArticles$Query extends JsonSerializable with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class ArticleTitleWhereConditions extends JsonSerializable with EquatableMixin {
-  ArticleTitleWhereConditions({this.kw$operator, this.value});
+  ArticleTitleWhereConditions({
+    this.kw$operator,
+    this.value,
+  });
 
   factory ArticleTitleWhereConditions.fromJson(Map<String, dynamic> json) =>
       _$ArticleTitleWhereConditionsFromJson(json);

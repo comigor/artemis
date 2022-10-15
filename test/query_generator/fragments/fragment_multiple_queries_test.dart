@@ -179,7 +179,6 @@ final LibraryDefinition libraryDefinition =
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
-// @dart = 2.12
 
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -269,52 +268,65 @@ class GetPokemonArguments extends JsonSerializable with EquatableMixin {
 final GET_POKEMON_QUERY_DOCUMENT_OPERATION_NAME = 'getPokemon';
 final GET_POKEMON_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
-      type: OperationType.query,
-      name: NameNode(value: 'getPokemon'),
-      variableDefinitions: [
-        VariableDefinitionNode(
-            variable: VariableNode(name: NameNode(value: 'name')),
-            type:
-                NamedTypeNode(name: NameNode(value: 'String'), isNonNull: true),
-            defaultValue: DefaultValueNode(value: null),
-            directives: [])
-      ],
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'pokemon'),
-            alias: null,
-            arguments: [
-              ArgumentNode(
-                  name: NameNode(value: 'name'),
-                  value: VariableNode(name: NameNode(value: 'name')))
-            ],
-            directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(
-                  name: NameNode(value: 'pokemonFragment'), directives: [])
-            ]))
-      ])),
-  FragmentDefinitionNode(
-      name: NameNode(value: 'pokemonFragment'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'Pokemon'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'number'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
+    type: OperationType.query,
+    name: NameNode(value: 'getPokemon'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'name')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      )
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'pokemon'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
             name: NameNode(value: 'name'),
-            alias: null,
-            arguments: [],
+            value: VariableNode(name: NameNode(value: 'name')),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FragmentSpreadNode(
+            name: NameNode(value: 'pokemonFragment'),
             directives: [],
-            selectionSet: null)
-      ]))
+          )
+        ]),
+      )
+    ]),
+  ),
+  FragmentDefinitionNode(
+    name: NameNode(value: 'pokemonFragment'),
+    typeCondition: TypeConditionNode(
+        on: NamedTypeNode(
+      name: NameNode(value: 'Pokemon'),
+      isNonNull: false,
+    )),
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'number'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'name'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
 ]);
 
 class GetPokemonQuery
@@ -356,51 +368,65 @@ class GetAllPokemonsArguments extends JsonSerializable with EquatableMixin {
 final GET_ALL_POKEMONS_QUERY_DOCUMENT_OPERATION_NAME = 'getAllPokemons';
 final GET_ALL_POKEMONS_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
-      type: OperationType.query,
-      name: NameNode(value: 'getAllPokemons'),
-      variableDefinitions: [
-        VariableDefinitionNode(
-            variable: VariableNode(name: NameNode(value: 'first')),
-            type: NamedTypeNode(name: NameNode(value: 'Int'), isNonNull: true),
-            defaultValue: DefaultValueNode(value: null),
-            directives: [])
-      ],
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'pokemons'),
-            alias: null,
-            arguments: [
-              ArgumentNode(
-                  name: NameNode(value: 'first'),
-                  value: VariableNode(name: NameNode(value: 'first')))
-            ],
+    type: OperationType.query,
+    name: NameNode(value: 'getAllPokemons'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'first')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'Int'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      )
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'pokemons'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'first'),
+            value: VariableNode(name: NameNode(value: 'first')),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FragmentSpreadNode(
+            name: NameNode(value: 'pokemonFragment'),
             directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FragmentSpreadNode(
-                  name: NameNode(value: 'pokemonFragment'), directives: [])
-            ]))
-      ])),
+          )
+        ]),
+      )
+    ]),
+  ),
   FragmentDefinitionNode(
-      name: NameNode(value: 'pokemonFragment'),
-      typeCondition: TypeConditionNode(
-          on: NamedTypeNode(
-              name: NameNode(value: 'Pokemon'), isNonNull: false)),
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'number'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null),
-        FieldNode(
-            name: NameNode(value: 'name'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null)
-      ]))
+    name: NameNode(value: 'pokemonFragment'),
+    typeCondition: TypeConditionNode(
+        on: NamedTypeNode(
+      name: NameNode(value: 'Pokemon'),
+      isNonNull: false,
+    )),
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'number'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'name'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
 ]);
 
 class GetAllPokemonsQuery

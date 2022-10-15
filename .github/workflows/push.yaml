@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: dart-lang/setup-dart@v1
         with:
-          sdk: 2.14.0
+          sdk: 2.18.0
       - id: install
         name: Install dependencies
         run: dart pub get
@@ -26,13 +26,13 @@ jobs:
       - uses: actions/checkout@v2
       - uses: dart-lang/setup-dart@v1
         with:
-          sdk: 2.14.0
+          sdk: 2.18.0
       - id: install
         name: Install dependencies
         run: dart pub get
       - name: Test
         if: always() && steps.install.outcome == 'success'
-        run: pub run test
+        run: dart run test
   create-tag-and-release:
     needs:
       - lint

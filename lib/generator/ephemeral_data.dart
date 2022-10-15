@@ -2,6 +2,7 @@ import 'package:artemis/generator/data/data.dart';
 import 'package:artemis/generator/data/nullable.dart';
 import 'package:artemis/visitor/type_definition_node_visitor.dart';
 import 'package:gql/ast.dart';
+
 import '../schema/options.dart';
 
 /// Returns the full class name with joined path.

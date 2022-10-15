@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: dart-lang/setup-dart@v1
         with:
-          sdk: 2.14.0
+          sdk: 2.18.0
       - id: install
         name: Install dependencies
         run: dart pub get
@@ -26,25 +26,21 @@ jobs:
         run: dart format --set-exit-if-changed .
       - name: Run analyzer and annotate
         if: always() && steps.install.outcome == 'success'
-        uses: kitek/dartanalyzer-annotations-action@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          check_name: Check code style
-          commit_sha: ${{ github.event.pull_request.head.sha }}
+        # https://github.com/kitek/dartanalyzer-annotations-action was too outdated and seems does not have any support
+        run: dart analyze --fatal-infos
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: dart-lang/setup-dart@v1
         with:
-          sdk: 2.14.0
+          sdk: 2.18.0
       - id: install
         name: Install dependencies
         run: dart pub get
       - name: Test
         if: always() && steps.install.outcome == 'success'
-        run: pub run test --file-reporter='json:test-report.json'
+        run: dart run test --file-reporter='json:test-report.json'
         continue-on-error: true
       - name: Annotate with test errors
         uses: rodrigost23/dart-test-annotations@v1.0

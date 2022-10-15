@@ -439,7 +439,6 @@ void writeLibraryDefinitionToBuffer(
   LibraryDefinition definition,
 ) {
   buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND');
-  buffer.writeln('// @dart = 2.12');
   if (ignoreForFile.isNotEmpty) {
     buffer.writeln(
       '// ignore_for_file: ${Set<String>.from(ignoreForFile).join(', ')}',
