@@ -233,7 +233,6 @@ final LibraryDefinition libraryDefinitionWithCustomImports =
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
-// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -260,7 +259,6 @@ class Query$SomeObject extends JsonSerializable with EquatableMixin {
 
 const generatedFileWithCustomParserFns =
     r'''// GENERATED CODE - DO NOT MODIFY BY HAND
-// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -289,7 +287,6 @@ class Query$SomeObject extends JsonSerializable with EquatableMixin {
 
 const generatedFileWithCustomImports =
     r'''// GENERATED CODE - DO NOT MODIFY BY HAND
-// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';

@@ -134,7 +134,6 @@ final LibraryDefinition libraryDefinition =
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
-// @dart = 2.12
 
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -179,7 +178,10 @@ class Custom$MutationRoot extends JsonSerializable with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class Input extends JsonSerializable with EquatableMixin {
-  Input({required this.id, this.idNullabe});
+  Input({
+    required this.id,
+    this.idNullabe,
+  });
 
   factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
 
@@ -201,7 +203,11 @@ class Input extends JsonSerializable with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class CustomArguments extends JsonSerializable with EquatableMixin {
-  CustomArguments({required this.input, this.previousId, this.listIds});
+  CustomArguments({
+    required this.input,
+    this.previousId,
+    this.listIds,
+  });
 
   @override
   factory CustomArguments.fromJson(Map<String, dynamic> json) =>
@@ -230,56 +236,72 @@ class CustomArguments extends JsonSerializable with EquatableMixin {
 final CUSTOM_MUTATION_DOCUMENT_OPERATION_NAME = 'custom';
 final CUSTOM_MUTATION_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
-      type: OperationType.mutation,
-      name: NameNode(value: 'custom'),
-      variableDefinitions: [
-        VariableDefinitionNode(
-            variable: VariableNode(name: NameNode(value: 'input')),
-            type:
-                NamedTypeNode(name: NameNode(value: 'Input'), isNonNull: true),
-            defaultValue: DefaultValueNode(value: null),
-            directives: []),
-        VariableDefinitionNode(
-            variable: VariableNode(name: NameNode(value: 'previousId')),
-            type: NamedTypeNode(
-                name: NameNode(value: 'MyUuid'), isNonNull: false),
-            defaultValue: DefaultValueNode(value: null),
-            directives: []),
-        VariableDefinitionNode(
-            variable: VariableNode(name: NameNode(value: 'listIds')),
-            type: ListTypeNode(
-                type: NamedTypeNode(
-                    name: NameNode(value: 'MyUuid'), isNonNull: false),
-                isNonNull: false),
-            defaultValue: DefaultValueNode(value: null),
-            directives: [])
-      ],
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'mut'),
+    type: OperationType.mutation,
+    name: NameNode(value: 'custom'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'input')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'Input'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'previousId')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'MyUuid'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'listIds')),
+        type: ListTypeNode(
+          type: NamedTypeNode(
+            name: NameNode(value: 'MyUuid'),
+            isNonNull: false,
+          ),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'mut'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'input'),
+            value: VariableNode(name: NameNode(value: 'input')),
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'previousId'),
+            value: VariableNode(name: NameNode(value: 'previousId')),
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'listIds'),
+            value: VariableNode(name: NameNode(value: 'listIds')),
+          ),
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 's'),
             alias: null,
-            arguments: [
-              ArgumentNode(
-                  name: NameNode(value: 'input'),
-                  value: VariableNode(name: NameNode(value: 'input'))),
-              ArgumentNode(
-                  name: NameNode(value: 'previousId'),
-                  value: VariableNode(name: NameNode(value: 'previousId'))),
-              ArgumentNode(
-                  name: NameNode(value: 'listIds'),
-                  value: VariableNode(name: NameNode(value: 'listIds')))
-            ],
+            arguments: [],
             directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 's'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
-            ]))
-      ]))
+            selectionSet: null,
+          )
+        ]),
+      )
+    ]),
+  )
 ]);
 
 class CustomMutation

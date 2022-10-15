@@ -1,7 +1,7 @@
 import 'package:artemis/builder.dart';
-import 'package:build/build.dart';
 import 'package:artemis/generator/data/data.dart';
 import 'package:artemis/generator/data/enum_value_definition.dart';
+import 'package:build/build.dart';
 import 'package:build_test/build_test.dart';
 import 'package:test/test.dart';
 
@@ -293,7 +293,6 @@ final libraryDefinitionB =
 ]);
 
 const generatedFileA = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
-// @dart = 2.12
 
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -349,37 +348,42 @@ enum ArticleType {
 final BROWSE_ARTICLES_QUERY_DOCUMENT_OPERATION_NAME = 'BrowseArticles';
 final BROWSE_ARTICLES_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
-      type: OperationType.query,
-      name: NameNode(value: 'BrowseArticles'),
-      variableDefinitions: [],
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'articles'),
+    type: OperationType.query,
+    name: NameNode(value: 'BrowseArticles'),
+    variableDefinitions: [],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'articles'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'id'),
             alias: null,
             arguments: [],
             directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'id'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              FieldNode(
-                  name: NameNode(value: 'title'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              FieldNode(
-                  name: NameNode(value: 'articleType'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
-            ]))
-      ]))
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'title'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'articleType'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      )
+    ]),
+  )
 ]);
 
 class BrowseArticlesQuery
@@ -401,7 +405,6 @@ class BrowseArticlesQuery
 ''';
 
 const generatedFileB = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
-// @dart = 2.12
 
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -452,7 +455,10 @@ class BrowseRepositories$Query extends JsonSerializable with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class NotificationOptionInput extends JsonSerializable with EquatableMixin {
-  NotificationOptionInput({this.type, this.enabled});
+  NotificationOptionInput({
+    this.type,
+    this.enabled,
+  });
 
   factory NotificationOptionInput.fromJson(Map<String, dynamic> json) =>
       _$NotificationOptionInputFromJson(json);
@@ -518,58 +524,67 @@ class BrowseRepositoriesArguments extends JsonSerializable with EquatableMixin {
 final BROWSE_REPOSITORIES_QUERY_DOCUMENT_OPERATION_NAME = 'BrowseRepositories';
 final BROWSE_REPOSITORIES_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
-      type: OperationType.query,
-      name: NameNode(value: 'BrowseRepositories'),
-      variableDefinitions: [
-        VariableDefinitionNode(
-            variable: VariableNode(name: NameNode(value: 'notificationTypes')),
-            type: ListTypeNode(
-                type: NamedTypeNode(
-                    name: NameNode(value: 'NotificationOptionInput'),
-                    isNonNull: false),
-                isNonNull: false),
-            defaultValue: DefaultValueNode(value: null),
-            directives: [])
-      ],
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'repositories'),
+    type: OperationType.query,
+    name: NameNode(value: 'BrowseRepositories'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'notificationTypes')),
+        type: ListTypeNode(
+          type: NamedTypeNode(
+            name: NameNode(value: 'NotificationOptionInput'),
+            isNonNull: false,
+          ),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      )
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'repositories'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'notificationTypes'),
+            value: VariableNode(name: NameNode(value: 'notificationTypes')),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'id'),
             alias: null,
-            arguments: [
-              ArgumentNode(
-                  name: NameNode(value: 'notificationTypes'),
-                  value:
-                      VariableNode(name: NameNode(value: 'notificationTypes')))
-            ],
+            arguments: [],
             directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'id'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              FieldNode(
-                  name: NameNode(value: 'title'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              FieldNode(
-                  name: NameNode(value: 'privacy'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              FieldNode(
-                  name: NameNode(value: 'status'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
-            ]))
-      ]))
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'title'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'privacy'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'status'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      )
+    ]),
+  )
 ]);
 
 class BrowseRepositoriesQuery extends GraphQLQuery<BrowseRepositories$Query,

@@ -124,7 +124,6 @@ final LibraryDefinition libraryDefinition =
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
-// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -186,7 +185,10 @@ class CreateThing$MutationRoot extends JsonSerializable with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class CreateThingInput extends JsonSerializable with EquatableMixin {
-  CreateThingInput({required this.clientId, this.message});
+  CreateThingInput({
+    required this.clientId,
+    this.message,
+  });
 
   factory CreateThingInput.fromJson(Map<String, dynamic> json) =>
       _$CreateThingInputFromJson(json);

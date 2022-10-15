@@ -356,7 +356,10 @@ class AClass extends JsonSerializable with EquatableMixin, FragmentMixin {
 
       expect(str, '''@JsonSerializable(explicitToJson: true)
 class AClass extends JsonSerializable with EquatableMixin {
-  AClass({this.name, required this.anotherName});
+  AClass({
+    this.name,
+    required this.anotherName,
+  });
 
   factory AClass.fromJson(Map<String, dynamic> json) => _\$AClassFromJson(json);
 
@@ -420,7 +423,6 @@ class AClass extends JsonSerializable with EquatableMixin {
       writeLibraryDefinitionToBuffer(buffer, ignoreForFile, definition);
 
       expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
-// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -438,7 +440,6 @@ part 'test_query.graphql.g.dart';
       writeLibraryDefinitionToBuffer(buffer, ignoreForFile, definition);
 
       expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
-// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -466,7 +467,6 @@ part 'test_query.graphql.g.dart';
       writeLibraryDefinitionToBuffer(buffer, ignoreForFile, definition);
 
       expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
-// @dart = 2.12
 
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -477,11 +477,12 @@ part 'test_query.graphql.g.dart';
 final TEST_QUERY_QUERY_DOCUMENT_OPERATION_NAME = 'test_query';
 final TEST_QUERY_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
-      type: OperationType.query,
-      name: NameNode(value: 'test_query'),
-      variableDefinitions: [],
-      directives: [],
-      selectionSet: SelectionSetNode(selections: []))
+    type: OperationType.query,
+    name: NameNode(value: 'test_query'),
+    variableDefinitions: [],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: []),
+  )
 ]);
 
 class TestQueryQuery extends GraphQLQuery<TestQuery, JsonSerializable> {
@@ -522,7 +523,6 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, JsonSerializable> {
       writeLibraryDefinitionToBuffer(buffer, ignoreForFile, definition);
 
       expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
-// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -532,11 +532,12 @@ part 'test_query.graphql.g.dart';
 final TEST_QUERY_QUERY_DOCUMENT_OPERATION_NAME = 'test_query';
 final TEST_QUERY_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
-      type: OperationType.query,
-      name: NameNode(value: 'test_query'),
-      variableDefinitions: [],
-      directives: [],
-      selectionSet: SelectionSetNode(selections: []))
+    type: OperationType.query,
+    name: NameNode(value: 'test_query'),
+    variableDefinitions: [],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: []),
+  )
 ]);
 ''');
     });
@@ -562,7 +563,6 @@ final TEST_QUERY_QUERY_DOCUMENT = DocumentNode(definitions: [
       writeLibraryDefinitionToBuffer(buffer, ignoreForFile, definition);
 
       expect(buffer.toString(), r'''// GENERATED CODE - DO NOT MODIFY BY HAND
-// @dart = 2.12
 
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -589,11 +589,12 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
 final TEST_QUERY_QUERY_DOCUMENT_OPERATION_NAME = 'test_query';
 final TEST_QUERY_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
-      type: OperationType.query,
-      name: NameNode(value: 'test_query'),
-      variableDefinitions: [],
-      directives: [],
-      selectionSet: SelectionSetNode(selections: []))
+    type: OperationType.query,
+    name: NameNode(value: 'test_query'),
+    variableDefinitions: [],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: []),
+  )
 ]);
 
 class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
@@ -668,11 +669,12 @@ class TestQueryArguments extends JsonSerializable with EquatableMixin {
           r'''final TEST_QUERY_QUERY_DOCUMENT_OPERATION_NAME = 'test_query';
 final TEST_QUERY_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
-      type: OperationType.query,
-      name: NameNode(value: 'test_query'),
-      variableDefinitions: [],
-      directives: [],
-      selectionSet: SelectionSetNode(selections: []))
+    type: OperationType.query,
+    name: NameNode(value: 'test_query'),
+    variableDefinitions: [],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: []),
+  )
 ]);
 class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
   TestQueryQuery({required this.variables});
@@ -717,7 +719,6 @@ class TestQueryQuery extends GraphQLQuery<TestQuery, TestQueryArguments> {
       writeLibraryDefinitionToBuffer(buffer, ignoreForFile, definition);
 
       expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
-// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -752,7 +753,6 @@ enum SomeEnum {
     writeLibraryDefinitionToBuffer(buffer, ignoreForFile, definition);
 
     expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
-// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -769,7 +769,6 @@ part 'test_query.graphql.g.dart';
     writeLibraryDefinitionToBuffer(buffer, ignoreForFile, definition);
 
     expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
-// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -787,7 +786,6 @@ part 'test_query.graphql.g.dart';
     writeLibraryDefinitionToBuffer(buffer, ignoreForFile, definition);
 
     expect(buffer.toString(), '''// GENERATED CODE - DO NOT MODIFY BY HAND
-// @dart = 2.12
 // ignore_for_file: my_rule_1, my_rule_2
 
 import 'package:json_annotation/json_annotation.dart';

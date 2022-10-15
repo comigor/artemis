@@ -75,7 +75,6 @@ final LibraryDefinition libraryDefinition =
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
-// @dart = 2.12
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -99,7 +98,10 @@ class Custom$Mutation extends JsonSerializable with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class Input extends JsonSerializable with EquatableMixin {
-  Input({this.and, this.or});
+  Input({
+    this.and,
+    this.or,
+  });
 
   factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
 

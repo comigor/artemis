@@ -195,7 +195,6 @@ final LibraryDefinition libraryDefinition =
 ]);
 
 const generatedFile = r'''// GENERATED CODE - DO NOT MODIFY BY HAND
-// @dart = 2.12
 
 import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -253,12 +252,13 @@ class SomeQuery$Query extends JsonSerializable with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class Input extends JsonSerializable with EquatableMixin {
-  Input(
-      {this.camelCaseField,
-      this.pascalCaseField,
-      this.snakeCaseField,
-      this.screamingSnakeCaseField,
-      this.e});
+  Input({
+    this.camelCaseField,
+    this.pascalCaseField,
+    this.snakeCaseField,
+    this.screamingSnakeCaseField,
+    this.e,
+  });
 
   factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
 
@@ -320,60 +320,71 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
 final SOME_QUERY_QUERY_DOCUMENT_OPERATION_NAME = 'some_query';
 final SOME_QUERY_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
-      type: OperationType.query,
-      name: NameNode(value: 'some_query'),
-      variableDefinitions: [
-        VariableDefinitionNode(
-            variable: VariableNode(name: NameNode(value: 'filter')),
-            type:
-                NamedTypeNode(name: NameNode(value: 'Input'), isNonNull: true),
-            defaultValue: DefaultValueNode(value: null),
-            directives: [])
-      ],
-      directives: [],
-      selectionSet: SelectionSetNode(selections: [
-        FieldNode(
-            name: NameNode(value: 'query'),
+    type: OperationType.query,
+    name: NameNode(value: 'some_query'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'filter')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'Input'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      )
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'query'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'filter'),
+            value: VariableNode(name: NameNode(value: 'filter')),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'camelCaseField'),
             alias: null,
-            arguments: [
-              ArgumentNode(
-                  name: NameNode(value: 'filter'),
-                  value: VariableNode(name: NameNode(value: 'filter')))
-            ],
+            arguments: [],
             directives: [],
-            selectionSet: SelectionSetNode(selections: [
-              FieldNode(
-                  name: NameNode(value: 'camelCaseField'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              FieldNode(
-                  name: NameNode(value: 'PascalCaseField'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              FieldNode(
-                  name: NameNode(value: 'snake_case_field'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              FieldNode(
-                  name: NameNode(value: 'SCREAMING_SNAKE_CASE_FIELD'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null),
-              FieldNode(
-                  name: NameNode(value: 'e'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null)
-            ]))
-      ]))
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'PascalCaseField'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'snake_case_field'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'SCREAMING_SNAKE_CASE_FIELD'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'e'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      )
+    ]),
+  )
 ]);
 
 class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {

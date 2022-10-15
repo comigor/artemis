@@ -164,6 +164,7 @@ enum ReleaseStatus {
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
+
 final ED_SHEERAN_QUERY_DOCUMENT = DocumentNode(definitions: [
   OperationDefinitionNode(
       type: OperationType.query,
