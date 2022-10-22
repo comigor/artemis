@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 7.10.0-beta.2
+
+- fix pipeline path
+
 ## 7.10.0-beta.1
 
 - update workflows to use official community actions
