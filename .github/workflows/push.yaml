@@ -87,5 +87,5 @@ jobs:
       - name: Publish to pub.dev
         run: |
           mkdir -p ~/.config/dart
-          echo "${{ secrets.PUB_CREDENTIALS }}" > ~/.config/dart/pub-credentials.json
-          echo y | dart pub publish
+          echo '${{ secrets.PUB_CREDENTIALS }}' > ~/.config/dart/pub-credentials.json
+          dart pub publish --force
