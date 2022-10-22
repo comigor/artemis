@@ -11,9 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: dart-lang/setup-dart@v1
+      - uses: dart-lang/setup-dart@v1.3
         with:
-          sdk: 2.18.0
+          sdk: stable
       - id: install
         name: Install dependencies
         run: dart pub get
@@ -24,19 +24,33 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: dart-lang/setup-dart@v1
+      - uses: dart-lang/setup-dart@v1.3
         with:
-          sdk: 2.18.0
+          sdk: stable
       - id: install
         name: Install dependencies
         run: dart pub get
       - name: Test
         if: always() && steps.install.outcome == 'success'
-        run: dart run test
+        run: dart test
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: dart-lang/setup-dart@v1.3
+        with:
+          sdk: stable
+      - id: install
+        name: Install dependencies
+        run: dart pub get
+      - name: Analyze
+        if: always() && steps.install.outcome == 'success'
+        run: dart analyze
   create-tag-and-release:
     needs:
       - lint
       - test
+      - analyze
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/beta'
     steps:
@@ -64,9 +78,14 @@ jobs:
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/beta'
     steps:
       - uses: actions/checkout@master
-      - name: Publish to pub.dev
-        uses: comigor/actions/pub-publish@master
-        env:
-          PUB_CREDENTIALS: ${{ secrets.PUB_CREDENTIALS }}
+      - uses: dart-lang/setup-dart@v1.3
         with:
-          pub_credentials: ${{ secrets.PUB_CREDENTIALS }}
+          sdk: stable
+      - id: install
+        name: Install dependencies
+        run: dart pub get
+      - name: Publish to pub.dev
+        run: |
+          mkdir -p ~/.pub-cache/credentials.json
+          echo "${{ secrets.PUB_CREDENTIALS }}" > ~/.config/dart/pub-credentials.json
+          echo y | dart pub publish
