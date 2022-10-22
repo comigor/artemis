@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 7.10.0-beta.3
+
+- fix pipeline path, again
+
 ## 7.10.0-beta.2
 
 - fix pipeline path
