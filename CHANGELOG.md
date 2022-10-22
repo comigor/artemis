@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 7.11.0-beta
+
+- package update
+
 ## 7.10.0-beta.4
 
 - fix pipeline quoting issues
