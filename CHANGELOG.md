@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 7.11.0-beta.1
+
+- actions/checkout@v3 update
+
 ## 7.11.0-beta
 
 - package update
