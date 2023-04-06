@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 7.13.0-beta.1
+
+- package update
+
 ## 7.12.0-beta.1
 
 - package update
