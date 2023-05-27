@@ -2,10 +2,10 @@
 include: package:lints/recommended.yaml
 
 analyzer:
-  strong-mode:
-    implicit-casts: false
   exclude:
     - example/**/*.dart
+  language:
+    strict-casts: true
 linter:
   rules:
     overridden_fields: false
