@@ -1,3 +1,5 @@
+<!-- @formatter:off -->
+
 <p align="center">
   <img src="https://user-images.githubusercontent.com/735858/58768495-8ecbd600-8572-11e9-9321-4fa5ce4ea007.png" height="200">
   <h1><b>Artemis</b></h1>
@@ -85,20 +87,16 @@ targets:
 
 > ⚠️ Make sure your configuration file is called `build.yaml` (with `.yaml` extension, not `.yml`)!
 
-| Option | Default value | Description | | - | - | - | | `generate_helpers` | `true` | If Artemis should generate
-query/mutation helper GraphQLQuery subclasses. | | `generate_queries` | `true` | If Artemis should generate query
-documents and operation names. If you are using Artemis with `graphql` library it is useful to have those queries and
-operation names generated but without Atremis specific classes to exclude Artemis from dependancies | | `scalar_mapping`
-| `[]` | Mapping of GraphQL and Dart types. See [Custom scalars](#custom-scalars). | | `schema_mapping` | `[]` | Mapping
-of queries and which schemas they will use for code generation. See [Schema mapping](#schema-mapping). |
-| `fragments_glob` | `null` | Import path to the file implementing fragments for all queries mapped in schema_mapping.
-If it's assigned, fragments defined in schema_mapping will be ignored. | | `ignore_for_file` | `[]`  | The linter rules
-to ignore for artemis generated files. |
+| Option | Default value | Description |
+| - | - | - |
+| `generate_helpers` | `true` | If Artemis should generate query/mutation helper GraphQLQuery subclasses. |
+| `scalar_mapping` | `[]` | Mapping of GraphQL and Dart types. See [Custom scalars](#custom-scalars). |
+| `schema_mapping` | `[]` | Mapping of queries and which schemas they will use for code generation. See [Schema mapping](#schema-mapping). |
+| `fragments_glob` | `null` | Import path to the file implementing fragments for all queries mapped in schema_mapping. If it's assigned, fragments defined in schema_mapping will be ignored. |
+| `ignore_for_file` | `[]`  | The linter rules to ignore for artemis generated files. |
+| `generate_queries` | `true` | If Artemis should generate query documents and operation names. If you are using Artemis with `graphql` library it is useful to have those queries and operation names generated but without Atremis specific classes to exclude Artemis from dependancies |
 
-It's important to remember that, by default, [build](https://github.com/dart-lang/build) will
-follow [Dart's package layout conventions](https://dart.dev/tools/pub/package-layout), meaning that only some folders
-will be considered to parse the input files. So, if you want to reference files from a folder other than `lib/`, make
-sure you've included it on `sources`:
+It's important to remember that, by default, [build](https://github.com/dart-lang/build) will follow [Dart's package layout conventions](https://dart.dev/tools/pub/package-layout), meaning that only some folders will be considered to parse the input files. So, if you want to reference files from a folder other than `lib/`, make sure you've included it on `sources`:
 ```yaml
 targets:
   $default:
