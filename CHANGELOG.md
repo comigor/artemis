@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 7.13.0-beta.3
+
+- Add discontinuation notice
+
 ## 7.13.0-beta.2
 
 - readme fix

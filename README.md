@@ -5,7 +5,22 @@
   <h1><b>Artemis</b></h1>
 </p>
 
-**Build dart types from GraphQL schemas and queries**
+<!-- **Build dart types from GraphQL schemas and queries** -->
+
+## Notice
+
+Artemis has been [discontinued](https://github.com/gql-dart/ferry/issues/541).
+
+For alternatives, take a look at the [Ferry](https://pub.dev/packages/ferry) project, featuring code generation for data types, customizable network layer (using `gql_link`), cache, data store connections, refetching + pagination support and more.
+
+Also check out [graphql](https://pub.dev/packages/graphql), with features closely matching the current Artemis state: fully-featured client (for Dart and Flutter) with persistence, type generation (with [graphql_codegen](https://pub.dev/packages/graphql_codegen)), cache, and more.
+
+Users and community are also invited to join the [GraphQL Dart](https://discord.gg/Pu8AMajSd) Discord to discuss migration approaches and ask for support.
+
+Thanks to all contributors and users that made this project possible.
+
+<details>
+  <summary>To check out the old README, click here.</summary>
 
 <!-- Badges -->
 [![View at pub.dev][pub-badge]][pub-link]
@@ -209,3 +224,5 @@ final response = await client.execute(gitHubReposQuery);
 You can create `ArtemisClient` from any `Link` using `ArtemisClient.fromLink`.
  
 Check the [examples](./example) to see how to use it in details.
+
+</details>
