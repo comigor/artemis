@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 7.13.1
+
+- Move `beta` version out of beta for pub.dev awareness
+
 ## 7.13.0-beta.3
 
 - Add discontinuation notice
