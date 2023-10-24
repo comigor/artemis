@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 7.14.0-beta.1
+
+- upgrade dependencies for dart 3 but keep backwards compatibility
+
 ## 7.13.0-beta.2
 
 - readme fix
