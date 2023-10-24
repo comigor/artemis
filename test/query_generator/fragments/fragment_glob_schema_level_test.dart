@@ -235,6 +235,7 @@ class Query$Query$Pokemon$Pokemon extends JsonSerializable
 
   @override
   List<Object?> get props => [id, weight, attacks];
+
   @override
   Map<String, dynamic> toJson() => _$Query$Query$Pokemon$PokemonToJson(this);
 }
@@ -251,6 +252,7 @@ class Query$Query$Pokemon extends JsonSerializable
 
   @override
   List<Object?> get props => [id, weight, attacks, evolutions];
+
   @override
   Map<String, dynamic> toJson() => _$Query$Query$PokemonToJson(this);
 }
@@ -266,6 +268,7 @@ class Query$Query extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [pokemon];
+
   @override
   Map<String, dynamic> toJson() => _$Query$QueryToJson(this);
 }
@@ -280,6 +283,7 @@ class PokemonMixin$PokemonDimension extends JsonSerializable
 
   @override
   List<Object?> get props => [minimum];
+
   @override
   Map<String, dynamic> toJson() => _$PokemonMixin$PokemonDimensionToJson(this);
 }
@@ -294,6 +298,7 @@ class PokemonMixin$PokemonAttack extends JsonSerializable
 
   @override
   List<Object?> get props => [special];
+
   @override
   Map<String, dynamic> toJson() => _$PokemonMixin$PokemonAttackToJson(this);
 }
@@ -308,6 +313,7 @@ class PokemonAttackMixin$Attack extends JsonSerializable
 
   @override
   List<Object?> get props => [name];
+
   @override
   Map<String, dynamic> toJson() => _$PokemonAttackMixin$AttackToJson(this);
 }
@@ -468,6 +474,7 @@ class QueryQuery extends GraphQLQuery<Query$Query, JsonSerializable> {
 
   @override
   List<Object?> get props => [document, operationName];
+
   @override
   Query$Query parse(Map<String, dynamic> json) => Query$Query.fromJson(json);
 }

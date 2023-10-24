@@ -23,6 +23,7 @@ class FragmentQuery$Query$Charmander extends JsonSerializable
 
   @override
   List<Object?> get props => [number, name, types];
+
   @override
   Map<String, dynamic> toJson() => _$FragmentQuery$Query$CharmanderToJson(this);
 }
@@ -38,6 +39,7 @@ class FragmentQuery$Query$Pokemon$Evolutions extends JsonSerializable
 
   @override
   List<Object?> get props => [number, name, types];
+
   @override
   Map<String, dynamic> toJson() =>
       _$FragmentQuery$Query$Pokemon$EvolutionsToJson(this);
@@ -55,6 +57,7 @@ class FragmentQuery$Query$Pokemon extends JsonSerializable
 
   @override
   List<Object?> get props => [number, name, types, evolutions];
+
   @override
   Map<String, dynamic> toJson() => _$FragmentQuery$Query$PokemonToJson(this);
 }
@@ -72,6 +75,7 @@ class FragmentQuery$Query extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [charmander, pokemons];
+
   @override
   Map<String, dynamic> toJson() => _$FragmentQuery$QueryToJson(this);
 }
@@ -88,6 +92,7 @@ class FragmentQueryArguments extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [quantity];
+
   @override
   Map<String, dynamic> toJson() => _$FragmentQueryArgumentsToJson(this);
 }
@@ -184,6 +189,7 @@ class FragmentQueryQuery
 
   @override
   List<Object?> get props => [document, operationName, variables];
+
   @override
   FragmentQuery$Query parse(Map<String, dynamic> json) =>
       FragmentQuery$Query.fromJson(json);

@@ -182,6 +182,7 @@ class Custom$MutationRoot$MutationResponse extends JsonSerializable
 
   @override
   List<Object?> get props => [s];
+
   @override
   Map<String, dynamic> toJson() =>
       _$Custom$MutationRoot$MutationResponseToJson(this);
@@ -198,6 +199,7 @@ class Custom$MutationRoot extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [mut];
+
   @override
   Map<String, dynamic> toJson() => _$Custom$MutationRootToJson(this);
 }
@@ -212,6 +214,7 @@ class Input extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [s];
+
   @override
   Map<String, dynamic> toJson() => _$InputToJson(this);
 }
@@ -230,6 +233,7 @@ class $custom$MutationRoot$$MutationResponse extends JsonSerializable
 
   @override
   List<Object?> get props => [$s];
+
   @override
   Map<String, dynamic> toJson() =>
       _$$custom$MutationRoot$$MutationResponseToJson(this);
@@ -247,6 +251,7 @@ class $custom$MutationRoot extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [$mut];
+
   @override
   Map<String, dynamic> toJson() => _$$custom$MutationRootToJson(this);
 }
@@ -262,6 +267,7 @@ class $Input extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [$s];
+
   @override
   Map<String, dynamic> toJson() => _$$InputToJson(this);
 }
@@ -278,6 +284,7 @@ class CustomArguments extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [input];
+
   @override
   Map<String, dynamic> toJson() => _$CustomArgumentsToJson(this);
 }
@@ -339,6 +346,7 @@ class CustomMutation
 
   @override
   List<Object?> get props => [document, operationName, variables];
+
   @override
   Custom$MutationRoot parse(Map<String, dynamic> json) =>
       Custom$MutationRoot.fromJson(json);
@@ -356,6 +364,7 @@ class $customArguments extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [input];
+
   @override
   Map<String, dynamic> toJson() => _$$customArgumentsToJson(this);
 }
@@ -417,6 +426,7 @@ class $customMutation
 
   @override
   List<Object?> get props => [document, operationName, variables];
+
   @override
   $custom$MutationRoot parse(Map<String, dynamic> json) =>
       $custom$MutationRoot.fromJson(json);

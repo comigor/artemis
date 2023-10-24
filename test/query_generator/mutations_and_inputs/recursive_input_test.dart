@@ -92,6 +92,7 @@ class Custom$Mutation extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [mut];
+
   @override
   Map<String, dynamic> toJson() => _$Custom$MutationToJson(this);
 }
@@ -111,6 +112,7 @@ class Input extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [and, or];
+
   @override
   Map<String, dynamic> toJson() => _$InputToJson(this);
 }

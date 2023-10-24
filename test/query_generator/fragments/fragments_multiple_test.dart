@@ -270,6 +270,7 @@ class VoyagesData$Query$Voyages$Voyages$Voyage$Arrival extends JsonSerializable
 
   @override
   List<Object?> get props => [id, name];
+
   @override
   Map<String, dynamic> toJson() =>
       _$VoyagesData$Query$Voyages$Voyages$Voyage$ArrivalToJson(this);
@@ -286,6 +287,7 @@ class VoyagesData$Query$Voyages$Voyages$Voyage$Departure
 
   @override
   List<Object?> get props => [id];
+
   @override
   Map<String, dynamic> toJson() =>
       _$VoyagesData$Query$Voyages$Voyages$Voyage$DepartureToJson(this);
@@ -315,6 +317,7 @@ class VoyagesData$Query$Voyages$Voyages$Voyage extends JsonSerializable
   @override
   List<Object?> get props =>
       [dateFrom, dateTo, id, voyageNumber, arrival, departure];
+
   @override
   Map<String, dynamic> toJson() =>
       _$VoyagesData$Query$Voyages$Voyages$VoyageToJson(this);
@@ -335,6 +338,7 @@ class VoyagesData$Query$Voyages$Voyages extends JsonSerializable
 
   @override
   List<Object?> get props => [numberOfReports, voyage];
+
   @override
   Map<String, dynamic> toJson() =>
       _$VoyagesData$Query$Voyages$VoyagesToJson(this);
@@ -351,6 +355,7 @@ class VoyagesData$Query$Voyages extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [voyages];
+
   @override
   Map<String, dynamic> toJson() => _$VoyagesData$Query$VoyagesToJson(this);
 }
@@ -366,6 +371,7 @@ class VoyagesData$Query extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [voyages];
+
   @override
   Map<String, dynamic> toJson() => _$VoyagesData$QueryToJson(this);
 }
@@ -386,6 +392,7 @@ class PaginationInput extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [limit, offset];
+
   @override
   Map<String, dynamic> toJson() => _$PaginationInputToJson(this);
 }
@@ -402,6 +409,7 @@ class VoyagesDataArguments extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [input];
+
   @override
   Map<String, dynamic> toJson() => _$VoyagesDataArgumentsToJson(this);
 }
@@ -574,6 +582,7 @@ class VoyagesDataQuery
 
   @override
   List<Object?> get props => [document, operationName, variables];
+
   @override
   VoyagesData$Query parse(Map<String, dynamic> json) =>
       VoyagesData$Query.fromJson(json);

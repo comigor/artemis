@@ -143,6 +143,7 @@ class SomeQuery$QueryRoot$SomeObject extends JsonSerializable
 
   @override
   List<Object?> get props => [s];
+
   @override
   Map<String, dynamic> toJson() => _$SomeQuery$QueryRoot$SomeObjectToJson(this);
 }
@@ -158,6 +159,7 @@ class SomeQuery$QueryRoot extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [o];
+
   @override
   Map<String, dynamic> toJson() => _$SomeQuery$QueryRootToJson(this);
 }
@@ -185,6 +187,7 @@ class ComplexInput extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [s, e, ls, i];
+
   @override
   Map<String, dynamic> toJson() => _$ComplexInputToJson(this);
 }
@@ -210,6 +213,7 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [filter];
+
   @override
   Map<String, dynamic> toJson() => _$SomeQueryArgumentsToJson(this);
 }
@@ -271,6 +275,7 @@ class SomeQueryQuery
 
   @override
   List<Object?> get props => [document, operationName, variables];
+
   @override
   SomeQuery$QueryRoot parse(Map<String, dynamic> json) =>
       SomeQuery$QueryRoot.fromJson(json);

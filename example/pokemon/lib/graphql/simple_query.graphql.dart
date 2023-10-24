@@ -20,6 +20,7 @@ class SimpleQuery$Query$Pokemon extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [number, types];
+
   @override
   Map<String, dynamic> toJson() => _$SimpleQuery$Query$PokemonToJson(this);
 }
@@ -35,6 +36,7 @@ class SimpleQuery$Query extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [pokemon];
+
   @override
   Map<String, dynamic> toJson() => _$SimpleQuery$QueryToJson(this);
 }
@@ -84,6 +86,7 @@ class SimpleQueryQuery
 
   @override
   List<Object?> get props => [document, operationName];
+
   @override
   SimpleQuery$Query parse(Map<String, dynamic> json) =>
       SimpleQuery$Query.fromJson(json);

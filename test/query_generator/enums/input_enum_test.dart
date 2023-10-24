@@ -169,6 +169,7 @@ class Custom$QueryRoot$QueryResponse extends JsonSerializable
 
   @override
   List<Object?> get props => [s, my, other];
+
   @override
   Map<String, dynamic> toJson() => _$Custom$QueryRoot$QueryResponseToJson(this);
 }
@@ -184,6 +185,7 @@ class Custom$QueryRoot extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [q];
+
   @override
   Map<String, dynamic> toJson() => _$Custom$QueryRootToJson(this);
 }
@@ -199,6 +201,7 @@ class Input extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [e];
+
   @override
   Map<String, dynamic> toJson() => _$InputToJson(this);
 }
@@ -243,6 +246,7 @@ class CustomArguments extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [$id, input, o];
+
   @override
   Map<String, dynamic> toJson() => _$CustomArgumentsToJson(this);
 }
@@ -343,6 +347,7 @@ class CustomQuery extends GraphQLQuery<Custom$QueryRoot, CustomArguments> {
 
   @override
   List<Object?> get props => [document, operationName, variables];
+
   @override
   Custom$QueryRoot parse(Map<String, dynamic> json) =>
       Custom$QueryRoot.fromJson(json);
