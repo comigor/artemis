@@ -218,6 +218,7 @@ class CheckoutById$QueryRoot$Node$Checkout$CheckoutLineItemConnection$CheckoutLi
 
   @override
   List<Object?> get props => [id];
+
   @override
   Map<String, dynamic> toJson() =>
       _$CheckoutById$QueryRoot$Node$Checkout$CheckoutLineItemConnection$CheckoutLineItemEdge$ImageConnectionToJson(
@@ -239,6 +240,7 @@ class CheckoutById$QueryRoot$Node$Checkout$CheckoutLineItemConnection$CheckoutLi
 
   @override
   List<Object?> get props => [edges];
+
   @override
   Map<String, dynamic> toJson() =>
       _$CheckoutById$QueryRoot$Node$Checkout$CheckoutLineItemConnection$CheckoutLineItemEdgeToJson(
@@ -263,6 +265,7 @@ class CheckoutById$QueryRoot$Node$Checkout$CheckoutLineItemConnection
 
   @override
   List<Object?> get props => [id, edges];
+
   @override
   Map<String, dynamic> toJson() =>
       _$CheckoutById$QueryRoot$Node$Checkout$CheckoutLineItemConnectionToJson(
@@ -285,6 +288,7 @@ class CheckoutById$QueryRoot$Node$Checkout extends CheckoutById$QueryRoot$Node
 
   @override
   List<Object?> get props => [id, lineItems];
+
   @override
   Map<String, dynamic> toJson() =>
       _$CheckoutById$QueryRoot$Node$CheckoutToJson(this);
@@ -308,6 +312,7 @@ class CheckoutById$QueryRoot$Node extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [$$typename];
+
   @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
@@ -330,6 +335,7 @@ class CheckoutById$QueryRoot extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [node];
+
   @override
   Map<String, dynamic> toJson() => _$CheckoutById$QueryRootToJson(this);
 }

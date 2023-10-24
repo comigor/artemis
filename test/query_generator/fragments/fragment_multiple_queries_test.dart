@@ -201,6 +201,7 @@ class GetPokemon$Query$Pokemon extends JsonSerializable
 
   @override
   List<Object?> get props => [number, name];
+
   @override
   Map<String, dynamic> toJson() => _$GetPokemon$Query$PokemonToJson(this);
 }
@@ -216,6 +217,7 @@ class GetPokemon$Query extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [pokemon];
+
   @override
   Map<String, dynamic> toJson() => _$GetPokemon$QueryToJson(this);
 }
@@ -230,6 +232,7 @@ class GetAllPokemons$Query$Pokemon extends JsonSerializable
 
   @override
   List<Object?> get props => [number, name];
+
   @override
   Map<String, dynamic> toJson() => _$GetAllPokemons$Query$PokemonToJson(this);
 }
@@ -245,6 +248,7 @@ class GetAllPokemons$Query extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [pokemons];
+
   @override
   Map<String, dynamic> toJson() => _$GetAllPokemons$QueryToJson(this);
 }
@@ -261,6 +265,7 @@ class GetPokemonArguments extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [name];
+
   @override
   Map<String, dynamic> toJson() => _$GetPokemonArgumentsToJson(this);
 }
@@ -344,6 +349,7 @@ class GetPokemonQuery
 
   @override
   List<Object?> get props => [document, operationName, variables];
+
   @override
   GetPokemon$Query parse(Map<String, dynamic> json) =>
       GetPokemon$Query.fromJson(json);
@@ -361,6 +367,7 @@ class GetAllPokemonsArguments extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [first];
+
   @override
   Map<String, dynamic> toJson() => _$GetAllPokemonsArgumentsToJson(this);
 }
@@ -444,6 +451,7 @@ class GetAllPokemonsQuery
 
   @override
   List<Object?> get props => [document, operationName, variables];
+
   @override
   GetAllPokemons$Query parse(Map<String, dynamic> json) =>
       GetAllPokemons$Query.fromJson(json);

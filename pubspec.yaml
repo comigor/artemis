@@ -12,7 +12,7 @@ dependencies:
   code_builder: ^4.4.0
   build: ^2.3.1
   collection: ^1.17.1
-  dart_style: ^2.3.0
+  dart_style: ^2.3.3
   equatable: ^2.0.5
   glob: ^2.1.1
   gql_code_builder: '>=0.7.1 <0.9.0'

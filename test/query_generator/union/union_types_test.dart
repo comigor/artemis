@@ -240,6 +240,7 @@ class SomeQuery$SomeObject$SomeUnion$TypeA
 
   @override
   List<Object?> get props => [a, $, $a, $aA, $aA_, $new, $$typename];
+
   @override
   Map<String, dynamic> toJson() =>
       _$SomeQuery$SomeObject$SomeUnion$TypeAToJson(this);
@@ -280,6 +281,7 @@ class SomeQuery$SomeObject$SomeUnion$TypeB
 
   @override
   List<Object?> get props => [b, $, $b, $bB, $bB_, kw$new, kw$IN, $$typename];
+
   @override
   Map<String, dynamic> toJson() =>
       _$SomeQuery$SomeObject$SomeUnion$TypeBToJson(this);
@@ -306,6 +308,7 @@ class SomeQuery$SomeObject$SomeUnion extends JsonSerializable
 
   @override
   List<Object?> get props => [$$typename];
+
   @override
   Map<String, dynamic> toJson() {
     switch ($$typename) {
@@ -330,6 +333,7 @@ class SomeQuery$SomeObject extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [o];
+
   @override
   Map<String, dynamic> toJson() => _$SomeQuery$SomeObjectToJson(this);
 }

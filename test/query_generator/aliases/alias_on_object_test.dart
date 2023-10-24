@@ -119,6 +119,7 @@ class SomeQuery$QueryResponse$SomeObject extends JsonSerializable
 
   @override
   List<Object?> get props => [st];
+
   @override
   Map<String, dynamic> toJson() =>
       _$SomeQuery$QueryResponse$SomeObjectToJson(this);
@@ -137,6 +138,7 @@ class SomeQuery$QueryResponse$AnotherObject extends JsonSerializable
 
   @override
   List<Object?> get props => [str];
+
   @override
   Map<String, dynamic> toJson() =>
       _$SomeQuery$QueryResponse$AnotherObjectToJson(this);
@@ -157,6 +159,7 @@ class SomeQuery$QueryResponse extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [s, o, anotherObject];
+
   @override
   Map<String, dynamic> toJson() => _$SomeQuery$QueryResponseToJson(this);
 }

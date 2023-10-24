@@ -121,6 +121,7 @@ class SomeQuery$Query$SomeObject extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [s];
+
   @override
   Map<String, dynamic> toJson() => _$SomeQuery$Query$SomeObjectToJson(this);
 }
@@ -136,6 +137,7 @@ class SomeQuery$Query extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [someQuery];
+
   @override
   Map<String, dynamic> toJson() => _$SomeQuery$QueryToJson(this);
 }
@@ -175,6 +177,7 @@ class SomeQueryArguments extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [i, inn, li, linn, lnni, lnninn, matrix, matrixnn];
+
   @override
   Map<String, dynamic> toJson() => _$SomeQueryArgumentsToJson(this);
 }
@@ -350,6 +353,7 @@ class SomeQueryQuery extends GraphQLQuery<SomeQuery$Query, SomeQueryArguments> {
 
   @override
   List<Object?> get props => [document, operationName, variables];
+
   @override
   SomeQuery$Query parse(Map<String, dynamic> json) =>
       SomeQuery$Query.fromJson(json);

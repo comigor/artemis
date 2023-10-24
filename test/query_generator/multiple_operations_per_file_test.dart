@@ -178,6 +178,7 @@ class MutData$Mutation$MutationResponse extends JsonSerializable
 
   @override
   List<Object?> get props => [s];
+
   @override
   Map<String, dynamic> toJson() =>
       _$MutData$Mutation$MutationResponseToJson(this);
@@ -194,6 +195,7 @@ class MutData$Mutation extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [mut];
+
   @override
   Map<String, dynamic> toJson() => _$MutData$MutationToJson(this);
 }
@@ -208,6 +210,7 @@ class Input extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [s];
+
   @override
   Map<String, dynamic> toJson() => _$InputToJson(this);
 }
@@ -227,6 +230,7 @@ class QueData$Query$QueryResponse extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [s, i, list];
+
   @override
   Map<String, dynamic> toJson() => _$QueData$Query$QueryResponseToJson(this);
 }
@@ -242,6 +246,7 @@ class QueData$Query extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [que];
+
   @override
   Map<String, dynamic> toJson() => _$QueData$QueryToJson(this);
 }
@@ -258,6 +263,7 @@ class MutDataArguments extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [input];
+
   @override
   Map<String, dynamic> toJson() => _$MutDataArgumentsToJson(this);
 }
@@ -318,6 +324,7 @@ class MutDataMutation extends GraphQLQuery<MutData$Mutation, MutDataArguments> {
 
   @override
   List<Object?> get props => [document, operationName, variables];
+
   @override
   MutData$Mutation parse(Map<String, dynamic> json) =>
       MutData$Mutation.fromJson(json);
@@ -340,6 +347,7 @@ class QueDataArguments extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [intsNonNullable, stringNullable];
+
   @override
   Map<String, dynamic> toJson() => _$QueDataArgumentsToJson(this);
 }
@@ -435,6 +443,7 @@ class QueDataQuery extends GraphQLQuery<QueData$Query, QueDataArguments> {
 
   @override
   List<Object?> get props => [document, operationName, variables];
+
   @override
   QueData$Query parse(Map<String, dynamic> json) =>
       QueData$Query.fromJson(json);

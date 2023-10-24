@@ -317,6 +317,7 @@ class BrowseArticles$Query$Articles extends JsonSerializable
 
   @override
   List<Object?> get props => [id, title, articleType];
+
   @override
   Map<String, dynamic> toJson() => _$BrowseArticles$Query$ArticlesToJson(this);
 }
@@ -332,6 +333,7 @@ class BrowseArticles$Query extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [articles];
+
   @override
   Map<String, dynamic> toJson() => _$BrowseArticles$QueryToJson(this);
 }
@@ -398,6 +400,7 @@ class BrowseArticlesQuery
 
   @override
   List<Object?> get props => [document, operationName];
+
   @override
   BrowseArticles$Query parse(Map<String, dynamic> json) =>
       BrowseArticles$Query.fromJson(json);
@@ -433,6 +436,7 @@ class BrowseRepositories$Query$Repositories extends JsonSerializable
 
   @override
   List<Object?> get props => [id, title, privacy, status];
+
   @override
   Map<String, dynamic> toJson() =>
       _$BrowseRepositories$Query$RepositoriesToJson(this);
@@ -449,6 +453,7 @@ class BrowseRepositories$Query extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [repositories];
+
   @override
   Map<String, dynamic> toJson() => _$BrowseRepositories$QueryToJson(this);
 }
@@ -470,6 +475,7 @@ class NotificationOptionInput extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [type, enabled];
+
   @override
   Map<String, dynamic> toJson() => _$NotificationOptionInputToJson(this);
 }
@@ -517,6 +523,7 @@ class BrowseRepositoriesArguments extends JsonSerializable with EquatableMixin {
 
   @override
   List<Object?> get props => [notificationTypes];
+
   @override
   Map<String, dynamic> toJson() => _$BrowseRepositoriesArgumentsToJson(this);
 }
@@ -603,6 +610,7 @@ class BrowseRepositoriesQuery extends GraphQLQuery<BrowseRepositories$Query,
 
   @override
   List<Object?> get props => [document, operationName, variables];
+
   @override
   BrowseRepositories$Query parse(Map<String, dynamic> json) =>
       BrowseRepositories$Query.fromJson(json);
